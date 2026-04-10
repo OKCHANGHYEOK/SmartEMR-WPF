@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SmartEMR.Application/SmartEMR.Application.csproj" />
+  <Project Path="SmartEMR.Domain/SmartEMR.Domain.csproj" />
+  <Project Path="SmartEMR.Infrastructure/SmartEMR.Infrastructure.csproj" />
+</Solution>
