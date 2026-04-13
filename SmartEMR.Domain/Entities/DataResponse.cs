@@ -1,4 +1,5 @@
-﻿namespace SmartEMR.Domain.Models;
+﻿namespace SmartEMR.Domain.Entities;
+
 public class DataResponse<T> where T : class
 {
     public T? Item { get; set; }

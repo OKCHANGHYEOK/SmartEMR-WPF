@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Linq;
 using System.Text.Json;
-using SmartEMR.Domain.Models; // DataResponse가 있는 곳
+using SmartEMR.Domain.Entities; // DataResponse가 있는 곳
 
 namespace SmartEMR.Infrastructure
 {

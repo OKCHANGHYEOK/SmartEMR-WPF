@@ -1,0 +1,105 @@
+﻿<local:UIWindow x:Class="SmartEMR.Application.Windows.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:SmartEMR.Application.Windows"
+        xmlns:ctrls="clr-namespace:SmartEMR.Application.Controls"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d" 
+        d:DesignHeight="450" d:DesignWidth="500"
+        Title="{Binding Path=ContentTitle, RelativeSource={RelativeSource Self}}"
+        Width="{Binding Path=ContentSize.Width, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+        Height="{Binding Path=ContentSize.Height, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+
+    <Grid Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name="TitleGrid" Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#A7C1E2" Offset="0.0"/>
+                    <GradientStop Color="#8FAADC" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="SmartEMR" 
+                           FontSize="36" 
+                           FontWeight="ExtraBold" 
+                           Foreground="White"
+                           FontFamily="Malgun Gothic Semilight"
+                           TextAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+                <TextBlock Text="Electronic Medical Record System" 
+                           FontSize="12" 
+                           Foreground="#E1EAF6" 
+                           HorizontalAlignment="Center"
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="InputGrid" Grid.Row="1" Background="White">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                <Border BorderBrush="#EEEEEE" BorderThickness="1" CornerRadius="4" Margin="0,0,0,8" Width="240" Height="35" Background="#FCFCFC">
+                    <Grid>
+                        <ctrls:TextBox FieldName="MUR_Id"
+                                       BorderThickness="0" 
+                                       Background="Transparent" 
+                                       VerticalContentAlignment="Center" 
+                                       Margin="10,0" 
+                                       Foreground="#333333"/>
+                        <TextBlock Text="ID" IsHitTestVisible="False" VerticalAlignment="Center" Margin="12,0" Foreground="#BBBBBB" FontSize="11" FontWeight="SemiBold"/>
+                    </Grid>
+                </Border>
+
+                <Border BorderBrush="#EEEEEE" BorderThickness="1" CornerRadius="4" Margin="0,0,0,20" Width="240" Height="35" Background="#FCFCFC">
+                    <Grid>
+                        <ctrls:PasswordBox FieldName="MUR_PassWord"
+                                           BorderThickness="0" 
+                                           Background="Transparent" 
+                                           VerticalContentAlignment="Center" 
+                                           Margin="10,0"/>
+                        <TextBlock Text="Password" IsHitTestVisible="False" VerticalAlignment="Center" Margin="12,0" Foreground="#BBBBBB" FontSize="11" FontWeight="SemiBold"/>
+                    </Grid>
+                </Border>
+
+                <UniformGrid Columns="2" Width="240" Height="38">
+                    <Button Name="btnLogin" Content="로그인" 
+                            Background="#8FAADC" Foreground="White" FontWeight="Bold" 
+                            BorderThickness="0" Cursor="Hand" Margin="0,0,4,0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Name="btnJoin" Content="회원가입" 
+                            Background="#F1F3F5" Foreground="#666666" 
+                            BorderBrush="#DDDDDD" Cursor="Hand" Margin="4,0,0,0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </UniformGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+                    <TextBlock Text="아이디 찾기" FontSize="11" Foreground="#888888" Cursor="Hand"/>
+                    <Rectangle Width="1" Height="10" Fill="#DDDDDD" Margin="10,0"/>
+                    <TextBlock Text="비밀번호 찾기" FontSize="11" Foreground="#888888" Cursor="Hand"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</local:UIWindow>
