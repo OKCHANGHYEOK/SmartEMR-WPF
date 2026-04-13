@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:SmartEMR.Application.Windows"
-        xmlns:ctrls="clr-namespace:SmartEMR.Application.Controls"
+        xmlns:controls="clr-namespace:SmartEMR.Application.Controls"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d" 
@@ -14,12 +14,7 @@
         WindowStyle="None"
         ResizeMode="NoResize">
 
-    <Grid Name="LayoutRoot">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1.2*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-
+    <controls:StyleGrid x:Name="LayoutRoot" LayoutDefinitions="1,2">
         <Grid Name="TitleGrid" Grid.Row="0">
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -52,7 +47,7 @@
 
                 <Border BorderBrush="#EEEEEE" BorderThickness="1" CornerRadius="4" Margin="0,0,0,8" Width="240" Height="35" Background="#FCFCFC">
                     <Grid>
-                        <ctrls:TextBox FieldName="MUR_Id"
+                        <controls:TextBox FieldName="MUR_Id"
                                        BorderThickness="0" 
                                        Background="Transparent" 
                                        VerticalContentAlignment="Center" 
@@ -64,7 +59,7 @@
 
                 <Border BorderBrush="#EEEEEE" BorderThickness="1" CornerRadius="4" Margin="0,0,0,20" Width="240" Height="35" Background="#FCFCFC">
                     <Grid>
-                        <ctrls:PasswordBox FieldName="MUR_PassWord"
+                        <controls:PasswordBox FieldName="MUR_PassWord"
                                            BorderThickness="0" 
                                            Background="Transparent" 
                                            VerticalContentAlignment="Center" 
@@ -101,5 +96,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-    </Grid>
+    </controls:StyleGrid>
 </local:UIWindow>
+    
+    
