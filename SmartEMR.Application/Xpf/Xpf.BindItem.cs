@@ -2,7 +2,7 @@
 
 namespace SmartEMR.Application.Xpf;
 
-public enum BindingType
+public enum BindType
 {
     None,
     TextBox,
@@ -11,10 +11,10 @@ public enum BindingType
     CheckBox
 }
 
-public class BindingElement
+public class BindItem
 {
     public string? FieldName { get; set; }
-    public BindingType BindingType { get; set; } = BindingType.TextBox;
+    public BindType BindType { get; set; } = BindType.TextBox;
     public int Col { get; set; }
     public int Row { get; set; }
     public string? Placeholder { get; set; }

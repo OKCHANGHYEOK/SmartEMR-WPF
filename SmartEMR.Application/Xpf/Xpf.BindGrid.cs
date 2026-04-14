@@ -8,21 +8,21 @@ using System.Windows.Markup;
 namespace SmartEMR.Application.Xpf;
 
 [ObservableObject]
-[ContentProperty(nameof(BindingElements))]
-public partial class BindingGrid : StyleGrid
+[ContentProperty(nameof(BindItems))]
+public partial class BindGrid : StyleGrid
 {
     [ObservableProperty]
     public int m_ItemSpace = 5;
 
     private object? Model = null;
 
-    // 1. UIElementCollection 대신 ObservableCollection<BindingElement> 사용
-    public ObservableCollection<BindingElement> BindingElements { get; }
-        = new ObservableCollection<BindingElement>();
+    // 1. UIElementCollection 대신 ObservableCollection<BindItem> 사용
+    public ObservableCollection<BindItem> BindItems { get; }
+        = new ObservableCollection<BindItem>();
 
-    public BindingGrid() : base()
+    public BindGrid() : base()
     {
-        this.BindingElements.CollectionChanged += OnBindingElementsChanged;
+        this.BindItems.CollectionChanged += OnBindItemsChanged;
         this.DataContextChanged += (s, e) => UpdateModel();
     }
 
@@ -33,20 +33,20 @@ public partial class BindingGrid : StyleGrid
         this.Model = this.DataContext.GetType().GetProperty("Model")?.GetValue(this.DataContext);
     }
 
-    private void AddElement(BindingElement element)
+    private void AddElement(BindItem element)
     {
         FrameworkElement? visualChild = null;
 
-        if (element.BindingType == BindingType.TextBox || element.BindingType == BindingType.PasswordBox)
+        if (element.BindType == BindType.TextBox || element.BindType == BindType.PasswordBox)
         {
             visualChild = new StyleTextBox();
             visualChild.DataContext = this.Model;  
 
-            if (element.BindingType == BindingType.TextBox)
+            if (element.BindType == BindType.TextBox)
             {
                 ((StyleTextBox)visualChild).TextBoxType = TextBoxType.Text;
             }
-            else if (element.BindingType == BindingType.PasswordBox)
+            else if (element.BindType == BindType.PasswordBox)
             {
                 ((StyleTextBox)visualChild).TextBoxType = TextBoxType.Password;
             }
@@ -67,15 +67,15 @@ public partial class BindingGrid : StyleGrid
         AddElement(visualChild, element.Col, element.Row);
     }
 
-    private void OnBindingElementsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void OnBindItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add)
         {
             if (e.NewItems == null) return;
 
-            foreach (BindingElement item in e.NewItems)
+            foreach (BindItem item in e.NewItems)
             {
-                // 3. BindingElement 정보를 바탕으로 실제 UI 생성
+                // 3. BindItem 정보를 바탕으로 실제 UI 생성
                 AddElement(item);
             }
         }
