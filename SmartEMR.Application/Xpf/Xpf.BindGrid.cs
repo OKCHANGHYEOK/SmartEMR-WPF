@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Common;
+using SmartEMR.Application.ViewModels;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Markup;
 
@@ -30,7 +32,10 @@ public partial class BindGrid : StyleGrid
     {
         if (this.DataContext == null) return;
 
-        this.Model = this.DataContext.GetType().GetProperty("Model")?.GetValue(this.DataContext);
+        if (this.DataContext is IVIewModel vm)
+        {
+            this.Model = vm.Model;
+        }
     }
 
     private void AddElement(BindItem element)

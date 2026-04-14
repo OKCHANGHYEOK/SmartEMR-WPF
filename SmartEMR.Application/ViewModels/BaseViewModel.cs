@@ -1,17 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Domain.Entities;
-using System;
-using System.Collections.Generic;
 
 namespace SmartEMR.Application.ViewModels;
 
-public abstract partial class BaseViewModel<T> : ObservableObject where T : BaseEntity, new()
+public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T> where T : BaseEntity, new()
 {
 
     #region "Fields"
 
     [ObservableProperty]
     private T? m_Model = null;
+
+    object? IVIewModel.Model => this.Model;
 
     #endregion
 
