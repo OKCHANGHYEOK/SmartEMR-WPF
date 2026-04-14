@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows;
 
-namespace SmartEMR.Application.Windows;
+namespace SmartEMR.Application.Controls;
 
 [ObservableObject]
 public abstract partial class UIWindow : Window

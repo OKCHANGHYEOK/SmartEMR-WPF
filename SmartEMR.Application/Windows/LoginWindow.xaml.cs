@@ -1,5 +1,8 @@
-﻿using SmartEMR.Application.ViewModels;
+﻿using SmartEMR.Application.Controls;
+using SmartEMR.Application.ViewModels;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SmartEMR.Application.Windows;
 
@@ -18,5 +21,17 @@ public partial class LoginWindow : UIWindow
         this.ContentTitle = "SmartEMR - 로그인";
         this.ContentSize = new Size(500, 450);
         this.DataContext = new LoginViewModel();
+    }
+
+    private void OnClick_Button(object sender, RoutedEventArgs e) 
+    { 
+        if (sender is Button element == false) return;
+
+        LoginViewModel? item = this.DataContext as LoginViewModel;
+
+        //if (item != null && item.Model != null)
+        //{
+        //    MessageBox.Show(item.Model.MUR_Id);
+        //}
     }
 }

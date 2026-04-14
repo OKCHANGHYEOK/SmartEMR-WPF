@@ -41,7 +41,7 @@ public abstract partial class BaseViewModel<T> : ObservableObject where T : Base
 
         if (Model == null)
         {
-            Model = GetModel(null);
+            Model = GetModel(new T());
         }
     }
 

@@ -2,25 +2,20 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Xml.Linq;
 
 namespace SmartEMR.Application.Controls;
 
 public class TextBox : System.Windows.Controls.TextBox
 {
-    public static readonly DependencyProperty FieldNameProperty =
-         DependencyProperty.Register("FieldName", typeof(string), typeof(TextBox),
-             new PropertyMetadata(null, (d, e) =>
-             {
-                 if (d is TextBox tb && e.NewValue is string fieldName)
-                 {
-                     BindingExtensions.SetBinding(tb, fieldName);
-                 }
-             }));
-
-    public string FieldName
+    public TextBox()
     {
-        get => (string)GetValue(FieldNameProperty);
-        set => SetValue(FieldNameProperty, value);
+        this.MinWidth = 24;
+        this.MinHeight = 20;
+        this.BorderThickness = new Thickness(0);
+        this.Background = Brushes.Transparent;
+        this.VerticalContentAlignment = VerticalAlignment.Center;
+        this.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
     }
 }

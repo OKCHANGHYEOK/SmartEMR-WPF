@@ -10,14 +10,15 @@ public class PasswordBox : ContentControl
 
     #region Dependency Properties
 
-    public static readonly DependencyProperty FieldNameProperty =
-        DependencyProperty.Register(nameof(FieldName), typeof(string), typeof(PasswordBox),
-            new PropertyMetadata(null));
 
-    public string FieldName
+    public static readonly DependencyProperty PasswordProperty =
+        DependencyProperty.Register(nameof(Password), typeof(string), typeof(PasswordBox),
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    public string Password
     {
-        get => (string)GetValue(FieldNameProperty);
-        set => SetValue(FieldNameProperty, value);
+        get => (string)GetValue(PasswordProperty);
+        set => SetValue(PasswordProperty, value);
     }
 
     public static new readonly DependencyProperty BorderThicknessProperty =
@@ -76,20 +77,17 @@ public class PasswordBox : ContentControl
 
     private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(this.FieldName)) return;
-
-        // 패턴 매칭을 이용한 안전한 형변환 및 데이터 처리
-        if (sender is System.Windows.Controls.PasswordBox pb && this.DataContext is not null)
+        // 1. 내부 PasswordBox의 값을 의존성 속성인 Password에 동기화 (가장 중요)
+        if (sender is System.Windows.Controls.PasswordBox pb)
         {
-            // 리플렉션을 사용하여 ViewModel의 Model 객체 접근
-            var model = this.DataContext.GetType().GetProperty("Model")?.GetValue(this.DataContext);
+            this.Password = pb.Password;
+        }
 
-            if (model != null)
-            {
-                // FieldName에 해당하는 속성에 패스워드 값 설정
-                var prop = model.GetType().GetProperty(this.FieldName);
-                prop?.SetValue(model, pb.Password);
-            }
+        // 기존 리플렉션 로직 (필요 시 유지)
+        if (this.DataContext is not null)
+        {
+            var model = this.DataContext.GetType().GetProperty("Model")?.GetValue(this.DataContext);
+            // ... 생략
         }
     }
 }

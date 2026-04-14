@@ -45,7 +45,6 @@ public class StyleGrid : Grid
         }
     }
 
-    // 실제 레이아웃이 구성될 내부 그리드
     public Grid LayoutRoot { get; } = new Grid();
 
     public StyleGrid()
