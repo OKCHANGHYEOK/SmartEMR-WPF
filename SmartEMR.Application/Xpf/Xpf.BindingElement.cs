@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 
-namespace SmartEMR.Application.Controls;
+namespace SmartEMR.Application.Xpf;
 
 public enum BindingType
 {

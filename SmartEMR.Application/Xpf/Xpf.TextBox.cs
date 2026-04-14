@@ -1,11 +1,7 @@
-﻿using SmartEMR.Application.Common;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Xml.Linq;
 
-namespace SmartEMR.Application.Controls;
+namespace SmartEMR.Application.Xpf;
 
 public class TextBox : System.Windows.Controls.TextBox
 {

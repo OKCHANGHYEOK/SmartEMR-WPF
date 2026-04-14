@@ -1,12 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SmartEMR.Application.Controls;
+using SmartEMR.Application.Common;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace SmartEMR.Application.Controls;
+namespace SmartEMR.Application.Xpf;
 
 [ObservableObject]
 [ContentProperty(nameof(BindingElements))]
@@ -36,11 +35,12 @@ public partial class BindingGrid : StyleGrid
 
     private void AddElement(BindingElement element)
     {
-        UIElement? visualChild = null;
+        FrameworkElement? visualChild = null;
 
         if (element.BindingType == BindingType.TextBox || element.BindingType == BindingType.PasswordBox)
         {
             visualChild = new StyleTextBox();
+            visualChild.DataContext = this.Model;  
 
             if (element.BindingType == BindingType.TextBox)
             {
@@ -49,11 +49,6 @@ public partial class BindingGrid : StyleGrid
             else if (element.BindingType == BindingType.PasswordBox)
             {
                 ((StyleTextBox)visualChild).TextBoxType = TextBoxType.Password;
-            }
-
-            if (!string.IsNullOrWhiteSpace(element.FieldName))
-            {
-                BindingOperations.SetBinding(visualChild, StyleTextBox.TextProperty, new Binding(element.FieldName) { Source = this.Model, Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             }
 
             if (!string.IsNullOrWhiteSpace(element.Placeholder))
@@ -66,7 +61,9 @@ public partial class BindingGrid : StyleGrid
 
         visualChild.SetValue(MarginProperty, new Thickness(this.ItemSpace));
         visualChild.SetValue(DataContextProperty, this.Model);
-        
+
+        BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
+
         AddElement(visualChild, element.Col, element.Row);
     }
 

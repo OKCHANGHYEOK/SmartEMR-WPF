@@ -1,4 +1,4 @@
-﻿using SmartEMR.Application.Controls;
+﻿using SmartEMR.Application.Xpf;
 using SmartEMR.Application.ViewModels;
 using System.Diagnostics;
 using System.Windows;
@@ -29,9 +29,9 @@ public partial class LoginWindow : UIWindow
 
         LoginViewModel? item = this.DataContext as LoginViewModel;
 
-        //if (item != null && item.Model != null)
-        //{
-        //    MessageBox.Show(item.Model.MUR_Id);
-        //}
+        if (item != null && item.Model != null)
+        {
+            MessageBox.Show(item.Model.MUR_Id);
+        }
     }
 }

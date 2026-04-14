@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SmartEMR.Application.Controls
+namespace SmartEMR.Application.Xpf
 {
     public partial class vLayout : UserControl
     {

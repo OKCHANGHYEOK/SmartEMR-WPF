@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace SmartEMR.Application.Controls;
+namespace SmartEMR.Application.Xpf;
 
 public enum TextBoxType { Text, Password }
 

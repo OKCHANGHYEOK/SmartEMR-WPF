@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Reflection;
+using SmartEMR.Application.Xpf;
 
 namespace SmartEMR.Application.Common;
 
@@ -12,19 +13,17 @@ public class BindingExtensions
         var dataContext = element.DataContext;
         if (dataContext == null) return;
 
-        var modelProp = dataContext.GetType().GetProperty("Model");
-        if (modelProp == null) return;
-
-        var targetProp = modelProp.GetType().GetProperty(fieldName);
+        var targetProp = dataContext.GetType().GetProperty(fieldName);
         if (targetProp == null)
         {
             System.Diagnostics.Debug.WriteLine($"[BindingExtensions] '{fieldName}' 속성을 Model에서 찾을 수 없습니다.");
             return;
         }
 
-        DependencyProperty? dp = targetProp switch
+        DependencyProperty? dp = element switch
         {
-            _ when element is TextBox => TextBox.TextProperty,
+            _ when element is StyleTextBox => StyleTextBox.TextProperty,
+            _ when element is Xpf.TextBox => Xpf.TextBox.TextProperty,
             _ when element is CheckBox => CheckBox.IsCheckedProperty,
             _ when element is ComboBox => ComboBox.SelectedValueProperty,
             _ => null
@@ -32,7 +31,7 @@ public class BindingExtensions
 
         if (dp != null)
         {
-            Binding binding = new Binding($"Model.{fieldName}")
+            Binding binding = new Binding($"{fieldName}")
             {
                 Source = dataContext,
                 Mode = BindingMode.TwoWay,

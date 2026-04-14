@@ -1,8 +1,7 @@
-﻿using SmartEMR.Application.Common;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace SmartEMR.Application.Controls;
+namespace SmartEMR.Application.Xpf;
 
 public class PasswordBox : ContentControl
 {

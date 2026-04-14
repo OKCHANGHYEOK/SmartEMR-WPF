@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace SmartEMR.Application.Controls;
+namespace SmartEMR.Application.Xpf;
 
 // [ContentProperty]를 사용해 XAML에서 추가되는 자식이 어디로 갈지 지정합니다.
 [ContentProperty(nameof(Children))]
