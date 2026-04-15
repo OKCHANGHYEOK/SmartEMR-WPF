@@ -43,12 +43,13 @@
 
         <Grid Name="InputGrid" Grid.Row="1" Background="White">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Xpf:BindGrid LayoutDefinitions="1,2" Margin="10,0,10,10" ItemSpace="2">
+                <Xpf:BindGrid LayoutDefinitions="1,2" Margin="0,0,0,10" ItemSpace="0">
                     <Xpf:BindItem FieldName="MUR_Id" 
                                         BindType="TextBox" 
                                         Placeholder="ID" 
                                         Col="0" 
-                                        Row="0">
+                                        Row="0"
+                                        Margin="0,0,0,2">
 
                     </Xpf:BindItem>
                     <Xpf:BindItem FieldName="MUR_PassWord"
@@ -59,27 +60,40 @@
                     </Xpf:BindItem>
                 </Xpf:BindGrid>
 
-                <UniformGrid Columns="2" Width="240" Height="38">
-                    <Button Name="btnLogin" Content="로그인" Click="OnClick_Button"
-                            Background="#8FAADC" Foreground="White" FontWeight="Bold" 
-                            BorderThickness="0" Cursor="Hand" Margin="0,0,4,0">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button Name="btnJoin" Content="회원가입" 
-                            Background="#F1F3F5" Foreground="#666666" 
-                            BorderBrush="#DDDDDD" Cursor="Hand" Margin="4,0,0,0">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </UniformGrid>
+                <Xpf:BindGrid LayoutDefinitions="2,1" 
+                              Width="240"
+                              Height="38">
 
+                    <Xpf:BindItem FieldName="btnLogin"
+                                  BindType="Button"
+                                  ButtonText="로그인"
+                                  BackGround="#8FAADC"
+                                  Foreground="White"
+                                  FontWeight="Bold"
+                                  ButtonCornerRadius="4"
+                                  Col="0"
+                                  Row="0"
+                                  IsBinding="False"
+                                  IsBindClickEvent="True">
+                        
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem FieldName="btnJoin"
+                                  BindType="Button"
+                                  ButtonText="회원가입"
+                                  BackGround="#F1F3F5"
+                                  Foreground="#666666"
+                                  FontWeight="Bold"
+                                  BorderBrush="#DDDDDD"
+                                  Cursor="Hand"
+                                  Margin="4,0,0,0"
+                                  ButtonCornerRadius="4"
+                                  Col="1"
+                                  Row="0">
+                        
+                    </Xpf:BindItem>
+                </Xpf:BindGrid>
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
                     <TextBlock Text="아이디 찾기" FontSize="11" Foreground="#888888" Cursor="Hand"/>
                     <Rectangle Width="1" Height="10" Fill="#DDDDDD" Margin="10,0"/>

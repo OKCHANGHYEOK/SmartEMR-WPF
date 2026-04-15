@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -8,17 +10,35 @@ public enum BindType
     TextBox,
     PasswordBox,
     ComboBox,
-    CheckBox
+    CheckBox,
+    Button
 }
 
 public class BindItem
 {
+    // 공통
     public string? FieldName { get; set; }
     public BindType BindType { get; set; } = BindType.TextBox;
     public int Col { get; set; }
     public int Row { get; set; }
     public string? Placeholder { get; set; }
-    public Thickness Margin { get; set; } = new Thickness(0);
+    public double? Width { get; set; }
+    public double? Height { get; set; }
+    public Thickness? Margin { get; set; } = new Thickness(0);
     public Thickness Padding { get; set; } = new Thickness(0);
-    public Thickness ContentBorderThickness { get; set; } = new Thickness(1);
+    public string? BorderBrush { get; set; } = "TransParent";
+    public Thickness BorderThickness { get; set; } = new Thickness(1);
+    public string? BackGround { get; set; } = "TransParent";
+    public Brush Foreground { get; set; } = Brushes.Black;
+    public double? FontSize { get; set; } = 13;
+    public FontWeight FontWeight { get; set; } = FontWeights.Normal;
+    public Cursor Cursor { get; set; } = Cursors.Hand;
+
+    // 버튼 관련
+    public string? ButtonText { get; set; } = "버튼";
+    public double ButtonCornerRadius { get; set; } = 0;
+
+    // 플래그
+    public bool? IsBinding { get; set; } = true;
+    public bool IsBindClickEvent { get; set; } = false;
 }

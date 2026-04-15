@@ -68,7 +68,6 @@ public class StyleGrid : Grid
             LayoutRoot.RowDefinitions.Add(new RowDefinition());
     }
 
-    // 이제 이 메서드는 내부 전용이나 보조 용도로만 써도 됩니다.
     public void AddElement(UIElement element, int col, int row)
     {
         Grid.SetColumn(element, col);

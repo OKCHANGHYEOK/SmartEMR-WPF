@@ -3,9 +3,10 @@ using SmartEMR.Application.Common;
 using SmartEMR.Application.ViewModels;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -21,6 +22,10 @@ public partial class BindGrid : StyleGrid
     // 1. UIElementCollection 대신 ObservableCollection<BindItem> 사용
     public ObservableCollection<BindItem> BindItems { get; }
         = new ObservableCollection<BindItem>();
+
+
+    public delegate void BindClickEventHandler(object sender, BindClickEventArgs e);
+    public event BindClickEventHandler? BindGrid_BindClickEvent;
 
     public BindGrid() : base()
     {
@@ -40,12 +45,14 @@ public partial class BindGrid : StyleGrid
 
     private void AddElement(BindItem element)
     {
-        FrameworkElement? visualChild = null;
+        FrameworkElement? visualChild = new ();
 
         if (element.BindType == BindType.TextBox || element.BindType == BindType.PasswordBox)
         {
-            visualChild = new StyleTextBox();
-            visualChild.DataContext = this.Model;  
+            visualChild = new StyleTextBox()
+            {
+                DataContext = this.Model
+            };
 
             if (element.BindType == BindType.TextBox)
             {
@@ -60,14 +67,96 @@ public partial class BindGrid : StyleGrid
             {
                 ((StyleTextBox)visualChild).PlaceHolder = element.Placeholder;
             }
+
         }
 
-        if (visualChild == null) return;
+        if (element.BindType == BindType.Button)
+        {
+            var btn = new Button();
 
-        visualChild.SetValue(MarginProperty, new Thickness(this.ItemSpace));
+            btn.SetValue(Button.ContentProperty, element.ButtonText);
+            btn.SetValue(Button.CornerRadiusProperty, new CornerRadius(element.ButtonCornerRadius));
+            btn.SetValue(Button.ForegroundProperty, element.Foreground);
+            btn.SetValue(Button.FontWeightProperty, element.FontWeight);
+
+            visualChild = btn;
+        }
+
+        visualChild.SetValue(MarginProperty, element.Margin == null ? new Thickness(this.ItemSpace) : element.Margin);
         visualChild.SetValue(DataContextProperty, this.Model);
 
-        BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
+        if (!string.IsNullOrWhiteSpace(element.BackGround))
+        {
+            var brushConverter = new BrushConverter();
+
+            try
+            {
+                Brush? bg = (Brush?)brushConverter.ConvertFromString(element.BackGround);
+
+                if (bg != null)
+                {
+                    visualChild.SetValue(BackgroundProperty, bg);
+                }
+            } catch (NotSupportedException e)
+            {
+                MessageBox.Show(e.StackTrace);
+            };
+        }
+
+        if (!string.IsNullOrWhiteSpace(element.BorderBrush))
+        {
+            var brushConverter = new BrushConverter();
+
+            try
+            {
+                Brush? bg = (Brush?)brushConverter.ConvertFromString(element.BorderBrush);
+
+                if (bg != null)
+                {
+                    visualChild.SetValue(Border.BorderBrushProperty, bg);
+                }
+            }
+            catch (NotSupportedException e)
+            {
+                MessageBox.Show(e.StackTrace);
+            }
+            ;
+        }
+
+        if (element.Width != null)
+        {
+            visualChild.SetValue(WidthProperty, element.Width);
+        }
+
+        if (element.Height != null)
+        {
+            visualChild.SetValue(HeightProperty, element.Height);
+        }
+
+        if (element.IsBindClickEvent)
+        {
+            if (visualChild is Button btn)
+            {
+                btn.Click += (s, e) =>
+                {
+                    var args = new BindClickEventArgs(e.RoutedEvent, this, element);
+                    BindGrid_BindClickEvent?.Invoke(element, args);
+                };
+            }
+            else
+            {
+                visualChild.MouseLeftButtonDown += (s, e) =>
+                {
+                    var args = new BindClickEventArgs(e.RoutedEvent, this, element);
+                    BindGrid_BindClickEvent?.Invoke(element, args);
+                };
+            }
+        }
+
+        if (element.IsBinding == true)
+        {
+            BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
+        }
 
         AddElement(visualChild, element.Col, element.Row);
     }
@@ -80,9 +169,30 @@ public partial class BindGrid : StyleGrid
 
             foreach (BindItem item in e.NewItems)
             {
-                // 3. BindItem 정보를 바탕으로 실제 UI 생성
-                AddElement(item);
+                this.AddElement(item);
             }
         }
+    }
+
+    protected override void OnVisualParentChanged(DependencyObject oldParent)
+    {
+        base.OnVisualParentChanged(oldParent);
+
+        var parentWindow = Window.GetWindow(this) as UIWindow;
+
+        if (parentWindow != null)
+        {
+            parentWindow.AddBindGrid(this);
+        }
+    }
+}
+
+public class BindClickEventArgs : RoutedEventArgs
+{
+    public BindItem bindItem { get; }
+
+    public BindClickEventArgs(RoutedEvent routedEvent, object source, BindItem item) : base(routedEvent, source)
+    {
+        bindItem = item;
     }
 }

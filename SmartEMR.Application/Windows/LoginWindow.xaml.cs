@@ -23,15 +23,10 @@ public partial class LoginWindow : UIWindow
         this.DataContext = new LoginViewModel();
     }
 
-    private void OnClick_Button(object sender, RoutedEventArgs e) 
-    { 
-        if (sender is Button element == false) return;
+    public override void OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    {
+        if (sender is BindItem bindItem == false) return;
 
-        LoginViewModel? item = this.DataContext as LoginViewModel;
-
-        if (item != null && item.Model != null)
-        {
-            MessageBox.Show(item.Model.MUR_Id);
-        }
+        MessageBox.Show("BindClickEvent 발생 ! 대상 : " + bindItem.FieldName );
     }
 }

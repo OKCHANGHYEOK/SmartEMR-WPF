@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Data;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -42,6 +43,16 @@ public class StyleTextBox : StyleGrid
         set => SetValue(PlaceHolderProperty, value);
     }
 
+    public static readonly DependencyProperty TextForegroundProperty = 
+        DependencyProperty.Register(nameof(TextForeground), typeof(Brush), typeof(StyleTextBox),
+            new PropertyMetadata(Brushes.Black));
+
+    public Brush TextForeground
+    {
+        get => (Brush)GetValue(TextForegroundProperty);
+        set => SetValue(TextForegroundProperty, value);
+    }
+
     #endregion
 
     private readonly TextBox _textBox = new TextBox();
@@ -75,7 +86,7 @@ public class StyleTextBox : StyleGrid
         _textBox.VerticalContentAlignment = VerticalAlignment.Center;
         _passwordBox.BorderThickness = new Thickness(0);
         _passwordBox.VerticalContentAlignment = VerticalAlignment.Center;
-
+        
         // 플레이스홀더 스타일
         lblPlaceHolder.FontWeight = FontWeights.SemiBold;
         lblPlaceHolder.Foreground = new SolidColorBrush(Color.FromRgb(187, 187, 187));
@@ -87,8 +98,10 @@ public class StyleTextBox : StyleGrid
         this.AddElement(lblPlaceHolder, 0, 0);
 
         // 바인딩
-        _textBox.SetBinding(TextBox.TextProperty, new System.Windows.Data.Binding(nameof(Text)) { Source = this, Mode = System.Windows.Data.BindingMode.TwoWay, UpdateSourceTrigger = System.Windows.Data.UpdateSourceTrigger.PropertyChanged });
-        _passwordBox.SetBinding(PasswordBox.PasswordProperty, new System.Windows.Data.Binding(nameof(Text)) { Source = this, Mode = System.Windows.Data.BindingMode.TwoWay, UpdateSourceTrigger = System.Windows.Data.UpdateSourceTrigger.PropertyChanged });
+        _textBox.SetBinding(TextBox.TextProperty, new Binding(nameof(Text)) { Source = this, Mode = BindingMode.TwoWay, UpdateSourceTrigger = System.Windows.Data.UpdateSourceTrigger.PropertyChanged });
+        _textBox.SetBinding(TextBox.ForegroundProperty, new Binding(nameof(TextForeground)) {Source = this,  Mode = BindingMode.OneWay});
+
+        _passwordBox.SetBinding(PasswordBox.PasswordProperty, new Binding(nameof(Text)) { Source = this, Mode = BindingMode.TwoWay, UpdateSourceTrigger = System.Windows.Data.UpdateSourceTrigger.PropertyChanged });
 
         UpdateLayoutByType();
         UpdatePlaceHolder();
