@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Images\Svg\**" />
+    <Compile Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="Images\Svg\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
+    <None Remove="Images\Svg\**" />
+    <None Remove="Infrastructure\**" />
+    <Page Remove="Images\Svg\**" />
+    <Page Remove="Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\mainlogo.png" />
   </ItemGroup>
 
@@ -19,11 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartEMR.Domain\SmartEMR.Domain.csproj" />
     <ProjectReference Include="..\SmartEMR.Infrastructure\SmartEMR.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Images\Svg\" />
-    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
   <ItemGroup>
