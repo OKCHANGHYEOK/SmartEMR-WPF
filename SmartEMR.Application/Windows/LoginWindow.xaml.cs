@@ -1,8 +1,6 @@
 ﻿using SmartEMR.Application.Xpf;
 using SmartEMR.Application.ViewModels;
-using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace SmartEMR.Application.Windows;
 

@@ -10,12 +10,21 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
-[ObservableObject]
 [ContentProperty(nameof(BindItems))]
 public partial class BindGrid : StyleGrid
 {
-    [ObservableProperty]
-    public int m_ItemSpace = 5;
+    public int ItemSpace
+    {
+        get => (int)GetValue(ItemSpaceProperty);
+        set => SetValue(ItemSpaceProperty, value);
+    }
+
+    public static readonly DependencyProperty ItemSpaceProperty =
+        DependencyProperty.Register(
+            nameof(ItemSpace), 
+            typeof(int), 
+            typeof(BindGrid), 
+            new PropertyMetadata(5));
 
     private object? Model = null;
 

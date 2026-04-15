@@ -13,7 +13,9 @@
         WindowStyle="None"
         ResizeMode="NoResize">
 
-    <Xpf:StyleGrid x:Name="LayoutRoot" LayoutDefinitions="1,2">
+    <Xpf:StyleGrid x:Name="LayoutRoot" 
+                   LayoutDefinitions="1,2"
+                   RowSizeDefinitions="1.5*,1*">
         <Grid Name="TitleGrid" Grid.Row="0">
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -60,7 +62,7 @@
                     </Xpf:BindItem>
                 </Xpf:BindGrid>
 
-                <Xpf:BindGrid LayoutDefinitions="2,1" 
+                <Xpf:BindGrid LayoutDefinitions="2,1"
                               Width="240"
                               Height="38">
 
