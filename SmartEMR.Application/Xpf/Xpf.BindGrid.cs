@@ -58,25 +58,28 @@ public partial class BindGrid : StyleGrid
 
         if (element.BindType == BindType.TextBox || element.BindType == BindType.PasswordBox)
         {
-            visualChild = new StyleTextBox()
+            var styleTextBox = new StyleTextBox()
             {
-                DataContext = this.Model
+                DataContext = this.Model,
+                BorderThickness = element.BorderThickness,
+                CornerRadius = element.CornerRadius
             };
 
             if (element.BindType == BindType.TextBox)
             {
-                ((StyleTextBox)visualChild).TextBoxType = TextBoxType.Text;
+                styleTextBox.TextBoxType = StyleTextBoxType.Text;
             }
             else if (element.BindType == BindType.PasswordBox)
             {
-                ((StyleTextBox)visualChild).TextBoxType = TextBoxType.Password;
+                styleTextBox.TextBoxType = StyleTextBoxType.Password;
             }
 
             if (!string.IsNullOrWhiteSpace(element.Placeholder))
             {
-                ((StyleTextBox)visualChild).PlaceHolder = element.Placeholder;
+                styleTextBox.Placeholder = element.Placeholder;
             }
 
+            visualChild = styleTextBox;
         }
 
         if (element.BindType == BindType.Button)
@@ -84,15 +87,15 @@ public partial class BindGrid : StyleGrid
             var btn = new Button();
 
             btn.SetValue(Button.ContentProperty, element.ButtonText);
-            btn.SetValue(Button.CornerRadiusProperty, new CornerRadius(element.ButtonCornerRadius));
+            btn.SetValue(Button.CornerRadiusProperty, element.CornerRadius);
             btn.SetValue(Button.ForegroundProperty, element.Foreground);
             btn.SetValue(Button.FontWeightProperty, element.FontWeight);
 
             visualChild = btn;
         }
 
-        visualChild.SetValue(MarginProperty, element.Margin == null ? new Thickness(this.ItemSpace) : element.Margin);
         visualChild.SetValue(DataContextProperty, this.Model);
+        visualChild.SetValue(MarginProperty, element.Margin == null ? new Thickness(this.ItemSpace) : element.Margin);
 
         if (!string.IsNullOrWhiteSpace(element.BackGround))
         {
@@ -122,7 +125,7 @@ public partial class BindGrid : StyleGrid
 
                 if (bg != null)
                 {
-                    visualChild.SetValue(Border.BorderBrushProperty, bg);
+                    visualChild.SetValue(Control.BorderBrushProperty, bg);
                 }
             }
             catch (NotSupportedException e)

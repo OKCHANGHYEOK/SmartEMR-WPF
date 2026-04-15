@@ -10,7 +10,6 @@
         Width="{Binding Path=ContentSize.Width, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
         Height="{Binding Path=ContentSize.Height, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
         ResizeMode="NoResize">
 
     <Xpf:StyleGrid x:Name="LayoutRoot" 
@@ -45,20 +44,25 @@
 
         <Grid Name="InputGrid" Grid.Row="1" Background="White">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Xpf:BindGrid LayoutDefinitions="1,2" Margin="0,0,0,10" ItemSpace="0">
+                <Xpf:BindGrid LayoutDefinitions="1,2" Margin="0,0,0,10" ItemSpace="0" Height="60">
                     <Xpf:BindItem FieldName="MUR_Id" 
                                         BindType="TextBox" 
                                         Placeholder="ID" 
                                         Col="0" 
                                         Row="0"
-                                        Margin="0,0,0,2">
+                                        BorderBrush="#BDBDBD"
+                                        BorderThickness="1,1,1,0"
+                                        CornerRadius="3,3,0,0">
 
                     </Xpf:BindItem>
                     <Xpf:BindItem FieldName="MUR_PassWord"
                                         BindType="PasswordBox"
                                         Placeholder="Password"
                                         Col="0"
-                                        Row="1">
+                                        Row="1"
+                                        BorderBrush="#BDBDBD"
+                                        BorderThickness="1"
+                                        CornerRadius="0,0,3,3">
                     </Xpf:BindItem>
                 </Xpf:BindGrid>
 
@@ -72,7 +76,7 @@
                                   BackGround="#8FAADC"
                                   Foreground="White"
                                   FontWeight="Bold"
-                                  ButtonCornerRadius="4"
+                                  CornerRadius="4"
                                   Col="0"
                                   Row="0"
                                   IsBinding="False"
@@ -86,10 +90,9 @@
                                   BackGround="#F1F3F5"
                                   Foreground="#666666"
                                   FontWeight="Bold"
-                                  BorderBrush="#DDDDDD"
-                                  Cursor="Hand"
+                                  BorderBrush="DarkGray"
                                   Margin="4,0,0,0"
-                                  ButtonCornerRadius="4"
+                                  CornerRadius="4"
                                   Col="1"
                                   Row="0">
                         

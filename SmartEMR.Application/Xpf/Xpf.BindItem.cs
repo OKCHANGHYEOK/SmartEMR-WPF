@@ -32,13 +32,12 @@ public class BindItem
     public Brush Foreground { get; set; } = Brushes.Black;
     public double? FontSize { get; set; } = 13;
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;
-    public Cursor Cursor { get; set; } = Cursors.Hand;
+    public CornerRadius CornerRadius { get; set; } = new CornerRadius(0);
 
     // 버튼 관련
     public string? ButtonText { get; set; } = "버튼";
-    public double ButtonCornerRadius { get; set; } = 0;
 
     // 플래그
-    public bool? IsBinding { get; set; } = true;
+    public bool IsBinding { get; set; } = true;
     public bool IsBindClickEvent { get; set; } = false;
 }
