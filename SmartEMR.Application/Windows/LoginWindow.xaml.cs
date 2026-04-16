@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.Xpf;
 using SmartEMR.Application.ViewModels;
 using System.Windows;
+using SmartEMR.Application.Core;
 
 namespace SmartEMR.Application.Windows;
 
@@ -31,7 +32,13 @@ public partial class LoginWindow : UIWindow
         switch (bindItem.FieldName)
         {
             case "btnLogin":
-                await vm.AttemptLogin();
+                var isLogin = await vm.AttemptLogin();
+
+                if (!isLogin)
+                {
+                    // 로그인 실패시 띄울 창 구현
+                };
+
                 break;
         };
     }

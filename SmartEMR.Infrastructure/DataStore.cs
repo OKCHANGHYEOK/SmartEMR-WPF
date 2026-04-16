@@ -82,6 +82,9 @@ namespace SmartEMR.Infrastructure
                     return null; // 토큰이 없는 경우 null 반환
                 }
 
+                _client.DefaultRequestHeaders.Clear();
+                _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.AccessToken);
+
                 return await _client.PostAsJsonAsync(url, paramItem ?? new { }, _options);
             }
             catch (Exception ex)

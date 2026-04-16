@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
 using SmartEMR.Infrastructure.Services;
 
 namespace SmartEMR.Application.ViewModels;
@@ -39,12 +39,13 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
 
         var ret = await AuthenticationService.AuthenticateUserByLogin(paramItem);
 
-        if (ret.Item == null || ret.IsSuccess == false)
+        if (ret == null)
         {
             return false;
         }
 
-        SmartMVVM.AppSession.SetToken(ret.Item);
+        SmartMVVM.AppSession.SetToken(ret);
+        SmartMVVM.AppSession.SetMemberUser(ret.User);
 
         return true;
     }

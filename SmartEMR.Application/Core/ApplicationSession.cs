@@ -2,22 +2,29 @@
 using SmartEMR.Domain.Entities;
 using SmartEMR.Infrastructure;
 
-namespace SmartEMR.Application.Core;
-
-public class ApplicationSession : ITokenProvider
+namespace SmartEMR.Application.Core
 {
-    public MemberUser MemberUser = new();
-    public TokenResponse token = new();
-
-    public TokenResponse GetToken()
+    public class ApplicationSession : ITokenProvider
     {
-        return token;
-    }
+        private TokenResponse _token = new();
+        public MemberUser MemberUser { get; private set; } = new();
 
-    public void SetToken(TokenResponse token)
-    {
-        this.token.AccessToken = token.AccessToken;
-        this.token.TokenType = token.TokenType;
-        this.token.ExpireMinutes = token.ExpireMinutes;
+        public TokenResponse GetToken()
+        {
+            return _token;
+        }
+
+        public void SetToken(TokenResponse token)
+        {
+            if (token == null) return;
+            _token = token;
+        }
+
+        // 유저 정보 세팅
+        public void SetMemberUser(MemberUser? item)
+        {
+            if (item == null) return;
+            this.MemberUser = item;
+        }
     }
 }
