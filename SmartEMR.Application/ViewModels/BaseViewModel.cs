@@ -9,14 +9,14 @@ public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T>
     #region "Fields"
 
     [ObservableProperty]
-    private T? m_Model = null;
+    private T m_Model;
 
-    object? IVIewModel.Model => this.Model;
+    object IVIewModel.Model => this.Model ?? new T();
 
     #endregion
 
     #region "Functions"
-    public T? GetCurrentModel(T? item)
+    public T GetCurrentModel(T item)
     {
         var model = GetModel(item);
 
@@ -32,26 +32,20 @@ public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T>
 
     public abstract void Initialize();
 
-    protected abstract T? GetModel(T? item);
+    protected abstract T GetModel(T item);
 
 
     public BaseViewModel()
     {
         Initialize();
 
-        if (Model == null)
-        {
-            Model = GetModel(new T());
-        }
+        Model = GetModel(new T());
     }
 
-    public BaseViewModel(T? item)
+    public BaseViewModel(T item)
     {
         Initialize();
 
-        if (Model == null)
-        {
-            Model = GetModel(item);
-        }
+        Model = GetModel(item);
     }
 }

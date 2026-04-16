@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\mainlogo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Images\mainlogo.png" />
+    <Content Include="Images\mainlogo.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,10 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartEMR.Domain\SmartEMR.Domain.csproj" />
     <ProjectReference Include="..\SmartEMR.Infrastructure\SmartEMR.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Images\mainlogo.png" />
   </ItemGroup>
 
 </Project>

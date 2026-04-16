@@ -1,26 +1,23 @@
-﻿using SmartEMR.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SmartEMR.Domain.DTOs;
+using SmartEMR.Domain.Entities;
+using SmartEMR.Infrastructure;
 
 namespace SmartEMR.Application.Core;
 
-public class ApplicationSession
+public class ApplicationSession : ITokenProvider
 {
-    private static ApplicationSession? _instance;
-    public static ApplicationSession Instance => _instance ?? (_instance = new ApplicationSession());
+    public MemberUser MemberUser = new();
+    public TokenResponse token = new();
 
-    public DataStore DataStore { get; } = new DataStore();
-
-    public readonly string APIUrl = "127.0.0.1";
-
-    public int? MUR_Idx { get; set; }
-
-    private ApplicationSession() { }
-
-    public void Initialize()
+    public TokenResponse GetToken()
     {
-        // API URL 설정
-        DataStore.APIUrl = $"http://{APIUrl}:8000";
+        return token;
+    }
+
+    public void SetToken(TokenResponse token)
+    {
+        this.token.AccessToken = token.AccessToken;
+        this.token.TokenType = token.TokenType;
+        this.token.ExpireMinutes = token.ExpireMinutes;
     }
 }

@@ -10,7 +10,7 @@ public partial class MemberUser : BaseEntity
     [ObservableProperty] private int? m_MEM_Idx;
 
     [ObservableProperty] private string? m_MUR_Role;
-    [ObservableProperty] private string? m_MUR_JodCode;
+    [ObservableProperty] private string? m_MUR_JobCode;
 
     [ObservableProperty] private string? m_MUR_Id;
     [ObservableProperty] private string? m_MUR_PassWord;

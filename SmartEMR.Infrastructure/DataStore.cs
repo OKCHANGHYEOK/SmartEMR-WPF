@@ -1,15 +1,14 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Linq;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
-using SmartEMR.Domain.Entities; // DataResponse가 있는 곳
+using SmartEMR.Domain.Enums;
+using SmartEMR.Domain.DTOs; 
 
 namespace SmartEMR.Infrastructure
 {
     public class DataStore
     {
         private readonly HttpClient _client = new HttpClient();
+        private readonly ITokenProvider _tokenProvider;
 
         public string APIUrl { get; set; } = "http://127.0.0.1:8000/";
 
@@ -24,12 +23,17 @@ namespace SmartEMR.Infrastructure
             PropertyNameCaseInsensitive = true
         };
 
+        public DataStore(ITokenProvider tokenProvider)
+        {
+            _tokenProvider = tokenProvider;
+        }
+
         /// <summary>
         /// 단일 인스턴스를 반환하기 위한 함수
         /// </summary>
-        public async Task<T?> GetItem<T>(string _eAPI, object? paramItem = null) where T : class
+        public async Task<T?> GetItem<T>(eAPI path, object? paramItem = null) where T : class
         {
-            var response = await PostAsync(_eAPI, paramItem);
+            var response = await PostAsync(GetAPIUrlByPath(path), paramItem);
 
             if (response != null && response.IsSuccessStatusCode)
             {
@@ -41,15 +45,16 @@ namespace SmartEMR.Infrastructure
                     return result.Item;
                 }
             }
+
             return default;
         }
 
         /// <summary>
         /// 리스트(IQueryable)를 반환하기 위한 함수
         /// </summary>
-        public async Task<IQueryable<T>> GetItems<T>(string _eAPI, object? paramItem = null) where T : class
+        public async Task<IQueryable<T>> GetItems<T>(eAPI path, object? paramItem = null) where T : class
         {
-            var response = await PostAsync(_eAPI, paramItem);
+            var response = await PostAsync(GetAPIUrlByPath(path), paramItem);
 
             if (response != null && response.IsSuccessStatusCode)
             {
@@ -66,20 +71,18 @@ namespace SmartEMR.Infrastructure
         /// <summary>
         /// 실제 HTTP POST 요청을 보내는 공통 함수
         /// </summary>
-        public async Task<HttpResponseMessage?> PostAsync(string _eAPI, object? paramItem = null)
+        public async Task<HttpResponseMessage?> PostAsync(string url, object? paramItem = null)
         {
-            var parts = _eAPI.Split('_');
-            if (parts.Length < 2) return null;
-
-            string requestEntity = parts[0];
-            string requestAction = parts[1];
-            string requestUrl = $"{APIUrl.TrimEnd('/')}/{requestEntity}/{requestAction}";
-
             try
             {
-                // 토큰은 위에서 SetToken을 통해 DefaultRequestHeaders에 박혀있으므로 
-                // 여기서 별도로 헤더를 건드릴 필요 없이 바로 전송합니다.
-                return await _client.PostAsJsonAsync(requestUrl, paramItem ?? new { }, _options);
+                var token = _tokenProvider.GetToken();
+
+                if (token == null)
+                {
+                    return null; // 토큰이 없는 경우 null 반환
+                }
+
+                return await _client.PostAsJsonAsync(url, paramItem ?? new { }, _options);
             }
             catch (Exception ex)
             {
@@ -95,6 +98,17 @@ namespace SmartEMR.Infrastructure
             this.retIsSuccess = result.IsSuccess;
             this.retCount = result.TotalCount;
             this.retStatusCode = (int)result.ResponseCode;
+        }
+
+        private string GetAPIUrlByPath(eAPI path)
+        {
+            var parts = path.ToString().Split('_');
+            if (parts.Length < 2) return APIUrl; // 기본 URL 반환
+
+            string requestEntity = parts[0];
+            string requestAction = parts[1];
+
+            return $"{APIUrl.TrimEnd('/')}/{requestEntity}/{requestAction}";
         }
     }
 }

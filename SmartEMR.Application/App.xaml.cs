@@ -10,6 +10,8 @@ namespace SmartEMR.Application
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        private int? MUR_Idx { get; set; } = 100000;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

@@ -2,12 +2,14 @@
 
 public enum  eAPI
 {
-    Member_GetMember = 0,
-    Member_SetMember = 1,
-    MemberUser_GetMemberUser = 2,
-    MemberUser_SetMemberUser = 3,
-    Patient_GetPatient = 4,
-    Patient_SetPatient = 5,
-    Chart_GetChart = 6,
-    Chart_SetChart = 7
+    Login_login = 0,
+
+    Member_GetMember = 1,
+    Member_SetMember = 2,
+    MemberUser_GetMemberUser = 3,
+    MemberUser_SetMemberUser = 4,
+    Patient_GetPatient = 5,
+    Patient_SetPatient = 6,
+    Chart_GetChart = 7,
+    Chart_SetChart = 8
 }

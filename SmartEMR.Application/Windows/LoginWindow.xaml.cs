@@ -9,6 +9,9 @@ namespace SmartEMR.Application.Windows;
 /// </summary>
 public partial class LoginWindow : UIWindow
 {
+
+    private LoginViewModel vm = new LoginViewModel();
+
     public LoginWindow() : base()
     {
         InitializeComponent();
@@ -18,13 +21,18 @@ public partial class LoginWindow : UIWindow
     {
         this.ContentTitle = "SmartEMR - 로그인";
         this.ContentSize = new Size(500, 450);
-        this.DataContext = new LoginViewModel();
+        this.DataContext = vm;
     }
 
-    public override void OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    public async override void OnBindGrid_BindClick(object sender, BindClickEventArgs e)
     {
         if (sender is BindItem bindItem == false) return;
 
-        MessageBox.Show("BindClickEvent 발생 ! 대상 : " + bindItem.FieldName );
+        switch (bindItem.FieldName)
+        {
+            case "btnLogin":
+                await vm.AttemptLogin();
+                break;
+        };
     }
 }

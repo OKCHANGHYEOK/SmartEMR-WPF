@@ -1,4 +1,4 @@
-﻿namespace SmartEMR.Domain.Entities;
+﻿namespace SmartEMR.Domain.DTOs;
 
 public class DataResponse<T> where T : class
 {

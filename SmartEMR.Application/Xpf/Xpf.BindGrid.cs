@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SmartEMR.Application.Common;
+﻿using SmartEMR.Application.Common;
 using SmartEMR.Application.ViewModels;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;
