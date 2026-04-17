@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MahApps.Metro.Controls;
+using SmartEMR.Application.Core;
 using System.Windows;
 
 namespace SmartEMR.Application.Xpf;
@@ -19,6 +21,8 @@ public abstract partial class UIWindow : Window, IViewLayout
     {
         SetUIWindow();
         Initialize();
+
+        SmartUI.UIManager.RegisterWindow(this);
     }
 
     private void SetUIWindow()

@@ -87,8 +87,13 @@
                         <Label x:Name="lblPlaceHolder" 
                                Content="{TemplateBinding Placeholder}" 
                                Foreground="#bbbbbb" 
+                               HorizontalAlignment="Left"
+                               HorizontalContentAlignment="Left"
                                VerticalAlignment="Center" 
-                               Margin="5,0,0,0" 
+                               Margin="5,0,0,0"
+                               Padding="5,0,0,0"
+                               BorderBrush="Transparent"
+                               BorderThickness="0"
                                IsHitTestVisible="False">
 
                             <Label.Visibility>

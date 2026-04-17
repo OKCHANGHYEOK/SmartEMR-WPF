@@ -1,7 +1,9 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using SmartEMR.Application.Views;
 using SmartEMR.Application.Windows;
+using SmartEMR.Application.Xpf;
 
 namespace SmartEMR.Application
 {
@@ -18,11 +20,11 @@ namespace SmartEMR.Application
         
             LoginWindow loginWindow = new LoginWindow();
 
-            bool? isResult = loginWindow.ShowDialog();
+            bool? isLogin = loginWindow.ShowDialog();
 
-            if (isResult == true)
+            if (isLogin == true)
             {
-
+                var vlayout = new vLayout();
             }
             else
             {

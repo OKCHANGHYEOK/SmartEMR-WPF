@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SmartEMR.Application.ViewModels;
+using System.Windows;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;

@@ -2,6 +2,7 @@
 using SmartEMR.Application.ViewModels;
 using System.Windows;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services;
 
 namespace SmartEMR.Application.Windows;
 
@@ -36,8 +37,11 @@ public partial class LoginWindow : UIWindow
 
                 if (!isLogin)
                 {
-                    // 로그인 실패시 띄울 창 구현
+                    SmartUI.MsgConfirm("로그인 실패", "아이디 또는 비밀번호를 확인해주세요.");
                 };
+
+                this.DialogResult = true;
+                this.Close();
 
                 break;
         };

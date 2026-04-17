@@ -10,14 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Images\Svg\**" />
     <Compile Remove="Infrastructure\**" />
-    <EmbeddedResource Remove="Images\Svg\**" />
     <EmbeddedResource Remove="Infrastructure\**" />
-    <None Remove="Images\Svg\**" />
     <None Remove="Infrastructure\**" />
-    <Page Remove="Images\Svg\**" />
     <Page Remove="Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Svg\smartemr-error.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,11 +26,23 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="HandyControl" Version="3.6.0-rc3" />
+    <PackageReference Include="MahApps.Metro" Version="3.0.0-rc0529" />
+    <PackageReference Include="MaterialDesignColors" Version="5.3.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.3.1" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.3.1" />
+    <PackageReference Include="SharpVectors" Version="1.8.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SmartEMR.Domain\SmartEMR.Domain.csproj" />
     <ProjectReference Include="..\SmartEMR.Infrastructure\SmartEMR.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Svg\smartemr-error.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

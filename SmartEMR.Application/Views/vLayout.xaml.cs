@@ -1,49 +1,25 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using SmartEMR.Application.Xpf;
+using System.Windows;
 
-namespace SmartEMR.Application.Xpf
+namespace SmartEMR.Application.Views;
+
+/// <summary>
+/// vLayout.xaml에 대한 상호 작용 논리
+/// </summary>
+public partial class vLayout : UIWindow
 {
-    public partial class vLayout : UserControl
+    public vLayout() : base()
     {
-        public vLayout()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        // 컨텐츠를 담을 속성 정의
-        public static readonly DependencyProperty MainContentProperty =
-            DependencyProperty.Register("MainContent", typeof(object), typeof(vLayout));
+    public override void OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
 
-        public object MainContent
-        {
-            get => GetValue(MainContentProperty);
-            set => SetValue(MainContentProperty, value);
-        }
+    protected override void Initialize()
+    {
 
-        // 상단 추가 정보(환자 정보 등)를 담을 속성
-        public static readonly DependencyProperty HeaderExtraProperty =
-            DependencyProperty.Register("HeaderExtra", typeof(object), typeof(vLayout));
-
-        public object HeaderExtra
-        {
-            get => GetValue(HeaderExtraProperty);
-            set => SetValue(HeaderExtraProperty, value);
-        }
-
-        // 창 이동 로직
-        private void TitleGrid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                Window.GetWindow(this)?.DragMove();
-            }
-        }
-
-        // 창 닫기 로직
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Window.GetWindow(this)?.Close();
-        }
     }
 }
