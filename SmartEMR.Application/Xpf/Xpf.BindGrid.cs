@@ -1,4 +1,5 @@
 ﻿using SmartEMR.Application.Common;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;
@@ -98,11 +99,9 @@ public partial class BindGrid : StyleGrid
 
         if (!string.IsNullOrWhiteSpace(element.BackGround))
         {
-            var brushConverter = new BrushConverter();
-
             try
             {
-                Brush? bg = (Brush?)brushConverter.ConvertFromString(element.BackGround);
+                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(element.BackGround);
 
                 if (bg != null)
                 {
@@ -116,11 +115,9 @@ public partial class BindGrid : StyleGrid
 
         if (!string.IsNullOrWhiteSpace(element.BorderBrush))
         {
-            var brushConverter = new BrushConverter();
-
             try
             {
-                Brush? bg = (Brush?)brushConverter.ConvertFromString(element.BorderBrush);
+                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(element.BorderBrush);
 
                 if (bg != null)
                 {
