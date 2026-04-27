@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using DevExpress.Xpf.Core;
 using SmartEMR.Application.Views;
 using SmartEMR.Application.Windows;
 using SmartEMR.Application.Xpf;
@@ -16,6 +17,9 @@ namespace SmartEMR.Application
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            // 테마 설정
+            DevExpress.Xpf.Core.ApplicationThemeHelper.ApplicationThemeName = Theme.Office2010BlueFullName;
+
             base.OnStartup(e);
         
             LoginWindow loginWindow = new LoginWindow();
