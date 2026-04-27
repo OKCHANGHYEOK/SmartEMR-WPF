@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using MahApps.Metro.Controls;
 using SmartEMR.Application.Core;
 using System.Windows;
 

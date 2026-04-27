@@ -1,8 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Data;
-using System.Reflection;
 using SmartEMR.Application.Xpf;
+using System.Windows;
 
 namespace SmartEMR.Application.Common;
 
