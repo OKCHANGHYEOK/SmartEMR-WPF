@@ -2,6 +2,7 @@
 using SmartEMR.Application.ViewModels;
 using System.Windows;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 
 namespace SmartEMR.Application.Windows;
 

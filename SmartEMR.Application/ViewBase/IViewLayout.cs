@@ -1,8 +1,6 @@
-﻿using SmartEMR.Application.ViewModels;
-using System.Windows;
-using System.Windows.Media;
+﻿using SmartEMR.Application.Xpf;
 
-namespace SmartEMR.Application.Xpf;
+namespace SmartEMR.Application.ViewBase;
 
 public interface IViewLayout
 {

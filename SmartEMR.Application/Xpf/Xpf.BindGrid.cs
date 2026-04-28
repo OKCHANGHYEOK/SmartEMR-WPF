@@ -1,5 +1,6 @@
 ﻿using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;

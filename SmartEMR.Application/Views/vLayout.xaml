@@ -5,9 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartEMR.Application.Views"
         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+        xmlns:v="clr-namespace:SmartEMR.Application.Views"
         mc:Ignorable="d"
-        Title="vLayout" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="SmartEMR"
+        WindowState="Maximized">
+    <dxlc:DockLayoutControl>
+        <dxlc:LayoutGroup Orientation="Vertical">
+            <dxlc:LayoutItem dxlc:DockLayoutControl.Dock="Top" Height="80">
+                <v:vBarMenu/>
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem>
+                <dxwui:NavigationFrame Content="{Binding MainContent}"
+                                       AnimationType="Fade">
+                </dxwui:NavigationFrame>
+            </dxlc:LayoutItem>
+        </dxlc:LayoutGroup>
+    </dxlc:DockLayoutControl>
 </Xpf:UIWindow>

@@ -1,10 +1,7 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
-using DevExpress.Xpf.Core;
+﻿using System.Windows;
 using SmartEMR.Application.Views;
 using SmartEMR.Application.Windows;
-using SmartEMR.Application.Xpf;
+using DevExpress.Xpf.Core;
 
 namespace SmartEMR.Application
 {
@@ -21,11 +18,16 @@ namespace SmartEMR.Application
         
             LoginWindow loginWindow = new LoginWindow();
 
-            bool? isLogin = loginWindow.ShowDialog();
-
-            if (isLogin == true)
+            if (loginWindow.ShowDialog() == true)
             {
-                var vlayout = new vLayout();
+                DXSplashScreen.Show<vSmartEMRWaitingView>();
+
+                var mainWindow = new vLayout();
+
+                this.MainWindow = mainWindow;
+
+                DXSplashScreen.Close();
+                mainWindow.Show();
             }
             else
             {

@@ -30,6 +30,7 @@
 	<PackageReference Include="DevExpress.Mvvm" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Win.Design" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Win.Navigation" Version="25.2.6" />
+	<PackageReference Include="DevExpress.Wpf.Controls" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.Core" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.LayoutControl" Version="25.2.6" />
     <PackageReference Include="HandyControl" Version="3.6.0-rc3" />
