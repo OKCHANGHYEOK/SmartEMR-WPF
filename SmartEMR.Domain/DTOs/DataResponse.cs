@@ -7,5 +7,5 @@ public class DataResponse<T> where T : class
     public string? Message { get; set; }
     public int ResponseCode { get; set; }
     public int? TotalCount { get; set; }
-    public bool? IsSuccess { get; set; }
+    public bool IsSuccess { get; set; }
 }

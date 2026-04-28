@@ -186,11 +186,11 @@ public partial class BindGrid : StyleGrid
     {
         base.OnVisualParentChanged(oldParent);
 
-        var parentWindow = Window.GetWindow(this) as UIWindow;
+        var viewLayout = Window.GetWindow(this) as IViewLayout;
 
-        if (parentWindow != null)
+        if (viewLayout != null)
         {
-            parentWindow.AddBindGrid(this);
+            viewLayout.AddBindGrid(this);
         }
     }
 }

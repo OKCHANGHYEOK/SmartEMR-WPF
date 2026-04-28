@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
+using SmartEMR.Domain.DTOs;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using SmartEMR.Infrastructure.Services;
@@ -15,7 +16,7 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
 
     public LoginViewModel(MemberUser? item) : base()
     {
-      
+
     }
 
     public override void Initialize()
@@ -29,8 +30,10 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
     }
 
     [RelayCommand]
-    public async Task<bool> AttemptLogin()
+    public async Task<DataResponse<MemberUser>> AttemptLogin()
     {
+        var retResponse = new DataResponse<MemberUser>();
+
         var paramItem = new MemberUser()
         {
             MUR_Id = Model.MUR_Id,
@@ -39,14 +42,15 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
 
         var ret = await AuthenticationService.AuthenticateUserByLogin(paramItem);
 
-        if (ret == null)
+        if (ret == null || !string.IsNullOrWhiteSpace(ret.FailMessage))
         {
-            return false;
+            retResponse.Message = ret?.FailMessage ?? "로그인 중 오류가 발생했습니다.";
+            return retResponse;
         }
 
         SmartMVVM.AppSession.SetToken(ret);
         SmartMVVM.AppSession.SetMemberUser(ret.User);
 
-        return true;
+        return retResponse;
     }
 }

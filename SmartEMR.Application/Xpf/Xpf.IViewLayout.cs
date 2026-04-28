@@ -8,5 +8,6 @@ public interface IViewLayout
 {
     IReadOnlyList<BindGrid> BindGrids { get; }
 
-    void OnBindGrid_BindClick(object sender, BindClickEventArgs e); 
+    void AddBindGrid(BindGrid bindGrid);
+    void OnBindGrid_BindClick(object sender, BindClickEventArgs e);
 }
