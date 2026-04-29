@@ -1,0 +1,111 @@
+﻿<base:ModelViewLayout   x:TypeArguments="vm:LoginViewModel"
+                        x:Class="SmartEMR.Application.Views.vLogin"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:local="clr-namespace:SmartEMR.Application.Views"
+                        xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                        xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                        xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        mc:Ignorable="d" 
+                        d:DesignHeight="450" d:DesignWidth="500">
+    
+    <Xpf:StyleGrid x:Name="LayoutRoot" 
+               LayoutDefinitions="1,2"
+               RowSizeDefinitions="1.5*,1*">
+        <Grid Name="TitleGrid" Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#A7C1E2" Offset="0.0"/>
+                    <GradientStop Color="#8FAADC" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="SmartEMR" 
+                       FontSize="36" 
+                       FontWeight="ExtraBold" 
+                       Foreground="White"
+                       FontFamily="Malgun Gothic Semilight"
+                       TextAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+                <TextBlock Text="Electronic Medical Record System" 
+                       FontSize="12" 
+                       Foreground="#E1EAF6" 
+                       HorizontalAlignment="Center"
+                       Margin="0,5,0,0"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="InputGrid" Grid.Row="1" Background="White">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Xpf:BindGrid LayoutDefinitions="1,2" Margin="0,0,0,10" ItemSpace="0" Height="60">
+                    <Xpf:BindItem FieldName="MUR_Id" 
+                                    BindType="TextBox" 
+                                    Placeholder="ID" 
+                                    Col="0" 
+                                    Row="0"
+                                    BorderBrush="#BDBDBD"
+                                    BorderThickness="1,1,1,0"
+                                    CornerRadius="3,3,0,0">
+
+                    </Xpf:BindItem>
+                    <Xpf:BindItem FieldName="MUR_PassWord"
+                                    BindType="PasswordBox"
+                                    Placeholder="Password"
+                                    Col="0"
+                                    Row="1"
+                                    BorderBrush="#BDBDBD"
+                                    BorderThickness="1"
+                                    CornerRadius="0,0,3,3">
+                    </Xpf:BindItem>
+                </Xpf:BindGrid>
+
+                <Xpf:BindGrid LayoutDefinitions="2,1"
+                          Width="240"
+                          Height="38">
+
+                    <Xpf:BindItem FieldName="btnLogin"
+                              BindType="Button"
+                              ButtonText="로그인"
+                              BackGround="#8FAADC"
+                              Foreground="White"
+                              FontWeight="Bold"
+                              CornerRadius="4"
+                              Col="0"
+                              Row="0"
+                              IsBinding="False"
+                              IsBindClickEvent="True">
+
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem FieldName="btnJoin"
+                              BindType="Button"
+                              ButtonText="회원가입"
+                              BackGround="#F1F3F5"
+                              Foreground="#666666"
+                              FontWeight="Bold"
+                              BorderBrush="DarkGray"
+                              Margin="4,0,0,0"
+                              CornerRadius="4"
+                              Col="1"
+                              Row="0"
+                              IsBinding="False"
+                              IsBindClickEvent="True">
+
+                    </Xpf:BindItem>
+                </Xpf:BindGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+                    <TextBlock Text="아이디 찾기" FontSize="11" Foreground="#888888" Cursor="Hand"/>
+                    <Rectangle Width="1" Height="10" Fill="#DDDDDD" Margin="10,0"/>
+                    <TextBlock Text="비밀번호 찾기" FontSize="11" Foreground="#888888" Cursor="Hand"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Xpf:StyleGrid>
+</base:ModelViewLayout>

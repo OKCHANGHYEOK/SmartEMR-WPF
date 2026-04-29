@@ -1,5 +1,6 @@
 ﻿using DevExpress.Charts.Model;
 using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 
@@ -10,7 +11,7 @@ namespace SmartEMR.Application.Views;
 /// </summary>
 public partial class vLayout : UIWindow
 {
-    private IViewLayout _mainContent;
+    private IViewLayout _mainContent = default!;
 
     public IViewLayout MainContent
     {
@@ -26,6 +27,6 @@ public partial class vLayout : UIWindow
 
     protected override void Initialize()
     {
-        MainContent = new vSmartEMRDeskTab() as IViewLayout ?? new ModelViewLayout<Chart>();
+        MainContent = new vSmartEMRDeskTab() as IViewLayout;
     }
 }

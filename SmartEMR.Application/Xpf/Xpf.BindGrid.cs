@@ -187,12 +187,13 @@ public partial class BindGrid : StyleGrid
     {
         base.OnVisualParentChanged(oldParent);
 
-        var viewLayout = Window.GetWindow(this) as IViewLayout;
-
-        if (viewLayout != null)
+        this.Loaded += (s, e) =>
         {
-            viewLayout.AddBindGrid(this);
-        }
+            var viewLayout = SmartUI.UIManager.CurrentPageView;
+
+            if (viewLayout != null)
+                viewLayout.AddBindGrid(this);
+        };
     }
 }
 

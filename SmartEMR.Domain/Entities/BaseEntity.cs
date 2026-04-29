@@ -3,7 +3,7 @@ using System;
 
 namespace SmartEMR.Domain.Entities;
 
-public abstract partial class BaseEntity : ObservableObject
+public partial class BaseEntity : ObservableObject
 {
     [ObservableProperty] private string? m_keyword;
     [ObservableProperty] private int? m_PageIndex;

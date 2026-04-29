@@ -2,7 +2,6 @@
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.DTOs;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 using SmartEMR.Infrastructure.Services;
 
 namespace SmartEMR.Application.ViewModels;
