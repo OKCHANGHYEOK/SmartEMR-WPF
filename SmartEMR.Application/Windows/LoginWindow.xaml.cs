@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SmartEMR.Application.Core;
+using System.Windows;
 
 namespace SmartEMR.Application.Windows;
 

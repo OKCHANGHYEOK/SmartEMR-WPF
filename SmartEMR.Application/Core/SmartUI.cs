@@ -1,11 +1,15 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using SmartEMR.Application.Services;
-using SmartEMR.Application.ViewBase;
-using SmartEMR.Application.Xpf;
+﻿using SmartEMR.Application.Services;
 using System.Windows;
-using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace SmartEMR.Application.Core;
+
+public enum TargetWindowType
+{
+    CurrentWindow,
+    PreWindow,
+    AllWindows
+}
 
 public static class SmartUI
 {
@@ -17,19 +21,20 @@ public static class SmartUI
 
         return result;
     }
+    
+    public static void ShowRequiredMessage(FrameworkElement element, string message)
+    {
+        var tooltip = new ToolTip()
+        {
+            Content = message,
+            StaysOpen = false,
+            PlacementTarget = element,
+            Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
+            Margin = new Thickness(5)
+        };
 
-    //public static IViewLayout? FindParentView(this DependencyObject child)
-    //{
-    //    DependencyObject parent = VisualTreeHelper.GetParent(child);
+        element.ToolTip = tooltip;
 
-    //    while (parent != null)
-    //    {
-    //        if (parent is IViewLayout typeParent)
-    //            return typeParent;
-
-    //        parent = VisualTreeHelper.GetParent(parent);
-    //    }
-
-    //    return null;
-    //}
+        tooltip.IsOpen = true;
+    }
 }

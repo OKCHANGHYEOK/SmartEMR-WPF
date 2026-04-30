@@ -58,4 +58,31 @@ public class StyleTextBox : Control
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StyleTextBox),
             new FrameworkPropertyMetadata(typeof(StyleTextBox)));
     }
+
+    protected override void OnGotFocus(RoutedEventArgs e)
+    {
+        base.OnGotFocus(e);
+
+        SetFocusToIntenalElement();
+    }
+
+    private void SetFocusToIntenalElement()
+    {
+        if (this.TextBoxType == StyleTextBoxType.Password)
+        {
+            // Password 모드일 때
+            if (GetTemplateChild("PART_PasswordBox") is PasswordBox passwordBox)
+            {
+                passwordBox.Focus();
+            }
+        }
+        else
+        {
+            // 기본적으로 Text 모드일 때
+            if (GetTemplateChild("PART_TextBox") is TextBox textBox)
+            {
+                textBox.Focus();
+            }
+        }
+    }
 }

@@ -18,11 +18,9 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
     protected override void Initialize()
     {
-        throw new NotImplementedException();
     }
 
     public override void OnBindGrid_BindClick(object sender, BindClickEventArgs e)
     {
-        throw new NotImplementedException();
     }
 }

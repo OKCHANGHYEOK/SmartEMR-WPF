@@ -6,7 +6,7 @@ namespace SmartEMR.Application.Views;
 /// <summary>
 /// Interaction logic for vSmartEMRWaitingView.xaml
 /// </summary>
-public partial class vSmartEMRWaitingView : SplashScreenWindow
+public partial class vSmartEMRWaitingView : SplashScreenWindow, ISplashScreen
 {
     private DXSplashScreenViewModel? viewModel = null;
 
@@ -26,5 +26,17 @@ public partial class vSmartEMRWaitingView : SplashScreenWindow
             viewModel.Subtitle = "Loading...";
             viewModel.Logo = new Uri("Images/Svg/logo.svg", UriKind.Relative);
         }
+    }
+
+    public void CloseSplashScreen()
+    {
+    }
+
+    public void Progress(double value)
+    {
+    }
+
+    public void SetProgressState(bool isIndeterminate)
+    {
     }
 }

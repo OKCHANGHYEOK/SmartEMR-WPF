@@ -31,7 +31,7 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
     [RelayCommand]
     public async Task<DataResponse<MemberUser>> AttemptLogin()
     {
-        var retResponse = new DataResponse<MemberUser>();
+        var retResponse = new DataResponse<MemberUser>() { IsSuccess = false};
 
         var paramItem = new MemberUser()
         {
@@ -46,6 +46,8 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
             retResponse.Message = ret?.FailMessage ?? "로그인 중 오류가 발생했습니다.";
             return retResponse;
         }
+
+        retResponse.IsSuccess = true;
 
         SmartMVVM.AppSession.SetToken(ret);
         SmartMVVM.AppSession.SetMemberUser(ret.User);

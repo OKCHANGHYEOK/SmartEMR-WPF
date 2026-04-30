@@ -96,6 +96,7 @@ public partial class BindGrid : StyleGrid
         }
 
         visualChild.SetValue(DataContextProperty, this.Model);
+        visualChild.SetValue(TagProperty, element);
         visualChild.SetValue(MarginProperty, element.Margin == null ? new Thickness(this.ItemSpace) : element.Margin);
 
         if (!string.IsNullOrWhiteSpace(element.BackGround))
@@ -194,6 +195,21 @@ public partial class BindGrid : StyleGrid
             if (viewLayout != null)
                 viewLayout.AddBindGrid(this);
         };
+    }
+
+    public FrameworkElement GetBindItem<T>(string fieldName) where T : FrameworkElement
+    {
+        foreach (var item in LayoutRoot.Children)
+        {
+            var element = item as T; 
+
+            if (element != null && element.Tag is BindItem bindItem && bindItem.FieldName == fieldName)
+            {
+                return element;
+            }
+        }
+
+        return default!;
     }
 }
 

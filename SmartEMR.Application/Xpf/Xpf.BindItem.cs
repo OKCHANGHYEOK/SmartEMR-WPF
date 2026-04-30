@@ -16,7 +16,7 @@ public enum BindType
 public class BindItem
 {
     // 공통
-    public string? FieldName { get; set; }
+    public string FieldName { get; set; } = string.Empty;
     public BindType BindType { get; set; } = BindType.TextBox;
     public int Col { get; set; }
     public int Row { get; set; }
@@ -37,6 +37,9 @@ public class BindItem
     public string? ButtonText { get; set; } = "버튼";
 
     // 플래그
+    public bool IsEnabled { get; set; } = true;
+    public bool IsRequired { get; set; } = false;
+    public bool IsChecked { get; set; } = false;
     public bool IsBinding { get; set; } = true;
     public bool IsBindClickEvent { get; set; } = false;
 }
