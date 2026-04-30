@@ -87,7 +87,7 @@
                         <Label x:Name="lblPlaceHolder" 
                                Content="{TemplateBinding Placeholder}" 
                                Foreground="#bbbbbb" 
-                               HorizontalAlignment="Left"
+                               HorizontalAlignment="{TemplateBinding PlaceHolderHorizontalAlignment}"
                                HorizontalContentAlignment="Left"
                                VerticalAlignment="Center" 
                                Margin="5,0,0,0"

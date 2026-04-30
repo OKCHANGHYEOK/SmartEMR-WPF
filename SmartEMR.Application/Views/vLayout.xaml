@@ -7,20 +7,39 @@
         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+        xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
         xmlns:v="clr-namespace:SmartEMR.Application.Views"
         mc:Ignorable="d"
+        d:DesignHeight="1080" d:DesignWidth="1920"
         Title="SmartEMR"
-        WindowState="Maximized">
-    <dxlc:DockLayoutControl>
-        <dxlc:LayoutGroup Orientation="Vertical">
-            <dxlc:LayoutItem dxlc:DockLayoutControl.Dock="Top" Height="80">
-                <v:vBarMenu/>
-            </dxlc:LayoutItem>
-            <dxlc:LayoutItem>
+        WindowState="Maximized"
+        Closing="OnClosing_vLayout">
+
+    <dxdo:DockLayoutManager>
+        <!-- 2. 전체를 감싸는 루트 그룹 -->
+        <dxdo:LayoutGroup Orientation="Vertical">
+
+            <!-- 3. 상단 메뉴 영역 (고정) -->
+            <dxdo:LayoutPanel Caption="Menu" 
+                              ItemHeight="80" 
+                              ShowCaption="False" 
+                              ShowBorder="False" 
+                              AllowClose="False" 
+                              AllowDrag="False" 
+                              AllowFloat="False"
+                              AllowSizing="False">
+                <v:vSmartEMRBarMenu/>
+            </dxdo:LayoutPanel>
+
+            <!-- 4. 메인 컨텐츠 영역 -->
+            <dxdo:LayoutPanel Caption="MainContent" 
+                              ShowCaption="False" 
+                              AllowClose="False">
                 <dxwui:NavigationFrame Content="{Binding MainContent}"
                                        AnimationType="Fade">
                 </dxwui:NavigationFrame>
-            </dxlc:LayoutItem>
-        </dxlc:LayoutGroup>
-    </dxlc:DockLayoutControl>
+            </dxdo:LayoutPanel>
+
+        </dxdo:LayoutGroup>
+    </dxdo:DockLayoutManager>
 </Xpf:UIWindow>

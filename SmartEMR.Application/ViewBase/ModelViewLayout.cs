@@ -19,11 +19,16 @@ public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout
     {
         Initialize();
 
+        vm = Activator.CreateInstance<TVM>();
+        
+        Model = vm.Model!;
+
+        this.SetValue(DataContextProperty, vm);
+
+        this.GetType().GetMethod("InitializeComponent")?.Invoke(this, null);
+
         this.Loaded += (s, e) => 
         {
-            vm = (TVM)this.DataContext;
-            Model = vm.Model!;
-
             SmartUI.UIManager.RegisterView(this);
         };
     }

@@ -36,6 +36,16 @@ public class StyleTextBox : Control
         DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(StyleTextBox),
             new PropertyMetadata(new CornerRadius(5)));
 
+    public HorizontalAlignment PlaceHolderHorizontalAlignment
+    {
+        get => (HorizontalAlignment)GetValue(PlaceHolderHorizontalAlignmentProperty);
+        set => SetValue(PlaceHolderHorizontalAlignmentProperty, value);
+    }
+
+    public static readonly DependencyProperty PlaceHolderHorizontalAlignmentProperty =
+        DependencyProperty.Register(nameof(PlaceHolderHorizontalAlignment), typeof(HorizontalAlignment), typeof(StyleTextBox),
+            new PropertyMetadata(HorizontalAlignment.Left));
+
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);

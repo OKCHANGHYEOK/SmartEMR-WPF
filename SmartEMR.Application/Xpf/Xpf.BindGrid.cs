@@ -168,7 +168,7 @@ public partial class BindGrid : StyleGrid
             BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
         }
 
-        AddElement(visualChild, element.Col, element.Row);
+        AddElement(visualChild, element.Col, element.Row, element.ColSpan, element.RowSpan);
     }
 
     private void OnBindItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)

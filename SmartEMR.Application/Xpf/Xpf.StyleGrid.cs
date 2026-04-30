@@ -7,7 +7,7 @@ namespace SmartEMR.Application.Xpf;
 
 // [ContentProperty]를 사용해 XAML에서 추가되는 자식이 어디로 갈지 지정합니다.
 [ContentProperty(nameof(Children))]
-public partial class StyleGrid : Grid
+public partial class StyleGrid : ContentControl
 {
 
     #region "Dependency Properties"
@@ -56,18 +56,19 @@ public partial class StyleGrid : Grid
     public Grid LayoutRoot { get; } = new Grid();
 
     // 외부에서 접근하는 Children 속성을 LayoutRoot의 Children으로 연결(Shadowing)합니다.
-    public new UIElementCollection Children => LayoutRoot.Children;
+    public UIElementCollection Children => LayoutRoot.Children;
 
     public StyleGrid()
     {
-        base.Children.Add(LayoutRoot);
-    
+        this.Content = LayoutRoot;    
     }
 
-    public void AddElement(UIElement element, int col, int row)
+    public void AddElement(UIElement element, int col, int row, int colspan, int rowspan)
     {
         Grid.SetColumn(element, col);
         Grid.SetRow(element, row);
+        Grid.SetColumnSpan(element, colspan);
+        Grid.SetRowSpan(element, rowspan);
 
         LayoutRoot.Children.Add(element);
     }

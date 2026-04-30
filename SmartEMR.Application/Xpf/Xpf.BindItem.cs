@@ -19,7 +19,9 @@ public class BindItem
     public string FieldName { get; set; } = string.Empty;
     public BindType BindType { get; set; } = BindType.TextBox;
     public int Col { get; set; }
+    public int ColSpan { get; set; } = 1;
     public int Row { get; set; }
+    public int RowSpan { get; set; } = 1;
     public string? Placeholder { get; set; }
     public double? Width { get; set; }
     public double? Height { get; set; }

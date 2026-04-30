@@ -18,19 +18,24 @@ namespace SmartEMR.Application
         
             LoginWindow loginWindow = new LoginWindow();
 
-            if (loginWindow.ShowDialog() == true)
+            try
             {
-                DXSplashScreen.Show<vSmartEMRWaitingView>();
+                if (loginWindow.ShowDialog() == true)
+                {
+                    var manager = SplashScreenManager.CreateThemed();
 
-                var mainWindow = new vLayout();
+                    manager.Show();
 
-                this.MainWindow = mainWindow;
-
-                DXSplashScreen.Close();
-                mainWindow.Show();
+                    this.MainWindow = new vLayout(typeof(vSmartEMRDeskTab));
+                    this.MainWindow.Show();
+                }
+                else
+                {
+                    Shutdown();
+                }
             }
-            else
-            {
+            catch (Exception ex) 
+            { 
                 Shutdown();
             }
         }

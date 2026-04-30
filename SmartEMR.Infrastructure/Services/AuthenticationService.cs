@@ -1,5 +1,6 @@
 ﻿using SmartEMR.Domain.DTOs;
 using SmartEMR.Domain.Entities;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -28,15 +29,25 @@ public class AuthenticationService
                 return null;
             }
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode == false)
             {
-                retToken = await response.Content.ReadFromJsonAsync<TokenResponse>() ?? new TokenResponse();
-
-                if (retToken != null)
+                switch (response.StatusCode)
                 {
-                    return retToken;
+                    case HttpStatusCode.Unauthorized:
+                        retToken.FailMessage = "존재하지 않는 사용자이거나 아이디,패스워드가 올바르지 않습니다.";
+                        return retToken;
                 }
             }
+
+            retToken = await response.Content.ReadFromJsonAsync<TokenResponse>() ?? new TokenResponse();
+
+            if (retToken == null || string.IsNullOrWhiteSpace(retToken.AccessToken))
+            {
+                return null;
+            }
+
+            return retToken;
+
         }
         catch (Exception ex)
         {

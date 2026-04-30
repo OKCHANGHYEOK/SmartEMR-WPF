@@ -2,13 +2,13 @@
 
 namespace SmartEMR.Application.ViewModels;
 
-public class DeskViewModel : BaseViewModel<Chart>
+public class BarMenuViewModel : BaseViewModel<Patient>
 {
     public override void Initialize()
     {
     }
 
-    protected override Chart GetModel(Chart item)
+    protected override Patient GetModel(Patient item)
     {
         return item;
     }

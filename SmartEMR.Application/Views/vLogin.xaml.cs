@@ -23,12 +23,10 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
 
     public vLogin() : base()
     {
-        InitializeComponent();
     }
 
     protected override void Initialize()
     {
-        this.DataContext = new LoginViewModel();
     }
 
     public override async void OnBindGrid_BindClick(object sender, BindClickEventArgs e)

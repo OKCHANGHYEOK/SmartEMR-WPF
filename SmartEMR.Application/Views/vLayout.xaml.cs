@@ -1,6 +1,6 @@
-﻿using DevExpress.Charts.Model;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
-using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 
@@ -23,10 +23,34 @@ public partial class vLayout : UIWindow
     {
         InitializeComponent();
         Initialize();
+
+        this.Loaded += (s, e) =>
+        {
+            SplashScreenManager.CloseAll();
+        };
+    }
+
+    public vLayout(Type T) : this()
+    {
+        MainContent = Activator.CreateInstance(T) as IViewLayout ?? default!;
     }
 
     protected override void Initialize()
     {
-        MainContent = new vSmartEMRDeskTab() as IViewLayout;
+        DevExpress.Xpf.Core.ThemeManager.SetThemeName(this, Theme.Office2019ColorfulFullName);
     }
+
+    private void OnClosing_vLayout(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        MessageBoxResult result = MessageBox.Show("프로그램을 종료하시겠습니까?", "종료 확인", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes) 
+        { 
+            App.Current.Shutdown();
+        } 
+        else
+        {
+            e.Cancel = true;
+        }
+    }    
 }

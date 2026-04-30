@@ -16,16 +16,8 @@ public abstract partial class UIWindow : ThemedWindow
 
     public UIWindow()
     {
-        SetUIWindow();
         Initialize();
 
         SmartUI.UIManager.RegisterWindow(this);
-    }
-
-    private void SetUIWindow()
-    {
-        DevExpress.Xpf.Core.ThemeManager.SetThemeName(this, Theme.Office2019ColorfulFullName);
-
-        this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
     }
 }

@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="SmartEMR.Application.Views.vSearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SmartEMR.Application.Views"
+             xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             mc:Ignorable="d" 
+             Width="180" 
+             Height="75" 
+             VerticalAlignment="Center"
+             Background="White"
+             BorderBrush="Black">
+    <Xpf:StyleGrid LayoutDefinitions="3,2"
+                   ColumnSizeDefinitions="*,*,*"
+                   RowSizeDefinitions="*,25px">
+        <Xpf:StyleTextBox   TextBoxType="Text"
+                            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" 
+                            Placeholder="환자명(차트번호)"
+                            PlaceHolderHorizontalAlignment="Center"
+                            BorderBrush="MediumBlue"
+                            BorderThickness="1"
+                            CornerRadius="0"
+                            Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="2">
+        </Xpf:StyleTextBox>
+        <!-- 검색 버튼 (SimpleButton) -->
+        <dx:SimpleButton    Grid.Column="2" Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Content="검색"
+                            Margin="0,2,2,2"
+                            Padding="12,0"
+                            Command="{Binding SearchCommand}"
+                            FontWeight="SemiBold"
+                            Foreground="#333333">
+        </dx:SimpleButton>
+        <!-- 마우스 올릴 때만 배경 표시 -->
+    </Xpf:StyleGrid>
+</UserControl>
