@@ -46,6 +46,26 @@ public class StyleTextBox : Control
         DependencyProperty.Register(nameof(PlaceHolderHorizontalAlignment), typeof(HorizontalAlignment), typeof(StyleTextBox),
             new PropertyMetadata(HorizontalAlignment.Left));
 
+    public Thickness PlaceHolderMargin
+    {
+        get => (Thickness)GetValue(PlaceHolderMarginProperty);
+        set => SetValue(PlaceHolderMarginProperty, value);
+    }
+
+    public static readonly DependencyProperty PlaceHolderMarginProperty =
+        DependencyProperty.Register(nameof(PlaceHolderMargin), typeof(Thickness), typeof(StyleTextBox),
+            new PropertyMetadata(new Thickness(5,0,0,0)));
+
+    public Thickness PlaceHolderPadding
+    {
+        get => (Thickness)GetValue(PlaceHolderPaddingProperty);
+        set => SetValue(PlaceHolderPaddingProperty, value);
+    }
+
+    public static readonly DependencyProperty PlaceHolderPaddingProperty =
+        DependencyProperty.Register(nameof(PlaceHolderPadding), typeof(Thickness), typeof(StyleTextBox),
+            new PropertyMetadata(new Thickness(5, 0, 0, 0)));
+
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
