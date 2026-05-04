@@ -9,10 +9,12 @@
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                         xmlns:v="clr-namespace:SmartEMR.Application.Views"
                         mc:Ignorable="d" 
-                        d:DesignHeight="100" d:DesignWidth="1920">
+                        Width="1920"
+                        Height="90"
+                        Padding="5">
 
         <Xpf:StyleGrid LayoutDefinitions="3,1"
                        ColumnSizeDefinitions="Auto,Auto,*">
-        <v:vSearchView/>
+        <v:vSearchView Grid.Column="0"/>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>
