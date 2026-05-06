@@ -10,8 +10,11 @@ public class Chart : BaseEntity
     public string? PAT_ChartNo { get; set; }
     public string? PAT_Name { get; set; }
     public string? PAT_Sex { get; set; }
+    public int? PAT_Age { get; set; }
+    public string? vPAT_Info { get; set; }
     public int? CHT_VisitType { get; set; }
     public string? CHT_CHTType { get; set; }
+    public string? vCHT_CHTType { get; set; }
     public string? CHT_Status { get; set; }
     public string? CHT_Order { get; set; }
     public string? CHT_Route { get; set; }
@@ -23,6 +26,7 @@ public class Chart : BaseEntity
     public string? CHT_StartDate { get; set; }  
     public string? CHT_EndDate { get; set; }
     public double? CHT_TotalPrice { get; set; }
+    public string? CHT_CHTTime { get; set; }
     public string? CHT_Date { get; set; }
     public string? CHT_YYMMDD { get; set; }
     public bool? CHT_IsValid { get; set; }

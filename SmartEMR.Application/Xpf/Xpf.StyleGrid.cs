@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
@@ -19,6 +19,12 @@ public partial class StyleGrid : ContentControl
         set => SetValue(LayoutDefinitionsProperty, value);
     }
 
+    public static readonly DependencyProperty LayoutDefinitionsProperty = DependencyProperty.Register(
+        nameof(LayoutDefinitions),
+        typeof(string),
+        typeof(StyleGrid),
+        new PropertyMetadata("1,1", OnLayoutDefinitionsChanged));
+
     // ColumnSizeDefinitions
     public string ColumnSizeDefinitions
     {
@@ -26,24 +32,18 @@ public partial class StyleGrid : ContentControl
         set => SetValue(ColumnSizeDefintionsProperty, value);
     }
 
+    public static readonly DependencyProperty ColumnSizeDefintionsProperty = DependencyProperty.Register(
+        nameof(ColumnSizeDefinitions),
+        typeof(string),
+        typeof(StyleGrid),
+        new PropertyMetadata("", OnColumnSizeDefinitionsChanged));
+
     // RowSizeDefinitions
     public string RowSizeDefinitions
     {
         get => (string)GetValue(RowSizeDefintionsProperty);
         set => SetValue(RowSizeDefintionsProperty, value);
     }
-
-    public static readonly DependencyProperty LayoutDefinitionsProperty = DependencyProperty.Register(
-        nameof(LayoutDefinitions),
-        typeof(string),
-        typeof(StyleGrid),
-        new PropertyMetadata("1,1", OnLayoutDefinitionsChanged));
-
-    public static readonly DependencyProperty ColumnSizeDefintionsProperty = DependencyProperty.Register(
-        nameof(ColumnSizeDefinitions),
-        typeof(string),
-        typeof(StyleGrid),
-        new PropertyMetadata("", OnColumnSizeDefinitionsChanged));
 
     public static readonly DependencyProperty RowSizeDefintionsProperty = DependencyProperty.Register(
         nameof(RowSizeDefinitions),
@@ -61,6 +61,8 @@ public partial class StyleGrid : ContentControl
     public StyleGrid()
     {
         this.Content = LayoutRoot;    
+
+        LayoutRoot.SetBinding(Grid.BackgroundProperty, new System.Windows.Data.Binding(nameof(Background)) { Source = this });
     }
 
     public void AddElement(UIElement element, int col, int row, int colspan, int rowspan)

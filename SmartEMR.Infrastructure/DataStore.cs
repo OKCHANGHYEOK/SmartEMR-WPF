@@ -65,6 +65,7 @@ namespace SmartEMR.Infrastructure
                     return result.Items.AsQueryable();
                 }
             }
+
             return Enumerable.Empty<T>().AsQueryable();
         }
 

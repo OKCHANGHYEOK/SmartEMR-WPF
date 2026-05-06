@@ -1,0 +1,62 @@
+﻿<UserControl    x:Class="SmartEMR.Application.Views.Shared.vSmartEMRChartSummary"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
+                xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                xmlns:temp="clr-namespace:SmartEMR.Application.Template"
+                mc:Ignorable="d" 
+                Width="250"
+                Height="85">
+
+    <Border BorderBrush="#E2E8F0"
+            BorderThickness="1"
+            CornerRadius="8">
+
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="#FFF7FAFC" Offset="0"/>
+                <GradientStop Color="#FFEDF2F7" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding CHTItems}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border x:Name="ItemBorder"
+                                Margin="0,0,0,2"
+                                Padding="10,8"
+                                Background="#F9FAF8"
+                                CornerRadius="2">
+                            <Xpf:StyleGrid LayoutDefinitions="4,1"
+                                   ColumnSizeDefinitions="60,80,60,*">
+
+                                <temp:CHT_CHTTypeTemplate Grid.Column="0"/>
+                                <Xpf:TextBlock Grid.Column="1" Text="{Binding PAT_Name}"/>
+                                <Xpf:TextBlock Grid.Column="2" Text="{Binding vPAT_Info}"/>
+                                <Xpf:TextBlock Grid.Column="3" Text="{Binding CHT_CHTTime}"/>
+                            </Xpf:StyleGrid>
+                        </Border>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#E3F2FD"/>
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="DimGray"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Border>
+</UserControl>

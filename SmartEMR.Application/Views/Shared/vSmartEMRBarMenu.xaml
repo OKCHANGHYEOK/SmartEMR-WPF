@@ -1,20 +1,20 @@
-﻿<base:ModelViewLayout   x:TypeArguments="vm:BarMenuViewModel"
-                        x:Class="SmartEMR.Application.Views.vSmartEMRBarMenu"
-                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                        xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
-                        xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
-                        xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
-                        xmlns:v="clr-namespace:SmartEMR.Application.Views"
-                        mc:Ignorable="d" 
-                        Width="1920"
-                        Height="90"
-                        Padding="5">
+﻿<Xpf:StyleGrid  x:Class="SmartEMR.Application.Views.vSmartEMRBarMenu"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                xmlns:shared="clr-namespace:SmartEMR.Application.Views.Shared"
+                mc:Ignorable="d"
+                LayoutDefinitions="3,1"
+                ColumnSizeDefinitions="Auto,Auto,*"
+                Width="1920"
+                Height="90"
+                d:DesignWidth="1280"
+                Background="White">
 
-        <Xpf:StyleGrid LayoutDefinitions="3,1"
-                       ColumnSizeDefinitions="Auto,Auto,*">
-        <v:vSearchView Grid.Column="0"/>
-    </Xpf:StyleGrid>
-</base:ModelViewLayout>
+        <shared:vSearchView Grid.Column="0"/>
+        <shared:vSmartEMRChartSummary Grid.Column="1"/>
+</Xpf:StyleGrid>

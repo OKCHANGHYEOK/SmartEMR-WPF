@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
@@ -12,6 +13,8 @@ public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T>
     private T m_Model;
 
     object IVIewModel.Model => this.Model ?? new T();
+
+    public IAsyncRelayCommand LoadDataCommand { get; }
 
     #endregion
 
@@ -30,7 +33,13 @@ public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T>
     #endregion
 
 
-    public abstract void Initialize();
+    public virtual void Initialize()
+    {
+        if (LoadDataCommand.CanExecute(this.Model))
+        {
+            LoadDataCommand.Execute(this.Model);
+        }
+    }
 
     protected abstract T GetModel(T item);
 
@@ -40,6 +49,8 @@ public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T>
         Initialize();
 
         Model = GetModel(new T());
+
+        LoadDataCommand = new AsyncRelayCommand(OnLoadDataAsync);
     }
 
     public BaseViewModel(T item)
@@ -47,5 +58,12 @@ public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T>
         Initialize();
 
         Model = GetModel(item);
+
+        LoadDataCommand = new AsyncRelayCommand(OnLoadDataAsync);
+    }
+
+    protected virtual Task OnLoadDataAsync()
+    {
+        return Task.CompletedTask;
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SmartEMR.Application.Views.vSearchView"
+﻿<UserControl x:Class="SmartEMR.Application.Views.Shared.vSearchView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,7 +8,7 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              mc:Ignorable="d" 
              Width="180"
-             Height="80"
+             Height="85"
              VerticalAlignment="Center"
              Background="White"
              BorderBrush="Black">
