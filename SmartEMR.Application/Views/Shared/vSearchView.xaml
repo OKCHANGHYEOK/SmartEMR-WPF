@@ -21,7 +21,7 @@
                             PlaceHolderHorizontalAlignment="Center"
                             PlaceHolderMargin="0"
                             PlaceHolderPadding="0"
-                            BorderBrush="MediumBlue"
+                            BorderBrush="DarkSlateGray"
                             BorderThickness="1"
                             CornerRadius="0"
                             Text="{Binding SearchText, Source={RelativeSource AncestorType=UserControl}}"

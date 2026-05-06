@@ -12,10 +12,16 @@
                 Width="250"
                 Height="85">
 
-    <Border BorderBrush="#E2E8F0"
-            BorderThickness="1"
+    <Border BorderThickness="1"
             CornerRadius="8">
 
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#CBD5E1" Offset="0.0" />
+                <GradientStop Color="#94A3B8" Offset="1.0" />
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                 <GradientStop Color="#FFF7FAFC" Offset="0"/>
