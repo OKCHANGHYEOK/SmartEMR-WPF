@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="SmartEMR.Application.Views.Shared.vSmartEMRNavigation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
+             xmlns:bar="clr-namespace:SmartEMR.Application.Xpf.Bar"
+             mc:Ignorable="d" 
+             Width="800"
+             Height="80"
+             Background="Transparent">
+
+    <bar:BarManager>
+        <bar:BarItem Caption="TopMenu">
+            <bar:BarButtonItem  Content="예약"
+                                Glyph="{Binding Source='smartemr_menu_calender.svg', Converter={StaticResource SvgPathConverter}}"
+                                CommandParameter="DSK"
+                                Command="{Binding NavCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+
+            
+        </bar:BarItem>
+    </bar:BarManager>
+</UserControl>

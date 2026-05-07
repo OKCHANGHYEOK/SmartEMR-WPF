@@ -8,13 +8,25 @@
                 xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                 xmlns:shared="clr-namespace:SmartEMR.Application.Views.Shared"
                 mc:Ignorable="d"
-                LayoutDefinitions="3,1"
-                ColumnSizeDefinitions="Auto,Auto,*"
+                LayoutDefinitions="5,1"
+                ColumnSizeDefinitions="Auto,Auto,Auto,Auto,*"
                 Width="1920"
                 Height="90"
                 d:DesignWidth="1280"
                 Background="White">
 
-        <shared:vSearchView Grid.Column="0"/>
-        <shared:vSmartEMRChartSummary Grid.Column="1"/>
+    <shared:vSearchView Grid.Column="0"/>
+    <Border Grid.Column="1" 
+            Width="1" 
+            Height="75" 
+            Background="LightGray"
+            Margin="5,0,5,0" 
+            VerticalAlignment="Center"/>
+    <shared:vSmartEMRChartSummary Grid.Column="2"/>
+    <Border Grid.Column="3" 
+            Width="1" 
+            Height="75" 
+            Background="LightGray"
+            Margin="5,0,5,0" 
+            VerticalAlignment="Center"/>
 </Xpf:StyleGrid>

@@ -60,7 +60,7 @@ public partial class StyleGrid : ContentControl
 
     public StyleGrid()
     {
-        this.Content = LayoutRoot;    
+        this.Content = LayoutRoot;
 
         LayoutRoot.SetBinding(Grid.BackgroundProperty, new System.Windows.Data.Binding(nameof(Background)) { Source = this });
     }

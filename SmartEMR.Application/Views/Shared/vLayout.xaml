@@ -21,13 +21,21 @@
 
             <!-- 3. 상단 메뉴 영역 (고정) -->
             <dxdo:LayoutPanel Caption="Menu" 
-                              ItemHeight="80" 
+                              ItemHeight="90" 
                               ShowCaption="False" 
                               ShowBorder="False" 
                               AllowClose="False" 
                               AllowDrag="False" 
                               AllowFloat="False"
                               AllowSizing="False">
+                
+                <dxdo:LayoutPanel.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#2C3E50" Offset="0" />
+                        <GradientStop Color="#1A252F" Offset="1" />
+                    </LinearGradientBrush>
+                </dxdo:LayoutPanel.Background>
+                
                 <v:vSmartEMRBarMenu/>
             </dxdo:LayoutPanel>
 

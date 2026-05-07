@@ -19,6 +19,12 @@
 
   <ItemGroup>
     <None Remove="Images\Svg\smartemr-error.svg" />
+    <None Remove="Images\Svg\smartemr_menu_calendar.svg" />
+    <None Remove="Images\Svg\smartemr_menu_crm.svg" />
+    <None Remove="Images\Svg\smartemr_menu_desk.svg" />
+    <None Remove="Images\Svg\smartemr_menu_examination.svg" />
+    <None Remove="Images\Svg\smartemr_menu_payment.svg" />
+    <None Remove="Images\Svg\smartemr_menu_settings.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +57,15 @@
     <Content Include="Images\Svg\smartemr-error.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Svg\smartemr_menu_calendar.svg" />
+    <Resource Include="Images\Svg\smartemr_menu_crm.svg" />
+    <Resource Include="Images\Svg\smartemr_menu_desk.svg" />
+    <Resource Include="Images\Svg\smartemr_menu_examination.svg" />
+    <Resource Include="Images\Svg\smartemr_menu_payment.svg" />
+    <Resource Include="Images\Svg\smartemr_menu_settings.svg" />
   </ItemGroup>
 
 </Project>
