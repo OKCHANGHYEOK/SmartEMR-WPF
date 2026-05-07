@@ -1,7 +1,6 @@
 ﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
-using SmartEMR.Domain.Entities;
 using System.Windows.Controls;
 
 namespace SmartEMR.Application.ViewBase;
@@ -38,11 +37,25 @@ public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout
         if (!_bindGrids.Contains(bindGrid))
         {
             _bindGrids.Add(bindGrid);
-            bindGrid.BindGrid_BindClickEvent += OnBindGrid_BindClick;
+            bindGrid.BindGrid_BindClickEvent += OnBindClick_ModelViewLayout;
         }
     }
 
     protected abstract void Initialize();
 
-    public abstract void OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+    private async void OnBindClick_ModelViewLayout(object sender, BindClickEventArgs e)
+    {
+        if (await SmartMVVM.PreventClickFiring(e)) return;
+
+        try
+        {
+            await OnBindGrid_BindClick(sender, e);
+        }
+        finally
+        {
+            SmartMVVM.ReleaseClick();
+        }
+    }
+
+    public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
 }

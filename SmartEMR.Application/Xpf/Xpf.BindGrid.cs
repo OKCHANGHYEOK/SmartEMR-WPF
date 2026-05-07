@@ -36,7 +36,7 @@ public partial class BindGrid : StyleGrid
 
     public delegate void BindClickEventHandler(object sender, BindClickEventArgs e);
     public event BindClickEventHandler? BindGrid_BindClickEvent;
-
+    
     public BindGrid() : base()
     {
         this.BindItems.CollectionChanged += OnBindItemsChanged;
@@ -168,6 +168,8 @@ public partial class BindGrid : StyleGrid
             BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
         }
 
+        visualChild.LostFocus += OnLostFocus_BindItem;
+
         AddElement(visualChild, element.Col, element.Row, element.ColSpan, element.RowSpan);
     }
 
@@ -180,6 +182,21 @@ public partial class BindGrid : StyleGrid
             foreach (BindItem item in e.NewItems)
             {
                 this.AddElement(item);
+            }
+        }
+    }
+
+    private void OnLostFocus_BindItem(object sender,  RoutedEventArgs e)
+    {
+        var element = sender as FrameworkElement;
+
+        if (element != null && element.ToolTip != null)
+        {
+            var toolTip = element.ToolTip as ToolTip;
+
+            if (toolTip != null)
+            {
+                toolTip.IsOpen = false;
             }
         }
     }

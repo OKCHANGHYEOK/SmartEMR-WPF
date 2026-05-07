@@ -3,7 +3,6 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using System.Windows;
 
 namespace SmartEMR.Application.Views;
 
@@ -12,7 +11,6 @@ namespace SmartEMR.Application.Views;
 /// </summary>
 public partial class vLogin : ModelViewLayout<LoginViewModel>
 {
-
     private MemberUser? MURItem
     {
         get
@@ -29,7 +27,7 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
     {
     }
 
-    public override async void OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
     {
         if (sender is BindItem bindItem == false) return;
 
