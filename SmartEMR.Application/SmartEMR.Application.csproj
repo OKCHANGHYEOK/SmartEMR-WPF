@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\mainlogo.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 	<PackageReference Include="DevExpress.Mvvm" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Win.Design" Version="25.2.6" />

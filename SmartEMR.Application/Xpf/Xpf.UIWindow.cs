@@ -16,6 +16,8 @@ public abstract partial class UIWindow : ThemedWindow
 
     public UIWindow()
     {
+        this.GetType().GetMethod("InitializeComponent")?.Invoke(this, null);
+
         Initialize();
 
         SmartUI.UIManager.RegisterWindow(this);

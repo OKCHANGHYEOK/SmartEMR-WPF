@@ -8,9 +8,8 @@
                 xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                 xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                 xmlns:temp="clr-namespace:SmartEMR.Application.Template"
-                mc:Ignorable="d" 
-                Width="250"
-                Height="85">
+                mc:Ignorable="d"
+                Margin="3">
 
     <Border BorderThickness="1"
             CornerRadius="8">

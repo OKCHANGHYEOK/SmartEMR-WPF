@@ -1,5 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
-using SmartEMR.Application.Core;
+using DevExpress.XtraPrinting.Drawing;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Windows;
@@ -21,7 +21,6 @@ public partial class vLayout : UIWindow
 
     public vLayout() : base()
     {
-        InitializeComponent();
         Initialize();
 
         this.Loaded += (s, e) =>
@@ -37,6 +36,8 @@ public partial class vLayout : UIWindow
 
     protected override void Initialize()
     {
+        this.ShowTitle = false;
+
         DevExpress.Xpf.Core.ThemeManager.SetThemeName(this, Theme.Office2019ColorfulFullName);
     }
 
