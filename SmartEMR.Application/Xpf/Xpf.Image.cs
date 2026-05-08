@@ -26,11 +26,11 @@ public class Image : System.Windows.Controls.Image
         {
             if (newPath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
             {
-                image.SetValue(System.Windows.Controls.Image.SourceProperty, SmartMVVM.Common.GlyphSvgToImage(newPath));
+                image.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphSvgToImage(newPath));
             }
             else
             { 
-                image.SetValue(System.Windows.Controls.Image.SourceProperty, SmartMVVM.Common.GlyphImage(newPath));
+                image.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphImage(newPath));
             }
         }
     }

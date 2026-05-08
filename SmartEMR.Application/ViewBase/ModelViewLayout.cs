@@ -1,18 +1,20 @@
-﻿using SmartEMR.Application.Core;
-using SmartEMR.Application.ViewModels;
+﻿using DevExpress.XtraRichEdit.API.Layout;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SmartEMR.Application.ViewBase;
 
-public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout 
-                                             where TVM : class, IVIewModel
+public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout, IDisposable
+                                             where TVM : class
 {
     public TVM vm = default!;
-    public object Model = default!;
 
     private readonly List<BindGrid> _bindGrids = new();
     public IReadOnlyList<BindGrid> BindGrids => _bindGrids;
+
+    public bool disposed { get; set; }
 
     public ModelViewLayout()
     {
@@ -20,10 +22,7 @@ public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout
 
         vm = Activator.CreateInstance<TVM>();
         
-        Model = vm.Model!;
-
         this.SetValue(DataContextProperty, vm);
-
         this.GetType().GetMethod("InitializeComponent")?.Invoke(this, null);
 
         this.Loaded += (s, e) => 
@@ -32,16 +31,7 @@ public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout
         };
     }
 
-    public void AddBindGrid(BindGrid bindGrid)
-    {
-        if (!_bindGrids.Contains(bindGrid))
-        {
-            _bindGrids.Add(bindGrid);
-            bindGrid.BindGrid_BindClickEvent += OnBindClick_ModelViewLayout;
-        }
-    }
-
-    protected abstract void Initialize();
+    public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
 
     private async void OnBindClick_ModelViewLayout(object sender, BindClickEventArgs e)
     {
@@ -57,5 +47,14 @@ public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout
         }
     }
 
-    public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+    protected abstract void Initialize();
+
+    public void Dispose(bool disposedValue)
+    {
+        if (!disposedValue || disposed) return;
+
+        disposed = true;
+
+        SmartMVVM.Common.DisposeControl(this);
+    }
 }

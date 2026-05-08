@@ -15,7 +15,16 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
     {
         get
         {
-            return Model as MemberUser;
+            var vm = this.DataContext as LoginViewModel;
+
+            if (vm != null)
+            {
+                return vm.Model;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 

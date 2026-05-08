@@ -1,6 +1,5 @@
 ﻿using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
-using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;
@@ -12,7 +11,7 @@ using System.Windows.Media;
 namespace SmartEMR.Application.Xpf;
 
 [ContentProperty(nameof(BindItems))]
-public partial class BindGrid : StyleGrid
+public partial class BindGrid : StyleGrid, IDisposable
 {
     public int ItemSpace
     {
@@ -33,6 +32,7 @@ public partial class BindGrid : StyleGrid
     public ObservableCollection<BindItem> BindItems { get; }
         = new ObservableCollection<BindItem>();
 
+    public bool disposed { get; set; }
 
     public delegate void BindClickEventHandler(object sender, BindClickEventArgs e);
     public event BindClickEventHandler? BindGrid_BindClickEvent;
@@ -147,19 +147,11 @@ public partial class BindGrid : StyleGrid
         {
             if (visualChild is Button btn)
             {
-                btn.Click += (s, e) =>
-                {
-                    var args = new BindClickEventArgs(e.RoutedEvent, this, element);
-                    BindGrid_BindClickEvent?.Invoke(element, args);
-                };
+                btn.Click += OnBindClick;
             }
             else
             {
-                visualChild.MouseLeftButtonDown += (s, e) =>
-                {
-                    var args = new BindClickEventArgs(e.RoutedEvent, this, element);
-                    BindGrid_BindClickEvent?.Invoke(element, args);
-                };
+                visualChild.MouseLeftButtonDown += OnBindClick;
             }
         }
 
@@ -201,19 +193,6 @@ public partial class BindGrid : StyleGrid
         }
     }
 
-    protected override void OnVisualParentChanged(DependencyObject oldParent)
-    {
-        base.OnVisualParentChanged(oldParent);
-
-        this.Loaded += (s, e) =>
-        {
-            var viewLayout = SmartUI.UIManager.CurrentPageView;
-
-            if (viewLayout != null)
-                viewLayout.AddBindGrid(this);
-        };
-    }
-
     public FrameworkElement GetBindItem<T>(string fieldName) where T : FrameworkElement
     {
         foreach (var item in LayoutRoot.Children)
@@ -227,6 +206,41 @@ public partial class BindGrid : StyleGrid
         }
 
         return default!;
+    }
+
+    private void OnBindClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement fe && fe.Tag is BindItem element)
+        {
+            var args = new BindClickEventArgs(e.RoutedEvent, this, element);
+            BindGrid_BindClickEvent?.Invoke(element, args);
+        }
+    }
+
+    public void Dispose(bool disposedValue)
+    {
+        if (!disposedValue || disposed) return;
+
+        foreach (var child in LayoutRoot.Children)
+        {
+            if (child is FrameworkElement fe)
+            {
+                if (fe is Xpf.Button btn)
+                {
+                    btn.Click -= OnBindClick;
+                }
+                else
+                {
+                    fe.MouseLeftButtonDown -= OnBindClick;
+                }
+
+                fe.LostFocus -= OnLostFocus_BindItem;
+            }
+        }
+
+        LayoutRoot.Children.Clear();
+
+        disposed = disposedValue;
     }
 }
 

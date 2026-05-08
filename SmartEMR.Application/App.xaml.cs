@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿global using static SmartEMR.Application.Common.Module;
+global using IDisposable = SmartEMR.Application.Common.IDisposable;
+using System.Windows;
 using SmartEMR.Application.Views;
 using SmartEMR.Application.Windows;
 using DevExpress.Xpf.Core;

@@ -47,7 +47,15 @@ public class UIManager
 
             if (view is FrameworkElement fe)
             {
-                fe.Unloaded += (s, e) => _activeViews.Remove(view);
+                fe.Unloaded += (s, e) =>
+                {
+                    _activeViews.Remove(view);
+
+                    if (view is IDisposable disp)
+                    {
+                        disp.Dispose(true);
+                    } 
+                };
             }
         }
     }

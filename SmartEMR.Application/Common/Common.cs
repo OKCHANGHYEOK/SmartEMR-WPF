@@ -1,8 +1,7 @@
-﻿using SharpVectors.Converters;
-using SharpVectors.Renderers.Wpf;
-using System.Diagnostics;
+﻿using SmartEMR.Application.ViewBase;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace SmartEMR.Application.Common;
 
@@ -10,48 +9,25 @@ public class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();
 
-    public BitmapImage GlyphImage(string path)
+    public void DisposeControl(object? element)
     {
-        try
+        if (element == null) return;
+
+        if (element is IDisposable disposable)
         {
-            var uri = new Uri($"pack://application:,,,/{path}", UriKind.Absolute);
-
-            var bitmap = new BitmapImage();
-
-            bitmap.BeginInit();
-            bitmap.UriSource = uri;
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.EndInit();
-
-            return bitmap;
+            disposable.Dispose(true);
         }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"해당 이미지 파일을 찾을 수 없습니다. {path}");
-            return new BitmapImage();
-        }
-    }
 
-    public  DrawingImage? GlyphSvgToImage(string filePath)
-    {
-        try
+        if (element is DependencyObject obj)
         {
-            if (!System.IO.File.Exists(filePath))
+            int childCount = VisualTreeHelper.GetChildrenCount(obj);
+            
+            for (int i =0; i < childCount; i++)
             {
-                Debug.WriteLine($"[에러] 실제 폴더에 파일이 없습니다.");
-                return null;
+                var child = VisualTreeHelper.GetChild(obj, i);  
+
+                DisposeControl(child);
             }
-
-            var settings = new WpfDrawingSettings { IncludeRuntime = true, TextAsGeometry = true };
-            var reader = new FileSvgReader(settings);
-            var drawingGroup = reader.Read(filePath);
-
-            return new DrawingImage(drawingGroup);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"SVG 로드 실패: {ex.Message}");
-            return null;
         }
     }
 }
