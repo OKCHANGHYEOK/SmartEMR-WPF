@@ -6,19 +6,23 @@
              xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
              xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
              xmlns:bar="clr-namespace:SmartEMR.Application.Xpf.Bar"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
              mc:Ignorable="d" 
-             Width="800"
              Height="80"
+             d:DesignWidth="500"
+             Margin="3"
              Background="Transparent">
 
-    <bar:BarManager>
+    <bar:BarManager VerticalAlignment="Stretch">
         <bar:BarItem Caption="TopMenu">
             <bar:BarButtonItem  Content="예약"
-                                Glyph="{Binding Source='smartemr_menu_calender.svg', Converter={StaticResource SvgPathConverter}}"
                                 CommandParameter="DSK"
-                                Command="{Binding NavCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                Command="{Binding NavCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            </bar:BarButtonItem>
 
-            
+            <bar:BarButtonItem Content="접수">
+                
+            </bar:BarButtonItem>        
         </bar:BarItem>
     </bar:BarManager>
 </Xpf:CustomControl>

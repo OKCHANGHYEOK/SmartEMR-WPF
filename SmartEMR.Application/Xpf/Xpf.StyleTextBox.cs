@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Drawing;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SmartEMR.Application.Xpf;
@@ -81,6 +82,15 @@ public class StyleTextBox : Control
         get => (StyleTextBoxType)GetValue(TextBoxTypeProperty);
         set => SetValue(TextBoxTypeProperty, value);
     }
+
+    public Brush TextForeground
+    {
+        get => (Brush)GetValue(TextForegroundProperty);
+        set => SetValue(TextForegroundProperty, value);
+    }
+
+    public static readonly DependencyProperty TextForegroundProperty =
+        DependencyProperty.Register(nameof(TextForeground), typeof(Brush), typeof(StyleTextBox), new PropertyMetadata(Brushes.Black));
 
     static StyleTextBox()
     {

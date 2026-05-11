@@ -27,5 +27,6 @@
             Background="LightBlue"
             Opacity="0.6"
             Margin="5"/>
-    
+
+    <shared:vSmartEMRNavigation Grid.Column="4"/>
 </Xpf:StyleGrid>

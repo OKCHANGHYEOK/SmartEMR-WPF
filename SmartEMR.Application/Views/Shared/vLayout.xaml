@@ -42,14 +42,6 @@
                               Padding="0"
                               Margin="0"
                               Background="#E1EEFF">
-
-                <!--<dxdo:LayoutPanel.Background>
-                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                        <GradientStop Color="#A1C4FD" Offset="0" />
-                        <GradientStop Color="#E1EEFF" Offset="0.5" />
-                        <GradientStop Color="#A1C4FD" Offset="1" />
-                    </LinearGradientBrush>
-                </dxdo:LayoutPanel.Background>-->
                 <v:vSmartEMRBarMenu/>
             </dxdo:LayoutPanel>
 

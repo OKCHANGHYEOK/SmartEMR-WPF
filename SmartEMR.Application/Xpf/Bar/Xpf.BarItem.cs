@@ -1,4 +1,6 @@
-﻿namespace SmartEMR.Application.Xpf.Bar;
+﻿using System.Windows;
+
+namespace SmartEMR.Application.Xpf.Bar;
 
 public class BarItem : DevExpress.Xpf.Bars.Bar
 {
