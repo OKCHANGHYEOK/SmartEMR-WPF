@@ -53,4 +53,14 @@ public class SmartMVVM
             _clickSemaphore.Release();
         }
     }
+
+    public static void BeginInvoke(Action action, DispatcherPriority priority)
+    {
+        var currentWindow = SmartUI.CurrentWindow as Window ?? App.Current.MainWindow;
+
+        if (currentWindow != null)
+        {
+            currentWindow.Dispatcher?.BeginInvoke(action, priority);
+        }
+    } 
 }

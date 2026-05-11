@@ -2,7 +2,7 @@
 
 namespace SmartEMR.Application.Xpf;
 
-public abstract class GridTemplate : UserControl
+public abstract class GridTemplate : CustomControl
 {
     public GridTemplate()
     {

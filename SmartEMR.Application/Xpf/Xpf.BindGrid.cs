@@ -1,15 +1,18 @@
-﻿using SmartEMR.Application.Common;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using System.Collections.ObjectModel; 
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
+[ObservableObject]
 [ContentProperty(nameof(BindItems))]
 public partial class BindGrid : StyleGrid, IDisposable
 {
@@ -26,7 +29,20 @@ public partial class BindGrid : StyleGrid, IDisposable
             typeof(BindGrid), 
             new PropertyMetadata(5));
 
-    private object? Model = null;
+
+    private object? m_Model;
+    public object? Model
+    {
+        get => m_Model;
+        set
+        {
+            if (m_Model != value)
+            {
+                m_Model = value;
+                OnPropertyChanged(nameof(Model));
+            }
+        }
+    }
 
     // 1. UIElementCollection 대신 ObservableCollection<BindItem> 사용
     public ObservableCollection<BindItem> BindItems { get; }
@@ -95,7 +111,6 @@ public partial class BindGrid : StyleGrid, IDisposable
             visualChild = btn;
         }
 
-        visualChild.SetValue(DataContextProperty, this.Model);
         visualChild.SetValue(TagProperty, element);
         visualChild.SetValue(MarginProperty, element.Margin == null ? new Thickness(this.ItemSpace) : element.Margin);
 
@@ -157,7 +172,12 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         if (element.IsBinding == true)
         {
-            BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
+            SmartMVVM.BeginInvoke(() =>
+            {
+                visualChild.SetBinding(DataContextProperty, new Binding("Model") { Source = this, Mode = BindingMode.TwoWay });
+                BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
+
+            }, System.Windows.Threading.DispatcherPriority.Background);
         }
 
         visualChild.LostFocus += OnLostFocus_BindItem;

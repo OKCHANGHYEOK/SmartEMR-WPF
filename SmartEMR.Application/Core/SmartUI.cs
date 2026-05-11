@@ -1,4 +1,5 @@
 ﻿using SmartEMR.Application.Services;
+using SmartEMR.Application.Xpf;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,6 +15,21 @@ public enum TargetWindowType
 public static class SmartUI
 {
     public static UIManager UIManager => UIManager.Instance;
+
+    public static UIWindow? CurrentWindow
+    {
+        get
+        {
+            if (UIManager.CurrentWindow != null)
+            {
+                return UIManager.CurrentWindow;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
 
     public static bool MsgConfirm(string title, string message)
     {

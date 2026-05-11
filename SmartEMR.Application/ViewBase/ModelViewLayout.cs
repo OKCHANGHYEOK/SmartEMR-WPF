@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.ViewBase;
 
-public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout, IDisposable
+public abstract class ModelViewLayout<TVM> : CustomControl, IViewLayout, IDisposable
                                              where TVM : class
 {
     public TVM vm = default!;
@@ -24,9 +24,8 @@ public abstract class ModelViewLayout<TVM> : UserControl, IViewLayout, IDisposab
         Initialize();
 
         vm = Activator.CreateInstance<TVM>();
-        
+
         this.SetValue(DataContextProperty, vm);
-        this.GetType().GetMethod("InitializeComponent")?.Invoke(this, null);
 
         this.Loaded += (s, e) => 
         {

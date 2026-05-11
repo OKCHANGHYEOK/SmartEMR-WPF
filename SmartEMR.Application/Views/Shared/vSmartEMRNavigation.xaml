@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="SmartEMR.Application.Views.Shared.vSmartEMRNavigation"
+﻿<Xpf:CustomControl x:Class="SmartEMR.Application.Views.Shared.vSmartEMRNavigation"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
+             xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
              xmlns:bar="clr-namespace:SmartEMR.Application.Xpf.Bar"
              mc:Ignorable="d" 
              Width="800"
@@ -20,4 +21,4 @@
             
         </bar:BarItem>
     </bar:BarManager>
-</UserControl>
+</Xpf:CustomControl>

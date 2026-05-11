@@ -1,12 +1,12 @@
 ﻿using SmartEMR.Application.ViewModels;
-using System.Windows.Controls;
+using SmartEMR.Application.Xpf;
 
 namespace SmartEMR.Application.Views.Shared;
 
 /// <summary>
 /// vSmartEMRChartSummary.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class vSmartEMRChartSummary : UserControl
+public partial class vSmartEMRChartSummary : CustomControl
 {
     public vSmartEMRChartSummary()
     {
