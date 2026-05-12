@@ -140,7 +140,13 @@
                             Padding="{TemplateBinding Padding}"
                             Width="80">
                         <Xpf:StyleGrid x:Name="ItemPanel" LayoutDefinitions="1,2" RowSizeDefinitions="*,Auto">
-                            <Image Grid.Row="0"  Width="{TemplateBinding ImageWidth}" Height="{TemplateBinding ImageHeight}" Source="{TemplateBinding Glyph}" Stretch="Uniform" HorizontalAlignment="Center" />
+                            <Image  Grid.Row="0" 
+                                    Width="{TemplateBinding ImageWidth}" 
+                                    Height="{TemplateBinding ImageHeight}" 
+                                    Source="{TemplateBinding Glyph}" 
+                                    Stretch="UniformToFill" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center" />
                             <TextBlock  Grid.Row="1"
                                         Text="{TemplateBinding Content}"
                                         Foreground="{TemplateBinding Foreground}"

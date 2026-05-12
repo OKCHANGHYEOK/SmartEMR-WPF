@@ -50,18 +50,7 @@ namespace SmartEMR.Application.Xpf.Bar
         {
             if (d is BarItem element && Enum.TryParse<BarItemStyle>(e.NewValue?.ToString(), out var style))
             {
-                switch (style)
-                {
-                    case BarItemStyle.Default:
-                        element.Foreground = new SolidColorBrush(Color.FromRgb(68, 68, 68));
-                        element.FontWeight = FontWeights.SemiBold;
-                        break;
-
-                    case BarItemStyle.Emphasis:
-                        element.Foreground = new SolidColorBrush(Color.FromRgb(25, 25, 25));
-                        element.FontWeight = FontWeights.Bold;
-                        break;
-                }
+                SetBarItemStyle(element, style);
             }
         }
 
@@ -83,11 +72,29 @@ namespace SmartEMR.Application.Xpf.Bar
             this.MinWidth = 60;
             this.Background = Brushes.Transparent;
             this.BorderThickness = new Thickness(0);
-            this.Padding = new Thickness(10, 5, 10, 5);
+            this.Margin = new Thickness(3);
             this.Cursor = System.Windows.Input.Cursors.Hand;
             this.HorizontalContentAlignment = HorizontalAlignment.Center;
-            this.VerticalContentAlignment = VerticalAlignment.Stretch;
+            this.VerticalContentAlignment = VerticalAlignment.Center;
             this.FontSize = 11;
+
+            SetBarItemStyle(this, this.BarItemStyle);
+        }
+
+        static void SetBarItemStyle(BarItem element, BarItemStyle style)
+        {
+            switch (style)
+            {
+                case BarItemStyle.Default:
+                    element.Foreground = new SolidColorBrush(Color.FromRgb(68, 68, 68));
+                    element.FontWeight = FontWeights.SemiBold;
+                    break;
+
+                case BarItemStyle.Emphasis:
+                    element.Foreground = new SolidColorBrush(Color.FromRgb(25, 25, 25));
+                    element.FontWeight = FontWeights.Bold;
+                    break;
+            }
         }
     }
 }

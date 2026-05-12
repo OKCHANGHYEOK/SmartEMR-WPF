@@ -66,6 +66,20 @@ namespace SmartEMR.Application.Xpf.Bar
                         case eSmartEMRLocation.CALENDAR:
                             break;
 
+                        case eSmartEMRLocation.DESK:
+                            break;
+
+                        case eSmartEMRLocation.EXAM:
+                            break;
+
+                        case eSmartEMRLocation.PAYMENT:
+                            break;
+
+                        case eSmartEMRLocation.CRM:
+                            break;
+
+                        case eSmartEMRLocation.CONFIG:
+                            break;
                     }
                 }
             }

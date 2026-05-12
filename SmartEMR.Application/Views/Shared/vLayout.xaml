@@ -15,6 +15,7 @@
         WindowState="Maximized"
         Closing="OnClosing_vLayout"
         HeaderBackground="#A1C4FD"
+        PreviewKeyDown="OnPreviewKeyDown_vLayout"
         Padding="0">
 
     <dx:ThemedWindow.HeaderItems>

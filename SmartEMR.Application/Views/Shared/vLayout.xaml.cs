@@ -1,8 +1,14 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.XtraPrinting.Drawing;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SmartEMR.Application.Views;
 
@@ -41,7 +47,7 @@ public partial class vLayout : UIWindow
         DevExpress.Xpf.Core.ThemeManager.SetThemeName(this, Theme.Office2019ColorfulFullName);
     }
 
-    private void OnClosing_vLayout(object sender, System.ComponentModel.CancelEventArgs e)
+    private void OnClosing_vLayout(object sender, CancelEventArgs e)
     {
         MessageBoxResult result = MessageBox.Show("프로그램을 종료하시겠습니까?", "종료 확인", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
@@ -53,5 +59,18 @@ public partial class vLayout : UIWindow
         {
             e.Cancel = true;
         }
-    }    
+    }
+    
+    private void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
+    {
+        if (e.Key == Key.F6)
+        {
+            var searchView = SmartUI.GetPageView<vSearchView>();
+
+            if (searchView != null)
+            {
+                searchView.SetFocusToSearch();
+            }
+        }
+    }
 }

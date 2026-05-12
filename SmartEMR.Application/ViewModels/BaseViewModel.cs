@@ -4,7 +4,7 @@ using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
-public abstract partial class BaseViewModel<T> : ObservableObject, IViewModel<T> where T : BaseEntity, new()
+public abstract partial class BaseViewModel<T> : ObservableObject, IBaseViewModel, IViewModel<T> where T : BaseEntity, new()
 {
 
     #region "Fields"

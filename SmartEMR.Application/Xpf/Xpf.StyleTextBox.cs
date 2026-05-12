@@ -122,6 +122,7 @@ public class StyleTextBox : Control
             if (GetTemplateChild("PART_TextBox") is TextBox textBox)
             {
                 textBox.Focus();
+                textBox.SelectAll();
             }
         }
     }

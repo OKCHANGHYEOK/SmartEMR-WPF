@@ -1,4 +1,5 @@
 ﻿using SmartEMR.Application.Services;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,5 +53,20 @@ public static class SmartUI
         element.ToolTip = tooltip;
 
         tooltip.IsOpen = true;
+    }
+
+    public static T? GetPageView<T>() where T : class
+    {
+        IViewLayout? targetView = null;
+
+        foreach (var vl in UIManager.Views)
+        {
+            if (vl.GetType() == typeof(T))
+            {
+                targetView = vl as IViewLayout;
+            }
+        }
+
+        return targetView as T;
     }
 }

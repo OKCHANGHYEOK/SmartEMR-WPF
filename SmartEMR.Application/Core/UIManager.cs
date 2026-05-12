@@ -14,6 +14,8 @@ public class UIManager
 
     private UIManager() {}
 
+    public IReadOnlyList<IViewLayout> Views => _activeViews;
+
     public UIWindow? CurrentWindow
     {
         get

@@ -1,28 +1,33 @@
-﻿<Xpf:CustomControl x:Class="SmartEMR.Application.Views.Shared.vSearchView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SmartEMR.Application.Views"
-             xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             mc:Ignorable="d" 
-             Background="Transparent"
-             BorderBrush="Black"
-             Margin="3">
+﻿<base:ModelViewLayout   x:TypeArguments="model:Patient"
+                        x:Class="SmartEMR.Application.Views.Shared.vSearchView"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
+                        xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                        xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
+                        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                        mc:Ignorable="d" 
+                        Background="Transparent"
+                        BorderBrush="Black"
+                        Margin="3">
     <Xpf:StyleGrid LayoutDefinitions="3,2"
                    ColumnSizeDefinitions="*,*,*"
                    RowSizeDefinitions="*,25px">
-        <Xpf:StyleTextBox   TextBoxType="Text"
+        <Xpf:StyleTextBox   x:Name="txtSearch"
+                            TextBoxType="Text"
                             Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" 
-                            Placeholder="환자명(차트번호)"
+                            FontSize="16"
+                            Placeholder="환자검색(F6)"
                             PlaceHolderHorizontalAlignment="Center"
                             PlaceHolderMargin="0"
                             PlaceHolderPadding="0"
                             BorderBrush="DarkSlateGray"
                             BorderThickness="1"
                             CornerRadius="0"
-                            Text="{Binding SearchText, Source={RelativeSource AncestorType=UserControl}}"
+                            Text="{Binding SearchText, Source={RelativeSource AncestorType=local:vSearchView}}"
                             Margin="2">
         </Xpf:StyleTextBox>
         <dx:SimpleButton Grid.Column="0" 
@@ -77,4 +82,4 @@
             </dx:SimpleButton.Effect>
         </dx:SimpleButton>
     </Xpf:StyleGrid>
-</Xpf:CustomControl>
+</base:ModelViewLayout>

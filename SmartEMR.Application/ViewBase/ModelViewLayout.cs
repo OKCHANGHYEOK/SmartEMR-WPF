@@ -1,16 +1,18 @@
-﻿using DevExpress.XtraRichEdit.API.Layout;
+﻿using DevExpress.Dialogs.Core.ViewModel;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.ViewBase;
 
-public abstract class ModelViewLayout<TVM> : CustomControl, IViewLayout, IDisposable
-                                             where TVM : class
+public abstract class ModelViewLayout<T> : CustomControl, IViewLayout, IDisposable
+                                             where T : class
 {
-    public TVM vm = default!;
+    public T vm = default!;
+    public T Model = default!;
 
     private readonly List<BindGrid> _bindGrids = new();
     public IReadOnlyList<BindGrid> BindGrids => _bindGrids;
@@ -23,9 +25,19 @@ public abstract class ModelViewLayout<TVM> : CustomControl, IViewLayout, IDispos
     {
         Initialize();
 
-        vm = Activator.CreateInstance<TVM>();
+        if (typeof(IBaseViewModel).IsAssignableFrom(typeof(T)))
+        {
+            vm = Activator.CreateInstance<T>();
+            
+            this.SetValue(DataContextProperty, vm);
 
-        this.SetValue(DataContextProperty, vm);
+        }
+        else if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
+        {
+            Model = Activator.CreateInstance<T>();
+        
+            this.SetValue(DataContextProperty, Model);
+        }
 
         this.Loaded += (s, e) => 
         {

@@ -14,19 +14,27 @@
 
     <bar:NavigationBar Height="80" Background="Transparent">
         <bar:BarItem    Content="예약" 
-                        Glyph="/Images/Svg/smartemr_menu_calendar.svg" 
+                        Glyph="/Images/smartemr_menu_calendar.png" 
                         Tag="CALENDAR"/>
 
         <bar:BarItem    Content="접수" 
-                        Glyph="/Images/Svg/smartemr_menu_desk.svg" 
-                        Command="{Binding NavCommand}" 
+                        Glyph="/Images/smartemr_menu_desk.png" 
                         Tag="DESK"/>
 
         <bar:BarItem    Content="진료"
-                        Glyph="/Images/Svg/smartemr_menu_examination.svg"
-                        Command="{Binding NavCommand}"
+                        Glyph="/Images/smartemr_menu_exam.png"
                         Tag="EXAM"/>
 
+        <bar:BarItem    Content="수납"
+                        Glyph="/Images/smartemr_menu_payment.png"
+                        Tag="PAYMENT"/>
 
+        <bar:BarItem    Content="CRM"
+                        Glyph="/Images/smartemr_menu_crm.png"
+                        Tag="CRM"/>
+
+        <bar:BarItem    Content="환경설정"
+                        Glyph="/Images/smartemr_menu_settings.png"
+                        Tag="CONFIG"/>
     </bar:NavigationBar>
 </Xpf:CustomControl>
