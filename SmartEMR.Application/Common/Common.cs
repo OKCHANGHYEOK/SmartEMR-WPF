@@ -5,6 +5,16 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Common;
 
+public enum eSmartEMRLocation 
+{ 
+    CALENDAR = 0,
+    DESK = 1,
+    EXAM = 2,
+    PAYMENT = 3,
+    CRM = 4,
+    CONFIG = 5
+}
+
 public class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();

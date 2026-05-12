@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Markup;
 
-namespace SmartEMR.Application.Xpf.Bar;
+namespace SmartEMR.Application.Xpf.XXX;
 
 [ContentProperty(nameof(BarItems))]
 public class BarManager : DevExpress.Xpf.Bars.BarManager
@@ -12,5 +12,7 @@ public class BarManager : DevExpress.Xpf.Bars.BarManager
     public BarManager()
     {
         this.VerticalAlignment = VerticalAlignment.Stretch;
+        this.AllowCustomization = false;
+        this.AllowQuickCustomization = false;
     }
 }

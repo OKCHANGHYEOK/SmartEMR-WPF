@@ -130,19 +130,35 @@
     
     <!--#endregion -->
 
-    <Style TargetType="dxb:BarButtonItemLinkControl">
-        <Setter Property="Height" Value="80"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-    </Style>
-
-    <Style TargetType="{x:Type bar:BarButtonItem}">
-        <Setter Property="ContentTemplate">
+    <Style TargetType="{x:Type bar:BarItem}">
+        <Setter Property="Template">
             <Setter.Value>
-                <DataTemplate>
-                    <Grid Height="80" VerticalAlignment="Center">
-                        <ContentPresenter Content="{Binding}" />
-                    </Grid>
-                </DataTemplate>
+                <ControlTemplate TargetType="{x:Type bar:BarItem}">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            Width="80">
+                        <Xpf:StyleGrid x:Name="ItemPanel" LayoutDefinitions="1,2" RowSizeDefinitions="*,Auto">
+                            <Image Grid.Row="0"  Width="{TemplateBinding ImageWidth}" Height="{TemplateBinding ImageHeight}" Source="{TemplateBinding Glyph}" Stretch="Uniform" HorizontalAlignment="Center" />
+                            <TextBlock  Grid.Row="1"
+                                        Text="{TemplateBinding Content}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        FontSize="{TemplateBinding FontSize}"
+                                        FontWeight="{TemplateBinding FontWeight}"
+                                        Margin="0,3,0,3"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                        </Xpf:StyleGrid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ItemPanel" Property="Opacity" Value="0.8"/>
+                            <Setter TargetName="ItemPanel" Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

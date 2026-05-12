@@ -10,19 +10,23 @@
              mc:Ignorable="d" 
              Height="80"
              d:DesignWidth="500"
-             Margin="3"
-             Background="Transparent">
+             Margin="3">
 
-    <bar:BarManager VerticalAlignment="Stretch">
-        <bar:BarItem Caption="TopMenu">
-            <bar:BarButtonItem  Content="예약"
-                                CommandParameter="DSK"
-                                Command="{Binding NavCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
-            </bar:BarButtonItem>
+    <bar:NavigationBar Height="80" Background="Transparent">
+        <bar:BarItem    Content="예약" 
+                        Glyph="/Images/Svg/smartemr_menu_calendar.svg" 
+                        Tag="CALENDAR"/>
 
-            <bar:BarButtonItem Content="접수">
-                
-            </bar:BarButtonItem>        
-        </bar:BarItem>
-    </bar:BarManager>
+        <bar:BarItem    Content="접수" 
+                        Glyph="/Images/Svg/smartemr_menu_desk.svg" 
+                        Command="{Binding NavCommand}" 
+                        Tag="DESK"/>
+
+        <bar:BarItem    Content="진료"
+                        Glyph="/Images/Svg/smartemr_menu_examination.svg"
+                        Command="{Binding NavCommand}"
+                        Tag="EXAM"/>
+
+
+    </bar:NavigationBar>
 </Xpf:CustomControl>
