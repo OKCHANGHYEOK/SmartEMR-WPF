@@ -168,4 +168,39 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type Xpf:ImageButton}">
+        <Setter Property="Background" Value="#F1F3F5"/>
+        <Setter Property="Padding" Value="0"/>
+        <!-- 컨트롤 전체 패딩 초기화 -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Xpf:ImageButton}">
+                    <Button x:Name="PART_BUTTON"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="1"
+                        Padding="0" 
+                        HorizontalContentAlignment="Center" 
+                        VerticalContentAlignment="Center">
+                        <!-- Image 태그에 Margin을 0으로 설정하여 간섭 제거 -->
+                        <Image Source="{TemplateBinding Glyph}" 
+                           Width="{TemplateBinding ImageWidth}" 
+                           Height="{TemplateBinding ImageHeight}" 
+                           Stretch="Uniform"
+                           Margin="0"
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center"/>
+                    </Button>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
