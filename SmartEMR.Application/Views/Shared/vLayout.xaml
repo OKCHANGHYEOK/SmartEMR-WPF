@@ -55,7 +55,7 @@
                         CornerRadius="4" 
                         BorderBrush="#D6DBDF" 
                         BorderThickness="2">
-                    <dxwui:NavigationFrame Content="{Binding MainContent}"
+                    <dxwui:NavigationFrame Content="{Binding MainContent, RelativeSource={RelativeSource AncestorType={x:Type v:vLayout}}}"
                                           AnimationType="Fade"
                                           Margin="1"></dxwui:NavigationFrame>
                 </Border>
