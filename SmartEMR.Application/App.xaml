@@ -8,6 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <converter:SvgPathConverter x:Key="SvgPathConverter"/>
+            <converter:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -13,9 +13,11 @@ public class vSmartEMRDeskPATView_TextItem : UserControl
 
     public vSmartEMRDeskPATView_TextItem()
     {
+        this.FontSize = 13;
         this.Content = ContentPanel;
 
         ContentPanel.Height = 25;
+        ContentPanel.VerticalAlignment = VerticalAlignment.Center;
         ContentPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
         ContentPanel.Margin = new Thickness(10, 5, 10, 5);
 

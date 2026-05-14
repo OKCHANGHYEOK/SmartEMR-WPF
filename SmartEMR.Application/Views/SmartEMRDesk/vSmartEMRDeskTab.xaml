@@ -13,16 +13,21 @@
                         d:DesignHeight="600">
     <dxd:DockLayoutManager>
         <dxd:LayoutGroup Orientation="Horizontal">
-            <dxd:LayoutGroup Orientation="Vertical">
-                <dxd:LayoutPanel ItemHeight="0.5*">
+            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.6*">
+                <dxd:LayoutPanel ItemHeight="0.6*" ShowCaption="False" AllowDrag="False">
                     <view:vSmartEMRDeskPATView/>
                 </dxd:LayoutPanel>
-                <dxd:LayoutPanel ItemHeight="*">
+                <dxd:LayoutPanel ItemHeight="*" ShowCaption="False" AllowDrag="False">
                     
                 </dxd:LayoutPanel>
             </dxd:LayoutGroup>
-            <dxd:LayoutGroup>
-                
+            <dxd:LayoutGroup Orientation="Vertical">
+                <dxd:LayoutPanel ItemHeight="0.8*" ShowCaption="False" AllowDrag="False">
+                    
+                </dxd:LayoutPanel>
+                <dxd:LayoutPanel ItemHeight="*" ShowCaption="False" AllowDrag="False">
+
+                </dxd:LayoutPanel>
             </dxd:LayoutGroup>
         </dxd:LayoutGroup>
     </dxd:DockLayoutManager>

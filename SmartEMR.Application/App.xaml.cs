@@ -20,16 +20,14 @@ namespace SmartEMR.Application
         
             LoginWindow loginWindow = new LoginWindow();
 
+#if DEBUG
+            AppStart();
+#else
             try
             {
                 if (loginWindow.ShowDialog() == true)
                 {
-                    var manager = SplashScreenManager.CreateThemed();
-
-                    manager.Show();
-
-                    this.MainWindow = new vLayout(typeof(vSmartEMRDeskTab));
-                    this.MainWindow.Show();
+                    AppStart();
                 }
                 else
                 {
@@ -40,6 +38,18 @@ namespace SmartEMR.Application
             { 
                 Shutdown();
             }
+#endif
+
+        }
+
+        private void AppStart()
+        {
+            var manager = SplashScreenManager.CreateThemed();
+
+            manager.Show();
+
+            this.MainWindow = new vLayout(typeof(vSmartEMRDeskTab));
+            this.MainWindow.Show();
         }
     }
 

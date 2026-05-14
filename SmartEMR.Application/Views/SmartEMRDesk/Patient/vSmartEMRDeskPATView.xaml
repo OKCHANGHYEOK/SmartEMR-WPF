@@ -22,7 +22,7 @@
                               Opacity="0.15"/>
         </Border.Effect>
 
-        <Xpf:StyleGrid LayoutDefinitions="13,13" ShowGridLines="True" Padding="5">            
+        <Xpf:StyleGrid LayoutDefinitions="13,11" ShowGridLines="True" Padding="5">            
             <Border x:Name="PatientImageBorder" 
                     Grid.Column="0"
                     Grid.Row="0"
@@ -37,46 +37,58 @@
                 <Label FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray">1234567</Label>
             </StackPanel>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
-                <Label FontSize="15" FontWeight="SemiBold">성명</Label>
-                <Label FontSize="15" FontWeight="Bold"  Content="{Binding PAT_Name}" Margin="5,0"/>
+                <Label FontWeight="SemiBold">성명</Label>
+                <Label FontWeight="Bold"  Content="{Binding PAT_Name}" Margin="5,0"/>
             </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="4">
-                <Label FontSize="15" FontWeight="SemiBold">성별/나이</Label>
-                <Label FontSize="15" FontWeight="Bold"  Content="{Binding vPAT_Info}" Margin="5,0"/>
+                <Label FontWeight="SemiBold">성별/나이</Label>
+                <Label FontWeight="Bold"  Content="{Binding vPAT_Info}" Margin="5,0"/>
             </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">
-                <Label FontSize="15" FontWeight="SemiBold">생년월일</Label>
-                <Label FontSize="15" Content="{Binding PAT_BirthDate}" Margin="5,0"/>
+                <Label FontWeight="SemiBold">생년월일</Label>
+                <Label Content="{Binding PAT_BirthDate}" Margin="5,0"/>
             </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">
-                <Label FontSize="15" FontWeight="SemiBold">전화번호</Label>
-                <Label FontSize="15" Content="{Binding PAT_PhoneNum}" Margin="5,0"/>
+                <Label FontWeight="SemiBold">전화번호</Label>
+                <Label Content="{Binding PAT_PhoneNum}" Margin="5,0"/>
             </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="8">
-                <Label FontSize="15" FontWeight="SemiBold">주소</Label>
-                <Label FontSize="15" Content="{Binding PAT_Address1}" Margin="5,0"/>
-                <Label FontSize="15" Content="{Binding PAT_Address2}" Margin="5,0"/>
-                <Label FontSize="15" Content="{Binding PAT_Address3}" Margin="5,0"/>
+                <Label FontWeight="SemiBold">주소</Label>
+                <Label Content="{Binding PAT_Address1}" Margin="5,0"/>
+                <Label Content="{Binding PAT_Address2}" Margin="5,0"/>
+                <Label Content="{Binding PAT_Address3}" Margin="5,0"/>
             </desk:vSmartEMRDeskPATView_TextItem>
             <Xpf:ImageButton x:Name="btnCopyAddress"
                              Grid.Row="3" 
                              Grid.Column="12" 
-                             Width="33" 
-                             Height="33" 
+                             Width="25" 
+                             Height="25"
+                             ImageWidth="18"
+                             ImageHeight="18"
+                             Cursor="Hand"
                              Glyph="/Images/copy.png"
                              Click="OnClick_ImageButton"/>
+            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4">
+                <Label FontWeight="SemiBold">최초내원일</Label>
+                <Label Content="{Binding PAT_FirstVisitDate}" Margin="5,0"/>
+            </desk:vSmartEMRDeskPATView_TextItem>
+            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="4">
+                <Label FontWeight="SemiBold">최종내원일</Label>
+                <Label Content="{Binding PAT_LastVisitDate}" Margin="5,0"/>
+            </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="4">
-                <Label FontSize="15" FontWeight="SemiBold">최초내원일</Label>
-                <Label FontSize="15" Content="{Binding PAT_FirstVisitDate}" Margin="5,0"/>
+                <Label FontWeight="SemiBold">내원경로</Label>
+                <Label Content="{Binding PAT_SourceType}" Margin="5,0"/>
             </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="4">
-                <Label FontSize="15" FontWeight="SemiBold">최종내원일</Label>
-                <Label FontSize="15" Content="{Binding PAT_LastVisitDate}" Margin="5,0"/>
+                <Label FontWeight="SemiBold">다음예약일</Label>
+                <Label Content="{Binding PAT_NextReservationDate}"/>
             </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="3">
-                <Label FontSize="15" FontWeight="SemiBold">내원경로</Label>
-                <Label FontSize="15" Content="{Binding PAT_SourceType}" Margin="5,0"/>
+            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="8">
+                <Label FontWeight="SemiBold">비고</Label>
+                <Xpf:TextBlock Text="{Binding PAT_Bigo}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
             </desk:vSmartEMRDeskPATView_TextItem>
+            
         </Xpf:StyleGrid>
     </Border>
 </base:ModelViewLayout>

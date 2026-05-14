@@ -38,4 +38,8 @@ public class Patient : BaseEntity
     public string? PAT_YYMMDD { get; set; }
     public bool? PAT_IsValid { get; set; }
     public string? PAT_Log { get; set; }
+
+    public int? NOW_CHT_Idx_RCV { get; set; }
+    public int? NOW_CHT_Idx_RES { get; set; }
+    public int? NEXT_CHT_Idx_RES { get; set; }
 }

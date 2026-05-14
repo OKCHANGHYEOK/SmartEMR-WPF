@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <None Remove="Images\copy.png" />
+    <None Remove="Images\smartemr_desk_register.png" />
     <None Remove="Images\smartemr_menu_calendar.png" />
     <None Remove="Images\smartemr_menu_crm.png" />
     <None Remove="Images\smartemr_menu_desk.png" />
@@ -64,6 +65,7 @@
 
   <ItemGroup>
     <Resource Include="Images\copy.png" />
+    <Resource Include="Images\smartemr_desk_register.png" />
     <Resource Include="Images\smartemr_menu_crm.png" />
     <Resource Include="Images\smartemr_menu_payment.png" />
   </ItemGroup>
