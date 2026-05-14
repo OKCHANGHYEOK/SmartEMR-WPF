@@ -5,8 +5,25 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
-                        xmlns:base="clr-namespace:SmartEMR.Application.ViewBase">
-    <Grid>
-            
-    </Grid>
+                        xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                        xmlns:view="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
+                        xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+                        mc:Ignorable="d"
+                        d:DesignWidth="1000"
+                        d:DesignHeight="600">
+    <dxd:DockLayoutManager>
+        <dxd:LayoutGroup Orientation="Horizontal">
+            <dxd:LayoutGroup Orientation="Vertical">
+                <dxd:LayoutPanel ItemHeight="0.5*">
+                    <view:vSmartEMRDeskPATView/>
+                </dxd:LayoutPanel>
+                <dxd:LayoutPanel ItemHeight="*">
+                    
+                </dxd:LayoutPanel>
+            </dxd:LayoutGroup>
+            <dxd:LayoutGroup>
+                
+            </dxd:LayoutGroup>
+        </dxd:LayoutGroup>
+    </dxd:DockLayoutManager>
 </base:ModelViewLayout>

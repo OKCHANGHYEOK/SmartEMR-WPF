@@ -51,6 +51,12 @@ public partial class StyleGrid : ContentControl
         typeof(StyleGrid),
         new PropertyMetadata("", OnRowSizeDefinitionsChanged));
 
+    public bool ShowGridLines
+    {
+        get => LayoutRoot.ShowGridLines;
+        set => LayoutRoot.ShowGridLines = value;
+    }
+
     #endregion
 
     public Grid LayoutRoot { get; } = new Grid();
