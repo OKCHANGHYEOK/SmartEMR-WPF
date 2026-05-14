@@ -172,7 +172,7 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         if (element.IsBinding == true)
         {
-            SmartMVVM.BeginInvoke(() =>
+            SmartUI.BeginInvoke(() =>
             {
                 visualChild.SetBinding(DataContextProperty, new Binding("Model") { Source = this, Mode = BindingMode.TwoWay });
                 BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");

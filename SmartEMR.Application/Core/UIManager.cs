@@ -1,4 +1,5 @@
 ﻿using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.Views;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 
@@ -10,25 +11,34 @@ public class UIManager
     public static UIManager Instance => _instance.Value;
 
     private readonly List<UIWindow> _activeWindows = new();
-    private readonly List<IViewLayout> _activeViews = new();
+    private readonly List<ViewLayout> _activeViews = new();
 
     private UIManager() {}
 
-    public IReadOnlyList<IViewLayout> Views => _activeViews;
+    public IReadOnlyList<ViewLayout> Views => _activeViews;
 
     public UIWindow? CurrentWindow
     {
         get
         {
-            return _activeWindows.FirstOrDefault(x => x.IsActive) ?? _activeWindows.LastOrDefault();
+            var window = _activeWindows.LastOrDefault(w => w.IsActive || w.IsFocused);
+
+            if (window == null) window = _activeWindows.LastOrDefault();
+
+            return window;
         }
     }
 
-    public IViewLayout? CurrentPageView
+    public ViewLayout? CurrentView
     {
         get
         {
-            return  _activeViews.LastOrDefault();
+            if (_activeViews.Any(v => v.IsPopupView))
+            {
+                return _activeViews.LastOrDefault(v => v.IsPopupView);
+            }
+
+            return (_activeWindows.FirstOrDefault(w => w is vLayout) as vLayout)?.MainContent as ViewLayout;
         }
     }
 
@@ -41,7 +51,7 @@ public class UIManager
         }
     }
 
-    public void RegisterView(IViewLayout view)
+    public void RegisterView(ViewLayout view)
     {
         if (!_activeViews.Contains(view))
         {
@@ -75,7 +85,7 @@ public class UIManager
                 }
                 else
                 {
-                    FrameworkElement? pageView = CurrentPageView as FrameworkElement;
+                    FrameworkElement? pageView = CurrentView as FrameworkElement;
 
                     if (pageView != null)
                     {
