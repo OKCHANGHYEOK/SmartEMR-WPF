@@ -37,8 +37,17 @@ public class UIManager
             {
                 return _activeViews.LastOrDefault(v => v.IsPopupView);
             }
+            else
+            {
+                var windows = _activeWindows.OfType<vLayout>();
 
-            return (_activeWindows.FirstOrDefault(w => w is vLayout) as vLayout)?.MainContent as ViewLayout;
+                if (!windows.Any())
+                {
+                    return _activeViews.FirstOrDefault();
+                }
+
+                return windows.FirstOrDefault()?.MainContent as ViewLayout;
+            }
         }
     }
 

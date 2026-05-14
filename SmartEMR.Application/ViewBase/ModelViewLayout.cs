@@ -119,7 +119,12 @@ public abstract partial class ModelViewLayout<T>
 
 public abstract partial class ModelViewLayout<T>
 {
-    public abstract Task<ViewMessageResponse> ReceiveMessage(ViewMessageRequest request);
+    public virtual async Task<ViewMessageResponse> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse();
+
+        return response;
+    }
 }
 
 #endregion 

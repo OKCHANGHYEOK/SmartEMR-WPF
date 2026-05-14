@@ -1,6 +1,5 @@
 ﻿using SmartEMR.Infrastructure;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace SmartEMR.Application.Core;
 

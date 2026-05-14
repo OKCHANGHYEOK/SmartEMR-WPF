@@ -43,7 +43,7 @@ public static partial class SmartUI
 
 public static partial class SmartUI
 {
-    private static UIManager UIManager => UIManager.Instance;
+    public static UIManager UIManager => UIManager.Instance;
 
     public static UIWindow? CurrentWindow
     {
@@ -82,10 +82,15 @@ public static partial class SmartUI
 
 public static partial class SmartUI
 {
-    private static ViewMessenger Messenger = ViewMessenger.Instance;
-    
-    public static Task<ViewMessageResponse?> SendMessage(string action, object? parmeter = null, TargetViewType viewType = TargetViewType.CurrentView)
+    public static ViewMessenger Messenger = ViewMessenger.Instance;
+
+    public static Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
-       return Messenger.SendMessage(action, parmeter, viewType);
+        return Messenger.SendMessage(action, parameter, viewType);
+    }
+    
+    public static Task<ViewMessageResponse<T>?> SendMessage<T>(string action, T? parameter = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
+    {
+       return Messenger.SendMessage<T>(action, parameter, viewType);
     }
 }

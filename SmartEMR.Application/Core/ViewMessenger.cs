@@ -1,4 +1,5 @@
 ﻿using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.Views;
 
 namespace SmartEMR.Application.Core;
 
@@ -16,6 +17,7 @@ public class ViewMessenger
 
     public static ViewMessenger Instance => _instance.Value;
 
+    // 내부 저장소는 공통 베이스 클래스 핸들러로 관리
     private readonly List<(ViewLayout View, Func<ViewMessageRequest, Task<ViewMessageResponse>> Handler)> _subscribers = new();
 
     public void Register(ViewLayout view, Func<ViewMessageRequest, Task<ViewMessageResponse>> handler)
@@ -23,43 +25,42 @@ public class ViewMessenger
         _subscribers.Add((view, handler));
     }
 
-    public async Task<ViewMessageResponse?> SendMessage(string action, object? parmeter = null, TargetViewType viewType = TargetViewType.CurrentView)
+    public async Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
-        if (string.IsNullOrWhiteSpace(action)) return null;
-
-        var request = new ViewMessageRequest
-        {
-            MessageAction = action,
-            MessageParameter = parmeter,
-        };
-
-        ViewLayout? targetView = null;
-
-        switch (viewType)
-        {
-            case TargetViewType.CurrentView:
-                break;
-
-            case TargetViewType.PageView:
-                break;
-
-            case TargetViewType.PreFloatView:
-                break;
-
-            case TargetViewType.RootView:
-                break;
-        }
+        var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter };
+        ViewLayout? targetView = GetTargetView(viewType); // 로직 분리 추천
 
         if (targetView == null) return null;
 
         var sub = _subscribers.FirstOrDefault(s => s.View == targetView);
+        return sub.Handler != null ? await sub.Handler(request) : null;
+    }
 
-        if (sub.Handler != null)
+    public async Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
+    {
+        // 일반 SendMessage를 먼저 호출
+        var response = await SendMessage(action, parameter, viewType);
+
+        if (response == null) return null;
+
+        // 결과를 제네릭 응답 객체로 래핑하여 반환
+        return new ViewMessageResponse<T>
         {
-            return await sub.Handler(request);
-        }
+            MessageAction = response.MessageAction,
+            IsSuccess = response.IsSuccess,
+            Item = response.Item as T
+        };
+    }
 
-        return null;
+    // TargetViewType에 따른 타겟 추출 로직 (UIManager 활용)
+    private ViewLayout? GetTargetView(TargetViewType viewType)
+    {
+        return viewType switch
+        {
+            TargetViewType.CurrentView => SmartUI.UIManager.CurrentView as ViewLayout,
+            TargetViewType.RootView => (SmartUI.UIManager.CurrentWindow as vLayout)?.MainContent as ViewLayout,
+            _ => null
+        };
     }
 }
 
@@ -69,10 +70,16 @@ public class ViewMessageRequest()
     public object? MessageParameter { get; set; }
 }
 
-public class ViewMessageResponse()
+public class ViewMessageResponse
 {
     public string? MessageAction { get; set; }
     public object? Item { get; set; }
-    public object[]? Items { get; set; }
+    public List<object>? Items { get; set; }
     public bool? IsSuccess { get; set; }
+}
+
+public class ViewMessageResponse<T>() : ViewMessageResponse where T : class
+{
+    public new T? Item;
+    public new List<T>? Items;
 }
