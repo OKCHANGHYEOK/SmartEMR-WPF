@@ -1,5 +1,4 @@
-﻿using DevExpress.Dialogs.Core.ViewModel;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
@@ -8,14 +7,22 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.ViewBase;
 
-public abstract class ModelViewLayout<T> : CustomControl, IViewLayout, IDisposable
-                                             where T : class
+public abstract class ViewLayout : CustomControl, IViewLayout
+{
+    public bool IsPopupView { get; set; } = false;
+
+    public abstract IReadOnlyList<BindGrid> BindGrids { get; }
+
+    public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+}
+
+public abstract partial class ModelViewLayout<T> : ViewLayout, IDisposable where T : class
 {
     public T vm = default!;
     public T Model = default!;
 
     private readonly List<BindGrid> _bindGrids = new();
-    public IReadOnlyList<BindGrid> BindGrids => _bindGrids;
+    public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
 
     public bool disposed { get; set; }
 
@@ -44,6 +51,7 @@ public abstract class ModelViewLayout<T> : CustomControl, IViewLayout, IDisposab
             RegisterElement();
 
             SmartUI.UIManager.RegisterView(this);
+            SmartUI.Messenger.Register(this, this.ReceiveMessage);
         };
     }
 
@@ -84,8 +92,12 @@ public abstract class ModelViewLayout<T> : CustomControl, IViewLayout, IDisposab
 
         SmartMVVM.Common.DisposeControl(this);
     }
+}
 
-    public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+#region "BindGrid"
+public abstract partial class ModelViewLayout<T>
+{
+    public override abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
 
     private async void OnBindClick_ModelViewLayout(object sender, BindClickEventArgs e)
     {
@@ -101,3 +113,18 @@ public abstract class ModelViewLayout<T> : CustomControl, IViewLayout, IDisposab
         }
     }
 }
+#endregion
+
+#region "Message"
+
+public abstract partial class ModelViewLayout<T>
+{
+    public virtual async Task<ViewMessageResponse> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse();
+
+        return response;
+    }
+}
+
+#endregion 

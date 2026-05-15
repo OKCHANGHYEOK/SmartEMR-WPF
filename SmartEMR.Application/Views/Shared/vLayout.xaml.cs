@@ -1,5 +1,4 @@
 ﻿using DevExpress.Xpf.Core;
-using DevExpress.XtraPrinting.Drawing;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views.Shared;

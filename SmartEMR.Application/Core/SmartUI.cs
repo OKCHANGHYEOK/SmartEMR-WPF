@@ -3,6 +3,7 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace SmartEMR.Application.Core;
 
@@ -13,24 +14,8 @@ public enum TargetWindowType
     AllWindows
 }
 
-public static class SmartUI
+public static partial class SmartUI
 {
-    public static UIManager UIManager => UIManager.Instance;
-
-    public static UIWindow? CurrentWindow
-    {
-        get
-        {
-            if (UIManager.CurrentWindow != null)
-            {
-                return UIManager.CurrentWindow;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
 
     public static bool MsgConfirm(string title, string message)
     {
@@ -54,6 +39,19 @@ public static class SmartUI
 
         tooltip.IsOpen = true;
     }
+}
+
+public static partial class SmartUI
+{
+    public static UIManager UIManager => UIManager.Instance;
+
+    public static UIWindow? CurrentWindow
+    {
+        get
+        {
+            return UIManager.CurrentWindow;
+        }
+    }
 
     public static T? GetPageView<T>() where T : class
     {
@@ -68,5 +66,31 @@ public static class SmartUI
         }
 
         return targetView as T;
+    }
+
+
+    public static void BeginInvoke(Action action, DispatcherPriority priority)
+    {
+        var currentWindow = CurrentWindow as Window ?? App.Current.MainWindow;
+
+        if (currentWindow != null)
+        {
+            currentWindow.Dispatcher?.BeginInvoke(action, priority);
+        }
+    }
+}
+
+public static partial class SmartUI
+{
+    public static ViewMessenger Messenger = ViewMessenger.Instance;
+
+    public static Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
+    {
+        return Messenger.SendMessage(action, parameter, viewType);
+    }
+    
+    public static Task<ViewMessageResponse<T>?> SendMessage<T>(string action, T? parameter = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
+    {
+       return Messenger.SendMessage<T>(action, parameter, viewType);
     }
 }

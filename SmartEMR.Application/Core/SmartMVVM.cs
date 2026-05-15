@@ -1,7 +1,5 @@
-﻿using MahApps.Metro.Controls;
-using SmartEMR.Infrastructure;
+﻿using SmartEMR.Infrastructure;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace SmartEMR.Application.Core;
 
@@ -53,14 +51,4 @@ public class SmartMVVM
             _clickSemaphore.Release();
         }
     }
-
-    public static void BeginInvoke(Action action, DispatcherPriority priority)
-    {
-        var currentWindow = SmartUI.CurrentWindow as Window ?? App.Current.MainWindow;
-
-        if (currentWindow != null)
-        {
-            currentWindow.Dispatcher?.BeginInvoke(action, priority);
-        }
-    } 
 }

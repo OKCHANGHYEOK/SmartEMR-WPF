@@ -1,5 +1,4 @@
 ﻿using SmartEMR.Application.Xpf;
-using System.Windows;
 
 namespace SmartEMR.Application.ViewBase;
 
