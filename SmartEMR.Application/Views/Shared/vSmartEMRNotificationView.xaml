@@ -1,0 +1,88 @@
+﻿<Xpf:CustomControl  x:Class="SmartEMR.Application.Views.Shared.vSmartEMRNotificationView"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
+                    xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                    mc:Ignorable="d" 
+                    d:DesignHeight="450" d:DesignWidth="800">
+
+    <ItemsControl ItemsSource="{Binding NofiItems}"
+                  VerticalAlignment="Bottom"
+                  HorizontalAlignment="Right"
+                  Margin="10">
+
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Xpf:StyleGrid  LayoutDefinitions="3,1"
+                                ColumnSizeDefinitions="8,Auto,*"
+                                Background="White"
+                                Width="400"
+                                Height="80"
+                                Margin="5">
+                    <Xpf:StyleGrid.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="5" Direction="270" Opacity="0.3" Color="Black"/>
+                    </Xpf:StyleGrid.Effect>
+
+                    <Border x:Name="PART_BORDER" 
+                            Grid.Column="0"
+                            Background="{Binding NotiColor}"/>
+                    
+                    <Image  x:Name="PART_IMAGE" 
+                            Grid.Column="1"
+                            Width="36" 
+                            Height="36"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="5,0"
+                            Source="{Binding NotiImage}"
+                            Stretch="Uniform"/>
+                    
+                    <TextBlock x:Name="PART_TEXTBLOCK"
+                               Grid.Column="2"
+                               Text="{Binding NotiMessage}"
+                               FontSize="14" 
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"/>
+
+                    <Xpf:StyleGrid.Style>
+                        <Style TargetType="{x:Type Xpf:StyleGrid}">
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" 
+                                                 From="20" To="0" Duration="0:0:0.4">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <DataTrigger Binding="{Binding IsClosing}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.3"/>
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" 
+                                                     To="-10" Duration="0:0:0.3"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:StyleGrid.Style>
+                </Xpf:StyleGrid>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</Xpf:CustomControl>

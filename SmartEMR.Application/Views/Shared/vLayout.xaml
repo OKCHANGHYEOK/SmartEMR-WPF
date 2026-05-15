@@ -9,7 +9,9 @@
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
         xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:v="clr-namespace:SmartEMR.Application.Views"
+        xmlns:shared="clr-namespace:SmartEMR.Application.Views.Shared"      
         mc:Ignorable="d"
         d:DesignHeight="1080" d:DesignWidth="1920"
         WindowState="Maximized"
@@ -26,14 +28,15 @@
         </StackPanel>
     </dx:ThemedWindow.HeaderItems>
 
-    <dxdo:DockLayoutManager Background="#F0F2F5" 
+    <Grid>
+        <dxdo:DockLayoutManager Background="#F0F2F5" 
                             Margin="0" 
                             Padding="0" 
                             ViewStyle="Light"
                             UseLayoutRounding="True">
-        <dxdo:LayoutGroup Orientation="Vertical" Padding="0">
+            <dxdo:LayoutGroup Orientation="Vertical" Padding="0">
 
-            <dxdo:LayoutPanel ItemHeight="80" 
+                <dxdo:LayoutPanel ItemHeight="80" 
                               ShowCaption="False" 
                               ShowBorder="False" 
                               AllowClose="False" 
@@ -43,24 +46,23 @@
                               Padding="0"
                               Margin="0"
                               Background="#E1EEFF">
-                <v:vSmartEMRBarMenu/>
-            </dxdo:LayoutPanel>
+                    <v:vSmartEMRBarMenu/>
+                </dxdo:LayoutPanel>
 
-            <dxdo:LayoutPanel ShowCaption="False"
+                <dxdo:LayoutPanel ShowCaption="False"
                               AllowClose="False"
                               ShowBorder="False"
                               Padding="3">
 
-                <Border Background="White" 
+                    <Border Background="White" 
                         CornerRadius="4" 
                         BorderBrush="#D6DBDF" 
                         BorderThickness="2">
-                    <dxwui:NavigationFrame Content="{Binding MainContent, RelativeSource={RelativeSource AncestorType={x:Type v:vLayout}}}"
-                                          AnimationType="Fade"
-                                          Margin="1"></dxwui:NavigationFrame>
-                </Border>
-            </dxdo:LayoutPanel>
-
-        </dxdo:LayoutGroup>
-    </dxdo:DockLayoutManager>
+                        <dxwui:NavigationFrame Content="{Binding MainContent, RelativeSource={RelativeSource AncestorType={x:Type v:vLayout}}}" AnimationType="Fade" Margin="1"/>
+                    </Border>
+                </dxdo:LayoutPanel>
+            </dxdo:LayoutGroup>
+        </dxdo:DockLayoutManager>
+        <shared:vSmartEMRNotificationView/>
+    </Grid>
 </Xpf:UIWindow>
