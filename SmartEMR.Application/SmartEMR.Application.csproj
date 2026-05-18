@@ -19,7 +19,9 @@
 
   <ItemGroup>
     <None Remove="Images\copy.png" />
+    <None Remove="Images\smartemr_check.png" />
     <None Remove="Images\smartemr_desk_register.png" />
+    <None Remove="Images\smartemr_info.png" />
     <None Remove="Images\smartemr_menu_calendar.png" />
     <None Remove="Images\smartemr_menu_crm.png" />
     <None Remove="Images\smartemr_menu_desk.png" />
@@ -65,7 +67,10 @@
 
   <ItemGroup>
     <Resource Include="Images\copy.png" />
+    <Resource Include="Images\smartemr_check.png" />
     <Resource Include="Images\smartemr_desk_register.png" />
+    <Resource Include="Images\smartemr_warning.png" />
+    <Resource Include="Images\smartemr_info.png" />
     <Resource Include="Images\smartemr_menu_crm.png" />
     <Resource Include="Images\smartemr_menu_payment.png" />
   </ItemGroup>
@@ -75,6 +80,7 @@
     <Resource Include="Images\smartemr_menu_desk.png" />
     <Resource Include="Images\smartemr_menu_exam.png" />
     <Resource Include="Images\smartemr_menu_settings.png" />
+    <Resource Include="Images\smartemr_error.png" />
     <Resource Include="Images\Svg\smartemr_menu_calendar.svg" />
     <Resource Include="Images\Svg\smartemr_menu_crm.svg" />
     <Resource Include="Images\Svg\smartemr_menu_desk.svg" />

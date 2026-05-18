@@ -63,6 +63,6 @@
                 </dxdo:LayoutPanel>
             </dxdo:LayoutGroup>
         </dxdo:DockLayoutManager>
-        <shared:vSmartEMRNotificationView Width="400" Height="1000" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,5"/>
+        <shared:vSmartEMRNotificationView Width="420" Height="1000" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,5"/>
     </Grid>
 </Xpf:UIWindow>

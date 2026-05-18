@@ -107,13 +107,13 @@ public static partial class SmartUI
 {
     private static readonly Brush BRUSH_INFO = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00BCD4"));
     private static readonly Brush BURSH_SUCCESS = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#009688"));
-    private static readonly Brush BRUSH_WARNING = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF9800"));
+    private static readonly Brush BRUSH_WARNING = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ED7D31"));
     private static readonly Brush BRUSH_ERROR = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E91E63"));
 
-    private static readonly ImageSource IMAGE_INFO = GlyphImage("/Images/Svg/noti_info.svg");
-    private static readonly ImageSource IMAGE_SUCCESS = GlyphImage("/Images/Svg/noti_success.svg");
-    private static readonly ImageSource IMAGE_WARNING = GlyphImage("/Images/Svg/noti_warning.svg");
-    private static readonly ImageSource IMAGE_ERROR = GlyphImage("/Images/Svg/noti_error.svg");
+    private static readonly ImageSource IMAGE_INFO = GlyphImage("Images/smartemr_info.png");
+    private static readonly ImageSource IMAGE_SUCCESS = GlyphImage("Images/smartemr_check.png");
+    private static readonly ImageSource IMAGE_WARNING = GlyphImage("Images/smartemr_warning.png");
+    private static readonly ImageSource IMAGE_ERROR = GlyphImage("Images/smartemr_error.png");
 
     private static NotificationService NotificationService => NotificationService.Instance;
 
@@ -152,5 +152,10 @@ public static partial class SmartUI
         notiItem.NotiImage = Image;
 
         NotificationService.SetNotification(notiItem);
+    }
+
+    public static void CloseNotification(NotiItem notiItem)
+    {
+        NotificationService.CloseNotification(notiItem);
     }
 }

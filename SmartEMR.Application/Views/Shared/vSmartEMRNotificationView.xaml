@@ -13,17 +13,21 @@
     <ItemsControl x:Name="NotiItemsControl"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Right"
-                  Margin="10">
+                  Width="400"
+                  Margin="5,10">
 
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border Width="400"
-                        Height="80"
-                        Margin="0,8,0,8" 
+                <Border Height="80"
+                        Margin="0,8,4,8" 
                         Background="White"
-                        RenderTransformOrigin="1,0.5">
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        SnapsToDevicePixels="True"
+                        RenderTransformOrigin="1,0.5"
+                        MouseLeftButtonDown="OnMouseLeftButtonDown_NotiItem">
                     <Border.Effect>
-                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Direction="270" Opacity="0.15" Color="Black"/>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Direction="270" Opacity="0.5" Color="Black"/>
                     </Border.Effect>
 
                     <Border.RenderTransform>
@@ -56,7 +60,7 @@
                                                                  Duration="0:0:0.25"/>
 
                                                 <ThicknessAnimation Storyboard.TargetProperty="Margin"
-                                                                    From="0,8,0,8" To="400,8,-400,8" 
+                                                                    From="0,8,0,8" To="410,8,-410,8" 
                                                                     Duration="0:0:0.5">
                                                     <ThicknessAnimation.EasingFunction>
                                                         <CircleEase EasingMode="EaseIn"/>

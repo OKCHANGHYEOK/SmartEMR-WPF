@@ -18,8 +18,5 @@ public partial class SearchViewModel : BaseViewModel<Patient>
     [RelayCommand]
     public async Task Search()
     {
-        SmartUI.SetNofification("메세지 출력 테스트", NotificationType.Info);
     }
-
-
 }
