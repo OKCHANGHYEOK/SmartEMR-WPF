@@ -28,14 +28,11 @@
                 </Label>
                 <Xpf:Button Background="GhostWhite"
                             Margin="5"
-                            Width="80"
-                            Height="24"
-                            HorizontalContentAlignment="Stretch">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/smartemr_desk_register.png" Width="17" Height="17"></Image>
-                        <Label FontSize="10" Content="접수하기" Margin="2,0"/>
-                    </StackPanel>
-                </Xpf:Button>
+                            Width="100"
+                            Height="28"
+                            Content="접수하기"
+                            Glyph="/Images/smartemr_desk_register.png"/>
+
             </StackPanel>
             <Border.Style>
                 <Style TargetType="Border">

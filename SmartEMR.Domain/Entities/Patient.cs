@@ -30,16 +30,18 @@ public class Patient : BaseEntity
     public string? PAT_LastVisitDate { get; set; }
     public string? PAT_IsSolar { get; set; }
     public string? PAT_IsAgreePersonalInfo { get; set; }
+    public string? vPAT_IsAgreePersonalInfo { get; set; }
     public string? PAT_IsForeign { get; set; }
     public string? PAT_IsSMS { get; set; }
     public string? PAT_IsEmail { get; set; }
     public byte[]? PAT_ImageSource { get; set; }
+    public string? PAT_Bigo { get; set; }
     public string? PAT_Date { get; set; }
     public string? PAT_YYMMDD { get; set; }
     public bool? PAT_IsValid { get; set; }
-    public string? PAT_Log { get; set; }
 
     public int? NOW_CHT_Idx_RCV { get; set; }
     public int? NOW_CHT_Idx_RES { get; set; }
     public int? NEXT_CHT_Idx_RES { get; set; }
+    public string? NEXT_CHT_DATE_RES { get; set; }
 }

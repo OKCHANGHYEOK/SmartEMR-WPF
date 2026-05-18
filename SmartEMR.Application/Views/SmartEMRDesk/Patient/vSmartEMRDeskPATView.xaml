@@ -10,10 +10,11 @@
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:desk="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
+                        xmlns:resources="clr-namespace:SmartEMR.Application.Resources"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
 
-    <Border Background="White" CornerRadius="3">
+    <Border Background="#F8FAFC" CornerRadius="3">
         <Border.Effect>
             <DropShadowEffect Color="Black"
                               Direction="315"
@@ -22,14 +23,15 @@
                               Opacity="0.15"/>
         </Border.Effect>
 
-        <Xpf:StyleGrid LayoutDefinitions="13,11" ShowGridLines="True" Padding="5">            
+        <Xpf:StyleGrid LayoutDefinitions="13,11" Padding="5">            
             <Border x:Name="PatientImageBorder" 
                     Grid.Column="0"
                     Grid.Row="0"
                     Grid.ColumnSpan="4"
                     Grid.RowSpan="8"
                     BorderBrush="Black" 
-                    BorderThickness="1">
+                    BorderThickness="1"
+                    Margin="5">
                 <Image x:Name="PatientImage" Source="{Binding PAT_ImageSource}" Stretch="Uniform"/>
             </Border>
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="9"  VerticalAlignment="Center" Margin="10,0">
@@ -82,13 +84,64 @@
             </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="4">
                 <Label FontWeight="SemiBold">다음예약일</Label>
-                <Label Content="{Binding PAT_NextReservationDate}"/>
+                <Label Content="{Binding NEXT_CHT_DATE_RES}"/>
             </desk:vSmartEMRDeskPATView_TextItem>
             <desk:vSmartEMRDeskPATView_TextItem Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="8">
                 <Label FontWeight="SemiBold">비고</Label>
                 <Xpf:TextBlock Text="{Binding PAT_Bigo}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
             </desk:vSmartEMRDeskPATView_TextItem>
+            <Xpf:Button Grid.Row="8" 
+                        Grid.ColumnSpan="4" 
+                        Content="환자수정"
+                        Glyph="/Images/smartemr_edit_patient.png"
+                        Margin="5,2" 
+                        Background="#F1F3F5" 
+                        BorderBrush="LightGray" 
+                        BorderThickness="1"/>
             
+            <Border x:Name="PersonalInfoBorder"
+                    Grid.Row="9"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="4"
+                    Background="#E8F5E9"
+                    BorderBrush="#009688"
+                    BorderThickness="2"
+                    CornerRadius="5"
+                    Margin="5">
+
+                <Border.Resources>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="y">
+                                <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_AGREE}"/>
+                                <Setter Property="Background" Value="#E8F5E9"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="n">
+                                <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_NOTAGREE}"/>
+                                <Setter Property="Background" Value="#FAFAFA"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Resources>
+
+                <Xpf:TextBlock Text="{Binding vPAT_IsAgreePersonalInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Margin="0,4,0,0" FontWeight="Bold">
+                    <Xpf:TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="y">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="n">
+                                    <Setter Property="Foreground" Value="DimGray"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:TextBlock.Style>
+                </Xpf:TextBlock>
+            </Border>
+
+            <desk:vSmartEMRDeskPATView_CHTSummary Grid.Row="7" Grid.Column="4" Grid.RowSpan="4" Grid.ColumnSpan="13" Margin="5"/>
         </Xpf:StyleGrid>
     </Border>
 </base:ModelViewLayout>

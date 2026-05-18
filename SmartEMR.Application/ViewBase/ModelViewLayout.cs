@@ -30,8 +30,6 @@ public abstract partial class ModelViewLayout<T> : ViewLayout, IDisposable where
 
     public ModelViewLayout()
     {
-        Initialize();
-
         if (typeof(IBaseViewModel).IsAssignableFrom(typeof(T)))
         {
             vm = Activator.CreateInstance<T>();
@@ -45,6 +43,8 @@ public abstract partial class ModelViewLayout<T> : ViewLayout, IDisposable where
         
             this.SetValue(DataContextProperty, Model);
         }
+
+        Initialize();
 
         this.Loaded += (s, e) => 
         {

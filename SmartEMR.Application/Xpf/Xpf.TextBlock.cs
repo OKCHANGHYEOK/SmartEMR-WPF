@@ -13,5 +13,6 @@ public class TextBlock : System.Windows.Controls.TextBlock
         this.HorizontalAlignment = HorizontalAlignment.Center;
         this.VerticalAlignment = VerticalAlignment.Center;
         this.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+        this.FontFamily = new FontFamily("#Pretendard");
     }
 }

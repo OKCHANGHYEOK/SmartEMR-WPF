@@ -27,10 +27,24 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Margin="5,2,5,2">
-                        </ContentPresenter>
+
+                        <Xpf:StyleGrid  LayoutDefinitions="4,1"
+                                        ColumnSizeDefinitions="*,Auto,Auto,*"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                            <Image  x:Name="PART_IMAGE"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Source="{TemplateBinding Glyph}" 
+                                    Width="18" 
+                                    Height="18" 
+                                    Stretch="Uniform"/>
+
+                            <ContentPresenter   Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="5,2,5,2">
+                            </ContentPresenter>
+                        </Xpf:StyleGrid>
                     </Border>
 
                     <ControlTemplate.Triggers>
@@ -46,6 +60,10 @@
                                     <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
                                 </Setter.Value>
                             </Setter>
+                        </Trigger>
+
+                        <Trigger Property="Glyph" Value="{x:Null}">
+                            <Setter Property="Visibility" TargetName="PART_IMAGE" Value="Collapsed"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>    

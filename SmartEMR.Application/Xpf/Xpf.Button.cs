@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
@@ -19,12 +17,22 @@ public class Button : System.Windows.Controls.Button
         set => SetValue(CornerRadiusProperty, value);
     }
 
+    public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(
+        nameof(Glyph),
+        typeof(ImageSource),
+        typeof(Button),
+        new PropertyMetadata(null));
+
+    public ImageSource Glyph     
+    {
+        get => (ImageSource)GetValue(GlyphProperty);
+        set => SetValue(GlyphProperty, value);
+    }
+
     static Button()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(Button), new FrameworkPropertyMetadata(typeof(Button)));
     }
 
     public Button() : base() { }
-
-
 }

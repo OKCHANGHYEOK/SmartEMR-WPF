@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Services;
+﻿using SmartEMR.Application.Resources;
+using SmartEMR.Application.Services;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Windows;
@@ -105,16 +106,6 @@ public static partial class SmartUI
 
 public static partial class SmartUI
 {
-    private static readonly Brush BRUSH_INFO = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00BCD4"));
-    private static readonly Brush BURSH_SUCCESS = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#009688"));
-    private static readonly Brush BRUSH_WARNING = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ED7D31"));
-    private static readonly Brush BRUSH_ERROR = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E91E63"));
-
-    private static readonly ImageSource IMAGE_INFO = GlyphImage("Images/smartemr_info.png");
-    private static readonly ImageSource IMAGE_SUCCESS = GlyphImage("Images/smartemr_check.png");
-    private static readonly ImageSource IMAGE_WARNING = GlyphImage("Images/smartemr_warning.png");
-    private static readonly ImageSource IMAGE_ERROR = GlyphImage("Images/smartemr_error.png");
-
     private static NotificationService NotificationService => NotificationService.Instance;
 
     public static void SetNofification(string message, NotificationType type)
@@ -127,23 +118,23 @@ public static partial class SmartUI
         switch (type)
         {
             case NotificationType.Info:
-                color = BRUSH_INFO;
-                Image = IMAGE_INFO;
+                color = SmartBrush.BRUSH_INFO;
+                Image = SmartImage.IMAGE_INFO;
                 break;
 
             case NotificationType.Success:
-                color = BURSH_SUCCESS;
-                Image = IMAGE_SUCCESS;
+                color = SmartBrush.BRUSH_SUCCESS;
+                Image = SmartImage.IMAGE_SUCCESS;
                 break;
 
             case NotificationType.Warning:
-                color = BRUSH_WARNING;
-                Image = IMAGE_WARNING;
+                color = SmartBrush.BRUSH_WARNING;
+                Image = SmartImage.IMAGE_WARNING;
                 break;
 
             case NotificationType.Error:
-                color = BRUSH_ERROR;
-                Image = IMAGE_ERROR;
+                color = SmartBrush.BRUSH_ERROR;
+                Image = SmartImage.IMAGE_ERROR;
                 break;
         }
 

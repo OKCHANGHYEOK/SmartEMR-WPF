@@ -14,17 +14,6 @@ namespace SmartEMR.Application.Xpf.Bar
 
     public class BarItem : Button
     {
-        // 1. 이미지 소스 (SVG나 ImagePath)
-        public static readonly DependencyProperty GlyphProperty =
-            DependencyProperty.Register("Glyph", typeof(ImageSource), typeof(BarItem), new PropertyMetadata(null));
-
-        [TypeConverter(typeof(SvgImageSourceConverter))]
-        public ImageSource Glyph
-        {
-            get => (ImageSource)GetValue(GlyphProperty);
-            set => SetValue(GlyphProperty, value);
-        }
-
         public static readonly DependencyProperty ImageWidthProperty =
             DependencyProperty.Register("ImageWidth", typeof(double), typeof(BarItem), new PropertyMetadata(60.0));
 
