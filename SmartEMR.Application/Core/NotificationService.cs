@@ -40,6 +40,8 @@ public class NotificationService
 
     private readonly ObservableCollection<NotiItem> _Items;
 
+    public ObservableCollection<NotiItem> NotiItems => _Items;
+
     public NotificationService(ObservableCollection<NotiItem> items)
     {
         _Items = items;
@@ -53,7 +55,7 @@ public class NotificationService
 
         item.IsClosing = true;
 
-        await Task.Delay(300);
+        await Task.Delay(1000);
 
         _Items.Remove(item);
     }

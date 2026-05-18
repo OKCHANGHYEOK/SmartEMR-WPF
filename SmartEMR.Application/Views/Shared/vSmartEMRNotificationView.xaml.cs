@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
-using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace SmartEMR.Application.Views.Shared
 {
@@ -9,10 +10,9 @@ namespace SmartEMR.Application.Views.Shared
     /// </summary>
     public partial class vSmartEMRNotificationView : CustomControl
     {
-        public ObservableCollection<NotiItem> NotiItems = new();
-
         public vSmartEMRNotificationView()
         {
+            NotiItemsControl.SetBinding(ItemsControl.ItemsSourceProperty, new Binding("NotiItems") { Source = NotificationService.Instance });
         }
     }
 }

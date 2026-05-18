@@ -5,60 +5,40 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                     xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
                     xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                    xmlns:core="clr-namespace:SmartEMR.Application.Core"
                     mc:Ignorable="d" 
-                    d:DesignHeight="450" d:DesignWidth="800">
+                    d:DesignHeight="450" d:DesignWidth="800"
+                    Background="Transparent">
 
-    <ItemsControl ItemsSource="{Binding NofiItems}"
+    <ItemsControl x:Name="NotiItemsControl"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Right"
                   Margin="10">
 
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Xpf:StyleGrid  LayoutDefinitions="3,1"
-                                ColumnSizeDefinitions="8,Auto,*"
-                                Background="White"
-                                Width="400"
-                                Height="80"
-                                Margin="5">
-                    <Xpf:StyleGrid.Effect>
-                        <DropShadowEffect BlurRadius="15" ShadowDepth="5" Direction="270" Opacity="0.3" Color="Black"/>
-                    </Xpf:StyleGrid.Effect>
+                <Border Width="400"
+                        Height="80"
+                        Margin="0,8,0,8" 
+                        Background="White"
+                        RenderTransformOrigin="1,0.5">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="3" Direction="270" Opacity="0.15" Color="Black"/>
+                    </Border.Effect>
 
-                    <Border x:Name="PART_BORDER" 
-                            Grid.Column="0"
-                            Background="{Binding NotiColor}"/>
-                    
-                    <Image  x:Name="PART_IMAGE" 
-                            Grid.Column="1"
-                            Width="36" 
-                            Height="36"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="5,0"
-                            Source="{Binding NotiImage}"
-                            Stretch="Uniform"/>
-                    
-                    <TextBlock x:Name="PART_TEXTBLOCK"
-                               Grid.Column="2"
-                               Text="{Binding NotiMessage}"
-                               FontSize="14" 
-                               VerticalAlignment="Center"
-                               TextWrapping="Wrap"/>
+                    <Border.RenderTransform>
+                        <ScaleTransform ScaleX="0" ScaleY="1"/>
+                    </Border.RenderTransform>
 
-                    <Xpf:StyleGrid.Style>
-                        <Style TargetType="{x:Type Xpf:StyleGrid}">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}" BasedOn="{x:Null}">
                             <Style.Triggers>
                                 <EventTrigger RoutedEvent="Loaded">
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <CircleEase EasingMode="EaseOut"/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" 
-                                                 From="20" To="0" Duration="0:0:0.4">
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" 
+                                                             From="0" To="1" Duration="0:0:0.35">
                                                 <DoubleAnimation.EasingFunction>
                                                     <CircleEase EasingMode="EaseOut"/>
                                                 </DoubleAnimation.EasingFunction>
@@ -69,19 +49,60 @@
 
                                 <DataTrigger Binding="{Binding IsClosing}" Value="True">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.3"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" 
-                                                     To="-10" Duration="0:0:0.3"/>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                                                 From="1" To="0" 
+                                                                 Duration="0:0:0.25"/>
+
+                                                <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                    From="0,8,0,8" To="400,8,-400,8" 
+                                                                    Duration="0:0:0.5">
+                                                    <ThicknessAnimation.EasingFunction>
+                                                        <CircleEase EasingMode="EaseIn"/>
+                                                    </ThicknessAnimation.EasingFunction>
+                                                </ThicknessAnimation>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Xpf:StyleGrid.Style>
-                </Xpf:StyleGrid>
+                    </Border.Style>
+
+                    <Xpf:StyleGrid LayoutDefinitions="2,2"
+                                   ColumnSizeDefinitions="Auto,*"
+                                   RowSizeDefinitions="Auto,*">
+                        <Border x:Name="PART_BORDER" 
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2"
+                                Height="4"
+                                Background="{Binding NotiColor}"/>
+
+                        <Image  x:Name="PART_IMAGE" 
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Width="32" 
+                                Height="32"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="15,0,5,0"
+                                Source="{Binding NotiImage}"
+                                Stretch="Uniform"/>
+
+                        <TextBlock  x:Name="PART_TEXTBLOCK"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding NotiMessage}"
+                                    FontSize="13" 
+                                    FontWeight="Medium"
+                                    Foreground="#333333"
+                                    VerticalAlignment="Center"
+                                    Margin="10,0,15,0"
+                                    TextWrapping="Wrap"/>
+                    </Xpf:StyleGrid>
+                </Border>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
