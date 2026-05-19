@@ -55,16 +55,24 @@
 
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Opacity" Value="1"></Setter>
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                                </Setter.Value>
-                            </Setter>
                         </Trigger>
 
                         <Trigger Property="Glyph" Value="{x:Null}">
                             <Setter Property="Visibility" TargetName="PART_IMAGE" Value="Collapsed"></Setter>
                         </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsPressed" Value="True"/>
+                                <Condition Property="IsExpandingWhenClick" Value="True"/>
+                            </MultiTrigger.Conditions>
+
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>    
             </Setter.Value>

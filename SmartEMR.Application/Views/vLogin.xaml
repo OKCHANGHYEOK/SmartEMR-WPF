@@ -69,33 +69,35 @@
                           Width="240"
                           Height="38">
 
-                    <Xpf:BindItem FieldName="btnLogin"
-                              BindType="Button"
-                              ButtonText="로그인"
-                              BackGround="#8FAADC"
-                              Foreground="White"
-                              FontWeight="Bold"
-                              CornerRadius="4"
-                              Col="0"
-                              Row="0"
-                              IsBinding="False"
-                              IsBindClickEvent="True">
+                    <Xpf:BindItem   FieldName="btnLogin"
+                                    BindType="Button"
+                                    ButtonText="로그인"
+                                    BackGround="#8FAADC"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    CornerRadius="4"
+                                    Col="0"
+                                    Row="0"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True"
+                                    IsExpandingWhenClick="True">
 
                     </Xpf:BindItem>
 
-                    <Xpf:BindItem FieldName="btnJoin"
-                              BindType="Button"
-                              ButtonText="회원가입"
-                              BackGround="#F1F3F5"
-                              Foreground="#666666"
-                              FontWeight="Bold"
-                              BorderBrush="DarkGray"
-                              Margin="4,0,0,0"
-                              CornerRadius="4"
-                              Col="1"
-                              Row="0"
-                              IsBinding="False"
-                              IsBindClickEvent="True">
+                    <Xpf:BindItem   FieldName="btnJoin"
+                                    BindType="Button"
+                                    ButtonText="회원가입"
+                                    BackGround="#F1F3F5"
+                                    Foreground="#666666"
+                                    FontWeight="Bold"
+                                    BorderBrush="DarkGray"
+                                    Margin="4,0,0,0"
+                                    CornerRadius="4"
+                                    Col="1"
+                                    Row="0"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True"
+                                    IsExpandingWhenClick="True">
 
                     </Xpf:BindItem>
                 </Xpf:BindGrid>

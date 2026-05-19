@@ -44,4 +44,5 @@ public class BindItem
     public bool IsChecked { get; set; } = false;
     public bool IsBinding { get; set; } = true;
     public bool IsBindClickEvent { get; set; } = false;
+    public bool IsExpandingWhenClick { get; set; } = false;
 }

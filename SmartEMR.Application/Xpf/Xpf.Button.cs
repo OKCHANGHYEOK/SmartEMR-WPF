@@ -29,6 +29,18 @@ public class Button : System.Windows.Controls.Button
         set => SetValue(GlyphProperty, value);
     }
 
+    public static readonly DependencyProperty IsExpandingWhenClickProperty = DependencyProperty.Register(
+        nameof(IsExpandingWhenClick),
+        typeof(bool),
+        typeof(Button),
+        new PropertyMetadata(false));
+
+    public bool IsExpandingWhenClick
+    {
+        get => (bool)GetValue(IsExpandingWhenClickProperty);
+        set => SetValue(IsExpandingWhenClickProperty, value);
+    }
+
     static Button()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(Button), new FrameworkPropertyMetadata(typeof(Button)));

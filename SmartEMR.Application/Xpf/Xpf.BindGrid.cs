@@ -107,6 +107,7 @@ public partial class BindGrid : StyleGrid, IDisposable
             btn.SetValue(Button.CornerRadiusProperty, element.CornerRadius);
             btn.SetValue(Button.ForegroundProperty, element.Foreground);
             btn.SetValue(Button.FontWeightProperty, element.FontWeight);
+            btn.SetValue(Button.IsExpandingWhenClickProperty, element.IsExpandingWhenClick);
 
             visualChild = btn;
         }
