@@ -1,5 +1,6 @@
 ﻿using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views;
+using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 
@@ -39,14 +40,14 @@ public class UIManager
             }
             else
             {
-                var windows = _activeWindows.OfType<vLayout>();
+                var windows = _activeWindows.OfType<UIWindow>();
 
                 if (!windows.Any())
                 {
                     return _activeViews.FirstOrDefault();
                 }
 
-                return windows.FirstOrDefault()?.MainContent as ViewLayout;
+                return windows.FirstOrDefault()?.Content as ViewLayout;
             }
         }
     }

@@ -1,20 +1,16 @@
-﻿using DevExpress.Xpf.Core;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
-using SmartEMR.Application.Views.Shared;
-using SmartEMR.Application.Xpf;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
+using SmartEMR.Application.Xpf;
 
-namespace SmartEMR.Application.Views;
+namespace SmartEMR.Application.Views.Shared;
 
+[ObservableObject]
 /// <summary>
 /// vLayout.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class vLayout : UIWindow
+public partial class vLayout : ViewLayout
 {
     private IViewLayout _mainContent = default!;
 
@@ -24,14 +20,10 @@ public partial class vLayout : UIWindow
         set => SetProperty(ref _mainContent, value, nameof(MainContent));
     }
 
-    public vLayout() : base()
-    {
-        Initialize();
+    public override IReadOnlyList<BindGrid> BindGrids => default!;
 
-        this.Loaded += (s, e) =>
-        {
-            SplashScreenManager.CloseAll();
-        };
+    public vLayout()
+    {
     }
 
     public vLayout(Type T) : this()
@@ -39,37 +31,39 @@ public partial class vLayout : UIWindow
         MainContent = Activator.CreateInstance(T) as IViewLayout ?? default!;
     }
 
-    protected override void Initialize()
-    {
-        this.ShowTitle = false;
 
-        DevExpress.Xpf.Core.ThemeManager.SetThemeName(this, Theme.Office2019ColorfulFullName);
+    public override Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    {
+        return Task.CompletedTask;
     }
 
-    private void OnClosing_vLayout(object sender, CancelEventArgs e)
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
-        MessageBoxResult result = MessageBox.Show("프로그램을 종료하시겠습니까?", "종료 확인", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-        if (result == MessageBoxResult.Yes) 
-        { 
-            App.Current.Shutdown();
-        } 
-        else
+        switch (request.MessageAction) 
         {
-            e.Cancel = true;
+            case "SetFocusToSearchText":
+                SetFocusToSearchView();
+                break;
         }
+
+        return null;
     }
-    
+
     private void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {
         if (e.Key == Key.F6)
         {
-            var searchView = SmartUI.GetPageView<vSearchView>();
+            SetFocusToSearchView();
+        }
+    }
 
-            if (searchView != null)
-            {
-                searchView.SetFocusToSearch();
-            }
+    private void SetFocusToSearchView()
+    {
+        var searchView = SmartUI.GetPageView<vSearchView>();
+
+        if (searchView != null)
+        {
+            searchView.SetFocusToSearch();
         }
     }
 }

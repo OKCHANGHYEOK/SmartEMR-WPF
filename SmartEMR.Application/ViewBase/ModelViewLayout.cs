@@ -14,6 +14,12 @@ public abstract class ViewLayout : CustomControl, IViewLayout
     public abstract IReadOnlyList<BindGrid> BindGrids { get; }
 
     public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+    public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
+
+    public ViewLayout()
+    {
+        SmartUI.Messenger.Register(this, this.ReceiveMessage);
+    }
 }
 
 public abstract partial class ModelViewLayout<T> : ViewLayout, IDisposable where T : class
@@ -51,7 +57,6 @@ public abstract partial class ModelViewLayout<T> : ViewLayout, IDisposable where
             RegisterElement();
 
             SmartUI.UIManager.RegisterView(this);
-            SmartUI.Messenger.Register(this, this.ReceiveMessage);
         };
     }
 
@@ -119,7 +124,7 @@ public abstract partial class ModelViewLayout<T>
 
 public abstract partial class ModelViewLayout<T>
 {
-    public virtual async Task<ViewMessageResponse> ReceiveMessage(ViewMessageRequest request)
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
         var response = new ViewMessageResponse();
 

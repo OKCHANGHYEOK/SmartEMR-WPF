@@ -4,8 +4,8 @@ using System.Windows;
 using SmartEMR.Application.Views;
 using SmartEMR.Application.Windows;
 using DevExpress.Xpf.Core;
-using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Views.Shared;
 
 namespace SmartEMR.Application
 {
@@ -69,7 +69,7 @@ namespace SmartEMR.Application
 
             manager.Show();
 
-            this.MainWindow = new vLayout(typeof(vSmartEMRDeskTab));
+            this.MainWindow = new SmartEMRWindow();
             this.MainWindow.Show();
         }
 

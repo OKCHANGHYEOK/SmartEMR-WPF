@@ -1,5 +1,4 @@
 ﻿using SmartEMR.Application.ViewBase;
-using SmartEMR.Application.Views;
 
 namespace SmartEMR.Application.Core;
 
@@ -8,7 +7,7 @@ public enum TargetViewType
     CurrentView = 0,        // 메세지를 전송한 뷰
     PageView = 1,           // 메세지를 전송한 뷰가 포함된 페이지(부모뷰)에 해당하는 뷰
     PreFloatView= 2,        // 팝업인 경우 해당 팝업의 이전 팝업
-    RootView = 3            // vLayout 의 메인컨텐츠
+    RootView = 3            // vLayout
 }
 
 public class ViewMessenger
@@ -18,9 +17,9 @@ public class ViewMessenger
     public static ViewMessenger Instance => _instance.Value;
 
     // 내부 저장소는 공통 베이스 클래스 핸들러로 관리
-    private readonly List<(ViewLayout View, Func<ViewMessageRequest, Task<ViewMessageResponse>> Handler)> _subscribers = new();
+    private readonly List<(ViewLayout View, Func<ViewMessageRequest, Task<ViewMessageResponse?>> Handler)> _subscribers = new();
 
-    public void Register(ViewLayout view, Func<ViewMessageRequest, Task<ViewMessageResponse>> handler)
+    public void Register(ViewLayout view, Func<ViewMessageRequest, Task<ViewMessageResponse?>> handler)
     {
         _subscribers.Add((view, handler));
     }
@@ -28,11 +27,18 @@ public class ViewMessenger
     public async Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
         var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter };
-        ViewLayout? targetView = GetTargetView(viewType); // 로직 분리 추천
+        ViewLayout? targetView = GetTargetView(viewType);
 
-        if (targetView == null) return null;
+        //if (targetView == null)
+        //{
+        //    if (viewType == TargetViewType.CurrentView)
+        //    {
+
+        //    }
+        //}
 
         var sub = _subscribers.FirstOrDefault(s => s.View == targetView);
+
         return sub.Handler != null ? await sub.Handler(request) : null;
     }
 
@@ -57,8 +63,8 @@ public class ViewMessenger
     {
         return viewType switch
         {
-            TargetViewType.CurrentView => SmartUI.UIManager.CurrentView as ViewLayout,
-            TargetViewType.RootView => (SmartUI.UIManager.CurrentWindow as vLayout)?.MainContent as ViewLayout,
+            TargetViewType.PageView => SmartUI.CurrentPageView, 
+            TargetViewType.RootView => SmartUI.RootView,
             _ => null
         };
     }

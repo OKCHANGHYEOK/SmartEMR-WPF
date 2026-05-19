@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.Resources;
 using SmartEMR.Application.Services;
 using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,6 +62,24 @@ public static partial class SmartUI
             return UIManager.CurrentWindow;
         }
     }
+
+    public static ViewLayout? CurrentPageView
+    {
+        get
+        {
+            return (RootView as vLayout)?.MainContent as ViewLayout;
+        }
+    }
+
+    public static ViewLayout? RootView
+    {
+        get
+        {
+            return UIManager.CurrentWindow?.Content as ViewLayout;
+        }
+    }
+    
+
 
     public static T? GetPageView<T>() where T : class
     {

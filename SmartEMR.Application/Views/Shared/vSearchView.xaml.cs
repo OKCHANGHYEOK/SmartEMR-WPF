@@ -11,9 +11,6 @@ namespace SmartEMR.Application.Views.Shared;
 [ObservableObject]
 public partial class vSearchView : ModelViewLayout<SearchViewModel>
 {
-    [ObservableProperty]
-    private string m_SearchText = string.Empty;
-
     public vSearchView()
     {
     }
