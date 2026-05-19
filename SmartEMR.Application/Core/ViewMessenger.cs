@@ -29,20 +29,12 @@ public class ViewMessenger
         var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter };
         ViewLayout? targetView = GetTargetView(viewType);
 
-        //if (targetView == null)
-        //{
-        //    if (viewType == TargetViewType.CurrentView)
-        //    {
-
-        //    }
-        //}
-
         var sub = _subscribers.FirstOrDefault(s => s.View == targetView);
 
         return sub.Handler != null ? await sub.Handler(request) : null;
     }
 
-    public async Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
+    public async Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView, object? sender= null) where T : class
     {
         // 일반 SendMessage를 먼저 호출
         var response = await SendMessage(action, parameter, viewType);
@@ -63,6 +55,7 @@ public class ViewMessenger
     {
         return viewType switch
         {
+            TargetViewType.CurrentView => SmartUI.CurrentView,
             TargetViewType.PageView => SmartUI.CurrentPageView, 
             TargetViewType.RootView => SmartUI.RootView,
             _ => null

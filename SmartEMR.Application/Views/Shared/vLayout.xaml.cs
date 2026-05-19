@@ -3,6 +3,7 @@ using SmartEMR.Application.ViewBase;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Application.ViewModels;
 
 namespace SmartEMR.Application.Views.Shared;
 
@@ -41,7 +42,7 @@ public partial class vLayout : ViewLayout
     {
         switch (request.MessageAction) 
         {
-            case "SetFocusToSearchText":
+            case "vSearchView_SetFocusToSearchText":
                 SetFocusToSearchView();
                 break;
         }
@@ -59,7 +60,7 @@ public partial class vLayout : ViewLayout
 
     private void SetFocusToSearchView()
     {
-        var searchView = SmartUI.GetPageView<vSearchView>();
+        var searchView = SmartUI.GetViewLayout<vSearchView>();
 
         if (searchView != null)
         {

@@ -69,6 +69,14 @@ public static partial class SmartUI
         }
     }
 
+    public static ViewLayout? CurrentView
+    {
+        get
+        {
+            return UIManager.CurrentView;
+        }
+    }
+
     public static ViewLayout? CurrentPageView
     {
         get
@@ -87,7 +95,7 @@ public static partial class SmartUI
     
 
 
-    public static T? GetPageView<T>() where T : class
+    public static T? GetViewLayout<T>() where T : class
     {
         IViewLayout? targetView = null;
 
@@ -123,7 +131,7 @@ public static partial class SmartUI
         return Messenger.SendMessage(action, parameter, viewType);
     }
     
-    public static Task<ViewMessageResponse<T>?> SendMessage<T>(string action, T? parameter = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
+    public static Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
     {
        return Messenger.SendMessage<T>(action, parameter, viewType);
     }

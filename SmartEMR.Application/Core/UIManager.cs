@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Core;
@@ -109,9 +110,9 @@ public partial class UIManager
             }
 
             var windows = _activeWindows.OfType<UIWindow>();
-            if (!windows.Any())
+            if (windows.Any())
             {
-                return _activeViews.FirstOrDefault();
+                return GetCurrentView();
             }
 
             return windows.FirstOrDefault()?.Content as ViewLayout;
@@ -134,6 +135,28 @@ public partial class UIManager
         {
             fe.Unloaded += (s, e) => UnRegisterView(mv);
         }
+    }
+
+    private ViewLayout? GetCurrentView()
+    {
+        var focusedElement = FocusManager.GetFocusedElement(SmartUI.CurrentWindow) as DependencyObject;
+
+        if (focusedElement != null)
+        {
+            DependencyObject parent = focusedElement;
+
+            while (true)
+            {
+                if (parent is ViewLayout view)
+                {
+                    return view;
+                }
+
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+        }
+
+        return SmartUI.CurrentPageView;
     }
 
     private void UnRegisterView(ModelViewLayout view)
