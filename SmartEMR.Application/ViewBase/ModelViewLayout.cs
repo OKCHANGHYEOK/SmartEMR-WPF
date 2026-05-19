@@ -2,109 +2,61 @@
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using System.Windows;
-using System.Windows.Media;
 
 namespace SmartEMR.Application.ViewBase;
 
 public abstract class ViewLayout : CustomControl, IViewLayout
 {
     public bool IsPopupView { get; set; } = false;
-
     public abstract IReadOnlyList<BindGrid> BindGrids { get; }
 
     public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
-
+    
     public ViewLayout()
     {
-        SmartUI.Messenger.Register(this, this.ReceiveMessage);
+        // 뷰가 로드될 때 UIManager에게 자신을 등록 (비주얼 트리 탐색 및 BindGrid 등록 위임)
+        this.Loaded += (s, e) =>
+        {
+            SmartUI.RegisterView(this);
+        };
     }
 }
 
-public abstract partial class ModelViewLayout<T> : ViewLayout, IDisposable where T : class
+public abstract partial class ModelViewLayout : ViewLayout, IDisposable
 {
-    public T vm = default!;
-    public T Model = default!;
-
-    private readonly List<BindGrid> _bindGrids = new();
-    public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
-
     public bool disposed { get; set; }
+
+    protected readonly List<BindGrid> _bindGrids = new();
+    public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
 
     protected abstract void Initialize();
 
-    public ModelViewLayout()
+    // internal로 선언되어 있으므로 동일 어셈블리 내의 UIManager가 리플렉션 없이 호출 가능
+    internal void AddBindGrid(BindGrid bindGrid)
     {
-        if (typeof(IBaseViewModel).IsAssignableFrom(typeof(T)))
+        if (!_bindGrids.Contains(bindGrid))
         {
-            vm = Activator.CreateInstance<T>();
-            
-            this.SetValue(DataContextProperty, vm);
-
-        }
-        else if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
-        {
-            Model = Activator.CreateInstance<T>();
-        
-            this.SetValue(DataContextProperty, Model);
-        }
-
-        Initialize();
-
-        this.Loaded += (s, e) => 
-        {
-            RegisterElement();
-
-            SmartUI.UIManager.RegisterView(this);
-        };
-    }
-
-    private void RegisterElement()
-    {
-        if (this.Content is DependencyObject obj)
-        {
-            FindAndRegisterBindGrids(obj);
+            _bindGrids.Add(bindGrid);
         }
     }
 
-    private void FindAndRegisterBindGrids(DependencyObject parent)
-    {
-        int childCount = VisualTreeHelper.GetChildrenCount(parent);
-
-        for (int i = 0; i < childCount; i++)
-        {
-            DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-
-            if (child is BindGrid bindGrid)
-            {
-                if (!_bindGrids.Contains(bindGrid))
-                {
-                    bindGrid.BindGrid_BindClickEvent += OnBindClick_ModelViewLayout;
-                    _bindGrids.Add(bindGrid);
-                }
-            }
-
-            FindAndRegisterBindGrids(child);
-        }
-    }
-
-    public void Dispose(bool disposedValue)
+    public virtual void Dispose(bool disposedValue)
     {
         if (!disposedValue || disposed) return;
-
         disposed = true;
-
         SmartMVVM.Common.DisposeControl(this);
     }
 }
 
+
 #region "BindGrid"
-public abstract partial class ModelViewLayout<T>
+public abstract partial class ModelViewLayout
 {
     public override abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
 
-    private async void OnBindClick_ModelViewLayout(object sender, BindClickEventArgs e)
+    // ViewLayout의 추상 메서드 구현: UIManager가 이벤트를 라우팅해주는 통로
+    public async void HandleBindGridClick(object sender, BindClickEventArgs e)
     {
         if (await SmartMVVM.PreventClickFiring(e)) return;
 
@@ -121,15 +73,33 @@ public abstract partial class ModelViewLayout<T>
 #endregion
 
 #region "Message"
-
-public abstract partial class ModelViewLayout<T>
+public abstract partial class ModelViewLayout
 {
     public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
-        var response = new ViewMessageResponse();
-
-        return response;
+        return new ViewMessageResponse();
     }
 }
+#endregion
 
-#endregion 
+public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : class
+{
+    public T vm = default!;
+    public T Model = default!;
+
+    public ModelViewLayout()
+    {
+        if (typeof(IBaseViewModel).IsAssignableFrom(typeof(T)))
+        {
+            vm = Activator.CreateInstance<T>();
+            this.SetValue(DataContextProperty, vm);
+        }
+        else if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
+        {
+            Model = Activator.CreateInstance<T>();
+            this.SetValue(DataContextProperty, Model);
+        }
+
+        Initialize();
+    }
+}

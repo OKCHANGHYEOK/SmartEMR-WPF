@@ -27,6 +27,12 @@ public enum NotificationType
 
 public static partial class SmartUI
 {
+    public static void RegisterView(ViewLayout vl)
+    {
+        Messenger.Register(vl, vl.ReceiveMessage);
+        UIManager.RegisterView(vl);
+    }
+
     public static bool MsgConfirm(string title, string message)
     {
         var result = DialogService.ShowConfirm(title, message);
