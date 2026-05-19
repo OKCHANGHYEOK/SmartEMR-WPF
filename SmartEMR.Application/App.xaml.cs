@@ -33,33 +33,34 @@ namespace SmartEMR.Application
             }
 
             base.OnStartup(e);
-        
-            LoginWindow loginWindow = new LoginWindow();
 
-#if DEBUG
-            AppStart();
-#else
+            var IsAppStart = true;
+
+#if !DEBUG
             try
             {
-                if (loginWindow.ShowDialog() == true)
-                {
-                    AppStart();
-                }
-                else
-                {
-                    Shutdown();
-                }
+                LoginWindow loginWindow = new LoginWindow();
+
+                IsAppStart = loginWindow.ShowDialog() ?? false;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
+                IsAppStart = false;
+
                 MessageBox.Show("예기치 않은 오류가 발생했습니다. 프로그램을 종료합니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 Logger.WriteLog(ex);
+            }
 
+#endif
+            if (IsAppStart)
+            {
+                AppStart();
+            }
+            else
+            {
                 Shutdown();
             }
-#endif
-
         }
 
         private void AppStart()
