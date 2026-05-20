@@ -1,4 +1,7 @@
-﻿using SmartEMR.Infrastructure;
+﻿using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
+using SmartEMR.Infrastructure;
+using SmartEMR.Infrastructure.Services;
 using System.Windows;
 
 namespace SmartEMR.Application.Core;
@@ -50,5 +53,29 @@ public class SmartMVVM
         {
             _clickSemaphore.Release();
         }
+    }
+
+    public static async Task<bool> SetUserByMUR_Idx(int MUR_Idx)
+    {
+        var retMUR = await SmartMVVM.DataStore.GetItem<MemberUser>(eAPI.MemberUser_GetMemberUser, new MemberUser { MEM_Idx = 100000, MUR_Idx = MUR_Idx });
+        if (retMUR == null) return false;
+
+        var getItem = new MemberUser
+        {
+            MUR_Id = retMUR.MUR_Id,
+            MUR_PassWord = retMUR.MUR_PassWord
+        };
+
+        var retToken = await AuthenticationService.AuthenticateUserByLogin(getItem);
+
+        if (retToken == null || !string.IsNullOrWhiteSpace(retToken.FailMessage))
+        {
+            return false;
+        }
+
+        SmartMVVM.AppSession.SetToken(retToken);
+        SmartMVVM.AppSession.SetMemberUser(retToken.User);
+
+        return true;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.ComponentModel;

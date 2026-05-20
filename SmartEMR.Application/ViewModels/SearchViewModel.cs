@@ -2,7 +2,6 @@
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
-using System.Diagnostics;
 
 namespace SmartEMR.Application.ViewModels;
 

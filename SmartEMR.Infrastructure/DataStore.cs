@@ -34,14 +34,15 @@ namespace SmartEMR.Infrastructure
         public async Task<T?> GetItem<T>(eAPI path, object? paramItem = null) where T : class
         {
             var response = await PostAsync(GetAPIUrlByPath(path), paramItem);
+            if (response == null) return null;
 
-            if (response != null && response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<DataResponse<T>>(_options);
+                var result = await response.Content.ReadFromJsonAsync<DataResponse<T>>(_options).ConfigureAwait(false);
                 if (result != null)
                 {
-                    // 상태 값 업데이트
                     UpdateResponseStatus(result);
+                    // 상태 값 업데이트
                     return result.Item;
                 }
             }
@@ -58,7 +59,7 @@ namespace SmartEMR.Infrastructure
 
             if (response != null && response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<DataResponse<T>>(_options);
+                var result = await response.Content.ReadFromJsonAsync<DataResponse<T>>(_options).ConfigureAwait(false);
                 if (result != null && result.Items != null)
                 {
                     UpdateResponseStatus(result);
@@ -74,6 +75,8 @@ namespace SmartEMR.Infrastructure
         /// </summary>
         public async Task<HttpResponseMessage?> PostAsync(string url, object? paramItem = null)
         {
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+
             try
             {
                 var token = _tokenProvider.GetToken();
@@ -86,7 +89,13 @@ namespace SmartEMR.Infrastructure
                 _client.DefaultRequestHeaders.Clear();
                 _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.AccessToken);
 
-                return await _client.PostAsJsonAsync(url, paramItem ?? new { }, _options);
+                return await _client.PostAsJsonAsync(url, paramItem ?? new { }, _options, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                retIsSuccess = false;
+                retMessage = "서버 응답 시간이 초과하였습니다.";
+                return null;
             }
             catch (Exception ex)
             {

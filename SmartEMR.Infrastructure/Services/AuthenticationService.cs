@@ -8,7 +8,6 @@ namespace SmartEMR.Infrastructure.Services;
 
 public class AuthenticationService
 {
-
     public static async Task<TokenResponse?> AuthenticateUserByLogin(MemberUser item)
     {
         TokenResponse retToken = new TokenResponse() { };

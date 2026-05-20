@@ -19,7 +19,7 @@ public partial class MemberUser : BaseEntity
     [ObservableProperty] private string? m_MUR_Address1;
     [ObservableProperty] private string? m_MUR_Address2;
     [ObservableProperty] private string? m_MUR_Address3;
-    [ObservableProperty] private int? m_MUR_Age;
+    [ObservableProperty] private int?    m_MUR_Age;
     [ObservableProperty] private string? m_MUR_BirthYear;
     [ObservableProperty] private string? m_MUR_BirthMonth;
     [ObservableProperty] private string? m_MUR_BirthDay;

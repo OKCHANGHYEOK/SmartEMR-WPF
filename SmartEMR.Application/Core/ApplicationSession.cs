@@ -6,11 +6,16 @@ namespace SmartEMR.Application.Core
 {
     public class ApplicationSession : ITokenProvider
     {
-        private TokenResponse _token = new();
-        private MemberUser _user = new();
+        private TokenResponse? _token = null;
+        private MemberUser? _user = null;
 
-        public TokenResponse GetToken()
+        public TokenResponse? GetToken()
         {
+            if (_token == null)
+            {
+                _token = new();
+            }
+
             return _token;
         }
 
