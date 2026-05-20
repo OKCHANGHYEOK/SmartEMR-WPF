@@ -20,7 +20,8 @@ namespace SmartEMR.Infrastructure
 
         private readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
         };
 
         public DataStore(ITokenProvider tokenProvider)

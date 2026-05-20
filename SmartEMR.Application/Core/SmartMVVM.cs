@@ -57,16 +57,7 @@ public class SmartMVVM
 
     public static async Task<bool> SetUserByMUR_Idx(int MUR_Idx)
     {
-        var retMUR = await SmartMVVM.DataStore.GetItem<MemberUser>(eAPI.MemberUser_GetMemberUser, new MemberUser { MEM_Idx = 100000, MUR_Idx = MUR_Idx });
-        if (retMUR == null) return false;
-
-        var getItem = new MemberUser
-        {
-            MUR_Id = retMUR.MUR_Id,
-            MUR_PassWord = retMUR.MUR_PassWord
-        };
-
-        var retToken = await AuthenticationService.AuthenticateUserByLogin(getItem);
+        var retToken = await AuthenticationService.AuthenticateUserByLogin(new MemberUser { MUR_Idx = MUR_Idx });
 
         if (retToken == null || !string.IsNullOrWhiteSpace(retToken.FailMessage))
         {

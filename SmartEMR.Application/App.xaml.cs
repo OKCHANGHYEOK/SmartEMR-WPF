@@ -4,6 +4,7 @@ using System.Windows;
 using SmartEMR.Application.Views;
 using DevExpress.Xpf.Core;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Windows;
 
 namespace SmartEMR.Application
 {

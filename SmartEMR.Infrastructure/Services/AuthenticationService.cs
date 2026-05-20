@@ -14,6 +14,7 @@ public class AuthenticationService
 
         var requestMUR = new MemberUser
         {
+            MUR_Idx = item.MUR_Idx,
             MUR_Id = item.MUR_Id,
             MUR_PassWord = item.MUR_PassWord
         };
