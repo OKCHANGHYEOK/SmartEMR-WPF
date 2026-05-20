@@ -7,7 +7,7 @@ namespace SmartEMR.Application.Core
     public class ApplicationSession : ITokenProvider
     {
         private TokenResponse _token = new();
-        public MemberUser MemberUser { get; private set; } = new();
+        private MemberUser _user = new();
 
         public TokenResponse GetToken()
         {
@@ -20,11 +20,16 @@ namespace SmartEMR.Application.Core
             _token = token;
         }
 
+        public MemberUser? GetMemberUser()
+        {
+            return _user;
+        }
+
         // 유저 정보 세팅
         public void SetMemberUser(MemberUser? item)
         {
             if (item == null) return;
-            this.MemberUser = item;
+            _user = item;
         }
     }
 }

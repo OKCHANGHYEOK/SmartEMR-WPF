@@ -6,6 +6,10 @@ using SmartEMR.Application.Windows;
 using DevExpress.Xpf.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.Shared;
+using SmartEMR.Domain.Entities;
+using SmartEMR.Application.Core;
+using SmartEMR.Domain.Enums;
+using SmartEMR.Infrastructure.Services;
 
 namespace SmartEMR.Application
 {
@@ -19,7 +23,7 @@ namespace SmartEMR.Application
 
         private int? MUR_Idx { get; set; } = 100000;
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             _mutex = new Mutex(true, AppName, out bool isNewInstance);
 
@@ -35,8 +39,9 @@ namespace SmartEMR.Application
             base.OnStartup(e);
 
             var IsAppStart = true;
+            var IsLogin = false;
 
-#if !DEBUG
+#if DEBUG
             try
             {
                 LoginWindow loginWindow = new LoginWindow();
@@ -53,8 +58,32 @@ namespace SmartEMR.Application
             }
 
 #endif
+            IsLogin = SmartMVVM.AppSession.GetMemberUser() != null;
+
             if (IsAppStart)
             {
+                if (!IsLogin)
+                {
+                    var retMUR = await SmartMVVM.DataStore.GetItem<MemberUser>(eAPI.MemberUser_GetMemberUser, new MemberUser { MEM_Idx = 100000, MUR_Idx = this.MUR_Idx });
+                    if (retMUR == null) return;
+
+                    var getItem = new MemberUser
+                    {
+                        MUR_Id = retMUR.MUR_Id,
+                        MUR_PassWord = retMUR.MUR_PassWord
+                    };
+
+                    var retToken = await AuthenticationService.AuthenticateUserByLogin(getItem);
+
+                    if (retToken == null || !string.IsNullOrWhiteSpace(retToken.FailMessage))
+                    {
+                        return;
+                    }
+
+                    SmartMVVM.AppSession.SetToken(retToken);
+                    SmartMVVM.AppSession.SetMemberUser(retToken.User);
+                }
+
                 AppStart();
             }
             else

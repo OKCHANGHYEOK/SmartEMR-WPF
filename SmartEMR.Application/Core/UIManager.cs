@@ -54,17 +54,12 @@ public partial class UIManager
                 }
                 else
                 {
-                    FrameworkElement? pageView = CurrentView as FrameworkElement;
+                    var window = App.Current.MainWindow;
 
-                    if (pageView != null)
+                    if (window != null)
                     {
-                        var targetWindow = Window.GetWindow(pageView);
-
-                        if (targetWindow != null)
-                        {
-                            targetWindow.DialogResult = true;
-                            targetWindow.Close();
-                        }
+                        window.DialogResult = true;
+                        window.Close();
                     }
                 }
 
