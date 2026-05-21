@@ -1,9 +1,12 @@
 ﻿using DevExpress.Xpf.Core;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 
 namespace SmartEMR.Application.Views;
 
@@ -12,14 +15,18 @@ namespace SmartEMR.Application.Views;
 /// </summary>
 public partial class SmartEMRWindow : UIWindow
 {
+    private SmartEMRWindowModel Model { get; set; } = new();
+
     public SmartEMRWindow()
     {
     }
 
     protected override void Initialize()
     {
-        this.ShowTitle = false;
         this.Content = new vLayout(typeof(vSmartEMRDeskTab));
+
+        //this.ShowTitle = false;
+        this.DataContext = Model;
 
         DevExpress.Xpf.Core.ThemeManager.SetThemeName(this, Theme.Office2019ColorfulFullName);
 

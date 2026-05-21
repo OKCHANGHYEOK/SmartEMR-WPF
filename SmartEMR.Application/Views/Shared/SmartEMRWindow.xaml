@@ -17,13 +17,27 @@
                 WindowState="Maximized"
                 Closing="OnClosing_SmartEMRWindow"
                 HeaderBackground="#A1C4FD"
+                TitleAlignment="Left"
+                Title="{Binding WindowTitle}"
                 Padding="0">
 
     <dx:ThemedWindow.HeaderItems>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0">
-            <TextBlock Text="SMART EMR" FontWeight="Bold" FontSize="14" Foreground="#FFFFFF" VerticalAlignment="Center"/>
-            <Border Width="1" Height="16" Background="#55FFFFFF" Margin="15,0"/>
-            <TextBlock Text="Medical Information System" FontSize="12" Foreground="GhostWhite" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Text="SMART EMR" 
+                   FontWeight="Bold" 
+                   FontSize="14" 
+                   Foreground="#FFFFFF" 
+                   VerticalAlignment="Center"/>
+
+            <Border Width="1" Height="16" 
+                Background="#55FFFFFF" 
+                Margin="15,0"/>
+
+            <TextBlock Text="Medical Information System" 
+                   FontSize="12" 
+                   Foreground="GhostWhite" 
+                   VerticalAlignment="Center"/>
+
         </StackPanel>
     </dx:ThemedWindow.HeaderItems>
 </Xpf:UIWindow>
