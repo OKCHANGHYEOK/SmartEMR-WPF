@@ -4,6 +4,7 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using System.Windows;
 
 namespace SmartEMR.Application.Views.Shared;
 
@@ -13,6 +14,15 @@ namespace SmartEMR.Application.Views.Shared;
 [ObservableObject]
 public partial class vSearchView : ModelViewLayout<SearchViewModel>
 {
+    public static DependencyProperty IsPopupOpenProperty = 
+        DependencyProperty.Register(nameof(IsPopupOpen), typeof(bool), typeof(vSearchView), new PropertyMetadata(false));
+
+    public bool IsPopupOpen
+    {
+        get => (bool)GetValue(IsPopupOpenProperty);
+        set => SetValue(IsPopupOpenProperty, value);
+    }
+
     public vSearchView()
     {
     }
@@ -36,6 +46,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 if (request.MessageParameter != null && request.MessageParameter is IQueryable<Patient> arrPAT)
                 {
                     SearchViewResult.UpdateItemsSource(arrPAT);
+                    IsPopupOpen = true;
                 }
 
                 break;
