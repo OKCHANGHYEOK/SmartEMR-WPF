@@ -55,24 +55,33 @@ public class SmartMVVM
         }
     }
 
-    public static void SetAppSessionDataByToken(TokenResponse token)
+    public static void SetAppSessionDataByToken(TokenResponse? token)
     {
+        if (token == null) return;
+
         SmartMVVM.AppSession.SetToken(token);
         SmartMVVM.AppSession.SetMember(token.Member);
         SmartMVVM.AppSession.SetMemberUser(token.User);
     }
 
-    public static async Task<bool> SetUserByMUR_Idx(int MUR_Idx)
+    public static async Task<DataResponse<object>?> SetUserByMUR_Idx(int MUR_Idx)
     {
+        var retResponse = new DataResponse<object> { IsSuccess = false };
         var retToken = await AuthenticationService.AuthenticateUserByLogin(new MemberUser { MUR_Idx = MUR_Idx });
 
         if (retToken == null || !string.IsNullOrWhiteSpace(retToken.FailMessage))
         {
-            return false;
+            if (MessageBox.Show(retToken?.FailMessage, "오류", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
+            {
+                retResponse.Message = retToken?.FailMessage;
+                return retResponse;
+            }
         }
-
+        
         SmartMVVM.SetAppSessionDataByToken(retToken);
 
-        return true;
+        retResponse.IsSuccess = true;
+
+        return retResponse;
     }
 }

@@ -65,7 +65,15 @@ namespace SmartEMR.Application
         private bool SetAuthenticateUser()
         {
 #if DEBUG
-            return Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
+            var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
+
+            if (ret == null || !string.IsNullOrWhiteSpace(ret.Message))
+            {
+                return false;
+            }
+
+            return true;
+
 #else
             var loginWindow = new LoginWindow();
             
