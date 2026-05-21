@@ -49,8 +49,7 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
 
         retResponse.IsSuccess = true;
 
-        SmartMVVM.AppSession.SetToken(ret);
-        SmartMVVM.AppSession.SetMemberUser(ret.User);
+        SmartMVVM.SetAppSessionDataByToken(ret);
 
         return retResponse;
     }

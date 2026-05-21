@@ -7,5 +7,6 @@ public class TokenResponse
     public string? TokenType { get; set; }
     public double? ExpireMinutes { get; set; }
     public string? FailMessage { get; set; }
+    public Member? Member { get; set; }
     public MemberUser? User { get; set; }
 }

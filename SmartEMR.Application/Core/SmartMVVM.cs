@@ -1,5 +1,5 @@
-﻿using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
+﻿using SmartEMR.Domain.DTOs;
+using SmartEMR.Domain.Entities;
 using SmartEMR.Infrastructure;
 using SmartEMR.Infrastructure.Services;
 using System.Windows;
@@ -55,6 +55,13 @@ public class SmartMVVM
         }
     }
 
+    public static void SetAppSessionDataByToken(TokenResponse token)
+    {
+        SmartMVVM.AppSession.SetToken(token);
+        SmartMVVM.AppSession.SetMember(token.Member);
+        SmartMVVM.AppSession.SetMemberUser(token.User);
+    }
+
     public static async Task<bool> SetUserByMUR_Idx(int MUR_Idx)
     {
         var retToken = await AuthenticationService.AuthenticateUserByLogin(new MemberUser { MUR_Idx = MUR_Idx });
@@ -64,8 +71,7 @@ public class SmartMVVM
             return false;
         }
 
-        SmartMVVM.AppSession.SetToken(retToken);
-        SmartMVVM.AppSession.SetMemberUser(retToken.User);
+        SmartMVVM.SetAppSessionDataByToken(retToken);
 
         return true;
     }
