@@ -35,7 +35,7 @@ public partial class SearchViewModel : BaseViewModel<Patient>
         };
 
         var retPAT = await SmartMVVM.DataStore.GetItems<Patient>(eAPI.Patient_GetPatient, getItem);
-        if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
+        if (retPAT == null || !retPAT.Any() || SmartMVVM.DataStore.retIsSuccess == false)
         {
             SmartUI.SetNofification("조건에 해당하는 검색결과가 없습니다.", NotificationType.Warning);
             return;

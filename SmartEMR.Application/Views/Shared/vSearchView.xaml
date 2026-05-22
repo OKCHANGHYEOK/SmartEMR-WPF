@@ -90,7 +90,7 @@
                 StaysOpen="False"
                 AllowsTransparency="True"
                 PopupAnimation="Fade"
-                Width="{Binding ElementName=txtSearch, Path=ActualWidth}"
+                MinWidth="{Binding ElementName=txtSearch, Path=ActualWidth}"
                 MinHeight="400">
 
             <Border Background="#F0F8FF" 

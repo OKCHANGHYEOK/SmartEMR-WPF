@@ -1,5 +1,10 @@
-﻿using System.Windows;
+﻿using SmartEMR.Application.Common.Converter;
+using System.Globalization;
+using System.IO;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace SmartEMR.Application.Common;
 
@@ -37,5 +42,41 @@ public class Common
                 DisposeControl(child);
             }
         }
+    }
+}
+
+public class PAT_ImageSourceToImageConverter : BaseConverter
+{
+    private static readonly BitmapImage DefaultImage = GlyphImage("Images/smartemr_patient_default_image.png");
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not byte[] bytes || bytes.Length == 0)
+        {
+            return DefaultImage;
+        }
+
+        try
+        {
+            using (MemoryStream stream = new MemoryStream(bytes))
+            {
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad; // 메모리 누수 방지 (중요!)
+                image.StreamSource = stream;
+                image.EndInit();
+                image.Freeze(); // UI 스레드 간 성능 최적화 및 크로스 스레드 예외 방지
+                return image;
+            }
+        }
+        catch
+        {
+            return DefaultImage;
+        }
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }
