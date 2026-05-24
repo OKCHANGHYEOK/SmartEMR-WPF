@@ -56,23 +56,22 @@
                 Background="#66000000" 
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch"
-                Visibility="Collapsed"
                 IsHitTestVisible="True"
                 Opacity="0.9">
             <Border.Style>
                 <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static core:SmartUI.UIManager}, Path=Popups.Count}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
-
-                    <Setter Property="Visibility" Value="Visible"/>
                 </Style>
             </Border.Style>
         </Border>
-        
-        <Xpf:StyleGrid x:Name="FloatLayout">
+
+        <Xpf:StyleGrid x:Name="FloatLayout" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ItemsControl ItemsSource="{Binding Source={x:Static core:SmartUI.UIManager}, Path=Popups}">
 
                 <ItemsControl.ItemsPanel>

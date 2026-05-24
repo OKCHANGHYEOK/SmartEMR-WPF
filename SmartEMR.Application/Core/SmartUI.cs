@@ -58,8 +58,8 @@ public static partial class SmartUI
 
     public static async void NavigateToPage<T>(object? parameter = null, bool isPopup = false) where T : class
     {
-        // 뷰가 아닌 타입을 호출하는 경우 예외
-        if (typeof(T) is not IViewLayout) return;
+        // 뷰가 아닌 타입을 호출하는 경우 종료
+        if (typeof(T).IsAssignableFrom(typeof(IViewLayout))) return;
 
         // 메인 레이아웃 준비
         var vlayout = CurrentWindow?.Content as vLayout;
@@ -70,7 +70,7 @@ public static partial class SmartUI
         if (isPopup)
         {
             var floatPanel = new FloatPanel();
-            var popup = (T?)Activator.CreateInstance(typeof(T), parameter);
+            var popup = Activator.CreateInstance<T>();
             var popupElement = popup as UIElement;
 
             if (popupElement != null)
