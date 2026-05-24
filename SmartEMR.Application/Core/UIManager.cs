@@ -1,5 +1,6 @@
 ﻿using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -95,6 +96,9 @@ public partial class UIManager
     private readonly List<ViewLayout> _activeViews = new();
     public IReadOnlyList<ViewLayout> Views => _activeViews;
 
+    private readonly ObservableCollection<FloatPanel> _activePopups = new();
+    public  ObservableCollection<FloatPanel> Popups => _activePopups;
+
     public ViewLayout? CurrentView
     {
         get
@@ -132,7 +136,23 @@ public partial class UIManager
         }
     }
 
-    private ViewLayout? GetCurrentView()
+    public void AddFloatPanel(FloatPanel panel)
+    {
+        if (!_activePopups.Contains(panel))
+        {
+            _activePopups.Add(panel);
+        }
+    }
+
+    public void RemoveFloatPanel(FloatPanel panel)
+    {
+        if (_activePopups.Contains(panel))
+        {
+            _activePopups.Remove(panel);
+        }
+    }
+
+    private static ViewLayout? GetCurrentView()
     {
         var focusedElement = FocusManager.GetFocusedElement(SmartUI.CurrentWindow) as DependencyObject;
 

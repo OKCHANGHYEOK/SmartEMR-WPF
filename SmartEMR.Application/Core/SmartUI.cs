@@ -55,6 +55,67 @@ public static partial class SmartUI
 
         tooltip.IsOpen = true;
     }
+
+    public static async void NavigateToPage<T>(object? parameter = null, bool isPopup = false) where T : class
+    {
+        // 뷰가 아닌 타입을 호출하는 경우 예외
+        if (typeof(T) is not IViewLayout) return;
+
+        // 메인 레이아웃 준비
+        var vlayout = CurrentWindow?.Content as vLayout;
+        if (vlayout == null)
+            return;
+
+        // 팝업일 때 화면 표시 로직
+        if (isPopup)
+        {
+            var floatPanel = new FloatPanel();
+            var popup = (T?)Activator.CreateInstance(typeof(T), parameter);
+            var popupElement = popup as UIElement;
+
+            if (popupElement != null)
+            {
+                floatPanel.Content = popupElement;
+            }
+
+            BeginInvoke(() =>
+            {
+                UIManager.AddFloatPanel(floatPanel);
+            });    
+
+            return;
+        }
+
+        // 이미 생성된 페이지인지 확인
+        IViewLayout? targetView = null;
+
+        var vl = GetViewLayout<T>();
+
+        // 처음 이동하는 페이지인 경우 생성해줌
+        if (vl == null)
+        {
+            vl = (T?)Activator.CreateInstance(typeof(T), parameter);
+        }
+
+        if (vl is IViewLayout)
+        {
+            targetView = vl as IViewLayout;
+        }
+
+        if (targetView == null) return;
+
+        vlayout.MainContent = targetView;
+    }
+
+    public static void CloseFloatPanel(FloatPanel panel)
+    {
+        if (panel == null) return;
+
+        BeginInvoke(() =>
+        {
+            UIManager.RemoveFloatPanel(panel);
+        });
+    }
 }
 
 public static partial class SmartUI
@@ -93,8 +154,6 @@ public static partial class SmartUI
         }
     }
     
-
-
     public static T? GetViewLayout<T>() where T : class
     {
         IViewLayout? targetView = null;
@@ -111,7 +170,7 @@ public static partial class SmartUI
     }
 
 
-    public static void BeginInvoke(Action action, DispatcherPriority priority)
+    public static void BeginInvoke(Action action, DispatcherPriority priority = DispatcherPriority.Normal)
     {
         var currentWindow = CurrentWindow as Window ?? App.Current.MainWindow;
 

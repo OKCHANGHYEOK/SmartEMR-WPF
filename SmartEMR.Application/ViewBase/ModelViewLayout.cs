@@ -2,25 +2,40 @@
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using System.Windows;
 
 namespace SmartEMR.Application.ViewBase;
 
 public abstract class ViewLayout : CustomControl, IViewLayout
 {
+    public static readonly DependencyProperty ViewTitleProperty =
+        DependencyProperty.Register("ViewTitle", typeof(string), typeof(ViewLayout), new PropertyMetadata("알림"));
+
+    public string ViewTitle
+    {
+        get => (string)GetValue(ViewTitleProperty);
+        set => SetValue(ViewTitleProperty, value);
+    }
+
+    public static readonly DependencyProperty ViewSizeProperty =
+        DependencyProperty.Register("ViewSize", typeof(Size), typeof(ViewLayout), new PropertyMetadata(new Size(400, 300)));
+
+    public Size ViewSize
+    {
+        get => (Size)GetValue(ViewSizeProperty);
+        set => SetValue(ViewSizeProperty, value);
+    }
+
     public bool IsPopupView { get; set; } = false;
     public abstract IReadOnlyList<BindGrid> BindGrids { get; }
 
     public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
-    
-    public ViewLayout()
-    {
-        // 뷰가 로드될 때 UIManager에게 자신을 등록 (비주얼 트리 탐색 및 BindGrid 등록 위임)
-        this.Loaded += (s, e) =>
-        {
-            SmartUI.RegisterView(this);
-        };
-    }
+    public virtual void RefreshViewData(object? parameter = null) {}
+
+    public ViewLayout() => this.Loaded += (s, e) => SmartUI.RegisterView(this);
+
+    public ViewLayout(object parameter) : this() => this.Loaded += (s, e) => RefreshViewData(parameter);
 }
 
 public abstract partial class ModelViewLayout : ViewLayout, IDisposable

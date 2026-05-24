@@ -1,9 +1,10 @@
-﻿using SmartEMR.Application.Core;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Xpf;
-using SmartEMR.Application.ViewModels;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace SmartEMR.Application.Views.Shared;
 
@@ -13,12 +14,13 @@ namespace SmartEMR.Application.Views.Shared;
 /// </summary>
 public partial class vLayout : ViewLayout
 {
-    private IViewLayout _mainContent = default!;
+    public static DependencyProperty MainContentProperty =
+        DependencyProperty.Register("MainContent", typeof(IViewLayout), typeof(vLayout), new PropertyMetadata(null));
 
     public IViewLayout MainContent
     {
-        get => _mainContent;
-        set => SetProperty(ref _mainContent, value, nameof(MainContent));
+        get => (IViewLayout)GetValue(MainContentProperty);
+        set => SetValue(MainContentProperty, value);
     }
 
     public override IReadOnlyList<BindGrid> BindGrids => default!;

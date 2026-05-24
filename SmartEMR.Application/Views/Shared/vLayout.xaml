@@ -10,6 +10,7 @@
                    xmlns:v="clr-namespace:SmartEMR.Application.Views"
                    xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                    xmlns:shared="clr-namespace:SmartEMR.Application.Views.Shared"
+                   xmlns:core="clr-namespace:SmartEMR.Application.Core"
                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
@@ -50,6 +51,44 @@
                 </dxdo:LayoutPanel>
             </dxdo:LayoutGroup>
         </dxdo:DockLayoutManager>
+
+        <Border x:Name="LayoutBorder"
+                Background="#66000000" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch"
+                Visibility="Collapsed"
+                IsHitTestVisible="True"
+                Opacity="0.9">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static core:SmartUI.UIManager}, Path=Popups.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+
+                    <Setter Property="Visibility" Value="Visible"/>
+                </Style>
+            </Border.Style>
+        </Border>
+        
+        <Xpf:StyleGrid x:Name="FloatLayout">
+            <ItemsControl ItemsSource="{Binding Source={x:Static core:SmartUI.UIManager}, Path=Popups}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}">
+                        </ContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Xpf:StyleGrid>
         <shared:vSmartEMRNotificationView Width="420" Height="1000" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,5"/>
     </Grid>
 </base:ViewLayout>
