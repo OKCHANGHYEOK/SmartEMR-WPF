@@ -18,8 +18,10 @@ public partial class SearchViewModel : BaseViewModel<Patient>
     }
 
     [RelayCommand]
-    public async Task Search(string? keyword)
+    public async Task Search()
     {
+        string? keyword = Model.Keyword;
+
         if (string.IsNullOrWhiteSpace(keyword))
         {
             SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요", NotificationType.Warning);
