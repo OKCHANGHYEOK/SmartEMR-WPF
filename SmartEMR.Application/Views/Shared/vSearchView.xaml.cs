@@ -56,7 +56,11 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                     
                     IsPopupOpen = true;
                 }
+                
+                break;
 
+            case "ClosePopup":
+                IsPopupOpen = false;
                 break;
         }
 

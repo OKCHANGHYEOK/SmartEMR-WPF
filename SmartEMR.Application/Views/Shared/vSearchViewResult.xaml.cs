@@ -1,8 +1,10 @@
-﻿using SmartEMR.Application.Core;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SmartEMR.Application.Views.Shared;
 
@@ -89,5 +91,35 @@ public partial class vSearchViewResult : CustomControl
     public void SetSelectedIndex(int selectedIndex)
     {
         ResultListBox.SelectedIndex = selectedIndex;
+    }
+
+    private void OnPreviewKeyDown_ListBox(object sender, KeyEventArgs e)
+    {
+        var listbox = sender as ListBox;
+        if (listbox == null) return;
+
+        if (e.Key == Key.Enter)
+        {
+            SetSelectedPatient();
+        }
+    }
+
+    private void OnMouseLeftButtonDown_ListBoxItem(object sender, MouseButtonEventArgs e)
+    {
+        var element = sender as ListBoxItem;
+        if (element == null) return;
+
+        var item = element.DataContext as Patient;
+
+        SetSelectedPatient(item);
+    }
+
+    private void SetSelectedPatient(Patient? item = null)
+    {
+        item ??= this.SelectedItem;
+        if (item == null) return;
+
+        SmartUI.SendMessage("SetSelectedPatient", item, viewType:TargetViewType.RootView);
+        SmartUI.SendMessageToSearchView("ClosePopup");
     }
 }

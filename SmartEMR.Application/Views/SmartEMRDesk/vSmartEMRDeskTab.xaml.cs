@@ -1,4 +1,4 @@
-﻿using DevExpress.Charts.Model;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -18,6 +18,26 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
     protected override void Initialize()
     {
+    }
+
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse() { IsSuccess = false};
+
+        switch (request.MessageAction)
+        {
+            case "SetSelectedPatient":
+                var paramItem = request.MessageParameter as Patient;
+                if (paramItem == null) return null;
+
+                SmartEMRDeskPATView.UpdatePatient(paramItem);
+
+                break;
+        }
+
+        response.IsSuccess = true;
+
+        return response;
     }
 
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)

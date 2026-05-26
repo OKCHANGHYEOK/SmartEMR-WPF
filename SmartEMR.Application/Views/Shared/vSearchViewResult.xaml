@@ -13,7 +13,8 @@
     <ListBox x:Name="ResultListBox"
              ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType={x:Type local:vSearchViewResult}}}"
              BorderThickness="0"
-             Background="Transparent">
+             Background="Transparent"
+             PreviewKeyDown="OnPreviewKeyDown_ListBox">
 
         <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem">
@@ -21,6 +22,8 @@
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="OnMouseLeftButtonDown_ListBoxItem"/>
             </Style>
         </ListBox.ItemContainerStyle>
 

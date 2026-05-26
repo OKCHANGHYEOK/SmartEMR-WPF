@@ -1,4 +1,5 @@
-﻿using SmartEMR.Domain.DTOs;
+﻿using SmartEMR.Application.Common;
+using SmartEMR.Domain.DTOs;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Infrastructure;
 using SmartEMR.Infrastructure.Services;
@@ -15,6 +16,7 @@ public class SmartMVVM
     public static readonly ApplicationSession AppSession = new();
     public static readonly DataStore DataStore = new(AppSession);
     public static readonly Common.Common Common = new();
+    public static readonly ModelProperty ModelProperty = new();
 
     private static RoutedEventArgs? _lastProcessedEventArgs = null;
 

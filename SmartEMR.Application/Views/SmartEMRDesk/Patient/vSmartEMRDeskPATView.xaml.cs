@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
@@ -19,6 +20,13 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
         {
             // 클릭 이벤트 구현
+        }
+
+        public void UpdatePatient(Patient item)
+        {
+            if (Model.PAT_Idx == item.PAT_Idx) return;
+
+            SmartMVVM.ModelProperty.SetPatientData(Model, item);
         }
 
         private void OnClick_ImageButton(object sender, System.Windows.RoutedEventArgs e)

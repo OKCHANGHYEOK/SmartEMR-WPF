@@ -15,7 +15,7 @@
         <dxd:LayoutGroup Orientation="Horizontal">
             <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.6*">
                 <dxd:LayoutPanel ItemHeight="0.6*" ShowCaption="False" AllowDrag="False">
-                    <view:vSmartEMRDeskPATView/>
+                    <view:vSmartEMRDeskPATView x:Name="SmartEMRDeskPATView"/>
                 </dxd:LayoutPanel>
                 <dxd:LayoutPanel ItemHeight="*" ShowCaption="False" AllowDrag="False">
                     
