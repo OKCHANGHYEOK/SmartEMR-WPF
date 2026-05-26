@@ -13,7 +13,8 @@
                         mc:Ignorable="d" 
                         Background="Transparent"
                         BorderBrush="Black"
-                        Margin="3">
+                        Margin="3"
+                        PreviewKeyDown="OnPreviewKeyDown_SearchView">
 
     <Grid>
         <Xpf:StyleGrid LayoutDefinitions="3,2"
@@ -102,7 +103,8 @@
                 PopupAnimation="Fade"
                 MinWidth="{Binding ElementName=txtSearch, Path=ActualWidth}"
                 MinHeight="400"
-                PreviewKeyDown="OnPreviewKeyDown_Popup">
+                PreviewKeyDown="OnPreviewKeyDown_Popup"
+                Closed="OnClosed_Popup">
 
             <Border Background="#F0F8FF" 
                     BorderBrush="LightBlue"

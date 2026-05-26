@@ -27,6 +27,10 @@ public partial class vLayout : ViewLayout
 
     public vLayout()
     {
+        this.Loaded += (s, e) =>
+        {
+            this.Focus();
+        };
     }
 
     public vLayout(Type T) : this()

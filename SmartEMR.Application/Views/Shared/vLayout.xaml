@@ -15,6 +15,7 @@
                    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
                    PreviewKeyDown="OnPreviewKeyDown_vLayout"
+                   Focusable="True"
                    mc:Ignorable="d">
     <Grid>
         <dxdo:DockLayoutManager Background="#F0F2F5" 

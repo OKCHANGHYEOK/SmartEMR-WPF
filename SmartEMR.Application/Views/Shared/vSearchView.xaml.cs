@@ -6,6 +6,7 @@ using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace SmartEMR.Application.Views.Shared;
@@ -58,6 +59,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 if (request.MessageParameter != null && request.MessageParameter is IQueryable<Patient> arrPAT)
                 {
                     SearchViewResult.UpdateItemsSource(arrPAT);
+                    
                     IsPopupOpen = true;
                 }
 
@@ -69,37 +71,54 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         return response;
     }
 
+    public void OnPreviewKeyDown_SearchView(object sender, KeyEventArgs e)
+    {
+        var element = sender as vSearchView;
+        if (element == null) return;
+
+        if (e.Key == Key.Escape)
+        {
+            IsPopupOpen = false;
+        }
+    }
+
     public void OnPreviewKeyDown_Popup(object sender, KeyEventArgs e)
     {
-        var listBox = SearchViewResult.FindName("ResultListBox") as ListBox;
-        if (listBox == null) return;
+        var popup = sender as Popup;
+        if (popup == null) return;
 
-        SelectedItem = listBox.SelectedItem as Patient;
+        SelectedItem = SearchViewResult.SelectedItem;
 
         // 만약 첫 번째 아이템에서 위 방향키를 누르면 다시 검색창으로 포커스 복귀하는 로직만 구현
-        if (e.Key == Key.Up && listBox.SelectedIndex == 0)
+        if (e.Key == Key.Up && SearchViewResult.SelectedIndex == 0)
         {
-            SetFocusToSearch();
+            this.txtSearch.Focus();
+
+            SearchViewResult.SetSelectedIndex(-1);
+
             e.Handled = true;
         }
+    }
+
+    public void OnClosed_Popup(object sender, EventArgs e)
+    {
+        var popup = sender as Popup;
+        if (popup == null) return;
+
+        if (SelectedItem != null)
+        {
+            SelectedItem = null;
+        }
+
+        this.Focus();
     }
 
     private void txtSearch_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Down && SearchPopup.IsOpen)
         {
-            // SearchViewResult 내부의 ListBox를 찾음
-            var listBox = SearchViewResult.FindName("ResultListBox") as ListBox;
-            if (listBox != null && listBox.Items.Count > 0)
-            {
-                // 1. ListBox로 포커스를 이동시킴 (WPF가 자동으로 첫 번째 아이템을 선택해 줌)
-                listBox.Focus();
-
-                // 2. 필요하다면 첫 번째 아이템을 강제로 선택 상태로 만듦
-                if (listBox.SelectedIndex == -1) listBox.SelectedIndex = 0;
-
-                e.Handled = true;
-            }
+            SearchViewResult.FocusToResultListBox();
+            e.Handled = true;
         }
     }
 
