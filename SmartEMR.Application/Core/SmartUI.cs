@@ -179,6 +179,15 @@ public static partial class SmartUI
             currentWindow.Dispatcher?.BeginInvoke(action, priority);
         }
     }
+
+    public static void ReturnFocusTovLayout()
+    {
+        var vlayout = RootView as vLayout;
+        if (vlayout != null)
+        {
+            vlayout.Focus();
+        }
+    }
 }
 
 public static partial class SmartUI

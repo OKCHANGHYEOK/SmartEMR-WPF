@@ -11,6 +11,8 @@
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:desk="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
                         xmlns:resources="clr-namespace:SmartEMR.Application.Resources"
+                        xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                        xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
 
@@ -23,8 +25,9 @@
                               Opacity="0.15"/>
         </Border.Effect>
 
-        <Xpf:StyleGrid LayoutDefinitions="13,11" Padding="5">            
-            <Border x:Name="PatientImageBorder" 
+        <Grid>
+            <Xpf:StyleGrid LayoutDefinitions="13,11" Padding="5">
+                <Border x:Name="PatientImageBorder" 
                     Grid.Column="0"
                     Grid.Row="0"
                     Grid.ColumnSpan="4"
@@ -32,35 +35,35 @@
                     BorderBrush="Black" 
                     BorderThickness="1"
                     Margin="5">
-                <Image x:Name="PatientImage" Source="{Binding PAT_ImageSource}" Stretch="Uniform"/>
-            </Border>
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="9"  VerticalAlignment="Center" Margin="10,0">
-                <Label FontSize="18" FontWeight="SemiBold" Foreground="SkyBlue">No.</Label>
-                <Label FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray">1234567</Label>
-            </StackPanel>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">성명</Label>
-                <Label Content="{Binding PAT_Name}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">성별/나이</Label>
-                <Label Content="{Binding vPAT_Info}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">생년월일</Label>
-                <Label Content="{Binding PAT_BirthDate}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">전화번호</Label>
-                <Label Content="{Binding PAT_PhoneNum}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="8">
-                <Label FontWeight="SemiBold">주소</Label>
-                <Label Content="{Binding PAT_Address1}" Margin="5,0"/>
-                <Label Content="{Binding PAT_Address2}" Margin="5,0"/>
-                <Label Content="{Binding PAT_Address3}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <Xpf:ImageButton x:Name="btnCopyAddress"
+                    <Image x:Name="PatientImage" Source="{Binding PAT_ImageSource, Converter={common:PAT_ImageSourceToImageConverter}}" Stretch="Uniform"/>
+                </Border>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="9"  VerticalAlignment="Center" Margin="10,0">
+                    <Label FontSize="18" FontWeight="SemiBold" Foreground="SkyBlue">No.</Label>
+                    <Label FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                </StackPanel>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">성명</Label>
+                    <Label Content="{Binding PAT_Name}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">성별/나이</Label>
+                    <Label Content="{Binding vPAT_Info}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">생년월일</Label>
+                    <Label Content="{Binding PAT_BirthDate}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">전화번호</Label>
+                    <Label Content="{Binding PAT_PhoneNum}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="8">
+                    <Label FontWeight="SemiBold">주소</Label>
+                    <Label Content="{Binding PAT_Address1}" Margin="5,0"/>
+                    <Label Content="{Binding PAT_Address2}" Margin="5,0"/>
+                    <Label Content="{Binding PAT_Address3}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <Xpf:ImageButton x:Name="btnCopyAddress"
                              Grid.Row="3" 
                              Grid.Column="12" 
                              Width="25" 
@@ -70,27 +73,27 @@
                              Cursor="Hand"
                              Glyph="/Images/copy.png"
                              Click="OnClick_ImageButton"/>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">최초내원일</Label>
-                <Label Content="{Binding PAT_FirstVisitDate}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">최종내원일</Label>
-                <Label Content="{Binding PAT_LastVisitDate}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">내원경로</Label>
-                <Label Content="{Binding PAT_SourceType}" Margin="5,0"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="4">
-                <Label FontWeight="SemiBold">다음예약일</Label>
-                <Label Content="{Binding NEXT_CHT_DATE_RES}"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <desk:vSmartEMRDeskPATView_TextItem Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="8">
-                <Label FontWeight="SemiBold">비고</Label>
-                <Xpf:TextBlock Text="{Binding PAT_Bigo}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
-            </desk:vSmartEMRDeskPATView_TextItem>
-            <Xpf:Button Grid.Row="8" 
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">최초내원일</Label>
+                    <Label Content="{Binding PAT_FirstVisitDate}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">최종내원일</Label>
+                    <Label Content="{Binding PAT_LastVisitDate}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">내원경로</Label>
+                    <Label Content="{Binding PAT_SourceType}" Margin="5,0"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="4">
+                    <Label FontWeight="SemiBold">다음예약일</Label>
+                    <Label Content="{Binding NEXT_CHT_DATE_RES}"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="8">
+                    <Label FontWeight="SemiBold">비고</Label>
+                    <Xpf:TextBlock Text="{Binding PAT_Bigo}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                </desk:vSmartEMRDeskPATView_TextItem>
+                <Xpf:Button Grid.Row="8" 
                         Grid.ColumnSpan="4" 
                         Content="환자수정"
                         Glyph="/Images/smartemr_edit_patient.png"
@@ -98,8 +101,8 @@
                         Background="#F1F3F5" 
                         BorderBrush="LightGray" 
                         BorderThickness="1"/>
-            
-            <Border x:Name="PersonalInfoBorder"
+
+                <Border x:Name="PersonalInfoBorder"
                     Grid.Row="9"
                     Grid.RowSpan="2"
                     Grid.ColumnSpan="4"
@@ -109,39 +112,56 @@
                     CornerRadius="5"
                     Margin="5">
 
-                <Border.Resources>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="y">
-                                <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_AGREE}"/>
-                                <Setter Property="Background" Value="#E8F5E9"/>
-                            </DataTrigger>
-
-                            <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="n">
-                                <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_NOTAGREE}"/>
-                                <Setter Property="Background" Value="#FAFAFA"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Resources>
-
-                <Xpf:TextBlock Text="{Binding vPAT_IsAgreePersonalInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Margin="0,4,0,0" FontWeight="Bold">
-                    <Xpf:TextBlock.Style>
-                        <Style TargetType="TextBlock">
+                    <Border.Resources>
+                        <Style TargetType="Border">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="y">
-                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_AGREE}"/>
+                                    <Setter Property="Background" Value="#E8F5E9"/>
                                 </DataTrigger>
+
                                 <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="n">
-                                    <Setter Property="Foreground" Value="DimGray"/>
+                                    <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_NOTAGREE}"/>
+                                    <Setter Property="Background" Value="#FAFAFA"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Xpf:TextBlock.Style>
-                </Xpf:TextBlock>
-            </Border>
+                    </Border.Resources>
 
-            <desk:vSmartEMRDeskPATView_CHTSummary Grid.Row="7" Grid.Column="4" Grid.RowSpan="4" Grid.ColumnSpan="13" Margin="5"/>
-        </Xpf:StyleGrid>
+                    <Xpf:TextBlock Text="{Binding vPAT_IsAgreePersonalInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Margin="0,4,0,0" FontWeight="Bold">
+                        <Xpf:TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="y">
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="n">
+                                        <Setter Property="Foreground" Value="DimGray"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Xpf:TextBlock.Style>
+                    </Xpf:TextBlock>
+                </Border>
+
+                <desk:vSmartEMRDeskPATView_CHTSummary Grid.Row="7" Grid.Column="4" Grid.RowSpan="4" Grid.ColumnSpan="13" Margin="5"/>
+            </Xpf:StyleGrid>
+
+            <Border x:Name="MaskBorder"
+                    Background="DimGray"
+                    Opacity="0.9"
+                    Visibility="{Binding PAT_Idx, Converter={converter:IntToVisibilityConverter invert=True}}">
+
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center"
+                           Foreground="#111111" 
+                           FontWeight="SemiBold">
+                    <Run Text="선택된 환자가 없습니다. 환자검색(F6)에서 환자를 검색하여 선택하시거나," />
+                    <LineBreak/>
+                    <Run Text="우측 접수내역에서 환자를 선택해주세요." />
+                </TextBlock>
+            </Border>
+        </Grid>
     </Border>
 </base:ModelViewLayout>

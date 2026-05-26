@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Spreadsheet.Formulas;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Views.SmartEMRDesk;
 using SmartEMR.Domain.Entities;
@@ -34,7 +35,8 @@ public partial class SearchViewModel : BaseViewModel<Patient>
         var getItem = new Patient
         {
             PageSize = 10,
-            Keyword = keyword
+            PAT_Name = new string(keyword.Where(char.IsLetter).ToArray()),
+            PAT_ChartNo = new string(keyword.Where(char.IsDigit).ToArray())
         };
 
         var retPAT = await SmartMVVM.DataStore.GetItems<Patient>(eAPI.Patient_GetPatient, getItem);

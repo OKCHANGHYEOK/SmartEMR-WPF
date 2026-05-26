@@ -19,7 +19,9 @@
                 </LinearGradientBrush>
             </Border.BorderBrush>
         </Border>
-        <Border Background="AliceBlue" Opacity="0.9">
+        <Border Background="AliceBlue" 
+                Opacity="0.9"
+                Visibility="{Binding NOW_CHT_Idx_RCV, Converter={converter:IntToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center"
                         HorizontalAlignment="Center">
 
@@ -34,16 +36,6 @@
                             Glyph="/Images/smartemr_desk_register.png"/>
 
             </StackPanel>
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding NOW_CHT_Idx_RCV, Converter={StaticResource ResourceKey=IntToVisibilityConverter}}">
-                            
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
         </Border>
     </Xpf:StyleGrid>
 </Xpf:CustomControl>

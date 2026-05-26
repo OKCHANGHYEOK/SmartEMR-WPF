@@ -49,6 +49,19 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 SetFocusToSearch();
                 break;
 
+            case "SetSelectedPatient":
+                var paramItem = request.MessageParameter as Patient;
+                if (paramItem == null) return null;
+
+                if (!string.IsNullOrWhiteSpace(paramItem.PAT_ChartNo) && !string.IsNullOrWhiteSpace(paramItem.PAT_Name))
+                {
+                    txtSearch.Text = paramItem.PAT_Name + "(" + paramItem.PAT_ChartNo + ")";
+                }
+
+                IsPopupOpen = false;
+                
+                break;
+
             case "UpdateSearchItemsSource":
                 if (request.MessageParameter != null && request.MessageParameter is IQueryable<Patient> arrPAT)
                 {
@@ -57,10 +70,6 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                     IsPopupOpen = true;
                 }
                 
-                break;
-
-            case "ClosePopup":
-                IsPopupOpen = false;
                 break;
         }
 
@@ -101,7 +110,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         var popup = sender as Popup;
         if (popup == null) return;
 
-        this.Focus();
+        SmartUI.ReturnFocusTovLayout();
     }
 
     private void txtSearch_PreviewKeyDown(object sender, KeyEventArgs e)

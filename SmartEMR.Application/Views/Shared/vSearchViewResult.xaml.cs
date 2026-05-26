@@ -120,6 +120,8 @@ public partial class vSearchViewResult : CustomControl
         if (item == null) return;
 
         SmartUI.SendMessage("SetSelectedPatient", item, viewType:TargetViewType.RootView);
-        SmartUI.SendMessageToSearchView("ClosePopup");
+        SmartUI.SendMessageToSearchView("SetSelectedPatient", item);
+
+        SmartUI.SetNofification("선택하신 환자정보가 적용되었습니다.", NotificationType.Info);
     }
 }
