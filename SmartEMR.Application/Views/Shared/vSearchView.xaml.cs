@@ -5,7 +5,6 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
@@ -24,15 +23,6 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
     {
         get => (bool)GetValue(IsPopupOpenProperty);
         set => SetValue(IsPopupOpenProperty, value);
-    }
-
-    public static DependencyProperty SelectedItemProperty =
-        DependencyProperty.Register(nameof(SelectedItem), typeof(Patient), typeof(vSearchView), new PropertyMetadata(null));
-
-    public Patient? SelectedItem
-    {
-        get => (Patient)GetValue(SelectedItemProperty);
-        set => SetValue(SelectedItemProperty, value);
     }
 
     public vSearchView()
@@ -55,6 +45,10 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
 
         switch (request.MessageAction)
         {
+            case "SetFocusToSearchText":
+                SetFocusToSearch();
+                break;
+
             case "UpdateSearchItemsSource":
                 if (request.MessageParameter != null && request.MessageParameter is IQueryable<Patient> arrPAT)
                 {
@@ -87,8 +81,6 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         var popup = sender as Popup;
         if (popup == null) return;
 
-        SelectedItem = SearchViewResult.SelectedItem;
-
         // 만약 첫 번째 아이템에서 위 방향키를 누르면 다시 검색창으로 포커스 복귀하는 로직만 구현
         if (e.Key == Key.Up && SearchViewResult.SelectedIndex == 0)
         {
@@ -104,11 +96,6 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
     {
         var popup = sender as Popup;
         if (popup == null) return;
-
-        if (SelectedItem != null)
-        {
-            SelectedItem = null;
-        }
 
         this.Focus();
     }

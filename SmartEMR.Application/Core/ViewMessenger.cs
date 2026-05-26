@@ -1,4 +1,5 @@
 ﻿using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.Views.Shared;
 
 namespace SmartEMR.Application.Core;
 
@@ -48,6 +49,22 @@ public class ViewMessenger
             IsSuccess = response.IsSuccess,
             Item = response.Item as T
         };
+    }
+
+    /// <summary>
+    /// vSearchView 에 대한 메시지 송신
+    /// </summary>
+    /// <param name="viewType"></param>
+    /// <returns></returns>
+    public async Task<ViewMessageResponse?> SendMessageToSearchView(string action, object? parameter = null)
+    {
+        var response = new ViewMessageResponse() { IsSuccess = true};
+        var vSearchView = SmartUI.GetViewLayout<vSearchView>();
+        if (vSearchView == null) return null;
+
+        await vSearchView.ReceiveMessage(new ViewMessageRequest { MessageAction = action, MessageParameter = parameter});
+
+        return response;
     }
 
     // TargetViewType에 따른 타겟 추출 로직 (UIManager 활용)

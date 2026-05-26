@@ -25,8 +25,8 @@ public partial class SearchViewModel : BaseViewModel<Patient>
         if (string.IsNullOrWhiteSpace(keyword))
         {
             SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요", NotificationType.Warning);
-            
-            await SmartUI.SendMessage("vSearchView_SetFocusToSearchText", viewType:TargetViewType.RootView);
+
+            await SmartUI.SendMessageToSearchView("SetFocusToSearchText");
 
             return;
         }

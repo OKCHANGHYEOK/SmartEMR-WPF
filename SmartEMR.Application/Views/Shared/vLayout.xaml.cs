@@ -2,7 +2,6 @@
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -44,33 +43,11 @@ public partial class vLayout : ViewLayout
         return Task.CompletedTask;
     }
 
-    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
-    {
-        switch (request.MessageAction) 
-        {
-            case "vSearchView_SetFocusToSearchText":
-                SetFocusToSearchView();
-                break;
-        }
-
-        return null;
-    }
-
     private void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {
         if (e.Key == Key.F6)
         {
-            SetFocusToSearchView();
-        }
-    }
-
-    private void SetFocusToSearchView()
-    {
-        var searchView = SmartUI.GetViewLayout<vSearchView>();
-
-        if (searchView != null)
-        {
-            searchView.SetFocusToSearch();
+            SmartUI.SendMessageToSearchView("SetFocusToSearchText");
         }
     }
 }

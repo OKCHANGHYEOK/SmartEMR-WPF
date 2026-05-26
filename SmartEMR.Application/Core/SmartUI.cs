@@ -194,6 +194,11 @@ public static partial class SmartUI
     {
        return Messenger.SendMessage<T>(action, parameter, viewType);
     }
+    
+    public static Task<ViewMessageResponse?> SendMessageToSearchView(string action, object? parameter = null)
+    {
+        return Messenger.SendMessageToSearchView(action, parameter);
+    }
 }
 
 public static partial class SmartUI
