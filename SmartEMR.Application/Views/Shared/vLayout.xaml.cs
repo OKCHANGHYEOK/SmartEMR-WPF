@@ -37,6 +37,13 @@ public partial class vLayout : ViewLayout
         MainContent = Activator.CreateInstance(T) as IViewLayout ?? default!;
     }
 
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var vl = MainContent as ViewLayout;
+        if (vl == null) return null;
+
+        return await vl.ReceiveMessage(request);
+    }
 
     public override Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
     {
