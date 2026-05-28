@@ -44,5 +44,18 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     break;
             }
         }
+
+        private void OnClick_Button(object sender, RoutedEventArgs e)
+        {
+            var element = sender as Button;
+            if (element == null) return;
+
+            switch (element.Name)
+            {
+                case "btnMovePAT":
+                    SmartUI.NavigateToPage<vPatientInfo>(new Patient { PAT_Idx = Model.PAT_Idx }, isPopup:true);
+                    break;
+            }
+        }
     }
 }

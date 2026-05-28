@@ -12,23 +12,45 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
+public enum BindStyle
+{
+    None,
+    DataCell
+}
+
+
 [ObservableObject]
 [ContentProperty(nameof(BindItems))]
 public partial class BindGrid : StyleGrid, IDisposable
 {
+
+    public static readonly DependencyProperty ItemSpaceProperty =
+        DependencyProperty.Register(
+            nameof(ItemSpace),
+            typeof(int),
+            typeof(BindGrid),
+            new PropertyMetadata(5));
+
     public int ItemSpace
     {
         get => (int)GetValue(ItemSpaceProperty);
         set => SetValue(ItemSpaceProperty, value);
     }
 
-    public static readonly DependencyProperty ItemSpaceProperty =
+    public static readonly DependencyProperty BindStyleProperty =
         DependencyProperty.Register(
-            nameof(ItemSpace), 
-            typeof(int), 
-            typeof(BindGrid), 
-            new PropertyMetadata(5));
+            nameof(BindStyle),
+            typeof(BindStyle),
+            typeof(BindGrid),
+            new PropertyMetadata(BindStyle.None));
 
+    public BindStyle BindStyle
+    {
+        get => (BindStyle)GetValue(BindStyleProperty);
+        set => SetValue(BindStyleProperty, value);
+    }
+
+    public double HeaderWidth { get; set; } = 60;
 
     private object? m_Model;
     public object? Model
@@ -69,57 +91,82 @@ public partial class BindGrid : StyleGrid, IDisposable
         }
     }
 
-    private void AddElement(BindItem element)
+    private void AddElement(BindItem bindItem, bool isBottomLine = true)
     {
         FrameworkElement? visualChild = new ();
 
-        if (element.BindType == BindType.TextBox || element.BindType == BindType.PasswordBox)
+        if (bindItem.BindType == BindType.TextBox || bindItem.BindType == BindType.PasswordBox)
         {
             var styleTextBox = new StyleTextBox()
             {
                 DataContext = this.Model,
-                BorderThickness = element.BorderThickness,
-                CornerRadius = element.CornerRadius
+                BorderBrush = (this.BindStyle == BindStyle.DataCell ? Brushes.LightGray : Brushes.Transparent),
+                BorderThickness = bindItem.BorderThickness,
+                CornerRadius = bindItem.CornerRadius
             };
 
-            if (element.BindType == BindType.TextBox)
+            if (bindItem.BindType == BindType.TextBox)
             {
                 styleTextBox.TextBoxType = StyleTextBoxType.Text;
             }
-            else if (element.BindType == BindType.PasswordBox)
+            else if (bindItem.BindType == BindType.PasswordBox)
             {
                 styleTextBox.TextBoxType = StyleTextBoxType.Password;
             }
 
-            if (!string.IsNullOrWhiteSpace(element.Placeholder))
+            if (!string.IsNullOrWhiteSpace(bindItem.Placeholder))
             {
-                styleTextBox.Placeholder = element.Placeholder;
+                styleTextBox.Placeholder = bindItem.Placeholder;
             }
 
             visualChild = styleTextBox;
         }
 
-        if (element.BindType == BindType.Button)
+        if (bindItem.BindType == BindType.Button)
         {
             var btn = new Button();
 
-            btn.SetValue(Button.ContentProperty, element.ButtonText);
-            btn.SetValue(Button.CornerRadiusProperty, element.CornerRadius);
-            btn.SetValue(Button.ForegroundProperty, element.Foreground);
-            btn.SetValue(Button.FontWeightProperty, element.FontWeight);
-            btn.SetValue(Button.IsExpandingWhenClickProperty, element.IsExpandingWhenClick);
+            btn.SetValue(Button.ContentProperty, bindItem.ButtonText);
+            btn.SetValue(Button.CornerRadiusProperty, bindItem.CornerRadius);
+            btn.SetValue(Button.ForegroundProperty, bindItem.Foreground);
+            btn.SetValue(Button.FontWeightProperty, bindItem.FontWeight);
+            btn.SetValue(Button.IsExpandingWhenClickProperty, bindItem.IsExpandingWhenClick);
 
             visualChild = btn;
         }
 
-        visualChild.SetValue(TagProperty, element);
-        visualChild.SetValue(MarginProperty, element.Margin == null ? new Thickness(this.ItemSpace) : element.Margin);
+        if (bindItem.BindType == BindType.Image)
+        {
+            var ImageBorder = new Border
+            {
+                BorderBrush = Brushes.LightGray,
+                BorderThickness = new Thickness(1),
+            };
 
-        if (!string.IsNullOrWhiteSpace(element.BackGround))
+            var image = new Image
+            {
+                Width = bindItem.Width,
+                Height = bindItem.Height,
+                Stretch = Stretch.UniformToFill,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            ImageBorder.Child = image;
+
+            visualChild = ImageBorder;
+
+            isBottomLine = false;
+        }
+
+        visualChild.SetValue(TagProperty, bindItem);
+        visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace) : bindItem.Margin);
+
+        if (!string.IsNullOrWhiteSpace(bindItem.BackGround))
         {
             try
             {
-                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(element.BackGround);
+                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround);
 
                 if (bg != null)
                 {
@@ -131,11 +178,11 @@ public partial class BindGrid : StyleGrid, IDisposable
             };
         }
 
-        if (!string.IsNullOrWhiteSpace(element.BorderBrush))
+        if (!string.IsNullOrWhiteSpace(bindItem.BorderBrush))
         {
             try
             {
-                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(element.BorderBrush);
+                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BorderBrush);
 
                 if (bg != null)
                 {
@@ -149,17 +196,16 @@ public partial class BindGrid : StyleGrid, IDisposable
             ;
         }
 
-        if (element.Width != null)
+        if (bindItem.Width > 0)
         {
-            visualChild.SetValue(WidthProperty, element.Width);
+            visualChild.SetValue(WidthProperty, bindItem.Width);
+        }
+        if (bindItem.Height > 0)
+        {
+            visualChild.SetValue(HeightProperty, bindItem.Height);
         }
 
-        if (element.Height != null)
-        {
-            visualChild.SetValue(HeightProperty, element.Height);
-        }
-
-        if (element.IsBindClickEvent)
+        if (bindItem.IsBindClickEvent)
         {
             if (visualChild is Button btn)
             {
@@ -171,19 +217,73 @@ public partial class BindGrid : StyleGrid, IDisposable
             }
         }
 
-        if (element.IsBinding == true)
+        if (bindItem.IsBinding == true)
         {
-            SmartUI.BeginInvoke(() =>
-            {
-                visualChild.SetBinding(DataContextProperty, new Binding("Model") { Source = this, Mode = BindingMode.TwoWay });
-                BindingExtensions.SetBinding(visualChild, element.FieldName ?? "");
-
-            }, System.Windows.Threading.DispatcherPriority.Background);
+            BindingVisualChild(visualChild, bindItem);
         }
 
-        visualChild.LostFocus += OnLostFocus_BindItem;
+        var elementToAdd = visualChild;
+        
+        if (this.BindStyle == BindStyle.DataCell)
+        {
+            var grid = new StyleGrid();
+            var lblHeader = new Label
+            {
+                Background = new SolidColorBrush(Color.FromRgb(245, 245, 245)),
+                FontSize = bindItem.HeaderFontSize,
+                FontWeight = bindItem.HeaderFontWeight,
+                Foreground = bindItem.HeaderForeground,
+                Content = bindItem.Header,
+                VerticalContentAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(2,0,0,0),
+                Visibility = (bindItem.IsHeader ? Visibility.Visible : Visibility.Collapsed)
+            };
 
-        AddElement(visualChild, element.Col, element.Row, element.ColSpan, element.RowSpan);
+            if (bindItem.HeaderWidth is double hwidth)
+            {
+                lblHeader.Width = hwidth;
+            }
+            else
+            {
+                lblHeader.Width = this.HeaderWidth;
+            }
+
+            grid.SetLayout(2, 2);
+            grid.LayoutRoot.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Auto);
+            grid.LayoutRoot.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+            grid.LayoutRoot.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
+            grid.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Auto);
+            grid.AddElement(lblHeader, 0, 0);
+            grid.AddElement(visualChild, 1, 0);
+
+            if (isBottomLine)
+            {
+                grid.AddElement(new Border { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(0, 0, 0, 1) }, 0, 1, 2);
+            }
+
+            elementToAdd = grid;
+        }
+
+        AddElement(elementToAdd, bindItem.Col, bindItem.Row, bindItem.ColSpan, bindItem.RowSpan);
+
+        visualChild.LostFocus += OnLostFocus_BindItem;
+    }
+
+    private void BindingVisualChild(FrameworkElement visualChild, BindItem bindItem)
+    {
+        SmartUI.BeginInvoke(() =>
+        {
+            if (visualChild is StyleTextBox textBox)
+            {
+                textBox.SetBinding(DataContextProperty, new Binding("Model") { Source = this, Mode = BindingMode.TwoWay });
+            }
+            else if (visualChild is Image image)
+            {
+
+            }
+
+            BindingExtensions.SetBinding(visualChild, bindItem.FieldName ?? "");
+        });
     }
 
     private void OnBindItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)

@@ -35,7 +35,8 @@
                                 BorderBrush="LightBlue"
                                 BorderThickness="1"
                                 CornerRadius="0"
-                                Margin="2">
+                                Margin="2"
+                                BoxMargin="0">
 
                 <Xpf:StyleTextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>

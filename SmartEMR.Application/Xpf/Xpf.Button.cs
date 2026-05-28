@@ -3,6 +3,14 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
+public enum ButtonTheme
+{
+    White = 0,
+    Black = 1,
+    Blue = 2,
+    Orange = 3,
+}
+
 public class Button : System.Windows.Controls.Button
 {
     public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
@@ -27,6 +35,18 @@ public class Button : System.Windows.Controls.Button
     {
         get => (ImageSource)GetValue(GlyphProperty);
         set => SetValue(GlyphProperty, value);
+    }
+
+    public static readonly DependencyProperty ButtonThemeProperty = DependencyProperty.Register(
+        nameof(ButtonTheme),
+        typeof(ButtonTheme),
+        typeof(Button),
+        new PropertyMetadata(ButtonTheme.White));
+
+    public ButtonTheme ButtonTheme
+    {
+        get => (ButtonTheme)GetValue(ButtonThemeProperty);
+        set => SetValue(ButtonThemeProperty, value);
     }
 
     public static readonly DependencyProperty IsExpandingWhenClickProperty = DependencyProperty.Register(

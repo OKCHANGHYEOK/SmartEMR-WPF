@@ -23,6 +23,7 @@ public class BindingExtensions
         {
             _ when element is StyleTextBox => StyleTextBox.TextProperty,
             _ when element is Xpf.TextBox => Xpf.TextBox.TextProperty,
+            _ when element is Xpf.Image => Xpf.Image.SourceProperty,
             _ when element is CheckBox => CheckBox.IsCheckedProperty,
             _ when element is ComboBox => ComboBox.SelectedValueProperty,
             _ => null

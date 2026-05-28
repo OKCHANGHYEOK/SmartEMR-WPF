@@ -11,7 +11,6 @@
     <Style TargetType="{x:Type Xpf:Button}">
         <Setter Property="MinWidth" Value="42"></Setter>
         <Setter Property="MinHeight" Value="22"></Setter>
-        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="BorderBrush" Value="#DCDCDC"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
@@ -61,6 +60,17 @@
                             <Setter Property="Visibility" TargetName="PART_IMAGE" Value="Collapsed"></Setter>
                         </Trigger>
 
+                        <Trigger Property="ButtonTheme" Value="White">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FFFFFF" Offset="0.0"/>
+                                        <GradientStop Color="#CCCCCC" Offset="1.0"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True"/>
@@ -95,21 +105,20 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
-                                Padding="5">
+                                Margin="{TemplateBinding BoxMargin}">
 
                             <Grid>
-                                <Xpf:TextBox x:Name="PART_TextBox"
-                                         Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                         Foreground="{Binding TextForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                         Background="Transparent"
-                                         BorderThickness="0"
-                                         VerticalContentAlignment="Center">
+                                <Xpf:TextBox    x:Name="PART_TextBox"
+                                                Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                Foreground="{Binding TextForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                Background="Transparent"
+                                                VerticalContentAlignment="Center"
+                                                Padding="5">
                                 </Xpf:TextBox>
-                                <Xpf:PasswordBox x:Name="PART_PasswordBox"
-                                             Password="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                             BorderThickness="0"
-                                             Background="Transparent"
-                                             VerticalAlignment="Center">
+                                <Xpf:PasswordBox    x:Name="PART_PasswordBox"
+                                                    Password="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                    Background="Transparent"
+                                                    VerticalAlignment="Center">
                                 </Xpf:PasswordBox>
                             </Grid>
                         </Border>
@@ -239,11 +248,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Xpf:FloatPanel}">
                     <Border x:Name="PART_BORDER"
-                        BorderBrush="DarkBlue"
-                        BorderThickness="1"
-                        Background="White"
-                        CornerRadius="2"
-                        ClipToBounds="True">
+                            BorderBrush="#64748B"
+                            BorderThickness="1"
+                            Background="White"
+                            CornerRadius="2"
+                            ClipToBounds="True">
+
                         <Xpf:StyleGrid  LayoutDefinitions="1,3"
                                         RowSizeDefinitions="25,Auto,*">
 
@@ -252,12 +262,11 @@
                                        ColumnSizeDefinitions="Auto,*,Auto"
                                        Grid.Row="0" 
                                        Grid.Column="0"
-                                       Background="#2B579A"
+                                       Background="#3A414A"
                                        Padding="8,0,6,0">
                                 <TextBlock  Grid.Column="0"
                                             FontSize="11" 
-                                            FontWeight="Bold"
-                                            Foreground="#1B1B1B"
+                                            Foreground="#FFFFFF"
                                             Text="{Binding Content.ViewTitle, RelativeSource={RelativeSource TemplatedParent}}" 
                                             VerticalAlignment="Center"
                                             Margin="5,0,0,0"/>
@@ -305,10 +314,10 @@
                                 Background="#1F447B"
                                 Height="1"/>
 
-                            <ContentPresenter Grid.Row="2" 
-                                          Grid.Column="0" 
-                                          Content="{Binding Content}"
-                                          Margin="10"/>
+                            <ContentPresenter   Grid.Row="2" 
+                                                Grid.Column="0" 
+                                                Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Margin="5"/>
                         </Xpf:StyleGrid>
                     </Border>
                 </ControlTemplate>

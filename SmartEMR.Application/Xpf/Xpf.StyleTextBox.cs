@@ -83,14 +83,24 @@ public class StyleTextBox : Control
         set => SetValue(TextBoxTypeProperty, value);
     }
 
+
+    public static readonly DependencyProperty TextForegroundProperty =
+        DependencyProperty.Register(nameof(TextForeground), typeof(Brush), typeof(StyleTextBox), new PropertyMetadata(Brushes.Black));
+
     public Brush TextForeground
     {
         get => (Brush)GetValue(TextForegroundProperty);
         set => SetValue(TextForegroundProperty, value);
     }
 
-    public static readonly DependencyProperty TextForegroundProperty =
-        DependencyProperty.Register(nameof(TextForeground), typeof(Brush), typeof(StyleTextBox), new PropertyMetadata(Brushes.Black));
+    public static readonly DependencyProperty BoxMarginProperty =
+        DependencyProperty.Register(nameof(BoxMargin), typeof(Thickness), typeof(StyleTextBox), new PropertyMetadata(new Thickness(5)));
+
+    public Thickness BoxMargin
+    {
+        get => (Thickness)GetValue(BoxMarginProperty);
+        set => SetValue(BoxMarginProperty, value);
+    }
 
     static StyleTextBox()
     {

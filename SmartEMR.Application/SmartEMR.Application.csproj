@@ -21,6 +21,7 @@
     <None Remove="Images\copy.png" />
     <None Remove="Images\smartemr_booking.png" />
     <None Remove="Images\smartemr_check.png" />
+    <None Remove="Images\smartemr_delete.png" />
     <None Remove="Images\smartemr_desk_register.png" />
     <None Remove="Images\smartemr_edit_patient.png" />
     <None Remove="Images\smartemr_info.png" />
@@ -73,6 +74,7 @@
     <Resource Include="Images\copy.png" />
     <Resource Include="Images\smartemr_booking.png" />
     <Resource Include="Images\smartemr_check.png" />
+    <Resource Include="Images\smartemr_delete.png" />
     <Resource Include="Images\smartemr_desk_register.png" />
     <Resource Include="Images\smartemr_edit_patient.png" />
     <Resource Include="Images\smartemr_patient_default_image.png" />

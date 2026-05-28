@@ -71,7 +71,7 @@ public partial class StyleGrid : ContentControl
         LayoutRoot.SetBinding(Grid.BackgroundProperty, new System.Windows.Data.Binding(nameof(Background)) { Source = this });
     }
 
-    public void AddElement(UIElement element, int col, int row, int colspan, int rowspan)
+    public void AddElement(UIElement element, int col, int row, int colspan = 1, int rowspan = 1)
     {
         Grid.SetColumn(element, col);
         Grid.SetRow(element, row);

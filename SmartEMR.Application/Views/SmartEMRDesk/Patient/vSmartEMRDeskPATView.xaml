@@ -32,14 +32,14 @@
                     Grid.Row="0"
                     Grid.ColumnSpan="4"
                     Grid.RowSpan="8"
-                    BorderBrush="Black" 
+                    BorderBrush="Gray" 
                     BorderThickness="1"
                     Margin="5">
                     <Image x:Name="PatientImage" Source="{Binding PAT_ImageSource, Converter={common:PAT_ImageSourceToImageConverter}}" Stretch="Uniform"/>
                 </Border>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="9"  VerticalAlignment="Center" Margin="10,0">
-                    <Label FontSize="18" FontWeight="SemiBold" Foreground="SkyBlue">No.</Label>
-                    <Label FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                    <Label FontSize="18" FontWeight="SemiBold" Foreground="#1F1F1F">No.</Label>
+                    <Label Content="{Binding PAT_ChartNo}"  FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray"/>
                 </StackPanel>
                 <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">성명</Label>
@@ -93,14 +93,17 @@
                     <Label FontWeight="SemiBold">비고</Label>
                     <Xpf:TextBlock Text="{Binding PAT_Bigo}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                 </desk:vSmartEMRDeskPATView_TextItem>
-                <Xpf:Button Grid.Row="8" 
-                        Grid.ColumnSpan="4" 
-                        Content="환자수정"
-                        Glyph="/Images/smartemr_edit_patient.png"
-                        Margin="5,2" 
-                        Background="#F1F3F5" 
-                        BorderBrush="LightGray" 
-                        BorderThickness="1"/>
+                
+                <Xpf:Button x:Name="btnMovePAT"
+                            Grid.Row="8" 
+                            Grid.ColumnSpan="4" 
+                            Content="환자수정"
+                            Glyph="/Images/smartemr_edit_patient.png"
+                            Margin="5,2" 
+                            Background="#F1F3F5" 
+                            BorderBrush="LightGray" 
+                            BorderThickness="1"
+                            Click="OnClick_Button"/>
 
                 <Border x:Name="PersonalInfoBorder"
                     Grid.Row="9"

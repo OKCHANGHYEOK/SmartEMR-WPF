@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
@@ -10,9 +11,11 @@ public enum BindType
     PasswordBox,
     ComboBox,
     CheckBox,
-    Button
+    Button,
+    Image
 }
 
+[ContentProperty(nameof(Content))]
 public class BindItem
 {
     // 공통
@@ -23,11 +26,12 @@ public class BindItem
     public int Row { get; set; }
     public int RowSpan { get; set; } = 1;
     public string? Placeholder { get; set; }
-    public double? Width { get; set; }
-    public double? Height { get; set; }
+    public UIElement? Content { get; set; }
+    public double Width { get; set; }
+    public double Height { get; set; }
     public Thickness? Margin { get; set; } = new Thickness(0);
     public Thickness Padding { get; set; } = new Thickness(0);
-    public string? BorderBrush { get; set; } = "TransParent";
+    public string? BorderBrush { get; set; }
     public Thickness BorderThickness { get; set; } = new Thickness(1);
     public string? BackGround { get; set; } = "TransParent";
     public Brush Foreground { get; set; } = Brushes.Black;
@@ -35,10 +39,18 @@ public class BindItem
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;
     public CornerRadius CornerRadius { get; set; } = new CornerRadius(0);
 
+    // 헤더
+    public string? Header { get; set; }
+    public double? HeaderWidth { get; set; }
+    public int HeaderFontSize { get; set; } = 11;
+    public FontWeight HeaderFontWeight { get; set; } = FontWeights.Normal;
+    public Brush HeaderForeground { get; set; } = Brushes.Black;
+
     // 버튼 관련
     public string? ButtonText { get; set; } = "버튼";
 
     // 플래그
+    public bool IsHeader { get; set; } = true;
     public bool IsEnabled { get; set; } = true;
     public bool IsRequired { get; set; } = false;
     public bool IsChecked { get; set; } = false;
