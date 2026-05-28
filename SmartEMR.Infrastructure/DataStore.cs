@@ -1,7 +1,8 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using SmartEMR.Domain.Enums;
-using SmartEMR.Domain.DTOs; 
+using SmartEMR.Domain.DTOs;
+using System.Net.Http.Headers;
 
 namespace SmartEMR.Infrastructure
 {
@@ -88,9 +89,43 @@ namespace SmartEMR.Infrastructure
                 }
 
                 _client.DefaultRequestHeaders.Clear();
-                _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.AccessToken);
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
 
-                return await _client.PostAsJsonAsync(url, paramItem ?? new { }, _options, cts.Token);
+                var response = await _client.PostAsJsonAsync(url, paramItem ?? new { }, _options, cts.Token);
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var responseContent = await response.Content.ReadFromJsonAsync<DataResponse>(_options);
+                        
+                        if (responseContent != null && responseContent.ResponseCode == eResponseCode.TOKEN_EXPIRED)
+                        {
+                            bool isRefresh = await RefreshTokenAsync();
+
+                            if (isRefresh)
+                            {
+                                var newToken = _tokenProvider.GetToken();
+                                _client.DefaultRequestHeaders.Clear();
+                                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", newToken?.AccessToken);
+                                
+                                return await _client.PostAsJsonAsync(url, paramItem ?? new { }, _options, cts.Token);
+                            }
+                        }
+                        else
+                        {
+                            retIsSuccess = false;
+                            retMessage = "세션이 만료되었습니다. 다시 로그인 해주세요";
+                            return response;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+
+                return response;
             }
             catch (OperationCanceledException)
             {
@@ -103,6 +138,43 @@ namespace SmartEMR.Infrastructure
                 retIsSuccess = false;
                 retMessage = $"통신 에러: {ex.Message}";
                 return null;
+            }
+        }
+
+        private async Task<bool> RefreshTokenAsync()
+        {
+            try
+            {
+                var currentToken = _tokenProvider.GetToken();
+                if (currentToken == null || string.IsNullOrWhiteSpace(currentToken.RefreshToken)) return false;
+
+                string url = $"{APIUrl.TrimEnd('/')}/Auth/refresh_access_token";
+
+                var request = new
+                {
+                    MUR_Idx = currentToken.User?.MUR_Idx,
+                    TOKEN_VALUE = currentToken.RefreshToken
+                };
+
+                _client.DefaultRequestHeaders.Clear();
+
+                var response = await _client.PostAsJsonAsync(url, request, _options);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<DataResponse<TokenResponse>>(_options);
+                    if (result != null && result.Item != null)
+                    {
+                        _tokenProvider.SetToken(result.Item);
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
             }
         }
 

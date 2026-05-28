@@ -75,7 +75,7 @@ public class SmartMVVM
         {
             if (MessageBox.Show(retToken?.FailMessage, "오류", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
             {
-                retResponse.Message = retToken?.FailMessage;
+                retResponse.Message = retToken?.FailMessage ?? "로그인 실패";
                 return retResponse;
             }
         }
