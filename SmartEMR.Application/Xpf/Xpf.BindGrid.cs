@@ -95,178 +95,187 @@ public partial class BindGrid : StyleGrid, IDisposable
     {
         FrameworkElement? visualChild = new ();
 
-        if (bindItem.BindType == BindType.TextBox || bindItem.BindType == BindType.PasswordBox)
+        if (bindItem.Content != null)
         {
-            var styleTextBox = new StyleTextBox()
-            {
-                DataContext = this.Model,
-                BorderBrush = (this.BindStyle == BindStyle.DataCell ? Brushes.LightGray : Brushes.Transparent),
-                BorderThickness = bindItem.BorderThickness,
-                CornerRadius = bindItem.CornerRadius
-            };
-
-            if (bindItem.BindType == BindType.TextBox)
-            {
-                styleTextBox.TextBoxType = StyleTextBoxType.Text;
-            }
-            else if (bindItem.BindType == BindType.PasswordBox)
-            {
-                styleTextBox.TextBoxType = StyleTextBoxType.Password;
-            }
-
-            if (!string.IsNullOrWhiteSpace(bindItem.Placeholder))
-            {
-                styleTextBox.Placeholder = bindItem.Placeholder;
-            }
-
-            visualChild = styleTextBox;
+            visualChild = bindItem.Content as FrameworkElement;
         }
-
-        if (bindItem.BindType == BindType.Button)
+        else
         {
-            var btn = new Button();
-
-            btn.SetValue(Button.ContentProperty, bindItem.ButtonText);
-            btn.SetValue(Button.CornerRadiusProperty, bindItem.CornerRadius);
-            btn.SetValue(Button.ForegroundProperty, bindItem.Foreground);
-            btn.SetValue(Button.FontWeightProperty, bindItem.FontWeight);
-            btn.SetValue(Button.IsExpandingWhenClickProperty, bindItem.IsExpandingWhenClick);
-
-            visualChild = btn;
-        }
-
-        if (bindItem.BindType == BindType.Image)
-        {
-            var ImageBorder = new Border
+            if (bindItem.BindType == BindType.TextBox || bindItem.BindType == BindType.PasswordBox)
             {
-                BorderBrush = Brushes.LightGray,
-                BorderThickness = new Thickness(1),
-            };
-
-            var image = new Image
-            {
-                Width = bindItem.Width,
-                Height = bindItem.Height,
-                Stretch = Stretch.UniformToFill,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
-            ImageBorder.Child = image;
-
-            visualChild = ImageBorder;
-
-            isBottomLine = false;
-        }
-
-        visualChild.SetValue(TagProperty, bindItem);
-        visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace) : bindItem.Margin);
-
-        if (!string.IsNullOrWhiteSpace(bindItem.BackGround))
-        {
-            try
-            {
-                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround);
-
-                if (bg != null)
+                var styleTextBox = new StyleTextBox()
                 {
-                    visualChild.SetValue(BackgroundProperty, bg);
-                }
-            } catch (NotSupportedException e)
-            {
-                MessageBox.Show(e.StackTrace);
-            };
-        }
+                    DataContext = this.Model,
+                    BorderBrush = (this.BindStyle == BindStyle.DataCell ? Brushes.LightGray : Brushes.Transparent),
+                    BorderThickness = bindItem.BorderThickness,
+                    CornerRadius = bindItem.CornerRadius
+                };
 
-        if (!string.IsNullOrWhiteSpace(bindItem.BorderBrush))
-        {
-            try
-            {
-                Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BorderBrush);
-
-                if (bg != null)
+                if (bindItem.BindType == BindType.TextBox)
                 {
-                    visualChild.SetValue(Control.BorderBrushProperty, bg);
+                    styleTextBox.TextBoxType = StyleTextBoxType.Text;
+                }
+                else if (bindItem.BindType == BindType.PasswordBox)
+                {
+                    styleTextBox.TextBoxType = StyleTextBoxType.Password;
+                }
+
+                if (!string.IsNullOrWhiteSpace(bindItem.Placeholder))
+                {
+                    styleTextBox.Placeholder = bindItem.Placeholder;
+                }
+
+                visualChild = styleTextBox;
+            }
+
+            if (bindItem.BindType == BindType.Button)
+            {
+                var btn = new Button();
+
+                btn.SetValue(Button.ContentProperty, bindItem.ButtonText);
+                btn.SetValue(Button.CornerRadiusProperty, bindItem.CornerRadius);
+                btn.SetValue(Button.ForegroundProperty, bindItem.Foreground);
+                btn.SetValue(Button.FontWeightProperty, bindItem.FontWeight);
+                btn.SetValue(Button.IsExpandingWhenClickProperty, bindItem.IsExpandingWhenClick);
+
+                visualChild = btn;
+            }
+
+            if (bindItem.BindType == BindType.Image)
+            {
+                var ImageBorder = new Border
+                {
+                    BorderBrush = Brushes.LightGray,
+                    BorderThickness = new Thickness(1),
+                };
+
+                var image = new Image
+                {
+                    Width = bindItem.Width,
+                    Height = bindItem.Height,
+                    Stretch = Stretch.UniformToFill,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                ImageBorder.Child = image;
+
+                visualChild = ImageBorder;
+
+                isBottomLine = false;
+            }
+
+            visualChild.SetValue(TagProperty, bindItem);
+            visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace) : bindItem.Margin);
+
+            if (!string.IsNullOrWhiteSpace(bindItem.BackGround))
+            {
+                try
+                {
+                    Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround);
+
+                    if (bg != null)
+                    {
+                        visualChild.SetValue(BackgroundProperty, bg);
+                    }
+                }
+                catch (NotSupportedException e)
+                {
+                    MessageBox.Show(e.StackTrace);
+                }
+                ;
+            }
+
+            if (!string.IsNullOrWhiteSpace(bindItem.BorderBrush))
+            {
+                try
+                {
+                    Brush? bg = (Brush?)SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BorderBrush);
+
+                    if (bg != null)
+                    {
+                        visualChild.SetValue(Control.BorderBrushProperty, bg);
+                    }
+                }
+                catch (NotSupportedException e)
+                {
+                    MessageBox.Show(e.StackTrace);
+                }
+                ;
+            }
+
+            if (bindItem.Width > 0)
+            {
+                visualChild.SetValue(WidthProperty, bindItem.Width);
+            }
+            if (bindItem.Height > 0)
+            {
+                visualChild.SetValue(HeightProperty, bindItem.Height);
+            }
+
+            if (bindItem.IsBindClickEvent)
+            {
+                if (visualChild is Button btn)
+                {
+                    btn.Click += OnBindClick;
+                }
+                else
+                {
+                    visualChild.MouseLeftButtonDown += OnBindClick;
                 }
             }
-            catch (NotSupportedException e)
-            {
-                MessageBox.Show(e.StackTrace);
-            }
-            ;
-        }
 
-        if (bindItem.Width > 0)
-        {
-            visualChild.SetValue(WidthProperty, bindItem.Width);
-        }
-        if (bindItem.Height > 0)
-        {
-            visualChild.SetValue(HeightProperty, bindItem.Height);
-        }
-
-        if (bindItem.IsBindClickEvent)
-        {
-            if (visualChild is Button btn)
+            if (bindItem.IsBinding == true)
             {
-                btn.Click += OnBindClick;
-            }
-            else
-            {
-                visualChild.MouseLeftButtonDown += OnBindClick;
-            }
-        }
-
-        if (bindItem.IsBinding == true)
-        {
-            BindingVisualChild(visualChild, bindItem);
-        }
-
-        var elementToAdd = visualChild;
-        
-        if (this.BindStyle == BindStyle.DataCell)
-        {
-            var grid = new StyleGrid();
-            var lblHeader = new Label
-            {
-                Background = new SolidColorBrush(Color.FromRgb(245, 245, 245)),
-                FontSize = bindItem.HeaderFontSize,
-                FontWeight = bindItem.HeaderFontWeight,
-                Foreground = bindItem.HeaderForeground,
-                Content = bindItem.Header,
-                VerticalContentAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(2,0,0,0),
-                Visibility = (bindItem.IsHeader ? Visibility.Visible : Visibility.Collapsed)
-            };
-
-            if (bindItem.HeaderWidth is double hwidth)
-            {
-                lblHeader.Width = hwidth;
-            }
-            else
-            {
-                lblHeader.Width = this.HeaderWidth;
+                BindingVisualChild(visualChild, bindItem);
             }
 
-            grid.SetLayout(2, 2);
-            grid.LayoutRoot.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Auto);
-            grid.LayoutRoot.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            grid.LayoutRoot.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
-            grid.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Auto);
-            grid.AddElement(lblHeader, 0, 0);
-            grid.AddElement(visualChild, 1, 0);
+            var elementToAdd = visualChild;
 
-            if (isBottomLine)
+            if (this.BindStyle == BindStyle.DataCell)
             {
-                grid.AddElement(new Border { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(0, 0, 0, 1) }, 0, 1, 2);
+                var grid = new StyleGrid();
+                var lblHeader = new Label
+                {
+                    Background = new SolidColorBrush(Color.FromRgb(245, 245, 245)),
+                    FontSize = bindItem.HeaderFontSize,
+                    FontWeight = bindItem.HeaderFontWeight,
+                    Foreground = bindItem.HeaderForeground,
+                    Content = bindItem.Header,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(2, 0, 0, 0),
+                    Visibility = (bindItem.IsHeader ? Visibility.Visible : Visibility.Collapsed)
+                };
+
+                if (bindItem.HeaderWidth is double hwidth)
+                {
+                    lblHeader.Width = hwidth;
+                }
+                else
+                {
+                    lblHeader.Width = this.HeaderWidth;
+                }
+
+                grid.SetLayout(2, 2);
+                grid.LayoutRoot.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Auto);
+                grid.LayoutRoot.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+                grid.LayoutRoot.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
+                grid.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Auto);
+                grid.AddElement(lblHeader, 0, 0);
+                grid.AddElement(visualChild, 1, 0);
+
+                if (isBottomLine)
+                {
+                    grid.AddElement(new Border { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(0, 0, 0, 1) }, 0, 1, 2);
+                }
+
+                elementToAdd = grid;
             }
 
-            elementToAdd = grid;
+            AddElement(elementToAdd, bindItem.Col, bindItem.Row, bindItem.ColSpan, bindItem.RowSpan);
         }
 
-        AddElement(elementToAdd, bindItem.Col, bindItem.Row, bindItem.ColSpan, bindItem.RowSpan);
-
-        visualChild.LostFocus += OnLostFocus_BindItem;
+        visualChild?.LostFocus += OnLostFocus_BindItem;
     }
 
     private void BindingVisualChild(FrameworkElement visualChild, BindItem bindItem)
