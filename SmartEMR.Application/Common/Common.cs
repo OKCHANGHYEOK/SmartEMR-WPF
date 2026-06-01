@@ -1,4 +1,8 @@
 ﻿using SmartEMR.Application.Common.Converter;
+using SmartEMR.Application.Core;
+using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows;
@@ -15,6 +19,13 @@ public enum eSmartEMRLocation
     PAYMENT = 3,
     CRM = 4,
     CONFIG = 5
+}
+
+public enum eBirthType
+{
+    Year,
+    Month,
+    Day
 }
 
 public class Common
@@ -41,6 +52,61 @@ public class Common
                 DisposeControl(child);
             }
         }
+    }
+
+    public async Task<IQueryable<ChartCommonCode>> GetChartCommonCode(string CCCG_Cd = "", string CCC_Cd = "", bool isAll = false)
+    {
+        List<ChartCommonCode> arrCCC = new();
+
+        if (isAll)
+        {
+            arrCCC.Add(new ChartCommonCode { CCC_Name = "전체", CCC_Cd = "ALL"});
+        }
+
+        var retCCC = await SmartMVVM.DataStore.GetItems<ChartCommonCode>(eAPI.ChartCommonCode_GetChartCommonCode, new ChartCommonCode { CCCG_Cd = CCCG_Cd, CCC_Cd = CCC_Cd});
+        if (retCCC == null || SmartMVVM.DataStore.retIsSuccess == false)
+        {
+            Debug.WriteLine($"일치하는 코드값이 존재하지 않습니다. CCCG_Cd = {CCCG_Cd}, CCC_Cd = {CCC_Cd}");
+            return arrCCC.AsQueryable();
+        }
+
+        arrCCC.AddRange(retCCC);
+
+        return arrCCC.AsQueryable();
+    }
+
+    public IQueryable<int> GetBirth(eBirthType birthType)
+    {
+        List<int> arrBirth = new();
+
+        var nowDT = DateTime.Now;
+
+        int sValue = 0;
+        int eValue = 0;
+
+        if (birthType == eBirthType.Year)
+        {
+
+            sValue = nowDT.Year - 120;
+            eValue = nowDT.Year;
+        }
+        else if (birthType == eBirthType.Month)
+        {
+            sValue = 0;
+            eValue = 12;
+        }
+        else if (birthType == eBirthType.Day)
+        {
+            sValue = 0;
+            eValue = 31;
+        }
+
+        for (int i = sValue; i <= eValue; i++)
+        {
+            arrBirth.Add(i);
+        }
+
+        return arrBirth.AsQueryable();
     }
 }
 

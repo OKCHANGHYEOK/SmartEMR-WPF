@@ -41,8 +41,7 @@ public partial class Patient : BaseEntity
     private byte[]? m_PAT_ImageSource;
     private string? m_PAT_Bigo;
     private string? m_PAT_Status;
-    private string? m_PAT_DelYN;
-    private string? m_PAT_Unpaid;
+    private bool? m_PAT_IsValid;
 
     // ModelProperty 연동 추가 필드
     private string? m_PAT_Date;
@@ -276,16 +275,10 @@ public partial class Patient : BaseEntity
         set => SetProperty(ref m_PAT_Status, value);
     }
 
-    public string? PAT_DelYN
+    public bool? PAT_IsValid
     {
-        get => m_PAT_DelYN;
-        set => SetProperty(ref m_PAT_DelYN, value);
-    }
-
-    public string? PAT_Unpaid
-    {
-        get => m_PAT_Unpaid;
-        set => SetProperty(ref m_PAT_Unpaid, value);
+        get => m_PAT_IsValid;
+        set => SetProperty(ref m_PAT_IsValid, value);
     }
 
     public string? PAT_Date
