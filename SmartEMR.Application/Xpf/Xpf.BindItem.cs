@@ -7,6 +7,7 @@ namespace SmartEMR.Application.Xpf;
 public enum BindType
 {
     None,
+    Label,
     TextBox,
     PasswordBox,
     ComboBox,
@@ -25,7 +26,8 @@ public class BindItem
     public int ColSpan { get; set; } = 1;
     public int Row { get; set; }
     public int RowSpan { get; set; } = 1;
-    public string? Placeholder { get; set; }
+    public string? TextValue { get; set; }
+    public string Placeholder { get; set; } = "";
     public UIElement? Content { get; set; }
     public double Width { get; set; }
     public double Height { get; set; }
@@ -35,12 +37,12 @@ public class BindItem
     public Thickness BorderThickness { get; set; } = new Thickness(1);
     public string? BackGround { get; set; } = "TransParent";
     public Brush Foreground { get; set; } = Brushes.Black;
-    public double? FontSize { get; set; } = 13;
+    public double FontSize { get; set; } = 13;
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;
     public CornerRadius CornerRadius { get; set; } = new CornerRadius(0);
 
-    public HorizontalAlignment HAlignment { get; set; } = HorizontalAlignment.Left;
-    public VerticalAlignment VAlignment { get; set; } = VerticalAlignment.Top;
+    public HorizontalAlignment HAlignment { get; set; } = HorizontalAlignment.Stretch;
+    public VerticalAlignment VAlignment { get; set; } = VerticalAlignment.Stretch;
     
     public IQueryable? ItemsSource { get; set; }
     public string? DisplayMember { get; set; }
@@ -53,8 +55,6 @@ public class BindItem
     public FontWeight HeaderFontWeight { get; set; } = FontWeights.Normal;
     public Brush HeaderForeground { get; set; } = Brushes.Black;
 
-    // 버튼 관련
-    public string? ButtonText { get; set; } = "버튼";
 
     // 플래그
     public bool IsHeader { get; set; } = true;

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MahApps.Metro.Controls;
 using SmartEMR.Application.Core;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -141,35 +142,50 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         if (arrList.Count == 0) return;
 
-        // 기준이 되는 첫 번째 아이템 정보
         var firstItem = arrList[0];
 
         // 내부 서브 패널 생성 및 아이템들 나열
         var layoutPanel = new StyleGrid();
+
+        // 1) 서브 패널 자체가 부모 DataCell 공간을 좌우로 꽉 채우도록 강제 설정
+        layoutPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+
         layoutPanel.SetLayout(arrList.Count, 1);
 
         int col = 0;
         foreach (var item in arrList)
         {
             FrameworkElement? element = CreateVisualElement(item);
+
             if (element != null)
             {
+                // 2) 내부 컨트롤들도 셀 안에서 늘어나도록 설정
+                element.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                // 3) x:Array 내부 아이템들끼리 마진 균형 맞추기 (기본 ItemSpace에 의한 틀어짐 방지)
+                // 개별 마진이 지정 안 되어 있다면, 내부 배열끼리는 사방 마진 대신 우측 마진만 살짝 주거나 0으로 초기화하여 밀착시킵니다.
+                //if (item.Margin == null)
+                //{
+                //    element.Margin = new Thickness(0, 0, this.ItemSpace, 0);
+                //}
+
                 layoutPanel.AddElement(element, col, 0);
+
+                // 4) Width 규격에 따른 Grid 너비 할당 규칙
+                // Width가 0보다 크면 콘텐츠 크기만큼(Auto), 지정 안 되어 있으면 전체를 채우기(Star)
                 layoutPanel.LayoutRoot.ColumnDefinitions[col].Width = new GridLength(1, item.Width > 0 ? GridUnitType.Auto : GridUnitType.Star);
+
                 col++;
             }
         }
 
         FrameworkElement elementToAdd = layoutPanel;
-        elementToAdd.Margin = new Thickness(this.ItemSpace);
 
-        // DataCell 스타일인 경우 배열 패널 전체를 하나의 헤더로 감싸기
         if (this.BindStyle == BindStyle.DataCell)
         {
             elementToAdd = WrapWithDataCell(firstItem, layoutPanel);
         }
 
-        // 부모 Grid에 최종 배치 (위치는 첫 번째 아이템의 설정을 따름)
         this.AddElement(elementToAdd, firstItem.Col, firstItem.Row, firstItem.ColSpan, firstItem.RowSpan);
     }
 
@@ -219,43 +235,75 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         switch (bindItem.BindType)
         {
+            case BindType.Label:
+                visualChild = new Xpf.Label
+                {
+                    Content = bindItem.TextValue,
+                    Foreground = bindItem.Foreground,
+                    FontSize = bindItem.FontSize,
+                    FontWeight = bindItem.FontWeight
+                };
+
+                break;
+
             case BindType.TextBox or BindType.PasswordBox:
-                var styleTextBox = new StyleTextBox()
+                visualChild = new StyleTextBox
                 {
                     DataContext = this.Model,
                     BorderBrush = (this.BindStyle == BindStyle.DataCell ? Brushes.LightGray : Brushes.Transparent),
                     BorderThickness = bindItem.BorderThickness,
                     CornerRadius = bindItem.CornerRadius,
-                    TextBoxType = bindItem.BindType == BindType.TextBox ? StyleTextBoxType.Text : StyleTextBoxType.Password
+                    TextBoxType = bindItem.BindType == BindType.TextBox ? StyleTextBoxType.Text : StyleTextBoxType.Password,
+                    HorizontalAlignment = bindItem.HAlignment,
+                    VerticalAlignment = bindItem.VAlignment,
+                    BoxMargin = new Thickness(2),
+                    Placeholder = bindItem.Placeholder
                 };
 
-                if (!string.IsNullOrWhiteSpace(bindItem.Placeholder)) styleTextBox.Placeholder = bindItem.Placeholder;
-                visualChild = styleTextBox;
                 break;
 
-            case BindType.Button:
-                var btn = new Button();
-                btn.SetValue(Button.ContentProperty, bindItem.ButtonText);
-                btn.SetValue(Button.CornerRadiusProperty, bindItem.CornerRadius);
-                btn.SetValue(Button.ForegroundProperty, bindItem.Foreground);
-                btn.SetValue(Button.FontWeightProperty, bindItem.FontWeight);
-                btn.SetValue(Button.IsExpandingWhenClickProperty, bindItem.IsExpandingWhenClick);
-                visualChild = btn;
+            case BindType.Button:  
+                visualChild = new Button
+                {
+                    Content = bindItem.TextValue,
+                    FontSize = bindItem.FontSize,
+                    Foreground = bindItem.Foreground,
+                    FontWeight = bindItem.FontWeight,
+                    IsExpandingWhenClick = bindItem.IsExpandingWhenClick
+                };
+
+                break;
+
+            case BindType.ComboBox:
+                visualChild = new ComboBoxEdit()
+                {
+                    ItemsSource = bindItem.ItemsSource,
+                    DisplayMember = bindItem.DisplayMember,
+                    ValueMember = bindItem.ValueMember,
+                    CornerRadius = bindItem.CornerRadius,
+                    BorderThickness = bindItem.BorderThickness
+                };
+
                 break;
 
             case BindType.Image:
-                var imageBorder = new Border { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1) };
                 var image = new Image { Width = bindItem.Width, Height = bindItem.Height, Stretch = Stretch.UniformToFill, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-                imageBorder.Child = image;
-                visualChild = imageBorder;
+                
+                visualChild = new Border
+                {
+                    BorderBrush = Brushes.LightGray,
+                    BorderThickness = new Thickness(1),
+                    Child = image
+                };
                 break;
         }
 
         if (visualChild == null) return null;
 
         // 공통 속성 설정 및 이벤트 바인딩
+        visualChild.SetValue(NameProperty, bindItem.FieldName);
         visualChild.SetValue(TagProperty, bindItem);
-        visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace) : bindItem.Margin);
+        visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace, 0, this.ItemSpace, 0) : bindItem.Margin);
 
         if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
             visualChild.SetValue(BackgroundProperty, bg);
@@ -313,15 +361,15 @@ public partial class BindGrid : StyleGrid, IDisposable
         // 필요시 데이터 컨텍스트 전파 로직 구현
     }
 
-    public FrameworkElement GetBindItem<T>(string fieldName) where T : FrameworkElement
+    public T? GetBindItem<T>(string fieldName) where T : FrameworkElement
     {
-        foreach (var item in LayoutRoot.Children)
+        foreach (UIElement element in LayoutRoot.Children)
         {
-            var element = item as T;
+            var targetItem = element.FindChild<T>(fieldName);
 
-            if (element != null && element.Tag is BindItem bindItem && bindItem.FieldName == fieldName)
+            if (targetItem != null)
             {
-                return element;
+                return targetItem;
             }
         }
 

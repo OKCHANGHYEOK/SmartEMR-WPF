@@ -1,10 +1,14 @@
-﻿namespace SmartEMR.Application.Xpf;
+﻿using System.Windows;
+
+namespace SmartEMR.Application.Xpf;
 
 public class ComboBoxEdit : DevExpress.Xpf.Editors.ComboBoxEdit
 {
     public ComboBoxEdit()
     {
-        this.MinHeight = 26;
-        this.MinWidth = 30;
+        this.MinHeight = 23;
+        this.MinWidth = 40;
+        this.VerticalAlignment = VerticalAlignment.Center;
+        this.HorizontalAlignment = HorizontalAlignment.Center;
     }
 }
