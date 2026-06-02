@@ -75,9 +75,9 @@ public class Common
         return arrCCC.AsQueryable();
     }
 
-    public IQueryable<int> GetBirth(eBirthType birthType)
+    public IQueryable<object> GetBirth(eBirthType birthType)
     {
-        List<int> arrBirth = new();
+        List<object> arrBirth = new();
 
         var nowDT = DateTime.Now;
 
@@ -103,7 +103,11 @@ public class Common
 
         for (int i = sValue; i <= eValue; i++)
         {
-            arrBirth.Add(i);
+            arrBirth.Add(new
+            {
+                attrName = i,
+                attrValue = i
+            });
         }
 
         return arrBirth.AsQueryable();

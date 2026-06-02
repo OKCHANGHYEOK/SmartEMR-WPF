@@ -15,7 +15,7 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
     protected override void Initialize()
     {
-        this.ViewSize = new Size(600,400);
+        this.ViewSize = new Size(650,400);
         this.ViewTitle = "환자" + (PATItem.PAT_Idx == 0 ? "등록" : "수정");
     }
 

@@ -39,6 +39,13 @@ public class BindItem
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;
     public CornerRadius CornerRadius { get; set; } = new CornerRadius(0);
 
+    public HorizontalAlignment HAlignment { get; set; } = HorizontalAlignment.Left;
+    public VerticalAlignment VAlignment { get; set; } = VerticalAlignment.Top;
+    
+    public IQueryable? ItemsSource { get; set; }
+    public string? DisplayMember { get; set; }
+    public string? ValueMember { get; set; }
+
     // 헤더
     public string? Header { get; set; }
     public double? HeaderWidth { get; set; }
