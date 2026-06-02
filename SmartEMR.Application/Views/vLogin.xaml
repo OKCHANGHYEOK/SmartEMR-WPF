@@ -71,7 +71,7 @@
 
                     <Xpf:BindItem   FieldName="btnLogin"
                                     BindType="Button"
-                                    ButtonText="로그인"
+                                    TextValue="로그인"
                                     BackGround="#8FAADC"
                                     Foreground="White"
                                     FontWeight="Bold"
@@ -86,7 +86,7 @@
 
                     <Xpf:BindItem   FieldName="btnJoin"
                                     BindType="Button"
-                                    ButtonText="회원가입"
+                                    TextValue="회원가입"
                                     BackGround="#F1F3F5"
                                     Foreground="#666666"
                                     FontWeight="Bold"

@@ -57,6 +57,7 @@ public class BindItem
 
 
     // 플래그
+    public bool IsBottomLine { get; set; } = true;
     public bool IsHeader { get; set; } = true;
     public bool IsEnabled { get; set; } = true;
     public bool IsRequired { get; set; } = false;

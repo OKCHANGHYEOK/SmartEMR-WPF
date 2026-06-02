@@ -16,12 +16,13 @@ public class SmartMVVM
     public static readonly ApplicationSession AppSession = new();
     public static readonly DataStore DataStore = new(AppSession);
     public static readonly Common.Common Common = new();
+    public static readonly Master Master = new();
     public static readonly ModelProperty ModelProperty = new();
 
     private static RoutedEventArgs? _lastProcessedEventArgs = null;
 
     // 한 번에 단 하나의 진입만 허용하는 세마포어
-    private static readonly SemaphoreSlim _clickSemaphore = new SemaphoreSlim(1,1);
+    private static readonly SemaphoreSlim _clickSemaphore = new SemaphoreSlim(1,1);   
 
     /// <summary>
     /// 클릭 이벤트 방지를 위한 로직

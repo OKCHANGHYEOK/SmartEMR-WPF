@@ -122,7 +122,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         // DataCell 스타일인 경우 복합 레이아웃으로 감싸기
         if (this.BindStyle == BindStyle.DataCell)
         {
-            finalElement = WrapWithDataCell(item, contentElement);
+            finalElement = WrapWithDataCell(item, contentElement, item.IsBottomLine);
         }
 
         // 부모 Grid(StyleGrid)에 최종 배치
@@ -144,11 +144,10 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         var firstItem = arrList[0];
 
-        // 내부 서브 패널 생성 및 아이템들 나열
-        var layoutPanel = new StyleGrid();
-
-        // 1) 서브 패널 자체가 부모 DataCell 공간을 좌우로 꽉 채우도록 강제 설정
-        layoutPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+        var layoutPanel = new StyleGrid
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
 
         layoutPanel.SetLayout(arrList.Count, 1);
 
@@ -156,23 +155,11 @@ public partial class BindGrid : StyleGrid, IDisposable
         foreach (var item in arrList)
         {
             FrameworkElement? element = CreateVisualElement(item);
+            element?.HorizontalAlignment = HorizontalAlignment.Stretch;
 
             if (element != null)
             {
-                // 2) 내부 컨트롤들도 셀 안에서 늘어나도록 설정
-                element.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-                // 3) x:Array 내부 아이템들끼리 마진 균형 맞추기 (기본 ItemSpace에 의한 틀어짐 방지)
-                // 개별 마진이 지정 안 되어 있다면, 내부 배열끼리는 사방 마진 대신 우측 마진만 살짝 주거나 0으로 초기화하여 밀착시킵니다.
-                //if (item.Margin == null)
-                //{
-                //    element.Margin = new Thickness(0, 0, this.ItemSpace, 0);
-                //}
-
                 layoutPanel.AddElement(element, col, 0);
-
-                // 4) Width 규격에 따른 Grid 너비 할당 규칙
-                // Width가 0보다 크면 콘텐츠 크기만큼(Auto), 지정 안 되어 있으면 전체를 채우기(Star)
                 layoutPanel.LayoutRoot.ColumnDefinitions[col].Width = new GridLength(1, item.Width > 0 ? GridUnitType.Auto : GridUnitType.Star);
 
                 col++;
@@ -192,7 +179,7 @@ public partial class BindGrid : StyleGrid, IDisposable
     /// <summary>
     /// [공통 래퍼] 컨트롤(또는 서브패널)을 헤더 라벨 및 하단 라인이 있는 DataCell 구조로 묶어줍니다.
     /// </summary>
-    private StyleGrid WrapWithDataCell(BindItem headerInfo, FrameworkElement contentElement)
+    private StyleGrid WrapWithDataCell(BindItem headerInfo, FrameworkElement contentElement, bool isBottomLine = true)
     {
         var cellGrid = new StyleGrid();
         cellGrid.SetLayout(2, 2);
@@ -216,7 +203,9 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         cellGrid.AddElement(lblHeader, 0, 0);
         cellGrid.AddElement(contentElement, 1, 0);
-        cellGrid.AddElement(new Border { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(0, 0, 0, 1) }, 0, 1, 2);
+
+        if (isBottomLine)
+            cellGrid.AddElement(new Border { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(0, 0, 0, 1) }, 0, 1, 2);
 
         return cellGrid;
     }
@@ -250,6 +239,9 @@ public partial class BindGrid : StyleGrid, IDisposable
                 visualChild = new StyleTextBox
                 {
                     DataContext = this.Model,
+                    FontSize = bindItem.FontSize,
+                    Foreground = bindItem.Foreground,
+                    FontWeight = bindItem.FontWeight,
                     BorderBrush = (this.BindStyle == BindStyle.DataCell ? Brushes.LightGray : Brushes.Transparent),
                     BorderThickness = bindItem.BorderThickness,
                     CornerRadius = bindItem.CornerRadius,

@@ -14,6 +14,7 @@ public partial class Patient : BaseEntity
     private string? m_PAT_Name;
     private string? m_PAT_ChartNo;
     private string? m_PAT_Sex;
+    private string? m_vPAT_Sex;
     private int? m_PAT_Age;
     private string? m_vPAT_Info;
     private string? m_PAT_BirthYear;
@@ -111,6 +112,12 @@ public partial class Patient : BaseEntity
     {
         get => m_PAT_Sex;
         set => SetProperty(ref m_PAT_Sex, value);
+    }
+
+    public string? vPAT_Sex
+    {
+        get => m_vPAT_Sex;
+        set => SetProperty(ref m_vPAT_Sex, value);
     }
 
     public int? PAT_Age

@@ -54,7 +54,7 @@ public class Common
         }
     }
 
-    public async Task<IQueryable<ChartCommonCode>> GetChartCommonCode(string CCCG_Cd = "", string CCC_Cd = "", bool isAll = false)
+    public async Task<IQueryable<ChartCommonCode>> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isAll = false)
     {
         List<ChartCommonCode> arrCCC = new();
 
@@ -63,7 +63,15 @@ public class Common
             arrCCC.Add(new ChartCommonCode { CCC_Name = "전체", CCC_Cd = "ALL"});
         }
 
-        var retCCC = await SmartMVVM.DataStore.GetItems<ChartCommonCode>(eAPI.ChartCommonCode_GetChartCommonCode, new ChartCommonCode { CCCG_Cd = CCCG_Cd, CCC_Cd = CCC_Cd});
+        var getItem = new ChartCommonCode
+        {
+            CCCM_Cd = CCCM_Cd,
+            CCCG_Cd = CCCG_Cd,
+            CCC_Cd = CCC_Cd
+        };
+
+        var retCCC = await SmartMVVM.DataStore.GetItems<ChartCommonCode>(eAPI.ChartCommonCode_GetChartCommonCode, getItem);
+
         if (retCCC == null || SmartMVVM.DataStore.retIsSuccess == false)
         {
             Debug.WriteLine($"일치하는 코드값이 존재하지 않습니다. CCCG_Cd = {CCCG_Cd}, CCC_Cd = {CCC_Cd}");
@@ -92,12 +100,12 @@ public class Common
         }
         else if (birthType == eBirthType.Month)
         {
-            sValue = 0;
+            sValue = 1;
             eValue = 12;
         }
         else if (birthType == eBirthType.Day)
         {
-            sValue = 0;
+            sValue = 1;
             eValue = 31;
         }
 
@@ -109,6 +117,8 @@ public class Common
                 attrValue = i
             });
         }
+
+        arrBirth.Reverse();
 
         return arrBirth.AsQueryable();
     }

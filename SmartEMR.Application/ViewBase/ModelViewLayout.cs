@@ -115,6 +115,9 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
             this.SetValue(DataContextProperty, Model);
         }
 
-        Initialize();
+        SmartUI.BeginInvoke(() =>
+        {
+            Initialize();
+        }, System.Windows.Threading.DispatcherPriority.Background);
     }
 }

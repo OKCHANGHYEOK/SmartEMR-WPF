@@ -9,117 +9,229 @@
                         xmlns:view="clr-namespace:SmartEMR.Application.Views"
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
+                        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Xpf:StyleGrid LayoutDefinitions="1,3"
-                   RowSizeDefinitions="*,Auto,Auto"
-                   Background="White">
 
-        <Xpf:BindGrid   Grid.Row="0"
-                        LayoutDefinitions="6,8"
-                        BindStyle="DataCell"
-                        HeaderWidth="70"
-                        ItemSpace="1">
+    <dx:LayoutPanel ShowCaption="False">
+        <Xpf:StyleGrid LayoutDefinitions="1,3"
+               RowSizeDefinitions="*,Auto,Auto"
+               Background="White">
 
-            <Xpf:BindItem   FieldName="PAT_ImageSource"
-                            BindType="Image"
-                            Col="0" 
+            <Xpf:BindGrid   Grid.Row="0"
+                    LayoutDefinitions="6,8"
+                    BindStyle="DataCell"
+                    HeaderWidth="70"
+                    ItemSpace="1">
+
+
+                <Xpf:BindItem   FieldName="PAT_ImageSource"
+                        Col="0" 
+                        Row="0"
+                        ColSpan="2"
+                        RowSpan="8"
+                        IsHeader="False"
+                        IsBottomLine="False"
+                        Margin="2">
+
+                    <Xpf:StyleGrid  LayoutDefinitions="1,2"
+                            RowSizeDefinitions="1*,Auto"
+                            Margin="2">
+
+                        <Border Grid.Row="0"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+
+                            <Xpf:Image  HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Stretch="UniformToFill"
+                                Source="{Binding PAT_ImageSource}"/>
+                        </Border>
+
+                        <Xpf:Button Grid.Row="1"
+                            x:Name="btnSelectImageSource"
+                            Content="이미지선택"
+                            CornerRadius="2"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            Height="26"
+                            Margin="0,2,0,2"/>
+                    </Xpf:StyleGrid>
+                </Xpf:BindItem>
+
+                <Xpf:BindItem   FieldName="PAT_Name"
+                        Header="성   명"
+                        BindType="TextBox"
+                        Col="2"
+                        Row="0"
+                        ColSpan="2"/>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAT_RegisterNum1"
+                            BindType="TextBox"
+                            Header="주 민 번 호"
+                            Col="4"
                             Row="0"
                             ColSpan="2"
-                            RowSpan="5"
-                            IsHeader="False"
-                            Margin="2"/>
-
-            <Xpf:BindItem   FieldName="PAT_Name"
-                            Header="성   명"
+                            Margin="0,0,1,0"/>
+                    <Xpf:BindItem   FieldName="PAT_RegisterNum2"
                             BindType="TextBox"
+                            IsHeader="False"
+                            Margin="0">
+                    </Xpf:BindItem>
+                </x:Array>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAT_PhoneNum"
+                            BindType="TextBox"
+                            Header="전 화 번 호"
                             Col="2"
-                            Row="0"
+                            Row="1"
+                            ColSpan="2"
+                            Margin="0"/>
+                    <Xpf:BindItem   FieldName="btnSMS"
+                            BindType="Button"
+                            TextValue="SMS"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            Width="48" 
+                            Height="32"
+                            IsHeader="False"
+                            IsBinding="False"
+                            Margin="0,0,2,0"/>
+                </x:Array>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAT_BirthYear"
+                            BindType="TextBox"
+                            Header="생 년 월 일"
+                            Col="4"
+                            Row="1"
                             ColSpan="2"/>
-            
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="PAT_RegisterNum1"
-                                BindType="TextBox"
-                                Header="주 민 번 호"
-                                Width="65"
-                                Col="4"
-                                Row="0"
-                                ColSpan="2"/>
-                <Xpf:BindItem   FieldName=""
-                                IsHeader="False"
-                                IsBinding="False">
-                    <Label      Content="-"
-                                FontSize="11"
-                                Margin="0"
-                                Width="16"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
-                </Xpf:BindItem>
-                <Xpf:BindItem   FieldName="PAT_RegisterNum2"
-                                BindType="TextBox"
-                                Width="65"
-                                IsHeader="False">
-                </Xpf:BindItem>            
-            </x:Array>
-            
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="PAT_PhoneNum"
-                                BindType="TextBox"
-                                Header="전 화 번 호"
-                                Width="80"
-                                Col="2"
-                                Row="1"
-                                ColSpan="2"/>
-                
-                <Xpf:BindItem   FieldName="btnSMS"
-                                BindType="Button"
-                                ButtonText="SMS"
-                                BorderBrush="LightGray"
-                                BorderThickness="1"
-                                Height="28"
-                                VAlignment="Center"
-                                Margin="0,0,2,0"
-                                IsHeader="False"
-                                IsBinding="False">
-                </Xpf:BindItem>
-            </x:Array>
 
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="PAT_BirthDate"
-                                BindType="ComboBox"
-                                Header="생 년 월 일"
-                                Col="4"
-                                Row="1"
-                                ColSpan="2"
-                                ItemsSource="{Binding vm.arrPAT_BirthYear, RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}}}"
-                                DisplayMember="attrName"
-                                ValueMember="attrValue"/>
-            </x:Array>
-        </Xpf:BindGrid>
+                    <Xpf:BindItem   FieldName="PAT_IsSolar"
+                            BindType="ComboBox"
+                            Width="48"
+                            Height="32"
+                            DisplayMember="attrName"
+                            ValueMember="attrValue"
+                            IsHeader="False"
+                            Margin="0,0,2,0"/>
+                </x:Array>
 
-        <Border Grid.Row="1"
-                BorderBrush="LightGray" 
-                BorderThickness="0,0,0,1"/>
+                <Xpf:BindItem   FieldName="PAT_Sex"
+                        BindType="ComboBox"
+                        Header="성   별"
+                        DisplayMember="vPAT_Sex"
+                        ValueMember="PAT_Sex"
+                        Height="32"
+                        Col="2"
+                        Row="2"
+                        ColSpan="2"/>
 
-        <Xpf:StyleGrid  Grid.Row="2"
-                        x:Name="ButtonPanel"
-                        LayoutDefinitions="3,1"
-                        ColumnSizeDefinitions="*,Auto,Auto"
-                        VerticalAlignment="Center"
-                        Margin="0,2,0,2">
+                <Xpf:BindItem   FieldName="PAT_SourceType"
+                        BindType="ComboBox"
+                        Header="내 원 경 로"
+                        DisplayMember="CCC_Name"
+                        ValueMember="CCC_Cd"
+                        Height="32"
+                        Col="4"
+                        Row="2"
+                        ColSpan="2"/>
 
-            <Xpf:Button Grid.Column="1" 
-                        Width="85"
-                        Height="27"
-                        Content="환자등록"
-                        Glyph="/Images/smartemr_register.png"/>
-            <Xpf:Button Grid.Column="2" 
-                        Margin="2,0,2,0"
-                        Width="85"
-                        Height="27"
-                        Content="환자삭제"
-                        Glyph="/Images/smartemr_delete.png"/>
+                <Xpf:BindItem   FieldName="PAT_IsForegin"
+                        BindType="ComboBox"
+                        Header="내국인구분"
+                        Height="32"
+                        Col="2"
+                        Row="3"
+                        ColSpan="2"
+                        DisplayMember="attrName"
+                        ValueMember="attrValue"/>
+
+                <Xpf:BindItem   FieldName="PAT_IsAgreePersonalInfo"
+                        BindType="ComboBox"
+                        Header="개인정보제공"
+                        Height="32"
+                        Col="4"
+                        Row="3"
+                        ColSpan="2"
+                        DisplayMember="attrName"
+                        ValueMember="attrValue"/>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="btnSearchAddr"
+                            BindType="Button"
+                            Header="주   소"
+                            Width="50"
+                            TextValue="검색"
+                            FontSize="11"
+                            Col="2"
+                            Row="4"
+                            ColSpan="2"
+                            Margin="2"
+                            IsBinding="False"/>
+
+                    <Xpf:BindItem   FieldName="PAT_Address1"
+                            BindType="TextBox"
+                            Placeholder="도로명주소 입력"
+                            FontSize="11"/>
+                </x:Array>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAT_Address2"
+                            BindType="TextBox"
+                            Placeholder="상세주소 입력"
+                            FontSize="11"
+                            Col="4"
+                            Row="4"
+                            ColSpan="2"
+                            IsHeader="False"/>
+
+                    <Xpf:BindItem   FieldName="PAT_Address3"
+                            BindType="TextBox"
+                            Placeholder="우편번호"
+                            FontSize="11"
+                            Width="60"/>
+                </x:Array>
+
+                <Xpf:BindItem   FieldName="PAT_Bigo"
+                        BindType="TextBox"
+                        Header="비   고"
+                        Col="2"
+                        Row="5"
+                        ColSpan="4"
+                        RowSpan="3"
+                        IsBottomLine="False"/>
+            </Xpf:BindGrid>
+
+            <Border Grid.Row="1"
+            BorderBrush="LightGray" 
+            BorderThickness="0,0,0,1"/>
+
+            <Xpf:StyleGrid  Grid.Row="2"
+                    x:Name="ButtonPanel"
+                    LayoutDefinitions="3,1"
+                    ColumnSizeDefinitions="Auto,*,Auto"
+                    VerticalAlignment="Center"
+                    Margin="0,2,0,2">
+
+                <Xpf:Button Grid.Column="0" 
+                    Width="85"
+                    Height="27"
+                    Content="환자삭제"
+                    Glyph="/Images/smartemr_delete.png"
+                    VerticalContentAlignment="Center"
+                    Margin="2,0,0,0"/>
+
+                <Xpf:Button Grid.Column="2" 
+                    Width="85"
+                    Height="27"
+                    Content="환자등록"
+                    Glyph="/Images/smartemr_register.png"
+                    VerticalContentAlignment="Center"
+                    Margin="0,0,2,0"/>
+            </Xpf:StyleGrid>
         </Xpf:StyleGrid>
-    </Xpf:StyleGrid>
+    </dx:LayoutPanel>
 </base:ModelViewLayout>
