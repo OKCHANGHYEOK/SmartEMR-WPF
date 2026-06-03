@@ -16,7 +16,7 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
     protected override void Initialize()
     {
-        this.ViewSize = new Size(700,360);
+        this.ViewSize = new Size(600,400);
         this.ViewTitle = "환자" + (PATItem.PAT_Idx == 0 ? "등록" : "수정");
 
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_BirthYear")?.ItemsSource = vm.arrPAT_BirthYear;

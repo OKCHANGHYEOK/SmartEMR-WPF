@@ -19,190 +19,215 @@
                Background="White">
 
             <Xpf:BindGrid   Grid.Row="0"
-                    LayoutDefinitions="6,8"
-                    BindStyle="DataCell"
-                    HeaderWidth="70"
-                    ItemSpace="1">
+                            LayoutDefinitions="8,8"
+                            BindStyle="DataCell"
+                            HeaderWidth="70"
+                            ItemSpace="1">
 
 
                 <Xpf:BindItem   FieldName="PAT_ImageSource"
-                        Col="0" 
-                        Row="0"
-                        ColSpan="2"
-                        RowSpan="8"
-                        IsHeader="False"
-                        IsBottomLine="False"
-                        Margin="2">
+                                Col="0" 
+                                Row="0"
+                                ColSpan="2"
+                                RowSpan="4"
+                                IsHeader="False"
+                                Margin="2">
 
                     <Xpf:StyleGrid  LayoutDefinitions="1,2"
-                            RowSizeDefinitions="1*,Auto"
-                            Margin="2">
+                                    RowSizeDefinitions="1*,Auto"
+                                    Margin="2">
 
                         <Border Grid.Row="0"
-                        BorderBrush="LightGray"
-                        BorderThickness="1">
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
 
                             <Xpf:Image  HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Stretch="UniformToFill"
-                                Source="{Binding PAT_ImageSource}"/>
+                                        VerticalAlignment="Center"
+                                        Stretch="UniformToFill"
+                                        Source="{Binding PAT_ImageSource}"/>
                         </Border>
 
                         <Xpf:Button Grid.Row="1"
-                            x:Name="btnSelectImageSource"
-                            Content="이미지선택"
-                            CornerRadius="2"
-                            BorderBrush="LightGray"
-                            BorderThickness="1"
-                            Height="26"
-                            Margin="0,2,0,2"/>
+                                    x:Name="btnSelectImageSource"
+                                    Content="이미지선택"
+                                    CornerRadius="2"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Height="26"
+                                    Margin="0,2,0,2"/>
                     </Xpf:StyleGrid>
                 </Xpf:BindItem>
 
                 <Xpf:BindItem   FieldName="PAT_Name"
-                        Header="성   명"
-                        BindType="TextBox"
-                        Col="2"
-                        Row="0"
-                        ColSpan="2"/>
+                                Header="성   명"
+                                BindType="TextBox"
+                                Col="2"
+                                Row="0"
+                                ColSpan="3"/>
 
                 <x:Array Type="{x:Type Xpf:BindItem}">
                     <Xpf:BindItem   FieldName="PAT_RegisterNum1"
-                            BindType="TextBox"
-                            Header="주 민 번 호"
-                            Col="4"
-                            Row="0"
-                            ColSpan="2"
-                            Margin="0,0,1,0"/>
+                                    BindType="TextBox"
+                                    Header="주 민 번 호"
+                                    Col="5"
+                                    Row="0"
+                                    ColSpan="5"
+                                    Margin="0,0,1,0"/>
                     <Xpf:BindItem   FieldName="PAT_RegisterNum2"
-                            BindType="TextBox"
-                            IsHeader="False"
-                            Margin="0">
+                                    BindType="TextBox"
+                                    IsHeader="False"
+                                    Margin="0">
                     </Xpf:BindItem>
                 </x:Array>
 
                 <x:Array Type="{x:Type Xpf:BindItem}">
                     <Xpf:BindItem   FieldName="PAT_PhoneNum"
-                            BindType="TextBox"
-                            Header="전 화 번 호"
-                            Col="2"
-                            Row="1"
-                            ColSpan="2"
-                            Margin="0"/>
+                                    BindType="TextBox"
+                                    Header="전 화 번 호"
+                                    Col="2"
+                                    Row="1"
+                                    ColSpan="3"
+                                    Margin="0"/>
                     <Xpf:BindItem   FieldName="btnSMS"
-                            BindType="Button"
-                            TextValue="SMS"
-                            BorderBrush="LightGray"
-                            BorderThickness="1"
-                            Width="48" 
-                            Height="32"
-                            IsHeader="False"
-                            IsBinding="False"
-                            Margin="0,0,2,0"/>
+                                    BindType="Button"
+                                    TextValue="SMS"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Width="48" 
+                                    Height="35"
+                                    IsHeader="False"
+                                    IsBinding="False"
+                                    Margin="0,0,2,0"/>
                 </x:Array>
 
                 <x:Array Type="{x:Type Xpf:BindItem}">
                     <Xpf:BindItem   FieldName="PAT_BirthYear"
-                            BindType="TextBox"
-                            Header="생 년 월 일"
-                            Col="4"
-                            Row="1"
-                            ColSpan="2"/>
+                                    BindType="TextBox"
+                                    Header="생 년 월 일"
+                                    Col="5"
+                                    Row="1"
+                                    ColSpan="3"/>
 
                     <Xpf:BindItem   FieldName="PAT_IsSolar"
-                            BindType="ComboBox"
-                            Width="48"
-                            Height="32"
-                            DisplayMember="attrName"
-                            ValueMember="attrValue"
-                            IsHeader="False"
-                            Margin="0,0,2,0"/>
+                                    BindType="ComboBox"
+                                    Width="48"
+                                    Height="35"
+                                    DisplayMember="attrName"
+                                    ValueMember="attrValue"
+                                    IsHeader="False"
+                                    Margin="0,0,2,0"/>
                 </x:Array>
 
                 <Xpf:BindItem   FieldName="PAT_Sex"
-                        BindType="ComboBox"
-                        Header="성   별"
-                        DisplayMember="vPAT_Sex"
-                        ValueMember="PAT_Sex"
-                        Height="32"
-                        Col="2"
-                        Row="2"
-                        ColSpan="2"/>
+                                BindType="ComboBox"
+                                Header="성   별"
+                                DisplayMember="vPAT_Sex"
+                                ValueMember="PAT_Sex"
+                                Height="32"
+                                Col="2"
+                                Row="2"
+                                ColSpan="3"/>
 
                 <Xpf:BindItem   FieldName="PAT_SourceType"
-                        BindType="ComboBox"
-                        Header="내 원 경 로"
-                        DisplayMember="CCC_Name"
-                        ValueMember="CCC_Cd"
-                        Height="32"
-                        Col="4"
-                        Row="2"
-                        ColSpan="2"/>
+                                BindType="ComboBox"
+                                Header="내 원 경 로"
+                                DisplayMember="CCC_Name"
+                                ValueMember="CCC_Cd"
+                                Height="32"
+                                Col="5"
+                                Row="2"
+                                ColSpan="3"/>
 
                 <Xpf:BindItem   FieldName="PAT_IsForegin"
-                        BindType="ComboBox"
-                        Header="내국인구분"
-                        Height="32"
-                        Col="2"
-                        Row="3"
-                        ColSpan="2"
-                        DisplayMember="attrName"
-                        ValueMember="attrValue"/>
+                                BindType="ComboBox"
+                                Header="내국인구분"
+                                Height="32"
+                                Col="2"
+                                Row="3"
+                                ColSpan="3"
+                                DisplayMember="attrName"
+                                ValueMember="attrValue"/>
 
                 <Xpf:BindItem   FieldName="PAT_IsAgreePersonalInfo"
-                        BindType="ComboBox"
-                        Header="개인정보제공"
-                        Height="32"
-                        Col="4"
-                        Row="3"
-                        ColSpan="2"
-                        DisplayMember="attrName"
-                        ValueMember="attrValue"/>
+                                BindType="ComboBox"
+                                Header="개인정보제공"
+                                Height="32"
+                                Col="5"
+                                Row="3"
+                                ColSpan="3"
+                                DisplayMember="attrName"
+                                ValueMember="attrValue"/>
 
-                <x:Array Type="{x:Type Xpf:BindItem}">
-                    <Xpf:BindItem   FieldName="btnSearchAddr"
-                            BindType="Button"
-                            Header="주   소"
-                            Width="50"
-                            TextValue="검색"
-                            FontSize="11"
-                            Col="2"
-                            Row="4"
-                            ColSpan="2"
-                            Margin="2"
-                            IsBinding="False"/>
 
-                    <Xpf:BindItem   FieldName="PAT_Address1"
-                            BindType="TextBox"
-                            Placeholder="도로명주소 입력"
-                            FontSize="11"/>
-                </x:Array>
+                <Xpf:BindItem   FieldName="PAT_Address"
+                                Header="주   소"
+                                Width="50"
+                                TextValue="검색"
+                                FontSize="11"
+                                Col="0"
+                                Row="4"
+                                ColSpan="8"
+                                RowSpan="2">
 
-                <x:Array Type="{x:Type Xpf:BindItem}">
-                    <Xpf:BindItem   FieldName="PAT_Address2"
-                            BindType="TextBox"
-                            Placeholder="상세주소 입력"
-                            FontSize="11"
-                            Col="4"
-                            Row="4"
-                            ColSpan="2"
-                            IsHeader="False"/>
+                    <Xpf:StyleGrid  LayoutDefinitions="3,2"
+                                    ColumnSizeDefinitions="1*,Auto,Auto">
 
-                    <Xpf:BindItem   FieldName="PAT_Address3"
-                            BindType="TextBox"
-                            Placeholder="우편번호"
-                            FontSize="11"
-                            Width="60"/>
-                </x:Array>
+                        <Xpf:StyleTextBox   x:Name="txtPAT_Address1"
+                                            Grid.Column="0"
+                                            Grid.Row="0"
+                                            TextBoxType="Text"
+                                            Placeholder="도로명주소 입력"
+                                            FontSize="11"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1"
+                                            CornerRadius="0"
+                                            BoxMargin="2"/>
+                        <Xpf:StyleTextBox   x:Name="txtPAT_Address2"
+                                            Grid.Column="1"
+                                            Grid.Row="0"
+                                            TextBoxType="Text"
+                                            Placeholder="우편번호"
+                                            FontSize="11"
+                                            Width="120"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1"
+                                            CornerRadius="0"
+                                            BoxMargin="2"/>
+
+                        <Xpf:StyleTextBox   x:Name="txtPAT_Address3"
+                                            Grid.Column="0"
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            TextBoxType="Text"
+                                            Placeholder="상세주소 입력"
+                                            FontSize="11"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1"
+                                            CornerRadius="0"
+                                            BoxMargin="2"/>
+
+                        <Xpf:Button x:Name="btnFindAddress"
+                                    Grid.Column="2"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Content="주소검색"
+                                    Background="#F1F3F5"
+                                    FontSize="11"
+                                    FontWeight="Bold"
+                                    Glyph="/Images/smartemr_find_address.png"
+                                    Width="80"
+                                    Margin="2"/>
+                    </Xpf:StyleGrid>
+                </Xpf:BindItem>
 
                 <Xpf:BindItem   FieldName="PAT_Bigo"
-                        BindType="TextBox"
-                        Header="비   고"
-                        Col="2"
-                        Row="5"
-                        ColSpan="4"
-                        RowSpan="3"
-                        IsBottomLine="False"/>
+                                BindType="TextBox"
+                                Header="비   고"
+                                Col="0"
+                                Row="6"
+                                ColSpan="8"
+                                RowSpan="3"
+                                IsBottomLine="False"/>
             </Xpf:BindGrid>
 
             <Border Grid.Row="1"

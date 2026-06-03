@@ -24,6 +24,7 @@
     <None Remove="Images\smartemr_delete.png" />
     <None Remove="Images\smartemr_desk_register.png" />
     <None Remove="Images\smartemr_edit_patient.png" />
+    <None Remove="Images\smartemr_find_address.png" />
     <None Remove="Images\smartemr_info.png" />
     <None Remove="Images\smartemr_menu_calendar.png" />
     <None Remove="Images\smartemr_menu_crm.png" />
@@ -68,6 +69,10 @@
     <Content Include="Images\Svg\smartemr-error.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\smartemr_find_address.png" />
   </ItemGroup>
 
   <ItemGroup>

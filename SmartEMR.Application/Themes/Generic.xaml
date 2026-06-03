@@ -93,9 +93,9 @@
     <!-- #region Xpf.StyleTextBox -->
     
     <Style TargetType="{x:Type Xpf:StyleTextBox}">
-        <Setter Property="TextBoxType" Value="Text"></Setter>
-        <Setter Property="MinWidth" Value="30"></Setter>
-        <Setter Property="MinHeight" Value="22"></Setter>
+        <Setter Property="TextBoxType" Value="Text"/>
+        <Setter Property="MinWidth" Value="30"/>
+        <Setter Property="MinHeight" Value="22"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Xpf:StyleTextBox}">
@@ -114,6 +114,8 @@
                                                 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                 Foreground="{Binding TextForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                 Background="Transparent"
+                                                Width="{TemplateBinding Width}"
+                                                Height="{TemplateBinding Height}"
                                                 VerticalContentAlignment="Center"
                                                 Padding="5">
                                 </Xpf:TextBox>
