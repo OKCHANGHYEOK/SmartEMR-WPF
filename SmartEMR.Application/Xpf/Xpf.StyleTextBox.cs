@@ -102,6 +102,24 @@ public class StyleTextBox : Control
         set => SetValue(BoxMarginProperty, value);
     }
 
+    public static readonly DependencyProperty MaxLengthProperty =
+        DependencyProperty.Register(nameof(MaxLength), typeof(int), typeof(StyleTextBox), null);
+
+    public int MaxLength
+    {
+        get => (int)GetValue(MaxLengthProperty);
+        set => SetValue(MaxLengthProperty, value);
+    }
+
+    public static readonly DependencyProperty IsNumericOnlyProperty =
+        DependencyProperty.Register(nameof(IsNumericOnly), typeof(bool), typeof(StyleTextBox), null);
+
+    public bool IsNumericOnly
+    {
+        get => (bool)GetValue(IsNumericOnlyProperty);
+        set => SetValue(IsNumericOnlyProperty, value);
+    }
+
     static StyleTextBox()
     {
         // ⭐ XAML의 스타일을 찾아가도록 설정합니다.

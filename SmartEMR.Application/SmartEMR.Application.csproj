@@ -22,6 +22,7 @@
     <None Remove="Images\smartemr_booking.png" />
     <None Remove="Images\smartemr_check.png" />
     <None Remove="Images\smartemr_delete.png" />
+    <None Remove="Images\smartemr_delete_v2.png" />
     <None Remove="Images\smartemr_desk_register.png" />
     <None Remove="Images\smartemr_edit_patient.png" />
     <None Remove="Images\smartemr_find_address.png" />
@@ -34,6 +35,7 @@
     <None Remove="Images\smartemr_menu_settings.png" />
     <None Remove="Images\smartemr_patient_default_image.png" />
     <None Remove="Images\smartemr_register.png" />
+    <None Remove="Images\smartemr_save.png" />
     <None Remove="Images\Svg\smartemr-error.svg" />
     <None Remove="Images\Svg\smartemr_menu_calendar.svg" />
     <None Remove="Images\Svg\smartemr_menu_crm.svg" />
@@ -72,6 +74,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\smartemr_delete_v2.png" />
     <Resource Include="Images\smartemr_find_address.png" />
   </ItemGroup>
 
@@ -84,6 +87,7 @@
     <Resource Include="Images\smartemr_edit_patient.png" />
     <Resource Include="Images\smartemr_patient_default_image.png" />
     <Resource Include="Images\smartemr_register.png" />
+    <Resource Include="Images\smartemr_save.png" />
     <Resource Include="Images\smartemr_warning.png" />
     <Resource Include="Images\smartemr_info.png" />
     <Resource Include="Images\smartemr_menu_crm.png" />

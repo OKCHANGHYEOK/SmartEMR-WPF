@@ -4,7 +4,8 @@
                     xmlns:bar="clr-namespace:SmartEMR.Application.Xpf.Bar"
                     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
                     xmlns:common="clr-namespace:SmartEMR.Application.Common"
-                    xmlns:Conveter="clr-namespace:SmartEMR.Application.Common.Converter">
+                    xmlns:Conveter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
     <Conveter:StringAndFocusToVisiblityConverter x:Key="StringAndFocusToVisiblityConverter"/>
 
         <!--#region Xpf.Button -->
@@ -110,15 +111,30 @@
                                 Margin="{TemplateBinding BoxMargin}">
 
                             <Grid>
-                                <Xpf:TextBox    x:Name="PART_TextBox"
+                                <dxe:TextEdit   x:Name="PART_TextBox"
                                                 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                 Foreground="{Binding TextForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                 Background="Transparent"
                                                 Width="{TemplateBinding Width}"
                                                 Height="{TemplateBinding Height}"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="0"
                                                 VerticalContentAlignment="Center"
                                                 Padding="5">
-                                </Xpf:TextBox>
+
+                                    <dxe:TextEdit.Style>
+                                        <Style TargetType="dxe:TextEdit">
+                                            <Setter Property="MaskType" Value="None"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsNumericOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                                    <Setter Property="MaskType" Value="RegEx"/>
+                                                    <Setter Property="Mask" Value="{Binding MaxLength, RelativeSource={RelativeSource TemplatedParent}, StringFormat='\\d{{0,{0}}}'}"/>
+                                                    <Setter Property="MaskUseAsDisplayFormat" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </dxe:TextEdit.Style>
+                                </dxe:TextEdit>
                                 <Xpf:PasswordBox    x:Name="PART_PasswordBox"
                                                     Password="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                     Background="Transparent"

@@ -249,7 +249,9 @@ public partial class BindGrid : StyleGrid, IDisposable
                     HorizontalAlignment = bindItem.HAlignment,
                     VerticalAlignment = bindItem.VAlignment,
                     BoxMargin = new Thickness(2),
-                    Placeholder = bindItem.Placeholder
+                    Placeholder = bindItem.Placeholder,
+                    MaxLength = bindItem.MaxLength,
+                    IsNumericOnly = bindItem.IsNumericOnly
                 };
 
                 break;
