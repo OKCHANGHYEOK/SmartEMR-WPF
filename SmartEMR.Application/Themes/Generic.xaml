@@ -119,7 +119,6 @@
                                                 Height="{TemplateBinding Height}"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="0"
-                                                VerticalContentAlignment="Center"
                                                 Padding="5">
 
                                     <dxe:TextEdit.Style>
@@ -130,6 +129,21 @@
                                                     <Setter Property="MaskType" Value="RegEx"/>
                                                     <Setter Property="Mask" Value="{Binding MaxLength, RelativeSource={RelativeSource TemplatedParent}, StringFormat='\\d{{0,{0}}}'}"/>
                                                     <Setter Property="MaskUseAsDisplayFormat" Value="True"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" Value="LeftTop">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" Value="LeftCenter">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" Value="CenterCenter">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

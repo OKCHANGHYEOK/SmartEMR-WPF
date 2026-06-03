@@ -235,19 +235,20 @@
                                 Row="6"
                                 ColSpan="8"
                                 RowSpan="3"
+                                ContentAlignment="LeftTop"
                                 IsBottomLine="False"/>
             </Xpf:BindGrid>
 
             <Border Grid.Row="1"
-            BorderBrush="LightGray" 
-            BorderThickness="0,0,0,1"/>
+                    BorderBrush="LightGray" 
+                    BorderThickness="0,0,0,1"/>
 
             <Xpf:StyleGrid  Grid.Row="2"
-                    x:Name="ButtonPanel"
-                    LayoutDefinitions="3,1"
-                    ColumnSizeDefinitions="Auto,*,Auto"
-                    VerticalAlignment="Center"
-                    Margin="0,2,0,2">
+                            x:Name="ButtonPanel"
+                            LayoutDefinitions="3,1"
+                            ColumnSizeDefinitions="Auto,*,Auto"
+                            VerticalAlignment="Center"
+                            Margin="0,2,0,2">
 
                 <Xpf:Button Grid.Column="0" 
                             Width="85"

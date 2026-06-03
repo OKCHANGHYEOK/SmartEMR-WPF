@@ -51,6 +51,8 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.SelectedIndex = 0;
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.HorizontalAlignment = HorizontalAlignment.Stretch;
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.Margin = new Thickness(2, 0, 2, 0);
+
+        this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_Bigo")?.AcceptsReturn = true;
     }
 
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)

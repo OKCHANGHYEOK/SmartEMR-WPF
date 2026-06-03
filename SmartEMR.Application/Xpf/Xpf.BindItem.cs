@@ -44,6 +44,7 @@ public class BindItem
 
     public HorizontalAlignment HAlignment { get; set; } = HorizontalAlignment.Stretch;
     public VerticalAlignment VAlignment { get; set; } = VerticalAlignment.Stretch;
+    public ContentAlignment ContentAlignment { get; set; } = ContentAlignment.LeftCenter;
     
     public IQueryable? ItemsSource { get; set; }
     public string? DisplayMember { get; set; }

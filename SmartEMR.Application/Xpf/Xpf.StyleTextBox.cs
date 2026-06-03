@@ -1,6 +1,7 @@
-﻿using System.Windows.Media;
+﻿using DevExpress.Xpf.Editors;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -10,12 +11,22 @@ public enum StyleTextBoxType
     Password
 }
 
+public enum ContentAlignment
+{
+    LeftTop,
+    LeftCenter,
+    CenterCenter
+}
+
 public class StyleTextBox : Control
 {
-    // DependencyProperty들은 유지하되, UI 생성 로직은 제거합니다.
+
+
+    #region "DependencyProperties"
+
     public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(StyleTextBox),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+    DependencyProperty.Register(nameof(Text), typeof(string), typeof(StyleTextBox),
+        new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     public string Text
     {
@@ -55,7 +66,7 @@ public class StyleTextBox : Control
 
     public static readonly DependencyProperty PlaceHolderMarginProperty =
         DependencyProperty.Register(nameof(PlaceHolderMargin), typeof(Thickness), typeof(StyleTextBox),
-            new PropertyMetadata(new Thickness(5,0,0,0)));
+            new PropertyMetadata(new Thickness(5, 0, 0, 0)));
 
     public Thickness PlaceHolderPadding
     {
@@ -118,6 +129,39 @@ public class StyleTextBox : Control
     {
         get => (bool)GetValue(IsNumericOnlyProperty);
         set => SetValue(IsNumericOnlyProperty, value);
+    }
+
+    public static readonly DependencyProperty ContentAlignmentProperty =
+        DependencyProperty.Register("ContentAlignment", typeof(ContentAlignment), typeof(StyleTextBox), new PropertyMetadata(ContentAlignment.LeftCenter));
+
+    public ContentAlignment ContentAlignment {
+        get => (ContentAlignment)GetValue(ContentAlignmentProperty);
+        set => SetValue(ContentAlignmentProperty, value);
+    }
+
+    #endregion
+
+    public bool AcceptsReturn
+    {
+        get
+        {
+            if (GetTemplateChild("PART_TextBox") is TextEdit textedit)
+            {
+                return textedit.AcceptsReturn;
+            }
+
+            return false;
+        }
+
+        set
+        {
+            if (GetTemplateChild("PART_TextBox") is TextEdit textedit)
+            {
+                textedit.AcceptsReturn = value;
+            }
+
+            return;
+        }
     }
 
     static StyleTextBox()

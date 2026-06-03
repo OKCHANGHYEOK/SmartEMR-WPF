@@ -248,6 +248,7 @@ public partial class BindGrid : StyleGrid, IDisposable
                     TextBoxType = bindItem.BindType == BindType.TextBox ? StyleTextBoxType.Text : StyleTextBoxType.Password,
                     HorizontalAlignment = bindItem.HAlignment,
                     VerticalAlignment = bindItem.VAlignment,
+                    ContentAlignment = bindItem.ContentAlignment,
                     BoxMargin = new Thickness(2),
                     Placeholder = bindItem.Placeholder,
                     MaxLength = bindItem.MaxLength,
