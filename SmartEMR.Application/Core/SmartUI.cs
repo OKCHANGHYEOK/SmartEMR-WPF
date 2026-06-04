@@ -71,11 +71,13 @@ public static partial class SmartUI
         {
             var floatPanel = new FloatPanel();
             var popup = Activator.CreateInstance<T>();
-            var popupElement = popup as UIElement;
-
-            if (popupElement != null)
+            var popupView = popup as ViewLayout;
+           
+            if (popupView != null)
             {
-                floatPanel.Content = popupElement;
+                floatPanel.Content = popupView;
+
+                popupView.IsPopupView = true;
             }
 
             BeginInvoke(() =>

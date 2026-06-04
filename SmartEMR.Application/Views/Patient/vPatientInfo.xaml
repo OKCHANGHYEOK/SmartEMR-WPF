@@ -254,21 +254,39 @@
                             Width="85"
                             Height="27"
                             Content="환자삭제"
+                            FontWeight="SemiBold"
                             Glyph="/Images/smartemr_delete_v2.png"
                             VerticalContentAlignment="Center"
                             Margin="2,0,0,0"
                             Command="{Binding SavePatientCommand}"
-                            CommandParameter="Delete"/>
+                            CommandParameter="Delete">
+
+                    <Xpf:Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FFFFFF" Offset="0"/>
+                            <GradientStop Color="#FFF0F2" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Xpf:Button.Background>
+                </Xpf:Button>
 
                 <Xpf:Button Grid.Column="2" 
                             Width="85"
                             Height="27"
                             Content="환자등록"
+                            FontWeight="SemiBold"
                             Glyph="/Images/smartemr_save.png"
                             VerticalContentAlignment="Center"
                             Margin="0,0,2,0"
                             Command="{Binding SavePatientCommand}"
-                            CommandParameter="Save"/>
+                            CommandParameter="Save">
+
+                    <Xpf:Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FFFFFF" Offset="0"/>
+                            <GradientStop Color="#FFF0F2" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Xpf:Button.Background>
+                </Xpf:Button>
             </Xpf:StyleGrid>
         </Xpf:StyleGrid>
     </dx:LayoutPanel>

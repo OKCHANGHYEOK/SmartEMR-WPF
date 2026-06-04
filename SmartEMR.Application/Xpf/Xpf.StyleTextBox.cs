@@ -141,27 +141,18 @@ public class StyleTextBox : Control
 
     #endregion
 
-    public bool AcceptsReturn
+    private TextEdit TextChild
     {
         get
         {
-            if (GetTemplateChild("PART_TextBox") is TextEdit textedit)
-            {
-                return textedit.AcceptsReturn;
-            }
-
-            return false;
+            return GetTemplateChild("PART_TextBox") as TextEdit ?? default!;
         }
+    }
 
-        set
-        {
-            if (GetTemplateChild("PART_TextBox") is TextEdit textedit)
-            {
-                textedit.AcceptsReturn = value;
-            }
-
-            return;
-        }
+    public bool AcceptsReturn
+    {
+        get => TextChild.AcceptsReturn;
+        set => TextChild.AcceptsReturn = value;
     }
 
     static StyleTextBox()
@@ -191,10 +182,10 @@ public class StyleTextBox : Control
         else
         {
             // 기본적으로 Text 모드일 때
-            if (GetTemplateChild("PART_TextBox") is TextBox textBox)
+            if (TextChild is TextEdit textEdit)
             {
-                textBox.Focus();
-                textBox.SelectAll();
+                textEdit.Focus();
+                textEdit.SelectAll();
             }
         }
     }
