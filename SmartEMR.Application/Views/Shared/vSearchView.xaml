@@ -42,7 +42,8 @@
                     <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
                 </Xpf:StyleTextBox.InputBindings>
             </Xpf:StyleTextBox>
-            <Xpf:Button     Grid.Column="0" 
+            <Xpf:Button     x:Name="btnMoveRESInfo"
+                            Grid.Column="0" 
                             Grid.Row="1" 
                             Content="예약하기"
                             Glyph="/Images/smartemr_booking.png"
@@ -52,10 +53,10 @@
                             Margin="2,0,0,0"
                             Background="#F1F3F5"
                             BorderBrush="LightGray"
-                            Command="{Binding ClickCommand}"
-                            CommandParameter="MoveRES"/>
+                            Click="OnClick_Button"/>
             
-            <Xpf:Button     Grid.Column="1"
+            <Xpf:Button     x:Name="btnMovePATInfo"
+                            Grid.Column="1"
                             Grid.Row="1"
                             Content="신환등록"
                             Glyph="/Images/smartemr_register.png"
@@ -64,7 +65,8 @@
                             Padding="2"
                             Margin="2,0,2,0"
                             Background="#F1F3F5"
-                            BorderBrush="LightGray"/>
+                            BorderBrush="LightGray"
+                            Click="OnClick_Button"/>
 
             <!-- 검색 버튼 (SimpleButton) -->
             <Xpf:Button    x:Name="SearchButton"

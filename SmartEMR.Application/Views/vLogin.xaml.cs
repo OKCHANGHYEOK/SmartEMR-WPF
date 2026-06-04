@@ -46,6 +46,7 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
                 if (string.IsNullOrWhiteSpace(MURItem?.MUR_Id))
                 {
                     var txtMUR_Id = this.BindGrids[0].GetBindItem<StyleTextBox>("MUR_Id");
+                    if (txtMUR_Id == null) return;
 
                     txtMUR_Id.Focus();
 
@@ -56,6 +57,7 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
                 else if (string.IsNullOrWhiteSpace(MURItem?.MUR_PassWord))
                 {
                     var txtMUR_PassWord = this.BindGrids[0].GetBindItem<StyleTextBox>("MUR_PassWord");
+                    if (txtMUR_PassWord == null) return;
 
                     txtMUR_PassWord.Focus();
 

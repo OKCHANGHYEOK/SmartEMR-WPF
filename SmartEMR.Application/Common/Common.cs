@@ -28,6 +28,13 @@ public enum eBirthType
     Day
 }
 
+public enum OperationType
+{
+    CREATE,
+    UPDATE,
+    DELETE
+}
+
 public class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();

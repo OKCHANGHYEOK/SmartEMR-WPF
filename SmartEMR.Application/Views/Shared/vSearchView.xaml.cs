@@ -31,7 +31,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
 
     protected override void Initialize()
     {
-        txtSearch.PreviewKeyDown += txtSearch_PreviewKeyDown;
+        txtSearch.PreviewKeyDown += OnPreviewKeyDown_txtSearch;
     }
 
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
@@ -78,6 +78,14 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         return response;
     }
 
+    public void SetFocusToSearch()
+    {
+        this.txtSearch.Focus();
+    }
+
+
+    #region "Event"
+
     public void OnPreviewKeyDown_SearchView(object sender, KeyEventArgs e)
     {
         var element = sender as vSearchView;
@@ -113,7 +121,10 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         SmartUI.ReturnFocusTovLayout();
     }
 
-    private void txtSearch_PreviewKeyDown(object sender, KeyEventArgs e)
+
+
+
+    private void OnPreviewKeyDown_txtSearch(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Down && SearchPopup.IsOpen)
         {
@@ -122,8 +133,21 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         }
     }
 
-    public void SetFocusToSearch()
+    private void OnClick_Button(object sender, RoutedEventArgs e)
     {
-        this.txtSearch.Focus();
+        var element = sender as Button;
+        if (element == null) return;
+        
+        switch (element.Name)
+        {
+            case "btnMoveRESInfo":
+                break;
+
+            case "btnMovePATInfo":
+                SmartUI.NavigateToPage<vPatientInfo>(isPopup: true);
+                break;
+        }
     }
+
+    #endregion
 }

@@ -111,17 +111,15 @@
                                 Margin="{TemplateBinding BoxMargin}">
 
                             <Grid>
-                                <dxe:TextEdit   x:Name="PART_TextBox"
+                                <Xpf:TextEdit   x:Name="PART_TextBox"
                                                 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                 Foreground="{Binding TextForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                 Background="Transparent"
                                                 Width="{TemplateBinding Width}"
                                                 Height="{TemplateBinding Height}"
-                                                BorderBrush="Transparent"
-                                                BorderThickness="0"
                                                 Padding="5">
 
-                                    <dxe:TextEdit.Style>
+                                    <Xpf:TextEdit.Style>
                                         <Style TargetType="dxe:TextEdit">
                                             <Setter Property="MaskType" Value="None"/>
                                             <Style.Triggers>
@@ -147,8 +145,8 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </dxe:TextEdit.Style>
-                                </dxe:TextEdit>
+                                    </Xpf:TextEdit.Style>
+                                </Xpf:TextEdit>
                                 <Xpf:PasswordBox    x:Name="PART_PasswordBox"
                                                     Password="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                     Background="Transparent"

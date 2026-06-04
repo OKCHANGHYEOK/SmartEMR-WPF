@@ -2,4 +2,5 @@
 
 public interface IBaseViewModel
 {
+    public void Initialize();
 }

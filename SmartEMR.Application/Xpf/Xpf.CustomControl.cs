@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Reflection;
+using System.Windows.Controls;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -6,6 +7,9 @@ public class CustomControl : UserControl
 {
     public CustomControl()
     {
-        this.GetType().GetMethod("InitializeComponent")?.Invoke(this, null);
+        var method = this.GetType().GetMethod("InitializeComponent",
+                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+        method?.Invoke(this, null);
     }
 }

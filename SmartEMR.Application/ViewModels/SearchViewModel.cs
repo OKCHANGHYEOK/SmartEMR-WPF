@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using DevExpress.Spreadsheet.Formulas;
 using SmartEMR.Application.Core;
-using SmartEMR.Application.Views.SmartEMRDesk;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
@@ -47,16 +45,5 @@ public partial class SearchViewModel : BaseViewModel<Patient>
         }
 
         await SmartUI.SendMessage("UpdateSearchItemsSource", retPAT);
-    }
-
-    [RelayCommand]
-    public void Click(string action)
-    {
-        switch (action)
-        {
-            case "MoveRES":
-                SmartUI.NavigateToPage<vSmartEMRRESInfo>(isPopup:true);
-                break;
-        }
     }
 }

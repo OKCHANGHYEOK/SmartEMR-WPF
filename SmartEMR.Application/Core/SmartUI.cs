@@ -71,19 +71,15 @@ public static partial class SmartUI
         {
             var floatPanel = new FloatPanel();
             var popup = Activator.CreateInstance<T>();
-            var popupView = popup as ViewLayout;
-           
-            if (popupView != null)
+
+            if (popup is ModelViewLayout popupView)
             {
+                popupView.IsPopupView = true;
+
                 floatPanel.Content = popupView;
 
-                popupView.IsPopupView = true;
-            }
-
-            BeginInvoke(() =>
-            {
                 UIManager.AddFloatPanel(floatPanel);
-            });    
+            }
 
             return;
         }
@@ -106,7 +102,10 @@ public static partial class SmartUI
 
         if (targetView == null) return;
 
-        vlayout.MainContent = targetView;
+        BeginInvoke(() =>
+        {
+            vlayout.MainContent = targetView;
+        }, DispatcherPriority.ApplicationIdle);
     }
 
     public static void CloseFloatPanel(FloatPanel panel)
@@ -179,6 +178,16 @@ public static partial class SmartUI
         if (currentWindow != null)
         {
             currentWindow.Dispatcher?.BeginInvoke(action, priority);
+        }
+    }
+
+    public static async Task InvokeAsnyc(Action action, DispatcherPriority priority = DispatcherPriority.Normal)
+    {
+        var currentWindow = CurrentWindow as Window ?? App.Current.MainWindow;
+
+        if (currentWindow != null)
+        {
+            currentWindow.Dispatcher?.InvokeAsync(action, priority);
         }
     }
 

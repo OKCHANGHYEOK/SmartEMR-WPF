@@ -24,9 +24,10 @@ public class PatientViewModel : BaseViewModel<Patient>
         arrPAT_IsSolar = SmartMVVM.Master.Query("PAT_IsSolar");
 
         arrPAT_Sex = SmartMVVM.Master.Query<Patient>("PAT_Sex");
-        arrPAT_SourceType = await SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType");
         arrPAT_IsForegin = SmartMVVM.Master.Query("PAT_IsForegin");
         arrPAT_IsAgreePersonalInfo = SmartMVVM.Master.Query("PAT_IsAgreePersonalInfo");
+
+        arrPAT_SourceType = await SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType");
     }
 
     protected override Patient GetModel(Patient item)

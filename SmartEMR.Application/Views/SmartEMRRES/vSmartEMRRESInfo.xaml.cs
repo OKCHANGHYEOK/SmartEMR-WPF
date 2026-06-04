@@ -9,18 +9,18 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// </summary>
     public partial class vSmartEMRRESInfo : ModelViewLayout<Chart>
     {
+        protected override void Initialize()
+        {
+            this.ViewTitle = "예약등록";
+            this.ViewSize = new System.Windows.Size(500, 500);
+        }
+
         public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
         {
             if (sender is BindGrid bg)
             {
 
             }
-        }
-
-        protected override void Initialize()
-        {
-            this.ViewTitle = "예약등록";
-            this.ViewSize = new System.Windows.Size(500,500);
         }
     }
 }

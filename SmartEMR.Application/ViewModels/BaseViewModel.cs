@@ -50,7 +50,6 @@ public abstract partial class BaseViewModel<T> : ObservableObject, IBaseViewMode
     // 자식 클래스에서 반드시 구현해야 하는 추상 메서드들
     protected abstract T GetModel(T item);
 
-    // virtual에서 abstract로 변경되었습니다.
     public abstract void Initialize();
 
     // 기본 비동기 데이터 로드 동작 (필요 시 자식에서 override)

@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Common;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -127,9 +128,9 @@ public partial class UIManager
         var mv = view as ModelViewLayout;
         if (mv == null) return;
 
-        // [개선] view.Content 대신 view(자기 자신)를 넘겨 비주얼 트리 전체를 안전하게 탐색
         FindAndRegisterBindGrids(mv);
-        SetFocusToFirstTextElement(view);
+
+        TextFocusBehavior.SetFocusToFirstTextElement(view);
 
         if (view is FrameworkElement fe)
         {
@@ -212,38 +213,4 @@ public partial class UIManager
             FindAndRegisterBindGrids(view, child);
         }
     }
-
-    private void SetFocusToFirstTextElement(ViewLayout viewLayout)
-    {
-        // 팝업뷰인 경우 입력 가능한 요소중 첫번째 요소를 찾아 포커스
-        if (viewLayout.IsPopupView)
-        {
-            var queue = new Queue<DependencyObject>();
-            queue.Enqueue(viewLayout);
-
-            while (queue.Count > 0)
-            {
-                var current = queue.Dequeue();
-                int count = VisualTreeHelper.GetChildrenCount(current);
-
-                for (int i = 0; i < count; i++)
-                {
-                    var child = VisualTreeHelper.GetChild(current, i);
-
-                    if (child is TextBox textBox)
-                    {
-                        textBox.Focus();
-                        return;
-                    }
-                    else if (child is StyleTextBox stb)
-                    {
-                        stb.Focus();
-                        return;
-                    }
-
-                    queue.Enqueue(child);
-                }
-            }
-        }
-    } 
 }

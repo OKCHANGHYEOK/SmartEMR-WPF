@@ -34,7 +34,6 @@ public abstract class ViewLayout : CustomControl, IViewLayout
     public virtual void RefreshViewData(object? parameter = null) {}
 
     public ViewLayout() => this.Loaded += (s, e) => SmartUI.RegisterView(this);
-
     public ViewLayout(object parameter) : this() => this.Loaded += (s, e) => RefreshViewData(parameter);
 }
 
@@ -46,6 +45,7 @@ public abstract partial class ModelViewLayout : ViewLayout, IDisposable
     public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
 
     protected abstract void Initialize();
+    protected virtual void SetBindGrid() { }
 
     // internal로 선언되어 있으므로 동일 어셈블리 내의 UIManager가 리플렉션 없이 호출 가능
     internal void AddBindGrid(BindGrid bindGrid)
@@ -102,7 +102,7 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
     public T vm = default!;
     public T Model = default!;
 
-    public ModelViewLayout()
+    public ModelViewLayout() : base()
     {
         if (typeof(IBaseViewModel).IsAssignableFrom(typeof(T)))
         {
@@ -115,9 +115,10 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
             this.SetValue(DataContextProperty, Model);
         }
 
-        SmartUI.BeginInvoke(() =>
+        this.Loaded += async (s, e) =>
         {
             Initialize();
-        }, System.Windows.Threading.DispatcherPriority.Background);
+            SetBindGrid();
+        };
     }
 }
