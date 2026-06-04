@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MahApps.Metro.Controls;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -51,20 +52,6 @@ public partial class BindGrid : StyleGrid, IDisposable
         set => SetValue(HeaderWidthProperty, value);
     }
 
-    public static readonly DependencyProperty ModelProperty =
-        DependencyProperty.Register(nameof(Model), typeof(object), typeof(BindGrid), new PropertyMetadata(null, OnModelChanged));
-
-    public object Model
-    {
-        get => GetValue(ModelProperty);
-        set => SetValue(ModelProperty, value);
-    }
-
-    private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is BindGrid bindGrid) bindGrid.UpdateModel();
-    }
-
     #endregion
 
     public event Action<BindItem, BindClickEventArgs>? BindGrid_BindClickEvent;
@@ -84,11 +71,6 @@ public partial class BindGrid : StyleGrid, IDisposable
     }
 
     public bool disposed { get; set; }
-
-    public BindGrid() : base()
-    {
-        this.DataContextChanged += (s, e) => UpdateModel();
-    }
 
     private void OnBindItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
@@ -155,7 +137,6 @@ public partial class BindGrid : StyleGrid, IDisposable
         foreach (var item in arrList)
         {
             FrameworkElement? element = CreateVisualElement(item);
-            element?.HorizontalAlignment = HorizontalAlignment.Stretch;
 
             if (element != null)
             {
@@ -238,7 +219,6 @@ public partial class BindGrid : StyleGrid, IDisposable
             case BindType.TextBox or BindType.PasswordBox:
                 visualChild = new StyleTextBox
                 {
-                    DataContext = this.Model,
                     FontSize = bindItem.FontSize,
                     Foreground = bindItem.Foreground,
                     FontWeight = bindItem.FontWeight,
@@ -249,10 +229,10 @@ public partial class BindGrid : StyleGrid, IDisposable
                     HorizontalAlignment = bindItem.HAlignment,
                     VerticalAlignment = bindItem.VAlignment,
                     ContentAlignment = bindItem.ContentAlignment,
-                    BoxMargin = new Thickness(2),
                     Placeholder = bindItem.Placeholder,
                     MaxLength = bindItem.MaxLength,
-                    IsNumericOnly = bindItem.IsNumericOnly
+                    IsNumericOnly = bindItem.IsNumericOnly,
+                    IsReadOnly = bindItem.IsReadOnly
                 };
 
                 break;
@@ -276,7 +256,20 @@ public partial class BindGrid : StyleGrid, IDisposable
                     DisplayMember = bindItem.DisplayMember,
                     ValueMember = bindItem.ValueMember,
                     CornerRadius = bindItem.CornerRadius,
-                    BorderThickness = bindItem.BorderThickness
+                    BorderThickness = bindItem.BorderThickness,
+                    HorizontalAlignment = bindItem.HAlignment,
+                    VerticalAlignment = bindItem.VAlignment
+                };
+
+                break;
+
+            case BindType.CheckBox:
+                visualChild = new CheckEdit()
+                {
+                    Content = bindItem.TextValue,
+                    FontSize = bindItem.FontSize,
+                    FontWeight = bindItem.FontWeight,
+                    Foreground = bindItem.Foreground
                 };
 
                 break;
@@ -298,7 +291,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         // 공통 속성 설정 및 이벤트 바인딩
         visualChild.SetValue(NameProperty, bindItem.FieldName);
         visualChild.SetValue(TagProperty, bindItem);
-        visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace, 0, this.ItemSpace, 0) : bindItem.Margin);
+        visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace) : bindItem.Margin);
 
         if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
             visualChild.SetValue(BackgroundProperty, bg);
@@ -315,56 +308,46 @@ public partial class BindGrid : StyleGrid, IDisposable
             else visualChild.MouseLeftButtonDown += OnBindClick;
         }
 
-        if (bindItem.IsBinding == true) BindingVisualChild(visualChild, bindItem);
+        if (bindItem.IsBinding == true)
+        {
+            SmartUI.BeginInvoke(() =>
+            {
+                BindingExtensions.SetBinding(visualChild, bindItem.FieldName);
+            }, System.Windows.Threading.DispatcherPriority.Background);
+        }
 
         visualChild.LostFocus += OnLostFocus_BindItem;
 
         return visualChild;
     }
 
-    private void BindingVisualChild(FrameworkElement visualChild, BindItem bindItem)
-    {
-        DependencyProperty? targetProperty = null;
-
-        if (visualChild is StyleTextBox) targetProperty = StyleTextBox.TextProperty;
-        else if (visualChild is Image img) targetProperty = Image.SourceProperty;
-
-        if (targetProperty != null && this.Model != null && !string.IsNullOrWhiteSpace(bindItem.FieldName))
-        {
-            Binding binding = new Binding(bindItem.FieldName)
-            {
-                Source = this.Model,
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            visualChild.SetBinding(targetProperty, binding);
-        }
-    }
-
     private void OnLostFocus_BindItem(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement fe && fe.Tag is BindItem bindItem && this.Model != null)
+        if (sender is FrameworkElement fe && fe.Tag is BindItem bindItem)
         {
             var value = fe is StyleTextBox stb ? stb.Text : null;
-            // 필요 시 비즈니스 로직 추가
         }
     }
 
-    public void UpdateModel()
-    {
-        if (this.Model == null) return;
-        // 필요시 데이터 컨텍스트 전파 로직 구현
-    }
 
     public T? GetBindItem<T>(string fieldName) where T : FrameworkElement
     {
-        foreach (UIElement element in LayoutRoot.Children)
+        foreach (FrameworkElement element in LayoutRoot.Children)
         {
-            var targetItem = element.FindChild<T>(fieldName);
+            var bindItem = element.Tag as BindItem;
 
-            if (targetItem != null)
+            if (bindItem != null && bindItem.FieldName == fieldName)
             {
-                return targetItem;
+                return element as T;   
+            }
+            else
+            {
+                var targetItem = element.FindChild<T>(fieldName);
+
+                if (targetItem != null)
+                {
+                    return targetItem;
+                }
             }
         }
 

@@ -99,20 +99,20 @@ public abstract partial class ModelViewLayout
 
 public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : class
 {
-    public T vm = default!;
-    public T Model = default!;
+    // 외부에서 언제든 접근할 수 있도록 래퍼 프로퍼티나 필드로 유지하되, 
+    // DataContext와 항상 일치하도록 만듭니다.
+    public T vm => this.DataContext as T ?? default!;
+    public T Model => this.DataContext as T ?? default!;
 
     public ModelViewLayout() : base()
     {
-        if (typeof(IBaseViewModel).IsAssignableFrom(typeof(T)))
+        if (typeof(IVIewModel).IsAssignableFrom(typeof(T)))
         {
-            vm = Activator.CreateInstance<T>();
-            this.SetValue(DataContextProperty, vm);
+            this.SetValue(DataContextProperty, Activator.CreateInstance<T>());
         }
         else if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
         {
-            Model = Activator.CreateInstance<T>();
-            this.SetValue(DataContextProperty, Model);
+            this.SetValue(DataContextProperty, Activator.CreateInstance<T>());
         }
 
         this.Loaded += async (s, e) =>

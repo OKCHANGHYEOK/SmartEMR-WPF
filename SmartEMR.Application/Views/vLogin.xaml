@@ -43,15 +43,16 @@
 
         <Grid Name="InputGrid" Grid.Row="1" Background="White">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Xpf:BindGrid LayoutDefinitions="1,2" Margin="0,0,0,10" ItemSpace="0" Height="60">
-                    <Xpf:BindItem FieldName="MUR_Id" 
+                <Xpf:BindGrid LayoutDefinitions="1,2" Margin="0,0,0,10" ItemSpace="0" Height="70">
+                    <Xpf:BindItem   FieldName="MUR_Id" 
                                     BindType="TextBox" 
                                     Placeholder="ID" 
                                     Col="0" 
                                     Row="0"
                                     BorderBrush="#BDBDBD"
                                     BorderThickness="1,1,1,0"
-                                    CornerRadius="3,3,0,0">
+                                    CornerRadius="3,3,0,0"
+                                    Margin="0">
 
                     </Xpf:BindItem>
                     <Xpf:BindItem FieldName="MUR_PassWord"
@@ -61,7 +62,8 @@
                                     Row="1"
                                     BorderBrush="#BDBDBD"
                                     BorderThickness="1"
-                                    CornerRadius="0,0,3,3">
+                                    CornerRadius="0,0,3,3"
+                                    Margin="0">
                     </Xpf:BindItem>
                 </Xpf:BindGrid>
 

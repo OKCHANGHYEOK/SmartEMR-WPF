@@ -57,6 +57,10 @@
                             <Setter Property="Opacity" Value="1"></Setter>
                         </Trigger>
 
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+
                         <Trigger Property="Glyph" Value="{x:Null}">
                             <Setter Property="Visibility" TargetName="PART_IMAGE" Value="Collapsed"></Setter>
                         </Trigger>
@@ -108,21 +112,30 @@
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                Margin="{TemplateBinding BoxMargin}">
+                                Margin="{TemplateBinding Margin}">
 
                             <Grid>
                                 <Xpf:TextEdit   x:Name="PART_TextBox"
-                                                Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                EditValue="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 Foreground="{Binding TextForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="0"
                                                 Width="{TemplateBinding Width}"
-                                                Height="{TemplateBinding Height}"
-                                                Padding="5">
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Padding="5"
+                                                IsReadOnly="{TemplateBinding IsReadOnly}">
 
                                     <Xpf:TextEdit.Style>
                                         <Style TargetType="dxe:TextEdit">
+                                            <Setter Property="Background" Value="Transparent"/>
                                             <Setter Property="MaskType" Value="None"/>
                                             <Style.Triggers>
+                                                <Trigger Property="IsReadOnly" Value="True">
+                                                    <Setter Property="Background" Value="#E9ECEF"/>
+                                                    <Setter Property="Foreground" Value="#495057"/>
+                                                </Trigger>
+
                                                 <DataTrigger Binding="{Binding IsNumericOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
                                                     <Setter Property="MaskType" Value="RegEx"/>
                                                     <Setter Property="Mask" Value="{Binding MaxLength, RelativeSource={RelativeSource TemplatedParent}, StringFormat='\\d{{0,{0}}}'}"/>
@@ -150,7 +163,9 @@
                                 <Xpf:PasswordBox    x:Name="PART_PasswordBox"
                                                     Password="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                     Background="Transparent"
-                                                    VerticalAlignment="Center">
+                                                    VerticalAlignment="Stretch"
+                                                    VerticalContentAlignment="Center"
+                                                    Padding="5">
                                 </Xpf:PasswordBox>
                             </Grid>
                         </Border>

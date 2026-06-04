@@ -13,6 +13,7 @@ public class TextFocusBehavior
     public static void SetFocusToFirstTextElement(ViewLayout viewLayout)
     {
         // 팝업뷰인 경우 입력 가능한 요소중 첫번째 요소를 찾아 포커스
+        // isReadOnly = true 인 요소는 건너뜀
         if (viewLayout.IsPopupView)
         {
             var queue = new Queue<DependencyObject>();
@@ -27,12 +28,12 @@ public class TextFocusBehavior
                 {
                     var child = VisualTreeHelper.GetChild(current, i);
 
-                    if (child is TextBox textBox)
+                    if (child is TextBox textBox && !textBox.IsReadOnly)
                     {
                         textBox.Focus();
                         return;
                     }
-                    else if (child is StyleTextBox stb)
+                    else if (child is StyleTextBox stb && !stb.IsReadOnly)
                     {
                         stb.Focus();
                         return;
@@ -94,30 +95,47 @@ public class TextFocusBehavior
     {
         if (element == null) return;
 
-        var focusedElement = element as UIElement;
+        var currentElement = element as UIElement;
+        if (currentElement == null) return;
+
+        // WPF 표준 탐색 요청 객체 생성 (Next = 다음 탭 인덱스)
         var request = new TraversalRequest(FocusNavigationDirection.Next);
 
-        // 무한 루프 방지를 위해 처음 출발한 컨트롤을 기억합니다.
-        UIElement startingElement = focusedElement;
+        // 무한 루프와 예외를 방지하기 위해 최대 순회 횟수를 화면 내 컨트롤 개수 수준(예: 30회)으로 강제 제한합니다.
+        int maxAttempts = 30;
+        int attempts = 0;
 
-        while (focusedElement != null)
+        // 최초 출발 지점의 컨트롤 기억
+        UIElement startingElement = currentElement;
+
+        while (currentElement != null && attempts < maxAttempts)
         {
-            // 다음 컨트롤로 포커스 이동 시도
-            focusedElement.MoveFocus(request);
+            attempts++;
 
-            // 이동 후 실제로 포커스를 먹은 요소를 새로 가져옴
+            // 🎯 실제로 다음 컨트롤로 포커스를 1칸 이동시킵니다.
+            // MoveFocus는 내부적으로 유효성 검사를 거치므로 Enum 오류가 발생하지 않습니다.
+            bool isMoved = currentElement.MoveFocus(request);
+
+            // 포커스 이동에 실패했거나 키보드 포커스 객체를 못 가져오면 중단
+            if (!isMoved) break;
+
             var newFocused = Keyboard.FocusedElement as UIElement;
 
-            // 1. 만약 포커스가 바뀐 컨트롤이 TextBox나 TextEdit라면 성공! 루프 탈출
-            if (newFocused is TextBox || newFocused is TextEdit)
+            // 안전장치: 포커스가 비었거나, 한 바퀴 돌아서 자기 자신에게 다시 왔다면 종료
+            if (newFocused == null || newFocused == startingElement || newFocused == currentElement)
                 break;
 
-            // 2. [안전장치] 포커스가 안 바뀌었거나, 한 바퀴 돌아서 처음 출발지로 다시 왔다면 탈출
-            if (newFocused == null || newFocused == focusedElement || newFocused == startingElement)
+            // 💡 성공 조건: 새로 포커스를 잡은 놈이 TextBox류이거나 DevExpress 에디터 종류일 때
+            string typeName = newFocused.GetType().Name;
+            if (newFocused is TextBox || typeName.Contains("TextEdit") || typeName.Contains("TextBox"))
+            {
+                // 원하는 입력창에 안착했으므로 즉시 루프 탈출!
                 break;
+            }
 
-            // 다음 루프를 위해 갱신
-            focusedElement = newFocused;
+            // 만약 새로 간 곳이 버튼, 라벨, 체크박스 등등 입력창이 아니라면
+            // 그 컨트롤을 기준점으로 삼아 다음 칸으로 한 번 더 이동하도록 갱신합니다.
+            currentElement = newFocused;
         }
     }
 }

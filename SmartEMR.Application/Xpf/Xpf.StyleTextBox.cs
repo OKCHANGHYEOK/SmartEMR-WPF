@@ -104,15 +104,6 @@ public class StyleTextBox : Control
         set => SetValue(TextForegroundProperty, value);
     }
 
-    public static readonly DependencyProperty BoxMarginProperty =
-        DependencyProperty.Register(nameof(BoxMargin), typeof(Thickness), typeof(StyleTextBox), new PropertyMetadata(new Thickness(5)));
-
-    public Thickness BoxMargin
-    {
-        get => (Thickness)GetValue(BoxMarginProperty);
-        set => SetValue(BoxMarginProperty, value);
-    }
-
     public static readonly DependencyProperty MaxLengthProperty =
         DependencyProperty.Register(nameof(MaxLength), typeof(int), typeof(StyleTextBox), null);
 
@@ -120,6 +111,15 @@ public class StyleTextBox : Control
     {
         get => (int)GetValue(MaxLengthProperty);
         set => SetValue(MaxLengthProperty, value);
+    }
+
+    public static readonly DependencyProperty ContentAlignmentProperty =
+    DependencyProperty.Register("ContentAlignment", typeof(ContentAlignment), typeof(StyleTextBox), new PropertyMetadata(ContentAlignment.LeftCenter));
+
+    public ContentAlignment ContentAlignment
+    {
+        get => (ContentAlignment)GetValue(ContentAlignmentProperty);
+        set => SetValue(ContentAlignmentProperty, value);
     }
 
     public static readonly DependencyProperty IsNumericOnlyProperty =
@@ -131,12 +131,13 @@ public class StyleTextBox : Control
         set => SetValue(IsNumericOnlyProperty, value);
     }
 
-    public static readonly DependencyProperty ContentAlignmentProperty =
-        DependencyProperty.Register("ContentAlignment", typeof(ContentAlignment), typeof(StyleTextBox), new PropertyMetadata(ContentAlignment.LeftCenter));
+    public static readonly DependencyProperty IsReadOnlyProperty =
+        DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(StyleTextBox), null);
 
-    public ContentAlignment ContentAlignment {
-        get => (ContentAlignment)GetValue(ContentAlignmentProperty);
-        set => SetValue(ContentAlignmentProperty, value);
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
     }
 
     #endregion

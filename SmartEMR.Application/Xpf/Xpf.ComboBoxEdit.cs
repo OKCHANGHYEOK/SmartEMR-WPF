@@ -6,9 +6,9 @@ public class ComboBoxEdit : DevExpress.Xpf.Editors.ComboBoxEdit
 {
     public ComboBoxEdit()
     {
-        this.MinHeight = 23;
+        this.MinHeight = 20;
         this.MinWidth = 40;
-        this.VerticalAlignment = VerticalAlignment.Center;
+        this.VerticalAlignment = VerticalAlignment.Stretch;
         this.HorizontalAlignment = HorizontalAlignment.Center;
     }
 }

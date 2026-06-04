@@ -4,7 +4,7 @@ using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
-public class PatientViewModel : BaseViewModel<Patient>
+public abstract class PatientViewModel : BaseViewModel<Patient>
 {
     public IQueryable<object>? arrPAT_BirthYear { get; set; }
     public IQueryable<object>? arrPAT_BirthMonth { get; set; }
@@ -30,8 +30,5 @@ public class PatientViewModel : BaseViewModel<Patient>
         arrPAT_SourceType = await SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType");
     }
 
-    protected override Patient GetModel(Patient item)
-    {
-        return item;
-    }
+    protected override abstract Patient GetModel(Patient item);
 }

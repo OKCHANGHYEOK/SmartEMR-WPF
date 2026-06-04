@@ -166,3 +166,22 @@ public class PAT_ImageSourceToImageConverter : BaseConverter
         throw new NotImplementedException();
     }
 }
+
+public class IntToBooleanConverter : BaseConverter
+{
+    public bool invert { get; set; } = false;
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (!Int32.TryParse(value.ToString(), out var intValue)) return false;
+
+        var bFlag = intValue == 0 ? true: false;
+
+        return invert ? !bFlag : bFlag;
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

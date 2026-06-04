@@ -32,7 +32,7 @@ public class BindItem
     public UIElement? Content { get; set; }
     public double Width { get; set; }
     public double Height { get; set; }
-    public Thickness? Margin { get; set; } = new Thickness(0);
+    public Thickness? Margin { get; set; }
     public Thickness Padding { get; set; } = new Thickness(0);
     public string? BorderBrush { get; set; }
     public Thickness BorderThickness { get; set; } = new Thickness(1);
@@ -60,6 +60,7 @@ public class BindItem
 
     // 플래그
     public bool IsNumericOnly { get; set; } = false;
+    public bool IsReadOnly { get; set; } = false;
     public bool IsBottomLine { get; set; } = true;
     public bool IsHeader { get; set; } = true;
     public bool IsEnabled { get; set; } = true;

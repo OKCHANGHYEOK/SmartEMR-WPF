@@ -1,18 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Domain.Entities;
+using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
-public abstract partial class BaseViewModel<T> : ObservableObject, IBaseViewModel, IViewModel<T> where T : BaseEntity, new()
+public abstract partial class BaseViewModel<T> : DependencyObject, IViewModel<T> where T : BaseEntity, new()
 {
     #region "Fields"
 
-    [ObservableProperty]
-    private T m_Model;
-
-    // IVIewModel interface 구현 (명시적 구현)
-    object IVIewModel.Model => this.Model ?? new T();
+    public T Model { get; set; }
 
     public IAsyncRelayCommand LoadDataCommand { get; }
 

@@ -9,6 +9,7 @@ public class TextEdit : DevExpress.Xpf.Editors.TextEdit
 {
     public TextEdit ()
     {
+        this.MinHeight = 26;
         this.BorderBrush = Brushes.Transparent;
         this.BorderThickness = new Thickness(1);
 

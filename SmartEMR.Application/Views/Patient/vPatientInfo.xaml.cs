@@ -19,19 +19,12 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
         btnSave.Content = "환자" + (PATItem.PAT_Idx == 0 ? "등록" : "수정");
 
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_Sex")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_Sex")?.Margin = new Thickness(2, 0, 2, 0);
+        this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_ChartNo")?.IsReadOnly = true;
 
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsSolar")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_SourceType")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_SourceType")?.Margin = new Thickness(2, 0, 2, 0);
-
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsForegin")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsForegin")?.Margin = new Thickness(2, 0, 2, 0);
-
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.Margin = new Thickness(2, 0, 2, 0);
+        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_Sex")?.Margin = new Thickness(2);
+        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_SourceType")?.Margin = new Thickness(2);
+        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsForegin")?.Margin = new Thickness(2);
+        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.Margin = new Thickness(2);
 
         this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_Bigo")?.AcceptsReturn = true;
     }

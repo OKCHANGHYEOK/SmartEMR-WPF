@@ -1,11 +1,13 @@
-﻿namespace SmartEMR.Application.ViewModels;
+﻿using SmartEMR.Domain.Entities;
+
+namespace SmartEMR.Application.ViewModels;
 
 public interface IVIewModel
 {
-    object? Model { get; }
+    void Initialize() { }
 }
 
-public interface IViewModel<out T> : IVIewModel
+public interface IViewModel<T> : IVIewModel where T : BaseEntity, new()
 {
-    new T? Model { get; }
+    T Model { get; set; }
 }

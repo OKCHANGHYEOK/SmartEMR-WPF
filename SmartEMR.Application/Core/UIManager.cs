@@ -130,8 +130,6 @@ public partial class UIManager
 
         FindAndRegisterBindGrids(mv);
 
-        TextFocusBehavior.SetFocusToFirstTextElement(view);
-
         if (view is FrameworkElement fe)
         {
             fe.Unloaded += (s, e) => UnRegisterView(mv);

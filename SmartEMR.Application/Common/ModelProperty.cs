@@ -4,6 +4,37 @@ namespace SmartEMR.Application.Common;
 
 public class ModelProperty
 {
+    public Patient GetPatientDataForSave(Patient paramItem, bool isNewPAT = true)
+    {
+        var item = new Patient();
+        item.PAT_Idx = isNewPAT ? 0 : paramItem.PAT_Idx;
+        item.PAT_ChartNo = paramItem.PAT_ChartNo;
+        item.PAT_Name = paramItem.PAT_Name;
+        item.PAT_BloodType = paramItem.PAT_BloodType;
+        item.PAT_SourceType = paramItem.PAT_SourceType;
+        item.PAT_Sex = paramItem.PAT_Sex;
+        item.PAT_Age = paramItem.PAT_Age;
+        item.vPAT_Info = (paramItem.PAT_Sex == "M" ? "남" : "여") + "/" + $"{paramItem.PAT_Age}세";
+        item.PAT_BirthYear = paramItem.PAT_BirthYear;
+        item.PAT_BirthMonth = paramItem.PAT_BirthMonth;
+        item.PAT_BirthDay = paramItem.PAT_BirthDay;
+        item.PAT_BirthDate = $"{paramItem.PAT_BirthYear}-{paramItem.PAT_BirthMonth}-{paramItem.PAT_BirthDay}";
+        item.PAT_RegisterNum1 = paramItem.PAT_RegisterNum1;
+        item.PAT_RegisterNum2 = paramItem.PAT_RegisterNum2;
+        item.PAT_Hpp1 = paramItem.PAT_Hpp1;
+        item.PAT_Hpp2 = paramItem.PAT_Hpp2;
+        item.PAT_Hpp3 = paramItem.PAT_Hpp3;
+        item.PAT_PhoneNum = paramItem.PAT_PhoneNum;
+        item.PAT_Email = paramItem.PAT_Email;
+        item.PAT_IsSolar = paramItem.PAT_IsSolar;
+        item.PAT_IsSMS = paramItem.PAT_IsSMS;
+        item.PAT_ImageSource = paramItem.PAT_ImageSource;
+        item.PAT_Bigo = paramItem.PAT_Bigo;
+        item.PAT_IsValid = true;
+
+        return item;
+    }
+
     public void SetPatientData(Patient oldItem, Patient newItem)
     {
         oldItem.PAT_Idx = newItem.PAT_Idx;

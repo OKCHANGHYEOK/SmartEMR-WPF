@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Resources;
+﻿using SmartEMR.Application.Common;
+using SmartEMR.Application.Resources;
 using SmartEMR.Application.Services;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views.Shared;
@@ -72,13 +73,18 @@ public static partial class SmartUI
             var floatPanel = new FloatPanel();
             var popup = Activator.CreateInstance<T>();
 
-            if (popup is ModelViewLayout popupView)
+            if (popup is ViewLayout popupView)
             {
                 popupView.IsPopupView = true;
 
                 floatPanel.Content = popupView;
 
                 UIManager.AddFloatPanel(floatPanel);
+
+                BeginInvoke(() =>
+                {
+                    TextFocusBehavior.SetFocusToFirstTextElement(popupView);
+                }, DispatcherPriority.Background);
             }
 
             return;

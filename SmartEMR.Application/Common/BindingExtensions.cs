@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using SmartEMR.Application.Xpf;
 using System.Windows;
+using SmartEMR.Application.ViewModels;
 
 namespace SmartEMR.Application.Common;
 
@@ -9,16 +10,6 @@ public class BindingExtensions
 {
     public static void SetBinding(FrameworkElement element, string fieldName)
     {
-        var dataContext = element.DataContext;
-        if (dataContext == null) return;
-
-        var targetProp = dataContext.GetType().GetProperty(fieldName);
-        if (targetProp == null)
-        {
-            System.Diagnostics.Debug.WriteLine($"[BindingExtensions] '{fieldName}' 속성을 Model에서 찾을 수 없습니다.");
-            return;
-        }
-
         DependencyProperty? dp = element switch
         {
             _ when element is StyleTextBox => StyleTextBox.TextProperty,
@@ -31,13 +22,22 @@ public class BindingExtensions
 
         if (dp != null)
         {
-            Binding binding = new Binding($"{fieldName}")
+            Binding binding = new Binding()
             {
-                Source = dataContext,
+                Source = element.DataContext,
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             };
 
+            if (element.DataContext is IVIewModel vm)
+            {
+                binding.Path = new PropertyPath($"Model.{fieldName}");
+            }
+            else
+            {
+                binding.Path = new PropertyPath($"{fieldName}");
+            }
+            
             element.SetBinding(dp, binding);
         }
     }
