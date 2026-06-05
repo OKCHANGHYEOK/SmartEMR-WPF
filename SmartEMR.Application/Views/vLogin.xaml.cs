@@ -80,5 +80,9 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
                 break;
         }
     }
+
+    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    {
+    }
 }
 

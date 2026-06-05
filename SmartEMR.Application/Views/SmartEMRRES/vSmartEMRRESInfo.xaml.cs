@@ -22,5 +22,9 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             }
         }
+
+        public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+        {
+        }
     }
 }

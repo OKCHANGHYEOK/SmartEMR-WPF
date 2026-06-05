@@ -39,6 +39,10 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
 
     }
 
+    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    {
+    }
+
     public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
         var response = new ViewMessageResponse { IsSuccess = false };

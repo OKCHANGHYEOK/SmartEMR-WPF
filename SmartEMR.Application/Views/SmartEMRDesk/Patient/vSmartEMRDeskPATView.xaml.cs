@@ -22,6 +22,10 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             // 클릭 이벤트 구현
         }
 
+        public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+        {
+        }
+
         public void UpdatePatient(Patient item)
         {
             if (Model.PAT_Idx == item.PAT_Idx) return;

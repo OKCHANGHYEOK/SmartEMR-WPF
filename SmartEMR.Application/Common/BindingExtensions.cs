@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows.Data;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 using SmartEMR.Application.ViewModels;
@@ -15,8 +14,8 @@ public class BindingExtensions
             _ when element is StyleTextBox => StyleTextBox.TextProperty,
             _ when element is Xpf.TextBox => Xpf.TextBox.TextProperty,
             _ when element is Xpf.Image => Xpf.Image.SourceProperty,
-            _ when element is CheckBox => CheckBox.IsCheckedProperty,
-            _ when element is ComboBox => ComboBox.SelectedValueProperty,
+            _ when element is CheckEdit => CheckEdit.EditValueProperty,
+            _ when element is ComboBoxEdit => ComboBoxEdit.EditValueProperty,
             _ => null
         };
 

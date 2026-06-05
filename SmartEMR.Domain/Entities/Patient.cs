@@ -36,7 +36,7 @@ public partial class Patient : BaseEntity
     private string? m_PAT_IsSolar;
     private string? m_PAT_IsAgreePersonalInfo;
     private string? m_vPAT_IsAgreePersonalInfo;
-    private string? m_PAT_IsForeign;
+    private string? m_PAT_IsForegin;
     private string? m_PAT_IsSMS;
     private string? m_PAT_IsEmail;
     private byte[]? m_PAT_ImageSource;
@@ -246,10 +246,10 @@ public partial class Patient : BaseEntity
         set => SetProperty(ref m_vPAT_IsAgreePersonalInfo, value);
     }
 
-    public string? PAT_IsForeign
+    public string? PAT_IsForegin
     {
-        get => m_PAT_IsForeign;
-        set => SetProperty(ref m_PAT_IsForeign, value);
+        get => m_PAT_IsForegin;
+        set => SetProperty(ref m_PAT_IsForegin, value);
     }
 
     public string? PAT_IsSMS

@@ -43,4 +43,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
     {
     }
+
+    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    {
+    }
 }

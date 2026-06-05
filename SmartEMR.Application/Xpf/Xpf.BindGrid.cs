@@ -5,9 +5,9 @@ using SmartEMR.Application.Core;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -69,6 +69,8 @@ public partial class BindGrid : StyleGrid, IDisposable
             return _bindItems;
         }
     }
+
+    public bool IsPreventBindGridEvent { get; set; } = false;
 
     public bool disposed { get; set; }
 
@@ -313,6 +315,9 @@ public partial class BindGrid : StyleGrid, IDisposable
             SmartUI.BeginInvoke(() =>
             {
                 BindingExtensions.SetBinding(visualChild, bindItem.FieldName);
+
+                RegisterBindItemChangedEvents(visualChild, bindItem);
+
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
 
@@ -367,6 +372,8 @@ public partial class BindGrid : StyleGrid, IDisposable
     {
         if (!disposedValue || disposed) return;
 
+        ClearTranckedProperties();
+
         foreach (var child in LayoutRoot.Children)
         {
             if (child is FrameworkElement fe)
@@ -383,12 +390,79 @@ public partial class BindGrid : StyleGrid, IDisposable
     }
 }
 
+// BindItemChangedEvent
+public partial class BindGrid
+{
+
+    public event EventHandler<BindItemChangedEventArgs>? BindGrid_BindItemChangedEvent;
+    private readonly List<(DependencyObject element, DependencyPropertyDescriptor descriptor, EventHandler handler)> _trackedProperties = new();
+
+    public void RegisterBindItemChangedEvents(FrameworkElement element, BindItem bindItem)
+    {
+        DependencyProperty? dp = element switch
+        {
+            _ when element is StyleTextBox => StyleTextBox.TextProperty,
+            _ when element is Xpf.TextBox => Xpf.TextBox.TextProperty,
+            _ when element is Xpf.Image => Xpf.Image.SourceProperty,
+            _ when element is CheckEdit => CheckEdit.EditValueProperty,
+            _ when element is ComboBoxEdit => ComboBoxEdit.EditValueProperty,
+            _ => null
+        };
+
+        if (dp == null)
+            return;
+
+        var descriptor = DependencyPropertyDescriptor.FromProperty(dp, element.GetType());
+        if (descriptor != null)
+        {
+            EventHandler handler = (s, e) =>
+            {
+                if (this.IsPreventBindGridEvent) return;
+
+                var args = new BindItemChangedEventArgs(bindItem, element, dp, descriptor.GetValue(element));
+                BindGrid_BindItemChangedEvent?.Invoke(this, args);
+            };
+
+            descriptor.AddValueChanged(element, handler);
+            _trackedProperties.Add((element, descriptor, handler));
+        }
+    }
+
+    private void ClearTranckedProperties()
+    {
+        foreach (var item in _trackedProperties)
+        {
+            item.descriptor.RemoveValueChanged(item.element, item.handler);
+        }
+        _trackedProperties.Clear();
+    }
+
+    // 💡 4. 이벤트 아규먼트 클래스 정의
+
+}
+
 public class BindClickEventArgs : RoutedEventArgs
 {
     public BindItem bindItem { get; }
     public BindClickEventArgs(RoutedEvent routedEvent, object source, BindItem item) : base(routedEvent, source)
     {
         bindItem = item;
+    }
+}
+
+public class BindItemChangedEventArgs : EventArgs
+{
+    public BindItem BindItem { get; }            // 메타데이터 정보
+    public FrameworkElement UIElement { get; }     // 실제 렌더링된 TextBox 등의 UI객체
+    public DependencyProperty Property { get; }    // 변경된 속성 (TextProperty 등)
+    public object? NewValue { get; }               // 바뀐 새로운 값
+
+    public BindItemChangedEventArgs(BindItem bindItem, FrameworkElement uiElement, DependencyProperty property, object? newValue)
+    {
+        BindItem = bindItem;
+        UIElement = uiElement;
+        Property = property;
+        NewValue = newValue;
     }
 }
 

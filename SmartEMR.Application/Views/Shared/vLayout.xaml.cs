@@ -50,6 +50,10 @@ public partial class vLayout : ViewLayout
         return Task.CompletedTask;
     }
 
+    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    {
+    }
+
     private void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {
         if (e.Key == Key.F6)

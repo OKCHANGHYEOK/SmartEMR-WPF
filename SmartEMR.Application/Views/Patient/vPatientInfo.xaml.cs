@@ -34,19 +34,10 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
     protected override void SetBindGrid()
     {
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_Sex")?.ItemsSource = vm.arrPAT_Sex;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_Sex")?.SelectedIndex = 0;
-
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsSolar")?.ItemsSource = vm.arrPAT_IsSolar;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsSolar")?.SelectedIndex = 0;
-
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_SourceType")?.ItemsSource = vm.arrPAT_SourceType;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_SourceType")?.SelectedIndex = 0;
-
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsForegin")?.ItemsSource = vm.arrPAT_IsForegin;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsForegin")?.SelectedIndex = 0;
-
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.ItemsSource = vm.arrPAT_IsAgreePersonalInfo;
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.SelectedIndex = 0;
     }
 
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
@@ -59,6 +50,19 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
             case "btnSMS":
                 SmartUI.SetNofification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
                 break;
+        }
+    }
+
+    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    {
+        var element = sender as BindGrid;
+        if (element == null) return;
+
+        var bindItem = e.BindItem;
+
+        switch (bindItem.FieldName)
+        {
+
         }
     }
 

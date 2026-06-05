@@ -30,6 +30,8 @@ public abstract class ViewLayout : CustomControl, IViewLayout
     public abstract IReadOnlyList<BindGrid> BindGrids { get; }
 
     public abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+    public abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
+    
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
     public virtual void RefreshViewData(object? parameter = null) {}
 
@@ -69,6 +71,7 @@ public abstract partial class ModelViewLayout : ViewLayout, IDisposable
 public abstract partial class ModelViewLayout
 {
     public override abstract Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+    public override abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
 
     // ViewLayout의 추상 메서드 구현: UIManager가 이벤트를 라우팅해주는 통로
     public async void HandleBindGridClick(object sender, BindClickEventArgs e)

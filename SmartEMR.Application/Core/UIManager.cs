@@ -201,6 +201,7 @@ public partial class UIManager
                 if (!view.BindGrids.Contains(bindGrid))
                 {
                     bindGrid.BindGrid_BindClickEvent += view.HandleBindGridClick;
+                    bindGrid.BindGrid_BindItemChangedEvent += view.OnBindGrid_BindItemChanged;
 
                     // [개선] 리플렉션 없이 비제네릭 부모 클래스의 internal 메서드를 바로 호출
                     view.AddBindGrid(bindGrid);
