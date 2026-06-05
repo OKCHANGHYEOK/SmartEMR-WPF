@@ -23,6 +23,7 @@ public partial class Patient : BaseEntity
     private string? m_PAT_BirthDate;
     private string? m_PAT_RegisterNum1;
     private string? m_PAT_RegisterNum2;
+    private string? m_vPAT_RegisterNum2;
     private string? m_PAT_Hpp1;
     private string? m_PAT_Hpp2;
     private string? m_PAT_Hpp3;
@@ -166,6 +167,12 @@ public partial class Patient : BaseEntity
     {
         get => m_PAT_RegisterNum2;
         set => SetProperty(ref m_PAT_RegisterNum2, value);
+    }
+
+    public string? vPAT_RegisterNum2
+    {
+        get => m_vPAT_RegisterNum2;
+        set => SetProperty(ref m_vPAT_RegisterNum2, value);
     }
 
     public string? PAT_Hpp1

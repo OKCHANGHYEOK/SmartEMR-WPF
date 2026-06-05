@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DevExpress.Xpf.Editors;
+using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -49,6 +50,9 @@ public class BindItem
     public IQueryable? ItemsSource { get; set; }
     public string? DisplayMember { get; set; }
     public string? ValueMember { get; set; }
+
+    public MaskType MaskType { get; set; }
+    public string Mask { get; set; } = "";
 
     // 헤더
     public string? Header { get; set; }

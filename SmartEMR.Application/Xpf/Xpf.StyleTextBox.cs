@@ -156,6 +156,18 @@ public class StyleTextBox : Control
         set => TextChild.AcceptsReturn = value;
     }
 
+    public MaskType MaskType
+    {
+        get => TextChild.MaskType;
+        set => TextChild.MaskType = value;
+    }
+
+    public string Mask
+    {
+        get => TextChild.Mask;
+        set => TextChild.Mask = value;
+    }
+
     static StyleTextBox()
     {
         // ⭐ XAML의 스타일을 찾아가도록 설정합니다.
