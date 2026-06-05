@@ -6,32 +6,39 @@ namespace SmartEMR.Application.Xpf;
 public class Image : System.Windows.Controls.Image
 {  
     public static readonly new DependencyProperty SourceProperty = DependencyProperty.Register(
-        nameof(Source), typeof(string), typeof(Image), new PropertyMetadata(string.Empty, OnSourceChanged));
+        nameof(Source), typeof(object), typeof(Image), new PropertyMetadata(null, OnSourceChanged));
 
-    public new string Source
+    public new object Source
     {
-        get => (string)GetValue(SourceProperty);
+        get => GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
     }
     
     public Image()
     {
-        this.Width = 40;
-        this.Height = 40;
+        this.MinWidth = 40;
+        this.MinHeight = 40;
     }
 
     private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is Image image && e.NewValue is string newPath)
+        var element = d as Image;
+        if (element == null) return;
+
+        if (e.NewValue is string newPath)
         {
             if (newPath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
             {
-                image.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphSvgToImage(newPath));
+                element.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphSvgToImage(newPath));
             }
             else
-            { 
-                image.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphImage(newPath));
+            {
+                element.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphImage(newPath));
             }
+        }
+        else if (e.NewValue is byte[] arrBytes)
+        {
+            element.SetValue(System.Windows.Controls.Image.SourceProperty, GenerateBitmapImage(arrBytes));
         }
     }
 }

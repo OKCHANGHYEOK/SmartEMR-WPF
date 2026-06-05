@@ -258,7 +258,7 @@ public partial class BindGrid : StyleGrid, IDisposable
                     CornerRadius = bindItem.CornerRadius,
                     BorderThickness = bindItem.BorderThickness,
                     HorizontalAlignment = bindItem.HAlignment,
-                    VerticalAlignment = bindItem.VAlignment
+                    VerticalAlignment = bindItem.VAlignment,
                 };
 
                 break;

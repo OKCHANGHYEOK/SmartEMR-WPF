@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
+using System.ComponentModel;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -12,11 +13,28 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
     public IQueryable<object>? arrPAT_IsSolar { get; set; }
 
     public IQueryable<Patient>? arrPAT_Sex { get; set; }
-    public IQueryable<ChartCommonCode>? arrPAT_SourceType { get; set; }
     public IQueryable<object>? arrPAT_IsForegin { get; set; }
     public IQueryable<object>? arrPAT_IsAgreePersonalInfo { get; set; }
 
-    public override async void Initialize()
+    private IQueryable<ChartCommonCode>? _arrPAT_SourceType;
+    public IQueryable<ChartCommonCode>? arrPAT_SourceType
+    {
+        get => _arrPAT_SourceType;
+        set
+        {
+            _arrPAT_SourceType = value;
+            OnPropertyChanged(nameof(arrPAT_SourceType));
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public override async Task InitializeAsync()
     {
         arrPAT_BirthYear = SmartMVVM.Common.GetBirth(eBirthType.Year);
         arrPAT_BirthMonth = SmartMVVM.Common.GetBirth(eBirthType.Month);

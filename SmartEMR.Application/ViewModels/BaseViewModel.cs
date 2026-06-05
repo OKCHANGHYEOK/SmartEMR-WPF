@@ -47,6 +47,10 @@ public abstract partial class BaseViewModel<T> : DependencyObject, IViewModel<T>
     protected abstract T GetModel(T item);
 
     public abstract void Initialize();
+    public virtual Task InitializeAsync() 
+    {
+        return Task.CompletedTask;
+    }
 
     // 기본 비동기 데이터 로드 동작 (필요 시 자식에서 override)
     protected virtual Task OnLoadDataAsync()

@@ -8,6 +8,10 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class PatientInfoViewModel : PatientViewModel
 {
+    public override void Initialize()
+    {
+    }
+
 
     protected override Patient GetModel(Patient item)
     {

@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
@@ -19,6 +20,7 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
         btnSave.Content = "환자" + (PATItem.PAT_Idx == 0 ? "등록" : "수정");
 
+        this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_ChartNo")?.Focusable = false;
         this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_ChartNo")?.IsReadOnly = true;
 
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_Sex")?.Margin = new Thickness(2);
@@ -49,6 +51,35 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
     {
-        // 클릭 이벤트 구현
+        var bindItem = sender as BindItem;
+        if (bindItem == null) return;
+
+        switch (bindItem.FieldName)
+        {
+            case "btnSMS":
+                SmartUI.SetNofification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
+                break;
+        }
+    }
+
+    private void OnClick_Button(object sender, RoutedEventArgs e)
+    {
+        var element = sender as Button;
+        if (element == null) return;
+
+        switch (element.Name)
+        {
+            case "btnSelectImage":
+                var fileResult = SelectImage();
+                if (fileResult == null) return;
+
+                PATItem.PAT_ImageSource = fileResult;
+
+                break;
+
+            case "btnFindAddress":
+                SmartUI.SetNofification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
+                break;
+        }
     }
 }

@@ -124,6 +124,7 @@
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
                                                 Padding="5"
+                                                Focusable="{TemplateBinding Focusable}"
                                                 IsReadOnly="{TemplateBinding IsReadOnly}">
 
                                     <Xpf:TextEdit.Style>

@@ -49,13 +49,14 @@
                         </Border>
 
                         <Xpf:Button Grid.Row="1"
-                                    x:Name="btnSelectImageSource"
+                                    x:Name="btnSelectImage"
                                     Content="이미지선택"
                                     CornerRadius="2"
                                     BorderBrush="LightGray"
                                     BorderThickness="1"
                                     Height="26"
-                                    Margin="0,2,0,2"/>
+                                    Margin="0,2,0,2"
+                                    Click="OnClick_Button"/>
                     </Xpf:StyleGrid>
                 </Xpf:BindItem>
 
@@ -64,14 +65,17 @@
                                 BindType="TextBox"
                                 Col="2"
                                 Row="0"
-                                ColSpan="3"/>
+                                ColSpan="3"
+                                Placeholder="(자동생성)"
+                                FontSize="11"/>
 
                 <Xpf:BindItem   FieldName="PAT_Name"
                                 Header="성   명"
                                 BindType="TextBox"
                                 Col="5"
                                 Row="0"
-                                ColSpan="3"/>
+                                ColSpan="3"
+                                FontSize="11"/>
 
                 <x:Array Type="{x:Type Xpf:BindItem}">
                     <Xpf:BindItem   FieldName="PAT_RegisterNum1"
@@ -80,13 +84,16 @@
                                     Col="2"
                                     Row="1"
                                     ColSpan="3"
-                                    IsNumericOnly="True"
-                                    MaxLength="6"/>
+                                    FontSize="11"
+                                    MaxLength="6"
+                                    IsNumericOnly="True"/>
+
                     <Xpf:BindItem   FieldName="PAT_RegisterNum2"
                                     BindType="TextBox"
+                                    FontSize="11"
+                                    MaxLength="7"
                                     IsHeader="False"
-                                    IsNumericOnly="True"
-                                    MaxLength="7">
+                                    IsNumericOnly="True">
                     </Xpf:BindItem>
                 </x:Array>
 
@@ -97,12 +104,14 @@
                                     Col="5"
                                     Row="1"
                                     ColSpan="3"
+                                    FontSize="11"
                                     MaxLength="8"
                                     IsNumericOnly="True"/>
 
                     <Xpf:BindItem   FieldName="PAT_IsSolar"
                                     BindType="ComboBox"
                                     Width="48"
+                                    Margin="2"
                                     DisplayMember="attrName"
                                     ValueMember="attrValue"
                                     IsHeader="False"/>
@@ -124,6 +133,7 @@
                                     Col="5"
                                     Row="2"
                                     ColSpan="3"
+                                    FontSize="11"
                                     MaxLength="10"
                                     IsNumericOnly="True"/>
                     <Xpf:BindItem   FieldName="btnSMS"
@@ -133,10 +143,10 @@
                                     BorderBrush="LightGray"
                                     BorderThickness="1"
                                     Width="48" 
-                                    Height="35"
+                                    Margin="2"
                                     IsHeader="False"
                                     IsBinding="False"
-                                    Margin="0,0,2,0"/>
+                                    IsBindClickEvent="True"/>
                 </x:Array>
 
                 <Xpf:BindItem   FieldName="PAT_SourceType"
@@ -242,7 +252,8 @@
                                     FontWeight="Bold"
                                     Glyph="/Images/smartemr_find_address.png"
                                     Width="80"
-                                    Margin="2"/>
+                                    Margin="2"
+                                    Click="OnClick_Button"/>
                     </Xpf:StyleGrid>
                 </Xpf:BindItem>
 
