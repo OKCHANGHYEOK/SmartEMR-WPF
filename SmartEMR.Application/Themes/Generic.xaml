@@ -320,7 +320,6 @@
                                             Margin="5,0,0,0"/>
 
                                 <Button Grid.Column="2"
-                                        Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                         Width="16"
                                         Height="16"
                                         Background="Transparent"

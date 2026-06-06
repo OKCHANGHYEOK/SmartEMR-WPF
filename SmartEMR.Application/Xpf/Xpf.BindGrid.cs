@@ -170,7 +170,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         cellGrid.LayoutRoot.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
         cellGrid.LayoutRoot.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
         cellGrid.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Auto);
-
+    
         var lblHeader = new Label
         {
             Width = headerInfo.HeaderWidth is double hWidth ? hWidth : this.HeaderWidth,

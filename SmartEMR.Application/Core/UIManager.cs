@@ -1,4 +1,4 @@
-﻿using SmartEMR.Application.Common;
+﻿using DevExpress.Xpf.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Collections.ObjectModel;
@@ -144,8 +144,11 @@ public partial class UIManager
         }
     }
 
-    public void RemoveFloatPanel(FloatPanel panel)
+    public void RemoveFloatPanel(ViewLayout vl)
     {
+        var panel = vl.GetParent() as FloatPanel;
+        if (panel == null) return;
+
         if (_activePopups.Contains(panel))
         {
             _activePopups.Remove(panel);

@@ -3,6 +3,7 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SmartEMR.Application.ViewBase;
 
@@ -34,9 +35,32 @@ public abstract class ViewLayout : CustomControl, IViewLayout
     
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
     public virtual void RefreshViewData(object? parameter = null) {}
+    public virtual bool ClosingFloatPanel() 
+    {
+        return true;
+    }
 
-    public ViewLayout() => this.Loaded += (s, e) => SmartUI.RegisterView(this);
+    public ViewLayout()
+    {
+        this.PreviewKeyDown += OnPreviewKeyDown_ViewLayout;
+        this.Loaded += (s, e) => SmartUI.RegisterView(this);
+    }
+
     public ViewLayout(object parameter) : this() => this.Loaded += (s, e) => RefreshViewData(parameter);
+
+    public void OnPreviewKeyDown_ViewLayout(object sender, KeyEventArgs e)
+    {
+        var vl = sender as ViewLayout;
+        if (vl == null) return;
+
+        if (IsPopupView && e.Key == Key.Escape)
+        {
+            if (ClosingFloatPanel())
+            {
+                SmartUI.CloseFloatPanel(this);
+            }
+        }
+    }
 }
 
 public abstract partial class ModelViewLayout : ViewLayout, IDisposable
@@ -120,21 +144,6 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
 
         this.Loaded += async (s, e) =>
         {
-            if (vm != null)
-            {
-                // 💡 1. MethodInfo? 로 nullable 타입을 명시합니다. (CS8600 해결)
-                System.Reflection.MethodInfo? method = vm.GetType().GetMethod("InitializeAsync");
-                if (method != null)
-                {
-                    // 💡 2. Invoke 뒤에 !를 붙여 null이 아님을 보장하거나, 결과값 캐스팅 시점에 경고를 지웁니다.
-                    var task = method.Invoke(vm, null) as Task;
-                    if (task != null)
-                    {
-                        await task;
-                    }
-                }
-            }
-
             Initialize();
             SetBindGrid();
         };

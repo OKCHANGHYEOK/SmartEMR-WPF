@@ -4,6 +4,7 @@ using SmartEMR.Application.Services;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -70,23 +71,7 @@ public static partial class SmartUI
         // 팝업일 때 화면 표시 로직
         if (isPopup)
         {
-            var floatPanel = new FloatPanel();
-            var popup = Activator.CreateInstance<T>();
-
-            if (popup is ViewLayout popupView)
-            {
-                popupView.IsPopupView = true;
-
-                floatPanel.Content = popupView;
-
-                UIManager.AddFloatPanel(floatPanel);
-
-                BeginInvoke(() =>
-                {
-                    TextFocusBehavior.SetFocusToFirstTextElement(popupView);
-                }, DispatcherPriority.Background);
-            }
-
+            CreatePopupElement<T>();
             return;
         }
 
@@ -114,14 +99,48 @@ public static partial class SmartUI
         }, DispatcherPriority.ApplicationIdle);
     }
 
-    public static void CloseFloatPanel(FloatPanel panel)
+    public static void CloseFloatPanel(ViewLayout vl)
     {
-        if (panel == null) return;
+        if (vl == null) return;
 
         BeginInvoke(() =>
         {
-            UIManager.RemoveFloatPanel(panel);
+            UIManager.RemoveFloatPanel(vl);
         });
+    }
+
+    private static async void CreatePopupElement<T>() where T : class
+    {
+        var floatPanel = new FloatPanel();
+        var popup = Activator.CreateInstance<T>();
+
+        if (popup is ViewLayout popupView)
+        {
+            popupView.IsPopupView = true;
+
+            floatPanel.Content = popupView;
+
+            // 데이터 준비
+            var targetMV = popupView.DataContext ?? popupView;
+            MethodInfo? method = targetMV.GetType().GetMethod("InitializeAsync");
+
+            if (method != null)
+            {
+                var task = method.Invoke(targetMV, null) as Task;
+                if (task != null)
+                {
+                    await task;
+                }
+            }
+
+            UIManager.AddFloatPanel(floatPanel);
+
+            BeginInvoke(() =>
+            {
+                TextFocusBehavior.SetFocusToFirstTextElement(popupView);
+            }, DispatcherPriority.Background);
+        }
+
     }
 }
 
