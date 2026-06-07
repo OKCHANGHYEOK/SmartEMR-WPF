@@ -61,7 +61,7 @@ public static partial class SmartUI
     public static async void NavigateToPage<T>(object? parameter = null, bool isPopup = false) where T : class
     {
         // 뷰가 아닌 타입을 호출하는 경우 종료
-        if (typeof(T).IsAssignableFrom(typeof(IViewLayout))) return;
+        if (!typeof(IViewLayout).IsAssignableFrom(typeof(T))) return;
 
         // 메인 레이아웃 준비
         var vlayout = CurrentWindow?.Content as vLayout;
@@ -99,14 +99,22 @@ public static partial class SmartUI
         }, DispatcherPriority.ApplicationIdle);
     }
 
-    public static void CloseFloatPanel(ViewLayout vl)
+    public static void CloseFloatPanel(UIElement element)
     {
-        if (vl == null) return;
+        ViewLayout? targetView = null; 
 
-        BeginInvoke(() =>
+        if (element is ViewLayout vl)
         {
-            UIManager.RemoveFloatPanel(vl);
-        });
+            targetView = vl;
+        }
+        else if (element is FloatPanel floatPanel)
+        {
+            targetView = floatPanel.Content as ViewLayout;
+        }
+
+        if (targetView == null) return;
+
+        UIManager.RemoveFloatPanel(targetView);
     }
 
     private static async void CreatePopupElement<T>() where T : class

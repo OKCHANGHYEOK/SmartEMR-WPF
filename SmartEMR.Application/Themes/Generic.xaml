@@ -327,7 +327,8 @@
                                         BorderThickness="0"
                                         VerticalAlignment="Center"
                                         Cursor="Hand"
-                                        Margin="0,0,3,0">
+                                        Margin="0,0,3,0"
+                                        Command="{Binding CloseCommand, RelativeSource={RelativeSource AncestorType=Xpf:FloatPanel}}">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Setter Property="Template">

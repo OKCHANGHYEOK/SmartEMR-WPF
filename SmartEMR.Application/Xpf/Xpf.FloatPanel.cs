@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Core;
+using System.Windows;
 
 namespace SmartEMR.Application.Xpf;
 
-public class FloatPanel : CustomControl
+public partial class FloatPanel : CustomControl
 {
     static FloatPanel()
     {
@@ -19,6 +21,12 @@ public class FloatPanel : CustomControl
         {
             this.Focus();
         };
+    }
+
+    [RelayCommand]
+    public void Close()
+    {
+        SmartUI.CloseFloatPanel(this);
     }
 }
  
