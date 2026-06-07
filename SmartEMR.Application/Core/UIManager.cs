@@ -144,15 +144,11 @@ public partial class UIManager
         }
     }
 
-    public void RemoveFloatPanel(ViewLayout vl)
+    public void RemoveFloatPanel(FloatPanel panel)
     {
-        var panel = vl.GetParent() as FloatPanel;
         if (panel == null) return;
 
-        if (_activePopups.Contains(panel))
-        {
-            _activePopups.Remove(panel);
-        }
+        _activePopups.Remove(panel);
     }
 
     private static ViewLayout? GetCurrentView()

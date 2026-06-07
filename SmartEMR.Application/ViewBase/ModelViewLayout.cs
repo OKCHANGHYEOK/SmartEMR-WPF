@@ -52,14 +52,6 @@ public abstract class ViewLayout : CustomControl, IViewLayout
     {
         var vl = sender as ViewLayout;
         if (vl == null) return;
-
-        if (IsPopupView && e.Key == Key.Escape)
-        {
-            if (ClosingFloatPanel())
-            {
-                SmartUI.CloseFloatPanel(this);
-            }
-        }
     }
 }
 

@@ -99,22 +99,14 @@ public static partial class SmartUI
         }, DispatcherPriority.ApplicationIdle);
     }
 
-    public static void CloseFloatPanel(UIElement element)
+    public static void CloseFloatPanel(FloatPanel floatPanel)
     {
-        ViewLayout? targetView = null; 
-
-        if (element is ViewLayout vl)
+        if (floatPanel.Content is ViewLayout vl && !vl.ClosingFloatPanel())
         {
-            targetView = vl;
-        }
-        else if (element is FloatPanel floatPanel)
-        {
-            targetView = floatPanel.Content as ViewLayout;
+            return;
         }
 
-        if (targetView == null) return;
-
-        UIManager.RemoveFloatPanel(targetView);
+        UIManager.RemoveFloatPanel(floatPanel);
     }
 
     private static async void CreatePopupElement<T>() where T : class
