@@ -86,12 +86,9 @@ public static partial class SmartUI
             vl = (T?)Activator.CreateInstance(typeof(T), parameter);
         }
 
-        if (vl is IViewLayout)
-        {
-            targetView = vl as IViewLayout;
-        }
-
-        if (targetView == null) return;
+        targetView = vl as IViewLayout;
+        if (targetView == null) 
+            return;
 
         BeginInvoke(() =>
         {
