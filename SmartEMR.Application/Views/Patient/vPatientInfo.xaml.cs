@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using DevExpress.XtraSpreadsheet.Model;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -13,6 +14,8 @@ namespace SmartEMR.Application.Views;
 public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 {
     public Patient PATItem => vm.Model;
+
+    private bool _isUpdatedRegNo1 = false;
 
     protected override void Initialize()
     {
@@ -59,10 +62,61 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
         if (element == null) return;
 
         var bindItem = e.BindItem;
+        var newValue = e.NewValue?.ToString();
 
         switch (bindItem.FieldName)
         {
+            case "PAT_RegisterNum1":
+                if (newValue != null && newValue.Length == 6)
+                {
+                    _isUpdatedRegNo1 = true;
+                }
+                else
+                {
+                    _isUpdatedRegNo1 = false;
+                    
+                    PATItem.PAT_BirthDate = "";
+                }
 
+                break;
+
+            case "PAT_RegisterNum2":
+                if (!_isUpdatedRegNo1) return;
+
+                if (newValue != null && newValue.Length > 0)
+                {
+                    var firstChar = newValue[0];
+                    var century = firstChar switch
+                    {
+                        '1' or '2' => "19",
+                        '3' or '4' => "20",
+                        _ => ""
+                    };
+
+                    var gender = firstChar switch
+                    {
+                        '1' or '3' => "M",
+                        '2' or '4' => "F",
+                        _ => ""
+                    };
+
+                    if (!string.IsNullOrWhiteSpace(century))
+                    {
+                        PATItem.PAT_BirthDate = century + PATItem.PAT_RegisterNum1;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(gender))
+                    {
+                        PATItem.PAT_Sex = gender;
+                    }
+                }
+                else
+                {
+                    PATItem.PAT_BirthDate = "";
+                    PATItem.PAT_Sex = "";
+                }
+
+                break;
         }
     }
 

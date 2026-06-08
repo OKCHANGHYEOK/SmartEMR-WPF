@@ -98,7 +98,7 @@
                 </x:Array>
 
                 <x:Array Type="{x:Type Xpf:BindItem}">
-                    <Xpf:BindItem   FieldName="PAT_BirthYear"
+                    <Xpf:BindItem   FieldName="PAT_BirthDate"
                                     BindType="TextBox"
                                     Header="생 년 월 일"
                                     Col="5"
@@ -134,7 +134,7 @@
                                     Row="2"
                                     ColSpan="3"
                                     FontSize="11"
-                                    MaxLength="10"
+                                    MaxLength="11"
                                     IsNumericOnly="True"/>
                     <Xpf:BindItem   FieldName="btnSMS"
                                     BindType="Button"
@@ -174,7 +174,8 @@
                                 Header="이 메 일"
                                 Col="2"
                                 Row="4"
-                                ColSpan="3"/>
+                                ColSpan="3"
+                                FontSize="11"/>
 
                 <x:Array Type="{x:Type Xpf:BindItem}">
                     <Xpf:BindItem   FieldName="PAT_IsAgreePersonalInfo"

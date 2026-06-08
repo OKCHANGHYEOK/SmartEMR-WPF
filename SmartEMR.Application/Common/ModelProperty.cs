@@ -15,10 +15,10 @@ public class ModelProperty
         item.PAT_Sex = paramItem.PAT_Sex;
         item.PAT_Age = paramItem.PAT_Age;
         item.vPAT_Info = (paramItem.PAT_Sex == "M" ? "남" : "여") + "/" + $"{paramItem.PAT_Age}세";
-        item.PAT_BirthYear = paramItem.PAT_BirthYear;
-        item.PAT_BirthMonth = paramItem.PAT_BirthMonth;
-        item.PAT_BirthDay = paramItem.PAT_BirthDay;
-        item.PAT_BirthDate = $"{paramItem.PAT_BirthYear}-{paramItem.PAT_BirthMonth}-{paramItem.PAT_BirthDay}";
+        item.PAT_BirthYear = paramItem.PAT_BirthDate?.Substring(0, 4);
+        item.PAT_BirthMonth = paramItem.PAT_BirthDate?.Substring(4, 6);
+        item.PAT_BirthDay = paramItem.PAT_BirthDate?.Substring(6, 8);
+        item.PAT_BirthDate =paramItem.PAT_BirthDate;
         item.PAT_RegisterNum1 = paramItem.PAT_RegisterNum1;
         item.PAT_RegisterNum2 = paramItem.PAT_RegisterNum2;
         item.PAT_Hpp1 = paramItem.PAT_Hpp1;

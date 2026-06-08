@@ -38,7 +38,10 @@ public partial class FloatPanel : CustomControl
         var element = sender as FloatPanel;
         if (element == null) return;
 
-        SmartUI.CloseFloatPanel(element);
+        if (e.Key == Key.Escape)
+        {
+            SmartUI.CloseFloatPanel(element);
+        }
     }
 }
  

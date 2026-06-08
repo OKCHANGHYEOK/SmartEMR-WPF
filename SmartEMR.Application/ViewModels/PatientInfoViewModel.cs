@@ -15,7 +15,7 @@ public partial class PatientInfoViewModel : PatientViewModel
 
     protected override Patient GetModel(Patient item)
     {
-        item.PAT_Sex = "M";
+        item.PAT_Sex = "N";
         item.PAT_SourceType = "WRK";
         item.PAT_IsSolar = "y";
         item.PAT_IsForegin = "n";

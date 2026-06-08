@@ -20,6 +20,7 @@ public class Master
         _arrMasterRequest.Clear();
 
         // PAT_Sex
+        AddMasterRequest("PAT_Sex", new Patient { vPAT_Sex = "성별선택", PAT_Sex = "N" });
         AddMasterRequest("PAT_Sex", new Patient { vPAT_Sex = "남", PAT_Sex = "M"});
         AddMasterRequest("PAT_Sex", new Patient { vPAT_Sex = "여", PAT_Sex = "F"});
 
