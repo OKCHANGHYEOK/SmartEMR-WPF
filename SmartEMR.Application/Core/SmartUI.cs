@@ -2,9 +2,9 @@
 using SmartEMR.Application.Resources;
 using SmartEMR.Application.Services;
 using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -100,16 +100,7 @@ public static partial class SmartUI
             if (vl is ViewLayout targetView == false)
                 return;
 
-            var method = vl.GetType().GetMethod("InitializeAsync");
-
-            if (method != null)
-            {
-                var task = method.Invoke(vl, null) as Task;
-                if (task != null)
-                {
-                    await task;
-                }
-            }
+            await InitializeViewData(targetView);
 
             BeginInvoke(() =>
             {
@@ -133,38 +124,36 @@ public static partial class SmartUI
         UIManager.RemoveFloatPanel(floatPanel);
     }
 
+    private static async Task InitializeViewData(ViewLayout vl)
+    {
+        if (vl.DataContext == null || vl.DataContext is BaseViewModel vm == false)
+            return;
+
+        var method = vm.GetType().GetMethod("InitializeAsync");
+
+        if (method != null)
+        {
+            var task = method.Invoke(vm, null) as Task;
+            if (task != null)
+            {
+                await task;
+            }
+        }
+    }
+
     private static async void CreatePopupElement<T>() where T : class
     {
-        var floatPanel = new FloatPanel();
-        var popup = Activator.CreateInstance<T>();
+        var vl = Activator.CreateInstance<T>() as ViewLayout;
+        if (vl == null) return;
 
-        if (popup is ViewLayout popupView)
+        await InitializeViewData(vl);
+
+        UIManager.AddFloatPanel(new FloatPanel { Content = vl });
+
+        BeginInvoke(() =>
         {
-            popupView.IsPopupView = true;
-
-            floatPanel.Content = popupView;
-
-            // 데이터 준비
-            var targetMV = popupView.DataContext ?? popupView;
-            MethodInfo? method = targetMV.GetType().GetMethod("InitializeAsync");
-
-            if (method != null)
-            {
-                var task = method.Invoke(targetMV, null) as Task;
-                if (task != null)
-                {
-                    await task;
-                }
-            }
-
-            UIManager.AddFloatPanel(floatPanel);
-
-            BeginInvoke(() =>
-            {
-                TextFocusBehavior.SetFocusToFirstTextElement(popupView);
-            }, DispatcherPriority.Background);
-        }
-
+            TextFocusBehavior.SetFocusToFirstTextElement(vl);
+        }, DispatcherPriority.Background);
     }
 }
 

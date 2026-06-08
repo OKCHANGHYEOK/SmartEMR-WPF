@@ -4,7 +4,22 @@ using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
-public abstract partial class BaseViewModel<T> : DependencyObject, IViewModel<T> where T : BaseEntity, new()
+public abstract partial class BaseViewModel : DependencyObject
+{
+    public abstract void Initialize();
+    public virtual Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    // 기본 비동기 데이터 로드 동작 (필요 시 자식에서 override)
+    protected virtual Task OnLoadDataAsync()
+    {
+        return Task.CompletedTask;
+    }
+}
+
+public abstract partial class BaseViewModel<T> : BaseViewModel, IViewModel<T> where T : BaseEntity, new()
 {
     #region "Fields"
 
@@ -46,17 +61,6 @@ public abstract partial class BaseViewModel<T> : DependencyObject, IViewModel<T>
     // 자식 클래스에서 반드시 구현해야 하는 추상 메서드들
     protected abstract T GetModel(T item);
 
-    public abstract void Initialize();
-    public virtual Task InitializeAsync() 
-    {
-        return Task.CompletedTask;
-    }
-
-    // 기본 비동기 데이터 로드 동작 (필요 시 자식에서 override)
-    protected virtual Task OnLoadDataAsync()
-    {
-        return Task.CompletedTask;
-    }
 
     #endregion
 }
