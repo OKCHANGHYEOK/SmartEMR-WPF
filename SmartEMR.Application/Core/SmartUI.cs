@@ -7,6 +7,7 @@ using SmartEMR.Application.Xpf;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -29,6 +30,8 @@ public enum NotificationType
 
 public static partial class SmartUI
 {
+    private static bool IsBusy = false;
+
     public static void RegisterView(ViewLayout vl)
     {
         Messenger.Register(vl, vl.ReceiveMessage);
@@ -63,37 +66,61 @@ public static partial class SmartUI
         // 뷰가 아닌 타입을 호출하는 경우 종료
         if (!typeof(IViewLayout).IsAssignableFrom(typeof(T))) return;
 
-        // 메인 레이아웃 준비
-        var vlayout = CurrentWindow?.Content as vLayout;
-        if (vlayout == null)
-            return;
-
-        // 팝업일 때 화면 표시 로직
-        if (isPopup)
+        if (IsBusy)
         {
-            CreatePopupElement<T>();
+            SetNofification("페이지 로딩중입니다. 잠시 기다려주세요.", NotificationType.Info);
             return;
         }
 
-        // 이미 생성된 페이지인지 확인
-        IViewLayout? targetView = null;
+        IsBusy = true;
+        Mouse.OverrideCursor = Cursors.Wait;
 
-        var vl = GetViewLayout<T>();
-
-        // 처음 이동하는 페이지인 경우 생성해줌
-        if (vl == null)
+        try
         {
-            vl = (T?)Activator.CreateInstance(typeof(T), parameter);
+            // 메인 레이아웃 준비
+            var vlayout = CurrentWindow?.Content as vLayout;
+            if (vlayout == null)
+                return;
+
+            // 팝업일 때 화면 표시 로직
+            if (isPopup)
+            {
+                CreatePopupElement<T>();
+                return;
+            }
+
+            var vl = GetViewLayout<T>();
+
+            // 처음 이동하는 페이지인 경우 생성해줌
+            if (vl == null)
+            {
+                vl = (T?)Activator.CreateInstance(typeof(T), parameter);
+            }
+
+            if (vl is ViewLayout targetView == false)
+                return;
+
+            var method = vl.GetType().GetMethod("InitializeAsync");
+
+            if (method != null)
+            {
+                var task = method.Invoke(vl, null) as Task;
+                if (task != null)
+                {
+                    await task;
+                }
+            }
+
+            BeginInvoke(() =>
+            {
+                vlayout.MainContent = targetView;
+            }, DispatcherPriority.ApplicationIdle);
         }
-
-        targetView = vl as IViewLayout;
-        if (targetView == null) 
-            return;
-
-        BeginInvoke(() =>
+        finally
         {
-            vlayout.MainContent = targetView;
-        }, DispatcherPriority.ApplicationIdle);
+            IsBusy = false;
+            Mouse.OverrideCursor = null;
+        }
     }
 
     public static void CloseFloatPanel(FloatPanel floatPanel)
