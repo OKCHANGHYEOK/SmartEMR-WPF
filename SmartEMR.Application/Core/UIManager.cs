@@ -169,7 +169,7 @@ public partial class UIManager
         {
             TargetViewType.CurrentView => CurrentView,
             TargetViewType.PageView => CurrentPageView,
-            TargetViewType.RootView => SmartUI.RootView,
+            TargetViewType.RootView => RootView,
             _ => null
         };
     }

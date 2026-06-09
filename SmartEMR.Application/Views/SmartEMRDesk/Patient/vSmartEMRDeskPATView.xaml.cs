@@ -49,7 +49,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
         }
 
-        private void OnClick_Button(object sender, RoutedEventArgs e)
+        private async void OnClick_Button(object sender, RoutedEventArgs e)
         {
             var element = sender as Button;
             if (element == null) return;
@@ -57,7 +57,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             switch (element.Name)
             {
                 case "btnMovePAT":
-                    SmartUI.NavigateToPage<vPatientInfo>(new Patient { PAT_Idx = Model.PAT_Idx }, isPopup:true);
+                    await SmartUI.NavigateToPage<vPatientInfo>(new Patient { PAT_Idx = Model.PAT_Idx }, isPopup:true);
                     break;
             }
         }

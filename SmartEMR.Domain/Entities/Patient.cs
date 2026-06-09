@@ -31,6 +31,7 @@ public partial class Patient : BaseEntity
     private string? m_PAT_Address1;
     private string? m_PAT_Address2;
     private string? m_PAT_Address3;
+    private string? m_vPAT_Address;
     private string? m_PAT_Email;
     private string? m_PAT_FirstVisitDate;
     private string? m_PAT_LastVisitDate;
@@ -215,6 +216,12 @@ public partial class Patient : BaseEntity
     {
         get => m_PAT_Address3;
         set => SetProperty(ref m_PAT_Address3, value);
+    }
+
+    public string? vPAT_Address
+    {
+        get => m_vPAT_Address;
+        set => SetProperty(ref m_vPAT_Address, value);
     }
 
     public string? PAT_Email

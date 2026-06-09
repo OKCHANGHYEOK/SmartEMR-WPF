@@ -15,10 +15,10 @@ public class ModelProperty
         item.PAT_BloodType = paramItem.PAT_BloodType;
         item.PAT_SourceType = paramItem.PAT_SourceType;
         item.PAT_Sex = paramItem.PAT_Sex;
-        item.PAT_Age = paramItem.PAT_Age;
         item.PAT_BirthYear = paramItem.PAT_BirthDate?.Substring(0, 4);
         item.PAT_BirthMonth = paramItem.PAT_BirthDate?.Substring(4, 2);
         item.PAT_BirthDay = paramItem.PAT_BirthDate?.Substring(6, 2);
+        item.PAT_Age = DateTime.Now.Year - Convert.ToInt32(item.PAT_BirthYear);
         item.PAT_RegisterNum1 = paramItem.PAT_RegisterNum1;
         item.PAT_RegisterNum2 = paramItem.PAT_RegisterNum2;
         item.PAT_Hpp1 = paramItem.PAT_PhoneNum?.Substring(0,3);
@@ -53,10 +53,34 @@ public class ModelProperty
         oldItem.PAT_BirthDate = $"{newItem.PAT_BirthYear}-{newItem.PAT_BirthMonth}-{newItem.PAT_BirthDay}";
         oldItem.PAT_RegisterNum1 = newItem.PAT_RegisterNum1;
         oldItem.PAT_RegisterNum2 = newItem.PAT_RegisterNum2;
+        oldItem.PAT_Address1 = newItem.PAT_Address1;
+        oldItem.PAT_Address2 = newItem.PAT_Address2;
+        oldItem.PAT_Address3 = newItem.PAT_Address3;
+
+        if (!string.IsNullOrWhiteSpace(newItem.PAT_Address1))
+        {
+            oldItem.vPAT_Address += newItem.PAT_Address1;
+        }
+
+        if (!string.IsNullOrWhiteSpace(newItem.PAT_Address2))
+        {
+            oldItem.vPAT_Address += "  " + newItem.PAT_Address2;
+        }
+
+        if (!string.IsNullOrWhiteSpace(newItem.PAT_Address3))
+        {
+            oldItem.vPAT_Address += "  " + newItem.PAT_Address3;
+        }
+
+        if (string.IsNullOrWhiteSpace(oldItem.vPAT_Address))
+        {
+            oldItem.vPAT_Address = "입력된 주소가 없습니다.";
+        }
+
         oldItem.PAT_Hpp1 = newItem.PAT_Hpp1;
         oldItem.PAT_Hpp2 = newItem.PAT_Hpp2;
         oldItem.PAT_Hpp3 = newItem.PAT_Hpp3;
-        oldItem.PAT_PhoneNum = newItem.PAT_PhoneNum;
+        oldItem.PAT_PhoneNum = newItem.PAT_Hpp1 + "-" + newItem.PAT_Hpp2 + "-" + newItem.PAT_Hpp3;
         oldItem.PAT_Email = newItem.PAT_Email;
         oldItem.PAT_FirstVisitDate = newItem.PAT_FirstVisitDate;
         oldItem.PAT_LastVisitDate = newItem.PAT_LastVisitDate;
