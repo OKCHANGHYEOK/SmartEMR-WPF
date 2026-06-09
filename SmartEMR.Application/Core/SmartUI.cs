@@ -29,8 +29,9 @@ public enum NotificationType
 }
 
 public static partial class SmartUI
-{
-    private static bool IsBusy = false;
+{ 
+    // 페이지 이동 연속호출 방지를 위한 세마포어
+    private static readonly SemaphoreSlim _navigationLock = new SemaphoreSlim(1, 1);
 
     public static void RegisterView(ViewLayout vl)
     {
@@ -61,18 +62,18 @@ public static partial class SmartUI
         tooltip.IsOpen = true;
     }
 
-    public static async void NavigateToPage<T>(object? parameter = null, bool isPopup = false) where T : class
+    public static async Task NavigateToPage<T>(object? parameter = null, bool isPopup = false) where T : class
     {
         // 뷰가 아닌 타입을 호출하는 경우 종료
         if (!typeof(IViewLayout).IsAssignableFrom(typeof(T))) return;
 
-        if (IsBusy)
+        // 락을 즉시 획득할 수 있는지 확인 및 이미 실행중이면 함수 종료
+        if (!_navigationLock.Wait(0))
         {
             SetNofification("페이지 로딩중입니다. 잠시 기다려주세요.", NotificationType.Info);
             return;
         }
 
-        IsBusy = true;
         Mouse.OverrideCursor = Cursors.Wait;
 
         try
@@ -85,7 +86,7 @@ public static partial class SmartUI
             // 팝업일 때 화면 표시 로직
             if (isPopup)
             {
-                CreatePopupElement<T>();
+                await CreatePopupElement<T>();
                 return;
             }
 
@@ -109,8 +110,8 @@ public static partial class SmartUI
         }
         finally
         {
-            IsBusy = false;
             Mouse.OverrideCursor = null;
+            _navigationLock.Release();
         }
     }
 
@@ -141,7 +142,7 @@ public static partial class SmartUI
         }
     }
 
-    private static async void CreatePopupElement<T>() where T : class
+    private static async Task CreatePopupElement<T>() where T : class
     {
         var vl = Activator.CreateInstance<T>() as ViewLayout;
         if (vl == null) return;
