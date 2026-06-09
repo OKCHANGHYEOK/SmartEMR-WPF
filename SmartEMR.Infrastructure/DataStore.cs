@@ -158,16 +158,18 @@ namespace SmartEMR.Infrastructure
 
                 _client.DefaultRequestHeaders.Clear();
 
-                var response = await _client.PostAsJsonAsync(url, request, _options);
+                var response = await _client.PostAsJsonAsync(url, request);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadFromJsonAsync<DataResponse<TokenResponse>>(_options);
-                    if (result != null && result.Item != null)
+                    var retToken = await response.Content.ReadFromJsonAsync<TokenResponse>();
+
+                    if (retToken == null || string.IsNullOrWhiteSpace(retToken.AccessToken))
                     {
-                        _tokenProvider.SetToken(result.Item);
-                        return true;
+                        return false;
                     }
+                    
+                    _tokenProvider.SetToken(retToken);
                 }
 
                 return false;
