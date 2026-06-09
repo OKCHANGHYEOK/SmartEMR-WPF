@@ -65,7 +65,7 @@
                             <Xpf:Button Grid.Column="1"
                                         x:Name="btnClearImage"
                                         CornerRadius="3"
-                                        BorderBrush="Black"
+                                        BorderBrush="Gray"
                                         BorderThickness="1"
                                         MinWidth="24"
                                         Width="24"

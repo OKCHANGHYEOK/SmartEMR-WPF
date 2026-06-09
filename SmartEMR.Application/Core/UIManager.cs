@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -7,6 +8,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Core;
+
+public enum TargetViewType
+{
+    CurrentView = 0,        // 현재 포커스중인 뷰
+    PageView = 1,           // 현재 포커스중인 뷰를 포함하고 있는 부모뷰
+    PreFloatView = 2,       // 팝업인 경우 해당 팝업의 이전 팝업
+    RootView = 3            // vLayout
+}
+
 
 public partial class UIManager
 {
@@ -100,6 +110,14 @@ public partial class UIManager
     private readonly ObservableCollection<FloatPanel> _activePopups = new();
     public  ObservableCollection<FloatPanel> Popups => _activePopups;
 
+    public ViewLayout? RootView
+    {
+        get
+        {
+            return CurrentWindow?.Content as ViewLayout;
+        }
+    }
+
     public ViewLayout? CurrentView
     {
         get
@@ -119,6 +137,14 @@ public partial class UIManager
         }
     }
 
+    public ViewLayout? CurrentPageView
+    {
+        get
+        {
+            return (RootView as vLayout)?.MainContent as ViewLayout;
+        }
+    }
+
     public void RegisterView(ViewLayout view)
     {
         if (_activeViews.Contains(view)) return;
@@ -133,6 +159,30 @@ public partial class UIManager
         if (view is FrameworkElement fe)
         {
             fe.Unloaded += (s, e) => UnRegisterView(mv);
+        }
+    }
+
+    // TargetViewType에 따른 타겟 추출 로직 (UIManager 활용)
+    public ViewLayout? GetTargetView(TargetViewType viewType)
+    {
+        return viewType switch
+        {
+            TargetViewType.CurrentView => CurrentView,
+            TargetViewType.PageView => CurrentPageView,
+            TargetViewType.RootView => SmartUI.RootView,
+            _ => null
+        };
+    }
+
+    public void RemoveViewLayout(ViewLayout view)
+    {
+        bool isRemoved = _activeViews.Remove(view);
+        if (isRemoved)
+        {
+            if (view.Parent is FloatPanel floatPanel)
+            {
+                RemoveFloatPanel(floatPanel);
+            }
         }
     }
 

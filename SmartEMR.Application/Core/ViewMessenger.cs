@@ -3,14 +3,6 @@ using SmartEMR.Application.Views.Shared;
 
 namespace SmartEMR.Application.Core;
 
-public enum TargetViewType
-{
-    CurrentView = 0,        // 메세지를 전송한 뷰
-    PageView = 1,           // 메세지를 전송한 뷰가 포함된 페이지(부모뷰)에 해당하는 뷰
-    PreFloatView= 2,        // 팝업인 경우 해당 팝업의 이전 팝업
-    RootView = 3            // vLayout
-}
-
 public class ViewMessenger
 {
     private static readonly Lazy<ViewMessenger> _instance = new(() => new ViewMessenger());
@@ -28,7 +20,7 @@ public class ViewMessenger
     public async Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
         var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter };
-        ViewLayout? targetView = GetTargetView(viewType);
+        ViewLayout? targetView = SmartUI.UIManager.GetTargetView(viewType);
 
         var sub = _subscribers.FirstOrDefault(s => s.View == targetView);
 
@@ -65,18 +57,6 @@ public class ViewMessenger
         await vSearchView.ReceiveMessage(new ViewMessageRequest { MessageAction = action, MessageParameter = parameter});
 
         return response;
-    }
-
-    // TargetViewType에 따른 타겟 추출 로직 (UIManager 활용)
-    private ViewLayout? GetTargetView(TargetViewType viewType)
-    {
-        return viewType switch
-        {
-            TargetViewType.CurrentView => SmartUI.CurrentView,
-            TargetViewType.PageView => SmartUI.CurrentPageView, 
-            TargetViewType.RootView => SmartUI.RootView,
-            _ => null
-        };
     }
 }
 

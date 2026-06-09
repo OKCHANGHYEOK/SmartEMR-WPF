@@ -1,5 +1,4 @@
-﻿using DevExpress.XtraSpreadsheet.Model;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -19,9 +18,9 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
     protected override void Initialize()
     {
-        this.ViewTitle = "환자" + (PATItem.PAT_Idx == 0 ? "등록" : "수정");
+        this.ViewTitle = "환자" + (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
 
-        btnSave.Content = "환자" + (PATItem.PAT_Idx == 0 ? "등록" : "수정");
+        btnSave.Content = "환자" + (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
 
         this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_ChartNo")?.Focusable = false;
         this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_ChartNo")?.IsReadOnly = true;
@@ -118,6 +117,20 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
                 break;
         }
+    }
+
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse { IsSuccess = false };
+
+        switch (request.MessageAction)
+        {
+            case "CloseView":
+                SmartUI.CloseView(TargetViewType.CurrentView);
+                break;
+        }
+
+        return response;
     }
 
     private void OnClick_Button(object sender, RoutedEventArgs e)

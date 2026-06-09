@@ -54,9 +54,13 @@ public partial class PatientInfoViewModel : PatientViewModel
             return;
         }
 
+        Model.PAT_ChartNo = retPAT.PAT_ChartNo;
+
         var msg = "환자" + ((operationType == OperationType.CREATE) ? "등록" : "수정");
 
         SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
+        
+        await SmartUI.SendMessage("CloseView");
     }
 
     private bool ValidateInputData()

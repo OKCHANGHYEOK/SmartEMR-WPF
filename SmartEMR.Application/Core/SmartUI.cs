@@ -115,6 +115,14 @@ public static partial class SmartUI
         }
     }
 
+    public static void CloseView(TargetViewType viewType)
+    {
+        var targetView = UIManager.GetTargetView(viewType);
+        if (targetView == null) return;
+
+        UIManager.RemoveViewLayout(targetView);
+    }
+
     public static void CloseFloatPanel(FloatPanel floatPanel)
     {
         if (floatPanel.Content is ViewLayout vl && !vl.ClosingFloatPanel())
@@ -170,29 +178,9 @@ public static partial class SmartUI
         }
     }
 
-    public static ViewLayout? CurrentView
-    {
-        get
-        {
-            return UIManager.CurrentView;
-        }
-    }
-
-    public static ViewLayout? CurrentPageView
-    {
-        get
-        {
-            return (RootView as vLayout)?.MainContent as ViewLayout;
-        }
-    }
-
-    public static ViewLayout? RootView
-    {
-        get
-        {
-            return UIManager.CurrentWindow?.Content as ViewLayout;
-        }
-    }
+    public static ViewLayout? CurrentView => UIManager.CurrentView;
+    public static ViewLayout? CurrentPageView => UIManager.CurrentPageView;
+    public static ViewLayout? RootView => UIManager.RootView;
     
     public static T? GetViewLayout<T>() where T : class
     {
@@ -208,7 +196,6 @@ public static partial class SmartUI
 
         return targetView as T;
     }
-
 
     public static void BeginInvoke(Action action, DispatcherPriority priority = DispatcherPriority.Normal)
     {
