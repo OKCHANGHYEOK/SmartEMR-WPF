@@ -2,19 +2,20 @@
 using SmartEMR.Application.Xpf;
 using System.Windows;
 using SmartEMR.Application.ViewModels;
+using DevExpress.Mvvm.UI;
 
 namespace SmartEMR.Application.Common;
 
 public class BindingExtensions
 {
-    public static void SetBinding(FrameworkElement element, string fieldName)
+    public static void SetBinding(FrameworkElement element, BindItem bindItem)
     {
         DependencyProperty? dp = element switch
         {
             _ when element is StyleTextBox => StyleTextBox.TextProperty,
             _ when element is Xpf.TextBox => Xpf.TextBox.TextProperty,
             _ when element is Xpf.Image => Xpf.Image.SourceProperty,
-            _ when element is CheckEdit => CheckEdit.EditValueProperty,
+            _ when element is CheckEdit => CheckEdit.IsCheckedProperty,
             _ when element is ComboBoxEdit => ComboBoxEdit.EditValueProperty,
             _ => null
         };
@@ -28,6 +29,8 @@ public class BindingExtensions
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             };
 
+            string fieldName = bindItem.FieldName;
+
             if (element.DataContext is IVIewModel vm)
             {
                 binding.Path = new PropertyPath($"Model.{fieldName}");
@@ -35,6 +38,11 @@ public class BindingExtensions
             else
             {
                 binding.Path = new PropertyPath($"{fieldName}");
+            }
+
+            if (dp == CheckEdit.IsCheckedProperty && bindItem.IsApplyYNToBoolean)
+            {
+                binding.Converter = new YNToBooleanConverter();
             }
             
             element.SetBinding(dp, binding);

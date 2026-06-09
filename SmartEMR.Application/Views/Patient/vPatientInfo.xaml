@@ -48,15 +48,35 @@
                                         Source="{Binding PATItem.PAT_ImageSource, RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}}}"/>
                         </Border>
 
-                        <Xpf:Button Grid.Row="1"
-                                    x:Name="btnSelectImage"
-                                    Content="이미지선택"
-                                    CornerRadius="2"
-                                    BorderBrush="LightGray"
-                                    BorderThickness="1"
-                                    Height="26"
-                                    Margin="0,2,0,2"
-                                    Click="OnClick_Button"/>
+                        <Xpf:StyleGrid  Grid.Row="1"
+                                        LayoutDefinitions="2,1"
+                                        ColumnSizeDefinitions="1*,Auto">
+
+                            <Xpf:Button Grid.Column="0"
+                                        x:Name="btnSelectImage"
+                                        Content="이미지선택"
+                                        CornerRadius="2"
+                                        BorderBrush="LightGray"
+                                        BorderThickness="1"
+                                        Height="26"
+                                        Margin="0,2,0,2"
+                                        Click="OnClick_Button"/>
+
+                            <Xpf:Button Grid.Column="1"
+                                        x:Name="btnClearImage"
+                                        CornerRadius="3"
+                                        BorderBrush="Black"
+                                        BorderThickness="1"
+                                        MinWidth="24"
+                                        Width="24"
+                                        Height="24"
+                                        Glyph="/Images/smartemr_clear.png"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Margin="2"
+                                        Click="OnClick_Button">
+                            </Xpf:Button>
+                        </Xpf:StyleGrid>
                     </Xpf:StyleGrid>
                 </Xpf:BindItem>
 
@@ -186,14 +206,16 @@
                                     Col="5"
                                     Row="4"
                                     ColSpan="3"
-                                    IsHeader="False"/>
+                                    IsHeader="False"
+                                    IsApplyYNToBoolean="True"/>
 
                     <Xpf:BindItem   FieldName="PAT_IsSMS"
                                     BindType="CheckBox"
                                     TextValue="문자수신동의"
                                     FontSize="11"
                                     FontWeight="SemiBold"   
-                                    IsHeader="False"/>
+                                    IsHeader="False"
+                                    IsApplyYNToBoolean="True"/>
                 </x:Array>
 
                 <Xpf:BindItem   FieldName="PAT_Address"

@@ -3,9 +3,9 @@
 public partial class Patient : BaseEntity
 {
     #region "Private Fields"
-    private int m_PAT_Idx;
-    private int m_MEM_Idx;
-    private int m_MUR_Idx;
+    private int? m_PAT_Idx;
+    private int? m_MEM_Idx;
+    private int? m_MUR_Idx;
     private int? m_MUR_Idx_DOC;
     private int? m_MUR_Idx_STF;
 
@@ -55,19 +55,19 @@ public partial class Patient : BaseEntity
     #endregion
 
     #region "NotifyPropertyChanged"
-    public int PAT_Idx
+    public int? PAT_Idx
     {
         get => m_PAT_Idx;
         set => SetProperty(ref m_PAT_Idx, value);
     }
 
-    public int MEM_Idx
+    public int? MEM_Idx
     {
         get => m_MEM_Idx;
         set => SetProperty(ref m_MEM_Idx, value);
     }
 
-    public int MUR_Idx
+    public int? MUR_Idx
     {
         get => m_MUR_Idx;
         set => SetProperty(ref m_MUR_Idx, value);

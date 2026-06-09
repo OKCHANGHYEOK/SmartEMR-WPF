@@ -61,7 +61,6 @@ public class BindItem
     public FontWeight HeaderFontWeight { get; set; } = FontWeights.Normal;
     public Brush HeaderForeground { get; set; } = Brushes.Black;
 
-
     // 플래그
     public bool IsNumericOnly { get; set; } = false;
     public bool IsReadOnly { get; set; } = false;
@@ -73,4 +72,5 @@ public class BindItem
     public bool IsBinding { get; set; } = true;
     public bool IsBindClickEvent { get; set; } = false;
     public bool IsExpandingWhenClick { get; set; } = false;
+    public bool IsApplyYNToBoolean { get; set; } = false;
 }

@@ -173,6 +173,8 @@ public class IntToBooleanConverter : BaseConverter
 
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        if (value == null) return false;
+
         if (!Int32.TryParse(value.ToString(), out var intValue)) return false;
 
         var bFlag = intValue == 0 ? true: false;
@@ -183,5 +185,23 @@ public class IntToBooleanConverter : BaseConverter
     public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+}
+
+public class YNToBooleanConverter : BaseConverter
+{
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var strValue = value.ToString();
+        if (string.IsNullOrWhiteSpace(strValue)) return default!;
+
+        return strValue == "y" ? true : false;
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var bFlag = (bool)value;
+
+        return bFlag ? "y" : "n";
     }
 }

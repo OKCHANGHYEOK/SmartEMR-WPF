@@ -314,7 +314,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         {
             SmartUI.BeginInvoke(() =>
             {
-                BindingExtensions.SetBinding(visualChild, bindItem.FieldName);
+                BindingExtensions.SetBinding(visualChild, bindItem);
 
                 RegisterBindItemChangedEvents(visualChild, bindItem);
 

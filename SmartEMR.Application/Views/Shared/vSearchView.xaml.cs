@@ -126,18 +126,24 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
     }
 
 
-
-
-    private void OnPreviewKeyDown_txtSearch(object sender, KeyEventArgs e)
+    private async void OnPreviewKeyDown_txtSearch(object sender, KeyEventArgs e)
     {
+        if (e.Key == Key.Enter)
+        {
+            e.Handled = true;
+
+            await vm.Search();
+        }
+        
         if (e.Key == Key.Down && SearchPopup.IsOpen)
         {
-            SearchViewResult.FocusToResultListBox();
             e.Handled = true;
+
+            SearchViewResult.FocusToResultListBox();
         }
     }
 
-    private void OnClick_Button(object sender, RoutedEventArgs e)
+    private async void OnClick_Button(object sender, RoutedEventArgs e)
     {
         var element = sender as Button;
         if (element == null) return;
@@ -148,7 +154,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 break;
 
             case "btnMovePATInfo":
-                SmartUI.NavigateToPage<vPatientInfo>(isPopup: true);
+                await SmartUI.NavigateToPage<vPatientInfo>(isPopup: true);
                 break;
         }
     }
