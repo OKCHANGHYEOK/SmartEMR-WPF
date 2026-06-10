@@ -151,6 +151,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         switch (element.Name)
         {
             case "btnMoveRESInfo":
+                SmartUI.MsgConfirm("확인창 테스트~");
                 break;
 
             case "btnMovePATInfo":

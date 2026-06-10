@@ -7,6 +7,7 @@ using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -33,19 +34,29 @@ public static partial class SmartUI
     // 페이지 이동 연속호출 방지를 위한 세마포어
     private static readonly SemaphoreSlim _navigationLock = new SemaphoreSlim(1, 1);
 
+    private static DialogService _dialogService = new();
+
     public static void RegisterView(ViewLayout vl)
     {
         Messenger.Register(vl, vl.ReceiveMessage);
         UIManager.RegisterView(vl);
     }
 
-    public static bool MsgConfirm(string title, string message)
+    public static MessageBoxResult MsgConfirm(string msg)
     {
-        var result = DialogService.ShowConfirm(title, message);
-
-        return result;
+        return _dialogService.MsgConfirm(msg);
     }
-    
+
+    public static MessageBoxResult MsgYesNo(string msg)
+    {
+        return _dialogService.MsgYesNo(msg);
+    }
+
+    public static MessageBoxResult MsgYesNo(List<Run> arrRun)
+    {
+        return _dialogService.MsgYesNo(arrRun);
+    }
+
     public static void ShowRequiredMessage(FrameworkElement element, string message)
     {
         var tooltip = new ToolTip()
