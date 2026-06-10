@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Common.Converter;
+﻿using HandyControl.Controls;
+using SmartEMR.Application.Common.Converter;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -39,6 +40,21 @@ public class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();
 
+    private List<ChartCommonCode> _arrCCC = new();
+    public IReadOnlyList<ChartCommonCode> arrCCC => _arrCCC.AsReadOnly();
+
+    public async Task Initialize()
+    {
+        var retCCC = await SmartMVVM.DataStore.GetItems<ChartCommonCode>(eAPI.ChartCommonCode_GetChartCommonCode, new ChartCommonCode());
+        if (retCCC == null || SmartMVVM.DataStore.retIsSuccess == false)
+        {
+            SmartUI.SetNofification("ChartCommonCode_GetChartCommonCode 조회에 실패했습니다.", NotificationType.Error);
+            return;
+        }
+
+        _arrCCC = retCCC.ToList();
+    }
+
     public void DisposeControl(object? element)
     {
         if (element == null) return;
@@ -61,33 +77,38 @@ public class Common
         }
     }
 
-    public async Task<IQueryable<ChartCommonCode>> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isAll = false)
+    public IQueryable<ChartCommonCode> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isAll = false)
     {
-        List<ChartCommonCode> arrCCC = new();
+        List<ChartCommonCode> retCCC = new();
 
         if (isAll)
         {
-            arrCCC.Add(new ChartCommonCode { CCC_Name = "전체", CCC_Cd = "ALL"});
+            retCCC.Add(new ChartCommonCode { CCC_Name = "전체", CCC_Cd = "ALL"});
         }
 
-        var getItem = new ChartCommonCode
-        {
-            CCCM_Cd = CCCM_Cd,
-            CCCG_Cd = CCCG_Cd,
-            CCC_Cd = CCC_Cd
-        };
+        IEnumerable<ChartCommonCode>? targetItems = null;
 
-        var retCCC = await SmartMVVM.DataStore.GetItems<ChartCommonCode>(eAPI.ChartCommonCode_GetChartCommonCode, getItem);
-
-        if (retCCC == null || SmartMVVM.DataStore.retIsSuccess == false)
+        if (!string.IsNullOrWhiteSpace(CCCM_Cd))
         {
-            Debug.WriteLine($"일치하는 코드값이 존재하지 않습니다. CCCG_Cd = {CCCG_Cd}, CCC_Cd = {CCC_Cd}");
-            return arrCCC.AsQueryable();
+            targetItems = arrCCC.Where(x => x.CCCM_Cd == CCCM_Cd);
         }
 
-        arrCCC.AddRange(retCCC);
+        if (!string.IsNullOrWhiteSpace(CCCG_Cd))
+        {
+            targetItems = arrCCC.Where(x => x.CCCG_Cd == CCCG_Cd);
+        }
 
-        return arrCCC.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(CCC_Cd))
+        {
+            targetItems = arrCCC.Where(x => x.CCC_Cd == CCC_Cd);
+        }
+        
+        if (targetItems != null)
+        {
+            retCCC.AddRange(targetItems);
+        }
+
+        return retCCC.AsQueryable();
     }
 
     public IQueryable<object> GetBirth(eBirthType birthType)
@@ -192,7 +213,7 @@ public class YNToBooleanConverter : BaseConverter
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var strValue = value.ToString();
+        var strValue = value?.ToString();
         if (string.IsNullOrWhiteSpace(strValue)) return default!;
 
         return strValue == "y" ? true : false;

@@ -1,23 +1,34 @@
-﻿using SmartEMR.Domain.Entities;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Common;
 
 public class ModelProperty
 {
-    public Patient GetPatientDataForSave(Patient paramItem, bool isNewPAT = true)
+    public Patient GetPatientDataForSave(Patient paramItem)
     {
         var item = new Patient();
         item.MUR_Idx_DOC = paramItem.MUR_Idx_DOC;
         item.MUR_Idx_STF = paramItem.MUR_Idx_STF;
-        item.PAT_Idx = isNewPAT ? 0 : paramItem.PAT_Idx;
+        item.PAT_Idx = paramItem.PAT_Idx;
         item.PAT_ChartNo = paramItem.PAT_ChartNo;
         item.PAT_Name = paramItem.PAT_Name;
         item.PAT_BloodType = paramItem.PAT_BloodType;
         item.PAT_SourceType = paramItem.PAT_SourceType;
         item.PAT_Sex = paramItem.PAT_Sex;
-        item.PAT_BirthYear = paramItem.PAT_BirthDate?.Substring(0, 4);
-        item.PAT_BirthMonth = paramItem.PAT_BirthDate?.Substring(4, 2);
-        item.PAT_BirthDay = paramItem.PAT_BirthDate?.Substring(6, 2);
+
+        if (!string.IsNullOrWhiteSpace(paramItem.PAT_BirthDate))
+        {
+            var PAT_BirthDate = paramItem.PAT_BirthDate.Replace("-", "");
+
+            if (PAT_BirthDate.Length == 8)
+            {
+                item.PAT_BirthYear = PAT_BirthDate.Substring(0, 4);
+                item.PAT_BirthMonth = PAT_BirthDate.Substring(4, 2);
+                item.PAT_BirthDay = PAT_BirthDate.Substring(6, 2);
+            } 
+        }
+
         item.PAT_Age = DateTime.Now.Year - Convert.ToInt32(item.PAT_BirthYear);
         item.PAT_RegisterNum1 = paramItem.PAT_RegisterNum1;
         item.PAT_RegisterNum2 = paramItem.PAT_RegisterNum2;
@@ -44,6 +55,7 @@ public class ModelProperty
         oldItem.PAT_Name = newItem.PAT_Name;
         oldItem.PAT_BloodType = newItem.PAT_BloodType;
         oldItem.PAT_SourceType = newItem.PAT_SourceType;
+        oldItem.vPAT_SourceType = SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType")?.FirstOrDefault(x => x.CCC_Cd == newItem.PAT_SourceType)?.CCC_Name;
         oldItem.PAT_Sex = newItem.PAT_Sex;
         oldItem.PAT_Age = newItem.PAT_Age;
         oldItem.vPAT_Info = (newItem.PAT_Sex == "M" ? "남" : "여") + "/" + $"{newItem.PAT_Age}세";
@@ -84,6 +96,7 @@ public class ModelProperty
         oldItem.PAT_Email = newItem.PAT_Email;
         oldItem.PAT_FirstVisitDate = newItem.PAT_FirstVisitDate;
         oldItem.PAT_LastVisitDate = newItem.PAT_LastVisitDate;
+        oldItem.PAT_SourceType = newItem.PAT_SourceType;
         oldItem.PAT_IsSolar = newItem.PAT_IsSolar;
         oldItem.PAT_IsSMS = newItem.PAT_IsSMS;
         oldItem.PAT_ImageSource = newItem.PAT_ImageSource;

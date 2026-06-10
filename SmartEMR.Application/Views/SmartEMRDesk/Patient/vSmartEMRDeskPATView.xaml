@@ -85,7 +85,7 @@
                 </desk:vSmartEMRDeskPATView_TextItem>
                 <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">내원경로</Label>
-                    <Label Content="{Binding PAT_SourceType}" Margin="5,0"/>
+                    <Label Content="{Binding vPAT_SourceType}" Margin="5,0"/>
                 </desk:vSmartEMRDeskPATView_TextItem>
                 <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">다음예약일</Label>
@@ -93,7 +93,12 @@
                 </desk:vSmartEMRDeskPATView_TextItem>
                 <desk:vSmartEMRDeskPATView_TextItem Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="8">
                     <Label FontWeight="SemiBold">비고</Label>
-                    <Xpf:TextBlock Text="{Binding PAT_Bigo}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                    <Xpf:TextBlock Text="{Binding PAT_Bigo}"
+                                   MinHeight="16"
+                                   Height="16"
+                                   TextWrapping="Wrap" 
+                                   TextTrimming="CharacterEllipsis"
+                                   VerticalAlignment="Center"/>
                 </desk:vSmartEMRDeskPATView_TextItem>
                 
                 <Xpf:Button x:Name="btnMovePAT"

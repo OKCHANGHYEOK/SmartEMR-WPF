@@ -6,6 +6,8 @@ namespace SmartEMR.Application.ViewModels;
 
 public abstract partial class BaseViewModel : DependencyObject
 {
+    public abstract Task SetViewModel();
+
     public abstract void Initialize();
     public virtual Task InitializeAsync()
     {
@@ -44,8 +46,6 @@ public abstract partial class BaseViewModel<T> : BaseViewModel, IViewModel<T> wh
 
         // 모델을 설정합니다.
         Model = GetModel(item);
-
-        Initialize();
     }
 
     #endregion
@@ -60,6 +60,18 @@ public abstract partial class BaseViewModel<T> : BaseViewModel, IViewModel<T> wh
 
     // 자식 클래스에서 반드시 구현해야 하는 추상 메서드들
     protected abstract T GetModel(T item);
+
+    public override async Task SetViewModel()
+    {
+        Initialize();
+
+        await InitializeAsync();
+
+        if (LoadDataCommand.CanExecute(null))
+        {
+            await LoadDataCommand.ExecuteAsync(null);
+        }
+    }
 
 
     #endregion

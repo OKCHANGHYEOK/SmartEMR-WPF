@@ -1,5 +1,4 @@
-﻿using SmartEMR.Application.Core;
-using System.Windows;
+﻿using System.Windows;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -25,20 +24,29 @@ public class Image : System.Windows.Controls.Image
         var element = d as Image;
         if (element == null) return;
 
-        if (e.NewValue is string newPath)
+        var dp = System.Windows.Controls.Image.SourceProperty;
+
+        if (e.NewValue != null)
         {
-            if (newPath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
+            if (e.NewValue is string newPath)
             {
-                element.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphSvgToImage(newPath));
+                if (newPath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
+                {
+                    element.SetValue(dp, GlyphSvgToImage(newPath));
+                }
+                else
+                {
+                    element.SetValue(dp, GlyphImage(newPath));
+                }
             }
-            else
+            else if (e.NewValue is byte[] arrBytes)
             {
-                element.SetValue(System.Windows.Controls.Image.SourceProperty, GlyphImage(newPath));
+                element.SetValue(dp, GenerateBitmapImage(arrBytes));
             }
         }
-        else if (e.NewValue is byte[] arrBytes)
+        else
         {
-            element.SetValue(System.Windows.Controls.Image.SourceProperty, GenerateBitmapImage(arrBytes));
+            element.ClearValue(dp);
         }
     }
 }

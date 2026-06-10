@@ -125,17 +125,44 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
 
     public ModelViewLayout() : base()
     {
+        SetDataContext(null);
+        RegisterLoadedEvent();
+    }
+
+    public ModelViewLayout(object item) : base()
+    {
+        SetDataContext(item);
+        RegisterLoadedEvent();
+    }
+
+    private void SetDataContext(object? item)
+    {
         if (typeof(IVIewModel).IsAssignableFrom(typeof(T)))
         {
-            this.SetValue(DataContextProperty, Activator.CreateInstance<T>());
+            if (item != null)
+            {
+                this.DataContext = (T)Activator.CreateInstance(typeof(T), item)!;
+            }
+            else
+            {
+                this.DataContext = Activator.CreateInstance<T>();
+            }
         }
-        else if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
+        else if(typeof(BaseEntity).IsAssignableFrom(typeof(T)))
         {
-            this.SetValue(DataContextProperty, Activator.CreateInstance<T>());
+            this.DataContext = item as T ?? Activator.CreateInstance<T>();
         }
+    }
 
+    private void RegisterLoadedEvent()
+    {
         this.Loaded += async (s, e) =>
         {
+            if (vm is BaseViewModel bvm)
+            {
+                await bvm.SetViewModel();
+            }
+
             Initialize();
             SetBindGrid();
         };

@@ -44,6 +44,15 @@ public partial class SearchViewModel : BaseViewModel<Patient>
             return;
         }
 
+        foreach (Patient item in retPAT)
+        {
+            item.vPAT_Sex = item.PAT_Sex == "M" ? "남" : "여";
+            item.vPAT_Info = item.vPAT_Sex + "/" + item.PAT_Age + "세";
+            item.PAT_PhoneNum = item.PAT_Hpp1 + item.PAT_Hpp2 + item.PAT_Hpp3;
+            item.vPAT_Address = string.IsNullOrWhiteSpace(item.PAT_Address1) ? "주소지미입력" : item.PAT_Address1;
+            item.PAT_Bigo = string.IsNullOrWhiteSpace(item.PAT_Bigo) ? "비고없음" : item.PAT_Bigo;
+        } 
+
         await SmartUI.SendMessage("UpdateSearchItemsSource", retPAT);
     }
 }
