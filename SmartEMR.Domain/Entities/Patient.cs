@@ -11,6 +11,7 @@ public partial class Patient : BaseEntity
 
     private string? m_PAT_BloodType;
     private string? m_PAT_SourceType;
+    private string? m_vPAT_SourceType;
     private string? m_PAT_Name;
     private string? m_PAT_ChartNo;
     private string? m_PAT_Sex;
@@ -96,6 +97,12 @@ public partial class Patient : BaseEntity
     {
         get => m_PAT_SourceType;
         set => SetProperty(ref m_PAT_SourceType, value);
+    }
+
+    public string? vPAT_SourceType
+    {
+        get => m_vPAT_SourceType;
+        set => SetProperty(ref m_vPAT_SourceType, value);
     }
 
     public string? PAT_Name

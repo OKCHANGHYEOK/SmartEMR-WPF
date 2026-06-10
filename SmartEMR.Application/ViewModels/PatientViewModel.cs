@@ -48,7 +48,7 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
         arrPAT_IsForegin = SmartMVVM.Master.Query("PAT_IsForegin");
         arrPAT_IsAgreePersonalInfo = SmartMVVM.Master.Query("PAT_IsAgreePersonalInfo");
 
-        arrPAT_SourceType = await SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType");
+        arrPAT_SourceType = SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType");
     }
 
     protected override abstract Patient GetModel(Patient item);

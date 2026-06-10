@@ -203,24 +203,30 @@ public partial class UIManager
 
     private static ViewLayout? GetCurrentView()
     {
-        var focusedElement = FocusManager.GetFocusedElement(SmartUI.CurrentWindow) as DependencyObject;
-
-        if (focusedElement != null)
+        try
         {
-            DependencyObject parent = focusedElement;
+            var focusedElement = FocusManager.GetFocusedElement(SmartUI.CurrentWindow) as DependencyObject;
 
-            while (true)
+            if (focusedElement != null)
             {
-                if (parent is ViewLayout view)
-                {
-                    return view;
-                }
+                DependencyObject parent = focusedElement;
 
-                parent = VisualTreeHelper.GetParent(parent);
+                while (true)
+                {
+                    if (parent is ViewLayout view)
+                    {
+                        return view;
+                    }
+
+                    parent = VisualTreeHelper.GetParent(parent);
+                }
             }
         }
+        catch 
+        {
+        }
 
-        return SmartUI.CurrentPageView;
+        return default!;
     }
 
     private void UnRegisterView(ModelViewLayout view)

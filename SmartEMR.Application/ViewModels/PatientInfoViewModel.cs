@@ -11,17 +11,23 @@ public partial class PatientInfoViewModel : PatientViewModel
     public PatientInfoViewModel() {}
     public PatientInfoViewModel(Patient item) : base(item) { }
 
-    public override void Initialize()
+    public override void Initialize() { }
+
+    public override async Task InitializeAsync() 
     {
+        await base.InitializeAsync();
+        
         if (Model.PAT_Idx.GetValueOrDefault(0) > 0)
         {
-            var retPAT = SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
+            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
             if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
             {
                 SmartUI.SetNofification("존재하지 않거나 삭제된 회원입니다.", NotificationType.Error);
                 SmartUI.CloseView(TargetViewType.CurrentView);                
                 return;
             }
+
+            SmartMVVM.ModelProperty.SetPatientData(Model, retPAT);
         }
     }
 
@@ -77,30 +83,32 @@ public partial class PatientInfoViewModel : PatientViewModel
 
     private bool ValidateInputData()
     {
-        var missingField = "";
-        var missingFieldName = "";
+        List<string[]> missingFields = new List<string[]>();
+        List<string[]> uncorrectFields = new List<string[]>();
 
         if (string.IsNullOrWhiteSpace(Model.PAT_Name))
         {
-            missingField = "PAT_Name";
-            missingFieldName = "성명";
-        }
-        else if (string.IsNullOrWhiteSpace(Model.PAT_RegisterNum1))
-        {
-            missingField = "PAT_RegisterNum1";
-            missingFieldName = "주민번호앞자리";
-        }
-        else if (string.IsNullOrWhiteSpace(Model.PAT_RegisterNum2))
-        {
-            missingField = "PAT_RegisterNum2";
-            missingFieldName = "주민번호뒷자리";
+            missingFields.Add(["PAT_Name", "성명"]);
         }
 
-        if (!string.IsNullOrWhiteSpace(missingField))
+        if (string.IsNullOrWhiteSpace(Model.PAT_RegisterNum1))
         {
-            SmartUI.SetNofification($"{missingFieldName}을/를 입력해주세요.", NotificationType.Warning);
-            
-            TextFocusBehavior.SetFocusByName(missingField);
+            missingFields.Add(["PAT_RegisterNum1", "주민번호앞자리"]);
+        }
+        
+        if (string.IsNullOrWhiteSpace(Model.PAT_RegisterNum2))
+        {
+            missingFields.Add(["PAT_RegisterNum2", "주민번호뒷자리"]);
+        }
+
+        if (missingFields.Any())
+        {
+            var message = "아래 항목들을 입력해주세요.\n- ";
+            message += string.Join(", ", missingFields.Select(field => field[1]));
+
+            SmartUI.SetNofification(message, NotificationType.Warning);
+
+            TextFocusBehavior.SetFocusByName(missingFields[0][0]);
 
             return false;
         }

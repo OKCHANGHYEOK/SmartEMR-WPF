@@ -4,6 +4,7 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
+using System.Windows.Data;
 
 namespace SmartEMR.Application.Views;
 
@@ -157,6 +158,14 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
                 if (fileResult == null) return;
 
                 PATItem.PAT_ImageSource = fileResult;
+
+                break;
+
+            case "btnClearImage":
+                if (PATItem.PAT_ImageSource != null && PATItem.PAT_ImageSource.Length > 0)
+                {
+                    PATItem.PAT_ImageSource = null;
+                }
 
                 break;
 

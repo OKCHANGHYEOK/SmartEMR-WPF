@@ -26,7 +26,8 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}">
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
 
                         <Xpf:StyleGrid  LayoutDefinitions="4,1"
                                         ColumnSizeDefinitions="*,Auto,Auto,*"
