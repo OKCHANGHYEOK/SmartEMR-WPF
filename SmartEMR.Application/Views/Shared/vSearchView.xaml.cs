@@ -25,6 +25,8 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         set => SetValue(IsPopupOpenProperty, value);
     }
 
+    private bool isPreventClickEvent = false;
+
     public vSearchView()
     {
     }
@@ -117,14 +119,29 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         }
     }
 
-    public void OnClosed_Popup(object sender, EventArgs e)
+    private void OnOpened_Popup(object sender, EventArgs e)
+    {
+        var popup = sender as Popup;
+        if (popup == null) return;
+        
+        if (!isPreventClickEvent)
+        {
+            isPreventClickEvent = true;
+        }
+    }
+
+    private void OnClosed_Popup(object sender, EventArgs e)
     {
         var popup = sender as Popup;
         if (popup == null) return;
 
+        if (isPreventClickEvent)
+        {
+            isPreventClickEvent = false;
+        }
+
         SmartUI.ReturnFocusTovLayout();
     }
-
 
     private async void OnPreviewKeyDown_txtSearch(object sender, KeyEventArgs e)
     {
@@ -147,6 +164,8 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
     {
         var element = sender as Button;
         if (element == null) return;
+
+        if (isPreventClickEvent) return;
         
         switch (element.Name)
         {

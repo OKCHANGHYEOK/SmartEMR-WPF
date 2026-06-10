@@ -106,6 +106,7 @@
                 MinWidth="{Binding ElementName=txtSearch, Path=ActualWidth}"
                 MinHeight="400"
                 PreviewKeyDown="OnPreviewKeyDown_Popup"
+                Opened="OnOpened_Popup"
                 Closed="OnClosed_Popup">
 
             <Border Background="#F0F8FF" 
