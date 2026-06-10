@@ -33,6 +33,7 @@
                         BorderBrush="DarkSlateGray"
                         BorderThickness="1"
                         Margin="2"
+                        Width="295"
                         Height="80">
 
                     <Xpf:StyleGrid  LayoutDefinitions="3,1"
@@ -43,15 +44,14 @@
                                 Grid.Row="0"
                                 BorderBrush="Black"
                                 BorderThickness="1"
+                                Width="60"
                                 Margin="2">
 
-                            <Image  x:Name="PART_PATIMAGE"
+                            <Xpf:Image  x:Name="PART_PATIMAGE"
                                     Stretch="UniformToFill" 
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Width="48"
-                                    Height="48"
-                                    Source="{Binding PAT_ImageSource, Converter={common:PAT_ImageSourceToImageConverter}}"/>
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="{Binding PAT_ImageSource}"/>
                         </Border>
 
                         <Border x:Name="SplitBorder"
@@ -74,14 +74,20 @@
 
                                 <Xpf:TextBlock  x:Name="txtPAT_ChartNo"
                                                 FontSize="12"
-                                                Text="{Binding PAT_ChartNo}"
                                                 FontWeight="Bold"
-                                                Foreground="DarkSlateGray"/>
+                                                Foreground="DarkSlateGray">
+                                    <Run Text="No."/>
+                                    <Run Text="{Binding PAT_ChartNo}"/>
+                                </Xpf:TextBlock>
+
+                                <local:vSearchResultViewSpliter/>
 
                                 <Xpf:TextBlock  x:Name="txtPAT_Name"
                                                 FontSize="11"
                                                 Text="{Binding PAT_Name}"
                                                 Margin="2,0,0,0"/>
+
+                                <local:vSearchResultViewSpliter/>
 
                                 <Xpf:TextBlock  x:Name="txtvPAT_Info"
                                                 FontSize="11"
@@ -93,21 +99,27 @@
                             <StackPanel Grid.Column="0"
                                         Grid.Row="1"
                                         Orientation="Horizontal"
-                                        VerticalAlignment="Center"
+                                        VerticalAlignment="Stretch"
                                         Margin="3,0,3,0">
 
                                 <Xpf:TextBlock  x:Name="txtPAT_PhoneNum"
-                                            FontSize="11"
-                                            Text="{Binding PAT_PhoneNum}"/>
+                                                FontSize="11"
+                                                Text="{Binding PAT_PhoneNum}"
+                                                VerticalAlignment="Center"/>
+                                
+                                <local:vSearchResultViewSpliter/>
 
                                 <Xpf:TextBlock  x:Name="txtPAT_Address1"
-                                            FontSize="11"
-                                            Text="{Binding PAT_Address1}"
-                                            TextTrimming="CharacterEllipsis"/>
+                                                FontSize="11"
+                                                Text="{Binding vPAT_Address}"
+                                                TextTrimming="CharacterEllipsis"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"/>
                             </StackPanel>
 
                             <Xpf:TextBlock  Grid.Column="0"
                                             Grid.Row="2"
+                                            HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
                                             Text="{Binding PAT_Bigo}"
                                             TextTrimming="CharacterEllipsis"

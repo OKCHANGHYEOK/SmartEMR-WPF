@@ -1,10 +1,11 @@
-﻿using DevExpress.Xpf.Core;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SmartEMR.Application.Views.Shared;
 
@@ -123,5 +124,19 @@ public partial class vSearchViewResult : CustomControl
         SmartUI.SendMessageToSearchView("SetSelectedPatient", item);
 
         SmartUI.SetNofification("선택하신 환자정보가 적용되었습니다.", NotificationType.Info);
+    }
+}
+
+internal class vSearchResultViewSpliter : Xpf.TextBlock
+{
+    public vSearchResultViewSpliter()
+    {
+        this.FontSize = 10;
+        this.Text = "|";
+        this.Foreground = Brushes.LightGray;
+        this.MinWidth = 5;
+        this.Width = 5;
+        this.Margin = new Thickness(3, 0, 0, 0);
+        this.VerticalAlignment = VerticalAlignment.Center;
     }
 }
