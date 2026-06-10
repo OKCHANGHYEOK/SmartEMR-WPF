@@ -154,7 +154,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 break;
 
             case "btnMovePATInfo":
-                await SmartUI.NavigateToPage<vPatientInfo>(isPopup: true);
+                await SmartUI.NavigateToPage(new vPatientInfo(), isPopup: true);
                 break;
         }
     }

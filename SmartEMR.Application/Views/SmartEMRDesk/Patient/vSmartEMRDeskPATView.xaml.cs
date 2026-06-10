@@ -57,7 +57,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             switch (element.Name)
             {
                 case "btnMovePAT":
-                    await SmartUI.NavigateToPage<vPatientInfo>(new Patient { PAT_Idx = Model.PAT_Idx }, isPopup:true);
+                    await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = Model.PAT_Idx }) ,isPopup:true);
                     break;
             }
         }

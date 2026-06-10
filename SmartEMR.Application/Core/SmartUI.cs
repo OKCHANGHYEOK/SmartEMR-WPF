@@ -62,11 +62,8 @@ public static partial class SmartUI
         tooltip.IsOpen = true;
     }
 
-    public static async Task NavigateToPage<T>(object? parameter = null, bool isPopup = false) where T : class
+    public static async Task NavigateToPage(ViewLayout targetView, object? parameter = null, bool isPopup = false)
     {
-        // 뷰가 아닌 타입을 호출하는 경우 종료
-        if (!typeof(IViewLayout).IsAssignableFrom(typeof(T))) return;
-
         // 락을 즉시 획득할 수 있는지 확인 및 이미 실행중이면 함수 종료
         if (!_navigationLock.Wait(0))
         {
@@ -78,28 +75,24 @@ public static partial class SmartUI
 
         try
         {
+            // 팝업일 때 화면 표시 로직
+            if (isPopup)
+            {
+                await CreatePopupElement(targetView);
+                return;
+            }
+
             // 메인 레이아웃 준비
             var vlayout = CurrentWindow?.Content as vLayout;
             if (vlayout == null)
                 return;
 
-            // 팝업일 때 화면 표시 로직
-            if (isPopup)
+            // 이미 해당 만들어진 해당 페이지가 존재하는지 체크
+            var vl = UIManager.Views.FirstOrDefault(x => x.GetType() == targetView.GetType());
+            if (vl != null)
             {
-                await CreatePopupElement<T>();
-                return;
+                targetView = vl;
             }
-
-            var vl = GetViewLayout<T>();
-
-            // 처음 이동하는 페이지인 경우 생성해줌
-            if (vl == null)
-            {
-                vl = (T?)Activator.CreateInstance(typeof(T), parameter);
-            }
-
-            if (vl is ViewLayout targetView == false)
-                return;
 
             await InitializeViewData(targetView);
 
@@ -150,11 +143,8 @@ public static partial class SmartUI
         }
     }
 
-    private static async Task CreatePopupElement<T>() where T : class
+    private static async Task CreatePopupElement(ViewLayout vl)
     {
-        var vl = Activator.CreateInstance<T>() as ViewLayout;
-        if (vl == null) return;
-
         await InitializeViewData(vl);
 
         UIManager.AddFloatPanel(new FloatPanel { Content = vl });

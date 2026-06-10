@@ -12,9 +12,19 @@ namespace SmartEMR.Application.Views;
 /// </summary>
 public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 {
-    public Patient PATItem => vm.Model;
+    public Patient PATItem
+    {
+        get => vm.Model;
+        set => vm.Model = value;
+    }
 
     private bool _isUpdatedRegNo1 = false;
+
+    public vPatientInfo() { }
+    public vPatientInfo(Patient item)
+    {
+        this.PATItem = item;
+    }
 
     protected override void Initialize()
     {
