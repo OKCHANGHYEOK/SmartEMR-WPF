@@ -8,10 +8,22 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class PatientInfoViewModel : PatientViewModel
 {
+    public PatientInfoViewModel() {}
+    public PatientInfoViewModel(Patient item) : base(item) { }
+
     public override void Initialize()
     {
+        if (Model.PAT_Idx.GetValueOrDefault(0) > 0)
+        {
+            var retPAT = SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
+            if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
+            {
+                SmartUI.SetNofification("존재하지 않거나 삭제된 회원입니다.", NotificationType.Error);
+                SmartUI.CloseView(TargetViewType.CurrentView);                
+                return;
+            }
+        }
     }
-
 
     protected override Patient GetModel(Patient item)
     {

@@ -7,6 +7,9 @@ namespace SmartEMR.Application.ViewModels;
 
 public abstract class PatientViewModel : BaseViewModel<Patient>
 {
+    public PatientViewModel() : base() { }
+    public PatientViewModel(Patient item) : base(item) { }
+
     public IQueryable<object>? arrPAT_BirthYear { get; set; }
     public IQueryable<object>? arrPAT_BirthMonth { get; set; }
     public IQueryable<object>? arrPAT_BirthDay { get; set; }

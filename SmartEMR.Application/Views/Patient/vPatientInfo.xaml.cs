@@ -20,10 +20,12 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
     private bool _isUpdatedRegNo1 = false;
 
-    public vPatientInfo() { }
-    public vPatientInfo(Patient item)
+    public vPatientInfo() 
+    { 
+    }
+
+    public vPatientInfo(Patient item) : base(item) 
     {
-        this.PATItem = item;
     }
 
     protected override void Initialize()

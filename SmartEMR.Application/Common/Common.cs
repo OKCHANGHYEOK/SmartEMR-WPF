@@ -192,7 +192,7 @@ public class YNToBooleanConverter : BaseConverter
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var strValue = value.ToString();
+        var strValue = value?.ToString();
         if (string.IsNullOrWhiteSpace(strValue)) return default!;
 
         return strValue == "y" ? true : false;
