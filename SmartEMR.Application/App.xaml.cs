@@ -36,23 +36,23 @@ namespace SmartEMR.Application
             
             base.OnStartup(e);
 
-            //var isLogin = false;
+            var isLogin = false;
 
-            //try
-            //{
-            //    isLogin = SetAuthenticateUser();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("프로그램 초기화 중 예기치 않은 오류가 발생했습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    Logger.WriteLog(ex);
-            //}
+            try
+            {
+                isLogin = SetAuthenticateUser();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("프로그램 초기화 중 예기치 않은 오류가 발생했습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.WriteLog(ex);
+            }
 
-            //if (!isLogin)
-            //{
-            //    Shutdown();
-            //    return;
-            //}
+            if (!isLogin)
+            {
+                Shutdown();
+                return;
+            }
 
             var manager = SplashScreenManager.CreateThemed();
 
