@@ -101,8 +101,6 @@ public class ModelProperty
         oldItem.PAT_IsSMS = newItem.PAT_IsSMS;
         oldItem.PAT_ImageSource = newItem.PAT_ImageSource;
         oldItem.PAT_Bigo = newItem.PAT_Bigo;
-        oldItem.PAT_Date = newItem.PAT_Date;
-        oldItem.PAT_YYMMDD = newItem.PAT_YYMMDD;
         oldItem.NOW_CHT_Idx_RCV = newItem.NOW_CHT_Idx_RCV;
         oldItem.NOW_CHT_Idx_RES = newItem.NOW_CHT_Idx_RES;
         oldItem.NEXT_CHT_Idx_RES = newItem.NEXT_CHT_Idx_RES;

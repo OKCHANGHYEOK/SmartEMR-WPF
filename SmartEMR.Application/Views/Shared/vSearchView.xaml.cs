@@ -68,6 +68,10 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 
                 break;
 
+            case "ClearPatient":
+                txtSearch.Text = "";
+                break;
+
             case "UpdateSearchItemsSource":
                 if (request.MessageParameter != null && request.MessageParameter is IQueryable<Patient> arrPAT)
                 {

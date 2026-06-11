@@ -105,8 +105,6 @@ public static partial class SmartUI
                 targetView = vl;
             }
 
-            await InitializeViewData(targetView);
-
             BeginInvoke(() =>
             {
                 vlayout.MainContent = targetView;
@@ -137,27 +135,8 @@ public static partial class SmartUI
         UIManager.RemoveFloatPanel(floatPanel);
     }
 
-    private static async Task InitializeViewData(ViewLayout vl)
-    {
-        if (vl.DataContext == null || vl.DataContext is BaseViewModel vm == false)
-            return;
-
-        var method = vm.GetType().GetMethod("InitializeAsync");
-
-        if (method != null)
-        {
-            var task = method.Invoke(vm, null) as Task;
-            if (task != null)
-            {
-                await task;
-            }
-        }
-    }
-
     private static async Task CreatePopupElement(ViewLayout vl)
     {
-        await InitializeViewData(vl);
-
         UIManager.AddFloatPanel(new FloatPanel { Content = vl });
 
         BeginInvoke(() =>

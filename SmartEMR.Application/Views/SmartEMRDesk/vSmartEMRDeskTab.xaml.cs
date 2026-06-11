@@ -33,11 +33,22 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 SmartEMRDeskPATView.UpdatePatient(paramItem);
 
                 break;
+
+            case "ClearPatient":
+                await ClearData();
+                break;
         }
 
         response.IsSuccess = true;
 
         return response;
+    }
+
+    private async Task ClearData()
+    {
+        await SmartUI.SendMessageToSearchView("ClearPatient");
+
+        SmartEMRDeskPATView.ClearData();
     }
 
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)

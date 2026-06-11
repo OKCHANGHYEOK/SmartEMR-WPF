@@ -60,7 +60,6 @@ public static class Module
     {
         if (bytes == null || bytes.Length == 0)
         {
-            SmartUI.SetNofification("이미지 업로드중 오류가 발생했습니다.", NotificationType.Error);
             return null;
         }
 

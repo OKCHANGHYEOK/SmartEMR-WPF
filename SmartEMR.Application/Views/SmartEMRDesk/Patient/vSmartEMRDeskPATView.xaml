@@ -41,10 +41,26 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                 </Border>
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="9"  VerticalAlignment="Center" Margin="10,0">
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="8"  VerticalAlignment="Center" Margin="10,0">
                     <Label FontSize="18" FontWeight="SemiBold" Foreground="#1F1F1F">No.</Label>
                     <Label Content="{Binding PAT_ChartNo}"  FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray"/>
                 </StackPanel>
+                <Xpf:Button     x:Name="btnClear"
+                                Grid.Row="0"
+                                Grid.Column="12"
+                                Content="X" 
+                                MinWidth="24"
+                                Width="24"
+                                Height="24"
+                                FontSize="13" 
+                                FontWeight="Bold" 
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center" 
+                                VerticalContentAlignment="Center"
+                                Background="#F1F3F5"
+                                Margin="0,0,3,0"
+                                Click="OnClick_Button"/>
                 <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">성명</Label>
                     <Label Content="{Binding PAT_Name}" Margin="5,0"/>
@@ -65,16 +81,16 @@
                     <Label FontWeight="SemiBold">주소</Label>
                     <Label Content="{Binding vPAT_Address}" Margin="5,0"/>
                 </desk:vSmartEMRDeskPATView_TextItem>
-                <Xpf:ImageButton x:Name="btnCopyAddress"
-                             Grid.Row="3" 
-                             Grid.Column="12" 
-                             Width="25" 
-                             Height="25"
-                             ImageWidth="18"
-                             ImageHeight="18"
-                             Cursor="Hand"
-                             Glyph="/Images/copy.png"
-                             Click="OnClick_ImageButton"/>
+                <Xpf:ImageButton    x:Name="btnCopyAddress"
+                                    Grid.Row="3" 
+                                    Grid.Column="12" 
+                                    Width="24" 
+                                    Height="24"
+                                    ImageWidth="18"
+                                    ImageHeight="18"
+                                    Cursor="Hand"
+                                    Glyph="/Images/copy.png"
+                                    Click="OnClick_ImageButton"/>
                 <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">최초내원일</Label>
                     <Label Content="{Binding PAT_FirstVisitDate}" Margin="5,0"/>

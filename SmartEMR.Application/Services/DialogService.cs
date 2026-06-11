@@ -146,6 +146,7 @@ public class DialogService
             TextContentControl.Padding = new Thickness(25, 35, 25, 30);
 
             // 텍스트 가독성 최적화
+            txtContent.MaxWidth = 280;
             txtContent.FontSize = 15;
             txtContent.FontWeight = FontWeights.DemiBold;
             txtContent.Foreground = new SolidColorBrush(Color.FromRgb(43, 58, 66)); // 본문 텍스트용 깊은 차콜 블루

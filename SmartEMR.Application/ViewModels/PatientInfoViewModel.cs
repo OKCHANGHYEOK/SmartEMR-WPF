@@ -48,37 +48,50 @@ public partial class PatientInfoViewModel : PatientViewModel
     {
         if (!Enum.TryParse<OperationType>(opreation, out var operationType)) return;
 
-        if (operationType == OperationType.DELETE)
+        try
         {
-            await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, new Patient { PAT_Idx = Model.PAT_Idx, PAT_IsValid = false });
-
-            if (SmartMVVM.DataStore.retIsSuccess == false)
+            if (operationType == OperationType.DELETE)
             {
-                SmartUI.SetNofification("환자정보 삭제에 실패했습니다.", NotificationType.Error);
+                if (SmartUI.MsgYesNo("삭제하시면 복구가 불가능합니다." + "\n" + "삭제하시겠습니까?") != System.Windows.MessageBoxResult.Yes) return;
+
+                await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, new Patient { PAT_Idx = Model.PAT_Idx, PAT_IsValid = false });
+
+                if (SmartMVVM.DataStore.retIsSuccess == false)
+                {
+                    SmartUI.SetNofification("환자정보 삭제에 실패했습니다.", NotificationType.Error);
+                    return;
+                }
+
+                SmartUI.SetNofification($"삭제되었습니다.", NotificationType.Success);
+                await SmartUI.SendMessage("ClearPatient", viewType:TargetViewType.PageView);
+
                 return;
             }
 
-            SmartUI.SetNofification($"삭제되었습니다.", NotificationType.Success);
+            if (!ValidateInputData()) return;
+
+            var item = SmartMVVM.ModelProperty.GetPatientDataForSave(Model);
+            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, item);
+
+            if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
+            {
+                SmartUI.SetNofification("환자정보 저장에 실패했습니다.", NotificationType.Error);
+                return;
+            }
+
+            Model.PAT_ChartNo = retPAT.PAT_ChartNo;
+
+            var msg = "환자" + ((operationType == OperationType.CREATE) ? "등록" : "수정");
+
+            SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
+
+            await SmartUI.SendMessageToSearchView("SetSelectedPatient", retPAT);
+            await SmartUI.SendMessage("SetSelectedPatient", retPAT, TargetViewType.PageView);
         }
-
-        if (!ValidateInputData()) return;
-
-        var item = SmartMVVM.ModelProperty.GetPatientDataForSave(Model);
-        var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, item);
-
-        if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
+        finally
         {
-            SmartUI.SetNofification("환자정보 저장에 실패했습니다.", NotificationType.Error);
-            return;
+            await SmartUI.SendMessage("CloseView");
         }
-
-        Model.PAT_ChartNo = retPAT.PAT_ChartNo;
-
-        var msg = "환자" + ((operationType == OperationType.CREATE) ? "등록" : "수정");
-
-        SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
-        
-        await SmartUI.SendMessage("CloseView");
     }
 
     private bool ValidateInputData()

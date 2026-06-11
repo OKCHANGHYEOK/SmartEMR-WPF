@@ -4,7 +4,6 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
-using System.Windows.Data;
 
 namespace SmartEMR.Application.Views;
 
@@ -86,7 +85,8 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
                 else
                 {
                     _isUpdatedRegNo1 = false;
-                    
+
+                    PATItem.PAT_Sex = "N";
                     PATItem.PAT_BirthDate = "";
                 }
 
@@ -125,7 +125,7 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
                 else
                 {
                     PATItem.PAT_BirthDate = "";
-                    PATItem.PAT_Sex = "";
+                    PATItem.PAT_Sex = "N";
                 }
 
                 break;
