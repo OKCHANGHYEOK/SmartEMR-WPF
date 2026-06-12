@@ -1,9 +1,7 @@
-﻿using HandyControl.Controls;
-using SmartEMR.Application.Common.Converter;
+﻿using SmartEMR.Application.Common.Converter;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows;
@@ -31,8 +29,7 @@ public enum eBirthType
 
 public enum OperationType
 {
-    CREATE,
-    UPDATE,
+    SAVE,
     DELETE
 }
 
@@ -201,6 +198,21 @@ public class IntToBooleanConverter : BaseConverter
         var bFlag = intValue == 0 ? true: false;
 
         return invert ? !bFlag : bFlag;
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class IntoToContentConveter : BaseConverter
+{
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value == null || Int32.TryParse(value.ToString(), out var intValue) == false) return "";
+
+        return intValue == 0 ? "등록" : "수정";
     }
 
     public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -44,7 +44,7 @@ public partial class PatientInfoViewModel : PatientViewModel
     }
 
     [RelayCommand]
-    public async Task SavePatient(string opreation)
+    public async Task SetPatient(string opreation)
     {
         if (!Enum.TryParse<OperationType>(opreation, out var operationType)) return;
 
@@ -81,7 +81,7 @@ public partial class PatientInfoViewModel : PatientViewModel
 
             Model.PAT_ChartNo = retPAT.PAT_ChartNo;
 
-            var msg = "환자" + ((operationType == OperationType.CREATE) ? "등록" : "수정");
+            var msg = "환자" + (Model.PAT_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
 
             SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
 

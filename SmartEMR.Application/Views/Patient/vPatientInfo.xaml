@@ -315,7 +315,7 @@
                             Glyph="/Images/smartemr_delete_v2.png"
                             VerticalContentAlignment="Center"
                             Margin="2,0,0,0"
-                            Command="{Binding SavePatientCommand}"
+                            Command="{Binding SetPatientCommand}"
                             CommandParameter="DELETE"
                             IsEnabled="{Binding PATItem.PAT_Idx, RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}},Converter={common:IntToBooleanConverter invert=True}}">
 
@@ -335,7 +335,7 @@
                             Glyph="/Images/smartemr_save.png"
                             VerticalContentAlignment="Center"
                             Margin="0,0,2,0"
-                            Command="{Binding SavePatientCommand}"
+                            Command="{Binding SetPatientCommand}"
                             CommandParameter="{Binding PATItem.PAT_Idx, RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}},Converter={converter:IntToOperaionTypeConverter}}">
 
                     <Xpf:Button.Background>

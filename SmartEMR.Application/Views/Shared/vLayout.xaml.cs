@@ -28,6 +28,7 @@ public partial class vLayout : ViewLayout
     {
         this.Loaded += async (s, e) =>
         {
+            await SmartMVVM.Master.Initialize();
             await SmartMVVM.Common.Initialize();
 
             this.Focus();

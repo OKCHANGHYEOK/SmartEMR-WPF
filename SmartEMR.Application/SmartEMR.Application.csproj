@@ -20,6 +20,7 @@
   <ItemGroup>
     <None Remove="Images\copy.png" />
     <None Remove="Images\smartemr_booking.png" />
+    <None Remove="Images\smartemr_cancel.png" />
     <None Remove="Images\smartemr_check.png" />
     <None Remove="Images\smartemr_clear.png" />
     <None Remove="Images\smartemr_cross.png" />
@@ -76,6 +77,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\smartemr_cancel.png" />
     <Resource Include="Images\smartemr_clear.png" />
     <Resource Include="Images\smartemr_cross.png" />
     <Resource Include="Images\smartemr_delete_v2.png" />

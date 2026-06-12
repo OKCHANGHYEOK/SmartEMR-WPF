@@ -14,7 +14,8 @@ public enum BindType
     ComboBox,
     CheckBox,
     Button,
-    Image
+    Image,
+    DateEdit
 }
 
 [ContentProperty(nameof(Content))]
