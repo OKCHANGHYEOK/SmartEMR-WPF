@@ -18,6 +18,7 @@ public class Reception : BaseEntity
     private string? m_PAT_Sex;
     private int? m_PAT_Age;
 
+    private string? m_RCP_VisitType;
     private string? m_RCP_Status;
     private string? m_RCP_Route;
     private string? m_RCP_Subject;
@@ -108,6 +109,12 @@ public class Reception : BaseEntity
     {
         get => m_PAT_Age;
         set => SetProperty(ref m_PAT_Age, value);
+    }
+
+    public string? RCP_VisitType
+    {
+        get => m_RCP_VisitType;
+        set => SetProperty(ref m_RCP_VisitType, value);
     }
 
     public string? RCP_Status

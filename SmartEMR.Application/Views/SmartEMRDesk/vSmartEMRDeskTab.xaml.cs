@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -11,10 +12,8 @@ namespace SmartEMR.Application.Views;
 /// </summary>
 public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 {
-    public vSmartEMRDeskTab()
-    {
-        InitializeComponent();
-    }
+
+    public vSmartEMRDeskTab() { }
 
     protected override void Initialize()
     {

@@ -228,8 +228,6 @@ public partial class BindGrid : StyleGrid, IDisposable
                     BorderThickness = bindItem.BorderThickness,
                     CornerRadius = bindItem.CornerRadius,
                     TextBoxType = bindItem.BindType == BindType.TextBox ? StyleTextBoxType.Text : StyleTextBoxType.Password,
-                    HorizontalAlignment = bindItem.HAlignment,
-                    VerticalAlignment = bindItem.VAlignment,
                     ContentAlignment = bindItem.ContentAlignment,
                     Placeholder = bindItem.Placeholder,
                     MaxLength = bindItem.MaxLength,
@@ -258,9 +256,7 @@ public partial class BindGrid : StyleGrid, IDisposable
                     DisplayMember = bindItem.DisplayMember,
                     ValueMember = bindItem.ValueMember,
                     CornerRadius = bindItem.CornerRadius,
-                    BorderThickness = bindItem.BorderThickness,
-                    HorizontalAlignment = bindItem.HAlignment,
-                    VerticalAlignment = bindItem.VAlignment,
+                    BorderThickness = bindItem.BorderThickness
                 };
 
                 break;
@@ -285,24 +281,31 @@ public partial class BindGrid : StyleGrid, IDisposable
                     BorderThickness = new Thickness(1),
                     Child = image
                 };
+
+                break;
+
+            case BindType.DateEdit:
+                visualChild = new DateEdit();
+
                 break;
         }
 
         if (visualChild == null) return null;
 
         // 공통 속성 설정 및 이벤트 바인딩
-        visualChild.SetValue(NameProperty, bindItem.FieldName);
-        visualChild.SetValue(TagProperty, bindItem);
-        visualChild.SetValue(MarginProperty, bindItem.Margin == null ? new Thickness(this.ItemSpace) : bindItem.Margin);
+        visualChild.Name = bindItem.FieldName;
+        visualChild.Tag = bindItem;
+        visualChild.Width = bindItem.Width > 0 ? bindItem.Width : visualChild.Width;
+        visualChild.Height = bindItem.Height > 0 ? bindItem.Height : visualChild.Height;
+        visualChild.HorizontalAlignment = bindItem.HAlignment;
+        visualChild.VerticalAlignment = bindItem.VAlignment;
+        visualChild.Margin = (Thickness)((bindItem.Margin == null) ? new Thickness(this.ItemSpace) : bindItem.Margin);
 
         if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
             visualChild.SetValue(BackgroundProperty, bg);
 
         if (!string.IsNullOrWhiteSpace(bindItem.BorderBrush) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BorderBrush) is Brush borderBrush)
             visualChild.SetValue(Control.BorderBrushProperty, borderBrush);
-
-        if (bindItem.Width > 0) visualChild.SetValue(WidthProperty, bindItem.Width);
-        if (bindItem.Height > 0) visualChild.SetValue(HeightProperty, bindItem.Height);
 
         if (bindItem.IsBindClickEvent)
         {

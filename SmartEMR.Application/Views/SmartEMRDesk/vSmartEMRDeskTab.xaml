@@ -7,17 +7,24 @@
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:view="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
+                        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         mc:Ignorable="d"
                         d:DesignWidth="1000"
                         d:DesignHeight="600">
-    <dxd:DockLayoutManager>
+    <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Horizontal">
             <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.6*">
                 <dxd:LayoutPanel ItemHeight="0.6*" ShowCaption="False" AllowDrag="False">
                     <view:vSmartEMRDeskPATView x:Name="SmartEMRDeskPATView"/>
                 </dxd:LayoutPanel>
-                <dxd:LayoutPanel ItemHeight="*" ShowCaption="False" AllowDrag="False">
+                <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="0.8*">
+                    <dxd:LayoutPanel Caption="접수정보" ShowPinButton="False" AllowDrag="False">
+                        <view:vSmartEMRDeskRCPInfo x:Name="SmartEMRRCPInfo"/>
+                    </dxd:LayoutPanel>
+                    <dxd:LayoutPanel Caption="보험정보" ShowPinButton="False" AllowDrag="False"></dxd:LayoutPanel>
+                </dxd:LayoutGroup>
+                <dxd:LayoutPanel ItemHeight="0.4*" Caption="수납정보">
                     
                 </dxd:LayoutPanel>
             </dxd:LayoutGroup>

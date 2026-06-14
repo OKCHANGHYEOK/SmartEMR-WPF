@@ -8,7 +8,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// <summary>
     /// vSmartEMRDeskRCVInfo.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class vSmartEMRDeskRCVInfo : ModelViewLayout<SmartEMRRCPInfoViewModel>
+    public partial class vSmartEMRDeskRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel>
     {
         public Reception RCPItem
         {

@@ -57,6 +57,7 @@
 	<PackageReference Include="DevExpress.Wpf.Core" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.Docking" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.LayoutControl" Version="25.2.6" />
+	<PackageReference Include="DevExpress.Wpf.Themes.All" Version="25.2.6" />
     <PackageReference Include="HandyControl" Version="3.6.0-rc3" />
     <PackageReference Include="MahApps.Metro" Version="3.0.0-rc0529" />
     <PackageReference Include="MaterialDesignColors" Version="5.3.1" />
