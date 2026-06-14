@@ -31,9 +31,10 @@
                                 ColSpan="2"/>
 
                 <Xpf:BindItem   FieldName="RCP_ReceiptTime"
-                                BindType="ComboBox"
+                                BindType="DateEdit"
                                 DisplayMember="attrName"
-                                ValueMember="attrValue"/>
+                                ValueMember="attrValue"
+                                DateEditType="Time"/>
             </x:Array>
 
             <x:Array Type="{x:Type Xpf:BindItem}">
@@ -48,7 +49,9 @@
                                 BindType="TextBox"
                                 Width="100"
                                 Height="26"
-                                HAlignment="Stretch"/>
+                                FontSize="12"
+                                Placeholder="직접입력"
+                                IsEnabled="False"/>
             </x:Array>
 
             <Xpf:BindItem   FieldName="MUR_Idx_DOC"
@@ -85,17 +88,18 @@
 
             <x:Array Type="{x:Type Xpf:BindItem}">
                 <Xpf:BindItem   FieldName="RCP_InsuranceType"
-                                BindType="ComboBox"
                                 Header="보 험 구 분"
+                                BindType="ComboBox"
                                 Col="0"
                                 Row="4"
-                                DisplayMember="attrName"
-                                ValueMember="attrValue"
                                 ColSpan="2"/>
-                <Xpf:BindItem   FieldName="btnSetRCP"
+
+                <Xpf:BindItem   FieldName="btnSetIRC"
                                 BindType="Button"
-                                Width="90"
-                                TextValue="상세입력"/>
+                                TextValue="상세입력"
+                                FontSize="12"
+                                Width="80"
+                                IsBindClickEvent="True"/>
             </x:Array>
 
             <Xpf:BindItem   FieldName="RCP_Memo"

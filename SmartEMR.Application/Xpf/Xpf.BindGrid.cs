@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DevExpress.Xpf.Editors;
 using MahApps.Metro.Controls;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
@@ -285,7 +286,18 @@ public partial class BindGrid : StyleGrid, IDisposable
                 break;
 
             case BindType.DateEdit:
-                visualChild = new DateEdit();
+                visualChild = bindItem.DateEditType switch
+                {
+                    DateEditType.Date => new DateEdit { },
+                    DateEditType.Time => new DateEdit 
+                    {
+                        Mask = "tt HH:mm",
+                        MaskUseAsDisplayFormat=true,
+                        MaskType = DevExpress.Xpf.Editors.MaskType.DateTime,
+                        StyleSettings = new DateEditTimePickerStyleSettings()
+                    },
+                    _ => default!
+                };
 
                 break;
         }

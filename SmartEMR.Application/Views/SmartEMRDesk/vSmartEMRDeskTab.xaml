@@ -9,6 +9,7 @@
                         xmlns:view="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
                         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+                        xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                         mc:Ignorable="d"
                         d:DesignWidth="1000"
                         d:DesignHeight="600">
@@ -22,7 +23,10 @@
                     <dxd:LayoutPanel Caption="접수정보" ShowPinButton="False" AllowDrag="False">
                         <view:vSmartEMRDeskRCPInfo x:Name="SmartEMRRCPInfo"/>
                     </dxd:LayoutPanel>
-                    <dxd:LayoutPanel Caption="보험정보" ShowPinButton="False" AllowDrag="False"></dxd:LayoutPanel>
+                    <dxd:LayoutPanel Caption="보험정보" ShowPinButton="False" AllowDrag="False">
+                        <Xpf:StyleGrid>
+                        </Xpf:StyleGrid>
+                    </dxd:LayoutPanel>
                 </dxd:LayoutGroup>
                 <dxd:LayoutPanel ItemHeight="0.4*" Caption="수납정보">
                     

@@ -18,6 +18,11 @@ public partial class SmartEMRRCPInfoViewModel : BaseViewModel<Reception>
 
     protected override Reception GetModel(Reception item)
     {
+        item.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+        item.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+        item.MUR_Idx_DOC = 0;;
+        item.MUR_Idx_STF = 0;
+
         return item;
     }
 

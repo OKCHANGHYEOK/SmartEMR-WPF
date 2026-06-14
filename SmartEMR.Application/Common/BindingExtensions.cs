@@ -17,6 +17,7 @@ public class BindingExtensions
             _ when element is Xpf.Image => Xpf.Image.SourceProperty,
             _ when element is CheckEdit => CheckEdit.IsCheckedProperty,
             _ when element is ComboBoxEdit => ComboBoxEdit.EditValueProperty,
+            _ when element is DateEdit => DateEdit.EditValueProperty,
             _ => null
         };
 

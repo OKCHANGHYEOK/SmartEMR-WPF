@@ -18,6 +18,12 @@ public enum BindType
     DateEdit
 }
 
+public enum DateEditType
+{
+    Date,
+    Time
+}
+
 [ContentProperty(nameof(Content))]
 public class BindItem
 {
@@ -54,6 +60,8 @@ public class BindItem
 
     public MaskType MaskType { get; set; }
     public string Mask { get; set; } = "";
+
+    public DateEditType DateEditType { get; set; } = DateEditType.Date;
 
     // 헤더
     public string? Header { get; set; }
