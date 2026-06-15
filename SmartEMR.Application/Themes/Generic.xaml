@@ -391,7 +391,8 @@
                                         Content="{Binding ButtonText, RelativeSource={RelativeSource TemplatedParent}}"
                                         Glyph="{Binding ButtonImage, RelativeSource={RelativeSource TemplatedParent}}"
                                         Width="90"
-                                        Margin="0,4,0,0"/>
+                                        Margin="0,4,0,0"
+                                        Command="{Binding ButtonCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </StackPanel>
                     </Xpf:StyleGrid>
                 </ControlTemplate>

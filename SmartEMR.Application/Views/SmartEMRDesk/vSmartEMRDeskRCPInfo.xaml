@@ -21,7 +21,8 @@
         
         <Xpf:BindGrid   Grid.Row="0"
                         LayoutDefinitions="2,8"
-                        BindStyle="DataCell">
+                        BindStyle="DataCell"
+                        ItemSpace="2">
             <x:Array Type="{x:Type Xpf:BindItem}">
                 <Xpf:BindItem   FieldName="RCP_ReceiptDate"
                                 Header="접 수 일 시"
@@ -35,6 +36,14 @@
                                 DisplayMember="attrName"
                                 ValueMember="attrValue"
                                 DateEditType="Time"/>
+
+                <Xpf:BindItem   FieldName="chkSetNowDT"
+                                BindType="CheckBox"
+                                Width="45"
+                                TextValue="현재"
+                                Foreground="DimGray"
+                                FontWeight="SemiBold"
+                                IsBinding="False"/>
             </x:Array>
 
             <x:Array Type="{x:Type Xpf:BindItem}">
@@ -43,7 +52,9 @@
                                 BindType="ComboBox"
                                 Col="0"
                                 Row="1"
-                                ColSpan="2"/>
+                                ColSpan="2"
+                                DisplayMember="CCC_Name"
+                                ValueMember="CCC_Cd"/>
 
                 <Xpf:BindItem   FieldName="RCP_SubjectName"
                                 BindType="TextBox"
@@ -75,16 +86,16 @@
                             BindType="ComboBox"
                             Col="0"
                             Row="3"
-                            DisplayMember="attrName"
-                            ValueMember="attrValue"/>
+                            DisplayMember="CCC_Name"
+                            ValueMember="CCC_Cd"/>
 
             <Xpf:BindItem   FieldName="RCP_Route"
                             Header="내 원 경 로"
                             BindType="ComboBox"
                             Col="1"
                             Row="3"
-                            DisplayMember="attrName"
-                            ValueMember="attrValue"/>
+                            DisplayMember="CCC_Name"
+                            ValueMember="CCC_Cd"/>
 
             <x:Array Type="{x:Type Xpf:BindItem}">
                 <Xpf:BindItem   FieldName="RCP_InsuranceType"
@@ -92,7 +103,9 @@
                                 BindType="ComboBox"
                                 Col="0"
                                 Row="4"
-                                ColSpan="2"/>
+                                ColSpan="2"
+                                DisplayMember="CCC_Name"
+                                ValueMember="CCC_Cd"/>
 
                 <Xpf:BindItem   FieldName="btnSetIRC"
                                 BindType="Button"
@@ -120,8 +133,8 @@
                         Content="접수취소"
                         Glyph="/Images/smartemr_cancel.png"
                         Width="90"
-                        MinHeight="23"
-                        Height="23"
+                        MinHeight="24"
+                        Height="24"
                         Margin="2,0,0,0"
                         Command="{Binding SetReceptionCommand}"
                         CommandParameter="DELETE"
@@ -129,28 +142,23 @@
 
             <Xpf:Button x:Name="btnSaveRCP"
                         Grid.Column="2"
-                        Glyph="/Images/smartemr_cancel.png"
+                        Content="접수등록"
+                        Glyph="/Images/smartemr_save.png"
                         Width="90"
-                        MinHeight="23"
-                        Height="23"
+                        MinHeight="24"
+                        Height="24"
                         Margin="0,0,2,0"
                         Command="{Binding SetReceptionCommand}"
                         CommandParameter="SAVE">
-
-                <Xpf:Button.Content>
-                    <Xpf:TextBlock>
-                        <Run>접수</Run>
-                        <Run Text="{Binding RCPItem.RCP_Idx, RelativeSource={RelativeSource AncestorType={x:Type desk:vSmartEMRDeskRCPInfo}}, Converter={common:IntoToContentConveter}}"/>
-                    </Xpf:TextBlock>
-                </Xpf:Button.Content>
             </Xpf:Button>
         </Xpf:StyleGrid>
 
         <Xpf:MaskControl    x:Name="MaskControl"
                             Grid.RowSpan="2"
-                            MaskText="환자선택후 접수 등록할 수 있습니다."
+                            MaskText="환자선택후 접수 등록할 수 있습니다."                            
+                            MaskVisibility="{Binding RCPItem.RCP_Idx, RelativeSource={RelativeSource AncestorType={x:Type desk:vSmartEMRDeskRCPInfo}}, Converter={converter:IntToVisibilityConverter invert=True}}"
                             ButtonText="접수등록"
                             ButtonImage="/Images/smartemr_register.png"
-                            MaskVisibility="{Binding RCPItem.RCP_Idx, RelativeSource={RelativeSource AncestorType={x:Type desk:vSmartEMRDeskRCPInfo}}, Converter={converter:IntToVisibilityConverter invert=True}}"/>
+                            ButtonCommand="{Binding ShowRCPInfoCommand, RelativeSource={RelativeSource AncestorType={x:Type desk:vSmartEMRDeskRCPInfo}}}"/>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

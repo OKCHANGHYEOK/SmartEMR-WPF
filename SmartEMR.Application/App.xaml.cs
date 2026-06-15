@@ -18,7 +18,7 @@ namespace SmartEMR.Application
 
         private const int MUR_Idx = 100000;
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             _mutex = new Mutex(true, AppName, out bool isNewInstance);
 
@@ -56,6 +56,8 @@ namespace SmartEMR.Application
                 return;
             }
 
+            await InitializeAppData();
+
             var manager = SplashScreenManager.CreateThemed();
 
             manager.Show();
@@ -81,6 +83,12 @@ namespace SmartEMR.Application
             
             return loginWindow.ShowDialog() ?? false;
 #endif 
+        }
+
+        private async Task InitializeAppData()
+        {
+            await SmartMVVM.Master.Initialize();
+            await SmartMVVM.Common.Initialize();
         }
 
         protected override void OnExit(ExitEventArgs e)

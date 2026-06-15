@@ -291,7 +291,7 @@ public partial class BindGrid : StyleGrid, IDisposable
                     DateEditType.Date => new DateEdit { },
                     DateEditType.Time => new DateEdit 
                     {
-                        Mask = "tt HH:mm",
+                        Mask = "tt hh:mm",
                         MaskUseAsDisplayFormat=true,
                         MaskType = DevExpress.Xpf.Editors.MaskType.DateTime,
                         StyleSettings = new DateEditTimePickerStyleSettings()
@@ -312,6 +312,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         visualChild.HorizontalAlignment = bindItem.HAlignment;
         visualChild.VerticalAlignment = bindItem.VAlignment;
         visualChild.Margin = (Thickness)((bindItem.Margin == null) ? new Thickness(this.ItemSpace) : bindItem.Margin);
+        visualChild.IsEnabled = bindItem.IsEnabled;
 
         if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
             visualChild.SetValue(BackgroundProperty, bg);
@@ -321,7 +322,14 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         if (bindItem.IsBindClickEvent)
         {
-            if (visualChild is Button button) button.Click += OnBindClick;
+            if (visualChild is Button button) 
+            {
+                button.Click += OnBindClick;
+            }
+            else if (visualChild is CheckEdit chkEdit)
+            {
+                chkEdit.PreviewMouseLeftButtonDown += OnBindClick;
+            }
             else visualChild.MouseLeftButtonDown += OnBindClick;
         }
 

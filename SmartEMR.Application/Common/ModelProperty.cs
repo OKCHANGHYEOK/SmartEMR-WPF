@@ -110,16 +110,17 @@ public class ModelProperty
     public void SetReceptionData(Reception oldItem, Reception newItem)
     {
         oldItem.RCP_Idx = newItem.RCP_Idx.GetValueOrDefault(0);
-        oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC;
-        oldItem.MUR_Idx_STF = newItem.MUR_Idx_STF;
+        oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC.GetValueOrDefault(0);
+        oldItem.MUR_Idx_STF = newItem.MUR_Idx_STF.GetValueOrDefault(0);
         oldItem.RES_Idx = newItem.RES_Idx;
         oldItem.RCP_VisitType = newItem.RCP_VisitType;
         oldItem.RCP_Status = newItem.RCP_Status;
         oldItem.RCP_Route = newItem.RCP_Route;
         oldItem.RCP_Subject = newItem.RCP_Subject;
+        oldItem.RCP_SubjectName = newItem.RCP_SubjectName;
         oldItem.RCP_InsuranceType = newItem.RCP_InsuranceType;
-        oldItem.RCP_ReceiptDate = newItem.RCP_ReceiptDate;
-        oldItem.RCP_ReceiptTime = newItem.RCP_ReceiptTime;
+        oldItem.RCP_ReceiptDate = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptDate) ? DateTime.Now.ToString("yyyy-MM-dd") : newItem.RCP_ReceiptDate;
+        oldItem.RCP_ReceiptTime = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptTime) ? DateTime.Now.ToString("HH:mm") : newItem.RCP_ReceiptTime;
         oldItem.RCP_StartTreatTime = newItem.RCP_StartTreatTime;
         oldItem.RCP_EndTreatTime = newItem.RCP_EndTreatTime;
         oldItem.RCP_Memo = newItem.RCP_Memo;

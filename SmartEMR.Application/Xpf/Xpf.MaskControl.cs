@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
 public class MaskControl : CustomControl
 {
-    public string? MaskText { get; set; }
     public string? ButtonText { get; set; }
     public ImageSource? ButtonImage { get; set; }
 
@@ -24,6 +24,15 @@ public class MaskControl : CustomControl
         }
     }
 
+    public static readonly DependencyProperty MaskTextProperty =
+        DependencyProperty.Register(nameof(MaskText), typeof(string), typeof(MaskControl), new PropertyMetadata(string.Empty, null));
+
+    public string? MaskText 
+    {
+        get => (string)GetValue(MaskTextProperty);
+        set => SetValue(MaskTextProperty, value);
+    }
+
     public static readonly DependencyProperty MaskVisibilityProperty =
         DependencyProperty.Register(nameof(MaskVisibility), typeof(Visibility), typeof(MaskControl), new PropertyMetadata(Visibility.Visible, null));
 
@@ -31,6 +40,15 @@ public class MaskControl : CustomControl
     {
         get => (Visibility)GetValue(MaskVisibilityProperty);
         set => SetValue(MaskVisibilityProperty, value);
+    }
+
+    public static readonly DependencyProperty ButtonCommandProperty =
+        DependencyProperty.Register(nameof(ButtonCommand), typeof(IRelayCommand), typeof(MaskControl), new PropertyMetadata(null, null));
+
+    public IRelayCommand ButtonCommand
+    {
+        get => (IRelayCommand)GetValue(ButtonCommandProperty);
+        set => SetValue(ButtonCommandProperty, value);
     }
 
     static MaskControl()

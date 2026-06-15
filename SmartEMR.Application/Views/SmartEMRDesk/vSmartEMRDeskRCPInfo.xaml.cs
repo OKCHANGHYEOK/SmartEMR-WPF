@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using System.Windows;
 
 namespace SmartEMR.Application.Views.SmartEMRDesk
 {
@@ -31,19 +32,23 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         protected override void SetBindGrid()
         {
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Height = 32;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Margin = new Thickness(2, 0, 2, 0);
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Height = 38;
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Margin = new Thickness(2);
 
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.ItemsSource = vm.arrMUR_DOC;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.SelectedIndex = 0;
-
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_STF")?.ItemsSource = vm.arrMUR_STF;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_STF")?.SelectedIndex = 0;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Subject")?.ItemsSource = vm.arrRCP_Subject;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_VisitType")?.ItemsSource = vm.arrRCP_VisitType;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Route")?.ItemsSource = vm.arrRCP_Route;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_InsuranceType")?.ItemsSource = vm.arrRCP_InsuranceType;
+
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.Margin = new Thickness(1);
+
+            this.BindGrids[0].GetBindItem<CheckEdit>("chkSetNowDT")?.EditValueChanged += OnEditValueChanged_CheckBoxEdit;
         }
 
         public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
         {
-            // 클릭 이벤트 구현
         }
 
         public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
@@ -95,6 +100,12 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             SetReceptionData(retRCP);
         }
 
+        [RelayCommand]
+        private void ShowRCPInfo()
+        {
+            MaskControl.Visibility = Visibility.Collapsed;
+        }
+
         private void SetReceptionData(Reception? item)
         {
             if (item == null)
@@ -106,12 +117,39 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             if (RCPItem.RCP_Idx == 0)
             {
+                RCPItem.RCP_Subject = "GNR";
+                RCPItem.RCP_VisitType = "FIR";
+                RCPItem.RCP_Route = "DSK";
+                RCPItem.RCP_InsuranceType = "NOR";
+
                 MaskControl.MaskText = "오늘 날짜의 접수내역이 없습니다.";
                 MaskControl.ShowButton = true;
             }
             else
             {
+                btnSaveRCP.Content = "접수수정";
+
                 MaskControl.MaskVisibility = Visibility.Collapsed;
+            }
+        }
+
+        private void OnEditValueChanged_CheckBoxEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            var element = sender as CheckEdit;
+            if (element == null) return;
+
+            if (element.IsChecked.GetValueOrDefault(true))
+            {
+                this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptDate")?.IsEnabled = false;
+                this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptTime")?.IsEnabled = false;
+
+                RCPItem.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+                RCPItem.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+            }
+            else
+            {
+                this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptDate")?.IsEnabled = true;
+                this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptTime")?.IsEnabled = true;
             }
         }
     }
