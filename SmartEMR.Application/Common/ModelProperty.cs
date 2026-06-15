@@ -106,4 +106,22 @@ public class ModelProperty
         oldItem.NEXT_CHT_Idx_RES = newItem.NEXT_CHT_Idx_RES;
         oldItem.NEXT_CHT_DATE_RES = newItem.NEXT_CHT_DATE_RES;
     }
+
+    public void SetReceptionData(Reception oldItem, Reception newItem)
+    {
+        oldItem.RCP_Idx = newItem.RCP_Idx.GetValueOrDefault(0);
+        oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC;
+        oldItem.MUR_Idx_STF = newItem.MUR_Idx_STF;
+        oldItem.RES_Idx = newItem.RES_Idx;
+        oldItem.RCP_VisitType = newItem.RCP_VisitType;
+        oldItem.RCP_Status = newItem.RCP_Status;
+        oldItem.RCP_Route = newItem.RCP_Route;
+        oldItem.RCP_Subject = newItem.RCP_Subject;
+        oldItem.RCP_InsuranceType = newItem.RCP_InsuranceType;
+        oldItem.RCP_ReceiptDate = newItem.RCP_ReceiptDate;
+        oldItem.RCP_ReceiptTime = newItem.RCP_ReceiptTime;
+        oldItem.RCP_StartTreatTime = newItem.RCP_StartTreatTime;
+        oldItem.RCP_EndTreatTime = newItem.RCP_EndTreatTime;
+        oldItem.RCP_Memo = newItem.RCP_Memo;
+    }
 }

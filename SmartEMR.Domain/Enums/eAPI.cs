@@ -12,5 +12,7 @@ public enum  eAPI
     Patient_SetPatient = 6,
     Chart_GetChart = 7,
     Chart_SetChart = 8,
-    ChartCommonCode_GetChartCommonCode = 9
+    ChartCommonCode_GetChartCommonCode = 9,
+    Reception_GetReception = 10,
+    Reception_SetReception = 11
 }

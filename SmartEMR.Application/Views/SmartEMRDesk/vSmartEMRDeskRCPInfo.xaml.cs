@@ -1,8 +1,10 @@
 ﻿using System.Windows;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.Views.SmartEMRDesk
 {
@@ -19,9 +21,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
         }
 
+        public Patient PATItem { get; set; } = new();
+
         protected override void Initialize()
         {
-
+            MaskControl.ShowButton = false;
         }
 
         protected override void SetBindGrid()
@@ -65,6 +69,49 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     }
 
                     break;
+            }
+        }
+
+        public override async Task SetPatientData(Patient item)
+        {
+            if (item.PAT_Idx.GetValueOrDefault(0) == 0) return;
+
+            // 환자 정보 세팅
+            SmartMVVM.ModelProperty.SetPatientData(PATItem, item);
+
+            // 오늘 날짜의 접수정보 조회
+            var getRCP = new Reception
+            {
+                PAT_Idx = item.PAT_Idx,
+                RCP_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd")
+            };
+
+            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
+            if (SmartMVVM.DataStore.retIsSuccess == false)
+            {
+                SmartUI.SetNofification("접수 정보를 불러오지 못했습니다.", NotificationType.Error);
+            }
+
+            SetReceptionData(retRCP);
+        }
+
+        private void SetReceptionData(Reception? item)
+        {
+            if (item == null)
+            {
+                item = new Reception();
+            }
+
+            SmartMVVM.ModelProperty.SetReceptionData(RCPItem, item);
+
+            if (RCPItem.RCP_Idx == 0)
+            {
+                MaskControl.MaskText = "오늘 날짜의 접수내역이 없습니다.";
+                MaskControl.ShowButton = true;
+            }
+            else
+            {
+                MaskControl.MaskVisibility = Visibility.Collapsed;
             }
         }
     }

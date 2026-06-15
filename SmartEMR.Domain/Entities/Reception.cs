@@ -29,6 +29,8 @@ public class Reception : BaseEntity
     private string? m_RCP_StartTreatTime;
     private string? m_RCP_EndTreatTime;
     private string? m_RCP_Memo;
+    private string? m_RCP_Date;
+    private string? m_RCP_YYMMDD;
     private bool? m_RCP_IsValid;
 
     #region "NotifyPropertyChanged"
@@ -175,6 +177,18 @@ public class Reception : BaseEntity
     {
         get => m_RCP_Memo;
         set => SetProperty(ref m_RCP_Memo, value);
+    }
+
+    public string? RCP_Date
+    {
+        get => m_RCP_Date;
+        set => SetProperty(ref m_RCP_Date, value);
+    }
+
+    public string? RCP_YYMMDD
+    {
+        get => m_RCP_YYMMDD;
+        set => SetProperty(ref m_RCP_YYMMDD, value);
     }
 
     public bool? RCP_IsValid

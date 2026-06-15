@@ -26,7 +26,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         {
         }
 
-        public void UpdatePatient(Patient item)
+        public override async Task SetPatientData(Patient item)
         {
             if (Model.PAT_Idx == item.PAT_Idx) return;
 

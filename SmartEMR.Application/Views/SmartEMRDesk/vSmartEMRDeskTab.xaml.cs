@@ -29,7 +29,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 var paramItem = request.MessageParameter as Patient;
                 if (paramItem == null) return null;
 
-                SmartEMRDeskPATView.UpdatePatient(paramItem);
+                await SmartEMRDeskPATView.SetPatientData(paramItem);
+                await SmartEMRRCPInfo.SetPatientData(paramItem);
 
                 break;
 

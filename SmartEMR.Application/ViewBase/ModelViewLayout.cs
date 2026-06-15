@@ -167,4 +167,6 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
             SetBindGrid();
         };
     }
+
+    public virtual Task SetPatientData(Patient item) { return Task.CompletedTask; }
 }

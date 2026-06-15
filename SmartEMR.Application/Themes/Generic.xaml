@@ -373,4 +373,29 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type Xpf:MaskControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Xpf:MaskControl}">
+                    <Xpf:StyleGrid  Background="#F8F8F8"
+                                    Opacity="0.9"
+                                    Visibility="{Binding MaskVisibility, RelativeSource={RelativeSource TemplatedParent}}">
+
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <Xpf:Label  Content="{Binding MaskText, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                            <Xpf:Button x:Name="PART_BUTTON"
+                                        Content="{Binding ButtonText, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Glyph="{Binding ButtonImage, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Width="90"
+                                        Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Xpf:StyleGrid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
