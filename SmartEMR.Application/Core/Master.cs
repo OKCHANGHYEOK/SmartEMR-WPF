@@ -28,11 +28,12 @@ public class Master
     {
         var MURItem = new MemberUser
         {
-            MEM_Idx = SmartMVVM.AppSession.Member?.MEM_Idx
+            MEM_Idx = SmartMVVM.AppSession.Member?.MEM_Idx,
+            MUR_Role = "USR"
         };
 
         var retMUR = await SmartMVVM.DataStore.GetItems<MemberUser>(eAPI.MemberUser_GetMemberUser, MURItem);
-        if (retMUR == null || retMUR.Any())
+        if (retMUR == null || !retMUR.Any())
         {
             SmartUI.SetNofification("직원 정보를 불러오지 못했습니다.", NotificationType.Error);
             return;
@@ -92,7 +93,7 @@ public class Master
             arrMUR.Add(new MemberUser { MUR_Idx = 0, MUR_Name = defaultText });
         }
 
-        var targetItems = _arrMUR.Where(x => x.MUR_JobCode == MUR_JobCode);
+        var targetItems = _arrMUR.Where(x => x.MUR_JobCode == MUR_JobCode).AsQueryable();
         if (targetItems.Any())
         {
             arrMUR.AddRange(targetItems);

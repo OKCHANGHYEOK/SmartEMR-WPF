@@ -16,19 +16,22 @@
                         d:DesignHeight="450" d:DesignWidth="800">
     
     <Xpf:StyleGrid  x:Name="LayoutRoot"
-                    LayoutDefinitions="1,1">
+                    LayoutDefinitions="1,2"
+                    RowSizeDefinitions="1*,Auto">
 
         <Xpf:BindGrid   Grid.Row="0"
-                        LayoutDefinitions="2,5"
+                        LayoutDefinitions="2,8"
                         BindStyle="DataCell"
                         ItemSpace="2">
 
-            <Xpf:BindItem   FieldName="IRC_Type"
+            <Xpf:BindItem   FieldName="vIRC_Type"
                             Header="보 험 구 분"
                             BindType="Label"
                             Col="0"
                             Row="0"
                             ColSpan="2"
+                            FontSize="12"
+                            HAlignment="Left"
                             FontWeight="Bold"/>
 
             <Xpf:BindItem   FieldName="IRC_CertNum"
@@ -43,7 +46,6 @@
                             BindType="TextBox"
                             Col="0"
                             Row="2"/>
-
 
             <x:Array Type="{x:Type Xpf:BindItem}">
                 <Xpf:BindItem   FieldName="IRC_InsuredName"
@@ -68,7 +70,8 @@
                                 DisplayMember="IRC_CoName"
                                 ValueMember="IRC_CoName"
                                 Col="0"
-                                Row="3"/>
+                                Row="3"
+                                ColSpan="2"/>
 
                 <Xpf:BindItem   FieldName="IRC_CoName"
                                 BindType="TextBox"
@@ -77,21 +80,56 @@
                                 IsEnabled="False"/>
             </x:Array>
 
-            <Xpf:BindItem   FieldName="IRC_EffectiveYYMMDD"
-                            Header="유 효 일 자"
-                            BindType="DateEdit"
-                            Col="0"
-                            Row="4"/>
+            <x:Array Type="{x:Type Xpf:BindItem}">
+                <Xpf:BindItem   FieldName="IRC_EffectiveYYMMDD"
+                                Header="유 효 기 간"
+                                BindType="DateEdit"
+                                Col="0"
+                                Row="4"
+                                ColSpan="2"/>
 
-            <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDDD"
-                            Header="만 료 일 자"
-                            BindType="DateEdit"
-                            Col="1"
-                            Row="4"/>
+                <Xpf:BindItem   FieldName=""
+                                BindType="Label"
+                                TextValue="-"
+                                FontSize="10"
+                                Width="10"
+                                IsBinding="False"/>
+
+                <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDDD"
+                                BindType="DateEdit"/>
+            </x:Array>
+
+            <Xpf:BindItem   FieldName="IRC_Specific"
+                            Header="특 정 내 역"
+                            Col="0"
+                            Row="5"
+                            ColSpan="2"
+                            RowSpan="3"
+                            ContentAlignment="LeftTop"/>
         </Xpf:BindGrid>
 
-        <Xpf:MaskControl    x:Name="MaskControl"
-                            Grid.RowSpan="2"
-                            MaskText="접수정보 - 비보험외의 보험을 선택시 활성화됩니다."/>
+        <Xpf:StyleGrid  Grid.Row="1"
+                        LayoutDefinitions="1,1"
+                        Margin="0,2,0,2">
+
+            <Xpf:Button x:Name="btnClear"
+                        Grid.Column="0"
+                        Content="초기화"
+                        Glyph="/Images/smartemr_paper.png"
+                        Width="90"
+                        MinHeight="24"
+                        Height="24"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,2,0"
+                        Click="OnClick_Button"/>
+        </Xpf:StyleGrid>
+
+        <Xpf:MaskControl    x:Name="MaskControl" Grid.RowSpan="2">
+            <Xpf:TextBlock TextAlignment="Center">
+                <Run>접수정보에서 비보험외의 보험 선택후</Run>
+                <LineBreak/>
+                <Run>상세입력 클릭 시 활성화됩니다.</Run>
+            </Xpf:TextBlock>
+        </Xpf:MaskControl>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

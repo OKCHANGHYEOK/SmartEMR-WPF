@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpf.Core.Native;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using System.Windows;
@@ -91,12 +90,14 @@ public class TextFocusBehavior
         }
     }
 
-    public static void SetFocusToNext(TextEdit element)
+    public static bool SetFocusToNext(TextEdit element)
     {
-        if (element == null) return;
+        if (element == null || element.AcceptsReturn == true)
+            return false;
 
         var currentElement = element as UIElement;
-        if (currentElement == null) return;
+        if (currentElement == null)
+            return false;
 
         // WPF 표준 탐색 요청 객체 생성 (Next = 다음 탭 인덱스)
         var request = new TraversalRequest(FocusNavigationDirection.Next);
@@ -137,5 +138,7 @@ public class TextFocusBehavior
             // 그 컨트롤을 기준점으로 삼아 다음 칸으로 한 번 더 이동하도록 갱신합니다.
             currentElement = newFocused;
         }
+
+        return true;
     }
 }

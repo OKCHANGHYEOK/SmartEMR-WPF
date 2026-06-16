@@ -59,9 +59,9 @@
                 <Xpf:BindItem   FieldName="RCP_SubjectName"
                                 BindType="TextBox"
                                 Width="100"
-                                Height="26"
                                 FontSize="12"
                                 Placeholder="직접입력"
+                                VAlignment="Center"
                                 IsEnabled="False"/>
             </x:Array>
 
@@ -112,6 +112,7 @@
                                 TextValue="상세입력"
                                 FontSize="12"
                                 Width="80"
+                                IsEnabled="False"
                                 IsBindClickEvent="True"/>
             </x:Array>
 
@@ -120,7 +121,8 @@
                             Col="0"
                             Row="5"
                             ColSpan="2"
-                            RowSpan="3"/>
+                            RowSpan="3"
+                            ContentAlignment="LeftTop"/>
         </Xpf:BindGrid>
 
         <Xpf:StyleGrid  Grid.Row="1"

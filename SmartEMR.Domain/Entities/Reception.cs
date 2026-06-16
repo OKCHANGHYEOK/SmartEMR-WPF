@@ -33,6 +33,8 @@ public class Reception : BaseEntity
     private string? m_RCP_YYMMDD;
     private bool? m_RCP_IsValid;
 
+    private Insurance? m_IRCItem;
+
     #region "NotifyPropertyChanged"
 
     public int? RCP_Idx
@@ -195,6 +197,12 @@ public class Reception : BaseEntity
     {
         get => m_RCP_IsValid;
         set => SetProperty(ref m_RCP_IsValid, value);
+    }
+
+    public Insurance? IRCItem
+    {
+        get => m_IRCItem;
+        set => SetProperty(ref m_IRCItem, value);
     }
 
     #endregion

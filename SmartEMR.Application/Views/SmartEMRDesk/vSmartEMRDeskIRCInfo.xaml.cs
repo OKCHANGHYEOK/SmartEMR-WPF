@@ -1,10 +1,8 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 using System.Windows;
 
 namespace SmartEMR.Application.Views.SmartEMRDesk
@@ -14,6 +12,14 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// </summary>
     public partial class vSmartEMRDeskIRCInfo : ModelViewLayout<SmartEMRIRCInfoViewModel>
     {
+        public Insurance IRCItem
+        {
+            get
+            {
+                return vm.Model;
+            }
+        }
+
         public Patient PATItem { get; set; } = new();
 
         protected override void Initialize()
@@ -23,6 +29,18 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         protected override void SetBindGrid()
         {
+            this.BindGrids[0].GetBindItem<Label>("vIRC_Type")?.HorizontalContentAlignment = HorizontalAlignment.Left;
+
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_Coperation")?.ItemsSource = vm.arrIRC_Coperation;
+
+            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Height = 38;
+            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Margin = new Thickness(1, 0, 1, 0);
+
+            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CertNum")?.Margin = new Thickness(1);
+            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_ContractorName")?.Margin = new Thickness(1);
+            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_InsuredName")?.Margin = new Thickness(1);
+            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_Specific")?.Margin = new Thickness(1);
         }
 
         public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
@@ -47,9 +65,51 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         }
 
-        public void ClearData()
+        public void ShowIRCInfo()
         {
+            MaskControl.Visibility = Visibility.Collapsed;
+        }
 
+        public void SetInsuranceType(string IRC_Type)
+        {
+            IRCItem.IRC_Type = IRC_Type;
+            IRCItem.vIRC_Type = SmartMVVM.Common.GetChartCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCC_Cd == IRC_Type)?.CCC_Name;
+        }
+
+        public void ClearData(bool isClearIRCType = true)
+        {
+            IRCItem.IRC_Idx = 0;
+            IRCItem.PAT_Idx = 0;
+            IRCItem.RCP_Idx = 0;
+            IRCItem.IRC_CertNum = "";
+            IRCItem.IRC_ContractorName = "";
+            IRCItem.IRC_InsuredName = "";
+            IRCItem.IRC_Coperation = "";
+            IRCItem.IRC_CoName = "";
+            IRCItem.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
+            IRCItem.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
+
+            if (isClearIRCType)
+            {
+                IRCItem.IRC_Type = "NOR";
+                IRCItem.vIRC_Type = "비보험";
+            }
+        }
+
+        private void OnClick_Button(object sender, RoutedEventArgs e)
+        {
+            var element = sender as Button;
+            if (element == null) return;
+
+            switch (element.Name)
+            {
+                case "btnClear":
+                    if (SmartUI.MsgYesNo("보험구분을 제외한 정보가 초기화됩니다. 초기화하시겠습니까?") != MessageBoxResult.Yes) return;
+
+                    ClearData(false);
+
+                    break;
+            }
         }
     }
 }

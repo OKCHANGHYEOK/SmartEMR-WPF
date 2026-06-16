@@ -13,8 +13,9 @@ public class BindingExtensions
         DependencyProperty? dp = element switch
         {
             _ when element is StyleTextBox => StyleTextBox.TextProperty,
-            _ when element is Xpf.TextBox => Xpf.TextBox.TextProperty,
-            _ when element is Xpf.Image => Xpf.Image.SourceProperty,
+            _ when element is Label => Label.ContentProperty,
+            _ when element is TextBox => TextBox.TextProperty,
+            _ when element is Image => Image.SourceProperty,
             _ when element is CheckEdit => CheckEdit.IsCheckedProperty,
             _ when element is ComboBoxEdit => ComboBoxEdit.EditValueProperty,
             _ when element is DateEdit => DateEdit.EditValueProperty,

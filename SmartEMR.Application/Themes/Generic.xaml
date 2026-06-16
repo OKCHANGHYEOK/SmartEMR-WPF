@@ -386,7 +386,7 @@
                     <Xpf:StyleGrid  Background="#F8F8F8"
                                     Opacity="0.9"
                                     Visibility="{Binding MaskVisibility, RelativeSource={RelativeSource TemplatedParent}}">
-
+    
                         <StackPanel Orientation="Vertical"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
@@ -399,6 +399,10 @@
                                         Margin="0,4,0,0"
                                         Command="{Binding ButtonCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </StackPanel>
+
+                        <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
                     </Xpf:StyleGrid>
                 </ControlTemplate>
             </Setter.Value>

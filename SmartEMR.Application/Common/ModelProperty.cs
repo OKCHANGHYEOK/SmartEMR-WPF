@@ -107,6 +107,30 @@ public class ModelProperty
         oldItem.NEXT_CHT_DATE_RES = newItem.NEXT_CHT_DATE_RES;
     }
 
+    public Reception GetReceptionDataForSave(Reception paramItem)
+    {
+        Reception item = new Reception 
+        {
+            RCP_Idx = paramItem.RCP_Idx,
+            MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
+            MUR_Idx_STF = paramItem.MUR_Idx_STF,
+            RES_Idx = paramItem.RES_Idx,
+            RCP_VisitType = paramItem.RCP_VisitType,
+            RCP_Status = string.IsNullOrWhiteSpace(paramItem.RCP_Status) ? "RDY" : paramItem.RCP_Status,
+            RCP_Route = paramItem.RCP_Route,
+            RCP_Subject = paramItem.RCP_Subject,
+            RCP_SubjectName = paramItem.RCP_SubjectName,
+            RCP_ReceiptDate = paramItem.RCP_ReceiptDate,
+            RCP_ReceiptTime = paramItem.RCP_ReceiptTime,
+            RCP_StartTreatTime = paramItem.RCP_StartTreatTime,
+            RCP_EndTreatTime = paramItem.RCP_EndTreatTime,
+            RCP_Memo = paramItem.RCP_Memo,
+            RCP_IsValid = true
+        };
+
+        return item;
+    }
+
     public void SetReceptionData(Reception oldItem, Reception newItem)
     {
         oldItem.RCP_Idx = newItem.RCP_Idx.GetValueOrDefault(0);

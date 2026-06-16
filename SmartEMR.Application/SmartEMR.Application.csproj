@@ -36,6 +36,7 @@
     <None Remove="Images\smartemr_menu_exam.png" />
     <None Remove="Images\smartemr_menu_payment.png" />
     <None Remove="Images\smartemr_menu_settings.png" />
+    <None Remove="Images\smartemr_paper.png" />
     <None Remove="Images\smartemr_patient_default_image.png" />
     <None Remove="Images\smartemr_register.png" />
     <None Remove="Images\smartemr_save.png" />
@@ -92,6 +93,7 @@
     <Resource Include="Images\smartemr_delete.png" />
     <Resource Include="Images\smartemr_desk_register.png" />
     <Resource Include="Images\smartemr_edit_patient.png" />
+    <Resource Include="Images\smartemr_paper.png" />
     <Resource Include="Images\smartemr_patient_default_image.png" />
     <Resource Include="Images\smartemr_register.png" />
     <Resource Include="Images\smartemr_save.png" />

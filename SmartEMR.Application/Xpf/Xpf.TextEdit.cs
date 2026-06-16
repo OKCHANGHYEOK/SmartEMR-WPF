@@ -23,9 +23,11 @@ public class TextEdit : DevExpress.Xpf.Editors.TextEdit
 
         if (e.Key == Key.Enter || e.Key == Key.Tab)
         {
-            TextFocusBehavior.SetFocusToNext(element);
-
-            e.Handled = true;
+            bool bFlag = TextFocusBehavior.SetFocusToNext(element);
+            if (bFlag)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

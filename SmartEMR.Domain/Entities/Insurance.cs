@@ -7,6 +7,7 @@ public class Insurance : BaseEntity
     private int? m_PAT_Idx;
     private int? m_RCP_Idx;
     private string? m_IRC_Type;
+    private string? m_vIRC_Type;
     private string? m_IRC_CertNum;
     private string? m_IRC_ContractorName;
     private string? m_IRC_InsuredName;
@@ -46,6 +47,12 @@ public class Insurance : BaseEntity
     {
         get => m_IRC_Type;
         set => SetProperty(ref m_IRC_Type, value);
+    }
+
+    public string? vIRC_Type
+    {
+        get => m_vIRC_Type;
+        set => SetProperty(ref m_vIRC_Type, value);
     }
 
     public string? IRC_CertNum

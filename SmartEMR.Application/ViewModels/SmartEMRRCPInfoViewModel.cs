@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -36,6 +37,43 @@ public partial class SmartEMRRCPInfoViewModel : BaseViewModel<Reception>
     [RelayCommand]
     public async Task SetReception(string operation)
     {
+        if (operation == "DELETE")
+        {
+            await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = Model.RCP_Idx, RCP_IsValid = false });
 
+            if (SmartMVVM.DataStore.retIsSuccess == false)
+            {
+                SmartUI.SetNofification("접수삭제하지 못했습니다.", NotificationType.Error);
+                return;
+            }
+
+            SmartUI.SetNofification("삭제되었습니다.", NotificationType.Success);
+
+            await SmartUI.SendMessage("ClearReception", viewType:TargetViewType.PageView);
+
+            return;
+        }
+
+        var msg = Model.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";
+
+        var RCPItem = SmartMVVM.ModelProperty.GetReceptionDataForSave(Model);
+        var retIRC = await SmartUI.SendMessage<Insurance>("GetIRCItem", viewType:TargetViewType.PageView); 
+        if (retIRC == null)
+        {
+            SmartUI.SetNofification("접수정보 저장중 오류가 발생했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
+            return;
+        }
+
+        RCPItem.IRCItem = retIRC.Item;
+
+        var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, RCPItem);
+
+        if (retRCP == null || SmartMVVM.DataStore.retIsSuccess == false)
+        {
+            SmartUI.SetNofification($"접수{msg}하지 못했습니다.", NotificationType.Error);
+            return;
+        }
+
+        SmartUI.SetNofification($"접수{msg}되었습니다.", NotificationType.Success);
     }
 }

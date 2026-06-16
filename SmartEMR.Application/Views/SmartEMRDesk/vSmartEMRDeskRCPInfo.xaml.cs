@@ -35,8 +35,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<CheckEdit>("chkSetNowDT")?.IsChecked = true;
 
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Height = 40;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Margin = new Thickness(1);
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Height = 38;
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Margin = new Thickness(1,0,1,0);
 
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.ItemsSource = vm.arrMUR_DOC;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_STF")?.ItemsSource = vm.arrMUR_STF;
@@ -46,24 +46,23 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_InsuranceType")?.ItemsSource = vm.arrRCP_InsuranceType;
 
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.Margin = new Thickness(1);
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.AcceptsReturn = true;
         }
 
         public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
         {
-            var bindGrid = sender as BindGrid;
-            if (bindGrid == null) return;
-
             var bindItem = e.bindItem;
             if (bindItem == null) return;
 
             switch (bindItem.FieldName)
             {
                 case "btnSetIRC":
+                    await SmartUI.SendMessage("MoveInsurance", viewType: TargetViewType.PageView);
                     break;
             }
         }
 
-        public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+        public override async void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
         {
             var bindGrid = sender as BindGrid;
             if (bindGrid == null) return;
@@ -72,10 +71,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             if (bindItem == null) return;
 
             var fieldName = bindItem.FieldName;
+            var newValue = e.NewValue?.ToString();
+
             switch (fieldName)
             {
                 case "RCP_Subject":
-                    var newValue = e.NewValue?.ToString();
                     if (!string.IsNullOrWhiteSpace(newValue) && newValue == "ETC")
                     {
                         this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.IsEnabled = true;
@@ -84,6 +84,20 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     {
                         this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.IsEnabled = false;
                     }
+
+                    break;
+
+                case "RCP_InsuranceType":
+                    if (!string.IsNullOrWhiteSpace(newValue) && newValue == "NOR")
+                    {
+                        this.BindGrids[0].GetBindItem<Button>("btnSetIRC")?.IsEnabled = false;
+                    } 
+                    else
+                    {
+                        this.BindGrids[0].GetBindItem<Button>("btnSetIRC")?.IsEnabled = true;
+                    }
+
+                    await SmartUI.SendMessage("SetIRCInfo_InsuranceType", newValue, viewType:TargetViewType.PageView);
 
                     break;
             }

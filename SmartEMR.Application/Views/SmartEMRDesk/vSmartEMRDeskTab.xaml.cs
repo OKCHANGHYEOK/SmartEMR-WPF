@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpf.Core;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -25,13 +24,32 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
         switch (request.MessageAction)
         {
+            case "GetIRCItem":
+                response.Item = SmartEMRDeskIRCInfo.IRCItem;
+                break;
+
             case "SetSelectedPatient":
-                var paramItem = request.MessageParameter as Patient;
-                if (paramItem == null) return null;
+                {
+                    var paramItem = request.MessageParameter as Patient;
+                    if (paramItem == null) return null;
 
-                await SmartEMRDeskPATView.SetPatientData(paramItem);
-                await SmartEMRDeskRCPInfo.SetPatientData(paramItem);
+                    await SmartEMRDeskPATView.SetPatientData(paramItem);
+                    await SmartEMRDeskRCPInfo.SetPatientData(paramItem);
 
+                    break;
+                }
+
+            case "SetIRCInfo_InsuranceType":
+                {
+                    var paramItem = request.MessageParameter?.ToString();
+                    if (paramItem == null) return null;
+
+                    SmartEMRDeskIRCInfo.SetInsuranceType(paramItem);
+                    break;
+                }
+
+            case "MoveInsurance":
+                SmartEMRDeskIRCInfo.ShowIRCInfo();
                 break;
 
             case "ClearPatient":
