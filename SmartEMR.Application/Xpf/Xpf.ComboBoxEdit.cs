@@ -10,5 +10,6 @@ public class ComboBoxEdit : DevExpress.Xpf.Editors.ComboBoxEdit
         this.MinWidth = 40;
         this.VerticalAlignment = VerticalAlignment.Stretch;
         this.HorizontalAlignment = HorizontalAlignment.Center;
+        this.IsTextEditable = false;
     }
 }

@@ -112,6 +112,7 @@ public class ModelProperty
         Reception item = new Reception 
         {
             RCP_Idx = paramItem.RCP_Idx,
+            PAT_Idx = paramItem.PAT_Idx,
             MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
             MUR_Idx_STF = paramItem.MUR_Idx_STF,
             RES_Idx = paramItem.RES_Idx,

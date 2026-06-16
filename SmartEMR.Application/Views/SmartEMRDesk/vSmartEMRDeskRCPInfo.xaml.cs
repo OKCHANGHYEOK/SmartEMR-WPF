@@ -110,6 +110,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             // 환자 정보 세팅
             SmartMVVM.ModelProperty.SetPatientData(PATItem, item);
 
+            RCPItem.PAT_Idx = PATItem.PAT_Idx;
+
             // 오늘 날짜의 접수정보 조회
             var getRCP = new Reception
             {

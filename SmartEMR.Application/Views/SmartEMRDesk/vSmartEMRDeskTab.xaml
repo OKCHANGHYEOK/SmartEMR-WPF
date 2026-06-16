@@ -15,7 +15,7 @@
                         d:DesignHeight="600">
     <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Horizontal">
-            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.6*">
+            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.7*">
                 <dxd:LayoutPanel ItemHeight="0.7*" ShowCaption="False" AllowDrag="False">
                     <view:vSmartEMRDeskPATView x:Name="SmartEMRDeskPATView"/>
                 </dxd:LayoutPanel>
