@@ -24,8 +24,7 @@
                         <view:vSmartEMRDeskRCPInfo x:Name="SmartEMRDeskRCPInfo"/>
                     </dxd:LayoutPanel>
                     <dxd:LayoutPanel Caption="보험정보" ShowPinButton="False" ShowCloseButton="False" AllowDrag="False">
-                        <Xpf:StyleGrid>
-                        </Xpf:StyleGrid>
+                        <view:vSmartEMRDeskIRCInfo x:Name="SmartEMRDeskIRCInfo"/>
                     </dxd:LayoutPanel>
                 </dxd:LayoutGroup>
                 <dxd:LayoutPanel ItemHeight="0.3*" Caption="수납정보">

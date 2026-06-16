@@ -50,6 +50,17 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
         {
+            var bindGrid = sender as BindGrid;
+            if (bindGrid == null) return;
+
+            var bindItem = e.bindItem;
+            if (bindItem == null) return;
+
+            switch (bindItem.FieldName)
+            {
+                case "btnSetIRC":
+                    break;
+            }
         }
 
         public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)

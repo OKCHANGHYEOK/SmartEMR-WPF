@@ -61,6 +61,26 @@ public class Master
         // PAT_IsAgreePersonalInfo
         AddMasterRequest("PAT_IsAgreePersonalInfo", new { attrName = "동의", attrValue = "y" });
         AddMasterRequest("PAT_IsAgreePersonalInfo", new { attrName = "동의안함", attrValue = "n" });
+
+        // IRC_Coperation 
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "삼성화재" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "현대해상" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "DB손해보험" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "KB손해보험" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "메리츠화재" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "삼성생명" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "한화생명" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "NHI/AID", IRC_CoName = "교보생명" });
+
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "TAI", IRC_CoName = "삼성화재" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "TAI", IRC_CoName = "현대해상" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "TAI", IRC_CoName = "DB손해보험" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "TAI", IRC_CoName = "KB손해보험" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "TAI", IRC_CoName = "메리츠화재" });
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "TAI", IRC_CoName = "AXA손해보험" });
+        
+        AddMasterRequest("IRC_Coperation", new Insurance { IRC_Type = "WCI", IRC_CoName = "근로복지공단" });
+
     }
 
     public IQueryable<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")
