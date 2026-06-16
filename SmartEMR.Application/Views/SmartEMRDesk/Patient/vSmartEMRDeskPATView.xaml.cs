@@ -97,7 +97,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             switch (element.Name)
             {
                 case "btnClear":
-                    ClearData();
+                    await SmartUI.SendMessage("ClearPatient", viewType:TargetViewType.PageView);
                     break;
 
                 case "btnMovePAT":

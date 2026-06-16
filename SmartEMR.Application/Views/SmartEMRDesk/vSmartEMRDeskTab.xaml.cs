@@ -30,7 +30,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 if (paramItem == null) return null;
 
                 await SmartEMRDeskPATView.SetPatientData(paramItem);
-                await SmartEMRRCPInfo.SetPatientData(paramItem);
+                await SmartEMRDeskRCPInfo.SetPatientData(paramItem);
 
                 break;
 
@@ -49,6 +49,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         await SmartUI.SendMessageToSearchView("ClearPatient");
 
         SmartEMRDeskPATView.ClearData();
+        SmartEMRDeskRCPInfo.ClearData();
     }
 
     public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)

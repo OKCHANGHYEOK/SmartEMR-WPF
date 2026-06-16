@@ -31,9 +31,12 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         protected override void SetBindGrid()
         {
+            this.BindGrids[0].GetBindItem<CheckEdit>("chkSetNowDT")?.EditValueChanged += OnEditValueChanged_CheckBoxEdit;
+            this.BindGrids[0].GetBindItem<CheckEdit>("chkSetNowDT")?.IsChecked = true;
+
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Height = 38;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Margin = new Thickness(2);
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Height = 40;
+            this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Margin = new Thickness(1);
 
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.ItemsSource = vm.arrMUR_DOC;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_STF")?.ItemsSource = vm.arrMUR_STF;
@@ -43,8 +46,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_InsuranceType")?.ItemsSource = vm.arrRCP_InsuranceType;
 
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.Margin = new Thickness(1);
-
-            this.BindGrids[0].GetBindItem<CheckEdit>("chkSetNowDT")?.EditValueChanged += OnEditValueChanged_CheckBoxEdit;
         }
 
         public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
@@ -70,7 +71,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     }
                     else
                     {
-                        this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.IsEnabled = true;
+                        this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.IsEnabled = false;
                     }
 
                     break;
@@ -98,6 +99,31 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
 
             SetReceptionData(retRCP);
+        }
+
+        public void ClearData()
+        {
+            RCPItem.RCP_Idx = 0;
+            RCPItem.MUR_Idx_DOC = 0;
+            RCPItem.MUR_Idx_STF = 0;
+            RCPItem.RES_Idx = 0;
+            RCPItem.RCP_VisitType = "FIR";
+            RCPItem.RCP_Status = "";
+            RCPItem.RCP_Route = "DSK";
+            RCPItem.RCP_Subject = "GNR";
+            RCPItem.RCP_SubjectName = "";
+            RCPItem.RCP_InsuranceType = "NOR";
+            RCPItem.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+            RCPItem.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+            RCPItem.RCP_StartTreatTime = "";
+            RCPItem.RCP_EndTreatTime = "";
+            RCPItem.RCP_Memo = "";
+
+            PATItem = new();
+
+            MaskControl.MaskText = "환자선택 후 접수 등록할 수 있습니다.";
+            MaskControl.Visibility = Visibility.Visible;
+            MaskControl.ShowButton = false;
         }
 
         [RelayCommand]
