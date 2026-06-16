@@ -37,6 +37,11 @@ public partial class vLayout : ViewLayout
         MainContent = Activator.CreateInstance(T) as IViewLayout ?? default!;
     }
 
+    public void SetIndicatorVisibility(bool visibility)
+    {
+        LayoutWaitIndicator.DeferedVisibility = visibility;
+    }
+
     public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
         var vl = MainContent as ViewLayout;
@@ -54,11 +59,20 @@ public partial class vLayout : ViewLayout
     {
     }
 
-    private void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
+    private async void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {
-        if (e.Key == Key.F6)
+        var vl = sender as vLayout;
+        if (vl == null) return;
+
+        switch (e.Key)
         {
-            SmartUI.SendMessageToSearchView("SetFocusToSearchText");
+            case Key.F5:
+                await SmartUI.RefreshCurrentPage();
+                break;
+
+            case Key.F6:
+                await SmartUI.SendMessageToSearchView("SetFocusToSearchText");
+                break;
         }
     }
 }

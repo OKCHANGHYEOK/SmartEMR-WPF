@@ -2,7 +2,6 @@
 using SmartEMR.Application.Resources;
 using SmartEMR.Application.Services;
 using SmartEMR.Application.ViewBase;
-using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.Windows;
@@ -114,6 +113,36 @@ public static partial class SmartUI
         {
             Mouse.OverrideCursor = null;
             _navigationLock.Release();
+        }
+    }
+
+    public static async Task RefreshCurrentPage()
+    {
+        var currentView = CurrentPageView;
+        if (currentView == null) return;
+
+        var vlayout = CurrentWindow?.Content as vLayout;
+        if (vlayout == null) return;
+
+        vlayout.SetIndicatorVisibility(true);
+
+        Mouse.OverrideCursor = Cursors.Wait;
+
+        try
+        {
+            UIManager.RemoveViewLayout(currentView);
+            await Task.Delay(400);
+
+            if (Activator.CreateInstance(currentView.GetType()) is ViewLayout view)
+            {
+                vlayout.MainContent = view;
+            }
+        }
+        finally 
+        {
+            vlayout.SetIndicatorVisibility(false);
+
+            Mouse.OverrideCursor = null;
         }
     }
 

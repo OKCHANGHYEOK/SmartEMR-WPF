@@ -88,5 +88,19 @@
             </ItemsControl>
         </Xpf:StyleGrid>
         <shared:vSmartEMRNotificationView Width="420" Height="1000" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,5"/>
+
+        <!-- 로딩 인디케이터 -->
+        <dx:WaitIndicator   x:Name="LayoutWaitIndicator"
+                            DeferedVisibility="False"
+                            Content="화면을 불러오는 중입니다..."
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center">
+
+            <dx:WaitIndicator.ContentTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="13" FontWeight="SemiBold"/>
+                </DataTemplate>
+            </dx:WaitIndicator.ContentTemplate>
+        </dx:WaitIndicator>
     </Grid>
 </base:ViewLayout>
