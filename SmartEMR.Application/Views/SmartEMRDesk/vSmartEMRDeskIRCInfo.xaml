@@ -41,26 +41,30 @@
                             Row="1"
                             ColSpan="2"/>
 
-            <Xpf:BindItem   FieldName="IRC_ContractorName"
-                            Header="계  약  자"
-                            BindType="TextBox"
-                            Col="0"
-                            Row="2"/>
 
             <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="IRC_InsuredName"
-                                Header="피 보 험 자"
+                <Xpf:BindItem   FieldName="IRC_ContractorName"
+                                Header="보 험 관 계 자"
                                 BindType="TextBox"
-                                Col="1"
-                                Row="2"/>
+                                Col="0"
+                                Row="2"
+                                ColSpan="2"
+                                Placeholder="가입자명"/>
+
+                <Xpf:BindItem   FieldName="IRC_InsuredName"
+                                BindType="TextBox"
+                                Placeholder="피보험자명"/>
 
                 <Xpf:BindItem   FieldName="chkIsSameAsContractor"
                                 BindType="CheckBox"
-                                TextValue="계약자와 동일"
+                                TextValue="본인"
                                 FontSize="11"
                                 Foreground="DimGray"
-                                FontWeight="SemiBold"
-                                IsBinding="False"/>
+                                FontWeight="DemiBold"
+                                Width="42"
+                                ToolTip="가입자가 본인과 동일함"
+                                IsBinding="False"
+                                IsBindClickEvent="True"/>
             </x:Array>
 
             <x:Array Type="{x:Type Xpf:BindItem}">
@@ -115,7 +119,7 @@
             <Xpf:Button x:Name="btnClear"
                         Grid.Column="0"
                         Content="초기화"
-                        Glyph="/Images/smartemr_paper.png"
+                        Glyph="/Images/smartemr_empty_paper.png"
                         Width="90"
                         MinHeight="24"
                         Height="24"

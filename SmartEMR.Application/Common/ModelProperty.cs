@@ -143,11 +143,24 @@ public class ModelProperty
         oldItem.RCP_Route = newItem.RCP_Route;
         oldItem.RCP_Subject = newItem.RCP_Subject;
         oldItem.RCP_SubjectName = newItem.RCP_SubjectName;
-        oldItem.RCP_InsuranceType = newItem.RCP_InsuranceType;
+        oldItem.RCP_InsuranceType = newItem.IRC_Idx.GetValueOrDefault(0) == 0 ? "NOR" : newItem.IRC_Type;
         oldItem.RCP_ReceiptDate = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptDate) ? DateTime.Now.ToString("yyyy-MM-dd") : newItem.RCP_ReceiptDate;
         oldItem.RCP_ReceiptTime = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptTime) ? DateTime.Now.ToString("HH:mm") : newItem.RCP_ReceiptTime;
         oldItem.RCP_StartTreatTime = newItem.RCP_StartTreatTime;
         oldItem.RCP_EndTreatTime = newItem.RCP_EndTreatTime;
         oldItem.RCP_Memo = newItem.RCP_Memo;
+    }
+
+    public void SetInsuranceData(Insurance oldItem, Insurance newItem)
+    {
+        oldItem.IRC_Idx = newItem.IRC_Idx.GetValueOrDefault(0);
+        oldItem.IRC_Type = newItem.IRC_Type;
+        oldItem.vIRC_Type = SmartMVVM.Common.GetChartCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCC_Cd == newItem.IRC_Type)?.CCC_Name;
+        oldItem.IRC_CertNum = newItem.IRC_CertNum;
+        oldItem.IRC_ContractorName = newItem.IRC_ContractorName;
+        oldItem.IRC_InsuredName = newItem.IRC_InsuredName;
+        oldItem.IRC_Coperation = newItem.IRC_Coperation;
+        oldItem.IRC_EffectiveYYMMDD = newItem.IRC_EffectiveYYMMDD;
+        oldItem.IRC_ExpiredYYMMDDD = newItem.IRC_ExpiredYYMMDDD;
     }
 }

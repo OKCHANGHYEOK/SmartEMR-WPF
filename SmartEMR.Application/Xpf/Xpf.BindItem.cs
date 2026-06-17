@@ -49,6 +49,7 @@ public class BindItem
     public double FontSize { get; set; } = 13;
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;
     public CornerRadius CornerRadius { get; set; } = new CornerRadius(0);
+    public string? ToolTip { get; set; }
 
     public HorizontalAlignment HAlignment { get; set; } = HorizontalAlignment.Stretch;
     public VerticalAlignment VAlignment { get; set; } = VerticalAlignment.Stretch;

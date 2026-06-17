@@ -317,6 +317,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         visualChild.HorizontalAlignment = bindItem.HAlignment;
         visualChild.VerticalAlignment = bindItem.VAlignment;
         visualChild.Margin = (Thickness)((bindItem.Margin == null) ? new Thickness(this.ItemSpace) : bindItem.Margin);
+        visualChild.ToolTip = bindItem.ToolTip;
         visualChild.IsEnabled = bindItem.IsEnabled;
 
         if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
@@ -327,15 +328,7 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         if (bindItem.IsBindClickEvent)
         {
-            if (visualChild is Button button) 
-            {
-                button.Click += OnBindClick;
-            }
-            else if (visualChild is CheckEdit chkEdit)
-            {
-                chkEdit.PreviewMouseLeftButtonDown += OnBindClick;
-            }
-            else visualChild.MouseLeftButtonDown += OnBindClick;
+            AddBindClickEvent(visualChild, bindItem);
         }
 
         if (bindItem.IsBinding == true)
@@ -354,6 +347,35 @@ public partial class BindGrid : StyleGrid, IDisposable
         return visualChild;
     }
 
+    private void AddBindClickEvent(FrameworkElement element, BindItem bindItem)
+    {
+        if (element is Button button)
+        {
+            button.Click += OnBindClick;
+        }
+        else if (element is BaseEdit baseEdit)
+        {
+            baseEdit.EditValueChanging += OnBindClick;
+        }
+        else element.MouseLeftButtonDown += OnBindClick;
+    }
+
+    private void OnBindClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement fe && fe.Tag is BindItem element)
+        {
+            object? newValue = null;
+
+            if (sender is BaseEdit && e is EditValueChangingEventArgs evcArgs)
+            {
+                newValue = evcArgs.NewValue;
+            }
+
+            var args = new BindClickEventArgs(e.RoutedEvent, this, element, newValue);
+            BindGrid_BindClickEvent?.Invoke(this, args);
+        }
+    }
+
     private void OnLostFocus_BindItem(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement fe && fe.Tag is BindItem bindItem)
@@ -361,7 +383,6 @@ public partial class BindGrid : StyleGrid, IDisposable
             var value = fe is StyleTextBox stb ? stb.Text : null;
         }
     }
-
 
     public T? GetBindItem<T>(string fieldName) where T : FrameworkElement
     {
@@ -385,15 +406,6 @@ public partial class BindGrid : StyleGrid, IDisposable
         }
 
         return default!;
-    }
-
-    private void OnBindClick(object sender, RoutedEventArgs e)
-    {
-        if (sender is FrameworkElement fe && fe.Tag is BindItem element)
-        {
-            var args = new BindClickEventArgs(e.RoutedEvent, this, element);
-            BindGrid_BindClickEvent?.Invoke(this, args);
-        }
     }
 
     public void Dispose(bool disposedValue)
@@ -464,17 +476,18 @@ public partial class BindGrid
         }
         _trackedProperties.Clear();
     }
-
-    // 💡 4. 이벤트 아규먼트 클래스 정의
-
 }
 
 public class BindClickEventArgs : RoutedEventArgs
 {
     public BindItem BindItem { get; }
-    public BindClickEventArgs(RoutedEvent routedEvent, object source, BindItem item) : base(routedEvent, source)
+    public object? NewValue { get; }
+
+    public BindClickEventArgs(RoutedEvent routedEvent, object source, BindItem item, object? newValue = null) 
+        : base(routedEvent, source)
     {
         BindItem = item;
+        NewValue = newValue;
     }
 }
 

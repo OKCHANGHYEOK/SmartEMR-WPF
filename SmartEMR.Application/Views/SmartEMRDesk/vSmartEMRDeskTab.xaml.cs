@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using System.Windows;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -39,7 +40,17 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     break;
                 }
 
-            case "SetIRCInfo_InsuranceType":
+            case "SetInsurance":
+                {
+                    var paramItem = request.MessageParameter as Insurance;
+                    if (paramItem == null) return null;
+
+                    SmartEMRDeskIRCInfo.SetInsurance(paramItem);
+
+                    break;
+                }
+
+            case "SetInsuranceType":
                 {
                     var paramItem = request.MessageParameter?.ToString();
                     if (paramItem == null) return null;
@@ -49,7 +60,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 }
 
             case "MoveInsurance":
-                SmartEMRDeskIRCInfo.ShowIRCInfo();
+                SmartEMRDeskIRCInfo.SetMaskVisibility(Visibility.Collapsed);
                 break;
 
             case "ClearPatient":

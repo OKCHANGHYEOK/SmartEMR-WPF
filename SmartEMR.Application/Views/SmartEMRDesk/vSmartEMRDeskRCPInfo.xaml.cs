@@ -100,10 +100,28 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                         this.BindGrids[0].GetBindItem<Button>("btnSetIRC")?.IsEnabled = true;
                     }
 
-                    await SmartUI.SendMessage("SetIRCInfo_InsuranceType", newValue, viewType:TargetViewType.PageView);
+                    await SmartUI.SendMessage("SetInsuranceType", newValue, viewType:TargetViewType.PageView);
 
                     break;
             }
+        }
+
+        public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+        {
+            var response = new ViewMessageResponse { IsSuccess = false };
+
+            switch (request.MessageAction)
+            {
+                case "SetReception":
+                    var paramItem = request.MessageParameter as Reception;
+                    if (paramItem == null) return null;
+
+                    SetReceptionData(paramItem);
+
+                    break;
+            }
+
+            return response;
         }
 
         public override async Task SetPatientData(Patient item)
@@ -123,12 +141,27 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             };
 
             var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
-            if (SmartMVVM.DataStore.retIsSuccess == false)
+            if (retRCP != null)
             {
-                SmartUI.SetNofification("접수 정보를 불러오지 못했습니다.", NotificationType.Error);
-            }
+                SetReceptionData(retRCP);
 
-            SetReceptionData(retRCP);
+                if (retRCP.IRC_Idx.GetValueOrDefault(0) > 0)
+                {
+                    var IRCItem = new Insurance
+                    {
+                        IRC_Idx = retRCP.IRC_Idx,
+                        IRC_Type = retRCP.IRC_Type,
+                        IRC_CertNum = retRCP.IRC_CertNum,
+                        IRC_InsuredName = retRCP.IRC_InsuredName,
+                        IRC_Coperation = retRCP.IRC_Coperation,
+                        IRC_CoName = retRCP.IRC_CoName,
+                        IRC_EffectiveYYMMDD = retRCP.IRC_EffectiveYYMMDD,
+                        IRC_ExpiredYYMMDDD = retRCP.IRC_ExpiredYYMMDDD
+                    };
+
+                    await SmartUI.SendMessage("SetInsurance", IRCItem, viewType:TargetViewType.PageView);
+                }
+            }
         }
 
         public void ClearData()

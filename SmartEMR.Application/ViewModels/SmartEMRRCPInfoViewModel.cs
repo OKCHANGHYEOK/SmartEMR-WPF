@@ -57,14 +57,17 @@ public partial class SmartEMRRCPInfoViewModel : BaseViewModel<Reception>
         var msg = Model.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";
 
         var RCPItem = SmartMVVM.ModelProperty.GetReceptionDataForSave(Model);
-        var retIRC = await SmartUI.SendMessage<Insurance>("GetIRCItem", viewType:TargetViewType.PageView); 
-        if (retIRC == null)
+        if (RCPItem.RCP_InsuranceType != "NOR")
         {
-            SmartUI.SetNofification("접수정보 저장중 오류가 발생했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
-            return;
-        }
+            var retIRC = await SmartUI.SendMessage<Insurance>("GetIRCItem", viewType:TargetViewType.PageView);
+            if (retIRC == null)
+            {
+                SmartUI.SetNofification("보험정보가 올바르지 않습니다. 확인후 다시 시도해주세요.", NotificationType.Error);
+                return;
+            }
 
-        RCPItem.IRCItem = retIRC.Item;
+            RCPItem.IRCItem = retIRC.Item;
+        }
 
         var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, RCPItem);
 
@@ -75,5 +78,7 @@ public partial class SmartEMRRCPInfoViewModel : BaseViewModel<Reception>
         }
 
         SmartUI.SetNofification($"접수{msg}되었습니다.", NotificationType.Success);
+
+        await SmartUI.SendMessage("SetReception", retRCP);
     }
 }

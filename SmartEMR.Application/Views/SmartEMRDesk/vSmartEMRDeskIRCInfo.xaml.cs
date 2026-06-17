@@ -43,9 +43,28 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_Specific")?.Margin = new Thickness(1);
         }
 
-        public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
         {
+            var bindGrid = sender as BindGrid;
+            if (bindGrid == null) return;
 
+            var bindItem = e.BindItem;
+            if (bindGrid == null) return;
+
+            switch (bindItem.FieldName)
+            {
+                case "chkIsSameAsContractor":
+                    if (e.NewValue == null) return;
+
+                    var isChecked = (bool)e.NewValue;
+
+                    if (isChecked)
+                    {
+                        IRCItem.IRC_InsuredName = IRCItem.IRC_ContractorName;
+                    }
+
+                    break;
+            }
         }
 
         public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
@@ -65,15 +84,25 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         }
 
-        public void ShowIRCInfo()
+        public void SetMaskVisibility(Visibility visibility)
         {
-            MaskControl.Visibility = Visibility.Collapsed;
+            MaskControl.Visibility = visibility;
+        }
+
+        public void SetInsurance(Insurance item)
+        {
+            SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, item);
         }
 
         public void SetInsuranceType(string IRC_Type)
         {
             IRCItem.IRC_Type = IRC_Type;
             IRCItem.vIRC_Type = SmartMVVM.Common.GetChartCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCC_Cd == IRC_Type)?.CCC_Name;
+
+            if (IRC_Type == "NOR")
+            {
+                SetMaskVisibility(Visibility.Visible);
+            }
         }
 
         public void ClearData(bool isClearIRCType = true)
