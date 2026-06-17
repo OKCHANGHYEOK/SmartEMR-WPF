@@ -15,7 +15,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.ViewSize = new System.Windows.Size(500, 500);
         }
 
-        public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
         {
             if (sender is BindGrid bg)
             {

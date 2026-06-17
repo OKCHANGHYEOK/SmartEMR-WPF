@@ -49,9 +49,12 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.AcceptsReturn = true;
         }
 
-        public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
         {
-            var bindItem = e.bindItem;
+            var bindGrid = sender as BindGrid;
+            if (bindGrid == null) return;
+
+            var bindItem = e.BindItem;
             if (bindItem == null) return;
 
             switch (bindItem.FieldName)

@@ -54,9 +54,12 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.ItemsSource = vm.arrPAT_IsAgreePersonalInfo;
     }
 
-    public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
-        var bindItem = sender as BindItem;
+        var bindGrid = sender as BindGrid;
+        if (bindGrid == null) return;
+
+        var bindItem = e.BindItem;
         if (bindItem == null) return;
 
         switch (bindItem.FieldName)

@@ -50,7 +50,7 @@ public partial class vLayout : ViewLayout
         return await vl.ReceiveMessage(request);
     }
 
-    public override Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    public override Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
         return Task.CompletedTask;
     }

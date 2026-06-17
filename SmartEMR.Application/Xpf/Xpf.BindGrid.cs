@@ -55,7 +55,7 @@ public partial class BindGrid : StyleGrid, IDisposable
 
     #endregion
 
-    public event Action<BindItem, BindClickEventArgs>? BindGrid_BindClickEvent;
+    public event EventHandler<BindClickEventArgs>? BindGrid_BindClickEvent;
 
     private BindItemCollection? _bindItems;
     public BindItemCollection BindItems
@@ -74,6 +74,11 @@ public partial class BindGrid : StyleGrid, IDisposable
     public bool IsPreventBindGridEvent { get; set; } = false;
 
     public bool disposed { get; set; }
+
+    public BindGrid()
+    {
+        _bindItems?.Clear();
+    }
 
     private void OnBindItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
@@ -387,7 +392,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         if (sender is FrameworkElement fe && fe.Tag is BindItem element)
         {
             var args = new BindClickEventArgs(e.RoutedEvent, this, element);
-            BindGrid_BindClickEvent?.Invoke(element, args);
+            BindGrid_BindClickEvent?.Invoke(this, args);
         }
     }
 
@@ -466,10 +471,10 @@ public partial class BindGrid
 
 public class BindClickEventArgs : RoutedEventArgs
 {
-    public BindItem bindItem { get; }
+    public BindItem BindItem { get; }
     public BindClickEventArgs(RoutedEvent routedEvent, object source, BindItem item) : base(routedEvent, source)
     {
-        bindItem = item;
+        BindItem = item;
     }
 }
 

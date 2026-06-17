@@ -37,9 +37,13 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
     {
     }
 
-    public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
-        if (sender is BindItem bindItem == false) return;
+        var bindGrid = sender as BindGrid;
+        if (bindGrid == null) return;
+
+        var bindItem = e.BindItem;
+        if (bindItem == null) return;
 
         switch (bindItem.FieldName)
         {

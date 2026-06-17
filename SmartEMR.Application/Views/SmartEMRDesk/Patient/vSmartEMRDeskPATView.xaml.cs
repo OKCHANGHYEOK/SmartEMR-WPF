@@ -17,7 +17,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             Model.vPAT_IsAgreePersonalInfo = Model.PAT_IsAgreePersonalInfo == "y" ? "개인정보제공 동의" : "개인정보제공 미동의";
         }
 
-        public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
         {
             // 클릭 이벤트 구현
         }

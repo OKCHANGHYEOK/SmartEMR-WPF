@@ -6,5 +6,5 @@ public interface IViewLayout
 {
     IReadOnlyList<BindGrid> BindGrids { get; }
 
-    Task OnBindGrid_BindClick(object sender, BindClickEventArgs e);
+    Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
 }

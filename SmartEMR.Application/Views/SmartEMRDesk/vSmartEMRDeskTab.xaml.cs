@@ -70,7 +70,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         SmartEMRDeskRCPInfo.ClearData();
     }
 
-    public override async Task OnBindGrid_BindClick(object sender, BindClickEventArgs e)
+    public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
     }
 
