@@ -147,6 +147,19 @@ public class Common
 
         return arrBirth.AsQueryable();
     }
+
+    public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)
+    {
+        bool isExisits = false;
+
+        var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, new Reception { PAT_Idx = PAT_Idx, RCP_YYMMDD = RCP_YYMMDD });
+        if (retRCP != null)
+        {
+            isExisits = true;
+        }
+
+        return isExisits;
+    }
 }
 
 public class PAT_ImageSourceToImageConverter : BaseConverter

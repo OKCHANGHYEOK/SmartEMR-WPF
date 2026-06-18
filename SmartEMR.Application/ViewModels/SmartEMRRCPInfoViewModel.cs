@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -39,6 +40,8 @@ public partial class SmartEMRRCPInfoViewModel : BaseViewModel<Reception>
     {
         if (operation == "DELETE")
         {
+            if (SmartUI.MsgYesNo("접수 삭제하시겠습니까?") != MessageBoxResult.Yes) return;
+
             await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = Model.RCP_Idx, RCP_IsValid = false });
 
             if (SmartMVVM.DataStore.retIsSuccess == false)
@@ -52,6 +55,16 @@ public partial class SmartEMRRCPInfoViewModel : BaseViewModel<Reception>
             await SmartUI.SendMessage("ClearReception", viewType:TargetViewType.PageView);
 
             return;
+        }
+
+        // 접수 등록시 오늘 날짜의 기존 접수 체크
+        if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
+        {
+            var isExisitsRCP = await SmartMVVM.Common.ExisitsReception(Model.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
+            if (isExisitsRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
+            {
+                return;
+            }
         }
 
         var msg = Model.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";

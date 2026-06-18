@@ -66,6 +66,10 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
             case "ClearPatient":
                 await ClearData();
                 break;
+
+            case "ClearReception":
+                _ = ClearData(false);
+                break;
         }
 
         response.IsSuccess = true;
@@ -73,12 +77,17 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         return response;
     }
 
-    private async Task ClearData()
+    private async Task ClearData(bool isClearPAT = true)
     {
-        await SmartUI.SendMessageToSearchView("ClearPatient");
+        if (isClearPAT) 
+        {
+            await SmartUI.SendMessageToSearchView("ClearPatient");
 
-        SmartEMRDeskPATView.ClearData();
+            SmartEMRDeskPATView.ClearData();
+        }
+
         SmartEMRDeskRCPInfo.ClearData();
+        SmartEMRDeskIRCInfo.ClearData();
     }
 
     public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
