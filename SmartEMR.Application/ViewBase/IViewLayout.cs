@@ -1,10 +1,13 @@
-﻿using SmartEMR.Application.Xpf;
+﻿using SmartEMR.Application.Core;
 
 namespace SmartEMR.Application.ViewBase;
 
 public interface IViewLayout
 {
-    IReadOnlyList<BindGrid> BindGrids { get; }
-
-    Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
+    public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
+    public virtual void RefreshViewData(object? parameter = null) { }
+    public virtual bool ClosingFloatPanel()
+    {
+        return true;
+    }
 }

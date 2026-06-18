@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace SmartEMR.Application.ViewBase;
 
-public abstract class ViewLayout : CustomControl, IViewLayout
+public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid, IDataGrid
 {
     public static readonly DependencyProperty ViewTitleProperty =
         DependencyProperty.Register("ViewTitle", typeof(string), typeof(ViewLayout), new PropertyMetadata("알림"));
@@ -28,17 +28,7 @@ public abstract class ViewLayout : CustomControl, IViewLayout
     }
 
     public bool IsPopupView { get; set; } = false;
-    public abstract IReadOnlyList<BindGrid> BindGrids { get; }
 
-    public abstract Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
-    public abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
-    
-    public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
-    public virtual void RefreshViewData(object? parameter = null) {}
-    public virtual bool ClosingFloatPanel() 
-    {
-        return true;
-    }
 
     public ViewLayout()
     {
@@ -46,33 +36,41 @@ public abstract class ViewLayout : CustomControl, IViewLayout
         this.Loaded += (s, e) => SmartUI.RegisterView(this);
     }
 
-    public ViewLayout(object parameter) : this() => this.Loaded += (s, e) => RefreshViewData(parameter);
+    public ViewLayout(object parameter) : this() => this.Loaded += (s, e) => ((IViewLayout)this).RefreshViewData(parameter);
 
-    public void OnPreviewKeyDown_ViewLayout(object sender, KeyEventArgs e)
+    public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
+
+    private void OnPreviewKeyDown_ViewLayout(object sender, KeyEventArgs e)
     {
         var vl = sender as ViewLayout;
         if (vl == null) return;
     }
 }
 
+// BindGrid
+public abstract partial class ViewLayout
+{
+    public abstract IReadOnlyList<BindGrid> BindGrids { get; }
+
+    public abstract Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
+    public abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
+}
+
+// DataGrid
+public abstract partial class ViewLayout
+{
+    public abstract IReadOnlyList<DataGrid> DataGrids { get; }
+
+    public abstract void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e);
+}
+
 public abstract partial class ModelViewLayout : ViewLayout, IDisposable
 {
     public bool disposed { get; set; }
 
-    protected readonly List<BindGrid> _bindGrids = new();
-    public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
-
     protected abstract void Initialize();
     protected virtual void SetBindGrid() { }
-
-    // internal로 선언되어 있으므로 동일 어셈블리 내의 UIManager가 리플렉션 없이 호출 가능
-    internal void AddBindGrid(BindGrid bindGrid)
-    {
-        if (!_bindGrids.Contains(bindGrid))
-        {
-            _bindGrids.Add(bindGrid);
-        }
-    }
+    protected virtual void SetDataGrid() { }
 
     public virtual void Dispose(bool disposedValue)
     {
@@ -86,6 +84,9 @@ public abstract partial class ModelViewLayout : ViewLayout, IDisposable
 #region "BindGrid"
 public abstract partial class ModelViewLayout
 {
+    protected readonly List<BindGrid> _bindGrids = new();
+    public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
+
     public override abstract Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
     public override abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
 
@@ -103,7 +104,40 @@ public abstract partial class ModelViewLayout
             SmartMVVM.ReleaseClick();
         }
     }
+
+    internal void AddBindGrid(BindGrid bindGrid)
+    {
+        if (!_bindGrids.Contains(bindGrid))
+        {
+            bindGrid.BindGrid_BindClickEvent += this.HandleBindGridClick;
+            bindGrid.BindGrid_BindItemChangedEvent += this.OnBindGrid_BindItemChanged;
+
+            _bindGrids.Add(bindGrid);
+        }
+    }
 }
+#endregion
+
+#region "DataGrid"
+
+public abstract partial class ModelViewLayout
+{
+    protected readonly List<DataGrid> _dataGrids = new();
+    public override IReadOnlyList<DataGrid> DataGrids => _dataGrids;
+
+    public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) { }
+
+    internal void AddDataGrid(DataGrid dataGrid)
+    {
+        if (!_dataGrids.Contains(dataGrid))
+        {
+            dataGrid.DataGrid_DataItemChangedEvent += this.OnDataGrid_DataItemChanged;
+
+            _dataGrids.Add(dataGrid);
+        }
+    }
+}
+
 #endregion
 
 #region "Message"
@@ -165,6 +199,7 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
 
             Initialize();
             SetBindGrid();
+            SetDataGrid();
         };
     }
 

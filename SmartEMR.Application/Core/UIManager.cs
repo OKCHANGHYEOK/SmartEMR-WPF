@@ -154,7 +154,7 @@ public partial class UIManager
         var mv = view as ModelViewLayout;
         if (mv == null) return;
 
-        FindAndRegisterBindGrids(mv);
+        FindAndRegisterElements(mv);
 
         if (view is FrameworkElement fe)
         {
@@ -241,7 +241,7 @@ public partial class UIManager
         view.Dispose(true); // IDisposable 명시적 캐스팅 대신 직접 호출
     }
 
-    private void FindAndRegisterBindGrids(ModelViewLayout view, DependencyObject? parent = null)
+    private void FindAndRegisterElements(ModelViewLayout view, DependencyObject? parent = null)
     {
         parent ??= view as DependencyObject;
 
@@ -253,18 +253,15 @@ public partial class UIManager
 
             if (child is BindGrid bindGrid)
             {
-                if (!view.BindGrids.Contains(bindGrid))
-                {
-                    bindGrid.BindGrid_BindClickEvent += view.HandleBindGridClick;
-                    bindGrid.BindGrid_BindItemChangedEvent += view.OnBindGrid_BindItemChanged;
-
-                    // [개선] 리플렉션 없이 비제네릭 부모 클래스의 internal 메서드를 바로 호출
-                    view.AddBindGrid(bindGrid);
-                }
+                view.AddBindGrid(bindGrid);
+            }
+            else if (child is DataGrid dataGrid)
+            {
+                view.AddDataGrid(dataGrid);
             }
 
             // 재귀 탐색
-            FindAndRegisterBindGrids(view, child);
+            FindAndRegisterElements(view, child);
         }
     }
 }

@@ -156,7 +156,7 @@ public static partial class SmartUI
 
     public static void CloseFloatPanel(FloatPanel floatPanel)
     {
-        if (floatPanel.Content is ViewLayout vl && !vl.ClosingFloatPanel())
+        if (floatPanel.Content is IViewLayout vl && !vl.ClosingFloatPanel())
         {
             return;
         }
