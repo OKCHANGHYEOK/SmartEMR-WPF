@@ -32,10 +32,10 @@
                 </dxd:LayoutPanel>
             </dxd:LayoutGroup>
             <dxd:LayoutGroup Orientation="Vertical">
-                <dxd:LayoutPanel ItemHeight="0.8*" ShowCaption="False" AllowDrag="False">
-                    
-                </dxd:LayoutPanel>
                 <dxd:LayoutPanel ItemHeight="*" ShowCaption="False" AllowDrag="False">
+                    <view:vSmartEMRDeskRCP x:Name="SmartEMRDeskRCP"/>
+                </dxd:LayoutPanel>
+                <dxd:LayoutPanel ItemHeight="0.6*" ShowCaption="False" AllowDrag="False">
 
                 </dxd:LayoutPanel>
             </dxd:LayoutGroup>

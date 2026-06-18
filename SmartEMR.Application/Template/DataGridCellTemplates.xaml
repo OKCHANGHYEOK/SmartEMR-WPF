@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/editors">
+
+    <DataTemplate   x:Key="GridColumnLabelTemplate">
+        <Xpf:Label Content="{Binding FallbackValue, Mode=OneWay}"/>
+    </DataTemplate>
+
+    <DataTemplate   x:Key="GridColumnTextBoxTemplate">
+        <Xpf:StyleTextBox   TextBoxType="Text"
+                            Text="{Binding FallbackValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+
+    <DataTemplate   x:Key="GridColumnCheckBoxTemplate">
+        <Xpf:CheckEdit IsChecked="{Binding FallbackValue, Mode=TwoWay}"/>
+    </DataTemplate>
+
+    <DataTemplate   x:Key="GridColumnTextLinkTemplate">
+        <dx:HyperlinkEdit   Text="{Binding Value, Mode=OneWay}"/>
+    </DataTemplate>
+</ResourceDictionary>

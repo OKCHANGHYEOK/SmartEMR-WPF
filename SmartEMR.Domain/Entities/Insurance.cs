@@ -15,6 +15,7 @@ public class Insurance : BaseEntity
     private string? m_IRC_CoName;
     private string? m_IRC_EffectiveYYMMDD;
     private string? m_IRC_ExpiredYYMMDDD;
+    private string? m_IRC_Specific;
     private bool? m_IRC_IsValid;
 
     #region "NotifyPropertyChanged"
@@ -95,6 +96,12 @@ public class Insurance : BaseEntity
     {
         get => m_IRC_ExpiredYYMMDDD;
         set => SetProperty(ref m_IRC_ExpiredYYMMDDD, value);
+    }
+
+    public string? IRC_Specific
+    {
+        get => m_IRC_Specific;
+        set => SetProperty(ref m_IRC_Specific, value);
     }
 
     public bool? IRC_IsValid

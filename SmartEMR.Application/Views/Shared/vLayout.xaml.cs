@@ -23,6 +23,7 @@ public partial class vLayout : ViewLayout
     }
 
     public override IReadOnlyList<BindGrid> BindGrids => default!;
+    public override IReadOnlyList<DataGrid> DataGrids => default!;
 
     public vLayout()
     {
@@ -56,6 +57,10 @@ public partial class vLayout : ViewLayout
     }
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    {
+    }
+
+    public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
     {
     }
 

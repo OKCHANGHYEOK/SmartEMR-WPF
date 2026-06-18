@@ -21,7 +21,8 @@
         
         <Xpf:BindGrid   Grid.Row="0"
                         LayoutDefinitions="6,1"
-                        Background="#F5F5F5">
+                        Background="#F5F5F5"
+                        Height="80">
             <x:Array Type="{x:Type Xpf:BindItem}">
                 
             </x:Array>
@@ -31,6 +32,68 @@
                 Height="1" 
                 Background="LightGray"
                 Margin="0,2,0,2"/>
-        
+
+        <Xpf:DataGrid   Grid.Row="2"
+                        ItemsSource="{Binding vm.arrRCP, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type desk:vSmartEMRDeskRCP}}}">
+            <Xpf:ColumnItem FIeldName="vRCP_Status"
+                            Header="상태"
+                            ColumnType="Label"
+                            ColumnWidth="28"
+                            ColumnStyle="Code"/>
+            
+            <Xpf:ColumnItem FIeldName="PAT_ChartNo"
+                            Header="차트번호"
+                            ColumnType="Label"
+                            ColumnWidth="40"
+                            ColumnStyle="Code"/>
+
+            <Xpf:ColumnItem FIeldName="PAT_Name"
+                            Header="환자명"
+                            ColumnType="TextLink"
+                            ColumnWidth="32"
+                            HorizontalAlignment="Center"/>
+
+            <Xpf:ColumnItem FIeldName="vPAT_Info"
+                            Header=""
+                            ColumnType="Label"
+                            ColumnWidth="25"
+                            HorizontalAlignment="Center"/>
+
+            <Xpf:ColumnItem FIeldName="vRCP_VisitType"
+                            Header="구분"
+                            ColumnType="Label"
+                            ColumnWidth="30"
+                            ColumnStyle="Code"/>
+
+            <Xpf:ColumnItem FIeldName="vRCP_Subject"
+                            Header="접수과목"
+                            ColumnType="Label"
+                            ColumnWidth="60"
+                            ColumnStyle="Name"/>
+
+            <Xpf:ColumnItem FIeldName="MUR_Name_DOC"
+                            Header="담 당 의"
+                            ColumnType="Label"
+                            ColumnWidth="32"
+                            HorizontalAlignment="Center"/>
+
+            <Xpf:ColumnItem FIeldName="RCP_ReceiptTime"
+                            Header="접수시간"
+                            ColumnType="Label"
+                            ColumnWidth="32"
+                            HorizontalAlignment="Center"/>
+
+            <Xpf:ColumnItem FIeldName="vRCP_InsuranceType"
+                            Header="보험"
+                            ColumnType="Label"
+                            ColumnWidth="30"
+                            ColumnStyle="Code"/>
+
+            <Xpf:ColumnItem FIeldName="RCP_Memo"
+                            Header="메모"
+                            ColumnType="Label"
+                            ColumnWidth="200"
+                            ColumnStyle="Name"/>
+        </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>
