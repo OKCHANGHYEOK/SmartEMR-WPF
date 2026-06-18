@@ -1,5 +1,4 @@
 ﻿using DevExpress.Xpf.Grid;
-using MahApps.Metro.Controls;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -44,24 +43,36 @@ public class DataGrid : ContentControl
         {
             this.DataItem = GridControl.CurrentItem;
         };
+
+        GridControl.CurrentColumnChanged += (s, e) =>
+        {
+            this.InvokeDataItemChanged(this.DataItem);
+        };
     }
 
     private static void OnDataItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DataGrid dataGrid)
         {
-            var args = new DataItemChangedEventArgs(e.NewValue);
-            dataGrid.DataGrid_DataItemChangedEvent?.Invoke(dataGrid, args);
+            dataGrid.InvokeDataItemChanged(e.NewValue);
         }
+    }
+
+    private void InvokeDataItemChanged(object? item)
+    {
+        var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
+        this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
     }
 }
 
 public class DataItemChangedEventArgs : EventArgs
 {
     public object? DataItem { get; }
+    public ColumnBase Column { get; }
 
-    public DataItemChangedEventArgs(object? item)
+    public DataItemChangedEventArgs(object? item, ColumnBase column)
     {
         DataItem = item;
+        Column = column;
     }
 }
