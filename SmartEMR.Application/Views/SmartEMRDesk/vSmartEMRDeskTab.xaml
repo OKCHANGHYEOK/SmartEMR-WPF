@@ -29,10 +29,10 @@
                 </dxd:LayoutGroup>
                 <dxd:LayoutPanel ItemHeight="0.3*" Caption="수납정보">
                     
-                </dxd:LayoutPanel>
+                </dxd:LayoutPanel>  
             </dxd:LayoutGroup>
             <dxd:LayoutGroup Orientation="Vertical">
-                <dxd:LayoutPanel ItemHeight="*" ShowCaption="False" AllowDrag="False">
+                <dxd:LayoutPanel ItemHeight="*" Caption="접수현황" AllowDrag="False">
                     <view:vSmartEMRDeskRCP x:Name="SmartEMRDeskRCP"/>
                 </dxd:LayoutPanel>
                 <dxd:LayoutPanel ItemHeight="0.6*" ShowCaption="False" AllowDrag="False">

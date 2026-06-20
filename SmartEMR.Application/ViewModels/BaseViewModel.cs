@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Domain.Entities;
+using System.ComponentModel;
 using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
@@ -18,6 +19,13 @@ public abstract partial class BaseViewModel : DependencyObject
     protected virtual Task OnLoadDataAsync()
     {
         return Task.CompletedTask;
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
 

@@ -63,6 +63,7 @@ public class BindItem
     public string Mask { get; set; } = "";
 
     public DateEditType DateEditType { get; set; } = DateEditType.Date;
+    public string? DateTimeFormat { get; set; }
 
     // 헤더
     public string? Header { get; set; }
