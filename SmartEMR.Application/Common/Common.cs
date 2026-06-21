@@ -74,13 +74,13 @@ public class Common
         }
     }
 
-    public IQueryable<ChartCommonCode> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isAll = false)
+    public IQueryable<ChartCommonCode> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isDefault = false, string defaultText = "전체")
     {
         List<ChartCommonCode> retCCC = new();
 
-        if (isAll)
+        if (isDefault)
         {
-            retCCC.Add(new ChartCommonCode { CCC_Name = "전체", CCC_Cd = "ALL"});
+            retCCC.Add(new ChartCommonCode { CCC_Name = defaultText, CCC_Cd = ""});
         }
 
         IEnumerable<ChartCommonCode>? targetItems = null;

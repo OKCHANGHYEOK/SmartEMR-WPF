@@ -13,6 +13,8 @@ namespace SmartEMR.Application.Xpf;
 [ContentProperty(nameof(Items))]
 public partial class DataGrid : ContentControl
 {
+    private ResourceDictionary? _templateResource;
+
     public event EventHandler<DataItemChangedEventArgs>? DataGrid_DataItemChangedEvent;
 
     public DevExpress.Xpf.Grid.GridControl GridControl { get; private set; } = new();
@@ -54,8 +56,6 @@ public partial class DataGrid : ContentControl
         }
     }
 
-    private ResourceDictionary? _templateResource;
-
     public static readonly DependencyProperty DataItemProperty =
         DependencyProperty.Register(
             nameof(DataItem), 
@@ -69,6 +69,15 @@ public partial class DataGrid : ContentControl
         set => SetValue(DataItemProperty, value);
     }
 
+    public static readonly DependencyProperty IsDoubleClickedProperty =
+        DependencyProperty.Register(nameof(IsDoubleClicked), typeof(bool), typeof(DataGrid), new PropertyMetadata(false));
+
+    public bool IsDoubleClicked
+    {
+        get => (bool)GetValue(IsDoubleClickedProperty);
+        set => SetValue(IsDoubleClickedProperty, value);
+    }
+
     public GridColumnCollection Columns => GridControl.Columns;
 
     public DataGrid()
@@ -76,6 +85,8 @@ public partial class DataGrid : ContentControl
         this.Content = GridControl;
 
         GridControl.View = TableView;
+        GridControl.CurrentItemChanged += (s,e) => this.DataItem = GridControl.CurrentItem;
+        GridControl.CurrentColumnChanged += (s, e) => InvokeDataItemChanged(this.DataItem);
 
         TableView.RowMinHeight = 24;
         TableView.HeaderPanelMinHeight = 18;
@@ -85,16 +96,7 @@ public partial class DataGrid : ContentControl
         TableView.ShowGroupPanel = false;
         TableView.ShowAutoFilterRow = false;
         TableView.ShowIndicator = false;
-
-        GridControl.CurrentItemChanged += (s, e) =>
-        {
-            this.DataItem = GridControl.CurrentItem;
-        };
-
-        GridControl.CurrentColumnChanged += (s, e) =>
-        {
-            this.InvokeDataItemChanged(this.DataItem);
-        };
+        TableView.RowDoubleClick += OnTableView_RowDoubleClick;
 
         SetTemplateResource();
     }
@@ -227,6 +229,23 @@ public partial class DataGrid : ContentControl
     {
         var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
         this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
+    }
+
+    private void OnTableView_RowDoubleClick(object sender, RowDoubleClickEventArgs e)
+    {
+        if (e.HitInfo.InRow)
+        {
+            var dataItem = GridControl.CurrentItem;
+            if (dataItem == null) return;
+
+            this.DataItem = dataItem;
+
+            this.IsDoubleClicked = true;
+
+            InvokeDataItemChanged(this.DataItem);
+
+            this.IsDoubleClicked = false;
+        }
     }
 }
 

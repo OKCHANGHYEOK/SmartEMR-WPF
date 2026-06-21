@@ -23,7 +23,7 @@ public class ReceptionViewModel : BaseViewModel<Reception>
 
     public override async Task InitializeAsync()
     {
-        await FetchData();
+        await FetchDataAsync();
     }
 
     protected override Reception GetModel(Reception item)
@@ -32,7 +32,8 @@ public class ReceptionViewModel : BaseViewModel<Reception>
         return item;
     }
 
-    public async Task FetchData()
+
+    public override async Task FetchDataAsync()
     {
         var getRCP = new Reception
         {
@@ -53,7 +54,7 @@ public class ReceptionViewModel : BaseViewModel<Reception>
         };
 
         var retRCP = await SmartMVVM.DataStore.GetItems<Reception>(eAPI.Reception_GetReception, getRCP);
-        
+
         if (retRCP != null && retRCP.Any())
         {
             arrRCP = retRCP.ToList();
