@@ -17,6 +17,15 @@ public class ReceptionViewModel : BaseViewModel<Reception>
         }
     }
 
+    public List<MemberUser> arrMUR_DOC { get; set; } = default!;
+    public List<MemberUser> arrMUR_STF { get; set; } = default!;
+
+    public List<ChartCommonCode> arrRCP_Status { get; set; } = default!;
+    public List<ChartCommonCode> arrRCP_Subject { get; set; } = default!;
+    public List<ChartCommonCode> arrRCP_VisitType { get; set; } = default!;
+    public List<ChartCommonCode> arrRCP_Route { get; set; } = default!;
+    public List<ChartCommonCode> arrRCP_InsuranceType { get; set; } = default!;
+
     public override void Initialize()
     {
     }
@@ -28,10 +37,8 @@ public class ReceptionViewModel : BaseViewModel<Reception>
 
     protected override Reception GetModel(Reception item)
     {
-        item.RCP_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
         return item;
     }
-
 
     public override async Task FetchDataAsync()
     {

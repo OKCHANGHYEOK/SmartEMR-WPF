@@ -19,8 +19,8 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
     public IQueryable<object>? arrPAT_IsForegin { get; set; }
     public IQueryable<object>? arrPAT_IsAgreePersonalInfo { get; set; }
 
-    private IQueryable<ChartCommonCode>? _arrPAT_SourceType;
-    public IQueryable<ChartCommonCode>? arrPAT_SourceType
+    private List<ChartCommonCode>? _arrPAT_SourceType;
+    public List<ChartCommonCode>? arrPAT_SourceType
     {
         get => _arrPAT_SourceType;
         set
@@ -28,13 +28,6 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
             _arrPAT_SourceType = value;
             OnPropertyChanged(nameof(arrPAT_SourceType));
         }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public override async Task InitializeAsync()

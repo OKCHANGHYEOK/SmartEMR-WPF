@@ -6,15 +6,8 @@ using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.ViewModels;
 
-public partial class SmartEMRRCPInfoViewModel : BaseViewModel<Reception>
+public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
 {
-    public IQueryable<MemberUser> arrMUR_DOC { get; set; } = default!;
-    public IQueryable<MemberUser> arrMUR_STF { get; set; } = default!;
-    public IQueryable<ChartCommonCode> arrRCP_Subject { get; set; } = default!;
-    public IQueryable<ChartCommonCode> arrRCP_VisitType { get; set; } = default!;
-    public IQueryable<ChartCommonCode> arrRCP_Route { get; set; } = default!;
-    public IQueryable<ChartCommonCode> arrRCP_InsuranceType { get; set; } = default!;
-
     public override void Initialize()
     {
         arrMUR_DOC = SmartMVVM.Master.GetMemberUsers("DOC", true, "의사선택");

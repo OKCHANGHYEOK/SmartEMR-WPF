@@ -20,88 +20,87 @@
                     RowSizeDefinitions="Auto,Auto,1*">
         
         <Xpf:BindGrid   Grid.Row="0"
-                        LayoutDefinitions="6,1"
+                        LayoutDefinitions="8,1"
+                        ColumnSizeDefinitions="1*,Auto,1*,1*,1*,1*,1*,Auto"
                         Background="#F5F5F5"
-                        Height="36">
-            
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="RCP_YYMMDD"
-                                BindType="DateEdit"
-                                Height="23"
-                                Col="0"
-                                Row="0"
-                                DateTimeFormat="yyyy년 MM월 dd일 dddd"
-                                IsHeader="False"/>
+                        Height="36"
+                        ItemSpace="1">
 
-                <Xpf:BindItem   FieldName="btnSetToDay"
-                                BindType="Button"
-                                TextValue="오늘"
-                                Width="32"
-                                Height="23"
-                                BackGround="TransParent"
-                                BorderBrush="DimGray"
-                                BorderThickness="1"
-                                IsBinding="False"
-                                IsBindClickEvent="True"/>
-            </x:Array>
+            <Xpf:BindItem   FieldName="RCP_YYMMDD"
+                            BindType="DateEdit"
+                            Height="32"
+                            Col="0"
+                            Row="0"
+                            DateTimeFormat="yyyy년 MM월 dd일 dddd"
+                            Margin="2,2,2,0"
+                            IsHeader="False"/>
+
+            <Xpf:BindItem   FieldName="btnSetToDay"
+                            BindType="Button"
+                            TextValue="오늘"
+                            Width="32"
+                            Height="32"
+                            Foreground="DimGray"
+                            BackGround="TransParent"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            Margin="2,2,2,0"
+                            Col="1"
+                            Row="0"
+                            IsBinding="False"
+                            IsBindClickEvent="True"/>
 
             <Xpf:BindItem   FieldName="MUR_Idx_DOC"
                             BindType="ComboBox"
-                            Width="80"
-                            Height="23"
-                            Col="1"
+                            Col="2"
                             Row="0"
                             DisplayMember="MUR_Name"
                             ValueMember="MUR_Idx"/>
 
             <Xpf:BindItem   FieldName="RCP_Status"
                             BindType="ComboBox"
-                            Width="80"
-                            Height="23"
-                            Col="2"
+                            Col="3"
                             Row="0"
                             DisplayMember="CCC_Name"
                             ValueMember="CCC_Cd"/>
 
             <Xpf:BindItem   FieldName="RCP_Route"
                             BindType="ComboBox"
-                            Width="80"
-                            Height="23"
-                            Col="3"
+                            Col="4"
                             Row="0"
                             DisplayMember="CCC_Name"
                             ValueMember="CCC_Cd"/>
 
             <Xpf:BindItem   FieldName="IRC_Type"
                             BindType="ComboBox"
-                            Width="80"
-                            Height="23"
-                            Col="4"
+                            Col="5"
                             Row="0"
                             DisplayMember="CCC_Name"
                             ValueMember="CCC_Cd"/>
 
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="RCP_VisitType"
-                                BindType="ComboBox"
-                                Width="80"
-                                Height="23"
-                                Col="5"
-                                Row="0"
-                                DisplayMember="CCC_Name"
-                                ValueMember="CCC_Cd"/>
+            <Xpf:BindItem   FieldName="RCP_VisitType"
+                            BindType="ComboBox"
+                            Height="32"
+                            Col="6"
+                            Row="0"
+                            DisplayMember="CCC_Name"
+                            ValueMember="CCC_Cd"
+                            Margin="2,2,2,0"/>
 
-                <Xpf:BindItem   FieldName="btnClearFilter"
-                                BindType="Button"
-                                TextValue="초기화"
-                                Width="32"
-                                Height="23"
-                                BackGround="TransParent"
-                                BorderBrush="DimGray"
-                                BorderThickness="1"
-                                IsBinding="False"
-                                IsBindClickEvent="True"/>
-            </x:Array>
+            <Xpf:BindItem   FieldName="btnClearFilter"
+                            Width="34"
+                            BorderThickness="1"
+                            Col="7"
+                            Row="0"
+                            IsBinding="False"
+                            IsBindClickEvent="True"
+                            IsAutoWidth="False">
+
+                <Xpf:ImageButton    Width="32"
+                                    Height="32"
+                                    Glyph="/Images/smartemr_reset.png"
+                                    BorderBrush="LightGray"/>
+            </Xpf:BindItem>
         </Xpf:BindGrid>
 
         <Border Grid.Row="1"

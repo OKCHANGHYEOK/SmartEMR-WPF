@@ -36,7 +36,10 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid
         this.Loaded += (s, e) => SmartUI.RegisterView(this);
     }
 
-    public ViewLayout(object parameter) : this() => this.Loaded += (s, e) => ((IViewLayout)this).RefreshViewData(parameter);
+    public ViewLayout(object parameter) : this()
+    {
+        this.Loaded += (s, e) => ((IViewLayout)this).RefreshViewData(parameter);
+    }
 
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
 
@@ -160,13 +163,13 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
     public ModelViewLayout() : base()
     {
         SetDataContext(null);
-        RegisterLoadedEvent();
+        this.Loaded += OnViewLoaded;
     }
 
     public ModelViewLayout(object item) : base()
     {
         SetDataContext(item);
-        RegisterLoadedEvent();
+        this.Loaded += OnViewLoaded;
     }
 
     private void SetDataContext(object? item)
@@ -188,19 +191,20 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
         }
     }
 
-    private void RegisterLoadedEvent()
+    private async void OnViewLoaded(object sender, RoutedEventArgs e)
     {
-        this.Loaded += async (s, e) =>
-        {
-            if (vm is BaseViewModel bvm)
-            {
-                await bvm.SetViewModel();
-            }
+        this.Loaded -= OnViewLoaded;
 
-            Initialize();
-            SetBindGrid();
-            SetDataGrid();
-        };
+        if (vm is BaseViewModel bvm)
+        {
+            bvm.Initialize();
+
+            await bvm.InitializeAsync();
+        }
+
+        Initialize();
+        SetBindGrid();
+        SetDataGrid();
     }
 
     public virtual Task SetPatientData(Patient item) { return Task.CompletedTask; }

@@ -84,4 +84,5 @@ public class BindItem
     public bool IsBindClickEvent { get; set; } = false;
     public bool IsExpandingWhenClick { get; set; } = false;
     public bool IsApplyYNToBoolean { get; set; } = false;
+    public bool IsAutoWidth { get; set; } = true;
 }

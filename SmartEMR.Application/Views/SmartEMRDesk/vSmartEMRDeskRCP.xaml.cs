@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using System.Windows;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 
@@ -11,11 +12,29 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     {
         protected override void Initialize()
         {
+        }
+
+        protected override void SetBindGrid()
+        {
+            foreach (var item in this.BindGrids[0].BindItems)
+            {
+                if (item is BindItem bindItem && bindItem.IsBinding)
+                {
+                    var element = this.BindGrids[0].GetBindItem<ComboBoxEdit>(bindItem.FieldName);
+                    if (element != null)
+                    {
+                        element.Height = 32;
+                        element.Margin = new Thickness(2, 2, 2, 0);
+                        element.VerticalAlignment = VerticalAlignment.Center;
+                    }
+                }
+            }
+
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.ItemsSource = vm.arrMUR_DOC;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Status")?.ItemsSource = vm.arrRCP_Status;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Route")?.ItemsSource = vm.arrRCP_Route;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_VisitType")?.ItemsSource = vm.arrRCP_VisitType;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_Type")?.ItemsSource = vm.arrIRC_Type;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_Type")?.ItemsSource = vm.arrRCP_InsuranceType;
         }
 
         public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)

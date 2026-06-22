@@ -141,10 +141,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             };
 
             var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
+
+            SetReceptionData(retRCP);
+
             if (retRCP != null)
             {
-                SetReceptionData(retRCP);
-
                 if (retRCP.IRC_Idx.GetValueOrDefault(0) > 0)
                 {
                     var IRCItem = new Insurance
@@ -159,7 +160,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                         IRC_ExpiredYYMMDDD = retRCP.IRC_ExpiredYYMMDDD
                     };
 
-                    await SmartUI.SendMessage("SetInsurance", IRCItem, viewType:TargetViewType.PageView);
+                    await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
                 }
             }
         }

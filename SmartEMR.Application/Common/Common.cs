@@ -74,7 +74,7 @@ public class Common
         }
     }
 
-    public IQueryable<ChartCommonCode> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isDefault = false, string defaultText = "전체")
+    public List<ChartCommonCode> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isDefault = false, string defaultText = "전체")
     {
         List<ChartCommonCode> retCCC = new();
 
@@ -105,7 +105,7 @@ public class Common
             retCCC.AddRange(targetItems);
         }
 
-        return retCCC.AsQueryable();
+        return retCCC;
     }
 
     public IQueryable<object> GetBirth(eBirthType birthType)

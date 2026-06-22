@@ -149,7 +149,15 @@ public partial class BindGrid : StyleGrid, IDisposable
             if (element != null)
             {
                 layoutPanel.AddElement(element, col, 0);
-                layoutPanel.LayoutRoot.ColumnDefinitions[col].Width = new GridLength(1, item.Width > 0 ? GridUnitType.Auto : GridUnitType.Star);
+
+                if (item.IsAutoWidth)
+                {
+                    layoutPanel.LayoutRoot.ColumnDefinitions[col].Width = new GridLength(1, item.Width > 0 ? GridUnitType.Auto : GridUnitType.Star);
+                }
+                else
+                {
+                    layoutPanel.LayoutRoot.ColumnDefinitions[col].Width = new GridLength(item.Width, GridUnitType.Pixel);
+                }
 
                 col++;
             }
@@ -258,7 +266,6 @@ public partial class BindGrid : StyleGrid, IDisposable
             case BindType.ComboBox:
                 visualChild = new ComboBoxEdit()
                 {
-                    ItemsSource = bindItem.ItemsSource,
                     DisplayMember = bindItem.DisplayMember,
                     ValueMember = bindItem.ValueMember,
                     CornerRadius = bindItem.CornerRadius,

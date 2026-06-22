@@ -84,7 +84,7 @@ public class Master
 
     }
 
-    public IQueryable<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")
+    public List<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")
     {
         var arrMUR = new List<MemberUser>();
 
@@ -99,7 +99,7 @@ public class Master
             arrMUR.AddRange(targetItems);
         } 
 
-        return arrMUR.AsQueryable();
+        return arrMUR;
     }
 
     public IQueryable<object> Query(string name)

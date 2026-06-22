@@ -266,21 +266,23 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Xpf:ImageButton}">
                     <Button x:Name="PART_BUTTON"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        Background="{TemplateBinding Background}"
-                        BorderThickness="1"
-                        Padding="0" 
-                        HorizontalContentAlignment="Center" 
-                        VerticalContentAlignment="Center">
-                        <!-- Image 태그에 Margin을 0으로 설정하여 간섭 제거 -->
-                        <Image Source="{TemplateBinding Glyph}" 
-                           Width="{TemplateBinding ImageWidth}" 
-                           Height="{TemplateBinding ImageHeight}" 
-                           Stretch="Uniform"
-                           Margin="0"
-                           VerticalAlignment="Center" 
-                           HorizontalAlignment="Center"/>
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            Padding="0" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            Margin="{TemplateBinding Margin}">
+
+                        <Image  Source="{TemplateBinding Glyph}" 
+                                Width="{TemplateBinding ImageWidth}" 
+                                Height="{TemplateBinding ImageHeight}" 
+                                Stretch="Uniform"
+                                Margin="0"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center"/>
                     </Button>
 
                     <ControlTemplate.Triggers>
