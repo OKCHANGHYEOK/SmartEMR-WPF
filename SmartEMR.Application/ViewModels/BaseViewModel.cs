@@ -1,11 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Domain.Entities;
 using System.ComponentModel;
 using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
-public abstract partial class BaseViewModel : DependencyObject
+public abstract partial class BaseViewModel : ObservableObject
 {
     public abstract Task SetViewModel();
 
@@ -19,13 +20,6 @@ public abstract partial class BaseViewModel : DependencyObject
     public virtual Task FetchDataAsync()
     {
         return Task.CompletedTask;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
 
@@ -73,14 +67,11 @@ public abstract partial class BaseViewModel<T> : BaseViewModel, IViewModel<T> wh
     {
         Initialize();
 
-        await InitializeAsync();
-
         if (LoadDataCommand.CanExecute(null))
         {
             await LoadDataCommand.ExecuteAsync(null);
         }
     }
-
 
     #endregion
 }

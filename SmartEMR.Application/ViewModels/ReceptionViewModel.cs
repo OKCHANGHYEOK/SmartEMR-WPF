@@ -6,15 +6,12 @@ namespace SmartEMR.Application.ViewModels;
 
 public class ReceptionViewModel : BaseViewModel<Reception>
 {
-    private List<Reception> _arrRCP = default!;
+    private List<Reception> _arrRCP = new();
 
     public List<Reception> arrRCP
     {
         get => _arrRCP;
-        set
-        {
-            OnPropertyChanged(nameof(arrRCP));
-        }
+        set => SetProperty(ref _arrRCP, value);
     }
 
     public List<MemberUser> arrMUR_DOC { get; set; } = default!;
