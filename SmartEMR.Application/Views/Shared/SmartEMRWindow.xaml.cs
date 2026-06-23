@@ -1,12 +1,9 @@
 ﻿using DevExpress.Xpf.Core;
-using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
-using SmartEMR.Domain.Entities;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 
 namespace SmartEMR.Application.Views;
 

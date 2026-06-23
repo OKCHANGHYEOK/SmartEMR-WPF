@@ -11,8 +11,6 @@
                     Background="Transparent">
 
     <ItemsControl x:Name="NotiItemsControl"
-                  VerticalAlignment="Bottom"
-                  HorizontalAlignment="Right"
                   Width="400"
                   Margin="5,10">
 
