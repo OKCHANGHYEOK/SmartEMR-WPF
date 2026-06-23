@@ -63,6 +63,10 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 SmartEMRDeskIRCInfo.SetMaskVisibility(Visibility.Collapsed);
                 break;
 
+            case "RefreshReception":
+                SmartEMRDeskRCP.RefreshData();
+                break;
+
             case "ClearPatient":
                 await ClearData();
                 break;

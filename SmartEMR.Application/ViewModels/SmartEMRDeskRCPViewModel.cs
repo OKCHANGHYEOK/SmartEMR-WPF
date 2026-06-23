@@ -31,6 +31,11 @@ public class SmartEMRDeskRCPViewModel : ReceptionViewModel
         return item;
     }
 
+    public void SetToDay()
+    {
+        Model.RCP_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+    }
+
     public void ClearData()
     {
         Model.MUR_Idx_DOC = 0;

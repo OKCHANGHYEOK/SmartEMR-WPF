@@ -46,6 +46,10 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             switch (bindItem.FieldName)
             {
+                case "btnSetToday":
+                    vm.SetToDay();
+                    break;
+
                 case "btnClearFilter":
                     vm.ClearData();
                     break;
@@ -69,6 +73,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
                     break;
             }
+        }
+
+        public async void RefreshData()
+        {
+            await vm.FetchDataAsync();
         }
     }
 }

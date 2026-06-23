@@ -212,11 +212,64 @@ public partial class BindGrid : StyleGrid, IDisposable
     /// </summary>
     private FrameworkElement? CreateVisualElement(BindItem bindItem)
     {
+        FrameworkElement? visualChild = null;
+
         if (bindItem.Content != null)
         {
-            return bindItem.Content as FrameworkElement;
+            visualChild = bindItem.Content as FrameworkElement;
+        }
+        else
+        {
+            visualChild = GetVisualChild(bindItem);
         }
 
+        if (visualChild == null) return null;
+
+        // 공통 속성 설정 및 이벤트 바인딩
+        visualChild.Name = bindItem.FieldName;
+        visualChild.Tag = bindItem;
+        visualChild.Width = bindItem.Width > 0 ? bindItem.Width : visualChild.Width;
+        visualChild.Height = bindItem.Height > 0 ? bindItem.Height : visualChild.Height;
+        visualChild.HorizontalAlignment = bindItem.HAlignment;
+        visualChild.VerticalAlignment = bindItem.VAlignment;
+        visualChild.ToolTip = bindItem.ToolTip;
+        visualChild.Margin = (Thickness)((bindItem.Margin == null) ? new Thickness(this.ItemSpace) : bindItem.Margin);
+        visualChild.IsEnabled = bindItem.IsEnabled;
+
+        if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
+            visualChild.SetValue(BackgroundProperty, bg);
+
+        if (!string.IsNullOrWhiteSpace(bindItem.BorderBrush) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BorderBrush) is Brush borderBrush)
+            visualChild.SetValue(Control.BorderBrushProperty, borderBrush);
+
+        if (!string.IsNullOrWhiteSpace(bindItem.DisplayFormatString))
+        {
+            visualChild.SetValue(DateEdit.DisplayFormatStringProperty, bindItem.DisplayFormatString);
+        }
+
+        if (bindItem.IsBindClickEvent)
+        {
+            AddBindClickEvent(visualChild, bindItem);
+        }
+
+        if (bindItem.IsBinding == true)
+        {
+            SmartUI.BeginInvoke(() =>
+            {
+                BindingExtensions.SetBinding(visualChild, bindItem);
+
+                RegisterBindItemChangedEvents(visualChild, bindItem);
+
+            }, System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        visualChild.LostFocus += OnLostFocus_BindItem;
+
+        return visualChild;
+    }
+
+    private FrameworkElement? GetVisualChild(BindItem bindItem)
+    {
         FrameworkElement? visualChild = null;
 
         switch (bindItem.BindType)
@@ -251,7 +304,7 @@ public partial class BindGrid : StyleGrid, IDisposable
 
                 break;
 
-            case BindType.Button:  
+            case BindType.Button:
                 visualChild = new Button
                 {
                     Content = bindItem.TextValue,
@@ -287,7 +340,7 @@ public partial class BindGrid : StyleGrid, IDisposable
 
             case BindType.Image:
                 var image = new Image { Width = bindItem.Width, Height = bindItem.Height, Stretch = Stretch.UniformToFill, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-                
+
                 visualChild = new Border
                 {
                     BorderBrush = Brushes.LightGray,
@@ -301,10 +354,10 @@ public partial class BindGrid : StyleGrid, IDisposable
                 visualChild = bindItem.DateEditType switch
                 {
                     DateEditType.Date => new DateEdit { },
-                    DateEditType.Time => new DateEdit 
+                    DateEditType.Time => new DateEdit
                     {
                         Mask = "tt hh:mm",
-                        MaskUseAsDisplayFormat=true,
+                        MaskUseAsDisplayFormat = true,
                         MaskType = DevExpress.Xpf.Editors.MaskType.DateTime,
                         StyleSettings = new DateEditTimePickerStyleSettings()
                     },
@@ -313,43 +366,6 @@ public partial class BindGrid : StyleGrid, IDisposable
 
                 break;
         }
-
-        if (visualChild == null) return null;
-
-        // 공통 속성 설정 및 이벤트 바인딩
-        visualChild.Name = bindItem.FieldName;
-        visualChild.Tag = bindItem;
-        visualChild.Width = bindItem.Width > 0 ? bindItem.Width : visualChild.Width;
-        visualChild.Height = bindItem.Height > 0 ? bindItem.Height : visualChild.Height;
-        visualChild.HorizontalAlignment = bindItem.HAlignment;
-        visualChild.VerticalAlignment = bindItem.VAlignment;
-        visualChild.Margin = (Thickness)((bindItem.Margin == null) ? new Thickness(this.ItemSpace) : bindItem.Margin);
-        visualChild.ToolTip = bindItem.ToolTip;
-        visualChild.IsEnabled = bindItem.IsEnabled;
-
-        if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
-            visualChild.SetValue(BackgroundProperty, bg);
-
-        if (!string.IsNullOrWhiteSpace(bindItem.BorderBrush) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BorderBrush) is Brush borderBrush)
-            visualChild.SetValue(Control.BorderBrushProperty, borderBrush);
-
-        if (bindItem.IsBindClickEvent)
-        {
-            AddBindClickEvent(visualChild, bindItem);
-        }
-
-        if (bindItem.IsBinding == true)
-        {
-            SmartUI.BeginInvoke(() =>
-            {
-                BindingExtensions.SetBinding(visualChild, bindItem);
-
-                RegisterBindItemChangedEvents(visualChild, bindItem);
-
-            }, System.Windows.Threading.DispatcherPriority.Background);
-        }
-
-        visualChild.LostFocus += OnLostFocus_BindItem;
 
         return visualChild;
     }
@@ -364,7 +380,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         {
             baseEdit.EditValueChanging += OnBindClick;
         }
-        else element.MouseLeftButtonDown += OnBindClick;
+        else element.PreviewMouseLeftButtonDown += OnBindClick;
     }
 
     private void OnBindClick(object sender, RoutedEventArgs e)

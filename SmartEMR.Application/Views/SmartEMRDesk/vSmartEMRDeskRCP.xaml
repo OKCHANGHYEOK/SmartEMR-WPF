@@ -33,7 +33,7 @@
                             ColumnType="Label"
                             ColumnWidth="28"
                             ColumnStyle="Code"/>
-            
+
             <Xpf:ColumnItem FIeldName="PAT_ChartNo"
                             Header="차트번호"
                             ColumnType="Label"

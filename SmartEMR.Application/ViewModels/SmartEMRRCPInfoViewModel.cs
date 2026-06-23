@@ -46,6 +46,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
             SmartUI.SetNofification("삭제되었습니다.", NotificationType.Success);
 
             await SmartUI.SendMessage("ClearReception", viewType:TargetViewType.PageView);
+            await SmartUI.SendMessage("RefreshReception", viewType: TargetViewType.PageView);
 
             return;
         }
@@ -86,5 +87,6 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         SmartUI.SetNofification($"접수{msg}되었습니다.", NotificationType.Success);
 
         await SmartUI.SendMessage("SetReception", retRCP);
+        await SmartUI.SendMessage("RefreshReception", viewType:TargetViewType.PageView);
     }
 }
