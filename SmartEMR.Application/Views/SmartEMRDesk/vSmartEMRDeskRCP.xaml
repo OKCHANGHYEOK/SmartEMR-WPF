@@ -23,7 +23,6 @@
                         LayoutDefinitions="8,1"
                         ColumnSizeDefinitions="1*,Auto,1*,1*,1*,1*,1*,Auto"
                         Background="#F5F5F5"
-                        Height="36"
                         ItemSpace="1">
 
             <Xpf:BindItem   FieldName="RCP_YYMMDD"
