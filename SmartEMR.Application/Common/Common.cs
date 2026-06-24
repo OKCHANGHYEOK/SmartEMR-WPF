@@ -83,21 +83,21 @@ public class Common
             retCCC.Add(new CommonCode { CCI_Name = defaultText, CCI_Cd = ""});
         }
 
-        IEnumerable<CommonCode>? targetItems = null;
+        IEnumerable<CommonCode>? targetItems = arrCCC;
 
         if (!string.IsNullOrWhiteSpace(CCC_Cd))
         {
-            targetItems = arrCCC.Where(x => x.CCC_Cd == CCC_Cd);
+            targetItems = targetItems.Where(x => x.CCC_Cd == CCC_Cd);
         }
 
         if (!string.IsNullOrWhiteSpace(CCG_Cd))
         {
-            targetItems = arrCCC.Where(x => x.CCG_Cd == CCG_Cd);
+            targetItems = targetItems.Where(x => x.CCG_Cd == CCG_Cd);
         }
 
         if (!string.IsNullOrWhiteSpace(CCI_Cd))
         {
-            targetItems = arrCCC.Where(x => x.CCI_Cd == CCI_Cd);
+            targetItems = targetItems.Where(x => x.CCI_Cd == CCI_Cd);
         }
         
         if (targetItems != null)
