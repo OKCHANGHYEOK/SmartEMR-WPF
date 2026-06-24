@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DevExpress.Xpf.Grid;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
@@ -21,22 +22,22 @@ public partial class DataGrid : ContentControl
     public DevExpress.Xpf.Grid.TableView TableView { get; private set; } = new();
 
     public static readonly DependencyProperty ItemsSourceProperty =
-        DependencyProperty.Register(nameof(ItemsSource), typeof(IQueryable), typeof(DataGrid), new PropertyMetadata(null, OnItemsSourceChanged));
+        DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), new PropertyMetadata(null, OnItemsSourceChanged));
 
     private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DataGrid dataGrid && e.NewValue != null)
         {
-            if (e.NewValue is IQueryable queryable)
+            if (e.NewValue is IEnumerable enumerable)
             {
-                dataGrid.SetItemsSource(queryable);
+                dataGrid.SetItemsSource(enumerable);
             }
         }
     }
 
-    public IQueryable ItemsSource
+    public IEnumerable ItemsSource
     {
-        get => (IQueryable)GetValue(ItemsSourceProperty);
+        get => (IEnumerable)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 
@@ -101,12 +102,12 @@ public partial class DataGrid : ContentControl
         SetTemplateResource();
     }
 
-    public void SetItemsSource(IQueryable queryable)
+    public void SetItemsSource(IEnumerable enumerable)
     {
         this.GridControl.ItemsSource = null;
 
         this.GridControl.BeginInit();
-        this.GridControl.ItemsSource = queryable;
+        this.GridControl.ItemsSource = enumerable;
         this.GridControl.EndInit();
     }
 

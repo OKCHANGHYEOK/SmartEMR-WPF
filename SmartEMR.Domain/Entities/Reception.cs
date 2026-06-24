@@ -16,14 +16,19 @@ public class Reception : BaseEntity
     private string? m_PAT_Name;
     private string? m_PAT_ChartNo;
     private string? m_PAT_Sex;
+    private string? m_vPAT_Sex;
     private int? m_PAT_Age;
+    private string? m_vPAT_Info;
 
     private string? m_RCP_VisitType;
     private string? m_RCP_Status;
+    private string? m_vRCP_Status;
     private string? m_RCP_Route;
+    private string? m_vRCP_Route;
     private string? m_RCP_Subject;
     private string? m_RCP_SubjectName;
     private string? m_RCP_InsuranceType;
+    private string? m_vRCP_InsuranceType;
     private string? m_RCP_ReceiptDate;
     private string? m_RCP_ReceiptTime;
     private string? m_RCP_StartTreatTime;
@@ -119,10 +124,22 @@ public class Reception : BaseEntity
         set => SetProperty(ref m_PAT_Sex, value);
     }
 
+    public string? vPAT_Sex
+    {
+        get => m_vPAT_Sex;
+        set => SetProperty(ref m_vPAT_Sex, value);
+    }
+
     public int? PAT_Age
     {
         get => m_PAT_Age;
         set => SetProperty(ref m_PAT_Age, value);
+    }
+
+    public string? vPAT_Info
+    {
+        get => m_vPAT_Info;
+        set => SetProperty(ref m_vPAT_Info, value);
     }
 
     public string? RCP_VisitType
@@ -137,10 +154,22 @@ public class Reception : BaseEntity
         set => SetProperty(ref m_RCP_Status, value);
     }
 
+    public string? vRCP_Status
+    {
+        get => m_vRCP_Status;
+        set => SetProperty(ref m_vRCP_Status, value);
+    }
+
     public string? RCP_Route
     {
         get => m_RCP_Route;
         set => SetProperty(ref m_RCP_Route, value);
+    }
+
+    public string? vRCP_Route
+    {
+        get => m_vRCP_Route;
+        set => SetProperty(ref m_vRCP_Route, value);
     }
 
     public string? RCP_Subject
@@ -159,6 +188,12 @@ public class Reception : BaseEntity
     {
         get => m_RCP_InsuranceType;
         set => SetProperty(ref m_RCP_InsuranceType, value);
+    }
+
+    public string? vRCP_InsuranceType
+    {
+        get => m_vRCP_InsuranceType;
+        set => SetProperty(ref m_vRCP_InsuranceType, value);
     }
 
     public string? RCP_ReceiptDate

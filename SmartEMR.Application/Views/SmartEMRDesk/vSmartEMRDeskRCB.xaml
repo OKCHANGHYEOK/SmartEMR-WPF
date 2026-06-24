@@ -1,5 +1,5 @@
-﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskRCP"
-                        x:TypeArguments="vm:SmartEMRDeskRCPViewModel"
+﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskRCB"
+                        x:TypeArguments="vm:SmartEMRDeskRCBViewModel"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,16 +19,18 @@
                     LayoutDefinitions="1,3"
                     RowSizeDefinitions="Auto,Auto,1*">
         
-        <desk:vSmartEMRDeskRCPFilterGrid Grid.Row="0"/>
+        <desk:vSmartEMRDeskRCBFilterGrid Grid.Row="0"/>
 
         <Border Grid.Row="1"
                 Height="1" 
                 Background="LightGray"
                 Margin="0,2,0,2"/>
 
-        <Xpf:DataGrid   Grid.Row="2"
-                        ItemsSource="{Binding vm.arrRCP, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type desk:vSmartEMRDeskRCP}}}">
-            <Xpf:ColumnItem FIeldName="vRCP_Status"
+        <Xpf:DataGrid   x:Name="RCBGrid"
+                        Grid.Row="2"
+                        ItemsSource="{Binding arrRCB}">
+            
+            <Xpf:ColumnItem FIeldName="vRCB_Status"
                             Header="상태"
                             ColumnType="Label"
                             ColumnWidth="28"
@@ -52,13 +54,13 @@
                             ColumnWidth="25"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRCP_VisitType"
+            <Xpf:ColumnItem FIeldName="vRCB_VisitType"
                             Header="구분"
                             ColumnType="Label"
                             ColumnWidth="30"
                             ColumnStyle="Code"/>
 
-            <Xpf:ColumnItem FIeldName="vRCP_Subject"
+            <Xpf:ColumnItem FIeldName="vRCB_Subject"
                             Header="접수과목"
                             ColumnType="Label"
                             ColumnWidth="60"
@@ -70,23 +72,28 @@
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="RCP_ReceiptTime"
+            <Xpf:ColumnItem FIeldName="RCB_ReceiptTime"
                             Header="접수시간"
                             ColumnType="Label"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRCP_InsuranceType"
+            <Xpf:ColumnItem FIeldName="vRCB_InsuranceType"
                             Header="보험"
                             ColumnType="Label"
                             ColumnWidth="30"
                             ColumnStyle="Code"/>
 
-            <Xpf:ColumnItem FIeldName="RCP_Memo"
+            <Xpf:ColumnItem FIeldName="RCB_Memo"
                             Header="메모"
                             ColumnType="Label"
                             ColumnWidth="200"
                             ColumnStyle="Name"/>
         </Xpf:DataGrid>
+
+        <Xpf:MaskControl    x:Name="MaskControl"
+                            Grid.Row="2"
+                            MaskText="접수내역이 존재하지 않습니다."
+                            Visibility="{Binding GridControl.VisibleRowCount, ElementName=RCBGrid, Converter={converter:IntToVisibilityConverter invert=True}}"/>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

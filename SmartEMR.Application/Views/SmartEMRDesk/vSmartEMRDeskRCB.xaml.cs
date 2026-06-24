@@ -8,10 +8,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// <summary>
     /// vSmartEMRDeskRCVInfo.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class vSmartEMRDeskRCP : ModelViewLayout<SmartEMRDeskRCPViewModel>
+    public partial class vSmartEMRDeskRCB : ModelViewLayout<SmartEMRDeskRCBViewModel>
     {
         protected override void Initialize()
         {
+            MaskControl.ShowButton = false;
         }
 
         protected override void SetBindGrid()
@@ -31,10 +32,13 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
 
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.ItemsSource = vm.arrMUR_DOC;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Status")?.ItemsSource = vm.arrRCP_Status;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Route")?.ItemsSource = vm.arrRCP_Route;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_VisitType")?.ItemsSource = vm.arrRCP_VisitType;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_Type")?.ItemsSource = vm.arrRCP_InsuranceType;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_Status")?.ItemsSource = vm.arrRCB_Status;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_Route")?.ItemsSource = vm.arrRCB_Route;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_VisitType")?.ItemsSource = vm.arrRCB_VisitType;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_Type")?.ItemsSource = vm.arrRCB_InsuranceType;
+
+            this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowToday = false;
+            this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowClearButton = false;
         }
 
         public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -66,8 +70,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             switch (bindItem.FieldName)
             {
-                case "MUR_Idx_DOC" or "RCP_Status" or
-                     "RCP_Route" or "RCP_VisitType" or "IRC_Type":
+                case "MUR_Idx_DOC" or "RCB_Status" or
+                     "RCB_Route" or "RCB_VisitType" or "IRC_Type":
 
                     await vm.FetchDataAsync();
 

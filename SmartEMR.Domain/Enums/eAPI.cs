@@ -14,5 +14,6 @@ public enum  eAPI
     Chart_SetChart = 8,
     ChartCommonCode_GetChartCommonCode = 9,
     Reception_GetReception = 10,
-    Reception_SetReception = 11
+    Reception_GetReceptionBoard = 11,
+    Reception_SetReception = 12
 }

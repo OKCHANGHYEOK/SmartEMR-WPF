@@ -3,11 +3,11 @@
 namespace SmartEMR.Application.Views.SmartEMRDesk
 {
     /// <summary>
-    /// vSmartEMRDeskRCPFilterGrid.xaml에 대한 상호 작용 논리
+    /// vSmartEMRDeskRCBFilterGrid.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class vSmartEMRDeskRCPFilterGrid : UserControl
+    public partial class vSmartEMRDeskRCBFilterGrid : UserControl
     {
-        public vSmartEMRDeskRCPFilterGrid()
+        public vSmartEMRDeskRCBFilterGrid()
         {
             InitializeComponent();
         }
