@@ -55,7 +55,7 @@ public class ModelProperty
         oldItem.PAT_Name = newItem.PAT_Name;
         oldItem.PAT_BloodType = newItem.PAT_BloodType;
         oldItem.PAT_SourceType = newItem.PAT_SourceType;
-        oldItem.vPAT_SourceType = SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType")?.FirstOrDefault(x => x.CCC_Cd == newItem.PAT_SourceType)?.CCC_Name;
+        oldItem.vPAT_SourceType = SmartMVVM.Common.GetCommonCode("PAT", "SourceType")?.FirstOrDefault(x => x.CCI_Cd == newItem.PAT_SourceType)?.CCI_Name;
         oldItem.PAT_Sex = newItem.PAT_Sex;
         oldItem.PAT_Age = newItem.PAT_Age;
         oldItem.vPAT_Info = (newItem.PAT_Sex == "M" ? "남" : "여") + "/" + $"{newItem.PAT_Age}세";
@@ -155,7 +155,7 @@ public class ModelProperty
     {
         oldItem.IRC_Idx = newItem.IRC_Idx.GetValueOrDefault(0);
         oldItem.IRC_Type = newItem.IRC_Type;
-        oldItem.vIRC_Type = SmartMVVM.Common.GetChartCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCC_Cd == newItem.IRC_Type)?.CCC_Name;
+        oldItem.vIRC_Type = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCI_Cd == newItem.IRC_Type)?.CCI_Name;
         oldItem.IRC_CertNum = newItem.IRC_CertNum;
         oldItem.IRC_ContractorName = newItem.IRC_ContractorName;
         oldItem.IRC_InsuredName = newItem.IRC_InsuredName;

@@ -97,7 +97,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         public void SetInsuranceType(string IRC_Type)
         {
             IRCItem.IRC_Type = IRC_Type;
-            IRCItem.vIRC_Type = SmartMVVM.Common.GetChartCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCC_Cd == IRC_Type)?.CCC_Name;
+            IRCItem.vIRC_Type = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCI_Cd == IRC_Type)?.CCI_Name;
 
             if (IRC_Type == "NOR")
             {

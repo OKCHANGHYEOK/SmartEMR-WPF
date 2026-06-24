@@ -12,10 +12,10 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
     {
         arrMUR_DOC = SmartMVVM.Master.GetMemberUsers("DOC", true, "의사선택");
         arrMUR_STF = SmartMVVM.Master.GetMemberUsers("STF", true, "직원선택");
-        arrRCP_Subject = SmartMVVM.Common.GetChartCommonCode("RCP","Subject");
-        arrRCP_VisitType = SmartMVVM.Common.GetChartCommonCode("RCP", "VisitType");
-        arrRCP_Route = SmartMVVM.Common.GetChartCommonCode("RCP", "Route");
-        arrRCP_InsuranceType = SmartMVVM.Common.GetChartCommonCode("RCP", "InsuranceType");
+        arrRCP_Subject = SmartMVVM.Common.GetCommonCode("RCP","Subject");
+        arrRCP_VisitType = SmartMVVM.Common.GetCommonCode("RCP", "VisitType");
+        arrRCP_Route = SmartMVVM.Common.GetCommonCode("RCP", "Route");
+        arrRCP_InsuranceType = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType");
     }
 
     protected override Reception GetModel(Reception item)

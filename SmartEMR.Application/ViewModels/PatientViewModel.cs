@@ -19,8 +19,8 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
     public IQueryable<object>? arrPAT_IsForegin { get; set; }
     public IQueryable<object>? arrPAT_IsAgreePersonalInfo { get; set; }
 
-    private List<ChartCommonCode>? _arrPAT_SourceType;
-    public List<ChartCommonCode>? arrPAT_SourceType
+    private List<CommonCode>? _arrPAT_SourceType;
+    public List<CommonCode>? arrPAT_SourceType
     {
         get => _arrPAT_SourceType;
         set
@@ -41,7 +41,7 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
         arrPAT_IsForegin = SmartMVVM.Master.Query("PAT_IsForegin");
         arrPAT_IsAgreePersonalInfo = SmartMVVM.Master.Query("PAT_IsAgreePersonalInfo");
 
-        arrPAT_SourceType = SmartMVVM.Common.GetChartCommonCode("PAT", "SourceType");
+        arrPAT_SourceType = SmartMVVM.Common.GetCommonCode("PAT", "SourceType");
     }
 
     protected override abstract Patient GetModel(Patient item);

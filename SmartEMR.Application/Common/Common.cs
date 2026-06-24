@@ -37,15 +37,15 @@ public class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();
 
-    private List<ChartCommonCode> _arrCCC = new();
-    public IReadOnlyList<ChartCommonCode> arrCCC => _arrCCC.AsReadOnly();
+    private List<CommonCode> _arrCCC = new();
+    public IReadOnlyList<CommonCode> arrCCC => _arrCCC.AsReadOnly();
 
     public async Task Initialize()
     {
-        var retCCC = await SmartMVVM.DataStore.GetItems<ChartCommonCode>(eAPI.ChartCommonCode_GetChartCommonCode, new ChartCommonCode());
+        var retCCC = await SmartMVVM.DataStore.GetItems<CommonCode>(eAPI.CommonCode_GetCommonCode, new CommonCode());
         if (retCCC == null || SmartMVVM.DataStore.retIsSuccess == false)
         {
-            SmartUI.SetNofification("ChartCommonCode_GetChartCommonCode 조회에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNofification("CommonCode_GetCommonCode 조회에 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -74,30 +74,30 @@ public class Common
         }
     }
 
-    public List<ChartCommonCode> GetChartCommonCode(string CCCM_Cd = "", string CCCG_Cd = "", string CCC_Cd = "", bool isDefault = false, string defaultText = "전체")
+    public List<CommonCode> GetCommonCode(string CCC_Cd = "", string CCG_Cd = "", string CCI_Cd = "", bool isDefault = false, string defaultText = "전체")
     {
-        List<ChartCommonCode> retCCC = new();
+        List<CommonCode> retCCC = new();
 
         if (isDefault)
         {
-            retCCC.Add(new ChartCommonCode { CCC_Name = defaultText, CCC_Cd = ""});
+            retCCC.Add(new CommonCode { CCI_Name = defaultText, CCI_Cd = ""});
         }
 
-        IEnumerable<ChartCommonCode>? targetItems = null;
-
-        if (!string.IsNullOrWhiteSpace(CCCM_Cd))
-        {
-            targetItems = arrCCC.Where(x => x.CCCM_Cd == CCCM_Cd);
-        }
-
-        if (!string.IsNullOrWhiteSpace(CCCG_Cd))
-        {
-            targetItems = arrCCC.Where(x => x.CCCG_Cd == CCCG_Cd);
-        }
+        IEnumerable<CommonCode>? targetItems = null;
 
         if (!string.IsNullOrWhiteSpace(CCC_Cd))
         {
             targetItems = arrCCC.Where(x => x.CCC_Cd == CCC_Cd);
+        }
+
+        if (!string.IsNullOrWhiteSpace(CCG_Cd))
+        {
+            targetItems = arrCCC.Where(x => x.CCG_Cd == CCG_Cd);
+        }
+
+        if (!string.IsNullOrWhiteSpace(CCI_Cd))
+        {
+            targetItems = arrCCC.Where(x => x.CCI_Cd == CCI_Cd);
         }
         
         if (targetItems != null)
