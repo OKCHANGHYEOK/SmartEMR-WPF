@@ -3,6 +3,7 @@ using DevExpress.Xpf.Grid;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -128,15 +129,7 @@ public partial class DataGrid : ContentControl
         element.Header = item.Header;
         element.Width = item.ColumnWidth;
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-
-        if (item.Template != null)
-        {
-            element.CellTemplate = item.Template;
-        }
-        else
-        {
-            element.CellTemplate = GetCellTemplate(item);
-        }
+        element.CellTemplate = GetCellTemplate(item);
 
         // 동적 속성 스타일 설정
         Style cellStyle = new Style(typeof(LightweightCellEditor));
@@ -162,25 +155,33 @@ public partial class DataGrid : ContentControl
 
     private DataTemplate? GetCellTemplate(ColumnItem item)
     {
-        // 템플릿 로드가 제대로 되지 않은 경우 한 번 더 로드
-        if (_templateResource == null)
-        {
-            SetTemplateResource();
-        }
-
-        // 다시 로드해도 못 찾은 경우 반환
         if (_templateResource == null) return default!;
 
-        string resourceKey = item.ColumnType switch
-        {
-            ColumnType.Label => "GridColumnLabelTemplate",
-            ColumnType.TextBox => "GridColumnTextBoxTemplate",
-            ColumnType.CheckBox => "GridColumnCheckBoxTemplate",
-            ColumnType.TextLink => "GridColumnTextLinkTemplate",
-            _ => "GridColumnLabelTemplate" // 기본값
-        };
+        var template = new DataTemplate();
 
-        var template = _templateResource[resourceKey] as DataTemplate;
+        if (item.CellTemplateType != null)
+        {
+            if (!typeof(FrameworkElement).IsAssignableFrom(item.CellTemplateType))
+            {
+                Debug.WriteLine($"{item.CellTemplateType.Name}은 FrameworkElement를 상속해야 합니다.");
+                return null;
+            }
+
+            template.VisualTree = new FrameworkElementFactory(item.CellTemplateType);
+        }
+        else
+        {
+            string resourceKey = item.ColumnType switch
+            {
+                ColumnType.Label => "GridColumnLabelTemplate",
+                ColumnType.TextBox => "GridColumnTextBoxTemplate",
+                ColumnType.CheckBox => "GridColumnCheckBoxTemplate",
+                ColumnType.TextLink => "GridColumnTextLinkTemplate",
+                _ => "GridColumnLabelTemplate" // 기본값
+            };
+
+            template = _templateResource[resourceKey] as DataTemplate;
+        }
 
         return template;
     }

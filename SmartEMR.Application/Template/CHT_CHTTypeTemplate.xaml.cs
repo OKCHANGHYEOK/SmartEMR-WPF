@@ -9,7 +9,7 @@ namespace SmartEMR.Application.Template;
 /// </summary>
 public partial class CHT_CHTTypeTemplate : GridTemplate
 {
-    public override void Initalize()
+    public override void Initialize()
     {
     }
 

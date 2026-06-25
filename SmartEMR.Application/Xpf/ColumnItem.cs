@@ -29,7 +29,7 @@ public class ColumnItem
     public double FontSize { get; set; } = 11;
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;
     public Brush? Foreground { get; set; } = Brushes.Black;
-    public DataTemplate? Template { get; set; }
+    public Type? CellTemplateType { get; set; }
     public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Left;
     public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Center;
 }

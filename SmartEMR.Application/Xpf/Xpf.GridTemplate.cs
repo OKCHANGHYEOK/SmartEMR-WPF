@@ -1,13 +1,13 @@
-﻿using System.Windows.Controls;
-
-namespace SmartEMR.Application.Xpf;
+﻿namespace SmartEMR.Application.Xpf;
 
 public abstract class GridTemplate : CustomControl
 {
-    public GridTemplate()
-    {
+    public object? DataItem => DataContext;
 
+    protected GridTemplate()
+    {
+        Initialize();
     }
 
-    public abstract void Initalize();
+    public abstract void Initialize();
 }
