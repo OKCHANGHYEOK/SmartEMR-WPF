@@ -15,7 +15,8 @@ public enum BindType
     CheckBox,
     Button,
     Image,
-    DateEdit
+    DateEdit,
+    SearchEdit
 }
 
 public enum DateEditType

@@ -29,11 +29,15 @@
         <Xpf:DataGrid   x:Name="RCBGrid"
                         Grid.Row="2"
                         ItemsSource="{Binding arrRCB}">
-            
-            <Xpf:ColumnItem FIeldName="vRCB_Status"
-                            Header="상태"
+
+            <Xpf:ColumnItem FIeldName="vRCB_Type"
+                            Header="구분"
                             ColumnType="Label"
-                            ColumnWidth="28"
+                            ColumnWidth="30"/>
+
+            <Xpf:ColumnItem FIeldName="vRCB_VisitType"
+                            ColumnType="Label"
+                            ColumnWidth="30"
                             ColumnStyle="Code"/>
 
             <Xpf:ColumnItem FIeldName="PAT_ChartNo"
@@ -54,17 +58,17 @@
                             ColumnWidth="25"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRCB_VisitType"
-                            Header="구분"
+            <Xpf:ColumnItem FIeldName="vRES_Status"
+                            Header="예약"
                             ColumnType="Label"
-                            ColumnWidth="30"
-                            ColumnStyle="Code"/>
+                            ColumnWidth="32"
+                            HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRCB_Subject"
-                            Header="접수과목"
+            <Xpf:ColumnItem FIeldName="vRCP_Status"
+                            Header="접수"
                             ColumnType="Label"
-                            ColumnWidth="60"
-                            ColumnStyle="Name"/>
+                            ColumnWidth="32"
+                            HorizontalAlignment="Center"/>
 
             <Xpf:ColumnItem FIeldName="MUR_Name_DOC"
                             Header="담 당 의"
@@ -72,8 +76,14 @@
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
+            <Xpf:ColumnItem FIeldName="vRCB_Subject"
+                            Header="과목"
+                            ColumnType="Label"
+                            ColumnWidth="60"
+                            ColumnStyle="Name"/>
+
             <Xpf:ColumnItem FIeldName="RCB_ReceiptTime"
-                            Header="접수시간"
+                            Header="시간"
                             ColumnType="Label"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>

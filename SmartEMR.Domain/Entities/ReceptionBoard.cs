@@ -8,13 +8,19 @@ public class ReceptionBoard : BaseEntity
     private int? m_MUR_Idx_STF;
     private string? m_PAT_Idx;
 
+    private string? m_RCP_Status;
+    private string? m_vRCP_Status;
+    private string? m_RCP_InsuranceType;
+    private string? m_vRCP_InsuranceType;
+
+    private string? m_RES_Status;
+    private string? m_vRES_Status;
+
     private string? m_RCB_Type;
-    private string? m_RCB_Status;
+    private string? m_vRCB_Type;
     private string? m_vRCB_Status;
     private string? m_RCB_VisitType;
     private string? m_vRCB_VisitType;
-    private string? m_RCB_InsuranceType;
-    private string? m_vRCB_InsuranceType;
     private string? m_RCB_Route;
     private string? m_vRCB_Route;
     private string? m_RCB_Subject;
@@ -66,16 +72,52 @@ public class ReceptionBoard : BaseEntity
         set => SetProperty(ref m_PAT_Idx, value);
     }
 
+    public string? RCP_Status
+    {
+        get => m_RCP_Status;
+        set => SetProperty(ref m_RCP_Status, value);
+    }
+
+    public string? vRCP_Status
+    {
+        get => m_vRCP_Status;
+        set => SetProperty(ref m_vRCP_Status, value);
+    }
+
+    public string? RCP_InsuranceType
+    {
+        get => m_RCP_InsuranceType;
+        set => SetProperty(ref m_RCP_InsuranceType, value);
+    }
+
+    public string? vRCP_InsuranceType
+    {
+        get => m_vRCP_InsuranceType;
+        set => SetProperty(ref m_vRCP_InsuranceType, value);
+    }
+
+    public string? RES_Status
+    {
+        get => m_RES_Status;
+        set => SetProperty(ref m_RES_Status, value);
+    }
+
+    public string? vRES_Status
+    {
+        get => m_vRES_Status;
+        set => SetProperty(ref m_vRES_Status, value);
+    }
+
     public string? RCB_Type
     {
         get => m_RCB_Type;
         set => SetProperty(ref m_RCB_Type, value);
     }
 
-    public string? RCB_Status
+    public string? vRCB_Type
     {
-        get => m_RCB_Status;
-        set => SetProperty(ref m_RCB_Status, value);
+        get => m_vRCB_Type;
+        set => SetProperty(ref m_vRCB_Type, value);
     }
 
     public string? vRCB_Status
@@ -94,18 +136,6 @@ public class ReceptionBoard : BaseEntity
     {
         get => m_vRCB_VisitType;
         set => SetProperty(ref m_vRCB_VisitType, value);
-    }
-
-    public string? RCB_InsuranceType
-    {
-        get => m_RCB_InsuranceType;
-        set => SetProperty(ref m_RCB_InsuranceType, value);
-    }
-
-    public string? vRCB_InsuranceType
-    {
-        get => m_vRCB_InsuranceType;
-        set => SetProperty(ref m_vRCB_InsuranceType, value);
     }
 
     public string? RCB_Route

@@ -365,6 +365,14 @@ public partial class BindGrid : StyleGrid, IDisposable
                 };
 
                 break;
+
+            case BindType.SearchEdit:
+                visualChild = new SearchEdit 
+                { 
+                    NullText = bindItem.Placeholder
+                };
+
+                break;
         }
 
         return visualChild;

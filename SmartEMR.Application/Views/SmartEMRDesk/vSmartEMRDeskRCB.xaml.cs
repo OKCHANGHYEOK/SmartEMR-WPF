@@ -24,7 +24,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     var element = this.BindGrids[0].GetBindItem<ComboBoxEdit>(bindItem.FieldName);
                     if (element != null)
                     {
-                        element.Height = 32;
+                        element.Height = 23;
                         element.Margin = new Thickness(2, 2, 2, 0);
                         element.VerticalAlignment = VerticalAlignment.Center;
                     }
@@ -32,10 +32,14 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
 
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.ItemsSource = vm.arrMUR_DOC;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_Status")?.ItemsSource = vm.arrRCB_Status;
+
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Status")?.ItemsSource = vm.arrRCP_Status;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_InsuranceType")?.ItemsSource = vm.arrRCP_InsuranceType;
+
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RES_Status")?.ItemsSource = vm.arrRES_Status;
+
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_Route")?.ItemsSource = vm.arrRCB_Route;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_VisitType")?.ItemsSource = vm.arrRCB_VisitType;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_Type")?.ItemsSource = vm.arrRCB_InsuranceType;
 
             this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowToday = false;
             this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowClearButton = false;

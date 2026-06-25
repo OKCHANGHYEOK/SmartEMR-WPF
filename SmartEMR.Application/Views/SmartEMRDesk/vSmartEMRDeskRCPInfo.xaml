@@ -53,8 +53,8 @@
                                 Col="0"
                                 Row="1"
                                 ColSpan="2"
-                                DisplayMember="CCC_Name"
-                                ValueMember="CCC_Cd"/>
+                                DisplayMember="CCI_Name"
+                                ValueMember="CCI_Cd"/>
 
                 <Xpf:BindItem   FieldName="RCP_SubjectName"
                                 BindType="TextBox"
@@ -86,16 +86,16 @@
                             BindType="ComboBox"
                             Col="0"
                             Row="3"
-                            DisplayMember="CCC_Name"
-                            ValueMember="CCC_Cd"/>
+                            DisplayMember="CCI_Name"
+                            ValueMember="CCI_Cd"/>
 
             <Xpf:BindItem   FieldName="RCP_Route"
                             Header="내 원 경 로"
                             BindType="ComboBox"
                             Col="1"
                             Row="3"
-                            DisplayMember="CCC_Name"
-                            ValueMember="CCC_Cd"/>
+                            DisplayMember="CCI_Name"
+                            ValueMember="CCI_Cd"/>
 
             <x:Array Type="{x:Type Xpf:BindItem}">
                 <Xpf:BindItem   FieldName="RCP_InsuranceType"
@@ -104,8 +104,8 @@
                                 Col="0"
                                 Row="4"
                                 ColSpan="2"
-                                DisplayMember="CCC_Name"
-                                ValueMember="CCC_Cd"/>
+                                DisplayMember="CCI_Name"
+                                ValueMember="CCI_Cd"/>
 
                 <Xpf:BindItem   FieldName="btnSetIRC"
                                 BindType="Button"

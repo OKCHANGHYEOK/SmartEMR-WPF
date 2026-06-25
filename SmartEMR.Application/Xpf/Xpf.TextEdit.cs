@@ -16,7 +16,7 @@ public class TextEdit : DevExpress.Xpf.Editors.TextEdit
         this.PreviewKeyDown += OnPreviewKeyDown_TextEdit;
     }
 
-    private void OnPreviewKeyDown_TextEdit(object sender, System.Windows.Input.KeyEventArgs e)
+    protected virtual void OnPreviewKeyDown_TextEdit(object sender, System.Windows.Input.KeyEventArgs e)
     {
         var element = sender as TextEdit;
         if (element == null) return;

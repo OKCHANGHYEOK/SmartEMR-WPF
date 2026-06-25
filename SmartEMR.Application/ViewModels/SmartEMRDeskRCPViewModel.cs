@@ -16,27 +16,38 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
     }
 
     public List<MemberUser> arrMUR_DOC { get; set; } = default!;
-    public List<ChartCommonCode> arrRCB_Status { get; set; } = default!;
-    public List<ChartCommonCode> arrRCB_Route { get; set; } = default!;
-    public List<ChartCommonCode> arrRCB_VisitType { get; set; } = default!;
-    public List<ChartCommonCode> arrRCB_InsuranceType { get; set; } = default!;
+
+    public List<CommonCode> arrRCP_Status { get; set; } = default!;
+    public List<CommonCode> arrRCP_InsuranceType { get; set; } = default!;
+
+    public List<CommonCode> arrRES_Status { get; set; } = default!;
+
+    public List<CommonCode> arrRCB_Route { get; set; } = default!;
+    public List<CommonCode> arrRCB_VisitType { get; set; } = default!;
 
     public override void Initialize()
     {
         arrMUR_DOC = SmartMVVM.Master.GetMemberUsers("DOC", true, "담당의구분");
-        arrRCB_Status = SmartMVVM.Common.GetChartCommonCode("RCB", "Status", "", true, "상태구분");
-        arrRCB_Route = SmartMVVM.Common.GetChartCommonCode("RCB", "Route", "", true, "방문구분");
-        arrRCB_VisitType = SmartMVVM.Common.GetChartCommonCode("RCB", "VisitType", "", true, "초재진구분");
-        arrRCB_InsuranceType = SmartMVVM.Common.GetChartCommonCode("RCB", "InsuranceType", "", true, "보험구분");
+
+        arrRCP_Status = SmartMVVM.Common.GetCommonCode("RCP", "Status", "", true, "접수상태");
+        arrRCP_InsuranceType = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType", "", true, "보험구분");
+
+        arrRES_Status = SmartMVVM.Common.GetCommonCode("RES", "Status", "", true, "예약상태");
+
+        arrRCB_Route = SmartMVVM.Common.GetCommonCode("RCB", "Route", "", true, "방문구분");
+        arrRCB_VisitType = SmartMVVM.Common.GetCommonCode("RCB", "VisitType", "", true, "초재진구분");
     }
 
     protected override ReceptionBoard GetModel(ReceptionBoard item)
     {
         item.MUR_Idx_DOC = 0;
-        item.RCB_Status = "";
+
+        item.RCP_Status = "";
+        item.RCP_InsuranceType = "";
+        item.RES_Status = "";
+
         item.RCB_Route = "";
         item.RCB_VisitType = "";
-        item.RCB_InsuranceType = "";
         item.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
 
         return item;
@@ -48,10 +59,13 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         {
             MUR_Idx_DOC = Model.MUR_Idx_DOC,
 
-            RCB_Status = Model.RCB_Status,
+            RCP_Status = Model.RCP_Status,
+            RCP_InsuranceType = Model.RCP_InsuranceType,
+
+            RES_Status = Model.RES_Status,
+
             RCB_Route = Model.RCB_Route,
             RCB_VisitType = Model.RCB_VisitType,
-            RCB_InsuranceType = Model.RCB_InsuranceType,
             RCB_YYMMDD = Model.RCB_YYMMDD,
 
             Keyword = Model.Keyword,
@@ -69,8 +83,16 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
             {
                 mitem.vPAT_Sex = mitem.PAT_Sex == "M" ? "남" : "여";
                 mitem.vPAT_Info = $"{mitem.vPAT_Sex}/{mitem.PAT_Age.GetValueOrDefault(0)}";
-                mitem.vRCB_Status = arrRCB_Status.FirstOrDefault(x => x.CCC_Cd == mitem.RCB_Status)?.CCC_Name;
-                mitem.vRCB_InsuranceType = arrRCB_InsuranceType.FirstOrDefault(x => x.CCC_Cd == mitem.RCB_InsuranceType)?.CCC_Name;
+
+                if (mitem.RCB_Type == "RES")
+                {
+                    mitem.vRES_Status = arrRES_Status.FirstOrDefault(x => x.CCI_Cd == mitem.RES_Status)?.CCI_Name;
+                }
+                else if (mitem.RCB_Type == "RCP")
+                {
+                    mitem.vRCP_Status = arrRCP_Status.FirstOrDefault(x => x.CCI_Cd == mitem.RCP_Status)?.CCI_Name;
+                    mitem.vRCP_InsuranceType = arrRCP_InsuranceType.FirstOrDefault(x => x.CCI_Cd == mitem.RCP_InsuranceType)?.CCI_Name;
+                }
             }
 
             arrRCB = retRCB.ToList();
@@ -89,9 +111,14 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
     public void ClearData()
     {
         Model.MUR_Idx_DOC = 0;
-        Model.RCB_Status = "";
+
+        Model.RCP_Status = "";
+        Model.RCP_InsuranceType = "";
+
+        Model.RES_Status = "";
+        
         Model.RCB_Route = "";
         Model.RCB_VisitType = "";
-        Model.RCB_InsuranceType = "";
+        Model.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
     }
 }
