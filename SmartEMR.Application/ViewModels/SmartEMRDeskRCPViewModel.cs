@@ -103,6 +103,20 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         }
     }
 
+    public async Task SearchData()
+    {
+        if (string.IsNullOrWhiteSpace(Model.Keyword))
+        {
+            SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요.", NotificationType.Warning);
+
+            await SmartUI.SendMessage("SetFocusToSearch");
+
+            return;
+        }
+
+        await FetchDataAsync();
+    }
+
     public void SetToDay()
     {
         Model.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
@@ -120,5 +134,6 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         Model.RCB_Route = "";
         Model.RCB_VisitType = "";
         Model.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+        Model.Keyword = "";
     }
 }

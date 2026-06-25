@@ -21,7 +21,7 @@
                             Col="0"
                             Row="0"
                             DisplayFormatString="yyyy년 MM월 dd일 dddd"
-                            Margin="0,2,2,0"
+                            Margin="2,0,2,0"
                             IsHeader="False"/>
 
             <Xpf:BindItem   FieldName="btnSetToDay"
@@ -33,74 +33,87 @@
                             BackGround="TransParent"
                             BorderBrush="LightGray"
                             BorderThickness="1"
-                            Margin="2,2,2,0"
+                            Margin="2,0,2,0"
                             IsBinding="False"
                             IsBindClickEvent="True"/>
         </x:Array>
 
-        <Xpf:BindItem   FieldName="MUR_Idx_DOC"
-                        BindType="ComboBox"
-                        Col="1"
-                        Row="0"
-                        DisplayMember="MUR_Name"
-                        ValueMember="MUR_Idx"/>
-
         <Xpf:BindItem   FieldName="RES_Status"
                         BindType="ComboBox"
-                        Col="2"
+                        Col="1"
                         Row="0"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
         <Xpf:BindItem   FieldName="RCP_Status"
                         BindType="ComboBox"
-                        Col="3"
+                        Col="2"
                         Row="0"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
-        <Xpf:BindItem   FieldName="RCP_InsuranceType"
+        <Xpf:BindItem   FieldName="RCB_Route"
                         BindType="ComboBox"
                         Col="0"
                         Row="1"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
-        <Xpf:BindItem   FieldName="RCB_Route"
+
+        <Xpf:BindItem   FieldName="MUR_Idx_DOC"
                         BindType="ComboBox"
                         Col="1"
                         Row="1"
-                        DisplayMember="CCI_Name"
-                        ValueMember="CCI_Cd"/>
+                        DisplayMember="MUR_Name"
+                        ValueMember="MUR_Idx"/>
 
-        <Xpf:BindItem   FieldName="RCB_VisitType"
+        <Xpf:BindItem   FieldName="RCP_InsuranceType"
                         BindType="ComboBox"
                         Col="2"
                         Row="1"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
+
         <x:Array Type="{x:Type Xpf:BindItem}">
-            <Xpf:BindItem   FieldName="keyword"
+            <Xpf:BindItem   FieldName="Keyword"
                             BindType="SearchEdit"
-                            Col="4"
+                            Height="23"
+                            Col="3"
                             Row="0"
                             ColSpan="3"
-                            RowSpan="2"
                             Placeholder="환자명/차트번호로 검색하세요."/>
 
-            <Xpf:BindItem   FieldName="btnClearFilter"
-                            BorderThickness="1"
-                            Width="23"
-                            IsBinding="False"
-                            IsBindClickEvent="True"
-                            IsAutoWidth="False"
-                            Margin="0">
+            <Xpf:BindItem   FieldName="ButtonPanel"
+                            Width="50"
+                            Height="23">
 
-                <Xpf:ImageButton    Width="23"
-                                    Height="23"
-                                    Glyph="/Images/smartemr_reset.png"
-                                    BorderBrush="LightGray"/>
+                <Xpf:StyleGrid  LayoutDefinitions="5,1"
+                                ColumnSizeDefinitions="1,Auto,2,Auto,1"
+                                Margin="0">
+
+                    <Xpf:ImageButton    x:Name="btnSearch"
+                                        Grid.Column="1"
+                                        Width="23"
+                                        Height="23"
+                                        ImageWidth="18"
+                                        ImageHeight="18"
+                                        Glyph="/Images/smartemr_search.png"
+                                        BorderBrush="LightGray"
+                                        Click="OnClick_ImageButton">
+                    </Xpf:ImageButton>
+
+                    <Xpf:ImageButton    x:Name="btnClearFilter"
+                                        Grid.Column="3"
+                                        Width="23"
+                                        Height="23"
+                                        ImageWidth="18"
+                                        ImageHeight="18"
+                                        Glyph="/Images/smartemr_reset.png"
+                                        BorderBrush="LightGray"
+                                        Click="OnClick_ImageButton">
+                    </Xpf:ImageButton>
+                </Xpf:StyleGrid>
             </Xpf:BindItem>
         </x:Array>
     </Xpf:BindGrid>

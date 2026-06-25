@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -10,9 +11,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// </summary>
     public partial class vSmartEMRDeskRCB : ModelViewLayout<SmartEMRDeskRCBViewModel>
     {
-        protected override void Initialize()
+        protected override async void Initialize()
         {
             MaskControl.ShowButton = false;
+
+            await vm.FetchDataAsync();
         }
 
         protected override void SetBindGrid()
@@ -25,7 +28,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     if (element != null)
                     {
                         element.Height = 23;
-                        element.Margin = new Thickness(2, 2, 2, 0);
+                        element.Margin = new Thickness(2, 0, 2, 0);
                         element.VerticalAlignment = VerticalAlignment.Center;
                     }
                 }
@@ -43,6 +46,33 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowToday = false;
             this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowClearButton = false;
+
+            this.BindGrids[0].GetBindItem<SearchEdit>("Keyword")?.MinHeight = 23;
+        }
+
+        public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+        {
+            var response = new ViewMessageResponse { IsSuccess = false };
+
+            switch (request.MessageAction)
+            {
+                case "SearchData":
+                    await vm.SearchData();
+                    break;
+
+                case "ClearFilter":
+                    vm.ClearData();
+
+                    SmartUI.SetNofification("필터 초기화되었습니다.", NotificationType.Info);
+
+                    break;
+
+                case "SetFocusToSearch":
+                    this.BindGrids[0].GetBindItem<SearchEdit>("keyword")?.Focus();
+                    break;
+            }
+
+            return response;
         }
 
         public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -56,10 +86,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             {
                 case "btnSetToday":
                     vm.SetToDay();
-                    break;
-
-                case "btnClearFilter":
-                    vm.ClearData();
                     break;
             }
         }

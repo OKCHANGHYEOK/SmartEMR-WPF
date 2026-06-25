@@ -41,6 +41,7 @@
     <None Remove="Images\smartemr_register.png" />
     <None Remove="Images\smartemr_reset.png" />
     <None Remove="Images\smartemr_save.png" />
+    <None Remove="Images\smartemr_search.png" />
     <None Remove="Images\Svg\smartemr-error.svg" />
     <None Remove="Images\Svg\smartemr_menu_calendar.svg" />
     <None Remove="Images\Svg\smartemr_menu_crm.svg" />
@@ -100,6 +101,7 @@
     <Resource Include="Images\smartemr_register.png" />
     <Resource Include="Images\smartemr_reset.png" />
     <Resource Include="Images\smartemr_save.png" />
+    <Resource Include="Images\smartemr_search.png" />
     <Resource Include="Images\smartemr_warning.png" />
     <Resource Include="Images\smartemr_info.png" />
     <Resource Include="Images\smartemr_menu_crm.png" />

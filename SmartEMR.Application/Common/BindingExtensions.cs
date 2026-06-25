@@ -19,6 +19,7 @@ public class BindingExtensions
             _ when element is CheckEdit => CheckEdit.IsCheckedProperty,
             _ when element is ComboBoxEdit => ComboBoxEdit.EditValueProperty,
             _ when element is DateEdit => DateEdit.EditValueProperty,
+            _ when element is SearchEdit => SearchEdit.EditValueProperty,
             _ => null
         };
 
