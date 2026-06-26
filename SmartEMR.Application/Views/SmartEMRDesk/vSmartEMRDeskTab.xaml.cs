@@ -68,11 +68,11 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 break;
 
             case "ClearPatient":
-                await ClearData();
+                ClearData();
                 break;
 
             case "ClearReception":
-                _ = ClearData(false);
+                ClearData(false);
                 break;
         }
 
@@ -81,7 +81,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         return response;
     }
 
-    private async Task ClearData(bool isClearPAT = true)
+    private async void ClearData(bool isClearPAT = true)
     {
         if (isClearPAT) 
         {

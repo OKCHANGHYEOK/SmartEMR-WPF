@@ -270,23 +270,23 @@ public static partial class SmartUI
         switch (type)
         {
             case NotificationType.Info:
-                color = SmartBrush.BRUSH_INFO;
-                Image = SmartImage.IMAGE_INFO;
+                color = SmartBrush.SMART_BRUSH_INFO;
+                Image = SmartImage.SMART_IMAGE_INFO;
                 break;
 
             case NotificationType.Success:
-                color = SmartBrush.BRUSH_SUCCESS;
-                Image = SmartImage.IMAGE_SUCCESS;
+                color = SmartBrush.SMART_BRUSH_SUCCESS;
+                Image = SmartImage.SMART_IMAGE_SUCCESS;
                 break;
 
             case NotificationType.Warning:
-                color = SmartBrush.BRUSH_WARNING;
-                Image = SmartImage.IMAGE_WARNING;
+                color = SmartBrush.SMART_BRUSH_WARNING;
+                Image = SmartImage.SMART_IMAGE_WARNING;
                 break;
 
             case NotificationType.Error:
-                color = SmartBrush.BRUSH_ERROR;
-                Image = SmartImage.IMAGE_ERROR;
+                color = SmartBrush.SMART_BRUSH_ERROR;
+                Image = SmartImage.SMART_IMAGE_ERROR;
                 break;
         }
 

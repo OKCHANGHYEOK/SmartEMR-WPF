@@ -52,7 +52,7 @@ public class Common
         }
 
         _arrCCC = retCCC.ToList();
-        _cccMapper = _arrCCC.ToDictionary(x => (x.CCC_Cd, x.CCG_Cd, x.CCI_Cd), x => x.CCC_Name);
+        _cccMapper = _arrCCC.ToDictionary(x => (x.CCC_Cd, x.CCG_Cd, x.CCI_Cd), x => x.CCI_Name);
     }
 
     public void DisposeControl(object? element)

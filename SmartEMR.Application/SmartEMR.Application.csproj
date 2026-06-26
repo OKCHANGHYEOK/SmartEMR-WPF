@@ -122,4 +122,10 @@
     <Resource Include="Images\Svg\smartemr_menu_settings.svg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\SmartEMRDesk\SmartEMRDeskRCB\vSmartEMRDeskRCBTemplate_RCPStatus.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

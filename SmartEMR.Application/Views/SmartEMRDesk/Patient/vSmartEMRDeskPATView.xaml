@@ -142,12 +142,12 @@
                         <Style TargetType="Border">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="y">
-                                    <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_AGREE}"/>
+                                    <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.SMART_BRUSH_PERSONAL_INFO_AGREE}"/>
                                     <Setter Property="Background" Value="#E8F5E9"/>
                                 </DataTrigger>
 
                                 <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="n">
-                                    <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.BRUSH_PESRONAL_INFO_NOTAGREE}"/>
+                                    <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.SMART_BRUSH_PERSONAL_INFO_NOTAGREE}"/>
                                     <Setter Property="Background" Value="#FAFAFA"/>
                                 </DataTrigger>
                             </Style.Triggers>

@@ -21,7 +21,7 @@ public enum ColumnStyle
 
 public class ColumnItem 
 {
-    public string FIeldName { get; set; } = string.Empty;
+    public string FieldName { get; set; } = string.Empty;
     public string Header { get; set; } = string.Empty;
     public ColumnType ColumnType { get; set; }
     public ColumnStyle? ColumnStyle { get; set; }

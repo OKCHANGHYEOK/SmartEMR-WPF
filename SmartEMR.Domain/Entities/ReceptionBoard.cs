@@ -6,7 +6,7 @@ public class ReceptionBoard : BaseEntity
     private int? m_MEM_Idx;
     private int? m_MUR_Idx_DOC;
     private int? m_MUR_Idx_STF;
-    private string? m_PAT_Idx;
+    private int? m_PAT_Idx;
 
     private string? m_RCP_Status;
     private string? m_vRCP_Status;
@@ -66,7 +66,7 @@ public class ReceptionBoard : BaseEntity
         set => SetProperty(ref m_MUR_Idx_STF, value);
     }
 
-    public string? PAT_Idx
+    public int? PAT_Idx
     {
         get => m_PAT_Idx;
         set => SetProperty(ref m_PAT_Idx, value);

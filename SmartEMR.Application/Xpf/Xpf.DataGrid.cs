@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Markup;
 
@@ -125,28 +126,33 @@ public partial class DataGrid : ContentControl
         // 셀 요소 기본 설정
         GridColumn element = new GridColumn();
 
-        element.FieldName = item.FIeldName;
+        element.FieldName = item.FieldName;
         element.Header = item.Header;
         element.Width = item.ColumnWidth;
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
         element.CellTemplate = GetCellTemplate(item);
 
+        if (item.CellTemplateType != null)
+        {
+            this.Columns.Add(element);
+            return;
+        }
+
         // 동적 속성 스타일 설정
         Style cellStyle = new Style(typeof(LightweightCellEditor));
-        
-        if (item.ColumnStyle == null)
-        {
-            cellStyle.Setters.Add(new Setter(HorizontalAlignmentProperty, item.HorizontalAlignment));
-        }
-        else
+
+        if (item.ColumnStyle != null)
         {
             SetColumnStyle(cellStyle, (ColumnStyle)item.ColumnStyle);
         }
-
-        cellStyle.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Center));
-        cellStyle.Setters.Add(new Setter(TextElement.FontSizeProperty, item.FontSize));
-        cellStyle.Setters.Add(new Setter(TextElement.FontWeightProperty, item.FontWeight));
-        cellStyle.Setters.Add(new Setter(TextElement.ForegroundProperty, item.Foreground));
+        else
+        {
+            cellStyle.Setters.Add(new Setter(HorizontalAlignmentProperty, item.HorizontalAlignment));
+            cellStyle.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Center));
+            cellStyle.Setters.Add(new Setter(TextElement.FontSizeProperty, item.FontSize));
+            cellStyle.Setters.Add(new Setter(TextElement.FontWeightProperty, item.FontWeight));
+            cellStyle.Setters.Add(new Setter(TextElement.ForegroundProperty, item.Foreground));
+        }
 
         element.CellStyle = cellStyle;
 
@@ -167,7 +173,7 @@ public partial class DataGrid : ContentControl
                 return null;
             }
 
-            template.VisualTree = new FrameworkElementFactory(item.CellTemplateType);
+            template = CreateTemplate(item.CellTemplateType);
         }
         else
         {
@@ -184,6 +190,18 @@ public partial class DataGrid : ContentControl
         }
 
         return template;
+    }
+
+    private DataTemplate CreateTemplate(Type templateType)
+    {
+        var presenter = new FrameworkElementFactory(typeof(ContentPresenter));
+        var innerTemplate = new DataTemplate();
+        innerTemplate.VisualTree = new FrameworkElementFactory(templateType);
+
+        presenter.SetBinding(ContentPresenter.ContentProperty, new Binding("RowData.Row"));
+        presenter.SetValue(ContentPresenter.ContentTemplateProperty, innerTemplate);
+
+        return new DataTemplate { VisualTree = presenter };
     }
 
     private void SetColumnStyle(Style cellStyle, ColumnStyle columnStyle)

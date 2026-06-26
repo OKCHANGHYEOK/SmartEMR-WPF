@@ -4,16 +4,16 @@
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 
     <DataTemplate   x:Key="GridColumnLabelTemplate">
-        <Xpf:Label Content="{Binding FallbackValue, Mode=OneWay}"/>
+        <Xpf:Label Content="{Binding Value, Mode=OneWay}"/>
     </DataTemplate>
 
     <DataTemplate   x:Key="GridColumnTextBoxTemplate">
         <Xpf:StyleTextBox   TextBoxType="Text"
-                            Text="{Binding FallbackValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </DataTemplate>
 
     <DataTemplate   x:Key="GridColumnCheckBoxTemplate">
-        <Xpf:CheckEdit IsChecked="{Binding FallbackValue, Mode=TwoWay}"/>
+        <Xpf:CheckEdit IsChecked="{Binding Value, Mode=TwoWay}"/>
     </DataTemplate>
 
     <DataTemplate   x:Key="GridColumnTextLinkTemplate">

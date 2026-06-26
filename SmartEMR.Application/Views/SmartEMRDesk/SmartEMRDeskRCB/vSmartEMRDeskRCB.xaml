@@ -12,6 +12,7 @@
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                        xmlns:rcb="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk.SmartEMRDeskRCB"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
 
@@ -30,71 +31,70 @@
                         Grid.Row="2"
                         ItemsSource="{Binding arrRCB}">
 
-            <Xpf:ColumnItem FIeldName="vRCB_Type"
+            <Xpf:ColumnItem FieldName="vRCB_Type"
                             Header="구분"
-                            ColumnType="Label"
-                            ColumnWidth="30"/>
+                            ColumnWidth="30"
+                            CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBType}"/>
 
-            <Xpf:ColumnItem FIeldName="vRCB_VisitType"
+            <Xpf:ColumnItem FieldName="vRCB_VisitType"
                             ColumnType="Label"
                             ColumnWidth="30"
                             ColumnStyle="Code"/>
 
-            <Xpf:ColumnItem FIeldName="PAT_ChartNo"
+            <Xpf:ColumnItem FieldName="PAT_ChartNo"
                             Header="차트번호"
                             ColumnType="Label"
                             ColumnWidth="40"
                             ColumnStyle="Code"/>
 
-            <Xpf:ColumnItem FIeldName="PAT_Name"
+            <Xpf:ColumnItem FieldName="PAT_Name"
                             Header="환자명"
                             ColumnType="TextLink"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vPAT_Info"
+            <Xpf:ColumnItem FieldName="vPAT_Info"
                             Header=""
                             ColumnType="Label"
                             ColumnWidth="25"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRES_Status"
+            <Xpf:ColumnItem FieldName="vRES_Status"
                             Header="예약"
                             ColumnType="Label"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRCP_Status"
+            <Xpf:ColumnItem FieldName="vRCP_Status"
                             Header="접수"
-                            ColumnType="Label"
-                            ColumnWidth="32"
-                            HorizontalAlignment="Center"/>
+                            ColumnWidth="30"
+                            CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCPStatus}"/>
 
-            <Xpf:ColumnItem FIeldName="MUR_Name_DOC"
+            <Xpf:ColumnItem FieldName="MUR_Name_DOC"
                             Header="담 당 의"
                             ColumnType="Label"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRCB_Subject"
+            <Xpf:ColumnItem FieldName="vRCB_Subject"
                             Header="과목"
                             ColumnType="Label"
                             ColumnWidth="60"
                             ColumnStyle="Name"/>
 
-            <Xpf:ColumnItem FIeldName="RCB_ReceiptTime"
+            <Xpf:ColumnItem FieldName="RCB_Time"
                             Header="시간"
                             ColumnType="Label"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FIeldName="vRCB_InsuranceType"
+            <Xpf:ColumnItem FieldName="vRCB_InsuranceType"
                             Header="보험"
                             ColumnType="Label"
                             ColumnWidth="30"
                             ColumnStyle="Code"/>
 
-            <Xpf:ColumnItem FIeldName="RCB_Memo"
+            <Xpf:ColumnItem FieldName="RCB_Memo"
                             Header="메모"
                             ColumnType="Label"
                             ColumnWidth="200"

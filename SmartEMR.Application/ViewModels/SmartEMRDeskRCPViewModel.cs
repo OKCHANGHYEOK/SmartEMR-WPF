@@ -87,18 +87,18 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
                 mitem.vPAT_Sex = mitem.PAT_Sex == "M" ? "남" : "여";
                 mitem.vPAT_Info = $"{mitem.vPAT_Sex}/{mitem.PAT_Age.GetValueOrDefault(0)}";
                 mitem.vRCB_Type = mitem.RCB_Type == "RES" ? "예약" : mitem.RCB_Type == "RCP" ? "접수" : "";
-                mitem.vRCB_Subject = SmartMVVM.Common.GetCommonCodeName("RCB", "Subject");
+                mitem.vRCB_Subject = SmartMVVM.Common.GetCommonCodeName("RCB", "Subject", mitem.RCB_Subject ?? "");
 
                 if (mitem.RCB_Type == "RES")
                 {
-                    mitem.vRES_Status = SmartMVVM.Common.GetCommonCodeName("RES", "Status");
+                    mitem.vRES_Status = SmartMVVM.Common.GetCommonCodeName("RES", "Status", mitem.RES_Status ?? "")?.Substring(2);
                     mitem.vRCP_Status = "-";
                 }
                 else if (mitem.RCB_Type == "RCP")
                 {
                     mitem.vRES_Status = "-";
-                    mitem.vRCP_Status = SmartMVVM.Common.GetCommonCodeName("RCP", "Status");
-                    mitem.vRCP_InsuranceType = SmartMVVM.Common.GetCommonCodeName("RCP", "InsuranceType");
+                    mitem.vRCP_Status = SmartMVVM.Common.GetCommonCodeName("RCP", "Status", mitem.RCP_Status ?? "")?.Substring(2);
+                    mitem.vRCP_InsuranceType = SmartMVVM.Common.GetCommonCodeName("RCP", "InsuranceType", mitem.RCP_InsuranceType ?? "");
                 }
             }
 
