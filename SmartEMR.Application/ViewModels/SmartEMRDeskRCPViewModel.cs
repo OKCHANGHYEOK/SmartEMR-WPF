@@ -24,6 +24,7 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
 
     public List<CommonCode> arrRCB_Route { get; set; } = default!;
     public List<CommonCode> arrRCB_VisitType { get; set; } = default!;
+    public List<CommonCode> arrRCB_Subject { get; set; } = default!;
 
     public override void Initialize()
     {
@@ -36,6 +37,7 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
 
         arrRCB_Route = SmartMVVM.Common.GetCommonCode("RCB", "Route", "", true, "방문구분");
         arrRCB_VisitType = SmartMVVM.Common.GetCommonCode("RCB", "VisitType", "", true, "초재진구분");
+        arrRCB_Subject = SmartMVVM.Common.GetCommonCode("RCB", "Subject", "", true, "과목구분");
     }
 
     protected override ReceptionBoard GetModel(ReceptionBoard item)
@@ -81,17 +83,22 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         {
             foreach (var mitem in retRCB)
             {
+                mitem.MUR_Name_DOC = mitem.MUR_Name_DOC ?? "-";
                 mitem.vPAT_Sex = mitem.PAT_Sex == "M" ? "남" : "여";
                 mitem.vPAT_Info = $"{mitem.vPAT_Sex}/{mitem.PAT_Age.GetValueOrDefault(0)}";
+                mitem.vRCB_Type = mitem.RCB_Type == "RES" ? "예약" : mitem.RCB_Type == "RCP" ? "접수" : "";
+                mitem.vRCB_Subject = SmartMVVM.Common.GetCommonCodeName("RCB", "Subject");
 
                 if (mitem.RCB_Type == "RES")
                 {
-                    mitem.vRES_Status = arrRES_Status.FirstOrDefault(x => x.CCI_Cd == mitem.RES_Status)?.CCI_Name;
+                    mitem.vRES_Status = SmartMVVM.Common.GetCommonCodeName("RES", "Status");
+                    mitem.vRCP_Status = "-";
                 }
                 else if (mitem.RCB_Type == "RCP")
                 {
-                    mitem.vRCP_Status = arrRCP_Status.FirstOrDefault(x => x.CCI_Cd == mitem.RCP_Status)?.CCI_Name;
-                    mitem.vRCP_InsuranceType = arrRCP_InsuranceType.FirstOrDefault(x => x.CCI_Cd == mitem.RCP_InsuranceType)?.CCI_Name;
+                    mitem.vRES_Status = "-";
+                    mitem.vRCP_Status = SmartMVVM.Common.GetCommonCodeName("RCP", "Status");
+                    mitem.vRCP_InsuranceType = SmartMVVM.Common.GetCommonCodeName("RCP", "InsuranceType");
                 }
             }
 
@@ -122,7 +129,7 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         Model.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
     }
 
-    public void ClearData()
+    public async void ClearData()
     {
         Model.MUR_Idx_DOC = 0;
 
@@ -135,5 +142,7 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         Model.RCB_VisitType = "";
         Model.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
         Model.Keyword = "";
+
+        await FetchDataAsync();
     }
 }

@@ -40,6 +40,8 @@ public class Common
     private List<CommonCode> _arrCCC = new();
     public IReadOnlyList<CommonCode> arrCCC => _arrCCC.AsReadOnly();
 
+    private Dictionary<(string? CCC_Cd, string? CCG_Cd, string? CCI_Cd), string?> _cccMapper = new();
+
     public async Task Initialize()
     {
         var retCCC = await SmartMVVM.DataStore.GetItems<CommonCode>(eAPI.CommonCode_GetCommonCode, new CommonCode());
@@ -50,6 +52,7 @@ public class Common
         }
 
         _arrCCC = retCCC.ToList();
+        _cccMapper = _arrCCC.ToDictionary(x => (x.CCC_Cd, x.CCG_Cd, x.CCI_Cd), x => x.CCC_Name);
     }
 
     public void DisposeControl(object? element)
@@ -106,6 +109,11 @@ public class Common
         }
 
         return retCCC;
+    }
+
+    public string? GetCommonCodeName(string CCC_Cd = "", string CCG_Cd = "", string CCI_Cd = "")
+    {
+        return _cccMapper.GetValueOrDefault((CCC_Cd, CCG_Cd, CCI_Cd), "");
     }
 
     public IQueryable<object> GetBirth(eBirthType birthType)
