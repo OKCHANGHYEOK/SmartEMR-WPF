@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Markup;
 
 namespace SmartEMR.Application.Xpf;
@@ -17,6 +18,7 @@ namespace SmartEMR.Application.Xpf;
 public partial class DataGrid : ContentControl
 {
     private ResourceDictionary? _templateResource;
+    private bool IsUpdatedItemsSource { get; set; } = false;
 
     public event EventHandler<DataItemChangedEventArgs>? DataGrid_DataItemChangedEvent;
 
@@ -89,7 +91,6 @@ public partial class DataGrid : ContentControl
 
         GridControl.View = TableView;
         GridControl.CurrentItemChanged += (s,e) => this.DataItem = GridControl.CurrentItem;
-        GridControl.CurrentColumnChanged += (s, e) => InvokeDataItemChanged(this.DataItem);
 
         TableView.RowMinHeight = 24;
         TableView.HeaderPanelMinHeight = 18;
@@ -99,8 +100,9 @@ public partial class DataGrid : ContentControl
         TableView.ShowGroupPanel = false;
         TableView.ShowAutoFilterRow = false;
         TableView.ShowIndicator = false;
-        TableView.NavigationStyle = GridViewNavigationStyle.Row;
+        TableView.NavigationStyle = GridViewNavigationStyle.Cell;
         TableView.RowDoubleClick += OnTableView_RowDoubleClick;
+        TableView.MouseDown += OnTableView_MouseDown;
 
         SetTemplateResource();
     }
@@ -109,9 +111,13 @@ public partial class DataGrid : ContentControl
     {
         this.GridControl.ItemsSource = null;
 
+        IsUpdatedItemsSource = false;
+
         this.GridControl.BeginInit();
         this.GridControl.ItemsSource = enumerable;
         this.GridControl.EndInit();
+
+        IsUpdatedItemsSource = true;
     }
 
     private void SetTemplateResource()
@@ -248,6 +254,8 @@ public partial class DataGrid : ContentControl
 
     private void InvokeDataItemChanged(object? item)
     {
+        if (!this.IsUpdatedItemsSource) return;
+
         var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
         this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
     }
@@ -268,6 +276,23 @@ public partial class DataGrid : ContentControl
             this.IsDoubleClicked = false;
         }
     }
+
+    private void OnTableView_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        var view = sender as TableView;
+        if (view == null) return;
+
+        var hitInfo = view.CalcHitInfo(e.OriginalSource as DependencyObject);
+        if (!hitInfo.InRowCell)
+            return;
+
+        var row = GridControl.GetRow(hitInfo.RowHandle);
+        var column = hitInfo.Column;
+
+        this.DataItem = row;
+        this.InvokeDataItemChanged(row);
+    }
+
 }
 
 public class DataItemChangedEventArgs : EventArgs

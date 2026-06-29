@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.SmartEMRDesk
 {
@@ -105,6 +106,23 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
                     await vm.FetchDataAsync();
 
+                    break;
+            }
+        }
+
+        public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
+        {
+            var dataGrid = sender as DataGrid;
+            if (dataGrid == null) return;
+
+            var fieldName = e.Column.FieldName;
+            var dataItem = e.DataItem as ReceptionBoard;
+            if (dataItem == null) return;
+            
+            switch (fieldName)
+            {
+                case "PAT_Name":
+                    await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = dataItem.PAT_Idx }), isPopup:true);
                     break;
             }
         }

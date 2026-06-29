@@ -224,7 +224,6 @@
 
                 <Xpf:BindItem   FieldName="PAT_Address"
                                 Header="주   소"
-                                Width="50"
                                 TextValue="검색"
                                 FontSize="11"
                                 Col="0"
@@ -245,6 +244,7 @@
                                             BorderThickness="1"
                                             CornerRadius="0"
                                             Margin="1"/>
+                        
                         <Xpf:StyleTextBox   x:Name="txtPAT_Address2"
                                             Grid.Column="1"
                                             Grid.Row="0"
