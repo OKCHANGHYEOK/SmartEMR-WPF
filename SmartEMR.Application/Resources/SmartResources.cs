@@ -20,6 +20,15 @@ public static class SmartBrush
     public static readonly Brush SMART_BRUSH_RCP_END = CreateBrushFromRGB(16, 185, 129);
     public static readonly Brush SMART_BRUSH_RCP_CNL = CreateBrushFromRGB(239, 68, 68);
 
+    public static readonly Brush SMART_BRUSH_INSURANCE_GUN = CreateBrushFromString("#3478F6"); // 건보
+    public static readonly Brush SMART_BRUSH_INSURANCE_MED = CreateBrushFromString("#7CA4E8"); // 의보
+    public static readonly Brush SMART_BRUSH_INSURANCE_CAR = CreateBrushFromString("#F5A623"); // 자보
+    public static readonly Brush SMART_BRUSH_INSURANCE_SAN = CreateBrushFromString("#8E6CCF"); // 산재
+    public static readonly Brush SMART_BRUSH_INSURANCE_NON = CreateBrushFromString("#9E9E9E"); // 비보험
+
+    public static readonly Brush SMART_BRUSH_VISIT_FIR = CreateBrushFromRGB(67, 160, 71);
+    public static readonly Brush SMART_BRUSH_VISIT_REP = CreateBrushFromRGB(120, 144, 156);
+
     private static Brush CreateBrushFromString(string hex)
     {
         if (!(ColorConverter.ConvertFromString(hex) is Color hexColor))

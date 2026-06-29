@@ -31,15 +31,19 @@
                         Grid.Row="2"
                         ItemsSource="{Binding arrRCB}">
 
+            <Xpf:ColumnItem FieldName="vRCB_InsuranceType"
+                            CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBInsuranceType}"
+                            ColumnWidth="20"
+                            ColumnStyle="Code"/>
+
             <Xpf:ColumnItem FieldName="vRCB_Type"
-                            Header="구분"
                             ColumnWidth="30"
                             CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBType}"/>
 
             <Xpf:ColumnItem FieldName="vRCB_VisitType"
-                            ColumnType="Label"
                             ColumnWidth="30"
-                            ColumnStyle="Code"/>
+                            ColumnStyle="Code"
+                            CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBVisitType}"/>
 
             <Xpf:ColumnItem FieldName="PAT_ChartNo"
                             Header="차트번호"
@@ -88,17 +92,12 @@
                             ColumnWidth="32"
                             HorizontalAlignment="Center"/>
 
-            <Xpf:ColumnItem FieldName="vRCB_InsuranceType"
-                            Header="보험"
-                            ColumnType="Label"
-                            ColumnWidth="30"
-                            ColumnStyle="Code"/>
-
             <Xpf:ColumnItem FieldName="RCB_Memo"
                             Header="메모"
                             ColumnType="Label"
                             ColumnWidth="200"
-                            ColumnStyle="Name"/>
+                            ColumnStyle="Name"
+                            Foreground="DimGray"/>
         </Xpf:DataGrid>
 
         <Xpf:MaskControl    x:Name="MaskControl"

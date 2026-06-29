@@ -99,6 +99,7 @@ public partial class DataGrid : ContentControl
         TableView.ShowGroupPanel = false;
         TableView.ShowAutoFilterRow = false;
         TableView.ShowIndicator = false;
+        TableView.NavigationStyle = GridViewNavigationStyle.Row;
         TableView.RowDoubleClick += OnTableView_RowDoubleClick;
 
         SetTemplateResource();

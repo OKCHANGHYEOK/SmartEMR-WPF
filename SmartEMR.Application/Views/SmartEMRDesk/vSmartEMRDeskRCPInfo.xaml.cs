@@ -91,7 +91,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     break;
 
                 case "RCP_InsuranceType":
-                    if (!string.IsNullOrWhiteSpace(newValue) && newValue == "NOR")
+                    if (!string.IsNullOrWhiteSpace(newValue) && newValue == "NON")
                     {
                         this.BindGrids[0].GetBindItem<Button>("btnSetIRC")?.IsEnabled = false;
                     } 
@@ -144,24 +144,21 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             SetReceptionData(retRCP);
 
-            if (retRCP != null)
+            if (retRCP != null && retRCP.IRC_Idx.GetValueOrDefault(0) > 0)
             {
-                if (retRCP.IRC_Idx.GetValueOrDefault(0) > 0)
+                var IRCItem = new Insurance
                 {
-                    var IRCItem = new Insurance
-                    {
-                        IRC_Idx = retRCP.IRC_Idx,
-                        IRC_Type = retRCP.IRC_Type,
-                        IRC_CertNum = retRCP.IRC_CertNum,
-                        IRC_InsuredName = retRCP.IRC_InsuredName,
-                        IRC_Coperation = retRCP.IRC_Coperation,
-                        IRC_CoName = retRCP.IRC_CoName,
-                        IRC_EffectiveYYMMDD = retRCP.IRC_EffectiveYYMMDD,
-                        IRC_ExpiredYYMMDDD = retRCP.IRC_ExpiredYYMMDDD
-                    };
+                    IRC_Idx = retRCP.IRC_Idx,
+                    IRC_Type = retRCP.IRC_Type,
+                    IRC_CertNum = retRCP.IRC_CertNum,
+                    IRC_InsuredName = retRCP.IRC_InsuredName,
+                    IRC_Coperation = retRCP.IRC_Coperation,
+                    IRC_CoName = retRCP.IRC_CoName,
+                    IRC_EffectiveYYMMDD = retRCP.IRC_EffectiveYYMMDD,
+                    IRC_ExpiredYYMMDDD = retRCP.IRC_ExpiredYYMMDDD
+                };
 
-                    await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
-                }
+                await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
             }
         }
 
@@ -176,7 +173,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             RCPItem.RCP_Route = "DSK";
             RCPItem.RCP_Subject = "GNR";
             RCPItem.RCP_SubjectName = "";
-            RCPItem.RCP_InsuranceType = "NOR";
+            RCPItem.RCP_InsuranceType = "NON";
             RCPItem.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
             RCPItem.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
             RCPItem.RCP_StartTreatTime = "";
@@ -212,7 +209,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                 RCPItem.RCP_Subject = "GNR";
                 RCPItem.RCP_VisitType = "FIR";
                 RCPItem.RCP_Route = "DSK";
-                RCPItem.RCP_InsuranceType = "NOR";
+                RCPItem.RCP_InsuranceType = "NON";
 
                 MaskControl.MaskText = "오늘 날짜의 접수내역이 없습니다.";
                 MaskControl.ShowButton = true;

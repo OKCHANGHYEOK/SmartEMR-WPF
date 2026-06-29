@@ -117,6 +117,7 @@ public class ModelProperty
             MUR_Idx_STF = paramItem.MUR_Idx_STF,
             RES_Idx = paramItem.RES_Idx,
             RCP_VisitType = paramItem.RCP_VisitType,
+            RCP_InsuranceType = paramItem.RCP_InsuranceType,
             RCP_Status = string.IsNullOrWhiteSpace(paramItem.RCP_Status) ? "RDY" : paramItem.RCP_Status,
             RCP_Route = paramItem.RCP_Route,
             RCP_Subject = paramItem.RCP_Subject,
@@ -143,7 +144,7 @@ public class ModelProperty
         oldItem.RCP_Route = newItem.RCP_Route;
         oldItem.RCP_Subject = newItem.RCP_Subject;
         oldItem.RCP_SubjectName = newItem.RCP_SubjectName;
-        oldItem.RCP_InsuranceType = newItem.IRC_Idx.GetValueOrDefault(0) == 0 ? "NOR" : newItem.IRC_Type;
+        oldItem.RCP_InsuranceType = newItem.IRC_Idx.GetValueOrDefault(0) == 0 ? "NON" : newItem.IRC_Type;
         oldItem.RCP_ReceiptDate = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptDate) ? DateTime.Now.ToString("yyyy-MM-dd") : newItem.RCP_ReceiptDate;
         oldItem.RCP_ReceiptTime = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptTime) ? DateTime.Now.ToString("HH:mm") : newItem.RCP_ReceiptTime;
         oldItem.RCP_StartTreatTime = newItem.RCP_StartTreatTime;

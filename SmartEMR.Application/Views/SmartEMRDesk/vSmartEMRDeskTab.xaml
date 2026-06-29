@@ -16,25 +16,25 @@
     <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Horizontal">
             <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.7*">
-                <dxd:LayoutPanel ItemHeight="0.7*" ShowCaption="False" AllowDrag="False">
+                <Xpf:LayoutPanel ItemHeight="0.7*" ShowCaption="False">
                     <view:vSmartEMRDeskPATView x:Name="SmartEMRDeskPATView"/>
-                </dxd:LayoutPanel>
+                </Xpf:LayoutPanel>
                 <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="0.8*">
-                    <dxd:LayoutPanel Caption="접수정보" ShowPinButton="False" ShowCloseButton="False" AllowDrag="False">
+                    <Xpf:LayoutPanel Caption="접수정보">
                         <view:vSmartEMRDeskRCPInfo x:Name="SmartEMRDeskRCPInfo"/>
-                    </dxd:LayoutPanel>
-                    <dxd:LayoutPanel Caption="보험정보" ShowPinButton="False" ShowCloseButton="False" AllowDrag="False">
+                    </Xpf:LayoutPanel>
+                    <Xpf:LayoutPanel Caption="보험정보">
                         <view:vSmartEMRDeskIRCInfo x:Name="SmartEMRDeskIRCInfo"/>
-                    </dxd:LayoutPanel>
+                    </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
                 <dxd:LayoutPanel ItemHeight="0.3*" Caption="수납정보">
                     
                 </dxd:LayoutPanel>  
             </dxd:LayoutGroup>
             <dxd:LayoutGroup Orientation="Vertical">
-                <dxd:LayoutPanel ItemHeight="*" Caption="접수현황" ShowPinButton="False" ShowCloseButton="False" AllowDrag="False">
+                <Xpf:LayoutPanel ItemHeight="*" Caption="접수현황">
                     <view:vSmartEMRDeskRCB x:Name="SmartEMRDeskRCP"/>
-                </dxd:LayoutPanel>
+                </Xpf:LayoutPanel>
                 <dxd:LayoutPanel ItemHeight="0.6*" ShowCaption="False" AllowDrag="False">
 
                 </dxd:LayoutPanel>

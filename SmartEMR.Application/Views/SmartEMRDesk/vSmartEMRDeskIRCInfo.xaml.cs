@@ -99,7 +99,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             IRCItem.IRC_Type = IRC_Type;
             IRCItem.vIRC_Type = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCI_Cd == IRC_Type)?.CCI_Name;
 
-            if (IRC_Type == "NOR")
+            if (IRC_Type == "NON")
             {
                 SetMaskVisibility(Visibility.Visible);
             }
@@ -120,7 +120,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             if (isClearIRCType)
             {
-                IRCItem.IRC_Type = "NOR";
+                IRCItem.IRC_Type = "NON";
                 IRCItem.vIRC_Type = "비보험";
             }
         }

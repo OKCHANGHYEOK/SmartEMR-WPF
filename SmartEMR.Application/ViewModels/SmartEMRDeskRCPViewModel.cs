@@ -98,7 +98,8 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
                 {
                     mitem.vRES_Status = "-";
                     mitem.vRCP_Status = SmartMVVM.Common.GetCommonCodeName("RCP", "Status", mitem.RCP_Status ?? "")?.Substring(2);
-                    mitem.vRCP_InsuranceType = SmartMVVM.Common.GetCommonCodeName("RCP", "InsuranceType", mitem.RCP_InsuranceType ?? "");
+                    mitem.vRCP_InsuranceType = SmartMVVM.Common.GetCommonCodeName("RCP", "InsuranceType", mitem.RCP_InsuranceType ?? "")?.Substring(0,1);
+                    mitem.vRCB_VisitType = SmartMVVM.Common.GetCommonCodeName("RCP", "VisitType", mitem.RCB_VisitType ?? "");
                 }
             }
 

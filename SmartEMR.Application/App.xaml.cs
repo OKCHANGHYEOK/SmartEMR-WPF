@@ -36,7 +36,7 @@ namespace SmartEMR.Application
             
             base.OnStartup(e);
 
-            DevExpress.Xpf.Core.ApplicationThemeHelper.ApplicationThemeName = Theme.VS2017LightName;
+            DevExpress.Xpf.Core.ApplicationThemeHelper.ApplicationThemeName = Theme.Win10LightName;
 
             var isLogin = false;
 

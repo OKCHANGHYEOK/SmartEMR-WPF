@@ -64,7 +64,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         var msg = Model.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";
 
         var RCPItem = SmartMVVM.ModelProperty.GetReceptionDataForSave(Model);
-        if (RCPItem.RCP_InsuranceType != "NOR")
+        if (RCPItem.RCP_InsuranceType != "NON")
         {
             var retIRC = await SmartUI.SendMessage<Insurance>("GetIRCItem", viewType:TargetViewType.PageView);
             if (retIRC == null)
