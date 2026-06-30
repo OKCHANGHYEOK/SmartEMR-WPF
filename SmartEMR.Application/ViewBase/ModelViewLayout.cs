@@ -174,7 +174,7 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
 
     private void SetDataContext(object? item)
     {
-        if (typeof(IVIewModel).IsAssignableFrom(typeof(T)))
+        if (typeof(IViewModel).IsAssignableFrom(typeof(T)))
         {
             if (item != null)
             {

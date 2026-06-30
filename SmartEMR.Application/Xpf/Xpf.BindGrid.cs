@@ -470,18 +470,8 @@ public partial class BindGrid
 
     public void RegisterBindItemChangedEvents(FrameworkElement element, BindItem bindItem)
     {
-        DependencyProperty? dp = element switch
-        {
-            _ when element is StyleTextBox => StyleTextBox.TextProperty,
-            _ when element is Xpf.TextBox => Xpf.TextBox.TextProperty,
-            _ when element is Xpf.Image => Xpf.Image.SourceProperty,
-            _ when element is CheckEdit => CheckEdit.EditValueProperty,
-            _ when element is ComboBoxEdit => ComboBoxEdit.EditValueProperty,
-            _ => null
-        };
-
-        if (dp == null)
-            return;
+        DependencyProperty? dp = BindingExtensions.GetBindingProperty(element);
+        if (dp == null) return;
 
         var descriptor = DependencyPropertyDescriptor.FromProperty(dp, element.GetType());
         if (descriptor != null)
