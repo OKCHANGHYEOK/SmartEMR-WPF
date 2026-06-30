@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Editors;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -62,6 +63,7 @@ public class BindItem
 
     public MaskType MaskType { get; set; }
     public string Mask { get; set; } = "";
+    public IValueConverter Converter { get; set; } = default!;
 
     public DateEditType DateEditType { get; set; } = DateEditType.Date;
     public string? DisplayFormatString { get; set; }
@@ -84,6 +86,5 @@ public class BindItem
     public bool IsBinding { get; set; } = true;
     public bool IsBindClickEvent { get; set; } = false;
     public bool IsExpandingWhenClick { get; set; } = false;
-    public bool IsApplyYNToBoolean { get; set; } = false;
     public bool IsAutoWidth { get; set; } = true;
 }

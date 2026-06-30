@@ -210,16 +210,16 @@
                                     Col="5"
                                     Row="4"
                                     ColSpan="3"
-                                    IsHeader="False"
-                                    IsApplyYNToBoolean="True"/>
+                                    Converter="{common:YNToBooleanConverter}"
+                                    IsHeader="False"/>
 
                     <Xpf:BindItem   FieldName="PAT_IsSMS"
                                     BindType="CheckBox"
                                     TextValue="문자수신동의"
                                     FontSize="11"
-                                    FontWeight="SemiBold"   
-                                    IsHeader="False"
-                                    IsApplyYNToBoolean="True"/>
+                                    FontWeight="SemiBold"
+                                    Converter="{common:YNToBooleanConverter}"
+                                    IsHeader="False"/>
                 </x:Array>
 
                 <Xpf:BindItem   FieldName="PAT_Address"

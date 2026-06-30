@@ -22,10 +22,10 @@ public class BindingExtensions
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
-
-        if (element is Xpf.CheckEdit && bindItem.IsApplyYNToBoolean)
+        
+        if (bindItem.Converter != null)
         {
-            binding.Converter = new YNToBooleanConverter();
+            binding.Converter = bindItem.Converter;
         }
 
         element.SetBinding(dp, binding);

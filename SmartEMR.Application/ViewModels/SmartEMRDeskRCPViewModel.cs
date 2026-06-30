@@ -48,6 +48,7 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         item.RCP_InsuranceType = "";
         item.RES_Status = "";
 
+        item.RCB_Subject = "";
         item.RCB_Route = "";
         item.RCB_VisitType = "";
         item.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");

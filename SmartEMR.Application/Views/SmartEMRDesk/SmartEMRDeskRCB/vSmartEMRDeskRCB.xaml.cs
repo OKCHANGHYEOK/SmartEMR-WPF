@@ -42,6 +42,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RES_Status")?.ItemsSource = vm.arrRES_Status;
 
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_Subject")?.ItemsSource = vm.arrRCB_Subject;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_Route")?.ItemsSource = vm.arrRCB_Route;
             this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCB_VisitType")?.ItemsSource = vm.arrRCB_VisitType;
 
@@ -99,15 +100,9 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             var bindItem = e.BindItem;
             if (bindItem == null) return;
 
-            switch (bindItem.FieldName)
-            {
-                case "MUR_Idx_DOC" or "RCB_Status" or
-                     "RCB_Route" or "RCB_VisitType" or "IRC_Type":
+            if (string.IsNullOrWhiteSpace(bindItem.FieldName)) return;
 
-                    await vm.FetchDataAsync();
-
-                    break;
-            }
+            await vm.FetchDataAsync();
         }
 
         public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
