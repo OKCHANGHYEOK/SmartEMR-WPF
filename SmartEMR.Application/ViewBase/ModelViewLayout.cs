@@ -65,6 +65,7 @@ public abstract partial class ViewLayout
     public abstract IReadOnlyList<DataGrid> DataGrids { get; }
 
     public abstract void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e);
+    public abstract void OnDataGrid_ContextMenuItemClicked(object? sender, ContextMenuItemClickedEventArgs e);
 }
 
 public abstract partial class ModelViewLayout : ViewLayout, IDisposable
@@ -129,12 +130,14 @@ public abstract partial class ModelViewLayout
     public override IReadOnlyList<DataGrid> DataGrids => _dataGrids;
 
     public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) { }
+    public override void OnDataGrid_ContextMenuItemClicked(object? sender, ContextMenuItemClickedEventArgs e) { }
 
     internal void AddDataGrid(DataGrid dataGrid)
     {
         if (!_dataGrids.Contains(dataGrid))
         {
             dataGrid.DataGrid_DataItemChangedEvent += this.OnDataGrid_DataItemChanged;
+            dataGrid.DataGrid_ContextMenuItemClickedEvent += this.OnDataGrid_ContextMenuItemClicked;
 
             _dataGrids.Add(dataGrid);
         }
@@ -185,7 +188,7 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
                 this.DataContext = Activator.CreateInstance<T>();
             }
         }
-        else if(typeof(BaseEntity).IsAssignableFrom(typeof(T)))
+        else if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
         {
             this.DataContext = item as T ?? Activator.CreateInstance<T>();
         }

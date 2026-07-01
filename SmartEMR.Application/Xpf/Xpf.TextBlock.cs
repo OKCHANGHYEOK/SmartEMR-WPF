@@ -8,7 +8,7 @@ public class TextBlock : System.Windows.Controls.TextBlock
     public TextBlock()
     {
         this.MinWidth = 24;
-        this.MinHeight = 20;
+        this.MinHeight = 12;
         this.Background = Brushes.Transparent;
         this.HorizontalAlignment = HorizontalAlignment.Center;
         this.VerticalAlignment = VerticalAlignment.Center;

@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              Height="50"
              VerticalAlignment="Center">
-    
+
     <Xpf:BindGrid       LayoutDefinitions="6,2"
                         Background="#F5F5F5"
                         ItemSpace="1"
@@ -33,7 +33,7 @@
                             Width="32"
                             Height="23"
                             Foreground="DimGray"
-                            BackGround="TransParent"
+                            BackGround="White"
                             BorderBrush="LightGray"
                             BorderThickness="1"
                             Margin="2,0,2,0"
@@ -48,15 +48,16 @@
                             Col="2"
                             Row="0"
                             ColSpan="4"
-                            Placeholder="환자명/차트번호로 검색하세요."/>
+                            Placeholder="환자명/차트번호로 검색하세요."
+                            Margin="2,0,0,0"/>
 
             <Xpf:BindItem   FieldName="ButtonPanel"
                             Width="50"
-                            Height="23">
+                            Height="23"
+                            Margin="0,0,2,0">
 
                 <Xpf:StyleGrid  LayoutDefinitions="5,1"
-                                ColumnSizeDefinitions="1,Auto,2,Auto,1"
-                                Margin="0">
+                                ColumnSizeDefinitions="1,Auto,2,Auto,1">
 
                     <Xpf:ImageButton    x:Name="btnSearch"
                                         Grid.Column="1"

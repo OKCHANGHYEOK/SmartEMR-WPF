@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DevExpress.Xpf.Grid;
+using SmartEMR.Application.Core;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -17,7 +18,6 @@ namespace SmartEMR.Application.Xpf;
 [ContentProperty(nameof(Items))]
 public partial class DataGrid : ContentControl
 {
-    private ResourceDictionary? _templateResource;
     private bool IsUpdatedItemsSource { get; set; } = false;
 
     public event EventHandler<DataItemChangedEventArgs>? DataGrid_DataItemChangedEvent;
@@ -63,9 +63,9 @@ public partial class DataGrid : ContentControl
 
     public static readonly DependencyProperty DataItemProperty =
         DependencyProperty.Register(
-            nameof(DataItem), 
-            typeof(object), 
-            typeof(DataGrid), 
+            nameof(DataItem),
+            typeof(object),
+            typeof(DataGrid),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnDataItemChanged));
 
     public object? DataItem
@@ -85,12 +85,38 @@ public partial class DataGrid : ContentControl
 
     public GridColumnCollection Columns => GridControl.Columns;
 
+    public new static readonly DependencyProperty ContextMenuProperty =
+        DependencyProperty.Register(nameof(ContextMenu), typeof(Xpf.ContextMenu), typeof(DataGrid), new PropertyMetadata(null, OnContextMenuChanged));
+
+    public new ContextMenu ContextMenu
+    {
+        get => (ContextMenu)GetValue(ContextMenuProperty);
+        set => SetValue(ContextMenuProperty, value);
+    }
+
+    private static void OnContextMenuChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+    {
+        if (element is not DataGrid dg) return;
+
+        if (e.OldValue is ContextMenu oldMenu)
+        {
+            oldMenu.RemoveHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.OnContextMenuItemClicked));
+        }
+
+        if (e.NewValue is ContextMenu newMenu)
+        {
+            newMenu.AddHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.OnContextMenuItemClicked));
+        }
+    }
+
+    public event EventHandler<ContextMenuItemClickedEventArgs>? DataGrid_ContextMenuItemClickedEvent;
+
     public DataGrid()
     {
         this.Content = GridControl;
 
         GridControl.View = TableView;
-        GridControl.CurrentItemChanged += (s,e) => this.DataItem = GridControl.CurrentItem;
+        GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
 
         TableView.RowMinHeight = 24;
         TableView.HeaderPanelMinHeight = 18;
@@ -101,10 +127,9 @@ public partial class DataGrid : ContentControl
         TableView.ShowAutoFilterRow = false;
         TableView.ShowIndicator = false;
         TableView.NavigationStyle = GridViewNavigationStyle.Cell;
-        TableView.RowDoubleClick += OnTableView_RowDoubleClick;
-        TableView.MouseDown += OnTableView_MouseDown;
-
-        SetTemplateResource();
+        TableView.RowDoubleClick += TableView_OnRowDoubleClick;
+        TableView.MouseDown += TableView_OnMouseDown;
+        TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
     }
 
     public void SetItemsSource(IEnumerable enumerable)
@@ -118,14 +143,6 @@ public partial class DataGrid : ContentControl
         this.GridControl.EndInit();
 
         IsUpdatedItemsSource = true;
-    }
-
-    private void SetTemplateResource()
-    {
-        _templateResource = new ResourceDictionary
-        {
-            Source = new Uri("../Template/DataGridCellTemplates.xaml", UriKind.RelativeOrAbsolute)
-        };
     }
 
     public void Add(ColumnItem item)
@@ -168,8 +185,6 @@ public partial class DataGrid : ContentControl
 
     private DataTemplate? GetCellTemplate(ColumnItem item)
     {
-        if (_templateResource == null) return default!;
-
         var template = new DataTemplate();
 
         if (item.CellTemplateType != null)
@@ -193,7 +208,7 @@ public partial class DataGrid : ContentControl
                 _ => "GridColumnLabelTemplate" // 기본값
             };
 
-            template = _templateResource[resourceKey] as DataTemplate;
+            template = SmartUI.GetStaticResource<DataTemplate>(TargetResource.DataGridCell, resourceKey);
         }
 
         return template;
@@ -217,7 +232,7 @@ public partial class DataGrid : ContentControl
         {
             ColumnStyle.Name => HorizontalAlignment.Left,
             ColumnStyle.Code => HorizontalAlignment.Center,
-            ColumnStyle.Sum  => HorizontalAlignment.Right,
+            ColumnStyle.Sum => HorizontalAlignment.Right,
             _ => HorizontalAlignment.Left
         };
 
@@ -228,8 +243,8 @@ public partial class DataGrid : ContentControl
     {
         switch (e.Action)
         {
-            case NotifyCollectionChangedAction.Add: 
-                if (e.NewItems != null) 
+            case NotifyCollectionChangedAction.Add:
+                if (e.NewItems != null)
                 {
                     foreach (var item in e.NewItems)
                     {
@@ -244,6 +259,8 @@ public partial class DataGrid : ContentControl
         }
     }
 
+    #region Event & Functions 
+
     private static void OnDataItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DataGrid dataGrid)
@@ -252,15 +269,7 @@ public partial class DataGrid : ContentControl
         }
     }
 
-    private void InvokeDataItemChanged(object? item)
-    {
-        if (!this.IsUpdatedItemsSource) return;
-
-        var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
-        this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
-    }
-
-    private void OnTableView_RowDoubleClick(object sender, RowDoubleClickEventArgs e)
+    private void TableView_OnRowDoubleClick(object sender, RowDoubleClickEventArgs e)
     {
         if (e.HitInfo.InRow)
         {
@@ -277,7 +286,7 @@ public partial class DataGrid : ContentControl
         }
     }
 
-    private void OnTableView_MouseDown(object sender, MouseButtonEventArgs e)
+    private void TableView_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
         var view = sender as TableView;
         if (view == null) return;
@@ -293,6 +302,45 @@ public partial class DataGrid : ContentControl
         this.InvokeDataItemChanged(row);
     }
 
+    private void TableView_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var view = sender as TableView;
+        if (view == null) return;
+
+        var hitInfo = TableView.CalcHitInfo(e.OriginalSource as DependencyObject);
+        if (hitInfo == null || !hitInfo.InRowCell) return;
+
+        var row = GridControl.GetRow(hitInfo.RowHandle);
+
+        DataItem = row;
+
+        if (ContextMenu != null)
+        {
+            ContextMenu.DataContext = row;
+            ContextMenu.PlacementTarget = GridControl;
+            ContextMenu.IsOpen = true;
+        }
+    }
+
+    private void OnContextMenuItemClicked(object sender, RoutedEventArgs e)
+    {
+        if (e.OriginalSource is not MenuItem menuItem) return;
+
+        var item = new ContextMenuItem { Key = menuItem.Name, Header = menuItem.Header };
+        var args = new ContextMenuItemClickedEventArgs(e.RoutedEvent, menuItem, this.DataItem, item);
+
+        DataGrid_ContextMenuItemClickedEvent?.Invoke(this, args);   
+    }
+
+    private void InvokeDataItemChanged(object? item)
+    {
+        if (!this.IsUpdatedItemsSource) return;
+
+        var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
+        this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
+    }
+
+    #endregion
 }
 
 public class DataItemChangedEventArgs : EventArgs

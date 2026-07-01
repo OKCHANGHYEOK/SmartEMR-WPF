@@ -56,13 +56,11 @@ public partial class vLayout : ViewLayout
         return Task.CompletedTask;
     }
 
-    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
-    {
-    }
+    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e) {}
 
-    public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
-    {
-    }
+    public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) {}
+
+    public override void OnDataGrid_ContextMenuItemClicked(object? sender, ContextMenuItemClickedEventArgs e) {}
 
     private async void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {

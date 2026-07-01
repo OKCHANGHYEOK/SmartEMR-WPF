@@ -28,12 +28,21 @@ public enum NotificationType
     Error
 }
 
+public enum TargetResource
+{
+    Generic,
+    DataGridCell
+}
+
 public static partial class SmartUI
 { 
     // 페이지 이동 연속호출 방지를 위한 세마포어
     private static readonly SemaphoreSlim _navigationLock = new SemaphoreSlim(1, 1);
 
     private static DialogService _dialogService = new();
+
+    private static readonly ResourceDictionary _genericResourceDict = new ResourceDictionary { Source = new Uri("../Themes/Generic.xaml", UriKind.RelativeOrAbsolute)};
+    private static readonly ResourceDictionary _dataGridCellTemplateResourceDict = new ResourceDictionary { Source = new Uri("../Template/DataGridCellTemplates.xaml", UriKind.RelativeOrAbsolute) };
 
     public static void RegisterView(ViewLayout vl)
     {
@@ -72,6 +81,24 @@ public static partial class SmartUI
         tooltip.IsOpen = true;
     }
 
+    public static T? GetStaticResource<T>(TargetResource targetResource, string resourceKey) where T : class
+    {
+        switch (targetResource)
+        {
+            case TargetResource.Generic:
+                return _genericResourceDict.Contains(resourceKey) ? _genericResourceDict[resourceKey] as T : null;
+
+            case TargetResource.DataGridCell:
+                return _dataGridCellTemplateResourceDict.Contains(resourceKey) ? _dataGridCellTemplateResourceDict[resourceKey] as T : null;
+        }
+
+        return null;
+    }
+}
+
+// 뷰 이동, 표시제어 등 관련 로직
+public static partial class SmartUI
+{
     public static async Task NavigateToPage(ViewLayout targetView, object? parameter = null, bool isPopup = false)
     {
         // 락을 즉시 획득할 수 있는지 확인 및 이미 실행중이면 함수 종료
@@ -138,7 +165,7 @@ public static partial class SmartUI
                 vlayout.MainContent = view;
             }
         }
-        finally 
+        finally
         {
             vlayout.SetIndicatorVisibility(false);
 

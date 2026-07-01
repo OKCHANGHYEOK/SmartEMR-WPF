@@ -410,4 +410,19 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="SimpleMenuItemStyle" TargetType="MenuItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border Padding="0,4">
+                        <ContentPresenter ContentSource="Header"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
