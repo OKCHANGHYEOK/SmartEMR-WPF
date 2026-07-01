@@ -44,9 +44,9 @@ public class BindItem
     public double Height { get; set; }
     public Thickness? Margin { get; set; }
     public Thickness Padding { get; set; } = new Thickness(0);
-    public string? BorderBrush { get; set; }
+    public Brush? BorderBrush { get; set; }
     public Thickness BorderThickness { get; set; } = new Thickness(1);
-    public string? BackGround { get; set; } = "TransParent";
+    public Brush? BackGround { get; set; }
     public Brush Foreground { get; set; } = Brushes.Black;
     public double FontSize { get; set; } = 13;
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;

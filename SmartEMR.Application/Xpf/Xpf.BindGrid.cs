@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -236,21 +237,15 @@ public partial class BindGrid : StyleGrid, IDisposable
         visualChild.Margin = (Thickness)((bindItem.Margin == null) ? new Thickness(this.ItemSpace) : bindItem.Margin);
         visualChild.IsEnabled = bindItem.IsEnabled;
 
-        if (!string.IsNullOrWhiteSpace(bindItem.BackGround) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BackGround) is Brush bg)
-            visualChild.SetValue(BackgroundProperty, bg);
+        if (bindItem.BackGround != null) visualChild.SetValue(BackgroundProperty, bindItem.BackGround);
+        if (bindItem.BorderBrush != null) visualChild.SetValue(BorderBrushProperty, bindItem.BorderBrush);
+        if (bindItem.DisplayFormatString != null) visualChild.SetValue(DateEdit.DisplayFormatStringProperty, bindItem.DisplayFormatString);
 
-        if (!string.IsNullOrWhiteSpace(bindItem.BorderBrush) && SmartMVVM.Common.BrushConverter.ConvertFromString(bindItem.BorderBrush) is Brush borderBrush)
-            visualChild.SetValue(Control.BorderBrushProperty, borderBrush);
+        visualChild.SetValue(TextElement.FontSizeProperty, bindItem.FontSize);
+        visualChild.SetValue(TextElement.FontWeightProperty, bindItem.FontWeight);
+        visualChild.SetValue(TextElement.ForegroundProperty, bindItem.Foreground);
 
-        if (!string.IsNullOrWhiteSpace(bindItem.DisplayFormatString))
-        {
-            visualChild.SetValue(DateEdit.DisplayFormatStringProperty, bindItem.DisplayFormatString);
-        }
-
-        if (bindItem.IsBindClickEvent)
-        {
-            AddBindClickEvent(visualChild, bindItem);
-        }
+        if (bindItem.IsBindClickEvent) AddBindClickEvent(visualChild, bindItem);
 
         if (bindItem.IsBinding == true)
         {
