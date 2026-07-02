@@ -55,4 +55,9 @@ public partial class SearchViewModel : BaseViewModel<Patient>
 
         await SmartUI.SendMessage("UpdateSearchItemsSource", retPAT);
     }
+
+    internal async Task SetPatient(int v)
+    {
+        throw new NotImplementedException();
+    }
 }

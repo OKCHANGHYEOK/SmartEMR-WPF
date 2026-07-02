@@ -33,15 +33,6 @@ public class MaskControl : CustomControl
         set => SetValue(MaskTextProperty, value);
     }
 
-    public static readonly DependencyProperty MaskVisibilityProperty =
-        DependencyProperty.Register(nameof(MaskVisibility), typeof(Visibility), typeof(MaskControl), new PropertyMetadata(Visibility.Visible, null));
-
-    public Visibility MaskVisibility
-    {
-        get => (Visibility)GetValue(MaskVisibilityProperty);
-        set => SetValue(MaskVisibilityProperty, value);
-    }
-
     public static readonly DependencyProperty ButtonCommandProperty =
         DependencyProperty.Register(nameof(ButtonCommand), typeof(IRelayCommand), typeof(MaskControl), new PropertyMetadata(null, null));
 

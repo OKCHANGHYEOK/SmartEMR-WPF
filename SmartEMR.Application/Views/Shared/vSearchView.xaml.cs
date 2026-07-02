@@ -59,13 +59,8 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 var paramItem = request.MessageParameter as Patient;
                 if (paramItem == null) return null;
 
-                if (!string.IsNullOrWhiteSpace(paramItem.PAT_ChartNo) && !string.IsNullOrWhiteSpace(paramItem.PAT_Name))
-                {
-                    txtSearch.Text = paramItem.PAT_Name + "(" + paramItem.PAT_ChartNo + ")";
-                }
+                SetPatientData(paramItem);
 
-                IsPopupOpen = false;
-                
                 break;
 
             case "ClearPatient":
@@ -94,7 +89,21 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
     }
 
 
-    #region "Event"
+    #region "Event & Function"
+
+    public override async void SetPatientData(Patient item)
+    {
+        if (!string.IsNullOrWhiteSpace(item.PAT_ChartNo) && !string.IsNullOrWhiteSpace(item.PAT_Name))
+        {
+            txtSearch.Text = item.PAT_Name + "(" + item.PAT_ChartNo + ")";
+        }
+
+        IsPopupOpen = false;
+
+        await SmartUI.SendMessage("SetSelectedPatient", item, viewType: TargetViewType.PageView);
+        
+        SmartUI.SetNofification("선택하신 환자정보가 적용되었습니다.", NotificationType.Info);
+    }
 
     public void OnPreviewKeyDown_SearchView(object sender, KeyEventArgs e)
     {
@@ -174,7 +183,6 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         switch (element.Name)
         {
             case "btnMoveRESInfo":
-                SmartUI.MsgConfirm("확인창 테스트~");
                 break;
 
             case "btnMovePATInfo":

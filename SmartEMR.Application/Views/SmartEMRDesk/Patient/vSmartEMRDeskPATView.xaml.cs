@@ -2,6 +2,7 @@
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
 using System.Windows;
 
 namespace SmartEMR.Application.Views.SmartEMRDesk
@@ -26,11 +27,18 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         {
         }
 
-        public override async Task SetPatientData(Patient item)
+        public override async void SetPatientData(Patient item)
         {
             if (Model.PAT_Idx == item.PAT_Idx) return;
 
-            SmartMVVM.ModelProperty.SetPatientData(Model, item);
+            var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
+            if (ret == null || SmartMVVM.DataStore.retIsSuccess == false)
+            {
+                SmartUI.SetNofification("환자정보 로딩중 오류가 발생했습니다. 다시 시도해주세요", NotificationType.Error);
+                return;
+            } 
+
+            SmartMVVM.ModelProperty.SetPatientData(Model, ret);
         }
 
         public void ClearData()

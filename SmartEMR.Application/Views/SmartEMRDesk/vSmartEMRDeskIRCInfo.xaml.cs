@@ -79,11 +79,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         }
 
-        public override async Task SetPatientData(Patient item)
-        {
-
-        }
-
         public void SetMaskVisibility(Visibility visibility)
         {
             MaskControl.Visibility = visibility;

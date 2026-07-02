@@ -101,7 +101,7 @@ public partial class vSearchViewResult : CustomControl
 
         if (e.Key == Key.Enter)
         {
-            SetSelectedPatient();
+            SmartUI.SendMessageToSearchView("SetSelectedPatient", this.SelectedItem);
         }
     }
 
@@ -112,18 +112,7 @@ public partial class vSearchViewResult : CustomControl
 
         var item = element.DataContext as Patient;
 
-        SetSelectedPatient(item);
-    }
-
-    private void SetSelectedPatient(Patient? item = null)
-    {
-        item ??= this.SelectedItem;
-        if (item == null) return;
-
-        SmartUI.SendMessage("SetSelectedPatient", item, viewType:TargetViewType.RootView);
         SmartUI.SendMessageToSearchView("SetSelectedPatient", item);
-
-        SmartUI.SetNofification("선택하신 환자정보가 적용되었습니다.", NotificationType.Info);
     }
 }
 

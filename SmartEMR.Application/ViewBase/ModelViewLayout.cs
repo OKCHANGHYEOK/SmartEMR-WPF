@@ -210,5 +210,5 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
         SetDataGrid();
     }
 
-    public virtual Task SetPatientData(Patient item) { return Task.CompletedTask; }
+    public virtual void SetPatientData(Patient item) { }
 }

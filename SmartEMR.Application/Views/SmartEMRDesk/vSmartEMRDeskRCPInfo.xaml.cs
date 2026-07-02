@@ -124,7 +124,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             return response;
         }
 
-        public override async Task SetPatientData(Patient item)
+        public override async void SetPatientData(Patient item)
         {
             if (item.PAT_Idx.GetValueOrDefault(0) == 0) return;
 
@@ -183,7 +183,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             PATItem = new();
 
             MaskControl.MaskText = "환자선택 후 접수 등록할 수 있습니다.";
-            MaskControl.Visibility = Visibility.Visible;
             MaskControl.ShowButton = false;
 
             btnSaveRCP.Content = "접수등록";
@@ -217,8 +216,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             else
             {
                 btnSaveRCP.Content = "접수수정";
-
-                MaskControl.MaskVisibility = Visibility.Collapsed;
             }
         }
 

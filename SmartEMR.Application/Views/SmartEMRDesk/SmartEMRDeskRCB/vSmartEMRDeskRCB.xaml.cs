@@ -114,6 +114,19 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             var dataItem = e.DataItem as ReceptionBoard;
             if (dataItem == null) return;
             
+            if (dataGrid.IsDoubleClicked)
+            {
+                var item = new Patient
+                {
+                    PAT_Idx = dataItem.PAT_Idx,
+                    PAT_Name = dataItem.PAT_Name,
+                    PAT_ChartNo = dataItem.PAT_ChartNo
+                };
+
+                await SmartUI.SendMessageToSearchView("SetSelectedPatient", item);
+                return;
+            }
+
             switch (fieldName)
             {
                 case "PAT_Name":
