@@ -1,7 +1,29 @@
-﻿using System.Diagnostics;
+﻿using SmartEMR.Application.Core;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Resources;
+
+public class SmartResourceDictionary
+{
+    private static readonly ResourceDictionary _dictGeneric = new ResourceDictionary { Source = new Uri("../Themes/Generic.xaml", UriKind.RelativeOrAbsolute) };
+    private static readonly ResourceDictionary _dictDataGridCell = new ResourceDictionary { Source = new Uri("../Template/DataGridCellTemplates.xaml", UriKind.RelativeOrAbsolute) };
+
+    public static T? GetStaticResource<T>(TargetResource targetResource, string resourceKey) where T : class
+    {
+        switch (targetResource)
+        {
+            case TargetResource.Generic:
+                return _dictGeneric.Contains(resourceKey) ? _dictGeneric[resourceKey] as T : null;
+
+            case TargetResource.DataGridCell:
+                return _dictDataGridCell.Contains(resourceKey) ? _dictDataGridCell[resourceKey] as T : null;
+        }
+
+        return null;
+    }
+}
 
 public static class SmartBrush
 {

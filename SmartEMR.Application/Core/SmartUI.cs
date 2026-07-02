@@ -41,8 +41,6 @@ public static partial class SmartUI
 
     private static DialogService _dialogService = new();
 
-    private static readonly ResourceDictionary _genericResourceDict = new ResourceDictionary { Source = new Uri("../Themes/Generic.xaml", UriKind.RelativeOrAbsolute)};
-    private static readonly ResourceDictionary _dataGridCellTemplateResourceDict = new ResourceDictionary { Source = new Uri("../Template/DataGridCellTemplates.xaml", UriKind.RelativeOrAbsolute) };
 
     public static void RegisterView(ViewLayout vl)
     {
@@ -79,20 +77,6 @@ public static partial class SmartUI
         element.ToolTip = tooltip;
 
         tooltip.IsOpen = true;
-    }
-
-    public static T? GetStaticResource<T>(TargetResource targetResource, string resourceKey) where T : class
-    {
-        switch (targetResource)
-        {
-            case TargetResource.Generic:
-                return _genericResourceDict.Contains(resourceKey) ? _genericResourceDict[resourceKey] as T : null;
-
-            case TargetResource.DataGridCell:
-                return _dataGridCellTemplateResourceDict.Contains(resourceKey) ? _dataGridCellTemplateResourceDict[resourceKey] as T : null;
-        }
-
-        return null;
     }
 }
 

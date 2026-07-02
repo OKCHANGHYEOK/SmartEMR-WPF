@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Resources;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -208,7 +209,7 @@ public partial class DataGrid : ContentControl
                 _ => "GridColumnLabelTemplate" // 기본값
             };
 
-            template = SmartUI.GetStaticResource<DataTemplate>(TargetResource.DataGridCell, resourceKey);
+            template = SmartResourceDictionary.GetStaticResource<DataTemplate>(TargetResource.DataGridCell, resourceKey);
         }
 
         return template;
