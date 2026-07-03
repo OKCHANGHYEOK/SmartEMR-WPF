@@ -19,7 +19,7 @@
     <Xpf:StyleGrid  x:Name="LayoutRoot"
                     LayoutDefinitions="1,3"
                     RowSizeDefinitions="Auto,Auto,1*">
-        
+
         <desk:vSmartEMRDeskRCBFilterGrid Grid.Row="0"/>
 
         <Border Grid.Row="1"
@@ -31,18 +31,10 @@
                         Grid.Row="2"
                         ItemsSource="{Binding arrRCB}">
 
-            <Xpf:DataGrid.ContextMenu>
-                <Xpf:ContextMenu MinWidth="200">
-                    <MenuItem Name="Cancel">
-                        <MenuItem.Header>
-                            <Xpf:TextBlock>
-                                <Run Text="{Binding PAT_Name}" FontWeight="Bold"/>
-                                <Run Text=" 님으로 검색"/>
-                            </Xpf:TextBlock>
-                        </MenuItem.Header>
-                    </MenuItem>
-                </Xpf:ContextMenu>
-            </Xpf:DataGrid.ContextMenu>
+            <Xpf:DataGrid.RowPopupMenu>
+                <Xpf:PopupMenu>
+                </Xpf:PopupMenu>
+            </Xpf:DataGrid.RowPopupMenu>
 
             <Xpf:ColumnItem FieldName="vRCB_InsuranceType"
                             CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBInsuranceType}"

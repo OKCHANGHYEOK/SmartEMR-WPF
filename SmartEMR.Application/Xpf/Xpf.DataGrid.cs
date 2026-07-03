@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Resources;
@@ -75,6 +76,15 @@ public partial class DataGrid : ContentControl
         set => SetValue(DataItemProperty, value);
     }
 
+    public static readonly DependencyProperty PopupMenuProperty =
+        DependencyProperty.Register(nameof(RowPopupMenu), typeof(PopupMenu), typeof(DataGrid), new PropertyMetadata(null));
+
+    public PopupMenu RowPopupMenu
+    {
+        get => (PopupMenu)GetValue(PopupMenuProperty);
+        set => SetValue(PopupMenuProperty, value);
+    }
+
     public static readonly DependencyProperty IsDoubleClickedProperty =
         DependencyProperty.Register(nameof(IsDoubleClicked), typeof(bool), typeof(DataGrid), new PropertyMetadata(false));
 
@@ -85,32 +95,6 @@ public partial class DataGrid : ContentControl
     }
 
     public GridColumnCollection Columns => GridControl.Columns;
-
-    public new static readonly DependencyProperty ContextMenuProperty =
-        DependencyProperty.Register(nameof(ContextMenu), typeof(Xpf.ContextMenu), typeof(DataGrid), new PropertyMetadata(null, OnContextMenuChanged));
-
-    public new ContextMenu ContextMenu
-    {
-        get => (ContextMenu)GetValue(ContextMenuProperty);
-        set => SetValue(ContextMenuProperty, value);
-    }
-
-    private static void OnContextMenuChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-    {
-        if (element is not DataGrid dg) return;
-
-        if (e.OldValue is ContextMenu oldMenu)
-        {
-            oldMenu.RemoveHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.OnContextMenuItemClicked));
-        }
-
-        if (e.NewValue is ContextMenu newMenu)
-        {
-            newMenu.AddHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.OnContextMenuItemClicked));
-        }
-    }
-
-    public event EventHandler<ContextMenuItemClickedEventArgs>? DataGrid_ContextMenuItemClickedEvent;
 
     public DataGrid()
     {
@@ -314,23 +298,6 @@ public partial class DataGrid : ContentControl
         var row = GridControl.GetRow(hitInfo.RowHandle);
 
         DataItem = row;
-
-        if (ContextMenu != null)
-        {
-            ContextMenu.DataContext = row;
-            ContextMenu.PlacementTarget = GridControl;
-            ContextMenu.IsOpen = true;
-        }
-    }
-
-    private void OnContextMenuItemClicked(object sender, RoutedEventArgs e)
-    {
-        if (e.OriginalSource is not MenuItem menuItem) return;
-
-        var item = new ContextMenuItem { Key = menuItem.Name, Header = menuItem.Header };
-        var args = new ContextMenuItemClickedEventArgs(e.RoutedEvent, menuItem, this.DataItem, item);
-
-        DataGrid_ContextMenuItemClickedEvent?.Invoke(this, args);   
     }
 
     private void InvokeDataItemChanged(object? item)

@@ -137,7 +137,6 @@ public abstract partial class ModelViewLayout
         if (!_dataGrids.Contains(dataGrid))
         {
             dataGrid.DataGrid_DataItemChangedEvent += this.OnDataGrid_DataItemChanged;
-            dataGrid.DataGrid_ContextMenuItemClickedEvent += this.OnDataGrid_ContextMenuItemClicked;
 
             _dataGrids.Add(dataGrid);
         }
