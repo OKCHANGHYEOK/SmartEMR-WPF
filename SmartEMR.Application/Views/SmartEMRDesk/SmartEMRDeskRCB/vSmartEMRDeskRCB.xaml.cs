@@ -52,6 +52,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<SearchEdit>("Keyword")?.MinHeight = 23;
         }
 
+        protected override void SetDataGrid()
+        {
+ 
+        }
+
         public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
         {
             var response = new ViewMessageResponse { IsSuccess = false };

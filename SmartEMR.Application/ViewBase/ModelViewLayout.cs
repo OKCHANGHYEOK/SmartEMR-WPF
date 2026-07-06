@@ -65,7 +65,7 @@ public abstract partial class ViewLayout
     public abstract IReadOnlyList<DataGrid> DataGrids { get; }
 
     public abstract void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e);
-    public abstract void OnDataGrid_ContextMenuItemClicked(object? sender, ContextMenuItemClickedEventArgs e);
+    public abstract void OnDataGrid_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e);
 }
 
 public abstract partial class ModelViewLayout : ViewLayout, IDisposable
@@ -130,7 +130,7 @@ public abstract partial class ModelViewLayout
     public override IReadOnlyList<DataGrid> DataGrids => _dataGrids;
 
     public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) { }
-    public override void OnDataGrid_ContextMenuItemClicked(object? sender, ContextMenuItemClickedEventArgs e) { }
+    public override void OnDataGrid_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e) { }
 
     internal void AddDataGrid(DataGrid dataGrid)
     {

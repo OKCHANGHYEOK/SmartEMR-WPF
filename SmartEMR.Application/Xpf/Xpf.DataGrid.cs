@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -77,7 +78,22 @@ public partial class DataGrid : ContentControl
     }
 
     public static readonly DependencyProperty PopupMenuProperty =
-        DependencyProperty.Register(nameof(RowPopupMenu), typeof(PopupMenu), typeof(DataGrid), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(RowPopupMenu), typeof(PopupMenu), typeof(DataGrid), new PropertyMetadata(null, OnRowPopupMenuChanged));
+
+    private static void OnRowPopupMenuChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+    {
+        if (element is not DataGrid dg) return;
+
+        if (e.OldValue is PopupMenu oldMenu)
+        {
+            oldMenu.RemoveHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.PopupMenuItemClick));
+        }
+
+        if (e.NewValue is PopupMenu newMenu)
+        {
+            newMenu.AddHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.PopupMenuItemClick));
+        }
+    }
 
     public PopupMenu RowPopupMenu
     {
@@ -95,6 +111,8 @@ public partial class DataGrid : ContentControl
     }
 
     public GridColumnCollection Columns => GridControl.Columns;
+
+    public event EventHandler<PopupMenuItemClickEventArgs>? PopupMenuItemClickEvent;
 
     public DataGrid()
     {
@@ -298,6 +316,14 @@ public partial class DataGrid : ContentControl
         var row = GridControl.GetRow(hitInfo.RowHandle);
 
         DataItem = row;
+
+        if (RowPopupMenu != null)
+        {
+            RowPopupMenu.DataContext = row;
+            RowPopupMenu.PlacementTarget = GridControl;
+            RowPopupMenu.Placement = PlacementMode.Relative;
+            RowPopupMenu.IsOpen = true;
+        }
     }
 
     private void InvokeDataItemChanged(object? item)
@@ -306,6 +332,15 @@ public partial class DataGrid : ContentControl
 
         var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
         this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
+    }
+
+    private void PopupMenuItemClick(object sender, RoutedEventArgs e)
+    {
+        if (e.OriginalSource is not BarButtonItem item) return;
+
+        var args = new PopupMenuItemClickEventArgs(e.RoutedEvent, sender, item.Name);
+
+        PopupMenuItemClickEvent?.Invoke(this, args);
     }
 
     #endregion

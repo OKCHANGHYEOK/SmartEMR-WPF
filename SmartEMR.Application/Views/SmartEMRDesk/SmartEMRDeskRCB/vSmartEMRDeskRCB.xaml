@@ -31,11 +31,6 @@
                         Grid.Row="2"
                         ItemsSource="{Binding arrRCB}">
 
-            <Xpf:DataGrid.RowPopupMenu>
-                <Xpf:PopupMenu>
-                </Xpf:PopupMenu>
-            </Xpf:DataGrid.RowPopupMenu>
-
             <Xpf:ColumnItem FieldName="vRCB_InsuranceType"
                             CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBInsuranceType}"
                             ColumnWidth="20"

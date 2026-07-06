@@ -12,4 +12,14 @@ public class PopupMenu : DevExpress.Xpf.Bars.PopupMenu
         this.BorderBrush = new SolidColorBrush(Color.FromRgb(25, 25, 112));
         this.Padding = new Thickness(2);
     }
+
+    public PopupMenu(List<PopupMenuItem> items) : this()
+    {
+        if (!items.Any()) return;
+
+        foreach (var item in items)
+        {
+            this.Items.Add(item);
+        }
+    }
 }
