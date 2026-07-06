@@ -6,6 +6,8 @@ namespace SmartEMR.Application.Xpf;
 
 public class PopupMenuItem : DevExpress.Xpf.Bars.BarButtonItem
 {
+    public string? MenuAction { get; set; }
+
     public PopupMenuItem()
     {
         this.SetValue(TextElement.FontSizeProperty, 11.0);
@@ -15,11 +17,13 @@ public class PopupMenuItem : DevExpress.Xpf.Bars.BarButtonItem
 
 public class PopupMenuItemClickEventArgs : RoutedEventArgs
 {
-    public string? Name { get; set; }
+    public object DataItem { get; }
+    public string? MenuAction { get; set; }
 
-    public PopupMenuItemClickEventArgs(RoutedEvent routedEvent, object? source, string name) 
+    public PopupMenuItemClickEventArgs(RoutedEvent routedEvent, object? source, object dataItem, string action) 
         : base(routedEvent, source)
     {
-        this.Name = name;
+        this.DataItem = dataItem;
+        this.MenuAction = action;
     }
 }

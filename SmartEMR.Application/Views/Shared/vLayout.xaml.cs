@@ -59,8 +59,8 @@ public partial class vLayout : ViewLayout
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e) {}
 
     public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) {}
-
-    public override void OnDataGrid_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e) {}
+    public override void OnDataGrid_PopupMenuOpening(object? sender, PopupMenuOpeningEventArgs e) {}
+    public override void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e) {}
 
     private async void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {

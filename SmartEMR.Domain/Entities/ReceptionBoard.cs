@@ -2,11 +2,12 @@
 
 public class ReceptionBoard : BaseEntity
 {
-    private int? m_RCB_Idx;
     private int? m_MEM_Idx;
     private int? m_MUR_Idx_DOC;
     private int? m_MUR_Idx_STF;
     private int? m_PAT_Idx;
+    private int? m_RCP_Idx;
+    private int? m_RES_Idx;
 
     private string? m_RCP_Status;
     private string? m_vRCP_Status;
@@ -42,12 +43,6 @@ public class ReceptionBoard : BaseEntity
 
     #region "NotifyPropertChanged"
 
-    public int? RCB_Idx
-    {
-        get => m_RCB_Idx;
-        set => SetProperty(ref m_RCB_Idx, value);
-    }
-
     public int? MEM_Idx
     {
         get => m_MEM_Idx;
@@ -70,6 +65,19 @@ public class ReceptionBoard : BaseEntity
     {
         get => m_PAT_Idx;
         set => SetProperty(ref m_PAT_Idx, value);
+    }
+
+
+    public int? RCP_Idx
+    {
+        get => m_RCP_Idx;
+        set => SetProperty(ref m_RCP_Idx, value);
+    }
+
+    public int? RES_Idx
+    {
+        get => m_RES_Idx;
+        set => SetProperty(ref m_RES_Idx, value);
     }
 
     public string? RCP_Status

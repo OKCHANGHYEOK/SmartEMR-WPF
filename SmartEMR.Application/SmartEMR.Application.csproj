@@ -21,15 +21,18 @@
     <None Remove="Images\copy.png" />
     <None Remove="Images\smartemr_booking.png" />
     <None Remove="Images\smartemr_cancel.png" />
+    <None Remove="Images\smartemr_cancel_paper.png" />
     <None Remove="Images\smartemr_check.png" />
     <None Remove="Images\smartemr_clear.png" />
     <None Remove="Images\smartemr_cross.png" />
     <None Remove="Images\smartemr_delete.png" />
     <None Remove="Images\smartemr_delete_v2.png" />
     <None Remove="Images\smartemr_desk_register.png" />
+    <None Remove="Images\smartemr_edit_paper.png" />
     <None Remove="Images\smartemr_edit_patient.png" />
     <None Remove="Images\smartemr_empty_paper.png" />
     <None Remove="Images\smartemr_find_address.png" />
+    <None Remove="Images\smartemr_find_glasses.png" />
     <None Remove="Images\smartemr_info.png" />
     <None Remove="Images\smartemr_menu_calendar.png" />
     <None Remove="Images\smartemr_menu_crm.png" />
@@ -83,9 +86,11 @@
 
   <ItemGroup>
     <Resource Include="Images\smartemr_cancel.png" />
+    <Resource Include="Images\smartemr_cancel_paper.png" />
     <Resource Include="Images\smartemr_clear.png" />
     <Resource Include="Images\smartemr_cross.png" />
     <Resource Include="Images\smartemr_delete_v2.png" />
+    <Resource Include="Images\smartemr_edit_paper.png" />
     <Resource Include="Images\smartemr_empty_paper.png" />
     <Resource Include="Images\smartemr_find_address.png" />
   </ItemGroup>
@@ -97,6 +102,7 @@
     <Resource Include="Images\smartemr_delete.png" />
     <Resource Include="Images\smartemr_desk_register.png" />
     <Resource Include="Images\smartemr_edit_patient.png" />
+    <Resource Include="Images\smartemr_find_glasses.png" />
     <Resource Include="Images\smartemr_patient_default_image.png" />
     <Resource Include="Images\smartemr_register.png" />
     <Resource Include="Images\smartemr_reset.png" />

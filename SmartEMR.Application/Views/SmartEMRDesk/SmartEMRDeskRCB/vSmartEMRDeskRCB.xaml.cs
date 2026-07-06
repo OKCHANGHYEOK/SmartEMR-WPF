@@ -77,6 +77,10 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                 case "SetFocusToSearch":
                     this.BindGrids[0].GetBindItem<SearchEdit>("keyword")?.Focus();
                     break;
+
+                case "RefreshDataList":
+                    await vm.FetchDataAsync();
+                    break;
             }
 
             return response;
@@ -92,7 +96,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             switch (bindItem.FieldName)
             {
                 case "btnSetToday":
-                    vm.SetToDay();
+                    vm.SetRCB_YYMMDD(DateTime.Now.ToString("yyyy-MM-dd"));
                     break;
             }
         }
@@ -136,6 +140,52 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             {
                 case "PAT_Name":
                     await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = dataItem.PAT_Idx }), isPopup:true);
+                    break;
+            }
+        }
+
+        public override void OnDataGrid_PopupMenuOpening(object? sender, PopupMenuOpeningEventArgs e)
+        {
+            var dataGrid = sender as DataGrid;
+            if (dataGrid == null) return;
+
+            var popup = e.PopupMenu as PopupMenu;
+            if (popup == null) return;
+
+            var dataItem = e.DataItem as ReceptionBoard;
+            if (dataItem == null) return;
+
+            popup.AddMenu(new PopupMenuItem { MenuAction = "SearchPAT", Content = $"{dataItem.PAT_Name}님으로 검색", Glyph = GlyphImage("Images/smartemr_find_glasses.png") });
+            popup.AddMenu(new PopupMenuItem { MenuAction = "EditPAT", Content = "환자수정", Glyph = GlyphImage("Images/smartemr_edit_patient.png") });
+            popup.AddSeperator();
+            popup.AddMenu(new PopupMenuItem { MenuAction ="EditRCP", Content = "접수수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
+            popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRCP", Content = "접수취소", Glyph = GlyphImage("Images/smartemr_cancel_paper.png") });
+        }
+
+        public override async void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e)
+        {
+            var popup = sender as PopupMenu;
+            if (popup == null) return;
+
+            var dataItem = e.DataItem as ReceptionBoard;
+            if (dataItem == null) return;
+
+            switch (e.MenuAction)
+            {
+                case "SearchPAT":
+                    await SmartUI.SendMessageToSearchView("SetSelectedPatient", new Patient { PAT_Idx = dataItem.PAT_Idx });
+                    break;
+
+                case "EditPAT":
+                    await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = dataItem.PAT_Idx }), isPopup:true);
+                    break;
+
+                case "EditRCP":
+                    SmartUI.SetNofification("기능 구현중입니다.", NotificationType.Info);
+                    break;
+
+                case "CancelRCP":
+                    await vm.CancelRCP(new Reception { RCP_Idx = dataItem.RCP_Idx });
                     break;
             }
         }

@@ -17,7 +17,7 @@ namespace SmartEMR.Infrastructure
         public string? retMessage { get; set; }
         public int? retStatusCode { get; set; } // eResponseCode에 맞게 int로 변경 권장
         public int? retCount { get; set; }
-        public bool? retIsSuccess { get; set; }
+        public bool retIsSuccess { get; set; }
 
         private readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {

@@ -25,8 +25,8 @@ public partial class DataGrid : ContentControl
 
     public event EventHandler<DataItemChangedEventArgs>? DataGrid_DataItemChangedEvent;
 
-    public DevExpress.Xpf.Grid.GridControl GridControl { get; private set; } = new();
-    public DevExpress.Xpf.Grid.TableView TableView { get; private set; } = new();
+    public DevExpress.Xpf.Grid.GridControl GridControl { get; private set; }
+    public DevExpress.Xpf.Grid.TableView TableView { get; private set; } 
 
     public static readonly DependencyProperty ItemsSourceProperty =
         DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), new PropertyMetadata(null, OnItemsSourceChanged));
@@ -78,22 +78,7 @@ public partial class DataGrid : ContentControl
     }
 
     public static readonly DependencyProperty PopupMenuProperty =
-        DependencyProperty.Register(nameof(RowPopupMenu), typeof(PopupMenu), typeof(DataGrid), new PropertyMetadata(null, OnRowPopupMenuChanged));
-
-    private static void OnRowPopupMenuChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-    {
-        if (element is not DataGrid dg) return;
-
-        if (e.OldValue is PopupMenu oldMenu)
-        {
-            oldMenu.RemoveHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.PopupMenuItemClick));
-        }
-
-        if (e.NewValue is PopupMenu newMenu)
-        {
-            newMenu.AddHandler(MenuItem.ClickEvent, new RoutedEventHandler(dg.PopupMenuItemClick));
-        }
-    }
+        DependencyProperty.Register(nameof(RowPopupMenu), typeof(PopupMenu), typeof(DataGrid), new PropertyMetadata(null));
 
     public PopupMenu RowPopupMenu
     {
@@ -112,11 +97,14 @@ public partial class DataGrid : ContentControl
 
     public GridColumnCollection Columns => GridControl.Columns;
 
-    public event EventHandler<PopupMenuItemClickEventArgs>? PopupMenuItemClickEvent;
+    public event EventHandler<PopupMenuOpeningEventArgs>? DataGrid_PopupMenuOpening;
+    public event EventHandler<PopupMenuItemClickEventArgs>? DataGrid_PopupMenuItemClick;
 
     public DataGrid()
     {
-        this.Content = GridControl;
+        GridControl = new();
+        TableView = new();
+        RowPopupMenu = new();
 
         GridControl.View = TableView;
         GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
@@ -133,6 +121,16 @@ public partial class DataGrid : ContentControl
         TableView.RowDoubleClick += TableView_OnRowDoubleClick;
         TableView.MouseDown += TableView_OnMouseDown;
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
+
+        RowPopupMenu.PlacementTarget = GridControl;
+        RowPopupMenu.Placement = PlacementMode.MousePoint;
+
+        SmartUI.BeginInvoke(() =>
+        {
+            RowPopupMenu.PopupMenuClick += DataGrid_PopupMenuItemClick;
+        }, System.Windows.Threading.DispatcherPriority.Background);
+
+        this.Content = GridControl;
     }
 
     public void SetItemsSource(IEnumerable enumerable)
@@ -310,18 +308,17 @@ public partial class DataGrid : ContentControl
         var view = sender as TableView;
         if (view == null) return;
 
-        var hitInfo = TableView.CalcHitInfo(e.OriginalSource as DependencyObject);
-        if (hitInfo == null || !hitInfo.InRowCell) return;
+        var source = e.OriginalSource as DependencyObject;
+        if (source == null) return;
 
-        var row = GridControl.GetRow(hitInfo.RowHandle);
-
-        DataItem = row;
+        var row = GetRowData(source);
+        if (row == null) return;
 
         if (RowPopupMenu != null)
         {
+            DataGrid_PopupMenuOpening?.Invoke(this, new PopupMenuOpeningEventArgs(RowPopupMenu, row, GridControl.CurrentColumn));
+
             RowPopupMenu.DataContext = row;
-            RowPopupMenu.PlacementTarget = GridControl;
-            RowPopupMenu.Placement = PlacementMode.Relative;
             RowPopupMenu.IsOpen = true;
         }
     }
@@ -334,13 +331,12 @@ public partial class DataGrid : ContentControl
         this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
     }
 
-    private void PopupMenuItemClick(object sender, RoutedEventArgs e)
+    private object? GetRowData(DependencyObject source)
     {
-        if (e.OriginalSource is not BarButtonItem item) return;
+        var hitInfo = TableView.CalcHitInfo(source);
+        if (hitInfo == null || !hitInfo.InRowCell) return null;
 
-        var args = new PopupMenuItemClickEventArgs(e.RoutedEvent, sender, item.Name);
-
-        PopupMenuItemClickEvent?.Invoke(this, args);
+        return GridControl.GetRow(hitInfo.RowHandle);
     }
 
     #endregion

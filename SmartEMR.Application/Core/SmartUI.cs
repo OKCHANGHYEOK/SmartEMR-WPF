@@ -99,7 +99,7 @@ public static partial class SmartUI
             // 팝업일 때 화면 표시 로직
             if (isPopup)
             {
-                await CreatePopupElement(targetView);
+                await ShowPopupView(targetView);
                 return;
             }
 
@@ -175,7 +175,7 @@ public static partial class SmartUI
         UIManager.RemoveFloatPanel(floatPanel);
     }
 
-    private static async Task CreatePopupElement(ViewLayout vl)
+    private static async Task ShowPopupView(ViewLayout vl)
     {
         UIManager.AddFloatPanel(new FloatPanel { Content = vl });
 

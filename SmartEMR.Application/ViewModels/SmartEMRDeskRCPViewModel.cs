@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using System.Windows;
+using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
@@ -126,9 +127,24 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         await FetchDataAsync();
     }
 
-    public void SetToDay()
+    public async Task CancelRCP(Reception item)
     {
-        Model.RCB_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+        if (SmartUI.MsgYesNo("접수취소하시겠습니까?") != MessageBoxResult.Yes) return;
+
+        var ret = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = item.RCP_Idx, RCP_IsValid = false });
+        if (!SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("접수취소 하는데 실패했습니다. 다시 시도해주세요.", NotificationType.Error);
+            return;
+        }
+
+        await SmartUI.SendMessage("RefreshDataList");
+        SmartUI.SetNofification("접수취소되었습니다.", NotificationType.Success);
+    }
+
+    public void SetRCB_YYMMDD(string RCB_YYMMDD)
+    {
+        Model.RCB_YYMMDD = RCB_YYMMDD;
     }
 
     public async void ClearData()

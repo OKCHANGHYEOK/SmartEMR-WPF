@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpf.Core;
-using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.Collections.ObjectModel;
