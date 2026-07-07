@@ -6,15 +6,17 @@
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
-                        xmlns:view="clr-namespace:SmartEMR.Application.Views"
+                        xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRRCP"
                         xmlns:desk="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
+                        xmlns:view="clr-namespace:SmartEMR.Application.Views"
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800"
-                        ViewSize="400,450">
+                        ViewSize="500,400"
+                        ViewTitle="{Binding Model.RCP_Idx, Converter={local:RCP_IdxToContentConverter}}">
     
     <Xpf:StyleGrid  x:Name="LayoutRoot"
                     LayoutDefinitions="1,2"
@@ -141,11 +143,11 @@
                         Margin="2,0,0,0"
                         Command="{Binding SetReceptionCommand}"
                         CommandParameter="DELETE"
-                        IsEnabled="{Binding RCPItem.RCP_Idx, RelativeSource={RelativeSource AncestorType={x:Type desk:vSmartEMRDeskRCPInfo}},Converter={common:IntToBooleanConverter invert=True}}"/>
+                        IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
 
             <Xpf:Button x:Name="btnSaveRCP"
                         Grid.Column="2"
-                        Content="접수등록"
+                        Content="{Binding Model.RCP_Idx, Converter={local:RCP_IdxToContentConverter}}"
                         Glyph="/Images/smartemr_save.png"
                         Width="90"
                         MinHeight="24"

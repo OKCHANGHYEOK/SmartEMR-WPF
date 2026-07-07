@@ -164,21 +164,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         public void ClearData()
         {
-            RCPItem.RCP_Idx = 0;
-            RCPItem.MUR_Idx_DOC = 0;
-            RCPItem.MUR_Idx_STF = 0;
-            RCPItem.RES_Idx = 0;
-            RCPItem.RCP_VisitType = "FIR";
-            RCPItem.RCP_Status = "";
-            RCPItem.RCP_Route = "DSK";
-            RCPItem.RCP_Subject = "GNR";
-            RCPItem.RCP_SubjectName = "";
-            RCPItem.RCP_InsuranceType = "NON";
-            RCPItem.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
-            RCPItem.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
-            RCPItem.RCP_StartTreatTime = "";
-            RCPItem.RCP_EndTreatTime = "";
-            RCPItem.RCP_Memo = "";
+            vm.ClearData();
 
             PATItem = new();
 

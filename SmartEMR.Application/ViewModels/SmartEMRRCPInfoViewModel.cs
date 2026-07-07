@@ -8,6 +8,9 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
 {
+    public SmartEMRRCPInfoViewModel() { }
+    public SmartEMRRCPInfoViewModel(Reception item) : base(item) { }
+
     public override void Initialize()
     {
         arrMUR_DOC = SmartMVVM.Master.GetMemberUsers("DOC", true, "의사선택");
@@ -54,72 +57,100 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         return item;
     }
 
-    public async Task<Reception?> GetReception()
-    {
-
-
-        return ret;
-    }
-
     [RelayCommand]
     public async Task SetReception(string operation)
     {
-        if (operation == "DELETE")
+        bool isProcessed = false;
+
+        try
         {
-            if (SmartUI.MsgYesNo("접수 삭제하시겠습니까?") != MessageBoxResult.Yes) return;
-
-            await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = Model.RCP_Idx, RCP_IsValid = false });
-
-            if (SmartMVVM.DataStore.retIsSuccess == false)
+            if (operation == "DELETE")
             {
-                SmartUI.SetNofification("접수삭제하지 못했습니다.", NotificationType.Error);
+                if (SmartUI.MsgYesNo("접수취소 하시겠습니까?") != MessageBoxResult.Yes) return;
+
+                await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = Model.RCP_Idx, RCP_IsValid = false });
+
+                if (SmartMVVM.DataStore.retIsSuccess == false)
+                {
+                    SmartUI.SetNofification("접수취소하지 못했습니다.", NotificationType.Error);
+                    return;
+                }
+
+                SmartUI.SetNofification("취소되었습니다.", NotificationType.Success);
+
+                await SmartUI.SendMessage("ClearReception", new Reception { RCP_Idx = Model.RCP_Idx }, viewType: TargetViewType.PageView);
+                await SmartUI.SendMessage("RefreshReception", viewType: TargetViewType.PageView);
+
+                isProcessed = true;
+
                 return;
             }
 
-            SmartUI.SetNofification("삭제되었습니다.", NotificationType.Success);
+            // 접수 등록시 오늘 날짜의 기존 접수 체크
+            if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
+            {
+                var isExisitsRCP = await SmartMVVM.Common.ExisitsReception(Model.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
+                if (isExisitsRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
 
-            await SmartUI.SendMessage("ClearReception", viewType:TargetViewType.PageView);
+            var msg = Model.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";
+
+            var RCPItem = SmartMVVM.ModelProperty.GetReceptionDataForSave(Model);
+            if (RCPItem.RCP_InsuranceType != "NON")
+            {
+                var retIRC = await SmartUI.SendMessage<Insurance>("GetIRCItem", viewType: TargetViewType.PageView);
+                if (retIRC == null)
+                {
+                    SmartUI.SetNofification("보험정보가 올바르지 않습니다. 확인후 다시 시도해주세요.", NotificationType.Error);
+                    return;
+                }
+
+                RCPItem.IRCItem = retIRC.Item;
+            }
+
+            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, RCPItem);
+
+            if (retRCP == null || SmartMVVM.DataStore.retIsSuccess == false)
+            {
+                SmartUI.SetNofification($"접수{msg}하지 못했습니다.", NotificationType.Error);
+                return;
+            }
+
+            SmartUI.SetNofification($"접수{msg}되었습니다.", NotificationType.Success);
+
+            await SmartUI.SendMessage("SetReception", retRCP);
             await SmartUI.SendMessage("RefreshReception", viewType: TargetViewType.PageView);
-
-            return;
+       
+            isProcessed = true;
         }
-
-        // 접수 등록시 오늘 날짜의 기존 접수 체크
-        if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
+        finally
         {
-            var isExisitsRCP = await SmartMVVM.Common.ExisitsReception(Model.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
-            if (isExisitsRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
+            if (isProcessed)
             {
-                return;
+                await SmartUI.SendMessage("CloseView");
             }
         }
+    }
 
-        var msg = Model.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";
-
-        var RCPItem = SmartMVVM.ModelProperty.GetReceptionDataForSave(Model);
-        if (RCPItem.RCP_InsuranceType != "NON")
-        {
-            var retIRC = await SmartUI.SendMessage<Insurance>("GetIRCItem", viewType:TargetViewType.PageView);
-            if (retIRC == null)
-            {
-                SmartUI.SetNofification("보험정보가 올바르지 않습니다. 확인후 다시 시도해주세요.", NotificationType.Error);
-                return;
-            }
-
-            RCPItem.IRCItem = retIRC.Item;
-        }
-
-        var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, RCPItem);
-
-        if (retRCP == null || SmartMVVM.DataStore.retIsSuccess == false)
-        {
-            SmartUI.SetNofification($"접수{msg}하지 못했습니다.", NotificationType.Error);
-            return;
-        }
-
-        SmartUI.SetNofification($"접수{msg}되었습니다.", NotificationType.Success);
-
-        await SmartUI.SendMessage("SetReception", retRCP);
-        await SmartUI.SendMessage("RefreshReception", viewType:TargetViewType.PageView);
+    public void ClearData()
+    {
+        Model.RCP_Idx = 0;
+        Model.MUR_Idx_DOC = 0;
+        Model.MUR_Idx_STF = 0;
+        Model.RES_Idx = 0;
+        Model.RCP_VisitType = "FIR";
+        Model.RCP_Status = "";
+        Model.RCP_Route = "DSK";
+        Model.RCP_Subject = "GNR";
+        Model.RCP_SubjectName = "";
+        Model.RCP_InsuranceType = "NON";
+        Model.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+        Model.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+        Model.RCP_StartTreatTime = "";
+        Model.RCP_EndTreatTime = "";
+        Model.RCP_Memo = "";
     }
 }

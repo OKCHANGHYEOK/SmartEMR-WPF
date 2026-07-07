@@ -172,7 +172,7 @@ namespace SmartEMR.Infrastructure
                     _tokenProvider.SetToken(retToken);
                 }
 
-                return false;
+                return true;
             }
             catch
             {

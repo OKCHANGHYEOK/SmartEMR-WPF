@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Domain.Entities;
-using System.ComponentModel;
-using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 

@@ -1,10 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using SmartEMR.Application.Common.Converter;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
+using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 
 namespace SmartEMR.Application.Views.SmartEMRRCP
@@ -106,6 +107,9 @@ namespace SmartEMR.Application.Views.SmartEMRRCP
 
             switch (request.MessageAction)
             {
+                case "CloseView":
+                    SmartUI.CloseView();
+                    break;
             }
 
             return response;
@@ -121,14 +125,39 @@ namespace SmartEMR.Application.Views.SmartEMRRCP
                 this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptDate")?.IsEnabled = false;
                 this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptTime")?.IsEnabled = false;
 
-                Model.RCPItem.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
-                Model.RCPItem.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+                RCPItem.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+                RCPItem.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
             }
             else
             {
                 this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptDate")?.IsEnabled = true;
                 this.BindGrids[0].GetBindItem<DateEdit>("RCP_ReceiptTime")?.IsEnabled = true;
             }
+        }
+    }
+
+    public class RCP_IdxToContentConverter : BaseConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                var RCP_Idx = System.Convert.ToInt32(value);
+
+                return RCP_Idx == 0 ? "접수등록" : "접수수정";
+
+            }
+            catch (InvalidCastException e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+
+            return default!;
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

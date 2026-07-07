@@ -10,7 +10,7 @@ namespace SmartEMR.Application.ViewBase;
 public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid, IDataGrid
 {
     public static readonly DependencyProperty ViewTitleProperty =
-        DependencyProperty.Register("ViewTitle", typeof(string), typeof(ViewLayout), new PropertyMetadata("알림"));
+        DependencyProperty.Register("ViewTitle", typeof(string), typeof(ViewLayout), new PropertyMetadata("SmartEMR"));
 
     public string ViewTitle
     {
@@ -159,12 +159,11 @@ public abstract partial class ModelViewLayout
 }
 #endregion
 
-public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : class
+public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : BaseViewModel
 {
     // 외부에서 언제든 접근할 수 있도록 래퍼 프로퍼티나 필드로 유지하되, 
     // DataContext와 항상 일치하도록 만듭니다.
     public T vm => this.DataContext as T ?? default!;
-    public T Model => this.DataContext as T ?? default!;
 
     public ModelViewLayout() : base()
     {
@@ -178,24 +177,6 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
         this.Loaded += OnViewLoaded;
     }
 
-    private void SetDataContext(object? item)
-    {
-        if (typeof(IViewModel).IsAssignableFrom(typeof(T)))
-        {
-            if (item != null)
-            {
-                this.DataContext = (T)Activator.CreateInstance(typeof(T), item)!;
-            }
-            else
-            {
-                this.DataContext = Activator.CreateInstance<T>();
-            }
-        }
-        else if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
-        {
-            this.DataContext = item as T ?? Activator.CreateInstance<T>();
-        }
-    }
 
     private async void OnViewLoaded(object sender, RoutedEventArgs e)
     {
@@ -211,6 +192,20 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : cla
         Initialize();
         SetBindGrid();
         SetDataGrid();
+    }
+
+    private void SetDataContext(object? item)
+    {
+        if (!typeof(IViewModel).IsAssignableFrom(typeof(T))) return;
+
+        if (item != null)
+        {
+            this.DataContext = (T)Activator.CreateInstance(typeof(T), item)!;
+        }
+        else
+        {
+            this.DataContext = Activator.CreateInstance<T>();
+        }
     }
 
     public virtual void SetPatientData(Patient item) { }

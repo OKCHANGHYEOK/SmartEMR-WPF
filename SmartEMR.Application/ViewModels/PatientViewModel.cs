@@ -1,11 +1,10 @@
 ﻿using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
-using System.ComponentModel;
 
 namespace SmartEMR.Application.ViewModels;
 
-public abstract class PatientViewModel : BaseViewModel<Patient>
+public class PatientViewModel : BaseViewModel<Patient>
 {
     public PatientViewModel() : base() { }
     public PatientViewModel(Patient item) : base(item) { }
@@ -30,6 +29,8 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
         }
     }
 
+    public override void Initialize() { }
+
     public override async Task InitializeAsync()
     {
         arrPAT_BirthYear = SmartMVVM.Common.GetBirth(eBirthType.Year);
@@ -44,5 +45,54 @@ public abstract class PatientViewModel : BaseViewModel<Patient>
         arrPAT_SourceType = SmartMVVM.Common.GetCommonCode("PAT", "SourceType");
     }
 
-    protected override abstract Patient GetModel(Patient item);
+    protected override Patient GetModel(Patient item)
+    {
+        if (item.PAT_Idx.GetValueOrDefault(0) == 0)
+        {
+            item.PAT_IsAgreePersonalInfo = "y";
+            item.vPAT_IsAgreePersonalInfo = item.PAT_IsAgreePersonalInfo == "y" ? "개인정보제공 동의" : "개인정보제공 미동의";
+        }
+
+        return item;
+    }
+
+    public void ClearData()
+    {
+        Model.PAT_Idx = 0;
+        Model.MUR_Idx_DOC = 0;
+        Model.MUR_Idx_STF = 0;
+        Model.PAT_ChartNo = "";
+        Model.PAT_Name = "";
+        Model.PAT_BloodType = "";
+        Model.PAT_SourceType = "";
+        Model.vPAT_SourceType = "";
+        Model.PAT_Sex = "";
+        Model.PAT_Age = 0;
+        Model.vPAT_Info = "";
+        Model.PAT_BirthYear = "";
+        Model.PAT_BirthMonth = "";
+        Model.PAT_BirthDay = "";
+        Model.PAT_BirthDate = "";
+        Model.PAT_RegisterNum1 = "";
+        Model.PAT_RegisterNum2 = "";
+        Model.PAT_Address1 = "";
+        Model.PAT_Address2 = "";
+        Model.PAT_Address3 = "";
+        Model.vPAT_Address = "";
+        Model.PAT_Hpp1 = "";
+        Model.PAT_Hpp2 = "";
+        Model.PAT_Hpp3 = "";
+        Model.PAT_PhoneNum = "";
+        Model.PAT_Email = "";
+        Model.PAT_FirstVisitDate = "";
+        Model.PAT_LastVisitDate = "";
+        Model.PAT_ImageSource = null;
+        Model.PAT_IsSMS = "";
+        Model.PAT_IsSolar = "";
+        Model.PAT_Bigo = "";
+        Model.NOW_CHT_Idx_RCV = 0;
+        Model.NOW_CHT_Idx_RES = 0;
+        Model.NEXT_CHT_Idx_RES = 0;
+        Model.NEXT_CHT_DATE_RES = "";
+    }
 }

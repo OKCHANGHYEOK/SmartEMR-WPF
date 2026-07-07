@@ -21,7 +21,7 @@
         </Border>
         <Border Background="AliceBlue" 
                 Opacity="0.9"
-                Visibility="{Binding NOW_CHT_Idx_RCV, Converter={converter:IntToVisibilityConverter invert=True}}">
+                Visibility="{Binding Model.NOW_CHT_Idx_RCV, Converter={converter:IntToVisibilityConverter invert=True}}">
             <StackPanel VerticalAlignment="Center"
                         HorizontalAlignment="Center">
 

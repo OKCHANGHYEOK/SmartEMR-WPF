@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DevExpress.Utils;
-using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Resources;
@@ -78,15 +77,6 @@ public partial class DataGrid : ContentControl
         set => SetValue(DataItemProperty, value);
     }
 
-    public static readonly DependencyProperty PopupMenuProperty =
-        DependencyProperty.Register(nameof(RowPopupMenu), typeof(PopupMenu), typeof(DataGrid), new PropertyMetadata(null));
-
-    public PopupMenu RowPopupMenu
-    {
-        get => (PopupMenu)GetValue(PopupMenuProperty);
-        set => SetValue(PopupMenuProperty, value);
-    }
-
     public static readonly DependencyProperty IsDoubleClickedProperty =
         DependencyProperty.Register(nameof(IsDoubleClicked), typeof(bool), typeof(DataGrid), new PropertyMetadata(false));
 
@@ -105,7 +95,6 @@ public partial class DataGrid : ContentControl
     {
         GridControl = new();
         TableView = new();
-        RowPopupMenu = new();
 
         GridControl.View = TableView;
         GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
@@ -123,16 +112,8 @@ public partial class DataGrid : ContentControl
         TableView.ShowIndicator = false;
         TableView.IsColumnMenuEnabled = false;
         TableView.RowDoubleClick += TableView_OnRowDoubleClick;
-        TableView.MouseDown += TableView_OnMouseDown;
+        TableView.MouseLeftButtonDown += TableView_OnMouseLeftButtonDown;
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
-
-        RowPopupMenu.PlacementTarget = GridControl;
-        RowPopupMenu.Placement = PlacementMode.MousePoint;
-
-        SmartUI.BeginInvoke(() =>
-        {
-            RowPopupMenu.PopupMenuClick += DataGrid_PopupMenuItemClick;
-        }, System.Windows.Threading.DispatcherPriority.Background);
 
         this.Content = GridControl;
     }
@@ -292,7 +273,7 @@ public partial class DataGrid : ContentControl
         }
     }
 
-    private void TableView_OnMouseDown(object sender, MouseButtonEventArgs e)
+    private void TableView_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         var view = sender as TableView;
         if (view == null) return;
@@ -319,12 +300,19 @@ public partial class DataGrid : ContentControl
         var row = GetRowData(source);
         if (row == null) return;
 
-        if (RowPopupMenu != null)
+        if (DataGrid_PopupMenuOpening != null)
         {
-            DataGrid_PopupMenuOpening?.Invoke(this, new PopupMenuOpeningEventArgs(RowPopupMenu, row, GridControl.CurrentColumn));
+            var popupMenu = new PopupMenu
+            {
+                PlacementTarget = GridControl,
+                Placement = PlacementMode.MousePoint,
+                DataContext = row
+            };
 
-            RowPopupMenu.DataContext = row;
-            RowPopupMenu.IsOpen = true;
+            DataGrid_PopupMenuOpening.Invoke(this, new PopupMenuOpeningEventArgs(popupMenu, row, GridControl.CurrentColumn));
+
+            popupMenu.PopupMenuClick += DataGrid_PopupMenuItemClick;
+            popupMenu.IsOpen = true;
         }
     }
 

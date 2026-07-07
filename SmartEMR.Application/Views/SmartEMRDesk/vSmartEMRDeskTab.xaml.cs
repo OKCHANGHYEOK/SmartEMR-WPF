@@ -72,8 +72,15 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 break;
 
             case "ClearReception":
-                ClearData(false);
-                break;
+                {
+                    var paramItem = request.MessageParameter as Reception;
+                    if (paramItem != null && paramItem.RCP_Idx == SmartEMRDeskRCPInfo.RCPItem.RCP_Idx)
+                    {
+                        ClearData(false);
+                    }
+
+                    break;
+                }
         }
 
         response.IsSuccess = true;
