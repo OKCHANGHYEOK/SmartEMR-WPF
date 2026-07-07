@@ -47,7 +47,8 @@
                                         VerticalAlignment="Center"
                                         Stretch="UniformToFill"
                                         Source="{Binding    PATItem.PAT_ImageSource, 
-                                                            RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}}}"/>
+                                                            RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}},
+                                                            TargetNullValue='Images/smartemr_default_profile.png'}"/>
                         </Border>
 
                         <Xpf:StyleGrid  Grid.Row="1"
@@ -57,7 +58,6 @@
                             <Xpf:Button Grid.Column="0"
                                         x:Name="btnSelectImage"
                                         Content="이미지선택"
-                                        FontWeight="SemiBold"
                                         CornerRadius="2"
                                         BorderBrush="LightGray"
                                         BorderThickness="1"
@@ -336,7 +336,7 @@
                             VerticalContentAlignment="Center"
                             Margin="0,0,2,0"
                             Command="{Binding SetPatientCommand}"
-                            CommandParameter="{Binding PATItem.PAT_Idx, RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}},Converter={converter:IntToOperaionTypeConverter}}">
+                            CommandParameter="SAVE">
 
                     <Xpf:Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DevExpress.Utils;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
@@ -109,15 +110,18 @@ public partial class DataGrid : ContentControl
         GridControl.View = TableView;
         GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
 
+        TableView.NavigationStyle = GridViewNavigationStyle.Cell;
         TableView.RowMinHeight = 24;
         TableView.HeaderPanelMinHeight = 18;
         TableView.AllowEditing = false;
         TableView.AllowHorizontalScrollingVirtualization = false;
+        TableView.AllowColumnFiltering = false;
+        TableView.AllowSorting = false;
         TableView.AutoWidth = true;
         TableView.ShowGroupPanel = false;
         TableView.ShowAutoFilterRow = false;
         TableView.ShowIndicator = false;
-        TableView.NavigationStyle = GridViewNavigationStyle.Cell;
+        TableView.IsColumnMenuEnabled = false;
         TableView.RowDoubleClick += TableView_OnRowDoubleClick;
         TableView.MouseDown += TableView_OnMouseDown;
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
@@ -156,6 +160,7 @@ public partial class DataGrid : ContentControl
         element.Width = item.ColumnWidth;
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
         element.CellTemplate = GetCellTemplate(item);
+        element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;
 
         if (item.CellTemplateType != null)
         {

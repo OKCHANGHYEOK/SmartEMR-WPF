@@ -2,6 +2,7 @@
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Views.SmartEMRRCP;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 
@@ -149,7 +150,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             var dataGrid = sender as DataGrid;
             if (dataGrid == null) return;
 
-            var popup = e.PopupMenu as PopupMenu;
+            var popup = e.PopupMenu;
             if (popup == null) return;
 
             var dataItem = e.DataItem as ReceptionBoard;
@@ -181,7 +182,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     break;
 
                 case "EditRCP":
-                    SmartUI.SetNofification("기능 구현중입니다.", NotificationType.Info);
+                    await SmartUI.NavigateToPage(new vSmartEMRRCPInfo(new Reception { RCP_Idx = dataItem.RCP_Idx }), isPopup:true);
                     break;
 
                 case "CancelRCP":

@@ -27,7 +27,7 @@
                             Converter="{converter:DateTimeToStringConverter ValueFormat='yyyy-MM-dd',DisplayFormat='yyyy년 MM월 dd일 dddd'}"
                             IsHeader="False"/>
 
-            <Xpf:BindItem   FieldName="btnSetToDay"
+            <Xpf:BindItem   FieldName="btnSetToday"
                             BindType="Button"
                             TextValue="오늘"
                             Width="32"

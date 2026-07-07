@@ -36,7 +36,7 @@
                         BorderThickness="1"
                         Margin="5">
                     <Xpf:Image x:Name="PatientImage" 
-                               Source="{Binding PAT_ImageSource}" 
+                               Source="{Binding vm.PAT_ImageSource, RelativeSource={RelativeSource AncestorType=desk:vSmartEMRDeskPATView}, TargetNullValue='Images/smartemr_default_profile.png'}" 
                                Stretch="UniformToFill"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>

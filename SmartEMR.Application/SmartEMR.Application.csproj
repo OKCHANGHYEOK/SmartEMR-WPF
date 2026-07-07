@@ -25,6 +25,7 @@
     <None Remove="Images\smartemr_check.png" />
     <None Remove="Images\smartemr_clear.png" />
     <None Remove="Images\smartemr_cross.png" />
+    <None Remove="Images\smartemr_default_profile.png" />
     <None Remove="Images\smartemr_delete.png" />
     <None Remove="Images\smartemr_delete_v2.png" />
     <None Remove="Images\smartemr_desk_register.png" />
@@ -89,6 +90,7 @@
     <Resource Include="Images\smartemr_cancel_paper.png" />
     <Resource Include="Images\smartemr_clear.png" />
     <Resource Include="Images\smartemr_cross.png" />
+    <Resource Include="Images\smartemr_default_profile.png" />
     <Resource Include="Images\smartemr_delete_v2.png" />
     <Resource Include="Images\smartemr_edit_paper.png" />
     <Resource Include="Images\smartemr_empty_paper.png" />

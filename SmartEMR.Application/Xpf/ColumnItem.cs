@@ -32,4 +32,5 @@ public class ColumnItem
     public Type? CellTemplateType { get; set; }
     public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Left;
     public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Center;
+    public bool AllowSorting { get; set; } = false;
 }

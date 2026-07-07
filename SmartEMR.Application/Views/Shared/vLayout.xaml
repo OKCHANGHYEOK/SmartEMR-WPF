@@ -74,11 +74,6 @@
 
         <Xpf:StyleGrid x:Name="FloatLayout" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ItemsControl ItemsSource="{Binding Source={x:Static core:SmartUI.UIManager}, Path=Popups}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Grid></Grid>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ContentControl Content="{Binding}">

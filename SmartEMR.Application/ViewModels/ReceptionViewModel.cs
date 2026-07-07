@@ -4,6 +4,8 @@ namespace SmartEMR.Application.ViewModels;
 
 public class ReceptionViewModel : BaseViewModel<Reception>
 {
+    public Patient PATItem { get; set; } = new();
+
     public List<MemberUser> arrMUR_DOC { get; set; } = default!;
     public List<MemberUser> arrMUR_STF { get; set; } = default!;
 

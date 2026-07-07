@@ -18,15 +18,47 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         arrRCP_InsuranceType = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType");
     }
 
+    public override async Task InitializeAsync()
+    {
+        if (Model.RCP_Idx.GetValueOrDefault(0) > 0)
+        {
+            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
+            if (retPAT == null || !SmartMVVM.DataStore.retIsSuccess)
+            {
+                SmartUI.SetNofification("삭제됐거나 존재하지 않는 환자입니다.", NotificationType.Error);
+                return;
+            }
+
+            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, new Reception { RCP_Idx = Model.RCP_Idx });
+            if (retRCP == null || !SmartMVVM.DataStore.retIsSuccess)
+            {
+                SmartUI.SetNofification("삭제됐거나 존재하지 않는 접수입니다.", NotificationType.Error);
+                return;
+            }
+
+            SmartMVVM.ModelProperty.SetPatientData(PATItem, retPAT);
+            SmartMVVM.ModelProperty.SetReceptionData(Model, retRCP);
+        }
+    }
+
     protected override Reception GetModel(Reception item)
     {
-        item.PAT_Idx = 0;
-        item.MUR_Idx_DOC = 0;
-        item.MUR_Idx_STF = 0;
-        item.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
-        item.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+        if (item.RCP_Idx.GetValueOrDefault(0) == 0)
+        {
+            item.MUR_Idx_DOC = 0;
+            item.MUR_Idx_STF = 0;
+            item.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+            item.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+        }
 
         return item;
+    }
+
+    public async Task<Reception?> GetReception()
+    {
+
+
+        return ret;
     }
 
     [RelayCommand]

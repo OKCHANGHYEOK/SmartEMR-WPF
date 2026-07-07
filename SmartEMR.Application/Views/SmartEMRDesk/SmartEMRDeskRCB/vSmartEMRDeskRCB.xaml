@@ -49,7 +49,8 @@
                             Header="차트번호"
                             ColumnType="Label"
                             ColumnWidth="40"
-                            ColumnStyle="Code"/>
+                            ColumnStyle="Code"
+                            AllowSorting="True"/>
 
             <Xpf:ColumnItem FieldName="PAT_Name"
                             Header="환자명"
@@ -90,7 +91,8 @@
                             Header="시간"
                             ColumnType="Label"
                             ColumnWidth="32"
-                            HorizontalAlignment="Center"/>
+                            HorizontalAlignment="Center"
+                            AllowSorting="True"/>
 
             <Xpf:ColumnItem FieldName="RCB_Memo"
                             Header="메모"

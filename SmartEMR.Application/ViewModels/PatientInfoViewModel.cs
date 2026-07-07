@@ -63,7 +63,7 @@ public partial class PatientInfoViewModel : PatientViewModel
                 }
 
                 SmartUI.SetNofification($"삭제되었습니다.", NotificationType.Success);
-                await SmartUI.SendMessage("ClearPatient", viewType:TargetViewType.PageView);
+                await SmartUI.SendMessage("ClearPatient", viewType: TargetViewType.PageView);
 
                 return;
             }
@@ -90,7 +90,10 @@ public partial class PatientInfoViewModel : PatientViewModel
         }
         finally
         {
-            await SmartUI.SendMessage("CloseView");
+            if (SmartMVVM.DataStore.retIsSuccess)
+            {
+                await SmartUI.SendMessage("CloseView");
+            }
         }
     }
 

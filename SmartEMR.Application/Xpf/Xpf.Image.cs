@@ -28,20 +28,17 @@ public class Image : System.Windows.Controls.Image
 
         if (e.NewValue != null)
         {
-            if (e.NewValue is string newPath)
+            if (e.NewValue is string newPath && ! string.IsNullOrWhiteSpace(newPath))
             {
-                if (newPath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
-                {
-                    element.SetValue(dp, GlyphSvgToImage(newPath));
-                }
-                else
-                {
-                    element.SetValue(dp, GlyphImage(newPath));
-                }
+                element.SetValue(dp, newPath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase) ? GlyphSvgToImage(newPath) : GlyphImage(newPath));
             }
-            else if (e.NewValue is byte[] arrBytes)
+            else if (e.NewValue is byte[] arrBytes && arrBytes.Length > 0)
             {
                 element.SetValue(dp, GenerateBitmapImage(arrBytes));
+            }
+            else
+            {
+                element.SetValue(dp, GlyphImage("Images/smartemr_default_profile.png"));
             }
         }
         else
