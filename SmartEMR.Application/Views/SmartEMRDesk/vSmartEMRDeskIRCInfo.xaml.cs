@@ -31,7 +31,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         {
             this.BindGrids[0].GetBindItem<Label>("vIRC_Type")?.HorizontalContentAlignment = HorizontalAlignment.Left;
 
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_Coperation")?.ItemsSource = vm.arrIRC_Coperation;
+            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName")?.ItemsSource = vm.arrIRC_CoName;
 
             this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Height = 38;
@@ -108,7 +108,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             IRCItem.IRC_CertNum = "";
             IRCItem.IRC_ContractorName = "";
             IRCItem.IRC_InsuredName = "";
-            IRCItem.IRC_Coperation = "";
+            IRCItem.IRC_CoName = "";
             IRCItem.IRC_CoName = "";
             IRCItem.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
             IRCItem.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");

@@ -182,7 +182,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     break;
 
                 case "EditRCP":
-                    await SmartUI.NavigateToPage(new vSmartEMRRCPInfo(new Reception { RCP_Idx = dataItem.RCP_Idx }), isPopup:true);
+                    await SmartUI.NavigateToPage(new vSmartEMRRCPInfoTab(new Reception { RCP_Idx = dataItem.RCP_Idx }), isPopup:true);
                     break;
 
                 case "CancelRCP":

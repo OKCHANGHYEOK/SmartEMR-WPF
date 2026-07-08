@@ -21,29 +21,6 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         arrRCP_InsuranceType = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType");
     }
 
-    public override async Task InitializeAsync()
-    {
-        if (Model.RCP_Idx.GetValueOrDefault(0) > 0)
-        {
-            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
-            if (retPAT == null || !SmartMVVM.DataStore.retIsSuccess)
-            {
-                SmartUI.SetNofification("삭제됐거나 존재하지 않는 환자입니다.", NotificationType.Error);
-                return;
-            }
-
-            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, new Reception { RCP_Idx = Model.RCP_Idx });
-            if (retRCP == null || !SmartMVVM.DataStore.retIsSuccess)
-            {
-                SmartUI.SetNofification("삭제됐거나 존재하지 않는 접수입니다.", NotificationType.Error);
-                return;
-            }
-
-            SmartMVVM.ModelProperty.SetPatientData(PATItem, retPAT);
-            SmartMVVM.ModelProperty.SetReceptionData(Model, retRCP);
-        }
-    }
-
     protected override Reception GetModel(Reception item)
     {
         if (item.RCP_Idx.GetValueOrDefault(0) == 0)
@@ -89,8 +66,8 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
             // 접수 등록시 오늘 날짜의 기존 접수 체크
             if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
             {
-                var isExisitsRCP = await SmartMVVM.Common.ExisitsReception(Model.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
-                if (isExisitsRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
+                var IsExistsTodayRCP = await SmartMVVM.Common.ExisitsReception(Model.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
+                if (IsExistsTodayRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
                 {
                     return;
                 }
@@ -133,6 +110,11 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
                 await SmartUI.SendMessage("CloseView");
             }
         }
+    }
+
+    public void SetData(Reception item)
+    {
+        SmartMVVM.ModelProperty.SetReceptionData(Model, item);
     }
 
     public void ClearData()

@@ -138,7 +138,9 @@ public class ModelProperty
         oldItem.RCP_Idx = newItem.RCP_Idx.GetValueOrDefault(0);
         oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC.GetValueOrDefault(0);
         oldItem.MUR_Idx_STF = newItem.MUR_Idx_STF.GetValueOrDefault(0);
+        oldItem.PAT_Idx = newItem.PAT_Idx;
         oldItem.RES_Idx = newItem.RES_Idx;
+        oldItem.PAT_Name = newItem.PAT_Name;
         oldItem.RCP_VisitType = newItem.RCP_VisitType;
         oldItem.RCP_Status = newItem.RCP_Status;
         oldItem.RCP_Route = newItem.RCP_Route;
@@ -152,6 +154,20 @@ public class ModelProperty
         oldItem.RCP_Memo = newItem.RCP_Memo;
     }
 
+    public Insurance GetInsuranceDataFromRCP(Reception item)
+    {
+        return new Insurance
+        {
+            IRC_Idx = item.IRC_Idx,
+            IRC_Type = item.IRC_Idx.GetValueOrDefault(0) == 0 ? "NON" : item.IRC_Type,
+            IRC_CertNum = item.IRC_CertNum,
+            IRC_InsuredName = item.IRC_InsuredName,
+            IRC_CoName = item.IRC_CoName,
+            IRC_EffectiveYYMMDD = item.IRC_EffectiveYYMMDD,
+            IRC_ExpiredYYMMDDD = item.IRC_ExpiredYYMMDDD
+        };
+    }
+
     public void SetInsuranceData(Insurance oldItem, Insurance newItem)
     {
         oldItem.IRC_Idx = newItem.IRC_Idx.GetValueOrDefault(0);
@@ -160,7 +176,7 @@ public class ModelProperty
         oldItem.IRC_CertNum = newItem.IRC_CertNum;
         oldItem.IRC_ContractorName = newItem.IRC_ContractorName;
         oldItem.IRC_InsuredName = newItem.IRC_InsuredName;
-        oldItem.IRC_Coperation = newItem.IRC_Coperation;
+        oldItem.IRC_CoName = newItem.IRC_CoName;
         oldItem.IRC_EffectiveYYMMDD = newItem.IRC_EffectiveYYMMDD;
         oldItem.IRC_ExpiredYYMMDDD = newItem.IRC_ExpiredYYMMDDD;
     }

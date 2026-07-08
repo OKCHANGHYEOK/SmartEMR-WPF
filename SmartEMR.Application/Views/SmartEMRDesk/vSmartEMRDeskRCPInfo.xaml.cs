@@ -141,25 +141,16 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             };
 
             var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
+            if (retRCP == null)
+            {
+                retRCP = new Reception();
+            }
 
             SetReceptionData(retRCP);
 
-            if (retRCP != null && retRCP.IRC_Idx.GetValueOrDefault(0) > 0)
-            {
-                var IRCItem = new Insurance
-                {
-                    IRC_Idx = retRCP.IRC_Idx,
-                    IRC_Type = retRCP.IRC_Type,
-                    IRC_CertNum = retRCP.IRC_CertNum,
-                    IRC_InsuredName = retRCP.IRC_InsuredName,
-                    IRC_Coperation = retRCP.IRC_Coperation,
-                    IRC_CoName = retRCP.IRC_CoName,
-                    IRC_EffectiveYYMMDD = retRCP.IRC_EffectiveYYMMDD,
-                    IRC_ExpiredYYMMDDD = retRCP.IRC_ExpiredYYMMDDD
-                };
+            var IRCItem = SmartMVVM.ModelProperty.GetInsuranceDataFromRCP(retRCP);
 
-                await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
-            }
+            await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
         }
 
         public void ClearData()
@@ -180,13 +171,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             MaskControl.Visibility = Visibility.Collapsed;
         }
 
-        private void SetReceptionData(Reception? item)
+        private void SetReceptionData(Reception item)
         {
-            if (item == null)
-            {
-                item = new Reception();
-            }
-
             SmartMVVM.ModelProperty.SetReceptionData(RCPItem, item);
 
             if (RCPItem.RCP_Idx == 0)
