@@ -18,9 +18,8 @@
                         ViewSize="500,400">
     
     <Xpf:StyleGrid  x:Name="LayoutRoot"
-                    LayoutDefinitions="1,2"
-                    RowSizeDefinitions="1*,Auto">
-        
+                    LayoutDefinitions="1,1">
+
         <Xpf:BindGrid   Grid.Row="0"
                         LayoutDefinitions="2,8"
                         BindStyle="DataCell"
@@ -116,35 +115,5 @@
                             RowSpan="3"
                             ContentAlignment="LeftTop"/>
         </Xpf:BindGrid>
-
-        <Xpf:StyleGrid  Grid.Row="1"
-                        LayoutDefinitions="3,1"
-                        ColumnSizeDefinitions="Auto,1*,Auto"
-                        Margin="0,2,0,2">
-
-            <Xpf:Button x:Name="btnCancelRCP"
-                        Grid.Column="0"
-                        Content="접수취소"
-                        Glyph="/Images/smartemr_cancel.png"
-                        Width="90"
-                        MinHeight="24"
-                        Height="24"
-                        Margin="2,0,0,0"
-                        Command="{Binding SetReceptionCommand}"
-                        CommandParameter="DELETE"
-                        IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
-
-            <Xpf:Button x:Name="btnSaveRCP"
-                        Grid.Column="2"
-                        Content="{Binding Model.RCP_Idx, Converter={local:RCP_IdxToContentConverter}}"
-                        Glyph="/Images/smartemr_save.png"
-                        Width="90"
-                        MinHeight="24"
-                        Height="24"
-                        Margin="0,0,2,0"
-                        Command="{Binding SetReceptionCommand}"
-                        CommandParameter="SAVE">
-            </Xpf:Button>
-        </Xpf:StyleGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

@@ -21,10 +21,54 @@
     <dxd:DockLayoutManager>
         <dxd:LayoutGroup Orientation="Vertical">
             <Xpf:LayoutPanel Caption="접수정보">
-                <local:vSmartEMRRCPInfo x:Name="SmartEMRRCPInfo"/>
+                <Xpf:StyleGrid  LayoutDefinitions="1,2"
+                                RowSizeDefinitions="Auto,1*">
+
+                    <Xpf:Button x:Name="btnClear"
+                                Grid.Row="0"
+                                Content="초기화"
+                                Glyph="/Images/smartemr_empty_paper.png"
+                                Width="90"
+                                MinHeight="24"
+                                Height="24"
+                                HorizontalAlignment="Right"
+                                Margin="2"
+                                Click="OnClick_Button"/>
+                    <local:vSmartEMRRCPInfo x:Name="SmartEMRRCPInfo" Grid.Row="1"/>
+                </Xpf:StyleGrid>
             </Xpf:LayoutPanel>
             <Xpf:LayoutPanel Caption="보험정보">
                 <local:vSmartEMRIRCInfo x:Name="SmartEMRIRCInfo"/>
+            </Xpf:LayoutPanel>
+            <Xpf:LayoutPanel ItemHeight="Auto">
+                <Xpf:StyleGrid  LayoutDefinitions="3,1"
+                                ColumnSizeDefinitions="Auto,1*,Auto"
+                                Margin="0,2,0,2">
+
+                    <Xpf:Button x:Name="btnCancelRCP"
+                                Grid.Column="0"
+                                Content="접수취소"
+                                Glyph="/Images/smartemr_cancel.png"
+                                Width="90"
+                                MinHeight="24"
+                                Height="24"
+                                Margin="2,0,0,0"
+                                Command="{Binding SetReceptionCommand}"
+                                CommandParameter="DELETE"
+                                IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
+
+                    <Xpf:Button x:Name="btnSaveRCP"
+                                Grid.Column="2"
+                                Content="{Binding Model.RCP_Idx, Converter={local:RCP_IdxToContentConverter}}"
+                                Glyph="/Images/smartemr_save.png"
+                                Width="90"
+                                MinHeight="24"
+                                Height="24"
+                                Margin="0,0,2,0"
+                                Command="{Binding SetReceptionCommand}"
+                                CommandParameter="SAVE">
+                    </Xpf:Button>
+                </Xpf:StyleGrid>
             </Xpf:LayoutPanel>
         </dxd:LayoutGroup>
     </dxd:DockLayoutManager>

@@ -59,10 +59,6 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     break;
                 }
 
-            case "MoveInsurance":
-                SmartEMRDeskIRCInfo.SetMaskVisibility(Visibility.Collapsed);
-                break;
-
             case "RefreshReception":
                 SmartEMRDeskRCP.RefreshData();
                 break;

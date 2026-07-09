@@ -15,5 +15,6 @@ public enum  eAPI
     CommonCode_GetCommonCode = 9,
     Reception_GetReception = 10,
     Reception_GetReceptionBoard = 11,
-    Reception_SetReception = 12
+    Reception_SetReception = 12,
+    Insurance_GetInsurance = 13
 }

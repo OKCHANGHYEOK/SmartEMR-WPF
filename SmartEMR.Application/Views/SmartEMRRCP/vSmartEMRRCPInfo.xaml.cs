@@ -23,7 +23,7 @@ public partial class vSmartEMRRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel
 
     public void SetData(Reception item)
     {
-        vm.SetData(item);
+        vm.SetReceptionData(item);
     }
 
     protected override void SetBindGrid()
@@ -97,9 +97,6 @@ public partial class vSmartEMRRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel
 
         switch (bindItem.FieldName)
         {
-            case "btnSetIRC":
-                await SmartUI.SendMessage("MoveInsurance", viewType: TargetViewType.PageView);
-                break;
         }
     }
 

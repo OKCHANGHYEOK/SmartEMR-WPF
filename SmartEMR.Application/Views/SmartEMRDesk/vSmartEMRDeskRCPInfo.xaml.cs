@@ -22,8 +22,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
         }
 
-        public Patient PATItem { get; set; } = new();
-
         protected override void Initialize()
         {
             MaskControl.ShowButton = false;
@@ -59,9 +57,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             switch (bindItem.FieldName)
             {
-                case "btnSetIRC":
-                    await SmartUI.SendMessage("MoveInsurance", viewType: TargetViewType.PageView);
-                    break;
             }
         }
 
@@ -116,7 +111,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     var paramItem = request.MessageParameter as Reception;
                     if (paramItem == null) return null;
 
-                    SetReceptionData(paramItem);
+                    UpdateReceptionData(paramItem);
 
                     break;
             }
@@ -129,35 +124,14 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             if (item.PAT_Idx.GetValueOrDefault(0) == 0) return;
 
             // 환자 정보 세팅
-            SmartMVVM.ModelProperty.SetPatientData(PATItem, item);
+            vm.SetPatientData(item);
 
-            RCPItem.PAT_Idx = PATItem.PAT_Idx;
-
-            // 오늘 날짜의 접수정보 조회
-            var getRCP = new Reception
-            {
-                PAT_Idx = item.PAT_Idx,
-                RCP_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd")
-            };
-
-            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
-            if (retRCP == null)
-            {
-                retRCP = new Reception();
-            }
-
-            SetReceptionData(retRCP);
-
-            var IRCItem = SmartMVVM.ModelProperty.GetInsuranceDataFromRCP(retRCP);
-
-            await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
+            UpdateReceptionData();
         }
 
         public void ClearData()
         {
             vm.ClearData();
-
-            PATItem = new();
 
             MaskControl.MaskText = "환자선택 후 접수 등록할 수 있습니다.";
             MaskControl.ShowButton = false;
@@ -165,17 +139,23 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             btnSaveRCP.Content = "접수등록";
         }
 
-        [RelayCommand]
-        private void ShowRCPInfo()
+        private async void UpdateReceptionData(Reception? item = null)
         {
-            MaskControl.Visibility = Visibility.Collapsed;
-        }
+            vm.SetReceptionData(item);
 
-        private void SetReceptionData(Reception item)
-        {
-            SmartMVVM.ModelProperty.SetReceptionData(RCPItem, item);
+            Insurance? IRCItem = null;
 
-            if (RCPItem.RCP_Idx == 0)
+            if (RCPItem.RCP_Idx.GetValueOrDefault(0) > 0)
+            {
+                var retIRC = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, new Insurance { PAT_Idx = RCPItem.PAT_Idx, RCP_Idx = RCPItem.RCP_Idx });
+                if (retIRC != null)
+                {
+                    IRCItem = retIRC;
+                }
+
+                btnSaveRCP.Content = "접수수정";
+            }
+            else
             {
                 RCPItem.RCP_Subject = "GNR";
                 RCPItem.RCP_VisitType = "FIR";
@@ -185,10 +165,14 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                 MaskControl.MaskText = "오늘 날짜의 접수내역이 없습니다.";
                 MaskControl.ShowButton = true;
             }
-            else
-            {
-                btnSaveRCP.Content = "접수수정";
-            }
+
+            await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
+        }
+
+        [RelayCommand]
+        private void ShowRCPInfo()
+        {
+            MaskControl.Visibility = Visibility.Collapsed;
         }
 
         private void OnEditValueChanged_CheckBoxEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)

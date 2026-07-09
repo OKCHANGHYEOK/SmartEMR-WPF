@@ -11,7 +11,9 @@ public class Insurance : BaseEntity
     private string? m_IRC_CertNum;
     private string? m_IRC_ContractorName;
     private string? m_IRC_InsuredName;
+    private string? m_IRC_CoCd;
     private string? m_IRC_CoName;
+    private string? m_vIRC_CoName;
     private string? m_IRC_EffectiveYYMMDD;
     private string? m_IRC_ExpiredYYMMDDD;
     private string? m_IRC_Specific;
@@ -73,10 +75,22 @@ public class Insurance : BaseEntity
         set => SetProperty(ref m_IRC_InsuredName, value);
     }
 
+    public string? IRC_CoCd
+    {
+        get => m_IRC_CoCd;
+        set => SetProperty(ref m_IRC_CoCd, value);
+    }
+
     public string? IRC_CoName
     {
         get => m_IRC_CoName;
         set => SetProperty(ref m_IRC_CoName, value);
+    }
+
+    public string? vIRC_CoName
+    {
+        get => m_vIRC_CoName;
+        set => SetProperty(ref m_vIRC_CoName, value);
     }
 
     public string? IRC_EffectiveYYMMDD

@@ -77,10 +77,11 @@
                                 Row="3"
                                 ColSpan="2"/>
 
-                <Xpf:BindItem   FieldName="IRC_CoName"
+                <Xpf:BindItem   FieldName="vIRC_CoName"
                                 BindType="TextBox"
                                 Placeholder="직접입력"
                                 Width="80"
+                                Margin="1"
                                 IsEnabled="False"/>
             </x:Array>
 

@@ -76,12 +76,22 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             if (bindItem == null) return;
 
             var fieldName = bindItem.FieldName;
+           
+            switch (fieldName)
+            {
+                case "IRC_CoName":
+                    var selectedItem = this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName")?.SelectedItem as Insurance;
+                    if (selectedItem != null && selectedItem.IRC_CoCd == "ETC")
+                    {
+                        this.BindGrids[0].GetBindItem<StyleTextBox>("vIRC_CoName")?.IsEnabled = true;
+                    }
+                    else
+                    {
+                        this.BindGrids[0].GetBindItem<StyleTextBox>("vIRC_CoName")?.IsEnabled = false;
+                    }
 
-        }
-
-        public void SetMaskVisibility(Visibility visibility)
-        {
-            MaskControl.Visibility = visibility;
+                    break;
+            }
         }
 
         public void SetInsurance(Insurance item)
@@ -94,9 +104,13 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             IRCItem.IRC_Type = IRC_Type;
             IRCItem.vIRC_Type = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCI_Cd == IRC_Type)?.CCI_Name;
 
-            if (IRC_Type == "NON")
+            if (IRC_Type != "NON")
             {
-                SetMaskVisibility(Visibility.Visible);
+                SetCoNameComboBoxItemsSource();
+            }
+            else
+            {
+                ClearData();
             }
         }
 
@@ -112,11 +126,22 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             IRCItem.IRC_CoName = "";
             IRCItem.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
             IRCItem.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
+            IRCItem.IRC_Specific = "";
 
             if (isClearIRCType)
             {
                 IRCItem.IRC_Type = "NON";
                 IRCItem.vIRC_Type = "비보험";
+            }
+        }
+
+        private void SetCoNameComboBoxItemsSource()
+        {
+            var cmbIRC_CoName = this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName");
+            if (cmbIRC_CoName != null)
+            {
+                cmbIRC_CoName.ItemsSource = vm.arrIRC_CoName.Where(x => x.IRC_Type == IRCItem.IRC_Type);
+                cmbIRC_CoName.SelectedIndex = 0;
             }
         }
 

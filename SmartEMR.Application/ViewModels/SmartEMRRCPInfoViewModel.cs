@@ -112,9 +112,33 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         }
     }
 
-    public void SetData(Reception item)
+    public async void SetReceptionData(Reception? item = null)
     {
+        if (item == null)
+        {
+            var getRCP = new Reception
+            {
+                PAT_Idx = PATItem.PAT_Idx,
+                RCP_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd")
+            };
+
+            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
+            if (retRCP != null)
+            {
+                item = retRCP;
+            }
+        }
+
+        if (item == null) return;
+
         SmartMVVM.ModelProperty.SetReceptionData(Model, item);
+    }
+
+    public void SetPatientData(Patient item)
+    {
+        SmartMVVM.ModelProperty.SetPatientData(PATItem, item);
+
+        Model.PAT_Idx = item.PAT_Idx;
     }
 
     public void ClearData()
@@ -134,5 +158,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         Model.RCP_StartTreatTime = "";
         Model.RCP_EndTreatTime = "";
         Model.RCP_Memo = "";
+
+        PATItem = new();
     }
 }
