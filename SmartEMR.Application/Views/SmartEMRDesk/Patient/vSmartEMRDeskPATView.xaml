@@ -198,7 +198,7 @@
                            FontWeight="SemiBold">
                     <Run Text="선택된 환자가 없습니다. 환자검색(F6)에서 환자를 검색하여 선택하시거나," />
                     <LineBreak/>
-                    <Run Text="우측 접수내역에서 환자를 선택해주세요." />
+                    <Run Text="우측 접수현황에서 환자를 선택해주세요." />
                 </TextBlock>
             </Border>
         </Grid>

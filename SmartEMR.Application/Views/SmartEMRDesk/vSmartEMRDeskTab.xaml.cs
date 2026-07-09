@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -40,12 +39,70 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     break;
                 }
 
+            case "SetPatientByRCB":
+                {
+                    var paramItem = request.MessageParameter as ReceptionBoard;
+                    if (paramItem != null)
+                    {
+                        Patient item = new Patient
+                        {
+                            PAT_Idx = paramItem.PAT_Idx,
+                            PAT_Name = paramItem.PAT_Name,
+                            PAT_ChartNo = paramItem.PAT_ChartNo
+                        };
+
+                        await SmartUI.SendMessageToSearchView("SetSelectedPatient", item);
+
+                        if (paramItem.RCP_Idx.GetValueOrDefault(0) > 0)
+                        {
+                            Reception RCPItem = SmartMVVM.ModelProperty.GetReceptionDataFromRCB(paramItem);
+
+                            SmartEMRDeskRCPInfo.UpdateReceptionData(RCPItem);
+                        }
+                    }
+
+                    break;
+                }
+
+            case "SetReception":
+                {
+                    var parameter = Convert.ToString(request.MessageParameter);
+                    if (parameter != null)
+                    {
+                        vm.SetReception(parameter);
+                    }
+
+                    break;
+                }
+
+            case "SetRCPItem":
+                {
+                    var paramItem = request.MessageParameter as Reception;
+                    if (paramItem != null)
+                    {
+                        vm.SetRCPItem(paramItem);
+                    }
+
+                    break;
+                }
+
             case "SetInsurance":
                 {
                     var paramItem = request.MessageParameter as Insurance;
                     if (paramItem == null) return null;
 
                     SmartEMRDeskIRCInfo.SetInsurance(paramItem);
+
+                    break;
+                }
+
+            case "SetIRCItem":
+                {
+                    var paramItem = request.MessageParameter as Insurance;
+                    if (paramItem != null)
+                    {
+                        vm.SetIRCItem(paramItem);
+                    }
 
                     break;
                 }
@@ -59,7 +116,18 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     break;
                 }
 
-            case "RefreshReception":
+            case "UpdateRCPInfo":
+                {
+                    var paramItem = request.MessageParameter as Reception;
+                    if (paramItem != null)
+                    {
+                        SmartEMRDeskRCPInfo.UpdateReceptionData(paramItem);
+                    } 
+
+                    break;
+                }
+
+            case "RefreshRCP":
                 SmartEMRDeskRCP.RefreshData();
                 break;
 

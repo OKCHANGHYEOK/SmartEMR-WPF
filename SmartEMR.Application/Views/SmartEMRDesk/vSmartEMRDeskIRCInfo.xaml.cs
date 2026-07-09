@@ -101,24 +101,24 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         public void SetInsuranceType(string IRC_Type)
         {
+            bool isNON = IRC_Type == "NON";
+
+            if (IRCItem.IRC_Type != IRC_Type)
+            {
+                ClearData(false, isNON);
+            }
+
             IRCItem.IRC_Type = IRC_Type;
             IRCItem.vIRC_Type = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType")?.FirstOrDefault(x => x.CCI_Cd == IRC_Type)?.CCI_Name;
 
-            if (IRC_Type != "NON")
+            if (!isNON)
             {
                 SetCoNameComboBoxItemsSource();
             }
-            else
-            {
-                ClearData();
-            }
         }
 
-        public void ClearData(bool isClearIRCType = true)
+        public void ClearData(bool isNewRCP = true, bool isNON = true)
         {
-            IRCItem.IRC_Idx = 0;
-            IRCItem.PAT_Idx = 0;
-            IRCItem.RCP_Idx = 0;
             IRCItem.IRC_CertNum = "";
             IRCItem.IRC_ContractorName = "";
             IRCItem.IRC_InsuredName = "";
@@ -128,7 +128,14 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             IRCItem.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
             IRCItem.IRC_Specific = "";
 
-            if (isClearIRCType)
+            if (isNewRCP)
+            {
+                IRCItem.IRC_Idx = 0;
+                IRCItem.PAT_Idx = 0;
+                IRCItem.RCP_Idx = 0;
+            }
+
+            if (isNON)
             {
                 IRCItem.IRC_Type = "NON";
                 IRCItem.vIRC_Type = "비보험";

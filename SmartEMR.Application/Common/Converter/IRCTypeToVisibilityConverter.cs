@@ -8,7 +8,7 @@ public class IRCTypeToVisibilityConverter : BaseConverter
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var IRC_Type = value?.ToString();
-        if (string.IsNullOrWhiteSpace(IRC_Type)) return default!;
+        if (string.IsNullOrWhiteSpace(IRC_Type)) return Visibility.Visible!;
 
         return IRC_Type == "NON" ? Visibility.Visible : Visibility.Collapsed;
     }

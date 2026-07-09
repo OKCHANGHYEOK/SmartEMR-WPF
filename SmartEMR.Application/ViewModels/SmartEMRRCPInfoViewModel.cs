@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -21,6 +20,11 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         arrRCP_InsuranceType = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType");
     }
 
+    public override async Task InitializeAsync()
+    {
+        await SmartUI.SendMessage("SetRCPItem", Model, viewType: TargetViewType.PageView);
+    }
+
     protected override Reception GetModel(Reception item)
     {
         if (item.RCP_Idx.GetValueOrDefault(0) == 0)
@@ -37,79 +41,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
     [RelayCommand]
     public async Task SetReception(string operation)
     {
-        bool isProcessed = false;
-
-        try
-        {
-            if (operation == "DELETE")
-            {
-                if (SmartUI.MsgYesNo("접수취소 하시겠습니까?") != MessageBoxResult.Yes) return;
-
-                await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = Model.RCP_Idx, RCP_IsValid = false });
-
-                if (SmartMVVM.DataStore.retIsSuccess == false)
-                {
-                    SmartUI.SetNofification("접수취소하지 못했습니다.", NotificationType.Error);
-                    return;
-                }
-
-                SmartUI.SetNofification("취소되었습니다.", NotificationType.Success);
-
-                await SmartUI.SendMessage("ClearReception", new Reception { RCP_Idx = Model.RCP_Idx }, viewType: TargetViewType.PageView);
-                await SmartUI.SendMessage("RefreshReception", viewType: TargetViewType.PageView);
-
-                isProcessed = true;
-
-                return;
-            }
-
-            // 접수 등록시 오늘 날짜의 기존 접수 체크
-            if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
-            {
-                var IsExistsTodayRCP = await SmartMVVM.Common.ExisitsReception(Model.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
-                if (IsExistsTodayRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            var msg = Model.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";
-
-            var RCPItem = SmartMVVM.ModelProperty.GetReceptionDataForSave(Model);
-            if (RCPItem.RCP_InsuranceType != "NON")
-            {
-                var retIRC = await SmartUI.SendMessage<Insurance>("GetIRCItem", viewType: TargetViewType.PageView);
-                if (retIRC == null)
-                {
-                    SmartUI.SetNofification("보험정보가 올바르지 않습니다. 확인후 다시 시도해주세요.", NotificationType.Error);
-                    return;
-                }
-
-                RCPItem.IRCItem = retIRC.Item;
-            }
-
-            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, RCPItem);
-
-            if (retRCP == null || SmartMVVM.DataStore.retIsSuccess == false)
-            {
-                SmartUI.SetNofification($"접수{msg}하지 못했습니다.", NotificationType.Error);
-                return;
-            }
-
-            SmartUI.SetNofification($"접수{msg}되었습니다.", NotificationType.Success);
-
-            await SmartUI.SendMessage("SetReception", retRCP);
-            await SmartUI.SendMessage("RefreshReception", viewType: TargetViewType.PageView);
-       
-            isProcessed = true;
-        }
-        finally
-        {
-            if (isProcessed)
-            {
-                await SmartUI.SendMessage("CloseView");
-            }
-        }
+        await SmartUI.SendMessage("SetReception", operation, viewType:TargetViewType.PageView);
     }
 
     public async void SetReceptionData(Reception? item = null)

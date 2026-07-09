@@ -14,13 +14,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// </summary>
     public partial class vSmartEMRDeskRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel>
     {
-        public Reception RCPItem
-        {
-            get
-            {
-                return vm.Model;
-            }
-        }
+        public Reception RCPItem => vm.Model;
 
         protected override void Initialize()
         {
@@ -139,7 +133,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             btnSaveRCP.Content = "접수등록";
         }
 
-        private async void UpdateReceptionData(Reception? item = null)
+        public async void UpdateReceptionData(Reception? item = null)
         {
             vm.SetReceptionData(item);
 

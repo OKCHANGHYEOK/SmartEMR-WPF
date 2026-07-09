@@ -126,14 +126,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             
             if (dataGrid.IsDoubleClicked)
             {
-                var item = new Patient
-                {
-                    PAT_Idx = dataItem.PAT_Idx,
-                    PAT_Name = dataItem.PAT_Name,
-                    PAT_ChartNo = dataItem.PAT_ChartNo
-                };
-
-                await SmartUI.SendMessageToSearchView("SetSelectedPatient", item);
+                await SmartUI.SendMessage("SetPatientByRCB", dataItem, TargetViewType.PageView);
                 return;
             }
 

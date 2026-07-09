@@ -133,6 +133,29 @@ public class ModelProperty
         return item;
     }
 
+    public Reception GetReceptionDataFromRCB(ReceptionBoard paramItem)
+    {
+        Reception item = new Reception
+        {
+            RCP_Idx = paramItem.RCP_Idx,
+            PAT_Idx = paramItem.PAT_Idx,
+            MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
+            MUR_Idx_STF = paramItem.MUR_Idx_STF,
+            RES_Idx = paramItem.RES_Idx,
+            RCP_VisitType = paramItem.RCB_VisitType,
+            RCP_InsuranceType = paramItem.RCP_InsuranceType,
+            RCP_Status = string.IsNullOrWhiteSpace(paramItem.RCP_Status) ? "RDY" : paramItem.RCP_Status,
+            RCP_Route = paramItem.RCB_Route,
+            RCP_Subject = paramItem.RCB_Subject,
+            RCP_SubjectName = paramItem.RCB_SubjectName,
+            RCP_ReceiptDate = paramItem.RCB_Date,
+            RCP_ReceiptTime = paramItem.RCB_Time,
+            RCP_Memo = paramItem.RCB_Memo,
+        };
+
+        return item;
+    }
+
     public void SetReceptionData(Reception oldItem, Reception newItem)
     {
         oldItem.RCP_Idx = newItem.RCP_Idx.GetValueOrDefault(0);
@@ -147,7 +170,7 @@ public class ModelProperty
         oldItem.RCP_Route = newItem.RCP_Route;
         oldItem.RCP_Subject = newItem.RCP_Subject;
         oldItem.RCP_SubjectName = newItem.RCP_SubjectName;
-        oldItem.RCP_InsuranceType = newItem.IRC_Idx.GetValueOrDefault(0) == 0 ? "NON" : newItem.RCP_InsuranceType;
+        oldItem.RCP_InsuranceType = newItem.RCP_InsuranceType;
         oldItem.RCP_ReceiptDate = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptDate) ? DateTime.Now.ToString("yyyy-MM-dd") : newItem.RCP_ReceiptDate;
         oldItem.RCP_ReceiptTime = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptTime) ? DateTime.Now.ToString("HH:mm") : newItem.RCP_ReceiptTime;
         oldItem.RCP_StartTreatTime = newItem.RCP_StartTreatTime;
@@ -178,6 +201,7 @@ public class ModelProperty
         oldItem.IRC_ContractorName = newItem.IRC_ContractorName;
         oldItem.IRC_InsuredName = newItem.IRC_InsuredName;
         oldItem.IRC_CoName = newItem.IRC_CoName;
+        oldItem.IRC_Specific = newItem.IRC_Specific;
         oldItem.IRC_EffectiveYYMMDD = newItem.IRC_EffectiveYYMMDD;
         oldItem.IRC_ExpiredYYMMDDD = newItem.IRC_ExpiredYYMMDDD;
     }
