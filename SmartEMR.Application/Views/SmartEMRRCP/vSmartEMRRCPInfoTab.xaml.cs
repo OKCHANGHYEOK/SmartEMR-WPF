@@ -1,4 +1,5 @@
 ﻿using SmartEMR.Application.Common.Converter;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -28,6 +29,54 @@ public partial class vSmartEMRRCPInfoTab : ModelViewLayout<ReceptionViewModel>
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+    }
+
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse { IsSuccess = false };
+
+        switch (request.MessageAction)
+        {
+            case "SetRCPItem":
+                {
+                    var paramItem = request.MessageParameter as Reception;
+                    if (paramItem != null)
+                    {
+                        vm.SetRCPItem(paramItem);
+                    }
+
+                    break;
+                }
+
+            case "SetIRCItem":
+                {
+                    var paramItem = request.MessageParameter as Insurance;
+                    if (paramItem != null)
+                    {
+                        vm.SetIRCItem(paramItem);
+                    }
+
+                    break;
+                }
+
+            case "CloseView":
+                SmartUI.CloseView();
+                break;
+        }
+
+        return response;
+    }
+
+    private void OnClick_Button(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var btn = sender as Button;
+        if (btn == null) return;
+
+        switch (btn.Name)
+        {
+            case "btnClear":
+                break;
+        }
     }
 }
 

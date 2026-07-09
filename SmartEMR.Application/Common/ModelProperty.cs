@@ -187,6 +187,7 @@ public class ModelProperty
             IRC_CertNum = item.IRC_CertNum,
             IRC_InsuredName = item.IRC_InsuredName,
             IRC_CoName = item.IRC_CoName,
+            IRC_Specific = item.IRC_Specific,
             IRC_EffectiveYYMMDD = item.IRC_EffectiveYYMMDD,
             IRC_ExpiredYYMMDDD = item.IRC_ExpiredYYMMDDD
         };

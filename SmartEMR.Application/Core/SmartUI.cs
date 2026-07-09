@@ -177,6 +177,8 @@ public static partial class SmartUI
 
     private static async Task ShowPopupView(ViewLayout vl)
     {
+        vl.IsPopupView = true;
+
         UIManager.AddFloatPanel(new FloatPanel { Content = vl });
 
         BeginInvoke(() =>

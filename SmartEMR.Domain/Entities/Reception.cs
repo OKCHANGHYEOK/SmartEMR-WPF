@@ -44,6 +44,7 @@ public class Reception : BaseEntity
     private string? m_IRC_ContractorName;
     private string? m_IRC_InsuredName;
     private string? m_IRC_CoName;
+    private string? m_IRC_Specific;
     private string? m_IRC_EffectiveYYMMDD;
     private string? m_IRC_ExpiredYYMMDDD;
 
@@ -276,6 +277,12 @@ public class Reception : BaseEntity
     {
         get => m_IRC_CoName;
         set => SetProperty(ref m_IRC_CoName, value);
+    }
+
+    public string? IRC_Specific
+    {
+        get => m_IRC_Specific;
+        set => SetProperty(ref m_IRC_Specific, value);
     }
 
     public string? IRC_EffectiveYYMMDD

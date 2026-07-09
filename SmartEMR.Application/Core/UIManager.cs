@@ -11,7 +11,7 @@ namespace SmartEMR.Application.Core;
 public enum TargetViewType
 {
     CurrentView = 0,        // 현재 포커스중인 뷰
-    PageView = 1,           // 현재 포커스중인 뷰를 포함하고 있는 부모뷰
+    PageView = 1,           // 현재 보고 있는 페이지에 해당하는 뷰
     PreFloatView = 2,       // 팝업인 경우 해당 팝업의 이전 팝업
     RootView = 3            // vLayout
 }
@@ -140,6 +140,11 @@ public partial class UIManager
     {
         get
         {
+            if (_activeViews.Any(v => v.IsPopupView))
+            {
+                return _activeViews.FirstOrDefault(v => v.IsPopupView);
+            }
+
             return (RootView as vLayout)?.MainContent as ViewLayout;
         }
     }

@@ -69,7 +69,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     var parameter = Convert.ToString(request.MessageParameter);
                     if (parameter != null)
                     {
-                        vm.SetReception(parameter);
+                        vm.SaveData(parameter);
                     }
 
                     break;
