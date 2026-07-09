@@ -140,13 +140,14 @@ public class ModelProperty
         oldItem.MUR_Idx_STF = newItem.MUR_Idx_STF.GetValueOrDefault(0);
         oldItem.PAT_Idx = newItem.PAT_Idx;
         oldItem.RES_Idx = newItem.RES_Idx;
+        oldItem.IRC_Idx = newItem.IRC_Idx;
         oldItem.PAT_Name = newItem.PAT_Name;
         oldItem.RCP_VisitType = newItem.RCP_VisitType;
         oldItem.RCP_Status = newItem.RCP_Status;
         oldItem.RCP_Route = newItem.RCP_Route;
         oldItem.RCP_Subject = newItem.RCP_Subject;
         oldItem.RCP_SubjectName = newItem.RCP_SubjectName;
-        oldItem.RCP_InsuranceType = newItem.IRC_Idx.GetValueOrDefault(0) == 0 ? "NON" : newItem.IRC_Type;
+        oldItem.RCP_InsuranceType = newItem.IRC_Idx.GetValueOrDefault(0) == 0 ? "NON" : newItem.RCP_InsuranceType;
         oldItem.RCP_ReceiptDate = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptDate) ? DateTime.Now.ToString("yyyy-MM-dd") : newItem.RCP_ReceiptDate;
         oldItem.RCP_ReceiptTime = string.IsNullOrWhiteSpace(newItem.RCP_ReceiptTime) ? DateTime.Now.ToString("HH:mm") : newItem.RCP_ReceiptTime;
         oldItem.RCP_StartTreatTime = newItem.RCP_StartTreatTime;
