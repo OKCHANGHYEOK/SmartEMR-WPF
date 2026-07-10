@@ -51,11 +51,7 @@ public partial class vLayout : ViewLayout
         return await vl.ReceiveMessage(request);
     }
 
-    public override Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
-    {
-        return Task.CompletedTask;
-    }
-
+    public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e) {}
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e) {}
 
     public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) {}

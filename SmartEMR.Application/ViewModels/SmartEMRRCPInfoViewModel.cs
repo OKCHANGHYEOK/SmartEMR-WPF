@@ -44,7 +44,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         await SmartUI.SendMessage("SetReception", operation, viewType:TargetViewType.PageView);
     }
 
-    public async void SetReceptionData(Reception? item = null)
+    public async Task SetReceptionData(Reception? item = null)
     {
         if (item == null)
         {

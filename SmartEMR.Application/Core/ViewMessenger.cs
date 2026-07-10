@@ -17,6 +17,15 @@ public class ViewMessenger
         _subscribers.Add((view, handler));
     }
 
+    public void UnRegister(ViewLayout view)
+    {
+        var sub = _subscribers.FirstOrDefault(v => v.View == view);
+        if (sub.View != null)
+        {
+            _subscribers.Remove(sub);
+        }
+    }
+
     public async Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
         var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter };

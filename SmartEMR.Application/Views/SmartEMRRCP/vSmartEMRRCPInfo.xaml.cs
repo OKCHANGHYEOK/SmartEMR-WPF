@@ -21,9 +21,9 @@ public partial class vSmartEMRRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel
     {
     }
 
-    public void SetData(Reception item)
+    public async void SetData(Reception item)
     {
-        vm.SetReceptionData(item);
+       await vm.SetReceptionData(item);
     }
 
     protected override void SetBindGrid()
@@ -87,7 +87,7 @@ public partial class vSmartEMRRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel
         }
     }
 
-    public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
+    public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
         var bindGrid = sender as BindGrid;
         if (bindGrid == null) return;

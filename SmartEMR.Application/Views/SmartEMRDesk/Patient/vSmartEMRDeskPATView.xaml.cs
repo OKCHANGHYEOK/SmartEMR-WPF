@@ -20,10 +20,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
            
         }
 
-        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
-        {
-            // 클릭 이벤트 구현
-        }
+        public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e) {}
 
         public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
         {

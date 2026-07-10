@@ -23,7 +23,7 @@ public partial class vSmartEMRRCPInfoTab : ModelViewLayout<ReceptionViewModel>
         SmartEMRIRCInfo.SetData(vm.IRCItem);
     }
 
-    public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
+    public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
     }
 

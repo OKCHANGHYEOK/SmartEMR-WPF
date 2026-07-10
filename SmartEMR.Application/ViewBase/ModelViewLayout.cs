@@ -55,7 +55,7 @@ public abstract partial class ViewLayout
 {
     public abstract IReadOnlyList<BindGrid> BindGrids { get; }
 
-    public abstract Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
+    public abstract void OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
     public abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
 }
 
@@ -92,7 +92,7 @@ public abstract partial class ModelViewLayout
     protected readonly List<BindGrid> _bindGrids = new();
     public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
 
-    public override abstract Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
+    public override abstract void OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
     public override abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
 
     // ViewLayout의 추상 메서드 구현: UIManager가 이벤트를 라우팅해주는 통로
@@ -102,7 +102,7 @@ public abstract partial class ModelViewLayout
 
         try
         {
-            await OnBindGrid_BindClick(sender, e);
+            OnBindGrid_BindClick(sender, e);
         }
         finally
         {

@@ -87,7 +87,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             return response;
         }
 
-        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
+        public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
         {
             var bindGrid = sender as BindGrid;
             if (bindGrid == null) return;

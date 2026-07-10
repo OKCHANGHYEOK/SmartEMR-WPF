@@ -43,7 +43,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_Specific")?.Margin = new Thickness(1);
         }
 
-        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
+        public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
         {
             var bindGrid = sender as BindGrid;
             if (bindGrid == null) return;

@@ -1,5 +1,6 @@
 ﻿using SmartEMR.Application.Common.Converter;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Globalization;
@@ -74,6 +75,24 @@ public class Common
 
                 DisposeControl(child);
             }
+        }
+
+        if (element is ViewLayout view)
+        {
+            foreach (var bindGrid in view.BindGrids)
+            {
+                bindGrid.BindGrid_BindClickEvent -= view.OnBindGrid_BindClick;
+                bindGrid.BindGrid_BindItemChangedEvent -= view.OnBindGrid_BindItemChanged;
+            }
+
+            foreach (var dataGrid in view.DataGrids)
+            {
+                dataGrid.DataGrid_DataItemChangedEvent -= view.OnDataGrid_DataItemChanged;
+                dataGrid.DataGrid_PopupMenuOpening -= view.OnDataGrid_PopupMenuOpening;
+                dataGrid.DataGrid_PopupMenuItemClick -= view.OnDataGridPopupMenu_PopupMenuItemClicked;
+            }
+
+            SmartUI.Messenger.UnRegister(view);
         }
     }
 

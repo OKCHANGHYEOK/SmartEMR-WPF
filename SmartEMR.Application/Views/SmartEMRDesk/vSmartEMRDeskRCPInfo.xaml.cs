@@ -41,7 +41,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.AcceptsReturn = true;
         }
 
-        public override async Task OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
+        public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
         {
             var bindGrid = sender as BindGrid;
             if (bindGrid == null) return;
@@ -135,7 +135,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         public async void UpdateReceptionData(Reception? item = null)
         {
-            vm.SetReceptionData(item);
+            await vm.SetReceptionData(item);
 
             Insurance? IRCItem = null;
 

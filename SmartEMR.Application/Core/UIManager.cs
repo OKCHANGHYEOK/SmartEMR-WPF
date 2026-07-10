@@ -237,11 +237,6 @@ public partial class UIManager
     {
         _activeViews.Remove(view);
 
-        foreach (var bindGrid in view.BindGrids)
-        {
-            bindGrid.BindGrid_BindClickEvent -= view.HandleBindGridClick;
-        }
-
         view.Dispose(true); // IDisposable 명시적 캐스팅 대신 직접 호출
     }
 
