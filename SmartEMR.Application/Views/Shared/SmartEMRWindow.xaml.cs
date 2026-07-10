@@ -18,7 +18,9 @@ public partial class SmartEMRWindow : UIWindow
     {
     }
 
-    protected override void Initialize()
+    protected override void Initialize() { }
+
+    public async Task InitializeAsync()
     {
         this.Content = new vLayout(typeof(vSmartEMRDeskTab));
 
@@ -26,11 +28,6 @@ public partial class SmartEMRWindow : UIWindow
         this.DataContext = Model;
 
         DevExpress.Xpf.Core.ThemeManager.SetThemeName(this, Theme.Office2019ColorfulFullName);
-
-        this.Loaded += (s, e) =>
-        {
-            SplashScreenManager.CloseAll();
-        };
     }
 
     private void OnClosing_SmartEMRWindow(object sender, CancelEventArgs e)

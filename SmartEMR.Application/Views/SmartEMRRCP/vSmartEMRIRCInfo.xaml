@@ -109,7 +109,8 @@
                             Row="5"
                             ColSpan="2"
                             RowSpan="3"
-                            ContentAlignment="LeftTop"/>
+                            ContentAlignment="LeftTop"
+                            IsBottomLine="False"/>
         </Xpf:BindGrid>
 
         <Xpf:MaskControl x:Name="MaskControl" Grid.RowSpan="2" Visibility="{Binding Model.IRC_Type, Converter={converter:IRCTypeToVisibilityConverter}}">

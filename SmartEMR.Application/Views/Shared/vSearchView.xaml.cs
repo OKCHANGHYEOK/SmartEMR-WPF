@@ -60,7 +60,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
 
                 break;
 
-            case "ClearPatient":
+            case "ClearPAT":
                 txtSearch.Text = "";
                 break;
 

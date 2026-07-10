@@ -50,7 +50,7 @@
                          Height="24"
                          Margin="2,0,0,0"
                          Command="{Binding SetReceptionCommand}"
-                         CommandParameter="DELETE"
+                         CommandParameter="{x:Static common:OperationType.DELETE}"
                          IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
 
                 <Xpf:Button x:Name="btnClear"
@@ -73,7 +73,7 @@
                          Height="24"
                          Margin="0,0,2,0"
                          Command="{Binding SetReceptionCommand}"
-                         CommandParameter="SAVE">
+                         CommandParameter="{x:Static common:OperationType.SAVE}">
                 </Xpf:Button>
             </Xpf:StyleGrid>
         </Border>

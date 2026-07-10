@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Common;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -66,10 +67,11 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
             case "SetReception":
                 {
-                    var parameter = Convert.ToString(request.MessageParameter);
-                    if (parameter != null)
+                    var parameter = (OperationType?)request.MessageParameter;
+
+                    if (parameter is OperationType operation)
                     {
-                        vm.SaveData(parameter);
+                        await vm.SaveDataAsync(operation);
                     }
 
                     break;
@@ -119,7 +121,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
             case "UpdateRCPInfo":
                 {
                     var paramItem = request.MessageParameter as Reception;
-                    if (paramItem != null)
+                    if (paramItem != null && paramItem.RCP_Idx == SmartEMRDeskRCPInfo.RCPItem.RCP_Idx)
                     {
                         SmartEMRDeskRCPInfo.UpdateReceptionData(paramItem);
                     } 
@@ -131,11 +133,11 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 SmartEMRDeskRCP.RefreshData();
                 break;
 
-            case "ClearPatient":
+            case "ClearPAT":
                 ClearData();
                 break;
 
-            case "ClearReception":
+            case "ClearRCP":
                 {
                     var paramItem = request.MessageParameter as Reception;
                     if (paramItem != null && paramItem.RCP_Idx == SmartEMRDeskRCPInfo.RCPItem.RCP_Idx)
@@ -156,7 +158,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
     {
         if (isClearPAT) 
         {
-            await SmartUI.SendMessageToSearchView("ClearPatient");
+            await SmartUI.SendMessageToSearchView("ClearPAT");
 
             SmartEMRDeskPATView.ClearData();
         }

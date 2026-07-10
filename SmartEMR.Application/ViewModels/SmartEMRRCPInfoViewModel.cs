@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -39,7 +40,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
     }
 
     [RelayCommand]
-    public async Task RequestSetRCP(string operation)
+    public async Task RequestSetRCP(OperationType operation)
     {
         await SmartUI.SendMessage("SetReception", operation, viewType:TargetViewType.PageView);
     }

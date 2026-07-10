@@ -107,26 +107,27 @@ public class ModelProperty
         oldItem.NEXT_CHT_DATE_RES = newItem.NEXT_CHT_DATE_RES;
     }
 
-    public Reception GetReceptionDataForSave(Reception paramItem)
+    public Reception GetReceptionDataForSave(Reception RCPItem, Insurance IRCItem)
     {
         Reception item = new Reception 
         {
-            RCP_Idx = paramItem.RCP_Idx,
-            PAT_Idx = paramItem.PAT_Idx,
-            MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
-            MUR_Idx_STF = paramItem.MUR_Idx_STF,
-            RES_Idx = paramItem.RES_Idx,
-            RCP_VisitType = paramItem.RCP_VisitType,
-            RCP_InsuranceType = paramItem.RCP_InsuranceType,
-            RCP_Status = string.IsNullOrWhiteSpace(paramItem.RCP_Status) ? "RDY" : paramItem.RCP_Status,
-            RCP_Route = paramItem.RCP_Route,
-            RCP_Subject = paramItem.RCP_Subject,
-            RCP_SubjectName = paramItem.RCP_SubjectName,
-            RCP_ReceiptDate = paramItem.RCP_ReceiptDate,
-            RCP_ReceiptTime = paramItem.RCP_ReceiptTime,
-            RCP_StartTreatTime = paramItem.RCP_StartTreatTime,
-            RCP_EndTreatTime = paramItem.RCP_EndTreatTime,
-            RCP_Memo = paramItem.RCP_Memo,
+            RCP_Idx = RCPItem.RCP_Idx,
+            PAT_Idx = RCPItem.PAT_Idx,
+            MUR_Idx_DOC = RCPItem.MUR_Idx_DOC,
+            MUR_Idx_STF = RCPItem.MUR_Idx_STF,
+            RES_Idx = RCPItem.RES_Idx,
+            RCP_VisitType = RCPItem.RCP_VisitType,
+            RCP_InsuranceType = RCPItem.RCP_InsuranceType,
+            RCP_Status = string.IsNullOrWhiteSpace(RCPItem.RCP_Status) ? "RDY" : RCPItem.RCP_Status,
+            RCP_Route = RCPItem.RCP_Route,
+            RCP_Subject = RCPItem.RCP_Subject,
+            RCP_SubjectName = RCPItem.RCP_SubjectName,
+            RCP_ReceiptDate = RCPItem.RCP_ReceiptDate,
+            RCP_ReceiptTime = RCPItem.RCP_ReceiptTime,
+            RCP_StartTreatTime = RCPItem.RCP_StartTreatTime,
+            RCP_EndTreatTime = RCPItem.RCP_EndTreatTime,
+            RCP_Memo = RCPItem.RCP_Memo,
+            IRCItem = IRCItem,
             RCP_IsValid = true
         };
 

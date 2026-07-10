@@ -62,7 +62,13 @@ namespace SmartEMR.Application
 
             manager.Show();
 
-            this.MainWindow = new SmartEMRWindow();
+            var window = new SmartEMRWindow();
+
+            await window.InitializeAsync();
+
+            SplashScreenManager.CloseAll();
+
+            this.MainWindow = window;
             this.MainWindow.Show();
         }
 

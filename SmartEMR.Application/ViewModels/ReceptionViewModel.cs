@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -70,41 +71,29 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
     }
 
     [RelayCommand]
-    public async Task SetReception(string operation)
+    public async Task SetReception(OperationType operation)
     {
-        SaveData(operation);
+       await SaveDataAsync(operation);
     }
 
-    public async void SaveData(string operation)
+    public async Task SaveDataAsync(OperationType operation)
     {
-        string actionName = "";
-
-        try
+        bool isNew = Model.RCP_Idx.GetValueOrDefault(0) == 0;
+        string actionName = operation switch
         {
-            if (operation == "DELETE")
-            {
-                if (SmartUI.MsgYesNo("접수취소 하시겠습니까?") != MessageBoxResult.Yes) return;
+            OperationType.SAVE => isNew ? "등록" : "수정",
+            OperationType.DELETE => "취소",
+            _ => ""
+        };
 
-                await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = RCPItem.RCP_Idx, RCP_IsValid = false });
-
-                if (SmartMVVM.DataStore.retIsSuccess == false)
-                {
-                    SmartUI.SetNofification("접수취소하지 못했습니다.", NotificationType.Error);
-                    return;
-                }
-
-                actionName = "취소";
-
-                await SmartUI.SendMessage("ClearReception", new Reception { RCP_Idx = Model.RCP_Idx }, viewType: TargetViewType.PageView);
-                await SmartUI.SendMessage("RefreshReception", viewType: TargetViewType.PageView);
-
-                return;
-            }
-
-            actionName = RCPItem.RCP_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정";
-
+        if (operation == OperationType.DELETE)
+        {
+            if (!await DeleteDataAsync()) return;
+        }
+        else
+        {
             // 접수 등록시 오늘 날짜의 기존 접수 체크
-            if (RCPItem.RCP_Idx.GetValueOrDefault(0) == 0)
+            if (isNew)
             {
                 var IsExistsTodayRCP = await SmartMVVM.Common.ExisitsReception(RCPItem.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
                 if (IsExistsTodayRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
@@ -113,9 +102,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
                 }
             }
 
-            var setRCP = SmartMVVM.ModelProperty.GetReceptionDataForSave(RCPItem);
-            setRCP.IRCItem = IRCItem;
-
+            var setRCP = SmartMVVM.ModelProperty.GetReceptionDataForSave(RCPItem, IRCItem);
             var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, setRCP);
 
             if (retRCP == null || SmartMVVM.DataStore.retIsSuccess == false)
@@ -124,23 +111,46 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
                 return;
             }
 
-            await SmartUI.SendMessage("RefreshRCP", viewType: TargetViewType.PageView);
-
             SmartMVVM.ModelProperty.SetReceptionData(RCPItem, retRCP);
 
-            if (retRCP.IRCItem != null)
+            if (retRCP.IRCItem is not null)
             {
                 SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, retRCP.IRCItem);
             }
         }
-        finally
-        {
-            if (!string.IsNullOrWhiteSpace(actionName))
-            {
-                SmartUI.SetNofification($"접수{actionName}되었습니다.", NotificationType.Success);
 
-                await SmartUI.SendMessage("CloseView");
-            }
+        await NotifyCompletedTaskAsync(operation);
+
+        SmartUI.SetNofification($"접수{actionName}되었습니다.", NotificationType.Success);
+    }
+
+    private async Task<bool> DeleteDataAsync()
+    {
+        if (SmartUI.MsgYesNo("접수취소 하시겠습니까?") != MessageBoxResult.Yes) return false;
+
+        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = RCPItem.RCP_Idx, RCP_IsValid = false });
+
+        if (SmartMVVM.DataStore.retIsSuccess == false)
+        {
+            SmartUI.SetNofification("접수취소하지 못했습니다.", NotificationType.Error);
+            return false;
+        }
+
+        return true;
+    }
+
+    private async Task NotifyCompletedTaskAsync(OperationType operation)
+    {
+        await SmartUI.SendMessage("CloseView");
+        await SmartUI.SendMessage("RefreshRCP", viewType: TargetViewType.PageView);
+
+        if (operation == OperationType.SAVE)
+        {
+            await SmartUI.SendMessage("UpdateRCPInfo", RCPItem, viewType: TargetViewType.PageView);
+        }
+        else
+        {
+            await SmartUI.SendMessage("ClearRCP", RCPItem, viewType: TargetViewType.PageView);
         }
     }
 }

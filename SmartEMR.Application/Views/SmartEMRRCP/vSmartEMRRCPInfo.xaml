@@ -113,7 +113,8 @@
                             Row="5"
                             ColSpan="2"
                             RowSpan="3"
-                            ContentAlignment="LeftTop"/>
+                            ContentAlignment="LeftTop"
+                            IsBottomLine="False"/>
         </Xpf:BindGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>
