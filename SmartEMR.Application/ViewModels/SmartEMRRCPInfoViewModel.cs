@@ -73,25 +73,4 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
 
         Model.PAT_Idx = item.PAT_Idx;
     }
-
-    public void ClearData()
-    {
-        Model.RCP_Idx = 0;
-        Model.MUR_Idx_DOC = 0;
-        Model.MUR_Idx_STF = 0;
-        Model.RES_Idx = 0;
-        Model.RCP_VisitType = "FIR";
-        Model.RCP_Status = "";
-        Model.RCP_Route = "DSK";
-        Model.RCP_Subject = "GNR";
-        Model.RCP_SubjectName = "";
-        Model.RCP_InsuranceType = "NON";
-        Model.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
-        Model.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
-        Model.RCP_StartTreatTime = "";
-        Model.RCP_EndTreatTime = "";
-        Model.RCP_Memo = "";
-
-        PATItem = new();
-    }
 }

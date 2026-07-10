@@ -119,14 +119,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         public void ClearData(bool isNewRCP = true, bool isNON = true)
         {
-            IRCItem.IRC_CertNum = "";
-            IRCItem.IRC_ContractorName = "";
-            IRCItem.IRC_InsuredName = "";
-            IRCItem.IRC_CoName = "";
-            IRCItem.IRC_CoName = "";
-            IRCItem.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
-            IRCItem.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
-            IRCItem.IRC_Specific = "";
+            vm.ClearData();
 
             if (isNewRCP)
             {

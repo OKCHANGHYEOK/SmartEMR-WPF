@@ -5,6 +5,7 @@ namespace SmartEMR.Application.Common;
 
 public class ModelProperty
 {
+    #region "Patient"
     public Patient GetPatientDataForSave(Patient paramItem)
     {
         var item = new Patient();
@@ -107,9 +108,53 @@ public class ModelProperty
         oldItem.NEXT_CHT_DATE_RES = newItem.NEXT_CHT_DATE_RES;
     }
 
+    public void ClearPATData(Patient item)
+    {
+        item.PAT_Idx = 0;
+        item.MUR_Idx_DOC = 0;
+        item.MUR_Idx_STF = 0;
+        item.PAT_ChartNo = "";
+        item.PAT_Name = "";
+        item.PAT_BloodType = "";
+        item.PAT_SourceType = "";
+        item.vPAT_SourceType = "";
+        item.PAT_Sex = "";
+        item.PAT_Age = 0;
+        item.vPAT_Info = "";
+        item.PAT_BirthYear = "";
+        item.PAT_BirthMonth = "";
+        item.PAT_BirthDay = "";
+        item.PAT_BirthDate = "";
+        item.PAT_RegisterNum1 = "";
+        item.PAT_RegisterNum2 = "";
+        item.PAT_Address1 = "";
+        item.PAT_Address2 = "";
+        item.PAT_Address3 = "";
+        item.vPAT_Address = "";
+        item.PAT_Hpp1 = "";
+        item.PAT_Hpp2 = "";
+        item.PAT_Hpp3 = "";
+        item.PAT_PhoneNum = "";
+        item.PAT_Email = "";
+        item.PAT_FirstVisitDate = "";
+        item.PAT_LastVisitDate = "";
+        item.PAT_ImageSource = null;
+        item.PAT_IsSMS = "";
+        item.PAT_IsSolar = "";
+        item.PAT_Bigo = "";
+        item.NOW_CHT_Idx_RCV = 0;
+        item.NOW_CHT_Idx_RES = 0;
+        item.NEXT_CHT_Idx_RES = 0;
+        item.NEXT_CHT_DATE_RES = "";
+    }
+
+    #endregion
+
+    #region "Reception"
+
     public Reception GetReceptionDataForSave(Reception RCPItem, Insurance IRCItem)
     {
-        Reception item = new Reception 
+        Reception item = new Reception
         {
             RCP_Idx = RCPItem.RCP_Idx,
             PAT_Idx = RCPItem.PAT_Idx,
@@ -179,6 +224,28 @@ public class ModelProperty
         oldItem.RCP_Memo = newItem.RCP_Memo;
     }
 
+    public void ClearRCPData(Reception item, bool isNewRCP = true)
+    {
+        item.RCP_Idx = isNewRCP ? 0 : item.RCP_Idx;
+        item.MUR_Idx_DOC = 0;
+        item.MUR_Idx_STF = 0;
+        item.RCP_VisitType = "FIR";
+        item.RCP_Status = "";
+        item.RCP_Route = "DSK";
+        item.RCP_Subject = "GNR";
+        item.RCP_SubjectName = "";
+        item.RCP_InsuranceType = "NON";
+        item.RCP_ReceiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+        item.RCP_ReceiptTime = DateTime.Now.ToString("HH:mm");
+        item.RCP_StartTreatTime = "";
+        item.RCP_EndTreatTime = "";
+        item.RCP_Memo = "";
+    }
+
+    #endregion
+
+    #region "Insurance"
+
     public Insurance GetInsuranceDataFromRCP(Reception item)
     {
         return new Insurance
@@ -207,4 +274,24 @@ public class ModelProperty
         oldItem.IRC_EffectiveYYMMDD = newItem.IRC_EffectiveYYMMDD;
         oldItem.IRC_ExpiredYYMMDDD = newItem.IRC_ExpiredYYMMDDD;
     }
+
+    public void ClearIRCData(Insurance item, bool isClearIRCType = false)
+    {
+        item.IRC_CertNum = "";
+        item.IRC_ContractorName = "";
+        item.IRC_InsuredName = "";
+        item.IRC_CoName = "";
+        item.IRC_CoName = "";
+        item.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
+        item.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
+        item.IRC_Specific = "";
+        
+        if(isClearIRCType)
+        {
+            item.IRC_Type = "NON";
+            item.vIRC_Type = "비보험";
+        }
+    }
+
+    #endregion
 }

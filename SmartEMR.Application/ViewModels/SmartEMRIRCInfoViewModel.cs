@@ -4,8 +4,8 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class SmartEMRIRCInfoViewModel : InsuranceInfoViewModel
 {
-    public override async Task InitializeAsync()
+    public void ClearData()
     {
-        await SmartUI.SendMessage("SetIRCItem", Model, viewType:TargetViewType.PageView);
+        SmartMVVM.ModelProperty.ClearIRCData(Model);
     }
 }

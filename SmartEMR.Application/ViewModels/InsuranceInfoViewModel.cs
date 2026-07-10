@@ -12,6 +12,11 @@ public class InsuranceInfoViewModel : BaseViewModel<Insurance>
         arrIRC_CoName = SmartMVVM.Master.Query<Insurance>("IRC_CoName");
     }
 
+    public override async Task InitializeAsync()
+    {
+        await SmartUI.SendMessage("SetIRCItem", Model, viewType: TargetViewType.PageView);
+    }
+
     protected override Insurance GetModel(Insurance item)
     {
         if (item.IRC_Idx.GetValueOrDefault(0) == 0)
@@ -27,5 +32,10 @@ public class InsuranceInfoViewModel : BaseViewModel<Insurance>
     public void SetData(Insurance item)
     {
         SmartMVVM.ModelProperty.SetInsuranceData(Model, item);
+    }
+
+    public void ClearData(bool isClearIRCType)
+    {
+        SmartMVVM.ModelProperty.ClearIRCData(Model, isClearIRCType);
     }
 }

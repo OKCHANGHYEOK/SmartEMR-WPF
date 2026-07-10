@@ -19,8 +19,8 @@ public partial class vSmartEMRRCPInfoTab : ModelViewLayout<ReceptionViewModel>
 
     protected override void Initialize()
     {
-        SmartEMRRCPInfo.SetData(vm.Model);
-        SmartEMRIRCInfo.SetData(vm.IRCItem);
+       SmartEMRRCPInfo.SetData(vm.Model);
+       SmartEMRIRCInfo.SetData(vm.IRCItem);
     }
 
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -59,6 +59,15 @@ public partial class vSmartEMRRCPInfoTab : ModelViewLayout<ReceptionViewModel>
                     break;
                 }
 
+            case "SetInsuranceType":
+                {
+                    var paramItem = request.MessageParameter?.ToString();
+                    if (paramItem == null) return null;
+
+                    SmartEMRIRCInfo.SetInsuranceType(paramItem);
+                    break;
+                }
+
             case "CloseView":
                 SmartUI.CloseView();
                 break;
@@ -75,6 +84,7 @@ public partial class vSmartEMRRCPInfoTab : ModelViewLayout<ReceptionViewModel>
         switch (btn.Name)
         {
             case "btnClear":
+                vm.ClearData();
                 break;
         }
     }

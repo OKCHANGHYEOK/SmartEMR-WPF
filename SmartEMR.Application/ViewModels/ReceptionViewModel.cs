@@ -47,11 +47,11 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
                 return;
             }
 
-            var IRCItem = SmartMVVM.ModelProperty.GetInsuranceDataFromRCP(retRCP);
+            var retIRC = SmartMVVM.ModelProperty.GetInsuranceDataFromRCP(retRCP);
 
             SmartMVVM.ModelProperty.SetPatientData(PATItem, retPAT);
             SmartMVVM.ModelProperty.SetReceptionData(Model, retRCP);
-            SmartMVVM.ModelProperty.SetInsuranceData(this.IRCItem, IRCItem);
+            SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, retIRC);
         }
     }
 
@@ -152,5 +152,13 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
         {
             await SmartUI.SendMessage("ClearRCP", RCPItem, viewType: TargetViewType.PageView);
         }
+    }
+
+    public void ClearData()
+    {
+        if (SmartUI.MsgYesNo("초기화하시겠습니까?") is not MessageBoxResult.Yes) return;
+
+        SmartMVVM.ModelProperty.ClearRCPData(RCPItem, false);
+        SmartMVVM.ModelProperty.ClearIRCData(IRCItem, true);
     }
 }

@@ -97,22 +97,7 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
 
     public void ClearData(bool isClearIRCType = true)
     {
-        IRCItem.IRC_Idx = 0;
-        IRCItem.PAT_Idx = 0;
-        IRCItem.RCP_Idx = 0;
-        IRCItem.IRC_CertNum = "";
-        IRCItem.IRC_ContractorName = "";
-        IRCItem.IRC_InsuredName = "";
-        IRCItem.IRC_CoName = "";
-        IRCItem.IRC_CoName = "";
-        IRCItem.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
-        IRCItem.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
-
-        if (isClearIRCType)
-        {
-            IRCItem.IRC_Type = "NON";
-            IRCItem.vIRC_Type = "비보험";
-        }
+        vm.ClearData(isClearIRCType);
     }
 
     private void OnClick_Button(object sender, RoutedEventArgs e)
