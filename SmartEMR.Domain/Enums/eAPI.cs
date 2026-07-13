@@ -16,5 +16,8 @@ public enum  eAPI
     Reception_GetReception = 10,
     Reception_GetReceptionBoard = 11,
     Reception_SetReception = 12,
-    Insurance_GetInsurance = 13
+    Insurance_GetInsurance = 13,
+    Insurance_SetInsurance = 14,
+    Pay_GetPay = 15,
+    Pay_SetPay = 16
 }
