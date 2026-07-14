@@ -14,8 +14,12 @@ public abstract partial class BaseViewModel : ObservableObject
         return Task.CompletedTask;
     }
 
-    // 기본 비동기 데이터 로드 동작 (필요 시 자식에서 override)
     public virtual Task FetchDataAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public virtual Task FetchDataAsync(object parameter)
     {
         return Task.CompletedTask;
     }
@@ -42,7 +46,7 @@ public abstract partial class BaseViewModel<T> : BaseViewModel, IViewModel<T> wh
     public BaseViewModel(T item)
     {
         // 커맨드를 먼저 안전하게 생성합니다.
-        LoadDataCommand = new AsyncRelayCommand(FetchDataAsync);
+        LoadDataCommand = new AsyncRelayCommand(() => FetchDataAsync());
 
         // 모델을 설정합니다.
         Model = GetModel(item);

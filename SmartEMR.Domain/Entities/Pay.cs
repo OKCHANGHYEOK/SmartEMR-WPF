@@ -8,12 +8,13 @@ public class Pay : BaseEntity
     private int? m_PAT_Idx;
     private int? m_CST_Idx;
     private string? m_PAY_Status;
-    private Decimal? m_PAY_AMOUNT_TOT;
-    private Decimal? m_PAY_AMOUNT_INSURED;
-    private Decimal? m_PAY_AMOUNT_NONINSURED;
-    private Decimal? m_PAY_AMOUNT_PATIENT;
-    private Decimal? m_PAY_AMOUNT_PAID;
-    private Decimal? m_PAY_AMOUNT_REMAIN;
+    private Decimal? m_PAY_TotalPrice;
+    private Decimal? m_PAY_InsuredPrice;
+    private Decimal? m_PAY_NonInsurecPrice;
+    private Decimal? m_PAY_OwnPatientPrice;
+    private Decimal? m_PAY_PaidPrice;
+    private Decimal? m_PAY_RemainPrice;
+    private string? m_PAY_Memo;
     private string? m_PAY_Date;
     private string? m_PAY_YYMMDD;
     private bool? m_PAY_IsValid;
@@ -56,40 +57,46 @@ public class Pay : BaseEntity
         set => SetProperty(ref m_PAY_Status, value);
     }
 
-    public Decimal? PAY_AMOUNT_TOT
+    public Decimal? PAY_TotalPrice
     {
-        get => m_PAY_AMOUNT_TOT;
-        set => SetProperty(ref m_PAY_AMOUNT_TOT, value);
+        get => m_PAY_TotalPrice;
+        set => SetProperty(ref m_PAY_TotalPrice, value);
     }
 
-    public Decimal? PAY_AMOUNT_INSURED
+    public Decimal? PAY_InsuredPrice
     {
-        get => m_PAY_AMOUNT_INSURED;
-        set => SetProperty(ref m_PAY_AMOUNT_INSURED, value);
+        get => m_PAY_InsuredPrice;
+        set => SetProperty(ref m_PAY_InsuredPrice, value);
     }
 
-    public Decimal? PAY_AMOUNT_NONINSURED
+    public Decimal? PAY_NonInsurecPrice
     {
-        get => m_PAY_AMOUNT_NONINSURED;
-        set => SetProperty(ref m_PAY_AMOUNT_NONINSURED, value);
+        get => m_PAY_NonInsurecPrice;
+        set => SetProperty(ref m_PAY_NonInsurecPrice, value);
     }
 
-    public Decimal? PAY_AMOUNT_PATIENT
+    public Decimal? PAY_OwnPatientPrice
     {
-        get => m_PAY_AMOUNT_PATIENT;
-        set => SetProperty(ref m_PAY_AMOUNT_PATIENT, value);
+        get => m_PAY_OwnPatientPrice;
+        set => SetProperty(ref m_PAY_OwnPatientPrice, value);
     }
 
-    public Decimal? PAY_AMOUNT_PAID
+    public Decimal? PAY_PaidPrice
     {
-        get => m_PAY_AMOUNT_PAID;
-        set => SetProperty(ref m_PAY_AMOUNT_PAID, value);
+        get => m_PAY_PaidPrice;
+        set => SetProperty(ref m_PAY_PaidPrice, value);
     }
 
-    public Decimal? PAY_AMOUNT_REMAIN
+    public Decimal? PAY_RemainPrice
     {
-        get => m_PAY_AMOUNT_REMAIN;
-        set => SetProperty(ref m_PAY_AMOUNT_REMAIN, value);
+        get => m_PAY_RemainPrice;
+        set => SetProperty(ref m_PAY_RemainPrice, value);
+    }
+
+    public string? PAY_Memo
+    {
+        get => m_PAY_Memo;
+        set => SetProperty(ref m_PAY_Memo, value);
     }
 
     public string? PAY_Date

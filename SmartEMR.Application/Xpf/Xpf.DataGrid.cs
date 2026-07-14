@@ -86,6 +86,12 @@ public partial class DataGrid : ContentControl
         set => SetValue(IsDoubleClickedProperty, value);
     }
 
+    public bool AutoWidth
+    {
+        get => TableView.AutoWidth;
+        set => TableView.AutoWidth = value;
+    }
+
     public GridColumnCollection Columns => GridControl.Columns;
 
     public event EventHandler<PopupMenuOpeningEventArgs>? DataGrid_PopupMenuOpening;
@@ -105,6 +111,7 @@ public partial class DataGrid : ContentControl
         TableView.AllowEditing = false;
         TableView.AllowHorizontalScrollingVirtualization = false;
         TableView.AllowColumnFiltering = false;
+        TableView.AllowColumnMoving = false;
         TableView.AllowSorting = false;
         TableView.AutoWidth = true;
         TableView.ShowGroupPanel = false;
@@ -138,7 +145,7 @@ public partial class DataGrid : ContentControl
 
         element.FieldName = item.FieldName;
         element.Header = item.Header;
-        element.Width = item.ColumnWidth;
+        element.Width = item.ColumnWidth > 0 ? new GridColumnWidth(item.ColumnWidth, GridColumnUnitType.Pixel) : new GridColumnWidth(1, GridColumnUnitType.Star);
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
         element.CellTemplate = GetCellTemplate(item);
         element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;

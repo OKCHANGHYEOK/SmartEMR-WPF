@@ -20,7 +20,7 @@
             Opacity="0.6"
             Margin="5"/>
     
-    <shared:vSmartEMRChartSummary Grid.Column="2"/>
+    <shared:vSmartEMRSummaryBoard Grid.Column="2"/>
     
     <Border Grid.Column="3" 
             Width="1" 

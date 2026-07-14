@@ -16,6 +16,7 @@ public class Reservation : BaseEntity
     private string? m_RES_Route;
     private string? m_RES_Subject;
     private string? m_RES_SubjectName;
+    private string? m_vRES_SubjectName;
     private string? m_RES_ReservationDate;
     private string? m_RES_ReservationTime;
     private string? m_RES_Memo;
@@ -107,6 +108,12 @@ public class Reservation : BaseEntity
     {
         get => m_RES_SubjectName;
         set => SetProperty(ref m_RES_SubjectName, value);
+    }
+
+    public string? vRES_SubjectName
+    {
+        get => m_vRES_SubjectName;
+        set => SetProperty(ref m_vRES_SubjectName, value);
     }
 
     public string? RES_ReservationDate

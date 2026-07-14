@@ -15,32 +15,66 @@
                       d:DesignWidth="800">
 
     <Xpf:StyleGrid x:Name="LayoutRoot">
-        <dx:DXTabControl x:Name="TabControl" SelectionChanged="OnTabControl_SelectionChanged">
+        <dx:DXTabControl x:Name="TabControl" SelectionChanged="OnTabControl_SelectionChanged" Margin="2" Padding="4">
             <dx:DXTabItem   Tag="RES" 
                             Header="예약" 
                             IsSelected="True">
-                <Xpf:DataGrid>
-                    <Xpf:ColumnItem FieldName="RES_YYMMDD" Header="예약일자"/>
+                <Xpf:DataGrid ItemsSource="{Binding arrRES}" AutoWidth="False">
+                    <Xpf:ColumnItem FieldName="vRES_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="RES_ReservationDate" Header="예약일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="RES_ReservationTime" Header="예약시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="vRES_Route" Header="예약경로" ColumnWidth="60" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="vRES_SubjectName" Header="예약과목" ColumnWidth="100"/>
+                    <Xpf:ColumnItem FieldName="RES_Memo" Header="메모"/>
                 </Xpf:DataGrid>
             </dx:DXTabItem>
-            <dx:DXTabItem   Tag="RCP" Header="접수">
-                <Xpf:DataGrid>
-                    <Xpf:ColumnItem FieldName="RCP_YYMMDD" Header="접수일자"/>
+            <dx:DXTabItem Tag="RCP" Header="접수">
+                <Xpf:DataGrid ItemsSource="{Binding arrRCP}" AutoWidth="False">
+                    <Xpf:ColumnItem FieldName="vRCP_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="RCP_ReceiptDate" Header="접수일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="RCP_ReceiptTime" Header="접수시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="vRCP_Route" Header="접수경로" ColumnWidth="60" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="vRCP_Subject" Header="접수과목" ColumnWidth="100"/>
+                    <Xpf:ColumnItem FieldName="vRCP_InsuranceType" Header="보험구분" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="RCP_Memo" Header="메모"/>
                 </Xpf:DataGrid>
             </dx:DXTabItem>
-            <dx:DXTabItem   Tag="CST" Header="진료">
-                <Xpf:DataGrid>
-                    <Xpf:ColumnItem FieldName="CST_YYMMDD" Header="진료일자"/>
+            <dx:DXTabItem Tag="CST" Header="진료">
+                <Xpf:DataGrid ItemsSource="{Binding arrCST}" AutoWidth="False">
+                    <Xpf:ColumnItem FieldName="CST_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="CST_YYMMDD" Header="진료일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="CST_StartTime" Header="시작시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="CST_EndTime" Header="종료시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="CST_PayStatus" Header="수납" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="CST_TotalPrice" Header="총진료비" ColumnStyle="Sum" ColumnWidth="60"/>
+                    <Xpf:ColumnItem FieldName="CST_Memo" Header="메모"/>
+                    <!--<Xpf:ColumnItem FieldName="CST_InsuredPrice" Header="급여비" ColumnStyle="Sum" ColumnWidth="60"/>-->
+                    <!--<Xpf:ColumnItem FieldName="CST_NonInsurecPrice" Header="비급여비" ColumnStyle="Sum" ColumnWidth="60"/>-->
+                    <!--<Xpf:ColumnItem FieldName="CST_OwnPatientPrice" Header="본인부담금" ColumnStyle="Sum" ColumnWidth="60"/>-->
                 </Xpf:DataGrid>
             </dx:DXTabItem>
-            <dx:DXTabItem   Tag="CORD" Header="처방">
-                <Xpf:DataGrid>
-                    <Xpf:ColumnItem FieldName="CORD_YYMMDD" Header="처방일자"/>
+            <dx:DXTabItem Tag="CSTO" Header="처방">
+                <Xpf:DataGrid ItemsSource="{Binding arrCSTO}" AutoWidth="False">
+                    <Xpf:ColumnItem FieldName="CSTO_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="CSTO_YYMMDD" Header="처방일자" ColumnWidth="80" ColumnStyle="YYMMDD"  Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="ORDC_Name" Header="구분" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="CSTO_InsuranceType" Header="보험" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="CSTO_Name" Header="처방명" ColumnWidth="100" FontWeight="Bold"/>
+                    <Xpf:ColumnItem FieldName="CSTO_Amount" Header="총량" ColumnStyle="Sum" ColumnWidth="40"/>
+                    <Xpf:ColumnItem FieldName="CSTO_Count" Header="횟수" ColumnStyle="Sum" ColumnWidth="40"/>
+                    <Xpf:ColumnItem FieldName="CSTO_Memo" Header="메모"/>
                 </Xpf:DataGrid>
             </dx:DXTabItem>
-            <dx:DXTabItem   Tag="PAY" Header="수납">
-                <Xpf:DataGrid>
-                    <Xpf:ColumnItem FieldName="PAY_YYMMDD" Header="수납일자"/>
+            <dx:DXTabItem Tag="PAY" Header="수납">
+                <Xpf:DataGrid ItemsSource="{Binding arrPAY}" AutoWidth="False">
+                    <Xpf:ColumnItem FieldName="PAY_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="PAY_YYMMDD" Header="수납일자" ColumnStyle="YYMMDD" ColumnWidth="80"  Foreground="DimGray"/>
+                    <Xpf:ColumnItem FieldName="PAY_TotalPrice" Header="총수납액" ColumnStyle="Sum" ColumnWidth="70"/>
+                    <Xpf:ColumnItem FieldName="PAY_InsuredPrice" Header="급여금액" ColumnStyle="Sum" ColumnWidth="70"/>
+                    <Xpf:ColumnItem FieldName="PAY_NonInsuredPrice" Header="비급여금액" ColumnStyle="Sum" ColumnWidth="70"/>
+                    <Xpf:ColumnItem FieldName="PAY_OnwPatientPrice" Header="본인부담금" ColumnStyle="Sum" ColumnWidth="70"/>
+                    <Xpf:ColumnItem FieldName="PAY_PaidPrice" Header="실수납금" ColumnStyle="Sum" ColumnWidth="70"/>
+                    <Xpf:ColumnItem FieldName="PAY_Memo" Header="메모"></Xpf:ColumnItem>
                 </Xpf:DataGrid>
             </dx:DXTabItem>
         </dx:DXTabControl>

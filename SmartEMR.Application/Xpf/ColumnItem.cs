@@ -23,7 +23,7 @@ public class ColumnItem
 {
     public string FieldName { get; set; } = string.Empty;
     public string Header { get; set; } = string.Empty;
-    public ColumnType ColumnType { get; set; }
+    public ColumnType ColumnType { get; set; } = ColumnType.Label;
     public ColumnStyle? ColumnStyle { get; set; }
     public double ColumnWidth { get; set; }
     public double FontSize { get; set; } = 11;

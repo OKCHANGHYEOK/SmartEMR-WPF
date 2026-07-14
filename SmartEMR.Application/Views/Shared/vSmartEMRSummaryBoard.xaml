@@ -1,15 +1,16 @@
-﻿<Xpf:CustomControl    x:Class="SmartEMR.Application.Views.Shared.vSmartEMRChartSummary"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
-                xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
-                xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
-                xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
-                xmlns:temp="clr-namespace:SmartEMR.Application.Template"
-                mc:Ignorable="d"
-                Margin="3">
+﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.Shared.vSmartEMRSummaryBoard"
+                        x:TypeArguments="vm:SmartEMRSummaryBoardViewModel"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:local="clr-namespace:SmartEMR.Application.Views.Shared"
+                        xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                        xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                        xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        xmlns:temp="clr-namespace:SmartEMR.Application.Template"
+                        mc:Ignorable="d"
+                        Margin="3">
 
     <Border BorderThickness="1"
             CornerRadius="8">
@@ -29,14 +30,14 @@
         </Border.Background>
         
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding CHTItems}">
+            <ItemsControl ItemsSource="{Binding arrSUM}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Orientation="Vertical" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
-                <ItemsControl.ItemTemplate>
+                <!--<ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border x:Name="ItemBorder"
                                 Margin="0,0,0,2"
@@ -60,8 +61,8 @@
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                </ItemsControl.ItemTemplate>-->
             </ItemsControl>
         </ScrollViewer>
     </Border>
-</Xpf:CustomControl>
+</base:ModelViewLayout>
