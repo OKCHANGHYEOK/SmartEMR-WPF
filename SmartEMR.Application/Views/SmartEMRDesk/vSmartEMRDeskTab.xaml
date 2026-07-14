@@ -28,7 +28,9 @@
                     </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
 
-                <Xpf:LayoutPanel Caption="환자이력" ItemHeight="Auto"></Xpf:LayoutPanel>
+                <Xpf:LayoutPanel Caption="환자이력" ItemHeight="0.5*">
+                    <view:vSmartEMRDeskPATHistory x:Name="SmartEMRDeskPATHistory"/>
+                </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
             <dxd:LayoutGroup Orientation="Vertical">
                 <Xpf:LayoutPanel ItemHeight="*" Caption="접수현황">
