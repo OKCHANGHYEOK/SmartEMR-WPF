@@ -99,7 +99,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
 
         await SmartUI.SendMessage("SetSelectedPatient", item, viewType: TargetViewType.PageView);
         
-        SmartUI.SetNofification("선택하신 환자정보가 적용되었습니다.", NotificationType.Info);
+        //SmartUI.SetNofification("선택하신 환자정보가 적용되었습니다.", NotificationType.Info);
     }
 
     public void OnPreviewKeyDown_SearchView(object sender, KeyEventArgs e)

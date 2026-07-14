@@ -44,30 +44,23 @@ public partial class PatientInfoViewModel : PatientViewModel
     }
 
     [RelayCommand]
-    public async Task SetPatient(string opreation)
+    public async Task SetPatient(OperationType operation)
     {
-        if (!Enum.TryParse<OperationType>(opreation, out var operationType)) return;
+        bool isNew = Model.PAT_Idx.GetValueOrDefault(0) == 0;
 
-        try
+        string actionName = operation switch
         {
-            if (operationType == OperationType.DELETE)
-            {
-                if (SmartUI.MsgYesNo("삭제하시면 복구가 불가능합니다." + "\n" + "삭제하시겠습니까?") != System.Windows.MessageBoxResult.Yes) return;
+            OperationType.SAVE => isNew ? "등록" : "수정",
+            OperationType.DELETE => "삭제",
+            _ => ""
+        };
 
-                await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, new Patient { PAT_Idx = Model.PAT_Idx, PAT_IsValid = false });
-
-                if (SmartMVVM.DataStore.retIsSuccess == false)
-                {
-                    SmartUI.SetNofification("환자정보 삭제에 실패했습니다.", NotificationType.Error);
-                    return;
-                }
-
-                SmartUI.SetNofification($"삭제되었습니다.", NotificationType.Success);
-                await SmartUI.SendMessage("ClearPAT", viewType: TargetViewType.PageView);
-
-                return;
-            }
-
+        if (operation == OperationType.DELETE)
+        {
+            if (!await DeletePatientAsync()) return;
+        }
+        else
+        {
             if (!ValidateInputData()) return;
 
             var item = SmartMVVM.ModelProperty.GetPatientDataForSave(Model);
@@ -79,22 +72,27 @@ public partial class PatientInfoViewModel : PatientViewModel
                 return;
             }
 
-            Model.PAT_ChartNo = retPAT.PAT_ChartNo;
-
-            var msg = "환자" + (Model.PAT_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
-
-            SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
-
-            await SmartUI.SendMessageToSearchView("SetSelectedPatient", retPAT);
-            await SmartUI.SendMessage("SetSelectedPatient", retPAT, TargetViewType.PageView);
+            SmartMVVM.ModelProperty.SetPatientData(Model, retPAT);
         }
-        finally
+
+        await NotifyCompletedTaskAsync(operation);
+
+        SmartUI.SetNofification($"{actionName} 되었습니다.", NotificationType.Success);
+    }
+
+    private async Task<bool> DeletePatientAsync()
+    {
+        if (SmartUI.MsgYesNo("삭제하시면 복구가 불가능합니다." + "\n" + "삭제하시겠습니까?") != System.Windows.MessageBoxResult.Yes) return false;
+
+        await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, new Patient { PAT_Idx = Model.PAT_Idx, PAT_IsValid = false });
+
+        if (SmartMVVM.DataStore.retIsSuccess == false)
         {
-            if (SmartMVVM.DataStore.retIsSuccess)
-            {
-                await SmartUI.SendMessage("CloseView");
-            }
+            SmartUI.SetNofification("환자정보 삭제에 실패했습니다.", NotificationType.Error);
+            return false;
         }
+
+        return true;
     }
 
     private bool ValidateInputData()
@@ -130,5 +128,29 @@ public partial class PatientInfoViewModel : PatientViewModel
         }
 
         return true;
+    }
+
+    private async Task NotifyCompletedTaskAsync(OperationType operation)
+    {
+        await SmartUI.SendMessage("CloseView");
+
+        if (operation == OperationType.DELETE)
+        {
+            await SmartUI.SendMessage("ClearPAT", viewType: TargetViewType.PageView);
+            return;
+        }
+
+        var response = await SmartUI.SendMessage<Patient>("GetPATItem", viewType: TargetViewType.PageView);
+        
+        // 현재 보고 있는 환자가 없거나 보고 있는 환자 == 업데이트된 환자인 경우에만 메시지 전송
+        if (response is not null && response.Item is Patient PATItem)
+        {
+            if (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 || PATItem.PAT_Idx == Model.PAT_Idx)
+            {
+                await SmartUI.SendMessageToSearchView("SetSelectedPatient", Model);
+                await SmartUI.SendMessage("SetSelectedPatient", Model, TargetViewType.PageView);
+            } 
+
+        }
     }
 }

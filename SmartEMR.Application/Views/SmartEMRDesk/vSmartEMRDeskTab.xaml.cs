@@ -25,8 +25,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
         switch (request.MessageAction)
         {
-            case "GetIRCItem":
-                response.Item = SmartEMRDeskIRCInfo.IRCItem;
+            case "GetPATItem":
+                response.Item = vm.PATItem;
                 break;
 
             case "SetSelectedPatient":
@@ -34,8 +34,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     var paramItem = request.MessageParameter as Patient;
                     if (paramItem == null) return null;
 
-                    SmartEMRDeskPATView.SetPatientData(paramItem);
-                    SmartEMRDeskRCPInfo.SetPatientData(paramItem);
+                    SetPatientData(paramItem);
 
                     break;
                 }
@@ -152,6 +151,14 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         response.IsSuccess = true;
 
         return response;
+    }
+
+    public override void SetPatientData(Patient item)
+    {
+        vm.SetPatientData(item);
+
+        SmartEMRDeskPATView.SetPatientData(item);
+        SmartEMRDeskRCPInfo.SetPatientData(item);
     }
 
     private async void ClearData(bool isClearPAT = true)
