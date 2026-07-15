@@ -1,10 +1,9 @@
 ﻿global using static SmartEMR.Application.Common.Module;
 global using IDisposable = SmartEMR.Application.Common.IDisposable;
-using System.Windows;
-using SmartEMR.Application.Views;
 using DevExpress.Xpf.Core;
 using SmartEMR.Application.Core;
-using SmartEMR.Application.Windows;
+using SmartEMR.Application.Views;
+using System.Windows;
 
 namespace SmartEMR.Application
 {
@@ -15,6 +14,7 @@ namespace SmartEMR.Application
     {
         private static readonly string AppName = "Global\\SmartEMR_Application_Unique_Mutex_Key_2026";
         private static Mutex? _mutex;
+        private SplashScreenManager? _splashScreenManager;
 
         private const int MUR_Idx = 100000;
 
@@ -56,17 +56,15 @@ namespace SmartEMR.Application
                 return;
             }
 
+            _splashScreenManager = SplashScreenManager.CreateThemed();
+            _splashScreenManager.Show();
+
             await InitializeAppData();
 
-            var manager = SplashScreenManager.CreateThemed();
-
-            manager.Show();
-
             var window = new SmartEMRWindow();
+            window.Loaded += (s, e) => _splashScreenManager.Close();
 
             await window.InitializeAsync();
-
-            SplashScreenManager.CloseAll();
 
             this.MainWindow = window;
             this.MainWindow.Show();
