@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.SmartEMRDesk
 {
@@ -15,6 +16,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         protected override void Initialize()
         {
+            MaskControl.ShowButton = false;
         }
 
         public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -23,6 +25,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
         {
+        }
+
+        public override void SetPatientData(Patient item)
+        {
+            vm.SetPatientData(item);
         }
 
         private async void OnTabControl_SelectionChanged(object sender, TabControlSelectionChangedEventArgs e)

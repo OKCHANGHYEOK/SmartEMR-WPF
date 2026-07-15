@@ -7,7 +7,7 @@
                     xmlns:Conveter="clr-namespace:SmartEMR.Application.Common.Converter"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
     <Conveter:StringAndFocusToVisiblityConverter x:Key="StringAndFocusToVisiblityConverter"/>
-
+    
         <!--#region Xpf.Button -->
     <Style TargetType="{x:Type Xpf:Button}">
         <Setter Property="MinWidth" Value="42"></Setter>

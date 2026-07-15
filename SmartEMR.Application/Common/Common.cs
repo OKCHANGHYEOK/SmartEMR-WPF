@@ -132,6 +132,8 @@ public class Common
 
     public string? GetCommonCodeName(string CCC_Cd = "", string CCG_Cd = "", string CCI_Cd = "")
     {
+        if (string.IsNullOrWhiteSpace(CCI_Cd)) return null;
+
         return _cccMapper.GetValueOrDefault((CCC_Cd, CCG_Cd, CCI_Cd), "");
     }
 

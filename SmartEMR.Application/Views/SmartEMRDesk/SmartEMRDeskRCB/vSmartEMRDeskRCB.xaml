@@ -12,6 +12,7 @@
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                        xmlns:template="clr-namespace:SmartEMR.Application.Template"
                         xmlns:rcb="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk.SmartEMRDeskRCB"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
@@ -32,7 +33,7 @@
                         ItemsSource="{Binding arrRCB}">
 
             <Xpf:ColumnItem FieldName="vRCB_InsuranceType"
-                            CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBInsuranceType}"
+                            CellTemplateType="{x:Type template:InsuranceTypeTemplate}"
                             ColumnWidth="20"
                             ColumnStyle="Code"/>
 
@@ -73,7 +74,7 @@
             <Xpf:ColumnItem FieldName="vRCP_Status"
                             Header="접수"
                             ColumnWidth="30"
-                            CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCPStatus}"/>
+                            CellTemplateType="{x:Type template:RCP_StatusTemplate}"/>
 
             <Xpf:ColumnItem FieldName="MUR_Name_DOC"
                             Header="담 당 의"

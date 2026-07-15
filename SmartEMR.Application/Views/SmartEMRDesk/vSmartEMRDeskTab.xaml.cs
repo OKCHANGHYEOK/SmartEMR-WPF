@@ -159,6 +159,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
         SmartEMRDeskPATView.SetPatientData(item);
         SmartEMRDeskRCPInfo.SetPatientData(item);
+        SmartEMRDeskPATHistory.SetPatientData(item);
     }
 
     private async void ClearData(bool isClearPAT = true)

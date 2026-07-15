@@ -4,7 +4,12 @@
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 
     <DataTemplate   x:Key="GridColumnLabelTemplate">
-        <Xpf:Label Content="{Binding Value, Mode=OneWay}"/>
+        <Xpf:Label x:Name="PART_Editor"
+                   Content="{Binding Value, Mode=OneWay}"
+                   Foreground="{Binding Column.ColumnItem.Foreground}"
+                   FontSize="{Binding Column.ColumnItem.FontSize}"
+                   FontWeight="{Binding Column.ColumnItem.FontWeight}"
+                   HorizontalAlignment="{Binding Column.ColumnItem.HorizontalAlignment}"/>
     </DataTemplate>
 
     <DataTemplate   x:Key="GridColumnTextBoxTemplate">

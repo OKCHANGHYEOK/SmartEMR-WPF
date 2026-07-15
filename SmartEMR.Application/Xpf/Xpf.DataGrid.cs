@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DevExpress.Utils;
 using DevExpress.Xpf.Grid;
+using DevExpress.XtraRichEdit.Import.OpenDocument;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Resources;
 using System.Collections;
@@ -103,6 +104,7 @@ public partial class DataGrid : ContentControl
         TableView = new();
 
         GridControl.View = TableView;
+        GridControl.AllowInitiallyFocusedRow = false;
         GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
 
         TableView.NavigationStyle = GridViewNavigationStyle.Cell;
@@ -140,8 +142,12 @@ public partial class DataGrid : ContentControl
 
     public void Add(ColumnItem item)
     {
-        // 셀 요소 기본 설정
-        GridColumn element = new GridColumn();
+        StyleGridColumn element = new StyleGridColumn();
+
+        if (item.ColumnStyle != null)
+        {
+            SetHorizontalAlignment(item);
+        }
 
         element.FieldName = item.FieldName;
         element.Header = item.Header;
@@ -149,32 +155,21 @@ public partial class DataGrid : ContentControl
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
         element.CellTemplate = GetCellTemplate(item);
         element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;
-
-        if (item.CellTemplateType != null)
-        {
-            this.Columns.Add(element);
-            return;
-        }
-
-        // 동적 속성 스타일 설정
-        Style cellStyle = new Style(typeof(LightweightCellEditor));
-
-        if (item.ColumnStyle != null)
-        {
-            SetColumnStyle(cellStyle, (ColumnStyle)item.ColumnStyle);
-        }
-        else
-        {
-            cellStyle.Setters.Add(new Setter(HorizontalAlignmentProperty, item.HorizontalAlignment));
-            cellStyle.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Center));
-            cellStyle.Setters.Add(new Setter(TextElement.FontSizeProperty, item.FontSize));
-            cellStyle.Setters.Add(new Setter(TextElement.FontWeightProperty, item.FontWeight));
-            cellStyle.Setters.Add(new Setter(TextElement.ForegroundProperty, item.Foreground));
-        }
-
-        element.CellStyle = cellStyle;
+        element.ColumnItem = item;
 
         this.Columns.Add(element);
+    }
+
+    private void SetHorizontalAlignment(ColumnItem item)
+    {
+        item.HorizontalAlignment = item.ColumnStyle switch
+        {
+            ColumnStyle.Name => HorizontalAlignment.Left,
+            ColumnStyle.Code => HorizontalAlignment.Center,
+            ColumnStyle.YYMMDD => HorizontalAlignment.Center,
+            ColumnStyle.Sum => HorizontalAlignment.Right,
+            _ => HorizontalAlignment.Left
+        };
     }
 
     private DataTemplate? GetCellTemplate(ColumnItem item)
@@ -218,19 +213,6 @@ public partial class DataGrid : ContentControl
         presenter.SetValue(ContentPresenter.ContentTemplateProperty, innerTemplate);
 
         return new DataTemplate { VisualTree = presenter };
-    }
-
-    private void SetColumnStyle(Style cellStyle, ColumnStyle columnStyle)
-    {
-        var hAlign = columnStyle switch
-        {
-            ColumnStyle.Name => HorizontalAlignment.Left,
-            ColumnStyle.Code => HorizontalAlignment.Center,
-            ColumnStyle.Sum => HorizontalAlignment.Right,
-            _ => HorizontalAlignment.Left
-        };
-
-        cellStyle.Setters.Add(new Setter(HorizontalAlignmentProperty, hAlign));
     }
 
     private void OnItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

@@ -131,7 +131,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\SmartEMRDesk\SmartEMRDeskRCB\Template\vSmartEMRDeskRCBTemplate_RCPStatus.xaml.cs">
+    <Compile Update="Template\RCP_StatusTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

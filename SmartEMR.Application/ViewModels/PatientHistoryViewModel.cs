@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
@@ -13,16 +14,31 @@ public enum ePatientHistoryType
     PAY
 }
 
-public class PatientHistoryViewModel : PatientViewModel
+public partial class PatientHistoryViewModel : PatientViewModel
 {
-    private List<Reservation> arrRES { get; set; } = new();
-    private List<Reception> arrRCP { get; set; } = new();
-    private List<Consultation> arrCST { get; set; } = new();
-    private List<ConsultationOrder> arrCSTO { get; set; } = new();
-    private List<Pay> arrPAY { get; set; } = new();
+    [ObservableProperty]
+    private List<Reservation> reservationItems;
+    [ObservableProperty]
+    private List<Reception>? receptionItems;
+    [ObservableProperty]
+    private List<Consultation> consultationItems;
+    [ObservableProperty]
+    private List<ConsultationOrder> consultationOrderItems;
+    [ObservableProperty]
+    private List<Pay> payItems;
+
+    public PatientHistoryViewModel()
+    {
+        ReservationItems = new();
+        ReceptionItems = new();
+        ConsultationItems = new();
+        ConsultationOrderItems = new();
+        PayItems = new();
+    }
 
     public override async Task FetchDataAsync(object parameter)
     {
+        if (Model.PAT_Idx.GetValueOrDefault(0) == 0) return;
         if (parameter is not ePatientHistoryType targetHistoryType) return;
 
         switch (targetHistoryType)
@@ -47,6 +63,11 @@ public class PatientHistoryViewModel : PatientViewModel
                 await FetchPAYHistoryAsync();
                 break;
         }
+    }
+
+    public void SetPatientData(Patient item)
+    {
+        SmartMVVM.ModelProperty.SetPatientData(Model, item);
     }
 
     public async Task UpdateHistoryBySelection(string targetHistoryType)
@@ -78,7 +99,9 @@ public class PatientHistoryViewModel : PatientViewModel
             return;
         }
 
-        arrRCP = [.. ret];
+        SmartMVVM.ProcessorProvider.ReceptionProcessor.Process(ret);
+
+        ReceptionItems = ret.ToList();
     }
 
     private async Task FetchCSTHistoryAsync()

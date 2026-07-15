@@ -4,7 +4,7 @@ using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
-public class PatientViewModel : BaseViewModel<Patient>
+public partial class PatientViewModel : BaseViewModel<Patient>
 {
     public PatientViewModel() : base() { }
     public PatientViewModel(Patient item) : base(item) { }

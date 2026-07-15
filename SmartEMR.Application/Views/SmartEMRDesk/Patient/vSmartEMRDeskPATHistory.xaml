@@ -10,6 +10,7 @@
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:template="clr-namespace:SmartEMR.Application.Template"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
                       d:DesignWidth="800">
@@ -19,7 +20,7 @@
             <dx:DXTabItem   Tag="RES" 
                             Header="예약" 
                             IsSelected="True">
-                <Xpf:DataGrid ItemsSource="{Binding arrRES}" AutoWidth="False">
+                <Xpf:DataGrid ItemsSource="{Binding ReservationItems}" AutoWidth="False">
                     <Xpf:ColumnItem FieldName="vRES_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="RES_ReservationDate" Header="예약일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="RES_ReservationTime" Header="예약시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
@@ -29,18 +30,18 @@
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="RCP" Header="접수">
-                <Xpf:DataGrid ItemsSource="{Binding arrRCP}" AutoWidth="False">
-                    <Xpf:ColumnItem FieldName="vRCP_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                <Xpf:DataGrid ItemsSource="{Binding ReceptionItems}" AutoWidth="False">
+                    <Xpf:ColumnItem FieldName="vRCP_InsuranceType" CellTemplateType="{x:Type template:InsuranceTypeTemplate}" ColumnWidth="25" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="vRCP_Status" Header="상태" CellTemplateType="{x:Type template:RCP_StatusTemplate}" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="RCP_ReceiptDate" Header="접수일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="RCP_ReceiptTime" Header="접수시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="vRCP_Route" Header="접수경로" ColumnWidth="60" HorizontalAlignment="Center"/>
-                    <Xpf:ColumnItem FieldName="vRCP_Subject" Header="접수과목" ColumnWidth="100"/>
-                    <Xpf:ColumnItem FieldName="vRCP_InsuranceType" Header="보험구분" ColumnWidth="45" HorizontalAlignment="Center"/>
-                    <Xpf:ColumnItem FieldName="RCP_Memo" Header="메모"/>
+                    <Xpf:ColumnItem FieldName="RCP_SubjectName" Header="접수과목" ColumnWidth="100"/>
+                    <Xpf:ColumnItem FieldName="RCP_Memo" Header="메모" Foreground="DarkSlateGray" HorizontalAlignment="Left"/>
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="CST" Header="진료">
-                <Xpf:DataGrid ItemsSource="{Binding arrCST}" AutoWidth="False">
+                <Xpf:DataGrid ItemsSource="{Binding ConsultationItems}" AutoWidth="False">
                     <Xpf:ColumnItem FieldName="CST_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CST_YYMMDD" Header="진료일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="CST_StartTime" Header="시작시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
@@ -54,7 +55,7 @@
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="CSTO" Header="처방">
-                <Xpf:DataGrid ItemsSource="{Binding arrCSTO}" AutoWidth="False">
+                <Xpf:DataGrid ItemsSource="{Binding ConsultationOrderItems}" AutoWidth="False">
                     <Xpf:ColumnItem FieldName="CSTO_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CSTO_YYMMDD" Header="처방일자" ColumnWidth="80" ColumnStyle="YYMMDD"  Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="ORDC_Name" Header="구분" ColumnWidth="45" HorizontalAlignment="Center"/>
@@ -66,7 +67,7 @@
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="PAY" Header="수납">
-                <Xpf:DataGrid ItemsSource="{Binding arrPAY}" AutoWidth="False">
+                <Xpf:DataGrid ItemsSource="{Binding PayItems}" AutoWidth="False">
                     <Xpf:ColumnItem FieldName="PAY_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="PAY_YYMMDD" Header="수납일자" ColumnStyle="YYMMDD" ColumnWidth="80"  Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="PAY_TotalPrice" Header="총수납액" ColumnStyle="Sum" ColumnWidth="70"/>
@@ -78,5 +79,8 @@
                 </Xpf:DataGrid>
             </dx:DXTabItem>
         </dx:DXTabControl>
+        <Xpf:MaskControl    x:Name="MaskControl"
+                            MaskText="선택된 환자가 없습니다."
+                            Visibility="{Binding Model.PAT_Idx, Converter={converter:IntToVisibilityConverter invert=True}}"/>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>
