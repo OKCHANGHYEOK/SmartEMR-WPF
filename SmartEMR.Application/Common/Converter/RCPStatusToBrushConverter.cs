@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Media;
+using SmartEMR.Application.Common.Converter.Base;
 using SmartEMR.Application.Resources;
 
 namespace SmartEMR.Application.Common.Converter;
@@ -14,7 +15,7 @@ public class RCPStatusToBrushConverter : BaseConverter
             return Brushes.Transparent;
         }
 
-        return RCP_Status == "RDY" ? SmartBrush.SMART_BRUSH_RCP_RDY : RCP_Status == "END" ? SmartBrush.SMART_BRUSH_RCP_END : SmartBrush.SMART_BRUSH_RCP_CNL;
+        return RCP_Status == "RDY" ? SmartBrush.SMART_BRUSH_STATUS_WAIT : RCP_Status == "END" ? SmartBrush.SMART_BRUSH_STATUS_COMPLETE : SmartBrush.SMART_BRUSH_STATUS_CANCEL;
     }
 
     public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

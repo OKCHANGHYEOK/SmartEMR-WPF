@@ -38,9 +38,10 @@ public static class SmartBrush
     public static readonly Brush SMART_BRUSH_RES = CreateBrushFromRGB(59, 130, 246);
     public static readonly Brush SMART_BRUSH_RCP = CreateBrushFromRGB(16, 185, 129);
 
-    public static readonly Brush SMART_BRUSH_RCP_RDY = CreateBrushFromRGB(255, 159, 67);
-    public static readonly Brush SMART_BRUSH_RCP_END = CreateBrushFromRGB(16, 185, 129);
-    public static readonly Brush SMART_BRUSH_RCP_CNL = CreateBrushFromRGB(239, 68, 68);
+    public static readonly Brush SMART_BRUSH_STATUS_WAIT = CreateBrushFromRGB(255, 159, 67);
+    public static readonly Brush SMART_BRUSH_STATUS_PROGRESS = CreateBrushFromRGB(59, 130, 246);
+    public static readonly Brush SMART_BRUSH_STATUS_COMPLETE = CreateBrushFromRGB(16, 185, 129);
+    public static readonly Brush SMART_BRUSH_STATUS_CANCEL = CreateBrushFromRGB(239, 68, 68);
 
     public static readonly Brush SMART_BRUSH_INSURANCE_GUN = CreateBrushFromString("#3478F6"); // 건보
     public static readonly Brush SMART_BRUSH_INSURANCE_MED = CreateBrushFromString("#7CA4E8"); // 의보
@@ -50,6 +51,7 @@ public static class SmartBrush
 
     public static readonly Brush SMART_BRUSH_VISIT_FIR = CreateBrushFromRGB(67, 160, 71);
     public static readonly Brush SMART_BRUSH_VISIT_REP = CreateBrushFromRGB(120, 144, 156);
+
 
     private static Brush CreateBrushFromString(string hex)
     {

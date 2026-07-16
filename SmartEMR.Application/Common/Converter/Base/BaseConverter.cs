@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace SmartEMR.Application.Common.Converter;
+namespace SmartEMR.Application.Common.Converter.Base;
 
 public abstract class BaseConverter : MarkupExtension, IValueConverter
 {

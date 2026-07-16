@@ -155,8 +155,8 @@ public partial class DataGrid : ContentControl
         element.Width = item.ColumnWidth > 0 ? new GridColumnWidth(item.ColumnWidth, GridColumnUnitType.Pixel) : new GridColumnWidth(1, GridColumnUnitType.Star);
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
         element.CellTemplate = GetCellTemplate(item);
-        element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;
         element.ColumnItem = item;
+        element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;
 
         this.Columns.Add(element);
     }

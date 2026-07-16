@@ -149,6 +149,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                 }
 
                 btnSaveRCP.Content = "접수수정";
+
+                MaskControl.Visibility = Visibility.Collapsed;
             }
             else
             {

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Media;
+using SmartEMR.Application.Common.Converter.Base;
 using SmartEMR.Application.Resources;
 
 namespace SmartEMR.Application.Common.Converter;

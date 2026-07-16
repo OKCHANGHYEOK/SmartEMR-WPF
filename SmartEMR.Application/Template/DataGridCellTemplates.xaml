@@ -1,15 +1,25 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
-                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/editors">
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                    xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter">
 
     <DataTemplate   x:Key="GridColumnLabelTemplate">
         <Xpf:Label x:Name="PART_Editor"
-                   Content="{Binding Value, Mode=OneWay}"
                    Foreground="{Binding Column.ColumnItem.Foreground}"
                    FontSize="{Binding Column.ColumnItem.FontSize}"
                    FontWeight="{Binding Column.ColumnItem.FontWeight}"
-                   HorizontalAlignment="{Binding Column.ColumnItem.HorizontalAlignment}"/>
+                   HorizontalAlignment="{Binding Column.ColumnItem.HorizontalAlignment}">
+
+            <Xpf:Label.Content>
+                <MultiBinding Converter="{converter:DataGridCellValueConverter}">
+                    <Binding Path="Value"/>
+                    <Binding Path="Column.ColumnItem.DisplayFormat"/>
+                    <Binding Path="Column.ColumnItem.Prefix"/>
+                    <Binding Path="Column.ColumnItem.Suffix"/>
+                </MultiBinding>
+            </Xpf:Label.Content>
+        </Xpf:Label>
     </DataTemplate>
 
     <DataTemplate   x:Key="GridColumnTextBoxTemplate">

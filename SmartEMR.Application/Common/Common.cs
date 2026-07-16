@@ -1,4 +1,4 @@
-﻿using SmartEMR.Application.Common.Converter;
+﻿using SmartEMR.Application.Common.Converter.Base;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Domain.Entities;

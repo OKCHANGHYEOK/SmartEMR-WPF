@@ -9,6 +9,7 @@
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:template="clr-namespace:SmartEMR.Application.Template"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
                       d:DesignWidth="800">
@@ -17,39 +18,117 @@
                     RowSizeDefinitions="Auto,Auto,*">
 
         <Xpf:StyleGrid LayoutDefinitions="6,1"
-                       ColumnSizeDefinitions="5,Auto,10,*,Auto,5">
-
+                       ColumnSizeDefinitions="5,Auto,10,*,Auto,5"
+                       MinHeight="27"
+                       Height="27"
+                       Background="#F8F9FA">
+            
             <Xpf:TextBlock Grid.Column="1"
                            Foreground="Gray"
-                           FontWeight="SemiBold">
+                           FontWeight="Bold">
                 <Run Text="{Binding NowYYYYMMDD}"/>
                 <Run>기준</Run>
             </Xpf:TextBlock>
             
             <Xpf:BindGrid   Grid.Column="3"
                             LayoutDefinitions="2,1"
-                            ColumnSizeDefinitions="Auto,Auto">
+                            ColumnSizeDefinitions="Auto,*"
+                            Margin="2,3,2,0">
 
                 <Xpf:BindItem   FieldName="PAY_Status"
                                 BindType="ComboBox"
                                 Col="0"
-                                DisplayMember="CCC_Name"
-                                ValueMember="CCI_Cd"/>
+                                Width="100"
+                                Height="23"
+                                DisplayMember="CCI_Name"
+                                ValueMember="CCI_Cd"
+                                Margin="2,0,0,2"/>
+
+                <Xpf:BindItem FieldName="Keyword"
+                              BindType="SearchEdit"
+                              Col="1"
+                              Height="23"
+                              Placeholder="환자명/차트번호로 검색하세요."
+                              Margin="2,0,0,2"/>
             </Xpf:BindGrid>
 
             <Xpf:Button Grid.Column="4"
                         Content="새로고침"
-                        MinHeight="21"
-                        Height="21"
+                        MinHeight="23"
+                        Height="23"
                         Background="White"
-                        BorderBrush="LightGray"/>
+                        BorderBrush="LightGray"
+                        Margin="0,2,0,0"/>
         </Xpf:StyleGrid>
 
         <Border Grid.Row="1" Height="1" Background="LightGray" Margin="0,2,0,2"/>
 
-        <Xpf:DataGrid Grid.Row="2">
-            <Xpf:ColumnItem FieldName=""
-                            ColumnWidth="25"></Xpf:ColumnItem>
+        <Xpf:DataGrid Grid.Row="2"
+                      AutoWidth="False">
+            <Xpf:ColumnItem FieldName="RCP_InsuranceType"
+                            Header=""
+                            CellTemplateType="{x:Type template:InsuranceTypeTemplate}"
+                            ColumnWidth="25"/>
+
+            <Xpf:ColumnItem FieldName="PAY_Status"
+                            Header="상태"
+                            CellTemplateType="{x:Type template:PAYStatusTemplate}"
+                            ColumnWidth="45"/>
+
+            <Xpf:ColumnItem FieldName="PAT_Name"
+                            Header="환자명"
+                            ColumnType="TextLink"
+                            ColumnWidth="70"/>
+
+            <Xpf:ColumnItem FieldName="PAT_ChartNo"
+                            Header="차트번호"
+                            ColumnWidth="80"/>
+
+            <Xpf:ColumnItem FieldName="PAY_TotalPrice"
+                            Header="총수납금"
+                            ColumnWidth="80"
+                            ColumnStyle="Sum"
+                            DisplayFormat="N0"
+                            Suffix="원"/>
+
+            <Xpf:ColumnItem FieldName="PAY_InsuredPrice"
+                            Header="급여총액"
+                            ColumnWidth="80"
+                            ColumnStyle="Sum"
+                            DisplayFormat="N0"
+                            Suffix="원"/>
+
+            <Xpf:ColumnItem FieldName="PAY_NonInsurecPrice"
+                            Header="비급여총액"
+                            ColumnWidth="80"
+                            ColumnStyle="Sum"
+                            DisplayFormat="N0"
+                            Suffix="원"/>
+
+            <Xpf:ColumnItem FieldName="PAY_OwnPatientPrice"
+                            Header="본인부담금"
+                            ColumnWidth="80"
+                            ColumnStyle="Sum"
+                            DisplayFormat="N0"
+                            Suffix="원"/>
+
+            <Xpf:ColumnItem FieldName="PAY_PaidPrice"
+                            Header="수납금"
+                            ColumnWidth="80"
+                            ColumnStyle="Sum"
+                            DisplayFormat="N0"
+                            Suffix="원"></Xpf:ColumnItem>
+
+            <Xpf:ColumnItem FieldName="PAY_RemainPrice"
+                            Header="미수납"
+                            ColumnWidth="80"
+                            ColumnStyle="Sum"
+                            DisplayFormat="N0"
+                            Suffix="원"></Xpf:ColumnItem>
+
+            <Xpf:ColumnItem FieldName="PAY_Memo"
+                            Header="메모"
+                            Foreground="DimGray"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>
