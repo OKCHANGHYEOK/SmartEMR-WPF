@@ -24,7 +24,7 @@
                         <view:vSmartEMRDeskRCPInfo x:Name="SmartEMRDeskRCPInfo"/>
                     </Xpf:LayoutPanel>
                     <Xpf:LayoutPanel Caption="보험정보">
-                        <view:vSmartEMRDeskIRCInfo x:Name="SmartEMRDeskIRCInfo"/>
+                        <view:vSmartEMRDeskPAYInfo x:Name="SmartEMRDeskIRCInfo"/>
                     </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
 
@@ -36,7 +36,9 @@
                 <Xpf:LayoutPanel ItemHeight="*" Caption="접수현황">
                     <view:vSmartEMRDeskRCB x:Name="SmartEMRDeskRCP"/>
                 </Xpf:LayoutPanel>
-                <Xpf:LayoutPanel ItemHeight="Auto" Caption="수납현황"></Xpf:LayoutPanel>
+                <Xpf:LayoutPanel ItemHeight="0.3*" Caption="수납현황">
+                    <view:vSmartEMRDeskPAY x:Name="SmartEMRDeskIRC"/>
+                </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
         </dxd:LayoutGroup>
     </dxd:DockLayoutManager>

@@ -3,7 +3,7 @@ using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
-public class InsuranceInfoViewModel : BaseViewModel<Insurance>
+public class InsuranceInfoViewModel : InsuranceViewModel
 {
     public IQueryable<Insurance> arrIRC_CoName { get; private set; } = default!;
 

@@ -104,6 +104,7 @@ public partial class DataGrid : ContentControl
         TableView = new();
 
         GridControl.View = TableView;
+        GridControl.Margin = new Thickness(2);
         GridControl.AllowInitiallyFocusedRow = false;
         GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
 

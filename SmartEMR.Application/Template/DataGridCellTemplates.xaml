@@ -25,7 +25,8 @@
     <DataTemplate x:Key="GridColumnTextLinkTemplate">
         <TextBlock  Text="{Binding Value}"
                     Cursor="Hand"
-                    Foreground="#4A90E2">
+                    Foreground="#4A90E2"
+                    VerticalAlignment="Center">
 
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
