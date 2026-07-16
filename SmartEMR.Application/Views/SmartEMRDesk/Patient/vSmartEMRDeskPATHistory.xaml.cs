@@ -32,6 +32,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             vm.SetPatientData(item);
         }
 
+        public void ClearData()
+        {
+            vm.ClearData();
+        }
+
         private async void OnTabControl_SelectionChanged(object sender, TabControlSelectionChangedEventArgs e)
         {
             var element = sender as DXTabControl;

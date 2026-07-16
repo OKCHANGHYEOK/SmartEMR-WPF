@@ -19,7 +19,7 @@ public partial class PatientHistoryViewModel : PatientViewModel
     [ObservableProperty]
     private List<Reservation> reservationItems;
     [ObservableProperty]
-    private List<Reception>? receptionItems;
+    private List<Reception> receptionItems;
     [ObservableProperty]
     private List<Consultation> consultationItems;
     [ObservableProperty]
@@ -76,6 +76,17 @@ public partial class PatientHistoryViewModel : PatientViewModel
         if (!bFlag) return;
 
         await FetchDataAsync(result);
+    }
+
+    public override void ClearData()
+    {
+        base.ClearData();
+
+        ReservationItems = new();
+        ReceptionItems = new();
+        ConsultationItems = new();
+        ConsultationOrderItems = new();
+        PayItems = new();
     }
 
     private async Task FetchRESHistoryAsync()

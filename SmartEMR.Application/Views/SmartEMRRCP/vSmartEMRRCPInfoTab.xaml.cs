@@ -84,7 +84,7 @@ public partial class vSmartEMRRCPInfoTab : ModelViewLayout<ReceptionViewModel>
         switch (btn.Name)
         {
             case "btnClear":
-                vm.ClearData();
+                vm.ClearData(true);
                 break;
         }
     }

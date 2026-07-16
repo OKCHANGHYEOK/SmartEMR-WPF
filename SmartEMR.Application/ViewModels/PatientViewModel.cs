@@ -56,7 +56,7 @@ public partial class PatientViewModel : BaseViewModel<Patient>
         return item;
     }
 
-    public void ClearData()
+    public virtual void ClearData()
     {
         SmartMVVM.ModelProperty.ClearPATData(Model);
     }

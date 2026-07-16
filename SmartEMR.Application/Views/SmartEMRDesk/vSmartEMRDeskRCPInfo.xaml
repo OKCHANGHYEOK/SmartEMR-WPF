@@ -148,7 +148,6 @@
         <Xpf:MaskControl    x:Name="MaskControl"
                             Grid.RowSpan="2"
                             MaskText="환자선택후 접수 등록할 수 있습니다."                            
-                            Visibility="{Binding Model.RCP_Idx, Converter={converter:IntToVisibilityConverter invert=True}}"
                             ButtonText="접수등록"
                             ButtonImage="/Images/smartemr_register.png"
                             ButtonCommand="{Binding ShowRCPInfoCommand, RelativeSource={RelativeSource AncestorType={x:Type desk:vSmartEMRDeskRCPInfo}}}"/>
