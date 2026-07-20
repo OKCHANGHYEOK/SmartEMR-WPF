@@ -1,14 +1,15 @@
-﻿<UserControl x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskRCBFilterGrid"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
-             xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"        
-             xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
-             mc:Ignorable="d" 
-             Height="50"
-             VerticalAlignment="Center">
+﻿<Xpf:CustomControl  x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskRCBFilterGrid"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
+                    xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"        
+                    xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    mc:Ignorable="d" 
+                    Height="50"
+                    VerticalAlignment="Center">
 
     <Xpf:BindGrid       LayoutDefinitions="6,2"
                         Background="#F5F5F5"
@@ -41,48 +42,15 @@
                             IsBindClickEvent="True"/>
         </x:Array>
 
-        <x:Array Type="{x:Type Xpf:BindItem}">
-            <Xpf:BindItem   FieldName="Keyword"
-                            BindType="SearchEdit"
-                            Height="23"
-                            Col="2"
-                            Row="0"
-                            ColSpan="4"
-                            Placeholder="환자명/차트번호로 검색하세요."
-                            Margin="2,0,0,0"/>
+        <Xpf:BindItem  FieldName="Keyword"
+                       Col="2"
+                       ColSpan="4"
+                       IsBinding="False">
 
-            <Xpf:BindItem   FieldName="ButtonPanel"
-                            Width="50"
-                            Height="23"
-                            Margin="0,0,2,0">
-
-                <Xpf:StyleGrid  LayoutDefinitions="5,1"
-                                ColumnSizeDefinitions="1,Auto,2,Auto,1">
-
-                    <Xpf:ImageButton    x:Name="btnSearch"
-                                        Grid.Column="1"
-                                        Width="23"
-                                        Height="23"
-                                        ImageWidth="18"
-                                        ImageHeight="18"
-                                        Glyph="/Images/smartemr_search.png"
-                                        BorderBrush="LightGray"
-                                        Click="OnClick_ImageButton">
-                    </Xpf:ImageButton>
-
-                    <Xpf:ImageButton    x:Name="btnClearFilter"
-                                        Grid.Column="3"
-                                        Width="23"
-                                        Height="23"
-                                        ImageWidth="18"
-                                        ImageHeight="18"
-                                        Glyph="/Images/smartemr_reset.png"
-                                        BorderBrush="LightGray"
-                                        Click="OnClick_ImageButton">
-                    </Xpf:ImageButton>
-                </Xpf:StyleGrid>
-            </Xpf:BindItem>
-        </x:Array>
+            <Xpf:SearchPanel NullText="환자명/차트번호로 검색하세요." 
+                             Margin="2,0,2,0"
+                             SearchCommand="{Binding SearchCommand}"/>
+        </Xpf:BindItem>
 
         <Xpf:BindItem   FieldName="RES_Status"
                         BindType="ComboBox"
@@ -126,4 +94,4 @@
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
     </Xpf:BindGrid>
-</UserControl>
+</Xpf:CustomControl>

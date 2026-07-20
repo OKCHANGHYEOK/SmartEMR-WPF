@@ -1,0 +1,45 @@
+﻿<Xpf:CustomControl  x:Class="SmartEMR.Application.Xpf.SearchPanel"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    mc:Ignorable="d" 
+                    d:DesignHeight="450" d:DesignWidth="800">
+
+    <Xpf:StyleGrid  LayoutDefinitions="5,1"
+                    ColumnSizeDefinitions="*,2,Auto,2,Auto">
+
+        <Xpf:SearchEdit Grid.Column="0"
+                        MinHeight="23"
+                        Height="23"
+                        EditValue="{Binding Model.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        NullText="{Binding NullText, RelativeSource={RelativeSource AncestorType=Xpf:SearchPanel}}"
+                        PreviewKeyDown="OnPreviewKeyDown_SearchEdit"/>
+
+        <dxe:SimpleButton  x:Name="btnSearch"
+                           Grid.Column="2"
+                           Width="23"
+                           Height="23"
+                           Glyph="/Images/smartemr_search.png"
+                           BorderBrush="LightGray"
+                           Cursor="Hand"
+                           Padding="2"
+                           dxe:ThemeManager.ThemeName="Win10Light"
+                           Command="{Binding SearchCommand}">
+        </dxe:SimpleButton>
+
+        <dxe:SimpleButton   x:Name="btnReset"
+                            Grid.Column="4"
+                            Width="23"
+                            Height="23"
+                            BorderBrush="LightGray"
+                            Glyph="/Images/smartemr_reset.png"
+                            Cursor="Hand"
+                            Padding="2"
+                            dxe:ThemeManager.ThemeName="Win10Light"
+                            Command="{Binding ResetCommand}">
+        </dxe:SimpleButton>
+    </Xpf:StyleGrid>
+</Xpf:CustomControl>

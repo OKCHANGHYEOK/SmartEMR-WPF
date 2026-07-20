@@ -14,6 +14,7 @@ public class ReceptionBoardProcessor : IQueryResultListProcessor<ReceptionBoard>
             mitem.vPAT_Info = $"{mitem.vPAT_Sex}/{mitem.PAT_Age.GetValueOrDefault(0)}";
             mitem.vRCB_Type = mitem.RCB_Type == "RES" ? "예약" : mitem.RCB_Type == "RCP" ? "접수" : "";
             mitem.vRCB_Subject = SmartMVVM.Common.GetCommonCodeName("RCB", "Subject", mitem.RCB_Subject ?? "");
+            mitem.vRCB_Route = SmartMVVM.Common.GetCommonCodeName("RCB", "Route", mitem.RCB_Route ?? "");
 
             if (mitem.RCB_Type == "RES")
             {

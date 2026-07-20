@@ -1,11 +1,12 @@
 ﻿using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.ViewModels;
 
-public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
+public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
 {
 
     private List<ReceptionBoard> _arrRCB = new();
@@ -69,6 +70,7 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
             RES_Status = Model.RES_Status,
 
             RCB_Route = Model.RCB_Route,
+            RCB_Subject = Model.RCB_Subject,
             RCB_VisitType = Model.RCB_VisitType,
             RCB_YYMMDD = Model.RCB_YYMMDD,
 
@@ -93,20 +95,6 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         }
     }
 
-    public async Task SearchData()
-    {
-        if (string.IsNullOrWhiteSpace(Model.Keyword))
-        {
-            SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요.", NotificationType.Warning);
-
-            await SmartUI.SendMessage("SetFocusToSearch");
-
-            return;
-        }
-
-        await FetchDataAsync();
-    }
-
     public async Task CancelRCP(Reception item)
     {
         if (SmartUI.MsgYesNo("접수취소하시겠습니까?") != MessageBoxResult.Yes) return;
@@ -127,7 +115,23 @@ public class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         Model.RCB_YYMMDD = RCB_YYMMDD;
     }
 
-    public async void ClearData()
+    [RelayCommand]
+    public async Task Search()
+    {
+        if (string.IsNullOrWhiteSpace(Model.Keyword))
+        {
+            SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요.", NotificationType.Warning);
+
+            await SmartUI.SendMessage("SetFocusToSearch");
+
+            return;
+        }
+
+        await FetchDataAsync();
+    }
+
+    [RelayCommand]
+    public async Task Reset()
     {
         Model.MUR_Idx_DOC = 0;
 

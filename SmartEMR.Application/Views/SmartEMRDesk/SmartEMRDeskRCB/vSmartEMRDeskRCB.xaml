@@ -38,6 +38,7 @@
                             ColumnStyle="Code"/>
 
             <Xpf:ColumnItem FieldName="vRCB_Type"
+                            Header="구분"
                             ColumnWidth="30"
                             CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBType}"/>
 
@@ -61,7 +62,6 @@
 
             <Xpf:ColumnItem FieldName="vPAT_Info"
                             Header=""
-                            ColumnType="Label"
                             ColumnWidth="25"
                             HorizontalAlignment="Center"/>
 
@@ -78,26 +78,28 @@
 
             <Xpf:ColumnItem FieldName="MUR_Name_DOC"
                             Header="담 당 의"
-                            ColumnType="Label"
-                            ColumnWidth="32"
+                            ColumnWidth="60"
                             HorizontalAlignment="Center"/>
 
             <Xpf:ColumnItem FieldName="vRCB_Subject"
                             Header="과목"
-                            ColumnType="Label"
                             ColumnWidth="60"
-                            ColumnStyle="Name"/>
+                            ColumnStyle="Code"
+                            FontWeight="SemiBold"/>
+
+            <Xpf:ColumnItem FieldName="vRCB_Route"
+                            Header="방문경로"
+                            ColumnWidth="70"
+                            ColumnStyle="Code"/>
 
             <Xpf:ColumnItem FieldName="RCB_Time"
                             Header="시간"
-                            ColumnType="Label"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"
                             AllowSorting="True"/>
 
             <Xpf:ColumnItem FieldName="RCB_Memo"
                             Header="메모"
-                            ColumnType="Label"
                             ColumnWidth="200"
                             ColumnStyle="Name"
                             Foreground="DimGray"/>

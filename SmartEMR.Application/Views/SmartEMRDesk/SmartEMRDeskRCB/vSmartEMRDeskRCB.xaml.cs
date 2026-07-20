@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
@@ -49,8 +50,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowToday = false;
             this.BindGrids[0].GetBindItem<DateEdit>("RCB_YYMMDD")?.ShowClearButton = false;
-
-            this.BindGrids[0].GetBindItem<SearchEdit>("Keyword")?.MinHeight = 23;
         }
 
         protected override void SetDataGrid()
@@ -64,19 +63,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             switch (request.MessageAction)
             {
-                case "SearchData":
-                    await vm.SearchData();
-                    break;
-
-                case "ClearFilter":
-                    vm.ClearData();
-
-                    SmartUI.SetNofification("필터 초기화되었습니다.", NotificationType.Info);
-
-                    break;
-
                 case "SetFocusToSearch":
-                    this.BindGrids[0].GetBindItem<SearchEdit>("keyword")?.Focus();
+                    this.BindGrids[0].GetBindItem<SearchEdit>("Keyword")?.Focus();
                     break;
 
                 case "RefreshDataList":
@@ -109,8 +97,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
             var bindItem = e.BindItem;
             if (bindItem == null) return;
-
-            if (string.IsNullOrWhiteSpace(bindItem.FieldName)) return;
 
             await vm.FetchDataAsync();
         }

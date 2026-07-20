@@ -1,9 +1,10 @@
-﻿using SmartEMR.Application.Core;
+﻿using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
-public class PayViewModel : BaseViewModel<Pay>
+public partial class PayViewModel : BaseViewModel<Pay>
 {
     public List<CommonCode>? arrPAY_Status = new();
 
@@ -22,5 +23,25 @@ public class PayViewModel : BaseViewModel<Pay>
     {
         item.PAY_Status = "RDY";
         return item;
+    }
+
+    public override async Task FetchDataAsync()
+    {
+        // 추후 수납 조회 로직 구현
+    }
+
+    [RelayCommand]
+    public async Task Search()
+    {
+        // 추후 수납 검색 로직 구현
+    }
+
+    [RelayCommand]
+    public async Task Reset()
+    {
+        Model.PAY_Status = "RDY";
+        Model.Keyword = "";
+
+        await FetchDataAsync();
     }
 }
