@@ -25,6 +25,14 @@ public class SmartMVVM
     // 한 번에 단 하나의 진입만 허용하는 세마포어
     private static readonly SemaphoreSlim _clickSemaphore = new SemaphoreSlim(1,1);   
 
+    static SmartMVVM()
+    {
+        DataStore.ErrorOccured += (s, e) =>
+        {
+            ProcessDataStoreError(e.Message ?? "", e.StatusCode);
+        };
+    }
+
     /// <summary>
     /// 클릭 이벤트 방지를 위한 로직
     /// </summary>
@@ -87,5 +95,28 @@ public class SmartMVVM
         retResponse.IsSuccess = true;
 
         return retResponse;
+    }
+
+    private static void ProcessDataStoreError(string message, int statusCode)
+    {
+        switch (statusCode)
+        {
+            case 401:
+                var result = SmartUI.MsgConfirm(message);
+                if (result is MessageBoxResult.OK)
+                {
+                    SmartUI.UIManager.CloseWindow(TargetWindowType.AllWindows);
+                }
+
+                break;
+
+            case 408:
+                SmartUI.SetNofification(message, NotificationType.Error);
+                break;
+
+            case 500:
+                SmartUI.SetNofification(message, NotificationType.Error);
+                break;
+        }
     }
 }
