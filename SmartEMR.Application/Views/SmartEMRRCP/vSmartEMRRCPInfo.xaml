@@ -13,6 +13,7 @@
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                        xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800"
                         ViewSize="500,400">
@@ -54,6 +55,7 @@
                                 Col="0"
                                 Row="1"
                                 ColSpan="2"
+                                ItemsSource="{x:Static selections:InputOptionItems.Subjects}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"/>
 
@@ -71,6 +73,7 @@
                             BindType="ComboBox"
                             Col="0"
                             Row="2"
+                            ItemsSource="{x:Static selections:InputOptionItems.Docters}"
                             DisplayMember="MUR_Name"
                             ValueMember="MUR_Idx"/>
 
@@ -79,6 +82,7 @@
                             BindType="ComboBox"
                             Col="1"
                             Row="2"
+                            ItemsSource="{x:Static selections:InputOptionItems.Staffs}"
                             DisplayMember="MUR_Name"
                             ValueMember="MUR_Idx"/>
 
@@ -87,6 +91,7 @@
                             BindType="ComboBox"
                             Col="0"
                             Row="3"
+                            ItemsSource="{x:Static selections:InputOptionItems.VisitTypes}"
                             DisplayMember="CCI_Name"
                             ValueMember="CCI_Cd"/>
 
@@ -95,6 +100,7 @@
                             BindType="ComboBox"
                             Col="1"
                             Row="3"
+                            ItemsSource="{x:Static selections:InputOptionItems.RouteTypes}"
                             DisplayMember="CCI_Name"
                             ValueMember="CCI_Cd"/>
 
@@ -104,6 +110,7 @@
                             Col="0"
                             Row="4"
                             ColSpan="2"
+                            ItemsSource="{x:Static selections:InputOptionItems.InsuranceTypes}"
                             DisplayMember="CCI_Name"
                             ValueMember="CCI_Cd"/>
 

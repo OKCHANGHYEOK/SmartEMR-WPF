@@ -12,8 +12,9 @@
                         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                        xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                         mc:Ignorable="d" 
-                        ViewSize="600,400">
+                        ViewSize="610,400">
 
     <dx:LayoutPanel ShowCaption="False">
         <Xpf:StyleGrid  LayoutDefinitions="1,3"
@@ -134,8 +135,9 @@
 
                     <Xpf:BindItem   FieldName="PAT_IsSolar"
                                     BindType="ComboBox"
-                                    Width="48"
+                                    Width="52"
                                     Margin="2"
+                                    ItemsSource="{x:Static selections:InputOptionItems.CalendarTypes}"
                                     DisplayMember="attrName"
                                     ValueMember="attrValue"
                                     IsHeader="False"/>
@@ -144,6 +146,7 @@
                 <Xpf:BindItem   FieldName="PAT_Sex"
                                 BindType="ComboBox"
                                 Header="성   별"
+                                ItemsSource="{x:Static selections:InputOptionItems.Sexes}"
                                 DisplayMember="vPAT_Sex"
                                 ValueMember="PAT_Sex"
                                 Col="2"
@@ -166,7 +169,7 @@
                                     FontSize="11"
                                     BorderBrush="LightGray"
                                     BorderThickness="1"
-                                    Width="48" 
+                                    Width="52" 
                                     Margin="2"
                                     IsHeader="False"
                                     IsBinding="False"
@@ -176,6 +179,7 @@
                 <Xpf:BindItem   FieldName="PAT_SourceType"
                                 BindType="ComboBox"
                                 Header="내 원 경 로"
+                                ItemsSource="{x:Static selections:InputOptionItems.SourceTypes}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"
                                 Col="2"
@@ -188,6 +192,7 @@
                                 Col="5"
                                 Row="3"
                                 ColSpan="3"
+                                ItemsSource="{x:Static selections:InputOptionItems.NationalityTypes}"
                                 DisplayMember="attrName"
                                 ValueMember="attrValue">
                     

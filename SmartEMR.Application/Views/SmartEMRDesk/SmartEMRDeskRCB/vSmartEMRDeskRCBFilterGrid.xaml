@@ -6,6 +6,8 @@
                     xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
                     xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"        
                     xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                    xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/core"
                     mc:Ignorable="d" 
                     Height="50"
@@ -56,6 +58,7 @@
                         BindType="ComboBox"
                         Col="0"
                         Row="1"
+                        ItemsSource="{x:Static selections:SearchFilterItems.ReservationStatuses}"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
@@ -63,6 +66,7 @@
                         BindType="ComboBox"
                         Col="1"
                         Row="1"
+                        ItemsSource="{x:Static selections:SearchFilterItems.ReceptionStatuses}"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
@@ -70,6 +74,7 @@
                         BindType="ComboBox"
                         Col="2"
                         Row="1"
+                        ItemsSource="{x:Static selections:SearchFilterItems.Subjects}"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
@@ -77,6 +82,7 @@
                         BindType="ComboBox"
                         Col="3"
                         Row="1"
+                        ItemsSource="{x:Static selections:SearchFilterItems.RouteTypes}"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
 
@@ -84,6 +90,7 @@
                         BindType="ComboBox"
                         Col="4"
                         Row="1"
+                        ItemsSource="{x:Static selections:SearchFilterItems.Docters}"
                         DisplayMember="MUR_Name"
                         ValueMember="MUR_Idx"/>
 
@@ -91,6 +98,7 @@
                         BindType="ComboBox"
                         Col="5"
                         Row="1"
+                        ItemsSource="{x:Static selections:SearchFilterItems.InsuranceTypes}"
                         DisplayMember="CCI_Name"
                         ValueMember="CCI_Cd"/>
     </Xpf:BindGrid>

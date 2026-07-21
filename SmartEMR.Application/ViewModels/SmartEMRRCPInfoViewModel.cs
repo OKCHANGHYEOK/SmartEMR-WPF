@@ -13,12 +13,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
 
     public override void Initialize()
     {
-        arrMUR_DOC = SmartMVVM.Master.GetMemberUsers("DOC", true, "의사선택");
-        arrMUR_STF = SmartMVVM.Master.GetMemberUsers("STF", true, "직원선택");
-        arrRCP_Subject = SmartMVVM.Common.GetCommonCode("RCP","Subject");
-        arrRCP_VisitType = SmartMVVM.Common.GetCommonCode("RCP", "VisitType");
-        arrRCP_Route = SmartMVVM.Common.GetCommonCode("RCP", "Route");
-        arrRCP_InsuranceType = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType");
+
     }
 
     public override async Task InitializeAsync()

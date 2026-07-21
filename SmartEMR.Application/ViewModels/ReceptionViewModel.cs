@@ -16,15 +16,6 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
     public Reception RCPItem { get; set; } = new();
     public Insurance IRCItem { get; set; } = new();
 
-    public List<MemberUser> arrMUR_DOC { get; set; } = default!;
-    public List<MemberUser> arrMUR_STF { get; set; } = default!;
-
-    public List<CommonCode> arrRCP_Status { get; set; } = default!;
-    public List<CommonCode> arrRCP_Subject { get; set; } = default!;
-    public List<CommonCode> arrRCP_VisitType { get; set; } = default!;
-    public List<CommonCode> arrRCP_Route { get; set; } = default!;
-    public List<CommonCode> arrRCP_InsuranceType { get; set; } = default!;
-
     public override void Initialize()
     {
     }

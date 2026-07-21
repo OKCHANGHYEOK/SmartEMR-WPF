@@ -30,13 +30,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Height = 38;
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_SubjectName")?.Margin = new Thickness(1,0,1,0);
 
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC")?.ItemsSource = vm.arrMUR_DOC;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_STF")?.ItemsSource = vm.arrMUR_STF;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Subject")?.ItemsSource = vm.arrRCP_Subject;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_VisitType")?.ItemsSource = vm.arrRCP_VisitType;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Route")?.ItemsSource = vm.arrRCP_Route;
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_InsuranceType")?.ItemsSource = vm.arrRCP_InsuranceType;
-
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.Margin = new Thickness(1);
             this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo")?.AcceptsReturn = true;
         }

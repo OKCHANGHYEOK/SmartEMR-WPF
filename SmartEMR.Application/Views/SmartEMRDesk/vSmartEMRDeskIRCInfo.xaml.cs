@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Common.SelectionItems;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -30,8 +31,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         protected override void SetBindGrid()
         {
             this.BindGrids[0].GetBindItem<Label>("vIRC_Type")?.HorizontalContentAlignment = HorizontalAlignment.Left;
-
-            this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName")?.ItemsSource = vm.arrIRC_CoName;
 
             this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Height = 38;
@@ -140,7 +139,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             var cmbIRC_CoName = this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName");
             if (cmbIRC_CoName != null)
             {
-                cmbIRC_CoName.ItemsSource = vm.arrIRC_CoName.Where(x => x.IRC_Type == IRCItem.IRC_Type);
+                cmbIRC_CoName.ItemsSource = InputOptionItems.InsuranceCoperations.Where(x => x.IRC_Type == IRCItem.IRC_Type);
                 cmbIRC_CoName.SelectedIndex = 0;
             }
         }

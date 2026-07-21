@@ -17,29 +17,9 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         set => SetProperty(ref _arrRCB, value);
     }
 
-    public List<MemberUser> arrMUR_DOC { get; set; } = default!;
-
-    public List<CommonCode> arrRCP_Status { get; set; } = default!;
-    public List<CommonCode> arrRCP_InsuranceType { get; set; } = default!;
-
-    public List<CommonCode> arrRES_Status { get; set; } = default!;
-
-    public List<CommonCode> arrRCB_Route { get; set; } = default!;
-    public List<CommonCode> arrRCB_VisitType { get; set; } = default!;
-    public List<CommonCode> arrRCB_Subject { get; set; } = default!;
-
     public override void Initialize()
     {
-        arrMUR_DOC = SmartMVVM.Master.GetMemberUsers("DOC", true, "담당의구분");
 
-        arrRCP_Status = SmartMVVM.Common.GetCommonCode("RCP", "Status", "", true, "접수상태");
-        arrRCP_InsuranceType = SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType", "", true, "보험구분");
-
-        arrRES_Status = SmartMVVM.Common.GetCommonCode("RES", "Status", "", true, "예약상태");
-
-        arrRCB_Route = SmartMVVM.Common.GetCommonCode("RCB", "Route", "", true, "방문구분");
-        arrRCB_VisitType = SmartMVVM.Common.GetCommonCode("RCB", "VisitType", "", true, "초재진구분");
-        arrRCB_Subject = SmartMVVM.Common.GetCommonCode("RCB", "Subject", "", true, "과목구분");
     }
 
     protected override ReceptionBoard GetModel(ReceptionBoard item)

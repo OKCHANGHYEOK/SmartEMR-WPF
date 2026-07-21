@@ -10,6 +10,7 @@
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                       xmlns:template="clr-namespace:SmartEMR.Application.Template"
+                      xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
                       d:DesignWidth="800">
@@ -42,9 +43,10 @@
                                 Col="0"
                                 Width="100"
                                 Height="23"
+                                ItemsSource="{x:Static selections:SearchFilterItems.PayStatuses}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"
-                                Margin="2,0,0,2"/>
+                                Margin="2,0,0,0"/>
 
                 <Xpf:BindItem FieldName="Keyword"
                               BindType="SearchEdit"

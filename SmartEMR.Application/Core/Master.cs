@@ -6,10 +6,10 @@ namespace SmartEMR.Application.Core;
 
 public class Master
 {
-    private readonly Dictionary<string, List<object>> _arrMasterRequest = new();
+    private readonly Dictionary<string, List<object>> _masterItems = new();
 
-    public IReadOnlyDictionary<string, ReadOnlyCollection<object>> arrMasterRequest =>
-        _arrMasterRequest.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.AsReadOnly());
+    public IReadOnlyDictionary<string, ReadOnlyCollection<object>> masterItems =>
+        _masterItems.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.AsReadOnly());
 
     private readonly List<MemberUser> _arrMUR = new();
 
@@ -44,49 +44,49 @@ public class Master
 
     private void SetMasterData()
     {
-        _arrMasterRequest.Clear();
+        _masterItems.Clear();
 
         // PAT_Sex
-        AddMasterRequest("PAT_Sex", new Patient { vPAT_Sex = "성별선택", PAT_Sex = "N" });
-        AddMasterRequest("PAT_Sex", new Patient { vPAT_Sex = "남", PAT_Sex = "M" });
-        AddMasterRequest("PAT_Sex", new Patient { vPAT_Sex = "여", PAT_Sex = "F" });
+        AddMasterItem("PAT_Sex", new Patient { vPAT_Sex = "성별선택", PAT_Sex = "N" });
+        AddMasterItem("PAT_Sex", new Patient { vPAT_Sex = "남", PAT_Sex = "M" });
+        AddMasterItem("PAT_Sex", new Patient { vPAT_Sex = "여", PAT_Sex = "F" });
 
         // PAT_IsSolar
-        AddMasterRequest("PAT_IsSolar", new { attrName = "양력", attrValue = "y" });
-        AddMasterRequest("PAT_IsSolar", new { attrName = "음력", attrValue = "n" });
+        AddMasterItem("PAT_IsSolar", new { attrName = "양력", attrValue = "y" });
+        AddMasterItem("PAT_IsSolar", new { attrName = "음력", attrValue = "n" });
 
         // PAT_IsForeginer
-        AddMasterRequest("PAT_IsForegin", new { attrName = "내국인", attrValue = "n" });
-        AddMasterRequest("PAT_IsForegin", new { attrName = "외국인", attrValue = "y" });
+        AddMasterItem("PAT_IsForegin", new { attrName = "내국인", attrValue = "n" });
+        AddMasterItem("PAT_IsForegin", new { attrName = "외국인", attrValue = "y" });
 
         // PAT_IsAgreePersonalInfo
-        AddMasterRequest("PAT_IsAgreePersonalInfo", new { attrName = "동의", attrValue = "y" });
-        AddMasterRequest("PAT_IsAgreePersonalInfo", new { attrName = "동의안함", attrValue = "n" });
+        AddMasterItem("PAT_IsAgreePersonalInfo", new { attrName = "동의", attrValue = "y" });
+        AddMasterItem("PAT_IsAgreePersonalInfo", new { attrName = "동의안함", attrValue = "n" });
 
         // IRC_CoName 
         foreach (string type in new[] { "GUN", "MED" }) 
         {
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "SSH", IRC_CoName = "삼성화재" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "HDH", IRC_CoName = "현대해상" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "DBS", IRC_CoName = "DB손해보험" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "KBS", IRC_CoName = "KB손해보험" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "MRT", IRC_CoName = "메리츠화재" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "SSS", IRC_CoName = "삼성생명" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "HAS", IRC_CoName = "한화생명" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "KYB", IRC_CoName = "교보생명" });
-            AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "ETC", IRC_CoName = "기타" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "SSH", IRC_CoName = "삼성화재" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "HDH", IRC_CoName = "현대해상" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "DBS", IRC_CoName = "DB손해보험" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "KBS", IRC_CoName = "KB손해보험" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "MRT", IRC_CoName = "메리츠화재" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "SSS", IRC_CoName = "삼성생명" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "HAS", IRC_CoName = "한화생명" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "KYB", IRC_CoName = "교보생명" });
+            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "ETC", IRC_CoName = "기타" });
         }
 
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "SSH", IRC_CoName = "삼성화재" });
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "HDH", IRC_CoName = "현대해상" });
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "DBS", IRC_CoName = "DB손해보험" });
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "KBS", IRC_CoName = "KB손해보험" });
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "MRT", IRC_CoName = "메리츠화재" });
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "AXA", IRC_CoName = "AXA손해보험" });
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "ETC", IRC_CoName = "기타" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "SSH", IRC_CoName = "삼성화재" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "HDH", IRC_CoName = "현대해상" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "DBS", IRC_CoName = "DB손해보험" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "KBS", IRC_CoName = "KB손해보험" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "MRT", IRC_CoName = "메리츠화재" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "AXA", IRC_CoName = "AXA손해보험" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "ETC", IRC_CoName = "기타" });
 
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "GUN", IRC_CoName = "근로복지공단" });
-        AddMasterRequest("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "ETC", IRC_CoName = "기타" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "GUN", IRC_CoName = "근로복지공단" });
+        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "ETC", IRC_CoName = "기타" });
     }
 
     public List<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")
@@ -109,7 +109,7 @@ public class Master
 
     public IQueryable<object> Query(string name)
     {
-        if (arrMasterRequest.TryGetValue(name, out var list))
+        if (masterItems.TryGetValue(name, out var list))
         {
             return list.AsQueryable();
         }
@@ -122,11 +122,11 @@ public class Master
         return Query(name).Cast<T>();
     }
 
-    private void AddMasterRequest(string name, object value)
+    private void AddMasterItem(string name, object value)
     {
-        if (!_arrMasterRequest.TryGetValue(name, out var list))
+        if (!_masterItems.TryGetValue(name, out var list))
         {
-            _arrMasterRequest.Add(name, new List<object>() { value });
+            _masterItems.Add(name, new List<object>() { value });
         }
 
         list?.Add(value);

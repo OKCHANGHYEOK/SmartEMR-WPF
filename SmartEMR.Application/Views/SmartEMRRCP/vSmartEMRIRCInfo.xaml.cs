@@ -36,8 +36,6 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
     {
         this.BindGrids[0].GetBindItem<Label>("vIRC_Type")?.HorizontalContentAlignment = HorizontalAlignment.Left;
 
-        this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName")?.ItemsSource = vm.arrIRC_CoName;
-
         this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
         this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Height = 38;
         this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Margin = new Thickness(1, 0, 1, 0);

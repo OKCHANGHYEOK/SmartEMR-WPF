@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Editors;
+using System.Collections;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -57,7 +58,7 @@ public class BindItem
     public VerticalAlignment VAlignment { get; set; } = VerticalAlignment.Stretch;
     public ContentAlignment ContentAlignment { get; set; } = ContentAlignment.LeftCenter;
     
-    public IQueryable? ItemsSource { get; set; }
+    public IEnumerable? ItemsSource { get; set; }
     public string? DisplayMember { get; set; }
     public string? ValueMember { get; set; }
 

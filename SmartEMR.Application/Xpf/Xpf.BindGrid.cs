@@ -314,6 +314,7 @@ public partial class BindGrid : StyleGrid, IDisposable
             case BindType.ComboBox:
                 visualChild = new ComboBoxEdit()
                 {
+                    ItemsSource = bindItem.ItemsSource,
                     DisplayMember = bindItem.DisplayMember,
                     ValueMember = bindItem.ValueMember,
                     CornerRadius = bindItem.CornerRadius,

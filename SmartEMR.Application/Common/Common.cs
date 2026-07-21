@@ -96,7 +96,7 @@ public class Common
         }
     }
 
-    public List<CommonCode> GetCommonCode(string CCC_Cd = "", string CCG_Cd = "", string CCI_Cd = "", bool isDefault = false, string defaultText = "전체")
+    public IEnumerable<CommonCode> GetCommonCode(string CCC_Cd = "", string CCG_Cd = "", string CCI_Cd = "", bool isDefault = false, string defaultText = "전체")
     {
         List<CommonCode> retCCC = new();
 
@@ -127,7 +127,7 @@ public class Common
             retCCC.AddRange(targetItems);
         }
 
-        return retCCC;
+        return retCCC.AsEnumerable();
     }
 
     public string? GetCommonCodeName(string CCC_Cd = "", string CCG_Cd = "", string CCI_Cd = "")
@@ -137,7 +137,7 @@ public class Common
         return _cccMapper.GetValueOrDefault((CCC_Cd, CCG_Cd, CCI_Cd), "");
     }
 
-    public IQueryable<object> GetBirth(eBirthType birthType)
+    public IEnumerable<object> GetBirth(eBirthType birthType)
     {
         List<object> arrBirth = new();
 
@@ -174,7 +174,7 @@ public class Common
 
         arrBirth.Reverse();
 
-        return arrBirth.AsQueryable();
+        return arrBirth.AsEnumerable();
     }
 
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)

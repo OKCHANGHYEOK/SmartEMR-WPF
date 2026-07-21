@@ -17,12 +17,6 @@ public partial class vSmartEMRDeskPAY : ModelViewLayout<PayViewModel>
 
     protected override void SetBindGrid()
     {
-        var cmbPAY_Status = this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAY_Status");
-        if (cmbPAY_Status != null)
-        {
-            cmbPAY_Status.ItemsSource = vm.arrPAY_Status;
-        }
-
         var txtSearch = this.BindGrids[0].GetBindItem<SearchEdit>("Keyword");
         if (txtSearch != null)
         {

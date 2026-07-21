@@ -5,11 +5,8 @@ namespace SmartEMR.Application.ViewModels;
 
 public class InsuranceInfoViewModel : InsuranceViewModel
 {
-    public IQueryable<Insurance> arrIRC_CoName { get; private set; } = default!;
-
     public override void Initialize()
     {
-        arrIRC_CoName = SmartMVVM.Master.Query<Insurance>("IRC_CoName");
     }
 
     public override async Task InitializeAsync()
