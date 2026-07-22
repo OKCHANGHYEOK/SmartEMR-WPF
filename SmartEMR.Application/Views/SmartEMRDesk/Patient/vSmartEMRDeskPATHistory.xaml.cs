@@ -16,7 +16,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         protected override void Initialize()
         {
-            MaskControl.ShowButton = false;
         }
 
         public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)

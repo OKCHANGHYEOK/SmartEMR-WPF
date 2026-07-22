@@ -24,7 +24,6 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
 
     protected override void Initialize()
     {
-        MaskControl.ShowButton = false;
     }
 
     public void SetData(Insurance item)

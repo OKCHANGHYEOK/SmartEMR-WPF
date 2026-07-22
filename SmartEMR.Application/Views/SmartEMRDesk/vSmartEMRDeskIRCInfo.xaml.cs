@@ -25,7 +25,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         protected override void Initialize()
         {
-            MaskControl.ShowButton = false;
         }
 
         protected override void SetBindGrid()

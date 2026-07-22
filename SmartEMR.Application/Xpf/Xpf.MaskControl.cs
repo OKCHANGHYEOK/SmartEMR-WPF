@@ -8,22 +8,7 @@ public class MaskControl : CustomControl
 {
     public string? ButtonText { get; set; }
     public ImageSource? ButtonImage { get; set; }
-
-    private bool _showButton;
-    public bool ShowButton
-    {
-        get => _showButton;
-        set
-        {
-            _showButton = value;
-
-            var element = GetTemplateChild("PART_BUTTON");
-            if (element is Button btn == false) return;
-
-            btn.Visibility = _showButton ? Visibility.Visible : Visibility.Collapsed;
-        }
-    }
-
+    
     public static readonly DependencyProperty MaskTextProperty =
         DependencyProperty.Register(nameof(MaskText), typeof(string), typeof(MaskControl), new PropertyMetadata(string.Empty, null));
 
@@ -40,6 +25,15 @@ public class MaskControl : CustomControl
     {
         get => (IRelayCommand)GetValue(ButtonCommandProperty);
         set => SetValue(ButtonCommandProperty, value);
+    }
+
+    public static readonly DependencyProperty ShowButtonProperty =
+        DependencyProperty.Register(nameof(ShowButton), typeof(bool), typeof(MaskControl), new PropertyMetadata(true));
+
+    public bool ShowButton
+    {
+        get => (bool)GetValue(ShowButtonProperty);
+        set => SetValue(ShowButtonProperty, value);
     }
 
     static MaskControl()

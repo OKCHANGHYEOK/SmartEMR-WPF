@@ -129,7 +129,8 @@
                         Click="OnClick_Button"/>
         </Xpf:StyleGrid>
 
-        <Xpf:MaskControl x:Name="MaskControl" Grid.RowSpan="2" Visibility="{Binding Model.IRC_Type, Converter={converter:IRCTypeToVisibilityConverter}}">
+        <Xpf:MaskControl x:Name="MaskControl" Grid.RowSpan="2" Visibility="{Binding Model.IRC_Type, Converter={converter:IRCTypeToVisibilityConverter}}"
+                         ShowButton="False">
             <Xpf:TextBlock TextAlignment="Center">
                 <Run>접수정보에서 비보험외의 보험 선택 시 활성화됩니다.</Run>
             </Xpf:TextBlock>

@@ -16,8 +16,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     {
         protected override async void Initialize()
         {
-            MaskControl.ShowButton = false;
-
             await vm.FetchDataAsync();
         }
 

@@ -81,6 +81,7 @@
         </dx:DXTabControl>
         <Xpf:MaskControl    x:Name="MaskControl"
                             MaskText="선택된 환자가 없습니다."
-                            Visibility="{Binding Model.PAT_Idx, Converter={converter:IntToVisibilityConverter invert=True}}"/>
+                            Visibility="{Binding Model.PAT_Idx, Converter={converter:IntToVisibilityConverter invert=True}}"
+                            ShowButton="False"/>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

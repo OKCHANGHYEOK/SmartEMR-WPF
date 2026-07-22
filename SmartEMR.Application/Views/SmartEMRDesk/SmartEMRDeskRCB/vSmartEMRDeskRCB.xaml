@@ -108,6 +108,7 @@
         <Xpf:MaskControl    x:Name="MaskControl"
                             Grid.Row="2"
                             MaskText="접수내역이 존재하지 않습니다."
-                            Visibility="{Binding GridControl.VisibleRowCount, ElementName=RCBGrid, Converter={converter:IntToVisibilityConverter invert=True}}"/>
+                            Visibility="{Binding GridControl.VisibleRowCount, ElementName=RCBGrid, Converter={converter:IntToVisibilityConverter invert=True}}"
+                            ShowButton="False"/>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

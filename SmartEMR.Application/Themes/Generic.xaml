@@ -4,9 +4,9 @@
                     xmlns:bar="clr-namespace:SmartEMR.Application.Xpf.Bar"
                     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
                     xmlns:common="clr-namespace:SmartEMR.Application.Common"
-                    xmlns:Conveter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
-    <Conveter:StringAndFocusToVisiblityConverter x:Key="StringAndFocusToVisiblityConverter"/>
+    <converter:StringAndFocusToVisiblityConverter x:Key="StringAndFocusToVisiblityConverter"/>
     
         <!--#region Xpf.Button -->
     <Style TargetType="{x:Type Xpf:Button}">
@@ -399,6 +399,7 @@
                                         Glyph="{Binding ButtonImage, RelativeSource={RelativeSource TemplatedParent}}"
                                         Width="90"
                                         Margin="0,4,0,0"
+                                        Visibility="{Binding ShowButton, RelativeSource={RelativeSource TemplatedParent}, Converter={converter:BooleanToVisibilityConverter}}"
                                         Command="{Binding ButtonCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </StackPanel>
 
