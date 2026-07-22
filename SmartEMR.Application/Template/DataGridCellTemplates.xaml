@@ -33,25 +33,6 @@
     </DataTemplate>
 
     <DataTemplate x:Key="GridColumnTextLinkTemplate">
-        <TextBlock  Text="{Binding Value}"
-                    Cursor="Hand"
-                    Foreground="#4A90E2"
-                    VerticalAlignment="Center">
-
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Opacity"
-                        Value="1"/>
-
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver"
-                             Value="True">
-                            <Setter Property="Opacity"
-                                Value="0.7"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
+        <Xpf:TextLink  Text="{Binding Value}"/>
     </DataTemplate>
 </ResourceDictionary>

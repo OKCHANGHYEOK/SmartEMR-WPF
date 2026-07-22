@@ -177,6 +177,28 @@ public class Common
         return arrBirth.AsEnumerable();
     }
 
+    internal IEnumerable<object> GetTimesByInterval(int interval)
+    {
+        List<object> times = new();
+
+        for (int i = 0; i < 24; i++)
+        {
+            string strAMPM = i < 12 ? "오전" : "오후";
+            string strHH = (i % 12).ToString().PadLeft(2, '0');
+
+            for (int j = 0; j < 60; j += interval)
+            {
+                string strMM = j.ToString().PadLeft(2, '0');
+                string attrValue = strHH + ":" + strMM;
+                string attrName = strAMPM + " " + attrValue;
+
+                times.Add(new { attrName, attrValue });
+            }
+        }
+
+        return times.AsEnumerable();
+    }
+
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)
     {
         bool isExisits = false;

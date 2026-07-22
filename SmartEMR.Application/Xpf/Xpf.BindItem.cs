@@ -59,6 +59,7 @@ public class BindItem
     public ContentAlignment ContentAlignment { get; set; } = ContentAlignment.LeftCenter;
     
     public IEnumerable? ItemsSource { get; set; }
+    public DataTemplate? ItemTemplate { get; set; }
     public string? DisplayMember { get; set; }
     public string? ValueMember { get; set; }
 

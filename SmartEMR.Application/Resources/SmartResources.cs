@@ -27,6 +27,9 @@ public class SmartResourceDictionary
 
 public static class SmartBrush
 {
+    public static readonly Brush SMART_BRUSH_SECTION_BACKGROUND = CreateBrushFromString("#F5F6F8");
+    public static readonly Brush SMART_BRUSH_SECTION_BORDER = CreateBrushFromString("#D8DDE3");
+
     public static readonly Brush SMART_BRUSH_INFO = CreateBrushFromString("#00BCD4");
     public static readonly Brush SMART_BRUSH_SUCCESS = CreateBrushFromString("#009688");
     public static readonly Brush SMART_BRUSH_WARNING = CreateBrushFromString("#ED7D31");
@@ -38,6 +41,8 @@ public static class SmartBrush
     public static readonly Brush SMART_BRUSH_RES = CreateBrushFromRGB(59, 130, 246);
     public static readonly Brush SMART_BRUSH_RCP = CreateBrushFromRGB(16, 185, 129);
 
+    public static readonly Brush SMART_BRUSH_STATUS_PENDING = CreateBrushFromString("#D4A017");
+    public static readonly Brush SMART_BRUSH_STATUS_CONFIRMED = CreateBrushFromString("#2E8B57");
     public static readonly Brush SMART_BRUSH_STATUS_WAIT = CreateBrushFromRGB(255, 159, 67);
     public static readonly Brush SMART_BRUSH_STATUS_PROGRESS = CreateBrushFromRGB(59, 130, 246);
     public static readonly Brush SMART_BRUSH_STATUS_COMPLETE = CreateBrushFromRGB(16, 185, 129);

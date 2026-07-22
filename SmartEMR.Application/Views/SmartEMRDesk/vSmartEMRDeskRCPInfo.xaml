@@ -34,8 +34,6 @@
 
                 <Xpf:BindItem   FieldName="RCP_ReceiptTime"
                                 BindType="DateEdit"
-                                DisplayMember="attrName"
-                                ValueMember="attrValue"
                                 DateEditType="Time"/>
 
                 <Xpf:BindItem   FieldName="chkSetNowDT"

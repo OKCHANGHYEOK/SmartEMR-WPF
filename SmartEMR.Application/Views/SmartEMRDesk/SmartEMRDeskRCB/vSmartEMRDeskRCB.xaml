@@ -74,7 +74,7 @@
             <Xpf:ColumnItem FieldName="vRCP_Status"
                             Header="접수"
                             ColumnWidth="30"
-                            CellTemplateType="{x:Type template:RCP_StatusTemplate}"/>
+                            CellTemplateType="{x:Type template:RCPStatusTemplate}"/>
 
             <Xpf:ColumnItem FieldName="MUR_Name_DOC"
                             Header="담 당 의"

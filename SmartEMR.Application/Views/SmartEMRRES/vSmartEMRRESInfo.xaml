@@ -1,4 +1,4 @@
-﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRRESInfo"
+﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRRES.vSmartEMRRESInfo"
                         x:TypeArguments="vm:ReservationViewModel"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,14 +6,276 @@
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRRES"
                         xmlns:view="clr-namespace:SmartEMR.Application.Views"
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
-                        xmlns:desk="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
                         xmlns:resources="clr-namespace:SmartEMR.Application.Resources"
+                        xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                        xmlns:template="clr-namespace:SmartEMR.Application.Template"
+                        xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
+                        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                        xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         mc:Ignorable="d" 
-                        d:DesignHeight="450" d:DesignWidth="800">
-    <Xpf:StyleGrid  Background="White">
-        
-    </Xpf:StyleGrid>
+                        d:DesignHeight="600" d:DesignWidth="500"
+                        ViewSize="600,700">
+
+    <dxd:DockLayoutManager x:Name="DockLayoutManager">
+        <dxd:LayoutGroup Orientation="Vertical">
+            <Xpf:LayoutPanel ItemHeight="0.7*">
+                <Xpf:StyleGrid  LayoutDefinitions="1,3"
+                                RowSizeDefinitions="Auto,Auto,*">
+
+                    <Xpf:StyleGrid LayoutDefinitions="2,1"
+                                   ColumnSizeDefinitions="Auto,*"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0,0,0,2">
+                        <Xpf:CheckEdit Grid.Column="0" Content="신환예약" FontWeight="SemiBold" Margin="2,0,2,0"/>
+                        <Xpf:SearchPanel Grid.Column="1" NullText="환자명/차트번호로 검색하세요." Margin="2,0,2,0"/>
+                    </Xpf:StyleGrid>
+
+                    <Border Grid.Column="0" 
+                            Grid.ColumnSpan="2" 
+                            Grid.Row="1" 
+                            Height="4" 
+                            BorderThickness="0,1,0,1"
+                            BorderBrush="{x:Static resources:SmartBrush.SMART_BRUSH_SECTION_BORDER}"
+                            Background="{x:Static resources:SmartBrush.SMART_BRUSH_SECTION_BACKGROUND}"
+                            Margin="0,2,0,2"/>
+
+                    <Xpf:BindGrid  Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="2"
+                                   BindStyle="DataCell"
+                                   LayoutDefinitions="6,6"
+                                   DataContext="{Binding SelectedPatient}">
+
+                        <Xpf:BindItem FieldName="PAT_ImageSource"
+                                      BindType="Image"
+                                      Col="0"
+                                      Row="0"
+                                      ColSpan="2"
+                                      RowSpan="6"
+                                      Margin="2"
+                                      IsHeader="False"
+                                      IsBottomLine="False"/>
+
+                        <Xpf:BindItem FieldName="PAT_ChartNo"
+                                      Header="차 트 번 호"
+                                      BindType="Label"
+                                      Col="2"
+                                      Row="0"
+                                      ColSpan="2"
+                                      FontWeight="Bold"/>
+
+                        <Xpf:BindItem FieldName="PAT_Name"
+                                      Header="성       명"
+                                      Col="4"
+                                      ColSpan="2"
+                                      Row="0">
+
+                            <StackPanel Orientation="Horizontal">
+                                <Xpf:TextLink Text="{Binding PAT_Name}" FontWeight="Bold" Margin="2,0,0,0"/>
+                                <Xpf:TextBlock Margin="2,0,0,0">
+                                    <Run Text="{Binding vPAT_Sex}"/>
+                                    <Run Foreground="Gray">/</Run>
+                                    <Run Text="{Binding PAT_Age}"/>
+                                </Xpf:TextBlock>
+                                <Xpf:Label Content="{Binding vPAT_IsAgreePersonalInfo}" Margin="2,0,0,0"/>
+                            </StackPanel>
+                        </Xpf:BindItem>
+
+                        <Xpf:BindItem   FieldName="PAT_RegisterNum"
+                                        Header="주 민 번 호"
+                                        BindType="Label"
+                                        Col="2"
+                                        ColSpan="2"
+                                        Row="1"/>
+
+                        <Xpf:BindItem   FieldName="PAT_BirthDate"
+                                        Header="생 년 월 일"
+                                        BindType="Label"
+                                        Col="4"
+                                        ColSpan="2"
+                                        Row="1"/>
+
+                        <Xpf:BindItem   FieldName="PAT_PhoneNum"
+                                        BindType="Label"
+                                        Header="전 화 번 호"
+                                        Col="2"
+                                        ColSpan="2"
+                                        Row="2"/>
+
+                        <Xpf:BindItem   FieldName="PAT_Email"
+                                        Header="이 메 일"
+                                        BindType="Label"
+                                        Col="4"
+                                        ColSpan="2"
+                                        Row="2"/>
+
+                        <Xpf:BindItem   FieldName="PAT_FirstVisitDate"
+                                        Header="최 초 내 원"
+                                        BindType="Label"
+                                        Col="2"
+                                        ColSpan="2"
+                                        Row="3"/>
+
+                        <Xpf:BindItem   FieldName="PAT_LastVisitDate"
+                                        Header="최 종 내 원"
+                                        BindType="Label"
+                                        Col="4"
+                                        ColSpan="2"
+                                        Row="3"/>
+
+                        <Xpf:BindItem   FieldName="PAT_Bigo"
+                                        Header="비       고"
+                                        BindType="Label"
+                                        Col="2"
+                                        ColSpan="4"
+                                        Row="4"
+                                        RowSpan="2"
+                                        IsBottomLine="False"/>
+                    </Xpf:BindGrid>
+                    <Xpf:MaskControl Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Grid.Row="2"
+                                     MaskText="환자 선택시 표시됩니다."
+                                     Visibility="Collapsed"
+                                     ShowButton="False"/>
+                </Xpf:StyleGrid>
+            </Xpf:LayoutPanel>
+            
+            <dxd:LayoutGroup Orientation="Horizontal">
+                <Xpf:LayoutPanel ItemWidth="0.4*" Caption="예약이력">
+                    <Xpf:StyleGrid>
+                        <Xpf:DataGrid AutoWidth="False">
+                            <Xpf:ColumnItem FieldName="RES_Status"
+                                            Header="상태"
+                                            ColumnWidth="42"
+                                            CellTemplateType="{x:Type template:RESStatusTemplate}"/>
+
+                            <Xpf:ColumnItem FieldName="RES_ReservationDate"
+                                            Header="예약일자"
+                                            ColumnWidth="80"
+                                            ColumnStyle="YYMMDD"/>
+
+                            <Xpf:ColumnItem FieldName="RES_ReservationTime"
+                                            Header="예약시간"
+                                            ColumnWidth="60"
+                                            ColumnStyle="YYMMDD"/>
+                        </Xpf:DataGrid>
+                        <Xpf:MaskControl MaskText="환자 선택시 표시됩니다."
+                                         Visibility="{Binding SelectedPatient.PAT_Idx, Converter={converter:IntToVisibilityConverter invert=True}}"
+                                         ShowButton="False"/>
+                    </Xpf:StyleGrid>
+                </Xpf:LayoutPanel>
+                <Xpf:LayoutPanel ItemWidth="0.6*" Caption="에약정보">
+                    <Xpf:BindGrid LayoutDefinitions="2,7"
+                                  BindStyle="DataCell"
+                                  ItemSpace="2">
+                        
+                        <Xpf:BindItem FieldName="RES_ReservationDate"
+                                      Header="예 약 일 자"
+                                      BindType="DateEdit"
+                                      Col="0"
+                                      Row="0"/>
+
+                        <Xpf:BindItem FieldName="RES_ReservationTime"
+                                      Header="예 약 시 간"
+                                      BindType="ComboBox"
+                                      Col="1"
+                                      Row="0"
+                                      ItemsSource="{x:Static selections:InputOptionItems.ReservationTimes}"
+                                      DisplayMember="attrName"
+                                      ValueMember="attrValue"/>
+
+                        <x:Array Type="{x:Type Xpf:BindItem}">
+                            <Xpf:BindItem   FieldName="RES_Subject"
+                                            Header="접 수 과 목"
+                                            BindType="ComboBox"
+                                            Col="0"
+                                            Row="1"
+                                            ColSpan="2"
+                                            ItemsSource="{x:Static selections:InputOptionItems.Subjects}"
+                                            DisplayMember="CCI_Name"
+                                            ValueMember="CCI_Cd"/>
+
+                            <Xpf:BindItem FieldName="RES_SubjectName"
+                                          BindType="TextBox"
+                                          Width="100"
+                                          FontSize="12"
+                                          Placeholder="직접입력"
+                                          Margin="1"
+                                          IsEnabled="False"/>
+                        </x:Array>
+
+                        <Xpf:BindItem   FieldName="MUR_Idx_DOC"
+                                        Header="담  당  의"
+                                        BindType="ComboBox"
+                                        Col="0"
+                                        Row="2"
+                                        ItemsSource="{x:Static selections:InputOptionItems.Docters}"
+                                        DisplayMember="MUR_Name"
+                                        ValueMember="MUR_Idx"/>
+
+                        <Xpf:BindItem   FieldName="MUR_Idx_STF"
+                                        Header="담 당 직 원"
+                                        BindType="ComboBox"
+                                        Col="1"
+                                        Row="2"
+                                        ItemsSource="{x:Static selections:InputOptionItems.Staffs}"
+                                        DisplayMember="MUR_Name"
+                                        ValueMember="MUR_Idx"/>
+
+                        <Xpf:BindItem   FieldName="RES_Route"
+                                        Header="예 약 경 로"
+                                        BindType="ComboBox"
+                                        Col="0"
+                                        Row="3"
+                                        ItemsSource="{x:Static selections:InputOptionItems.RouteTypes}"
+                                        DisplayMember="CCI_Cd"
+                                        ValueMember="CCI_Name"/>
+
+                        <Xpf:BindItem   FieldName="RES_Memo"
+                                        Header="예 약 메 모"
+                                        BindType="TextBox"
+                                        Col="0"
+                                        ColSpan="2"
+                                        Row="4"
+                                        RowSpan="3"
+                                        Margin="1"
+                                        IsBottomLine="False"/>
+                    </Xpf:BindGrid>
+                </Xpf:LayoutPanel>
+            </dxd:LayoutGroup>
+            <Xpf:LayoutPanel ItemHeight="Auto" ShowBorder="False" AllowSizing="False">
+                <Xpf:StyleGrid  LayoutDefinitions="3,1"
+                                ColumnSizeDefinitions="Auto,*,Auto"
+                                VerticalAlignment="Center">
+
+                    <Xpf:Button x:Name="btnCancel"
+                                Grid.Column="0"
+                                Width="85"
+                                Height="27"
+                                Content="예약취소"
+                                FontWeight="SemiBold"
+                                Glyph="/Images/smartemr_cancel.png"
+                                VerticalContentAlignment="Center"
+                                Margin="2,0,0,0"
+                                Visibility="{Binding Model.RES_Idx, Converter={converter:IntToVisibilityConverter}}"/>
+
+                    <dx:SimpleButton    x:Name="btnSave"
+                                        Grid.Column="2"
+                                        Content="{Binding ViewTitle, RelativeSource={RelativeSource AncestorType=local:vSmartEMRRESInfo}}"
+                                        Padding="2"
+                                        Width="85"
+                                        Height="27"
+                                        FontWeight="SemiBold"
+                                        Glyph="/Images/smartemr_save.png"
+                                        VerticalContentAlignment="Center"
+                                        Margin="0"/>
+                </Xpf:StyleGrid>
+            </Xpf:LayoutPanel>
+        </dxd:LayoutGroup>
+    </dxd:DockLayoutManager>
 </base:ModelViewLayout>

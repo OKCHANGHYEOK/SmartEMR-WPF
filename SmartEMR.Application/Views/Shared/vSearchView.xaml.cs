@@ -2,6 +2,7 @@
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
@@ -180,6 +181,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
         switch (element.Name)
         {
             case "btnMoveRESInfo":
+                await SmartUI.NavigateToPage(new vSmartEMRRESInfo(), isPopup: true);
                 break;
 
             case "btnMovePATInfo":

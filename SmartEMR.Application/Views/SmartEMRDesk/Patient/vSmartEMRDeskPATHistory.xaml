@@ -32,7 +32,7 @@
             <dx:DXTabItem Tag="RCP" Header="접수">
                 <Xpf:DataGrid ItemsSource="{Binding ReceptionItems}" AutoWidth="False">
                     <Xpf:ColumnItem FieldName="vRCP_InsuranceType" CellTemplateType="{x:Type template:InsuranceTypeTemplate}" ColumnWidth="25" HorizontalAlignment="Center"/>
-                    <Xpf:ColumnItem FieldName="vRCP_Status" Header="상태" CellTemplateType="{x:Type template:RCP_StatusTemplate}" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="vRCP_Status" Header="상태" CellTemplateType="{x:Type template:RCPStatusTemplate}" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="RCP_ReceiptDate" Header="접수일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="RCP_ReceiptTime" Header="접수시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="vRCP_Route" Header="접수경로" ColumnWidth="60" HorizontalAlignment="Center"/>

@@ -131,7 +131,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Template\RCP_StatusTemplate.xaml.cs">
+    <Compile Update="Template\RCPStatusTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
