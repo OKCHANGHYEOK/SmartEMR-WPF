@@ -112,8 +112,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                Margin="{TemplateBinding Margin}">
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}">
 
                             <Grid>
                                 <Xpf:TextEdit   x:Name="PART_TextBox"
@@ -296,6 +295,8 @@
     </Style>
 
     <Style TargetType="{x:Type Xpf:FloatPanel}">
+        <Setter Property="FocusManager.IsFocusScope" Value="True"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Width" Value="{Binding Content.ViewSize.Width, RelativeSource={RelativeSource Self}}"/>

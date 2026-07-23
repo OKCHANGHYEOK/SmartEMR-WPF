@@ -121,7 +121,7 @@ public partial class UIManager
     {
         get
         {
-            if (_activeViews.Any(v => v.IsPopupView))
+            if (_activePopups.Any())
             {
                 return _activeViews.LastOrDefault(v => v.IsPopupView);
             }
@@ -148,6 +148,8 @@ public partial class UIManager
             return (RootView as vLayout)?.MainContent as ViewLayout;
         }
     }
+
+    public bool HasPopup => _activePopups.Any();
 
     public void RegisterView(ViewLayout view)
     {
