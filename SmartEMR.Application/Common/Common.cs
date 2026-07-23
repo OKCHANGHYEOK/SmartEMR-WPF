@@ -177,7 +177,7 @@ public class Common
         return arrBirth.AsEnumerable();
     }
 
-    internal IEnumerable<object> GetTimesByInterval(int interval)
+    public IEnumerable<object> GetTimesByInterval(int interval)
     {
         List<object> times = new();
 
@@ -197,6 +197,14 @@ public class Common
         }
 
         return times.AsEnumerable();
+    }
+
+    public string GetRoundUpTimeByInterval(DateTime dt, int interval)
+    {
+        int minutes = interval - dt.Minute % interval;
+        DateTime newDT = dt.AddMinutes(minutes);
+
+        return newDT.ToString("HH:mm");
     }
 
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)

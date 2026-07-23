@@ -430,7 +430,7 @@
 
     <Style TargetType="Xpf:TextLink">
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Background" Value="#4A90E2"/>
+        <Setter Property="Foreground" Value="#4A90E2"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Opacity" Value="1"/>
 

@@ -4,8 +4,6 @@ namespace SmartEMR.Application.ViewModels;
 
 public class ReservationViewModel : BaseViewModel<Reservation>
 {
-    public Patient SelectedPatient { get; set; } = new();
-
     public override void Initialize()
     {
     }

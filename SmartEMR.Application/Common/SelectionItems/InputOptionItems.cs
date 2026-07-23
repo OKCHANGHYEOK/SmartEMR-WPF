@@ -13,11 +13,11 @@ public class InputOptionItems
     public static IEnumerable<MemberUser> Docters => SmartMVVM.Master.GetMemberUsers("DOC", true, "의사선택");
     public static IEnumerable<MemberUser> Staffs => SmartMVVM.Master.GetMemberUsers("STF", true, "직원선택");
 
-    public static IEnumerable<CommonCode> Subjects => SmartMVVM.Common.GetCommonCode("", "Subject");
-    public static IEnumerable<CommonCode> VisitTypes => SmartMVVM.Common.GetCommonCode("", "VisitType");
-    public static IEnumerable<CommonCode> RouteTypes => SmartMVVM.Common.GetCommonCode("", "Route");
+    public static IEnumerable<CommonCode> Subjects => SmartMVVM.Common.GetCommonCode("", "Subject").DistinctBy(x => x.CCI_Cd);
+    public static IEnumerable<CommonCode> VisitTypes => SmartMVVM.Common.GetCommonCode("", "VisitType").DistinctBy(x => x.CCI_Cd);
+    public static IEnumerable<CommonCode> RouteTypes => SmartMVVM.Common.GetCommonCode("", "Route").DistinctBy(x => x.CCI_Cd);
 
-    public static IEnumerable<object> ReservationTimes => SmartMVVM.Common.GetTimesByInterval(30);
+    public static IEnumerable<object> ReservationTimes => SmartMVVM.Common.GetTimesByInterval(SmartMVVM.AppSession.ReservationTimeInterval);
 
     public static IEnumerable<CommonCode> InsuranceTypes => SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType");
 

@@ -1,5 +1,5 @@
 ﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRRES.vSmartEMRRESInfo"
-                        x:TypeArguments="vm:ReservationViewModel"
+                        x:TypeArguments="vm:ReservationInfoViewModel"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,7 +18,7 @@
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         mc:Ignorable="d" 
                         d:DesignHeight="600" d:DesignWidth="500"
-                        ViewSize="600,700">
+                        ViewSize="580,650">
 
     <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Vertical">
@@ -30,7 +30,13 @@
                                    ColumnSizeDefinitions="Auto,*"
                                    VerticalContentAlignment="Center"
                                    Margin="0,0,0,2">
-                        <Xpf:CheckEdit Grid.Column="0" Content="신환예약" FontWeight="SemiBold" Margin="2,0,2,0"/>
+                        
+                        <Xpf:CheckEdit x:Name="chkIsNewPAT"
+                                       Grid.Column="0" 
+                                       Content="신환예약" 
+                                       FontWeight="SemiBold" 
+                                       Margin="2,0,2,0" 
+                                       EditValueChanged="OnEditValueChanged_CheckEdit"/>
                         <Xpf:SearchPanel Grid.Column="1" NullText="환자명/차트번호로 검색하세요." Margin="2,0,2,0"/>
                     </Xpf:StyleGrid>
 
@@ -140,7 +146,7 @@
                                      Grid.ColumnSpan="2"
                                      Grid.Row="2"
                                      MaskText="환자 선택시 표시됩니다."
-                                     Visibility="Collapsed"
+                                     Visibility="{Binding Model.PAT_Idx, Converter={converter:IntToVisibilityConverter invert=True}}"
                                      ShowButton="False"/>
                 </Xpf:StyleGrid>
             </Xpf:LayoutPanel>
@@ -173,21 +179,22 @@
                     <Xpf:BindGrid LayoutDefinitions="2,7"
                                   BindStyle="DataCell"
                                   ItemSpace="2">
-                        
-                        <Xpf:BindItem FieldName="RES_ReservationDate"
-                                      Header="예 약 일 자"
-                                      BindType="DateEdit"
-                                      Col="0"
-                                      Row="0"/>
 
-                        <Xpf:BindItem FieldName="RES_ReservationTime"
-                                      Header="예 약 시 간"
-                                      BindType="ComboBox"
-                                      Col="1"
-                                      Row="0"
-                                      ItemsSource="{x:Static selections:InputOptionItems.ReservationTimes}"
-                                      DisplayMember="attrName"
-                                      ValueMember="attrValue"/>
+                        <x:Array Type="{x:Type Xpf:BindItem}">
+                            <Xpf:BindItem   FieldName="RES_ReservationDate"
+                                            Header="예 약 일 시"
+                                            BindType="DateEdit"
+                                            Col="0"
+                                            ColSpan="2"
+                                            Row="0"/>
+
+                            <Xpf:BindItem   FieldName="RES_ReservationTime"
+                                            BindType="ComboBox"
+                                            Width="100"
+                                            ItemsSource="{x:Static selections:InputOptionItems.ReservationTimes}"
+                                            DisplayMember="attrName"
+                                            ValueMember="attrValue"/>
+                        </x:Array>
 
                         <x:Array Type="{x:Type Xpf:BindItem}">
                             <Xpf:BindItem   FieldName="RES_Subject"
@@ -205,7 +212,6 @@
                                           Width="100"
                                           FontSize="12"
                                           Placeholder="직접입력"
-                                          Margin="1"
                                           IsEnabled="False"/>
                         </x:Array>
 
@@ -233,8 +239,8 @@
                                         Col="0"
                                         Row="3"
                                         ItemsSource="{x:Static selections:InputOptionItems.RouteTypes}"
-                                        DisplayMember="CCI_Cd"
-                                        ValueMember="CCI_Name"/>
+                                        DisplayMember="CCI_Name"
+                                        ValueMember="CCI_Cd"/>
 
                         <Xpf:BindItem   FieldName="RES_Memo"
                                         Header="예 약 메 모"
@@ -244,6 +250,7 @@
                                         Row="4"
                                         RowSpan="3"
                                         Margin="1"
+                                        ContentAlignment="LeftTop"
                                         IsBottomLine="False"/>
                     </Xpf:BindGrid>
                 </Xpf:LayoutPanel>

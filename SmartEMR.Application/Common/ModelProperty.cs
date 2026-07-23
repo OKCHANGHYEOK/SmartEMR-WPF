@@ -150,6 +150,38 @@ public class ModelProperty
 
     #endregion
 
+    #region "Reservation"
+
+    public void SetReservationData(Reservation oldItem, Reservation newItem)
+    {
+        oldItem.RES_Idx = newItem.RES_Idx;
+        oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC;
+        oldItem.MUR_Idx_STF = newItem.MUR_Idx_STF;
+        oldItem.RES_Status = newItem.RES_Status;
+        oldItem.RES_Route = newItem.RES_Route;
+        oldItem.RES_Subject = newItem.RES_Subject;
+        oldItem.RES_SubjectName = newItem.RES_SubjectName;
+        oldItem.RES_ReservationDate = newItem.RES_ReservationDate;
+        oldItem.RES_ReservationTime = newItem.RES_ReservationTime;
+        oldItem.RES_Memo = newItem.RES_Memo;
+    }
+
+    public void ClearRESData(Reservation item, bool isNewRES = false)
+    {
+        item.RES_Idx = isNewRES ? 0 : item.RES_Idx;
+        item.MUR_Idx_DOC = 0;
+        item.MUR_Idx_STF = 0;
+        item.RES_Status = "RDY";
+        item.RES_Route = "DSK";
+        item.RES_Subject = "GNR";
+        item.RES_SubjectName = "";
+        item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
+        item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
+        item.RES_Memo = "";
+    }
+
+    #endregion
+
     #region "Reception"
 
     public Reception GetReceptionDataForSave(Reception RCPItem, Insurance IRCItem)
