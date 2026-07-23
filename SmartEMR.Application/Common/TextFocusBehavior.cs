@@ -37,6 +37,11 @@ public class TextFocusBehavior
                         stb.Focus();
                         return;
                     }
+                    else if (child is TextEdit textEdit && !textEdit.IsReadOnly)
+                    {
+                        textEdit.Focus();
+                        return;
+                    }
 
                     queue.Enqueue(child);
                 }

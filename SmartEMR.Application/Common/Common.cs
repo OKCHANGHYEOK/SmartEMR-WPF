@@ -1,10 +1,12 @@
 ﻿using SmartEMR.Application.Common.Converter.Base;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Globalization;
 using System.IO;
+using System.Timers;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -189,7 +191,7 @@ public class Common
             for (int j = 0; j < 60; j += interval)
             {
                 string strMM = j.ToString().PadLeft(2, '0');
-                string attrValue = strHH + ":" + strMM;
+                string attrValue = i.ToString().PadLeft(2, '0') + ":" + strMM;
                 string attrName = strAMPM + " " + attrValue;
 
                 times.Add(new { attrName, attrValue });
@@ -205,6 +207,28 @@ public class Common
         DateTime newDT = dt.AddMinutes(minutes);
 
         return newDT.ToString("HH:mm");
+    }
+
+    public List<ReservationSlot>? GetReservationSlots(int interval = 30)
+    {
+        List<ReservationSlot> slots = new();
+
+        for (int i = 0; i < 24; i++)
+        {
+            string strAMPM = i < 12 ? "오전" : "오후";
+            string strHH = (i % 12).ToString().PadLeft(2, '0');
+
+            for (int j = 0; j < 60; j += interval)
+            {
+                string strMM = j.ToString().PadLeft(2, '0');
+                string actualValue = i.ToString().PadLeft(2, '0') + ":" + strMM;
+                string displayValue = strAMPM + " " + actualValue;
+
+                slots.Add(new ReservationSlot { RES_Time = actualValue, vRES_Time = displayValue});
+            }
+        }
+
+        return slots;
     }
 
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)

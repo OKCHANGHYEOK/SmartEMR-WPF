@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
@@ -12,6 +13,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
 
     [ObservableProperty]
     private List<Patient> patients = default!;
+    [ObservableProperty]
+    private List<ReservationSlot>? reservations = null;
 
     public override async Task InitializeAsync()
     {
@@ -38,6 +41,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
 
             SmartMVVM.ModelProperty.SetReservationData(Model, retRES);
         }
+
+        await UpdateReservations();
     }
 
     protected override Reservation GetModel(Reservation item)
@@ -52,6 +57,43 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         item.PageSize = 10;
 
         return item;
+    }
+
+    public async Task UpdateReservations()
+    {
+        if (Reservations is null)
+        {
+           Reservations = SmartMVVM.Common.GetReservationSlots();
+        }
+
+        if (Reservations is null) return;
+
+        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_YYMMDD = Model.RES_YYMMDD });
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("예약현황 조회에 실패했습니다.", NotificationType.Error);
+            return;
+        }
+        
+        foreach (var slot in Reservations)
+        {
+            slot.RESItem = ret.FirstOrDefault(x => x.RES_ReservationTime == slot.RES_Time);
+            slot.IsReserved = slot.RESItem is not null;
+        }
+
+        await SmartUI.SendMessage("SetSelectedSlot", new Reservation { RES_ReservationTime = Model.RES_ReservationTime });
+    }
+
+    public void UpdateSelectedSlot(ReservationSlot selectedSlot)
+    {
+        if (Reservations is null) return;
+
+        foreach (var slot in Reservations)
+        {
+            slot.IsSelected = (slot == selectedSlot);
+        }
+
+        Model.RES_ReservationTime = selectedSlot.RES_Time;
     }
 
     public void ClearData(bool isClearPAT, bool isClearRES)
