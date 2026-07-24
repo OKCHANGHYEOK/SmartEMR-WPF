@@ -1,20 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
 public partial class ReservationInfoViewModel : ReservationViewModel
 {
     public Patient SelectedPatient { get; set; } = new();
+    public Patient InputPatient { get; set; } = new();
 
     [ObservableProperty]
     private List<Patient> patients = default!;
     [ObservableProperty]
     private List<ReservationSlot>? reservations = null;
+    [ObservableProperty]
+    private bool isNewPatient = true;
 
     public override async Task InitializeAsync()
     {
@@ -43,6 +48,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         }
 
         await UpdateReservations();
+
+        SmartMVVM.ModelProperty.SetDefaultPatientData(InputPatient);
     }
 
     protected override Reservation GetModel(Reservation item)
@@ -96,10 +103,57 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         Model.RES_ReservationTime = selectedSlot.RES_Time;
     }
 
-    public void ClearData(bool isClearPAT, bool isClearRES)
+    public void UpdateInputPatientByRegisterNum1(bool isUpdatedRegNo1)
+    {   
+        if (!isUpdatedRegNo1)
+        {
+            InputPatient.PAT_Sex = "N";
+            InputPatient.PAT_BirthDate = "";
+        }
+    }
+
+    public void UpdateInputPatientByRegisterNum2(string? PAT_RegisterNum2)
+    {
+        if (!string.IsNullOrWhiteSpace(PAT_RegisterNum2))
+        {
+            var firstChar = PAT_RegisterNum2[0];
+            var century = firstChar switch
+            {
+                '1' or '2' => "19",
+                '3' or '4' => "20",
+                _ => ""
+            };
+
+            var gender = firstChar switch
+            {
+                '1' or '3' => "M",
+                '2' or '4' => "F",
+                _ => ""
+            };
+
+            if (!string.IsNullOrWhiteSpace(century))
+            {
+                InputPatient.PAT_BirthDate = century + InputPatient.PAT_RegisterNum1;
+            }
+
+            if (!string.IsNullOrWhiteSpace(gender))
+            {
+                InputPatient.PAT_Sex = gender;
+            }
+        }
+        else
+        {
+            InputPatient.PAT_BirthDate = "";
+            InputPatient.PAT_Sex = "N";
+        }
+    }
+
+    public bool ClearData(bool isClearPAT, bool isClearRES)
     {
         if (isClearPAT)
         {
+            if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) == 0 || SmartUI.MsgYesNo("신환예약 등록으로 변경하시겠습니까?") is MessageBoxResult.Yes) return false;
+
             SmartMVVM.ModelProperty.ClearPATData(SelectedPatient);
         }
 
@@ -107,6 +161,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         {
             SmartMVVM.ModelProperty.ClearRESData(Model);
         }
+
+        return true;
     }
 
     [RelayCommand]
@@ -134,5 +190,109 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     public async Task Reset()
     {
         Model.Keyword = "";
+    }
+
+    [RelayCommand]
+    public async Task SetReservation(SaveMode operation)
+    {
+        bool isNew = Model.RES_Idx.GetValueOrDefault(0) == 0;
+        string actionName = operation switch
+        {
+            SaveMode.SAVE => isNew ? "등록" : "수정",
+            SaveMode.DELETE => "삭제",
+            _ => ""
+        };
+
+        if (operation == SaveMode.DELETE)
+        {
+            if (!await DeleteReservationAsync()) return;
+        }
+        else
+        {
+            if (IsNewPatient) // 신환예약인 경우 환자정보 유효성 체크
+            {
+                if (!ValidatePatientData()) return;
+            }
+            else if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) == 0)  // 기존환자 예약인 경우 선택된 환자 있는지 체크
+            {
+                SmartUI.SetNofification("선택된 환자가 없습니다. 신환예약 또는 환자선택후 다시 시도해주세요.", NotificationType.Warning);
+                return;
+            }
+
+            Reservation? item = null;
+
+            if (IsNewPatient)
+            {
+                item = SmartMVVM.ModelProperty.GetReservationDataForSave(Model, InputPatient);
+            }
+            else
+            {
+                item = SmartMVVM.ModelProperty.GetReservationDataForSave(Model);
+            }
+
+            var retRES = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservation, item);
+        
+            if (retRES is null || !SmartMVVM.DataStore.retIsSuccess)
+            {
+                SmartUI.SetNofification("예약 저장에 실패했습니다.", NotificationType.Error);
+                return;
+            }
+        }
+
+        await NotifyCompletedTaskAsync(operation);
+
+        SmartUI.SetNofification($"예약{actionName}되었습니다.", NotificationType.Success);
+    }
+
+    protected override async Task NotifyCompletedTaskAsync(SaveMode operation)
+    {
+        await SmartUI.SendMessage("CloseView");
+        await SmartUI.SendMessage("RefreshRCB", viewType: TargetViewType.PageView);
+    }
+
+    private bool ValidatePatientData()
+    {
+        List<string[]> missingFields = new List<string[]>();
+        List<string[]> uncorrectFields = new List<string[]>();
+
+        if (string.IsNullOrWhiteSpace(InputPatient.PAT_Name))
+        {
+            missingFields.Add(["PAT_Name", "성명"]);
+        }
+
+        if (string.IsNullOrWhiteSpace(InputPatient.PAT_RegisterNum1))
+        {
+            missingFields.Add(["PAT_RegisterNum1", "주민번호앞자리"]);
+        }
+
+        if (string.IsNullOrWhiteSpace(InputPatient.PAT_RegisterNum2))
+        {
+            missingFields.Add(["PAT_RegisterNum2", "주민번호뒷자리"]);
+        }
+
+        if (missingFields.Any())
+        {
+            var message = "아래 항목들을 입력해주세요.\n- ";
+            message += string.Join(", ", missingFields.Select(field => field[1]));
+
+            SmartUI.SetNofification(message, NotificationType.Warning);
+
+            TextFocusBehavior.SetFocusByName(missingFields[0][0]);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private async Task<bool> DeleteReservationAsync()
+    {
+        if (SmartUI.MsgYesNo("예약 삭제하시겠습니까?") is not System.Windows.MessageBoxResult.Yes) return false;
+
+        await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_Idx = Model.RES_Idx, RES_IsValid = false });
+
+        if (!SmartMVVM.DataStore.retIsSuccess) return false;
+
+        return true;
     }
 }

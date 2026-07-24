@@ -66,9 +66,9 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
             case "SetReception":
                 {
-                    var parameter = (OperationType?)request.MessageParameter;
+                    var parameter = (SaveMode?)request.MessageParameter;
 
-                    if (parameter is OperationType operation)
+                    if (parameter is SaveMode operation)
                     {
                         await vm.SaveDataAsync(operation);
                     }
@@ -128,8 +128,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     break;
                 }
 
-            case "RefreshRCP":
-                SmartEMRDeskRCP.RefreshData();
+            case "RefreshRCB":
+                SmartEMRDeskRCB.RefreshData();
                 break;
 
             case "ClearPAT":

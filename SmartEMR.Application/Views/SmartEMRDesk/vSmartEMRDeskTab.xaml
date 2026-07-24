@@ -34,7 +34,7 @@
             </dxd:LayoutGroup>
             <dxd:LayoutGroup Orientation="Vertical">
                 <Xpf:LayoutPanel ItemHeight="*" Caption="접수현황">
-                    <view:vSmartEMRDeskRCB x:Name="SmartEMRDeskRCP"/>
+                    <view:vSmartEMRDeskRCB x:Name="SmartEMRDeskRCB"/>
                 </Xpf:LayoutPanel>
                 <Xpf:LayoutPanel ItemHeight="0.3*" Caption="수납현황">
                     <view:vSmartEMRDeskPAY x:Name="SmartEMRDeskIRC"/>

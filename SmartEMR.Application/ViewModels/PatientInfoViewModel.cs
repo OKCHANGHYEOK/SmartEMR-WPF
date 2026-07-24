@@ -33,29 +33,23 @@ public partial class PatientInfoViewModel : PatientViewModel
 
     protected override Patient GetModel(Patient item)
     {
-        item.PAT_Sex = "N";
-        item.PAT_SourceType = "WRK";
-        item.PAT_IsSolar = "y";
-        item.PAT_IsForegin = "n";
-        item.PAT_IsAgreePersonalInfo = "n";
-        item.PAT_IsSMS = "n";
-
+        SmartMVVM.ModelProperty.SetDefaultPatientData(item);
         return item;
     }
 
     [RelayCommand]
-    public async Task SetPatient(OperationType operation)
+    public async Task SetPatient(SaveMode operation)
     {
         bool isNew = Model.PAT_Idx.GetValueOrDefault(0) == 0;
 
         string actionName = operation switch
         {
-            OperationType.SAVE => isNew ? "등록" : "수정",
-            OperationType.DELETE => "삭제",
+            SaveMode.SAVE => isNew ? "등록" : "수정",
+            SaveMode.DELETE => "삭제",
             _ => ""
         };
 
-        if (operation == OperationType.DELETE)
+        if (operation == SaveMode.DELETE)
         {
             if (!await DeletePatientAsync()) return;
         }
@@ -130,11 +124,11 @@ public partial class PatientInfoViewModel : PatientViewModel
         return true;
     }
 
-    private async Task NotifyCompletedTaskAsync(OperationType operation)
+    protected override async Task NotifyCompletedTaskAsync(SaveMode operation)
     {
         await SmartUI.SendMessage("CloseView");
 
-        if (operation == OperationType.DELETE)
+        if (operation == SaveMode.DELETE)
         {
             await SmartUI.SendMessage("ClearPAT", viewType: TargetViewType.PageView);
             return;

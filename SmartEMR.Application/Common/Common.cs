@@ -30,7 +30,7 @@ public enum eBirthType
     Day
 }
 
-public enum OperationType
+public enum SaveMode
 {
     SAVE,
     DELETE

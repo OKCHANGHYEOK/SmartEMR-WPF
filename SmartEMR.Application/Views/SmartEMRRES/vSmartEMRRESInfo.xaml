@@ -11,6 +11,7 @@
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:resources="clr-namespace:SmartEMR.Application.Resources"
+                        xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         xmlns:template="clr-namespace:SmartEMR.Application.Template"
                         xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
@@ -19,25 +20,27 @@
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         mc:Ignorable="d" 
                         d:DesignHeight="600" d:DesignWidth="500"
-                        ViewSize="580,650">
+                        ViewSize="580,800">
 
     <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Vertical">
-            <Xpf:LayoutPanel ItemHeight="0.7*">
+            <Xpf:LayoutPanel>
                 <Xpf:StyleGrid  LayoutDefinitions="1,3"
                                 RowSizeDefinitions="Auto,Auto,*">
 
-                    <Xpf:StyleGrid LayoutDefinitions="2,1"
-                                   ColumnSizeDefinitions="Auto,*"
-                                   VerticalContentAlignment="Center"
-                                   Margin="0,0,0,2">
+                    <Xpf:StyleGrid  x:Name="SearchGrid"
+                                    LayoutDefinitions="2,1"
+                                    ColumnSizeDefinitions="Auto,*"
+                                    VerticalContentAlignment="Center"
+                                    Margin="0,0,0,2">
                         
                         <Xpf:CheckEdit x:Name="chkIsNewPAT"
                                        Grid.Column="0" 
                                        Content="신환예약" 
                                        FontWeight="SemiBold" 
                                        Margin="2,0,2,0" 
-                                       EditValueChanged="OnEditValueChanged_CheckEdit"/>
+                                       IsChecked="{Binding IsNewPatient}"
+                                       EditValueChanging="OnEditValueChanging_CheckEdit"/>
                         <Xpf:SearchPanel Grid.Column="1" NullText="환자명/차트번호로 검색하세요." Margin="2,0,2,0"/>
                     </Xpf:StyleGrid>
 
@@ -50,105 +53,19 @@
                             Background="{x:Static resources:SmartBrush.SMART_BRUSH_SECTION_BACKGROUND}"
                             Margin="0,2,0,2"/>
 
-                    <Xpf:BindGrid  Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   Grid.Row="2"
-                                   BindStyle="DataCell"
-                                   LayoutDefinitions="6,6"
-                                   DataContext="{Binding SelectedPatient}">
+                    <local:vSmartEMRRESInfo_PatientInfo Grid.Column="0"
+                                                        Grid.ColumnSpan="2"
+                                                        Grid.Row="2"
+                                                        DataContext="{Binding InputPatient}"
+                                                        Visibility="{Binding vm.IsNewPatient, RelativeSource={RelativeSource AncestorType=local:vSmartEMRRESInfo}, Converter={converter:BooleanToVisibilityConverter}}"/>
 
-                        <Xpf:BindItem FieldName="PAT_ImageSource"
-                                      BindType="Image"
-                                      Col="0"
-                                      Row="0"
-                                      ColSpan="2"
-                                      RowSpan="6"
-                                      Margin="2"
-                                      IsHeader="False"
-                                      IsBottomLine="False"/>
+                    <local:vSmartEMRRESInfo_PatientView x:Name="RESInfo_PatientView"
+                                                        Grid.Column="0" 
+                                                        Grid.ColumnSpan="2"
+                                                        Grid.Row="2"
+                                                        DataContext="{Binding SelectedPatient}"
+                                                        Visibility="{Binding vm.IsNewPatient, RelativeSource={RelativeSource AncestorType=local:vSmartEMRRESInfo},Converter={converter:BooleanToVisibilityConverter invert=True}}"/>
 
-                        <Xpf:BindItem FieldName="PAT_ChartNo"
-                                      Header="차 트 번 호"
-                                      BindType="Label"
-                                      Col="2"
-                                      Row="0"
-                                      ColSpan="2"
-                                      FontWeight="Bold"/>
-
-                        <Xpf:BindItem FieldName="PAT_Name"
-                                      Header="성       명"
-                                      Col="4"
-                                      ColSpan="2"
-                                      Row="0">
-
-                            <StackPanel Orientation="Horizontal">
-                                <Xpf:TextLink Text="{Binding PAT_Name}" FontWeight="Bold" Margin="2,0,0,0"/>
-                                <Xpf:TextBlock Margin="2,0,0,0">
-                                    <Run Text="{Binding vPAT_Sex}"/>
-                                    <Run Foreground="Gray">/</Run>
-                                    <Run Text="{Binding PAT_Age}"/>
-                                </Xpf:TextBlock>
-                                <Xpf:Label Content="{Binding vPAT_IsAgreePersonalInfo}" Margin="2,0,0,0"/>
-                            </StackPanel>
-                        </Xpf:BindItem>
-
-                        <Xpf:BindItem   FieldName="PAT_RegisterNum"
-                                        Header="주 민 번 호"
-                                        BindType="Label"
-                                        Col="2"
-                                        ColSpan="2"
-                                        Row="1"/>
-
-                        <Xpf:BindItem   FieldName="PAT_BirthDate"
-                                        Header="생 년 월 일"
-                                        BindType="Label"
-                                        Col="4"
-                                        ColSpan="2"
-                                        Row="1"/>
-
-                        <Xpf:BindItem   FieldName="PAT_PhoneNum"
-                                        BindType="Label"
-                                        Header="전 화 번 호"
-                                        Col="2"
-                                        ColSpan="2"
-                                        Row="2"/>
-
-                        <Xpf:BindItem   FieldName="PAT_Email"
-                                        Header="이 메 일"
-                                        BindType="Label"
-                                        Col="4"
-                                        ColSpan="2"
-                                        Row="2"/>
-
-                        <Xpf:BindItem   FieldName="PAT_FirstVisitDate"
-                                        Header="최 초 내 원"
-                                        BindType="Label"
-                                        Col="2"
-                                        ColSpan="2"
-                                        Row="3"/>
-
-                        <Xpf:BindItem   FieldName="PAT_LastVisitDate"
-                                        Header="최 종 내 원"
-                                        BindType="Label"
-                                        Col="4"
-                                        ColSpan="2"
-                                        Row="3"/>
-
-                        <Xpf:BindItem   FieldName="PAT_Bigo"
-                                        Header="비       고"
-                                        BindType="Label"
-                                        Col="2"
-                                        ColSpan="4"
-                                        Row="4"
-                                        RowSpan="2"
-                                        IsBottomLine="False"/>
-                    </Xpf:BindGrid>
-                    <Xpf:MaskControl Grid.Column="0"
-                                     Grid.ColumnSpan="2"
-                                     Grid.Row="2"
-                                     MaskText="환자 선택시 표시됩니다."
-                                     Visibility="{Binding Model.PAT_Idx, Converter={converter:IntToVisibilityConverter invert=True}}"
-                                     ShowButton="False"/>
                 </Xpf:StyleGrid>
             </Xpf:LayoutPanel>
             
@@ -275,7 +192,9 @@
                                         FontWeight="SemiBold"
                                         Glyph="/Images/smartemr_save.png"
                                         VerticalContentAlignment="Center"
-                                        Margin="0"/>
+                                        Margin="0"
+                                        Command="{Binding SetReservationCommand}"
+                                        CommandParameter="{x:Static common:SaveMode.SAVE}"/>
                 </Xpf:StyleGrid>
             </Xpf:LayoutPanel>
         </dxd:LayoutGroup>

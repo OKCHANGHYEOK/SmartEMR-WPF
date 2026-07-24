@@ -315,3 +315,16 @@ public static partial class SmartUI
         NotificationService.CloseNotification(notiItem);
     }
 }
+
+// 그 외 유틸 함수
+public partial class SmartUI 
+{
+    public static T? FindParent<T>(DependencyObject child) where T : DependencyObject
+    {
+        DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+        if (parentObject == null) return null;
+
+        return parentObject is T parent ? parent : FindParent<T>(parentObject);
+    }
+}

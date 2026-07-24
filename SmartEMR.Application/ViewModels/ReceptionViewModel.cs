@@ -62,22 +62,22 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
     }
 
     [RelayCommand]
-    public async Task SetReception(OperationType operation)
+    public async Task SetReception(SaveMode operation)
     {
        await SaveDataAsync(operation);
     }
 
-    public async Task SaveDataAsync(OperationType operation)
+    public async Task SaveDataAsync(SaveMode operation)
     {
         bool isNew = Model.RCP_Idx.GetValueOrDefault(0) == 0;
         string actionName = operation switch
         {
-            OperationType.SAVE => isNew ? "등록" : "수정",
-            OperationType.DELETE => "취소",
+            SaveMode.SAVE => isNew ? "등록" : "수정",
+            SaveMode.DELETE => "취소",
             _ => ""
         };
 
-        if (operation == OperationType.DELETE)
+        if (operation == SaveMode.DELETE)
         {
             if (!await DeleteDataAsync()) return;
         }
@@ -130,12 +130,12 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
         return true;
     }
 
-    private async Task NotifyCompletedTaskAsync(OperationType operation)
+    protected override async Task NotifyCompletedTaskAsync(SaveMode operation)
     {
         await SmartUI.SendMessage("CloseView");
-        await SmartUI.SendMessage("RefreshRCP", viewType: TargetViewType.PageView);
+        await SmartUI.SendMessage("RefreshRCB", viewType: TargetViewType.PageView);
 
-        if (operation == OperationType.SAVE)
+        if (operation == SaveMode.SAVE)
         {
             await SmartUI.SendMessage("UpdateRCPInfo", RCPItem, viewType: TargetViewType.PageView);
         }

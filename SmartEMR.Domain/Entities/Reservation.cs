@@ -24,6 +24,8 @@ public class Reservation : BaseEntity
     private string? m_RES_YYMMDD;
     private bool? m_RES_IsValid;
 
+    private Patient? m_PATItem;
+
     #region "NotifyPropertyChanged"
 
     public int? RES_Idx
@@ -150,6 +152,12 @@ public class Reservation : BaseEntity
     {
         get => m_RES_IsValid;
         set => SetProperty(ref m_RES_IsValid, value);
+    }
+
+    public Patient? PATItem
+    {
+        get => m_PATItem;
+        set => SetProperty(ref m_PATItem, value);
     }
 
     #endregion

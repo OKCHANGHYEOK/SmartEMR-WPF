@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
@@ -20,6 +21,11 @@ public abstract partial class BaseViewModel : ObservableObject
     }
 
     public virtual Task FetchDataAsync(object parameter)
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task NotifyCompletedTaskAsync(SaveMode operation)
     {
         return Task.CompletedTask;
     }

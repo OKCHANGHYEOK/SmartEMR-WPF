@@ -11,8 +11,11 @@ public class BooleanToVisibilityConverter : BaseConverter
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is bool bFlag == false) return Visibility.Visible;
-
-        bFlag = bFlag && !invert;
+        
+        if (invert)
+        {
+            bFlag = !bFlag;
+        }
 
         return bFlag ? Visibility.Visible : Visibility.Collapsed;
     }

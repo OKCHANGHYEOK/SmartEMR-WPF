@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using DevExpress.Xpf.Editors;
+﻿using DevExpress.Xpf.Editors;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
@@ -13,6 +12,8 @@ namespace SmartEMR.Application.Views.SmartEMRRES;
 /// </summary>
 public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel>
 {
+    private bool _isUpdatedRegNo1 = false;
+
     protected override void Initialize()
     {
         this.ViewTitle = "예약" + (vm.Model.RES_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
@@ -25,17 +26,8 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
 
     protected override void SetBindGrid()
     {
-        var stbRES_Memo = this.BindGrids[1].GetBindItem<StyleTextBox>("RES_Memo");
-        if (stbRES_Memo is not null)
-        {
-            stbRES_Memo.AcceptsReturn = true;
-        }
-
-        var cmbRES_ReservationTime = this.BindGrids[1].GetBindItem<Xpf.ComboBoxEdit>("RES_ReservationTime");
-        if (cmbRES_ReservationTime is not null)
-        {
-            cmbRES_ReservationTime.HorizontalContentAlignment = HorizontalAlignment.Center;
-        }
+        // 뷰 로드시 Collapsed 인 경우 비주얼트리 탐색에 실패해 수동 등록 처리
+        AddBindGrid(RESInfo_PatientView.PatientViewGrid);
     }
 
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -51,28 +43,57 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         var bindGrid = sender as BindGrid;
         if (bindGrid is null || e.BindItem is null) return;
 
-        switch (e.BindItem.FieldName)
+        var bindItem = e.BindItem;
+        var newValue = e.NewValue?.ToString();
+
+        if (bindGrid == this.BindGrids[0])
         {
-            case "RES_ReservationTime":
-                if (e.NewValue is string newValue == false) return;
+            switch (bindItem.FieldName)
+            {
+                case "PAT_RegisterNum1":
+                    if (newValue != null && newValue.Length == 6)
+                    {
+                        _isUpdatedRegNo1 = true;
+                    }
+                    else
+                    {
+                        _isUpdatedRegNo1 = false;
+                    }
 
-                SetSelectedSlot(newValue);
-                break;
+                    vm.UpdateInputPatientByRegisterNum1(_isUpdatedRegNo1);
+
+                    break;
+
+                case "PAT_RegisterNum2":
+                    if (!_isUpdatedRegNo1) return;
+
+                    vm.UpdateInputPatientByRegisterNum2(newValue);
+
+                    break;
+            }
         }
-    }
+        else if (bindGrid == this.BindGrids[1])
+        {
 
-    private void SetSelectedSlot(string? selectedSlot)
-    {
-        if (vm.Reservations is null || string.IsNullOrWhiteSpace(selectedSlot)) return;
-
-        ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RES_Time == selectedSlot);
+        }
+        else if (bindGrid == this.BindGrids[2])
+        {
+            switch (bindItem.FieldName)
+            {
+                case "RES_ReservationTime":
+                    {
+                        SetSelectedSlot(newValue);
+                        break;
+                    }
+            }
+        }
     }
 
     public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
         var response = new ViewMessageResponse { IsSuccess = false };
 
-        switch (request.MessageAction) 
+        switch (request.MessageAction)
         {
             case "SetSelectedSlot":
                 var paramItem = request.MessageParameter as Reservation;
@@ -83,21 +104,36 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
 
             case "SetPatientSearchResult":
                 break;
+
+            case "CloseView":
+                SmartUI.CloseView(TargetViewType.CurrentView);
+                break;
         }
 
 
         return response;
     }
 
-    private void OnEditValueChanged_CheckEdit(object sender, EditValueChangedEventArgs e)
+    private void SetSelectedSlot(string? selectedSlot)
+    {
+        if (vm.Reservations is null || string.IsNullOrWhiteSpace(selectedSlot)) return;
+
+        ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RES_Time == selectedSlot);
+    }
+
+    private void OnEditValueChanging_CheckEdit(object sender, EditValueChangingEventArgs e)
     {
         var element = sender as Xpf.CheckEdit;
         if (element is null) return;
 
         bool isChecked = (bool)e.NewValue;
-        if (isChecked && SmartUI.MsgYesNo("신환예약 등록으로 변경하시겠습니까? 환자정보가 초기화됩니다.") is MessageBoxResult.Yes)
+        if (isChecked)
         {
-            vm.ClearData(true, false);
+            var bFlag = vm.ClearData(true, false);
+            if (!bFlag)
+            {
+                e.IsCancel = true;
+            }
         }
     }
 

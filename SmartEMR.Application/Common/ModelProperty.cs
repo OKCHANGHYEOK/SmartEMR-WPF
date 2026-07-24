@@ -6,6 +6,17 @@ namespace SmartEMR.Application.Common;
 public class ModelProperty
 {
     #region "Patient"
+
+    public void SetDefaultPatientData(Patient item)
+    {
+        item.PAT_Sex = "N";
+        item.PAT_SourceType = "WRK";
+        item.PAT_IsSolar = "y";
+        item.PAT_IsForegin = "n";
+        item.PAT_IsAgreePersonalInfo = "n";
+        item.PAT_IsSMS = "n";
+    }
+
     public Patient GetPatientDataForSave(Patient paramItem)
     {
         var item = new Patient();
@@ -151,6 +162,32 @@ public class ModelProperty
     #endregion
 
     #region "Reservation"
+
+    public Reservation GetReservationDataForSave(Reservation paramItem, Patient? PATItem = null)
+    {
+        Reservation item = new Reservation
+        {
+            RES_Idx = paramItem.RES_Idx,
+            PAT_Idx = paramItem.PAT_Idx,
+            MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
+            MUR_Idx_STF = paramItem.MUR_Idx_STF,
+            RES_Status = paramItem.RES_Status,
+            RES_Route = paramItem.RES_Route,
+            RES_Subject = paramItem.RES_Subject,
+            RES_SubjectName = paramItem.RES_SubjectName,
+            RES_ReservationDate = paramItem.RES_ReservationDate,
+            RES_ReservationTime = paramItem.RES_ReservationTime,
+            RES_Memo = paramItem.RES_Memo,
+            RES_IsValid = true
+        };
+
+        if (PATItem is not null)
+        {
+            item.PATItem = GetPatientDataForSave(PATItem);
+        }
+
+        return item;
+    }
 
     public void SetReservationData(Reservation oldItem, Reservation newItem)
     {
