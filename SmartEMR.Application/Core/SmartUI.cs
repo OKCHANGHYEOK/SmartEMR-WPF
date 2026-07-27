@@ -180,11 +180,6 @@ public static partial class SmartUI
         vl.IsPopupView = true;
 
         UIManager.AddFloatPanel(new FloatPanel { Content = vl });
-
-        BeginInvoke(() =>
-        {
-            TextFocusBehavior.SetFocusToFirstTextElement(vl);
-        }, DispatcherPriority.Background);
     }
 }
 

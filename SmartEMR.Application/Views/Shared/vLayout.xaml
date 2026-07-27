@@ -11,6 +11,7 @@
                    xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                    xmlns:shared="clr-namespace:SmartEMR.Application.Views.Shared"
                    xmlns:core="clr-namespace:SmartEMR.Application.Core"
+                   xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"

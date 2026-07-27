@@ -41,6 +41,9 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid
         this.Loaded += (s, e) => ((IViewLayout)this).RefreshViewData(parameter);
     }
 
+    public virtual void RefreshViewData(object? parameter = null) { }
+    public virtual bool ClosingFloatPanel() { return true; }
+
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
 
     private void OnPreviewKeyDown_ViewLayout(object sender, KeyEventArgs e)

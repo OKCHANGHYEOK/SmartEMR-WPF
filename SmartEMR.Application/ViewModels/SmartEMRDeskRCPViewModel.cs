@@ -38,7 +38,7 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         return item;
     }
 
-    public override async Task FetchDataAsync()
+    public override async Task<bool> FetchDataAsync()
     {
         var getRCB = new ReceptionBoard
         {
@@ -68,10 +68,12 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
             SmartMVVM.ProcessorProvider.ReceptionBoardProcessor.Process(retRCB);
 
             arrRCB = retRCB.ToList();
+            return true;
         }
         else
         {
             arrRCB = new List<ReceptionBoard>();
+            return false;
         }
     }
 
@@ -107,7 +109,11 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
             return;
         }
 
-        await FetchDataAsync();
+        bool hasResult = await FetchDataAsync();
+        if (!hasResult)
+        {
+            SmartUI.SetNofification("조회된 결과가 없습니다.", NotificationType.Info);
+        }
     }
 
     [RelayCommand]

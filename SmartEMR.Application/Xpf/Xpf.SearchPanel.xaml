@@ -12,6 +12,7 @@
                     ColumnSizeDefinitions="*,2,Auto,2,Auto">
 
         <Xpf:SearchEdit Grid.Column="0"
+                        x:Name="SearchEdit"
                         MinHeight="23"
                         Height="23"
                         EditValue="{Binding Model.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

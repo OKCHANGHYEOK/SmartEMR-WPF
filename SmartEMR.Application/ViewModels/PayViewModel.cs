@@ -18,9 +18,9 @@ public partial class PayViewModel : BaseViewModel<Pay>
         return item;
     }
 
-    public override async Task FetchDataAsync()
+    public override async Task<bool> FetchDataAsync()
     {
-        // 추후 수납 조회 로직 구현
+        return true;
     }
 
     [RelayCommand]

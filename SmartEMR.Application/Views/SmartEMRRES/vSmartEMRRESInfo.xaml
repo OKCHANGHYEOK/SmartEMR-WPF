@@ -30,18 +30,185 @@
 
                     <Xpf:StyleGrid  x:Name="SearchGrid"
                                     LayoutDefinitions="2,1"
-                                    ColumnSizeDefinitions="Auto,*"
+                                    ColumnSizeDefinitions="Auto,1*"
                                     VerticalContentAlignment="Center"
                                     Margin="0,0,0,2">
-                        
+
                         <Xpf:CheckEdit x:Name="chkIsNewPAT"
                                        Grid.Column="0" 
-                                       Content="신환예약" 
                                        FontWeight="SemiBold" 
                                        Margin="2,0,2,0" 
+                                       HorizontalAlignment="Left"
                                        IsChecked="{Binding IsNewPatient}"
-                                       EditValueChanging="OnEditValueChanging_CheckEdit"/>
-                        <Xpf:SearchPanel Grid.Column="1" NullText="환자명/차트번호로 검색하세요." Margin="2,0,2,0"/>
+                                       EditValueChanging="OnEditValueChanging_CheckEdit">
+
+                            <Xpf:TextBlock>
+                                <Run>신환예약 </Run>
+                                <Run Foreground="DimGray">( 신규환자 예약시 체크 )</Run>
+                            </Xpf:TextBlock>
+                        </Xpf:CheckEdit>
+
+                        <Xpf:SearchPanel Grid.Column="1" 
+                                         x:Name="SearchPanel"
+                                         NullText="환자명/차트번호로 검색하세요." 
+                                         SearchCommand="{Binding SearchCommand}"
+                                         Margin="4,0,2,0"
+                                         PreviewKeyDown="OnPreviewKeyDown_SearchPanel"/>
+
+                        <Popup  x:Name="PatientPopup"
+                                PlacementTarget="{Binding txtSearch, ElementName=SearchPanel}"
+                                Placement="Bottom"
+                                IsOpen="{Binding IsPopupOpen, RelativeSource={RelativeSource AncestorType=local:vSmartEMRRESInfo}}"
+                                StaysOpen="False"
+                                AllowsTransparency="True"
+                                PopupAnimation="Fade"
+                                Width="{Binding txtSearch.ActualWidth, ElementName=SearchPanel}"
+                                MinHeight="400"
+                                PreviewKeyDown="OnPreviewKeyDown_Popup"
+                                Closed="OnClosed_Popup">
+
+                            <Border Background="#F0F8FF" 
+                                    BorderBrush="LightBlue"
+                                    BorderThickness="1,0,1,1"
+                                    Margin="0,4,0,0">
+                                
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="10" 
+                                      Color="DimGray" 
+                                      Opacity="0.1"
+                                      ShadowDepth="3"/>
+                                </Border.Effect>
+
+
+                                <dxe:ListBoxEdit x:Name="PatientListBox"
+                                                 ItemsSource="{Binding Patients}"
+                                                 BorderThickness="0"
+                                                 Background="Transparent"
+                                                 PreviewKeyDown="OnPreviewKeyDown_ListBoxEdit"
+                                                 PreviewMouseLeftButtonUp="OnPreviewMouseLeftButtonUp_ListBoxEdit">
+
+                                    <dxe:ListBoxEdit.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </dxe:ListBoxEdit.ItemContainerStyle>
+
+                                    <dxe:ListBoxEdit.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="GhostWhite"
+                                                    BorderBrush="DarkSlateGray"
+                                                    BorderThickness="1"
+                                                    Margin="2"
+                                                    Width="295"
+                                                    Height="80">
+
+                                                <Xpf:StyleGrid  LayoutDefinitions="3,1"
+                                                                ColumnSizeDefinitions="Auto,Auto,*">
+
+                                                    <Border x:Name="PART_PATIMAGEBORDER"
+                                                            Grid.Column="0"
+                                                            Grid.Row="0"
+                                                            BorderBrush="Black"
+                                                            BorderThickness="1"
+                                                            Width="60"
+                                                            Margin="2">
+
+                                                        <Xpf:Image  x:Name="PART_PATIMAGE"
+                                                                    Stretch="UniformToFill" 
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center"
+                                                                    Source="{Binding PAT_ImageSource}"/>
+                                                    </Border>
+
+                                                    <Border x:Name="SplitBorder"
+                                                            Grid.Column="1"
+                                                            Grid.Row="0"
+                                                            Width="1"
+                                                            Margin="2"
+                                                            Background="Gray"/>
+
+                                                    <Xpf:StyleGrid  LayoutDefinitions="1,3"
+                                                                    Grid.Column="2"
+                                                                    Grid.Row="0"
+                                                                    HorizontalAlignment="Stretch"
+                                                                    Margin="2">
+
+                                                        <StackPanel Grid.Column="0"
+                                                                    Grid.Row="0"
+                                                                    Orientation="Horizontal"
+                                                                    VerticalAlignment="Center"
+                                                                    Margin="3,0,3,0">
+
+                                                            <Xpf:TextBlock  x:Name="txtPAT_ChartNo"
+                                                                            FontSize="12"
+                                                                            FontWeight="Bold"
+                                                                            Foreground="DarkSlateGray">
+                                                                
+                                                                <Run Text="No."/>
+                                                                <Run Text="{Binding PAT_ChartNo}"/>
+                                                            </Xpf:TextBlock>
+
+                                                            <Xpf:Spliter/>
+
+                                                            <Xpf:TextBlock  x:Name="txtPAT_Name"
+                                                                            FontSize="11"
+                                                                            Text="{Binding PAT_Name}"
+                                                                            Margin="2,0,0,0"/>
+
+                                                            <Xpf:Spliter/>
+
+                                                            <Xpf:TextBlock  x:Name="txtvPAT_Info"
+                                                                            FontSize="11"
+                                                                            Text="{Binding vPAT_Info}"
+                                                                            Foreground="DimGray"
+                                                                            Margin="2,0,0,0"/>
+                                                        </StackPanel>
+
+                                                        <StackPanel Grid.Column="0"
+                                                                    Grid.Row="1"
+                                                                    Orientation="Horizontal"
+                                                                    VerticalAlignment="Stretch"
+                                                                    Margin="3,0,3,0">
+
+                                                            <Xpf:TextBlock  x:Name="txtPAT_PhoneNum"
+                                                                            FontSize="11"
+                                                                            Text="{Binding PAT_PhoneNum}"
+                                                                            VerticalAlignment="Center"/>
+
+                                                            <Xpf:Spliter/>
+
+                                                            <Xpf:TextBlock  x:Name="txtPAT_Address1"
+                                                                            FontSize="11"
+                                                                            Text="{Binding vPAT_Address}"
+                                                                            TextTrimming="CharacterEllipsis"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"/>
+                                                        </StackPanel>
+
+                                                        <StackPanel Grid.Column="0"
+                                                                    Grid.Row="2"
+                                                                    Orientation="Horizontal"
+                                                                    VerticalAlignment="Stretch">
+
+                                                            <Xpf:TextBlock  Text="{Binding PAT_Bigo}"
+                                                                            TextTrimming="CharacterEllipsis"
+                                                                            Foreground="DimGray"
+                                                                            FontSize="10"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"
+                                                                            Margin="3,0,3,0"/>
+                                                        </StackPanel>
+                                                    </Xpf:StyleGrid>
+                                                </Xpf:StyleGrid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </dxe:ListBoxEdit.ItemTemplate>
+                                </dxe:ListBoxEdit>
+                            </Border>
+                        </Popup>
                     </Xpf:StyleGrid>
 
                     <Border Grid.Column="0" 

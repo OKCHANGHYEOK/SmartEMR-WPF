@@ -5,6 +5,7 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;

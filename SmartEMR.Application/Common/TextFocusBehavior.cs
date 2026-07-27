@@ -9,42 +9,39 @@ namespace SmartEMR.Application.Common;
 
 public class TextFocusBehavior
 {
-    public static void SetFocusToFirstTextElement(ViewLayout viewLayout)
+    public static void SetFocusToFirstTextElement(FloatPanel floatPanel)
     {
-        // 팝업뷰인 경우 입력 가능한 요소중 첫번째 요소를 찾아 포커스
+        // 팝업에서 입력 가능한 요소중 첫번째 요소를 찾아 포커스
         // isReadOnly = true 인 요소는 건너뜀
-        if (viewLayout.IsPopupView)
+        var queue = new Queue<DependencyObject>();
+        queue.Enqueue(floatPanel);
+
+        while (queue.Count > 0)
         {
-            var queue = new Queue<DependencyObject>();
-            queue.Enqueue(viewLayout);
+            var current = queue.Dequeue();
+            int count = VisualTreeHelper.GetChildrenCount(current);
 
-            while (queue.Count > 0)
+            for (int i = 0; i < count; i++)
             {
-                var current = queue.Dequeue();
-                int count = VisualTreeHelper.GetChildrenCount(current);
+                var child = VisualTreeHelper.GetChild(current, i);
 
-                for (int i = 0; i < count; i++)
+                if (child is TextBox textBox && !textBox.IsReadOnly)
                 {
-                    var child = VisualTreeHelper.GetChild(current, i);
-
-                    if (child is TextBox textBox && !textBox.IsReadOnly)
-                    {
-                        textBox.Focus();
-                        return;
-                    }
-                    else if (child is StyleTextBox stb && !stb.IsReadOnly)
-                    {
-                        stb.Focus();
-                        return;
-                    }
-                    else if (child is TextEdit textEdit && !textEdit.IsReadOnly)
-                    {
-                        textEdit.Focus();
-                        return;
-                    }
-
-                    queue.Enqueue(child);
+                    textBox.Focus();
+                    return;
                 }
+                else if (child is StyleTextBox stb && !stb.IsReadOnly)
+                {
+                    stb.Focus();
+                    return;
+                }
+                else if (child is TextEdit textEdit && !textEdit.IsReadOnly)
+                {
+                    textEdit.Focus();
+                    return;
+                }
+
+                queue.Enqueue(child);
             }
         }
     }

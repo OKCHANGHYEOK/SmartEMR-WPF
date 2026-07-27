@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -18,10 +20,14 @@ public partial class FloatPanel : CustomControl
         this.Focusable = true;
         this.IsTabStop = true;
 
-        this.PreviewKeyDown += OnPreviewKeyDown_FloatPanel;
+        this.KeyDown += OnKeyDown_FloatPanel;
+
         this.Loaded += (s, e) =>
         {
-            this.Focus();
+            SmartUI.BeginInvoke(() =>
+            {
+                TextFocusBehavior.SetFocusToFirstTextElement(this);
+            }, DispatcherPriority.Background);
         };
     }
 
@@ -33,7 +39,7 @@ public partial class FloatPanel : CustomControl
         SmartUI.CloseFloatPanel(this);
     }
 
-    private void OnPreviewKeyDown_FloatPanel(object sender, KeyEventArgs e)
+    private void OnKeyDown_FloatPanel(object sender, KeyEventArgs e)
     {
         var element = sender as FloatPanel;
         if (element == null) return;

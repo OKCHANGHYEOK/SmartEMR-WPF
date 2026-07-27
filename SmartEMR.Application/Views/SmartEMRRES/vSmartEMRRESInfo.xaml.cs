@@ -4,6 +4,11 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace SmartEMR.Application.Views.SmartEMRRES;
 
@@ -13,6 +18,16 @@ namespace SmartEMR.Application.Views.SmartEMRRES;
 public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel>
 {
     private bool _isUpdatedRegNo1 = false;
+    private bool _isCloseView = true;
+
+    public static readonly DependencyProperty IsPopupOpenProperty =
+        DependencyProperty.Register(nameof(IsPopupOpen), typeof(bool), typeof(vSmartEMRRESInfo), new PropertyMetadata(false));
+
+    public bool IsPopupOpen
+    {
+        get => (bool)GetValue(IsPopupOpenProperty);
+        set => SetValue(IsPopupOpenProperty, value);
+    }
 
     protected override void Initialize()
     {
@@ -89,6 +104,17 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         }
     }
 
+    public override bool ClosingFloatPanel()
+    {
+        if (!_isCloseView)
+        {
+            _isCloseView = true;
+            return false;
+        }
+
+        return true;
+    }
+
     public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
         var response = new ViewMessageResponse { IsSuccess = false };
@@ -103,6 +129,7 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
                 break;
 
             case "SetPatientSearchResult":
+                PatientPopup.IsOpen = true;
                 break;
 
             case "CloseView":
@@ -134,6 +161,8 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
             {
                 e.IsCancel = true;
             }
+
+            SearchPanel.ClearData();
         }
     }
 
@@ -146,5 +175,96 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         if (selectedSlot is null) return;
 
         vm.UpdateSelectedSlot(selectedSlot);
+    }
+
+    private void OnPreviewKeyDown_SearchPanel(object sender, KeyEventArgs e)
+    {
+        var element = sender as SearchPanel;
+        if (element is null) return;
+
+        bool isFocusInSearchEdit = element.SearchEdit.IsKeyboardFocusWithin;
+        if (!isFocusInSearchEdit) return;
+
+        if (e.Key == Key.Escape && IsPopupOpen)
+        {
+            IsPopupOpen = false;
+            _isCloseView = false;
+        }
+
+        if (e.Key == Key.Down && PatientListBox.SelectedIndex == -1)
+        {
+            PatientListBox.Focus();
+            PatientListBox.SelectedIndex = 0;
+            e.Handled = true;
+        }
+    }
+
+    private void OnPreviewKeyDown_Popup(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        var popup = sender as Popup;
+        if (popup is null) return;
+        
+        if (e.Key == Key.Up && PatientListBox.SelectedIndex == 0)
+        {
+            SearchPanel.SetFocusToSearchEdit();
+            PatientListBox.SelectedIndex = -1;
+            e.Handled = true;
+        }
+
+        if (e.Key == Key.Escape && IsPopupOpen)
+        {
+            IsPopupOpen = false;
+            _isCloseView = false;
+        }
+    }
+
+    private void OnClosed_Popup(object sender, EventArgs e)
+    {
+        var popup = sender as Popup;
+        if (popup is null) return;
+
+        SearchPanel.SetFocusToSearchEdit();
+    }
+
+    private void OnPreviewKeyDown_ListBoxEdit(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        var listBoxEdit = sender as ListBoxEdit;
+        if (listBoxEdit is null) return;
+
+        if (e.Key == Key.Enter) 
+        {
+            var patient = listBoxEdit.SelectedItem as Patient;
+            if (patient is null) return;
+
+            SetSelectedPatient(patient);
+        }
+
+        if (e.Key == Key.Escape)
+        {
+            IsPopupOpen = false;
+            _isCloseView = false;
+        }
+    }
+
+    private void OnPreviewMouseLeftButtonUp_ListBoxEdit(object sender, MouseButtonEventArgs e)
+    {
+        var listBoxEdit = sender as ListBoxEdit;
+        if (listBoxEdit is null) return;
+
+        var patient = listBoxEdit.SelectedItem as Patient;
+        if (patient is null) return;
+
+        SetSelectedPatient(patient);
+    }
+
+    private void SetSelectedPatient(Patient item)
+    {
+        SearchPanel.SetSelectedPatient(item);
+
+        vm.SetSelectedPatient(item);
+
+        chkIsNewPAT.IsChecked = false;
+
+        IsPopupOpen = false;
     }
 }

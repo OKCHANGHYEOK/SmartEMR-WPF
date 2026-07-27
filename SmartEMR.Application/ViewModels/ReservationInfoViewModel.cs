@@ -66,6 +66,11 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         return item;
     }
 
+    public void SetSelectedPatient(Patient patient)
+    {
+        SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, patient);
+    }
+
     public async Task UpdateReservations()
     {
         if (Reservations is null)
@@ -152,7 +157,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     {
         if (isClearPAT)
         {
-            if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) == 0 || SmartUI.MsgYesNo("신환예약 등록으로 변경하시겠습니까?") is MessageBoxResult.Yes) return false;
+            if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) == 0 || SmartUI.MsgYesNo("신환예약 등록으로 변경하시겠습니까?") is MessageBoxResult.No) return false;
 
             SmartMVVM.ModelProperty.ClearPATData(SelectedPatient);
         }
@@ -168,6 +173,12 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     [RelayCommand]
     public async Task Search()
     {
+        if (string.IsNullOrWhiteSpace(Model.Keyword))
+        {
+            SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요", NotificationType.Warning);
+            return;
+        }
+
         Patient getPAT = new Patient
         {
             Keyword = Model.Keyword,
@@ -175,7 +186,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         };
 
         var retPAT = await SmartMVVM.DataStore.GetItems<Patient>(eAPI.Patient_GetPatient, getPAT);
-        if (retPAT is null || !SmartMVVM.DataStore.retIsSuccess) 
+        if (retPAT is null || !retPAT.Any() || !SmartMVVM.DataStore.retIsSuccess) 
         {
             SmartUI.SetNofification("검색된 환자가 없습니다.", NotificationType.Warning);
             return;

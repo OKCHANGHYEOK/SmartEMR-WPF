@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SmartEMR.Domain.Entities;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SmartEMR.Application.Xpf;
@@ -20,7 +21,26 @@ public partial class SearchPanel : CustomControl
         set => SetValue(SearchCommandProperty, value);
     }
 
+    public SearchEdit txtSearch => SearchEdit;
+
     public string? NullText { get; set; }
+
+    public void SetFocusToSearchEdit()
+    {
+        SearchEdit.Focus();
+    }
+
+    public void SetSelectedPatient(Patient item)
+    {
+        if (item is null) return;
+
+        SearchEdit.EditValue = $"{item.PAT_Name}({item.PAT_ChartNo})";
+    }
+
+    public void ClearData()
+    {
+        SearchEdit.EditValue = "";
+    }
 
     private void OnPreviewKeyDown_SearchEdit(object sender, KeyEventArgs e)
     {
