@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
-using SmartEMR.Domain.DTOs;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;

@@ -22,6 +22,11 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
 
     }
 
+    public override async Task InitializeAsync()
+    {
+        await FetchDataAsync();
+    }
+
     protected override ReceptionBoard GetModel(ReceptionBoard item)
     {
         item.MUR_Idx_DOC = 0;
@@ -77,18 +82,37 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         }
     }
 
-    public async Task CancelRCP(Reception item)
+    public async Task CancelRES(Reservation item)
     {
-        if (SmartUI.MsgYesNo("접수취소하시겠습니까?") != MessageBoxResult.Yes) return;
+        if (SmartUI.MsgYesNo("예약취소하시겠습니까?") is MessageBoxResult.No) return;
 
-        var ret = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = item.RCP_Idx, RCP_IsValid = false });
+        await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservation, new Reservation { RES_Idx = item.RES_Idx, RES_IsValid = false });
+
         if (!SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("접수취소 하는데 실패했습니다. 다시 시도해주세요.", NotificationType.Error);
+            SmartUI.SetNofification("예약취소에 실패했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
             return;
         }
 
-        await SmartUI.SendMessage("RefreshDataList");
+        await SmartUI.SendMessage("RefreshRCB");
+
+        SmartUI.SetNofification("예약취소되었습니다.", NotificationType.Success);
+    }
+
+    public async Task CancelRCP(Reception item)
+    {
+        if (SmartUI.MsgYesNo("접수취소하시겠습니까?") is MessageBoxResult.No) return;
+
+        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = item.RCP_Idx, RCP_IsValid = false });
+        
+        if (!SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("접수취소에 실패했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
+            return;
+        }
+
+        await SmartUI.SendMessage("RefreshRCB");
+
         SmartUI.SetNofification("접수취소되었습니다.", NotificationType.Success);
     }
 

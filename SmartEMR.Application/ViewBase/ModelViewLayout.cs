@@ -36,11 +36,7 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid
         this.Loaded += (s, e) => SmartUI.RegisterView(this);
     }
 
-    //public ViewLayout(object parameter) : this()
-    //{
-    //    this.Loaded += (s, e) => ((IViewLayout)this).SetViewData(parameter);
-    //}
-
+    public virtual Task InitializeViewData() { return Task.CompletedTask; }
     public virtual void SetViewData(object? parameter = null) { }
     public virtual bool ClosingFloatPanel() { return true; }
 
@@ -74,9 +70,13 @@ public abstract partial class ViewLayout
 
 public abstract partial class ModelViewLayout : ViewLayout, IDisposable
 {
+    public bool InitializedViewData { get; set; } = false;
     public bool disposed { get; set; }
 
+    public override abstract Task InitializeViewData();
+
     protected abstract void Initialize();
+    protected virtual void SetViewLayout() { }
     protected virtual void SetBindGrid() { }
     protected virtual void SetDataGrid() { }
 
@@ -180,11 +180,8 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
         this.Loaded += OnViewLoaded;
     }
 
-
-    private async void OnViewLoaded(object sender, RoutedEventArgs e)
+    public override async Task InitializeViewData()
     {
-        this.Loaded -= OnViewLoaded;
-
         if (vm is BaseViewModel bvm)
         {
             bvm.Initialize();
@@ -193,6 +190,20 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
         }
 
         Initialize();
+
+        InitializedViewData = true;
+    }
+
+    private async void OnViewLoaded(object sender, RoutedEventArgs e)
+    {
+        this.Loaded -= OnViewLoaded;
+
+        if (!InitializedViewData)
+        {
+            await InitializeViewData();
+        }
+
+        SetViewLayout();
         SetBindGrid();
         SetDataGrid();
     }

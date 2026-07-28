@@ -35,7 +35,6 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
 
     protected override void Initialize()
     {
-        txtSearch.PreviewKeyDown += OnPreviewKeyDown_txtSearch;
     }
 
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e) {}
