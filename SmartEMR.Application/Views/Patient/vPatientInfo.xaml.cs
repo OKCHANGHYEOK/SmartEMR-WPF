@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Common;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -47,6 +48,14 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
 
     protected override void SetBindGrid()
     {
+    }
+
+    public override void SetViewData(object? parameter = null)
+    {
+        if (parameter is FromViewType fromViewType)
+        {
+            vm.SetFromViewType(fromViewType);
+        }
     }
 
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)

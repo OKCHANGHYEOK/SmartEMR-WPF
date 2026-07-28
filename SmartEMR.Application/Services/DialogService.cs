@@ -50,10 +50,10 @@ public class DialogService
         return msgBox.Result;
     }
 
-    public MessageBoxResult MsgYesNo(List<Run> arrRun)
+    public MessageBoxResult MsgYesNo(List<Inline> inlines)
     {
         var msgBox = new SmartMessageBox();
-        msgBox.SetMessage(arrRun);
+        msgBox.SetMessage(inlines);
         msgBox.SetButtonVisibility(MessageBoxType.YesNo);
 
         if (_window != null)
@@ -193,12 +193,12 @@ public class DialogService
             txtContent.Text = message;
         }
 
-        public void SetMessage(List<Run> runs)
+        public void SetMessage(List<Inline> inlines)
         {
             txtContent.Inlines.Clear();
-            if (runs != null)
+            if (inlines != null)
             {
-                txtContent.Inlines.AddRange(runs);
+                txtContent.Inlines.AddRange(inlines);
             }
         }
 

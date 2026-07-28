@@ -36,12 +36,12 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid
         this.Loaded += (s, e) => SmartUI.RegisterView(this);
     }
 
-    public ViewLayout(object parameter) : this()
-    {
-        this.Loaded += (s, e) => ((IViewLayout)this).RefreshViewData(parameter);
-    }
+    //public ViewLayout(object parameter) : this()
+    //{
+    //    this.Loaded += (s, e) => ((IViewLayout)this).SetViewData(parameter);
+    //}
 
-    public virtual void RefreshViewData(object? parameter = null) { }
+    public virtual void SetViewData(object? parameter = null) { }
     public virtual bool ClosingFloatPanel() { return true; }
 
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);

@@ -316,12 +316,13 @@
                                         RowSizeDefinitions="25,Auto,*">
 
                             <Xpf:StyleGrid x:Name="PART_TITLE"
-                                       LayoutDefinitions="3,1"
-                                       ColumnSizeDefinitions="Auto,*,Auto"
-                                       Grid.Row="0" 
-                                       Grid.Column="0"
-                                       Background="#3A414A"
-                                       Padding="8,0,6,0">
+                                           LayoutDefinitions="3,1"
+                                           ColumnSizeDefinitions="Auto,*,Auto"
+                                           Grid.Row="0" 
+                                           Grid.Column="0"
+                                           Background="#3A414A"
+                                           Padding="8,0,6,0">
+                                
                                 <TextBlock  Grid.Column="0"
                                             FontSize="11" 
                                             Foreground="#FFFFFF"
@@ -376,6 +377,12 @@
                                                 Grid.Column="0" 
                                                 Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
                                                 Margin="5"/>
+
+                            <Xpf:MaskControl Grid.Row="0"
+                                             Grid.RowSpan="3"
+                                             Visibility="{Binding IsTopMostPopup, RelativeSource={RelativeSource TemplatedParent}, Converter={converter:BooleanToVisibilityConverter invert=True}}"
+                                             ShowButton="False"
+                                             Opacity="0.8"/>
                         </Xpf:StyleGrid>
                     </Border>
                 </ControlTemplate>

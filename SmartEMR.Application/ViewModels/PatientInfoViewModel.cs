@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
@@ -8,6 +9,9 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class PatientInfoViewModel : PatientViewModel
 {
+    [ObservableProperty]
+    public FromViewType fromViewType =FromViewType.VIEW;
+
     public PatientInfoViewModel() {}
     public PatientInfoViewModel(Patient item) : base(item) { }
 
@@ -35,6 +39,11 @@ public partial class PatientInfoViewModel : PatientViewModel
     {
         SmartMVVM.ModelProperty.SetDefaultPatientData(item);
         return item;
+    }
+
+    public void SetFromViewType(FromViewType fromViewType)
+    {
+        FromViewType = fromViewType;
     }
 
     [RelayCommand]
@@ -134,17 +143,23 @@ public partial class PatientInfoViewModel : PatientViewModel
             return;
         }
 
-        var response = await SmartUI.SendMessage<Patient>("GetPATItem", viewType: TargetViewType.PageView);
-        
-        // 현재 보고 있는 환자가 없거나 보고 있는 환자 == 업데이트된 환자인 경우에만 메시지 전송
-        if (response is not null && response.Item is Patient PATItem)
+        if (FromViewType == FromViewType.VIEW)
         {
-            if (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 || PATItem.PAT_Idx == Model.PAT_Idx)
-            {
-                await SmartUI.SendMessageToSearchView("SetSelectedPatient", Model);
-                await SmartUI.SendMessage("SetSelectedPatient", Model, TargetViewType.PageView);
-            } 
+            var response = await SmartUI.SendMessage<Patient>("GetPATItem", viewType: TargetViewType.PageView);
 
+            // 현재 보고 있는 환자가 없거나 보고 있는 환자 == 업데이트된 환자인 경우에만 메시지 전송
+            if (response is not null && response.Item is Patient PATItem)
+            {
+                if (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 || PATItem.PAT_Idx == Model.PAT_Idx)
+                {
+                    await SmartUI.SendMessageToSearchView("SetSelectedPatient", Model);
+                    await SmartUI.SendMessage("SetSelectedPatient", Model, TargetViewType.PageView);
+                }
+            }
+        }
+        else
+        {
+            await SmartUI.SendMessage("UpdatePatientData", Model);
         }
     }
 }

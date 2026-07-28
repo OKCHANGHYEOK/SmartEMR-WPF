@@ -6,7 +6,6 @@ using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Globalization;
 using System.IO;
-using System.Timers;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -34,6 +33,12 @@ public enum SaveMode
 {
     SAVE,
     DELETE
+}
+
+public enum FromViewType
+{
+    VIEW,
+    POPUP
 }
 
 public class Common

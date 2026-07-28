@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Editors;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
@@ -122,18 +123,29 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         switch (request.MessageAction)
         {
             case "SetSelectedSlot":
-                var paramItem = request.MessageParameter as Reservation;
-                if (paramItem is null) return null;
+                {
+                    var paramItem = request.MessageParameter as Reservation;
+                    if (paramItem is null) return null;
 
-                SetSelectedSlot(paramItem.RES_ReservationTime);
-                break;
+                    SetSelectedSlot(paramItem.RES_ReservationTime);
+                    break;
+                }
 
             case "SetPatientSearchResult":
                 PatientPopup.IsOpen = true;
                 break;
 
+            case "UpdatePatientData":
+                {
+                    var paramItem = request.MessageParameter as Patient;
+                    if (paramItem is null) return null;
+
+                    vm.SetSelectedPatient(paramItem);
+                    break;
+                }
+
             case "MovePatientInfo":
-                await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = vm.SelectedPatient.PAT_Idx }), isPopup: true);
+                await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = vm.SelectedPatient.PAT_Idx }), FromViewType.POPUP,isPopup: true);
                 break;
 
             case "CloseView":
@@ -152,21 +164,23 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RES_Time == selectedSlot);
     }
 
-    private void OnEditValueChanging_CheckEdit(object sender, EditValueChangingEventArgs e)
+    private void OnPreviewMouseLeftButtonDown_CheckEdit(object sender, MouseButtonEventArgs e)
     {
         var element = sender as Xpf.CheckEdit;
         if (element is null) return;
 
-        bool isChecked = (bool)e.NewValue;
-        if (isChecked)
+        e.Handled = true;
+
+        bool isChecked = element.IsChecked.GetValueOrDefault(false);
+        if (!isChecked)
         {
-            var bFlag = vm.ClearData(true, false);
+            bool bFlag = vm.ClearData(true, false);
             if (!bFlag)
             {
-                e.IsCancel = true;
+                element.IsChecked = !isChecked;
+                
+                SearchPanel.ClearData();
             }
-
-            SearchPanel.ClearData();
         }
     }
 

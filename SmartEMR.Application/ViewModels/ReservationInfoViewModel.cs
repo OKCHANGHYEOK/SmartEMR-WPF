@@ -1,11 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Windows;
+using System.Windows.Media;
+using System.Windows.Documents;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
-using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -20,6 +22,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     private List<ReservationSlot>? reservations = null;
     [ObservableProperty]
     private bool isNewPatient = true;
+    [ObservableProperty]
+    private bool canChangingIsNewPatient = false;
 
     public override async Task InitializeAsync()
     {
@@ -69,6 +73,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     public void SetSelectedPatient(Patient patient)
     {
         SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, patient);
+
+        CanChangingIsNewPatient = true;
     }
 
     public async Task UpdateReservations()
@@ -156,10 +162,19 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     public bool ClearData(bool isClearPAT, bool isClearRES)
     {
         if (isClearPAT)
-        {
-            if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) == 0 || SmartUI.MsgYesNo("신환예약 등록으로 변경하시겠습니까?") is MessageBoxResult.No) return false;
+        {  
+            if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) == 0) return false;
+
+            var messages = new List<Inline>();
+            messages.Add(new Run("신환예약 등록으로 변경하시겠습니까?"));
+            messages.Add(new LineBreak());
+            messages.Add(new Run("(선택된 환자정보는 초기화됩니다.)") { FontSize = 14, Foreground = Brushes.DimGray });
+
+            if (SmartUI.MsgYesNo(messages) is MessageBoxResult.No) return false;
 
             SmartMVVM.ModelProperty.ClearPATData(SelectedPatient);
+
+            CanChangingIsNewPatient = false;
         }
 
         if (isClearRES)
@@ -167,7 +182,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             SmartMVVM.ModelProperty.ClearRESData(Model);
         }
 
-        return true;
+        return false;
     }
 
     [RelayCommand]
@@ -238,7 +253,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             }
             else
             {
-                item = SmartMVVM.ModelProperty.GetReservationDataForSave(Model);
+                item = SmartMVVM.ModelProperty.GetReservationDataForSave(Model, SelectedPatient);
             }
 
             var retRES = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservation, item);

@@ -330,6 +330,16 @@
                             <GradientStop Color="#FFF0F2" Offset="1"/>
                         </LinearGradientBrush>
                     </Xpf:Button.Background>
+
+                    <Xpf:Button.Style>
+                        <Style TargetType="{x:Type Xpf:Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding FromViewType}" Value="POPUP">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:Button.Style>
                 </Xpf:Button>
 
                 <Xpf:Button x:Name="btnSave"

@@ -94,7 +94,7 @@
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="y">
-                                                <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="Foreground" Value="#2E7D32"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding PAT_IsAgreePersonalInfo}" Value="n">
                                                 <Setter Property="Foreground" Value="DimGray"/>

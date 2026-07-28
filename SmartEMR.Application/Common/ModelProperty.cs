@@ -134,12 +134,14 @@ public class ModelProperty
         item.PAT_SourceType = "";
         item.vPAT_SourceType = "";
         item.PAT_Sex = "";
+        item.vPAT_Sex = "";
         item.PAT_Age = 0;
         item.vPAT_Info = "";
         item.PAT_BirthYear = "";
         item.PAT_BirthMonth = "";
         item.PAT_BirthDay = "";
         item.PAT_BirthDate = "";
+        item.PAT_RegisterNum = "";
         item.PAT_RegisterNum1 = "";
         item.PAT_RegisterNum2 = "";
         item.PAT_Address1 = "";
@@ -167,12 +169,11 @@ public class ModelProperty
 
     #region "Reservation"
 
-    public Reservation GetReservationDataForSave(Reservation paramItem, Patient? PATItem = null)
+    public Reservation GetReservationDataForSave(Reservation paramItem, Patient PATItem)
     {
         Reservation item = new Reservation
         {
             RES_Idx = paramItem.RES_Idx,
-            PAT_Idx = paramItem.PAT_Idx,
             MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
             MUR_Idx_STF = paramItem.MUR_Idx_STF,
             RES_Status = paramItem.RES_Status,
@@ -182,13 +183,9 @@ public class ModelProperty
             RES_ReservationDate = paramItem.RES_ReservationDate,
             RES_ReservationTime = paramItem.RES_ReservationTime,
             RES_Memo = paramItem.RES_Memo,
+            PATItem = GetPatientDataForSave(PATItem),
             RES_IsValid = true
         };
-
-        if (PATItem is not null)
-        {
-            item.PATItem = GetPatientDataForSave(PATItem);
-        }
 
         return item;
     }
