@@ -132,6 +132,10 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
                 PatientPopup.IsOpen = true;
                 break;
 
+            case "MovePatientInfo":
+                await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = vm.SelectedPatient.PAT_Idx }), isPopup: true);
+                break;
+
             case "CloseView":
                 SmartUI.CloseView(TargetViewType.CurrentView);
                 break;

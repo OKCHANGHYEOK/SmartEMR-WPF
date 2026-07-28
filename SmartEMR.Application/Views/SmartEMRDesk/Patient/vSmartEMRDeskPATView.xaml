@@ -144,14 +144,14 @@
                             Click="OnClick_Button"/>
 
                 <Border x:Name="PersonalInfoBorder"
-                    Grid.Row="9"
-                    Grid.RowSpan="2"
-                    Grid.ColumnSpan="4"
-                    Background="#E8F5E9"
-                    BorderBrush="#009688"
-                    BorderThickness="2"
-                    CornerRadius="5"
-                    Margin="5">
+                        Grid.Row="9"
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="#E8F5E9"
+                        BorderBrush="#009688"
+                        BorderThickness="2"
+                        CornerRadius="5"
+                        Margin="5">
 
                     <Border.Resources>
                         <Style TargetType="Border">

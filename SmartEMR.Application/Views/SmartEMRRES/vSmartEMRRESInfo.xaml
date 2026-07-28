@@ -24,7 +24,7 @@
 
     <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Vertical">
-            <Xpf:LayoutPanel>
+            <Xpf:LayoutPanel ItemHeight="0.8*">
                 <Xpf:StyleGrid  LayoutDefinitions="1,3"
                                 RowSizeDefinitions="Auto,Auto,*">
 

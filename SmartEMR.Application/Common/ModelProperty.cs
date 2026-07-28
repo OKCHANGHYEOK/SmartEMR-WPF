@@ -69,8 +69,9 @@ public class ModelProperty
         oldItem.PAT_SourceType = newItem.PAT_SourceType;
         oldItem.vPAT_SourceType = SmartMVVM.Common.GetCommonCodeName("PAT", "SourceType", newItem.PAT_SourceType ?? "");
         oldItem.PAT_Sex = newItem.PAT_Sex;
+        oldItem.vPAT_Sex = newItem.PAT_Sex == "M" ? "남" : "여";
         oldItem.PAT_Age = newItem.PAT_Age;
-        oldItem.vPAT_Info = (newItem.PAT_Sex == "M" ? "남" : "여") + "/" + $"{newItem.PAT_Age}세";
+        oldItem.vPAT_Info = oldItem.vPAT_Sex + "/" + $"{newItem.PAT_Age}세";
         oldItem.PAT_BirthYear = newItem.PAT_BirthYear;
         oldItem.PAT_BirthMonth = newItem.PAT_BirthMonth;
         oldItem.PAT_BirthDay = newItem.PAT_BirthDay;
@@ -109,10 +110,12 @@ public class ModelProperty
         oldItem.PAT_FirstVisitDate = newItem.PAT_FirstVisitDate;
         oldItem.PAT_LastVisitDate = newItem.PAT_LastVisitDate;
         oldItem.PAT_SourceType = newItem.PAT_SourceType;
-        oldItem.PAT_IsSolar = newItem.PAT_IsSolar;
-        oldItem.PAT_IsSMS = newItem.PAT_IsSMS;
         oldItem.PAT_ImageSource = newItem.PAT_ImageSource;
         oldItem.PAT_Bigo = newItem.PAT_Bigo;
+        oldItem.PAT_IsAgreePersonalInfo = newItem.PAT_IsAgreePersonalInfo;
+        oldItem.vPAT_IsAgreePersonalInfo = newItem.PAT_IsAgreePersonalInfo == "y" ? "개인정보제공동의" : "개인정보제공미동의";
+        oldItem.PAT_IsSolar = newItem.PAT_IsSolar;
+        oldItem.PAT_IsSMS = newItem.PAT_IsSMS;
         oldItem.NOW_CHT_Idx_RCV = newItem.NOW_CHT_Idx_RCV;
         oldItem.NOW_CHT_Idx_RES = newItem.NOW_CHT_Idx_RES;
         oldItem.NEXT_CHT_Idx_RES = newItem.NEXT_CHT_Idx_RES;

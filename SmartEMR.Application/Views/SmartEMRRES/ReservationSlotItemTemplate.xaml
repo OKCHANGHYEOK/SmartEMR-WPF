@@ -72,6 +72,7 @@
 
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                 <Setter Property="Text" Value="선택됨"/>
+                                <Setter Property="Foreground" Value="#007ACC"/>
                                 <Setter Property="FontWeight" Value="SemiBold"></Setter>
                             </DataTrigger>
                         </Style.Triggers>

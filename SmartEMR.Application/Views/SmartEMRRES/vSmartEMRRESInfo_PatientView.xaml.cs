@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Xpf;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.Xpf;
 using System.Windows;
 
 namespace SmartEMR.Application.Views.SmartEMRRES;
@@ -21,5 +22,13 @@ public partial class vSmartEMRRESInfo_PatientView : CustomControl
         {
             cmbRES_ReservationTime.HorizontalContentAlignment = HorizontalAlignment.Center;
         }
+    }
+
+    private async void OnClick_Button(object sender, RoutedEventArgs e)
+    {
+        var btn = sender as Xpf.Button;
+        if (btn is null) return;
+
+        await SmartUI.SendMessage("MovePatientInfo");
     }
 }
