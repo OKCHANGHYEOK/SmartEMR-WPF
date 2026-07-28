@@ -106,8 +106,7 @@ public partial class UIManager
     private readonly List<ViewLayout> _activeViews = new();
     public IReadOnlyList<ViewLayout> Views => _activeViews;
 
-    private readonly ObservableCollection<FloatPanel> _activePopups = new();
-    public  ObservableCollection<FloatPanel> Popups => _activePopups;
+    public PopupManager PopupManager { get; } = new();
 
     public ViewLayout? RootView
     {
@@ -121,7 +120,7 @@ public partial class UIManager
     {
         get
         {
-            if (_activePopups.Any())
+            if (PopupManager.HasPopup)
             {
                 return _activeViews.LastOrDefault(v => v.IsPopupView);
             }
@@ -149,7 +148,16 @@ public partial class UIManager
         }
     }
 
-    public bool HasPopup => _activePopups.Any();
+
+    public void ShowPopup(ViewLayout targetView)
+    {
+        PopupManager.Show(targetView);
+    }
+
+    public void ClosePopup(FloatPanel floatPanel)
+    {
+        PopupManager.Close(floatPanel);
+    }
 
     public void RegisterView(ViewLayout view)
     {
@@ -187,24 +195,9 @@ public partial class UIManager
         {
             if (view.Parent is FloatPanel floatPanel)
             {
-                RemoveFloatPanel(floatPanel);
+                PopupManager.Close(floatPanel);
             }
         }
-    }
-
-    public void AddFloatPanel(FloatPanel panel)
-    {
-        if (!_activePopups.Contains(panel))
-        {
-            _activePopups.Add(panel);
-        }
-    }
-
-    public void RemoveFloatPanel(FloatPanel panel)
-    {
-        if (panel == null) return;
-
-        _activePopups.Remove(panel);
     }
 
     private static ViewLayout? GetCurrentView()

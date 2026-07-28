@@ -99,7 +99,7 @@ public static partial class SmartUI
             // 팝업일 때 화면 표시 로직
             if (isPopup)
             {
-                await ShowPopupView(targetView);
+                UIManager.ShowPopup(targetView);
                 return;
             }
 
@@ -172,20 +172,14 @@ public static partial class SmartUI
             return;
         }
 
-        UIManager.RemoveFloatPanel(floatPanel);
-    }
-
-    private static async Task ShowPopupView(ViewLayout vl)
-    {
-        vl.IsPopupView = true;
-
-        UIManager.AddFloatPanel(new FloatPanel { Content = vl });
+        UIManager.ClosePopup(floatPanel);
     }
 }
 
 public static partial class SmartUI
 {
     public static UIManager UIManager => UIManager.Instance;
+    public static PopupManager PopupManager => UIManager.PopupManager;
 
     public static UIWindow? CurrentWindow
     {

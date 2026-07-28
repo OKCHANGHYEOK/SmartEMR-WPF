@@ -65,7 +65,7 @@
                     <Setter Property="Visibility" Value="Visible"/>
 
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Source={x:Static core:SmartUI.UIManager}, Path=Popups.Count}" Value="0">
+                        <DataTrigger Binding="{Binding Source={x:Static core:SmartUI.PopupManager}, Path=Popups.Count}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -74,13 +74,12 @@
         </Border>
 
         <Xpf:StyleGrid x:Name="FloatLayout" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ItemsControl ItemsSource="{Binding Source={x:Static core:SmartUI.UIManager}, Path=Popups}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ContentControl Content="{Binding}">
-                        </ContentControl>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+            <ItemsControl ItemsSource="{Binding Source={x:Static core:SmartUI.PopupManager}, Path=Popups}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Xpf:StyleGrid>
         <shared:vSmartEMRNotificationView Width="420" MaxHeight="1000" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,5"/>

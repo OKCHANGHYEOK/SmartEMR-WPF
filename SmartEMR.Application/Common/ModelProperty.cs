@@ -76,6 +76,7 @@ public class ModelProperty
         oldItem.PAT_BirthMonth = newItem.PAT_BirthMonth;
         oldItem.PAT_BirthDay = newItem.PAT_BirthDay;
         oldItem.PAT_BirthDate = $"{newItem.PAT_BirthYear}-{newItem.PAT_BirthMonth}-{newItem.PAT_BirthDay}";
+        oldItem.PAT_RegisterNum = newItem.PAT_RegisterNum1 + "-" + new string('*', 7);
         oldItem.PAT_RegisterNum1 = newItem.PAT_RegisterNum1;
         oldItem.PAT_RegisterNum2 = newItem.PAT_RegisterNum2;
         oldItem.PAT_Address1 = newItem.PAT_Address1;

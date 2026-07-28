@@ -9,6 +9,15 @@ namespace SmartEMR.Application.Xpf;
 
 public partial class FloatPanel : CustomControl
 {
+    public static DependencyProperty IsTopMostPopupProperty =
+        DependencyProperty.Register(nameof(IsTopMostPopup), typeof(bool), typeof(FloatPanel), new PropertyMetadata(true));
+
+    public bool IsTopMostPopup
+    {
+        get => (bool)GetValue(IsTopMostPopupProperty);
+        set => SetValue(IsTopMostPopupProperty, value);
+    }
+
     static FloatPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(FloatPanel), new FrameworkPropertyMetadata(typeof(FloatPanel)));

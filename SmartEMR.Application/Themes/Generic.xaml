@@ -297,6 +297,7 @@
     <Style TargetType="{x:Type Xpf:FloatPanel}">
         <Setter Property="FocusManager.IsFocusScope" Value="True"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Width" Value="{Binding Content.ViewSize.Width, RelativeSource={RelativeSource Self}}"/>
@@ -380,6 +381,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsTopMostPopup, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="IsHitTestVisible" Value="True"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="{x:Type Xpf:MaskControl}">
