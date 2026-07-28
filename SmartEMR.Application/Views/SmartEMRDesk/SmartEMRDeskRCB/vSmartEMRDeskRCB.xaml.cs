@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.SmartEMRRCP;
+using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 
@@ -13,9 +14,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// </summary>
     public partial class vSmartEMRDeskRCB : ModelViewLayout<SmartEMRDeskRCBViewModel>
     {
-        protected override async void Initialize()
+        protected override void Initialize()
         {
-            await vm.FetchDataAsync();
         }
 
         protected override void SetBindGrid()
@@ -124,8 +124,17 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             popup.AddMenu(new PopupMenuItem { MenuAction = "SearchPAT", Content = $"{dataItem.PAT_Name}님으로 검색", Glyph = GlyphImage("Images/smartemr_find_glasses.png") });
             popup.AddMenu(new PopupMenuItem { MenuAction = "EditPAT", Content = "환자수정", Glyph = GlyphImage("Images/smartemr_edit_patient.png") });
             popup.AddSeperator();
-            popup.AddMenu(new PopupMenuItem { MenuAction ="EditRCP", Content = "접수수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
-            popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRCP", Content = "접수취소", Glyph = GlyphImage("Images/smartemr_cancel_paper.png") });
+
+            if (dataItem.RCB_Type == "RES")
+            {
+                popup.AddMenu(new PopupMenuItem { MenuAction = "EditRES", Content = "예약수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
+                popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRCP", Content = "예약취소", Glyph = GlyphImage("Images/smartemr_cancel_paper.png") });
+            }
+            else if (dataItem.RCB_Type == "RCP")
+            {
+                popup.AddMenu(new PopupMenuItem { MenuAction = "EditRCP", Content = "접수수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
+                popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRCP", Content = "접수취소", Glyph = GlyphImage("Images/smartemr_cancel_paper.png") });
+            }
         }
 
         public override async void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e)
@@ -143,11 +152,19 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     break;
 
                 case "EditPAT":
-                    await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = dataItem.PAT_Idx }), isPopup:true);
+                    await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = dataItem.PAT_Idx }), isPopup: true);
+                    break;
+
+                case "EditRES":
+                    await SmartUI.NavigateToPage(new vSmartEMRRESInfo(new Reservation { RES_Idx = dataItem.RES_Idx, PAT_Idx = dataItem.PAT_Idx }), isPopup: true);
                     break;
 
                 case "EditRCP":
-                    await SmartUI.NavigateToPage(new vSmartEMRRCPInfoTab(new Reception { RCP_Idx = dataItem.RCP_Idx }), isPopup:true);
+                    await SmartUI.NavigateToPage(new vSmartEMRRCPInfoTab(new Reception { RCP_Idx = dataItem.RCP_Idx }), isPopup: true);
+                    break;
+
+                case "CancelRES":
+                    await vm.CancelRES(new Reservation { RES_Idx = dataItem.RES_Idx });
                     break;
 
                 case "CancelRCP":

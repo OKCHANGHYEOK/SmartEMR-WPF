@@ -32,9 +32,10 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
     protected override void Initialize()
     {
         this.ViewTitle = "환자" + (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
+    }
 
-        btnSave.Content = "환자" + (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
-
+    protected override void SetBindGrid()
+    {
         this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_ChartNo")?.Focusable = false;
         this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_ChartNo")?.IsReadOnly = true;
 
@@ -44,10 +45,6 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
         this.BindGrids[0].GetBindItem<ComboBoxEdit>("PAT_IsAgreePersonalInfo")?.Margin = new Thickness(2);
 
         this.BindGrids[0].GetBindItem<StyleTextBox>("PAT_Bigo")?.AcceptsReturn = true;
-    }
-
-    protected override void SetBindGrid()
-    {
     }
 
     public override void SetViewData(object? parameter = null)

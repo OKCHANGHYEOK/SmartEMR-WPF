@@ -176,7 +176,7 @@ public class ModelProperty
             RES_Idx = paramItem.RES_Idx,
             MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
             MUR_Idx_STF = paramItem.MUR_Idx_STF,
-            RES_Status = paramItem.RES_Status,
+            RES_Status = string.IsNullOrWhiteSpace(paramItem.RES_Status) ? "CNF" : paramItem.RES_Status,
             RES_Route = paramItem.RES_Route,
             RES_Subject = paramItem.RES_Subject,
             RES_SubjectName = paramItem.RES_SubjectName,

@@ -344,6 +344,7 @@
 
                 <Xpf:Button x:Name="btnSave"
                             Grid.Column="2" 
+                            Content="{Binding ViewTitle, RelativeSource={RelativeSource AncestorType=view:vPatientInfo}}"
                             Width="85"
                             Height="27"
                             FontWeight="SemiBold"

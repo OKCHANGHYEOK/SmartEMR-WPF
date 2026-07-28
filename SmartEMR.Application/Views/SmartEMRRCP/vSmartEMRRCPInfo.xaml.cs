@@ -17,7 +17,7 @@ public partial class vSmartEMRRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel
     public vSmartEMRRCPInfo() { }
     public vSmartEMRRCPInfo(Reception item) : base(item) { }
 
-    protected override async void Initialize()
+    protected override void Initialize()
     {
     }
 

@@ -30,13 +30,23 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         set => SetValue(IsPopupOpenProperty, value);
     }
 
+    public vSmartEMRRESInfo() { }
+    public vSmartEMRRESInfo(Reservation item) : base(item) { }
+
     protected override void Initialize()
     {
         this.ViewTitle = "예약" + (vm.Model.RES_Idx.GetValueOrDefault(0) == 0 ? "등록" : "수정");
+    }
 
+    protected override void SetViewLayout()
+    {
         if (vm.SelectedPatient.PAT_Idx.GetValueOrDefault(0) > 0)
         {
             chkIsNewPAT.IsEnabled = false;
+        }
+        else
+        {
+            SearchPanel.IsEnabled = false;
         }
     }
 

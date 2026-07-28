@@ -25,6 +25,9 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     [ObservableProperty]
     private bool canChangingIsNewPatient = false;
 
+    public ReservationInfoViewModel() { }
+    public ReservationInfoViewModel(Reservation item) : base(item) { }
+
     public override async Task InitializeAsync()
     {
         if (Model.PAT_Idx.GetValueOrDefault(0) > 0)
@@ -37,6 +40,12 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             }
 
             SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, retPAT);
+
+            IsNewPatient = false;
+        }
+        else
+        {
+            SmartMVVM.ModelProperty.SetDefaultPatientData(InputPatient);
         }
 
         if (Model.RES_Idx.GetValueOrDefault(0) > 0) 
@@ -52,18 +61,19 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         }
 
         await UpdateReservations();
-
-        SmartMVVM.ModelProperty.SetDefaultPatientData(InputPatient);
     }
 
     protected override Reservation GetModel(Reservation item)
     {
-        item.MUR_Idx_DOC = 0;
-        item.MUR_Idx_STF = 0;
-        item.RES_Route = "DSK";
-        item.RES_Subject = "GNR";
-        item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
-        item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
+        if (item.RES_Idx.GetValueOrDefault(0) == 0)
+        {
+            item.MUR_Idx_DOC = 0;
+            item.MUR_Idx_STF = 0;
+            item.RES_Route = "DSK";
+            item.RES_Subject = "GNR";
+            item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
+            item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
+        }
 
         item.PageSize = 10;
 

@@ -5,11 +5,19 @@ namespace SmartEMR.Application.Common.Converter;
 
 public class IntToBooleanConverter : BaseConverter
 {
+    public bool Invert { get; set; } = false;
+
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is int intValue == false) return false;
+        var intValue = value as int?;
+        bool result = intValue.GetValueOrDefault(0) == 0;
+        
+        if (Invert)
+        {
+            result = !result;
+        }
 
-        return intValue == 0;
+        return result;
     }
 
     public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
