@@ -44,7 +44,7 @@
 
                             <Xpf:TextBlock>
                                 <Run>신환예약 </Run>
-                                <Run Foreground="DimGray">( 신규환자 예약시 체크 )</Run>
+                                <Run Foreground="DimGray">(*신환 예약시 체크하세요)</Run>
                             </Xpf:TextBlock>
                         </Xpf:CheckEdit>
 
@@ -62,8 +62,9 @@
                                 StaysOpen="False"
                                 AllowsTransparency="True"
                                 PopupAnimation="Fade"
-                                Width="{Binding txtSearch.ActualWidth, ElementName=SearchPanel}"
+                                MinWidth="{Binding txtSearch.ActualWidth, ElementName=SearchPanel}"
                                 MinHeight="400"
+                                HorizontalAlignment="Stretch"
                                 PreviewKeyDown="OnPreviewKeyDown_Popup"
                                 Closed="OnClosed_Popup">
 
@@ -85,7 +86,8 @@
                                                  BorderThickness="0"
                                                  Background="Transparent"
                                                  PreviewKeyDown="OnPreviewKeyDown_ListBoxEdit"
-                                                 PreviewMouseLeftButtonUp="OnPreviewMouseLeftButtonUp_ListBoxEdit">
+                                                 PreviewMouseLeftButtonUp="OnPreviewMouseLeftButtonUp_ListBoxEdit"
+                                                 VirtualizingStackPanel.IsVirtualizing="False">
 
                                     <dxe:ListBoxEdit.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">
@@ -101,8 +103,7 @@
                                             <Border Background="GhostWhite"
                                                     BorderBrush="DarkSlateGray"
                                                     BorderThickness="1"
-                                                    Margin="2"
-                                                    Width="295"
+                                                    Margin="1"
                                                     Height="80">
 
                                                 <Xpf:StyleGrid  LayoutDefinitions="3,1"
