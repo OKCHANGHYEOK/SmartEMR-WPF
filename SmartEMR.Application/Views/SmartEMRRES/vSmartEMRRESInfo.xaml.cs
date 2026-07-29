@@ -1,15 +1,14 @@
-﻿using DevExpress.Xpf.Editors;
+﻿using System.Windows;
+using System.Windows.Threading;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using DevExpress.Xpf.Editors;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 
 namespace SmartEMR.Application.Views.SmartEMRRES;
 
@@ -40,11 +39,12 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
 
     protected override void SetViewLayout()
     {
-        if (vm.SelectedPatient.PAT_Idx.GetValueOrDefault(0) > 0)
+        if (vm.SelectedPatient.PAT_Idx > 0)
         {
             chkIsNewPAT.IsEnabled = false;
         }
-        else
+        
+        if (vm.Model.RES_Idx > 0)
         {
             SearchPanel.IsEnabled = false;
         }
@@ -53,7 +53,34 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
     protected override void SetBindGrid()
     {
         // 뷰 로드시 Collapsed 인 경우 비주얼트리 탐색에 실패해 수동 등록 처리
+        AddBindGrid(RESInfo_PatientInfo.PatientInfoGrid);
         AddBindGrid(RESInfo_PatientView.PatientViewGrid);
+
+        var deRES_ReservationDate = RESInfoGrid.GetBindItem<Xpf.DateEdit>("RES_ReservationDate");
+        if (deRES_ReservationDate is not null)
+        {
+            deRES_ReservationDate.ShowToday = false;
+            deRES_ReservationDate.ShowClearButton = false;
+
+            // 신규 예약 등록인 경우 과거날짜의 선택을 막음
+            if (vm.Model.RES_Idx.GetValueOrDefault(0) == 0)
+            {
+                if (deRES_ReservationDate is not null)
+                {
+                    deRES_ReservationDate.MinValue = DateTime.Today;
+                }
+            }
+            else
+            {
+                var RES_ReservationDate = vm.Model.RES_ReservationDate;
+                if (string.IsNullOrWhiteSpace(RES_ReservationDate)) return;
+
+                if (deRES_ReservationDate is not null)
+                {
+                    deRES_ReservationDate.MinValue = DateTime.Parse(RES_ReservationDate);
+                }
+            }
+        }
     }
 
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -64,7 +91,7 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         }
     }
 
-    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    public override async void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
         var bindGrid = sender as BindGrid;
         if (bindGrid is null || e.BindItem is null) return;
@@ -72,7 +99,7 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         var bindItem = e.BindItem;
         var newValue = e.NewValue?.ToString();
 
-        if (bindGrid == this.BindGrids[0])
+        if (bindGrid == RESInfo_PatientInfo.PatientInfoGrid)
         {
             switch (bindItem.FieldName)
             {
@@ -98,14 +125,25 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
                     break;
             }
         }
-        else if (bindGrid == this.BindGrids[1])
+        else if (bindGrid == RESInfo_PatientView.PatientViewGrid)
         {
 
         }
-        else if (bindGrid == this.BindGrids[2])
+        else if (bindGrid == RESInfoGrid)
         {
+            if (RESInfoGrid.IsPreventBindGridEvent) return;
+
             switch (bindItem.FieldName)
             {
+                case "RES_ReservationDate":
+                    RESInfoGrid.IsPreventBindGridEvent = true;
+
+                    await vm.UpdateReservations(newValue);
+
+                    RESInfoGrid.IsPreventBindGridEvent = false;
+
+                    break;
+
                 case "RES_ReservationTime":
                     {
                         SetSelectedSlot(newValue);
@@ -145,6 +183,15 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
                 PatientPopup.IsOpen = true;
                 break;
 
+            case "SetRESListBoxScrollToTop":
+                {
+                    var paramItem = request.MessageParameter as ReservationSlot;
+                    if (paramItem is null) return null;
+
+                    ReservationSlotListBox.ScrollIntoView(paramItem);
+                    break;
+                }
+
             case "UpdatePatientData":
                 {
                     var paramItem = request.MessageParameter as Patient;
@@ -167,11 +214,18 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         return response;
     }
 
-    private void SetSelectedSlot(string? selectedSlot)
+    private void SetSelectedSlot(string? reservationTime = "")
     {
-        if (vm.Reservations is null || string.IsNullOrWhiteSpace(selectedSlot)) return;
+        if (vm.Reservations is null) return;
 
-        ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RES_Time == selectedSlot);
+        if (vm.Model.RES_Idx.GetValueOrDefault(0) > 0)
+        {
+            ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RESItem is not null && x.RESItem.RES_Idx == vm.Model.RES_Idx);
+        }
+        else
+        {
+            ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RES_Time == reservationTime);
+        }
     }
 
     private void OnPreviewMouseLeftButtonDown_CheckEdit(object sender, MouseButtonEventArgs e)
@@ -194,15 +248,36 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         }
     }
 
+
+    private void OnPreviewKeyDown_ListBoxEdit(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        var listBoxEdit = sender as ListBoxEdit;
+        if (listBoxEdit is null) return;
+
+        if (e.Key == Key.Enter)
+        {
+            var patient = listBoxEdit.SelectedItem as Patient;
+            if (patient is null) return;
+
+            SetSelectedPatient(patient);
+        }
+
+        if (e.Key == Key.Escape)
+        {
+            IsPopupOpen = false;
+            _isCloseView = false;
+        }
+    }
+
     private void OnEditValueChanged_ListBoxEdit(object sender, EditValueChangedEventArgs e)
     {
-        var element = sender as ListBoxEdit;
-        if (element is null) return;
+        var listBoxEdit = sender as ListBoxEdit;
+        if (listBoxEdit is null) return;
 
-        var selectedSlot = e.NewValue as ReservationSlot;
-        if (selectedSlot is null) return;
-
-        vm.UpdateSelectedSlot(selectedSlot);
+        SmartUI.BeginInvoke(() =>
+        {
+            listBoxEdit.ScrollIntoView(e.NewValue);
+        }, DispatcherPriority.Background);
     }
 
     private void OnPreviewKeyDown_SearchPanel(object sender, KeyEventArgs e)
@@ -252,26 +327,6 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         if (popup is null) return;
 
         SearchPanel.SetFocusToSearchEdit();
-    }
-
-    private void OnPreviewKeyDown_ListBoxEdit(object sender, System.Windows.Input.KeyEventArgs e)
-    {
-        var listBoxEdit = sender as ListBoxEdit;
-        if (listBoxEdit is null) return;
-
-        if (e.Key == Key.Enter) 
-        {
-            var patient = listBoxEdit.SelectedItem as Patient;
-            if (patient is null) return;
-
-            SetSelectedPatient(patient);
-        }
-
-        if (e.Key == Key.Escape)
-        {
-            IsPopupOpen = false;
-            _isCloseView = false;
-        }
     }
 
     private void OnPreviewMouseLeftButtonUp_ListBoxEdit(object sender, MouseButtonEventArgs e)

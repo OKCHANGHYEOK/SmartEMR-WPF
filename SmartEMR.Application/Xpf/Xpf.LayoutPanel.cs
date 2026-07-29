@@ -9,5 +9,6 @@ public class LayoutPanel : DevExpress.Xpf.Docking.LayoutPanel
         this.AllowDrag = false;
         this.AllowDrop = false;
         this.AllowDock = false;
+        this.AllowFloat = false;
     }
 }

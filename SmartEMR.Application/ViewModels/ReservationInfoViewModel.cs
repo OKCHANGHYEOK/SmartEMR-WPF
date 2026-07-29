@@ -17,9 +17,12 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     public Patient InputPatient { get; set; } = new();
 
     [ObservableProperty]
+    private ReservationSlot? selectedSlot;
+    [ObservableProperty]
     private List<Patient> patients = default!;
     [ObservableProperty]
-    private List<ReservationSlot>? reservations = null;
+    private List<ReservationSlot> reservations = default!;
+
     [ObservableProperty]
     private bool isNewPatient = true;
     [ObservableProperty]
@@ -87,16 +90,16 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         CanChangingIsNewPatient = true;
     }
 
-    public async Task UpdateReservations()
+    public async Task UpdateReservations(string? RES_YYMMDD = "")
     {
-        if (Reservations is null)
+        Reservations = SmartMVVM.Common.GetReservationSlots();
+
+        var getRES = new Reservation
         {
-           Reservations = SmartMVVM.Common.GetReservationSlots();
-        }
+            RES_YYMMDD = string.IsNullOrWhiteSpace(RES_YYMMDD) ? Model.RES_YYMMDD : DateTime.Parse(RES_YYMMDD).ToString("yyyy-MM-dd")
+        };
 
-        if (Reservations is null) return;
-
-        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_YYMMDD = Model.RES_YYMMDD });
+        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, getRES);
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
             SmartUI.SetNofification("예약현황 조회에 실패했습니다.", NotificationType.Error);
@@ -109,19 +112,24 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             slot.IsReserved = slot.RESItem is not null;
         }
 
-        await SmartUI.SendMessage("SetSelectedSlot", new Reservation { RES_ReservationTime = Model.RES_ReservationTime });
+        if (Model.RES_Idx > 0)
+        {
+            SelectedSlot = Reservations.FirstOrDefault(x => x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx);
+        }
+
+        if (SelectedSlot is null)
+        {
+            await SmartUI.SendMessage("SetRESListBoxScrollToTop", Reservations.First());
+        }
     }
 
     public void UpdateSelectedSlot(ReservationSlot selectedSlot)
     {
         if (Reservations is null) return;
 
-        foreach (var slot in Reservations)
-        {
-            slot.IsSelected = (slot == selectedSlot);
-        }
-
         Model.RES_ReservationTime = selectedSlot.RES_Time;
+
+        SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == Model.RES_ReservationTime);
     }
 
     public void UpdateInputPatientByRegisterNum1(bool isUpdatedRegNo1)

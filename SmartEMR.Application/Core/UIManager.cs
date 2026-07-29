@@ -148,7 +148,6 @@ public partial class UIManager
         }
     }
 
-
     public void ShowPopup(ViewLayout targetView)
     {
         PopupManager.Show(targetView);

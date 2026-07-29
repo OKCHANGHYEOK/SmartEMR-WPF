@@ -214,7 +214,7 @@ public class Common
         return newDT.ToString("HH:mm");
     }
 
-    public List<ReservationSlot>? GetReservationSlots(int interval = 30)
+    public List<ReservationSlot> GetReservationSlots(int interval = 30)
     {
         List<ReservationSlot> slots = new();
 

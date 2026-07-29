@@ -201,6 +201,7 @@ public class ModelProperty
         oldItem.RES_SubjectName = newItem.RES_SubjectName;
         oldItem.RES_ReservationDate = newItem.RES_ReservationDate;
         oldItem.RES_ReservationTime = newItem.RES_ReservationTime;
+        oldItem.RES_YYMMDD = newItem.RES_YYMMDD;
         oldItem.RES_Memo = newItem.RES_Memo;
     }
 

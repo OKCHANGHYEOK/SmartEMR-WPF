@@ -118,18 +118,20 @@
                                 <Xpf:TextEdit   x:Name="PART_TextBox"
                                                 EditValue="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 Foreground="{Binding TextForeground, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                FontSize="{TemplateBinding FontSize}"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="0"
                                                 Width="{TemplateBinding Width}"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
-                                                Padding="5"
+                                                Padding="{TemplateBinding Padding}"
                                                 Focusable="{TemplateBinding Focusable}"
                                                 IsReadOnly="{TemplateBinding IsReadOnly}">
 
                                     <Xpf:TextEdit.Style>
                                         <Style TargetType="dxe:TextEdit">
                                             <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Padding" Value="5"/>
                                             <Setter Property="MaskType" Value="None"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsEnabled" Value="False">

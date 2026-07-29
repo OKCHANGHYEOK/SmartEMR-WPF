@@ -10,10 +10,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Xpf:BindGrid   LayoutDefinitions="8,9"
+    <Xpf:BindGrid   x:Name="PatientInfoGrid"
+                    LayoutDefinitions="8,9"
                     BindStyle="DataCell"
                     HeaderWidth="70"
-                    ItemSpace="1">
+                    ItemSpace="1"
+                    ItemPadding="3">
 
         <Xpf:BindItem   FieldName="PAT_ImageSource"
                         Col="0" 

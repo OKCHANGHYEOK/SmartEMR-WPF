@@ -39,6 +39,15 @@ public partial class BindGrid : StyleGrid, IDisposable
     public static readonly DependencyProperty BindStyleProperty =
         DependencyProperty.Register(nameof(BindStyle), typeof(BindStyle), typeof(BindGrid), new PropertyMetadata(BindStyle.None));
 
+    public static readonly DependencyProperty ItemPaddingProperty =
+        DependencyProperty.Register(nameof(ItemPadding), typeof(int), typeof(BindGrid), new PropertyMetadata(0));
+
+    public int ItemPadding
+    {
+        get => (int)GetValue(ItemPaddingProperty);
+        set => SetValue(ItemPaddingProperty, value);
+    }
+
     public BindStyle BindStyle
     {
         get => (BindStyle)GetValue(BindStyleProperty);
@@ -237,13 +246,22 @@ public partial class BindGrid : StyleGrid, IDisposable
         visualChild.Margin = (Thickness)((bindItem.Margin == null) ? new Thickness(this.ItemSpace) : bindItem.Margin);
         visualChild.IsEnabled = bindItem.IsEnabled;
 
+        visualChild.SetValue(TextElement.FontSizeProperty, bindItem.FontSize);
+        visualChild.SetValue(TextElement.FontWeightProperty, bindItem.FontWeight);
+        visualChild.SetValue(TextElement.ForegroundProperty, bindItem.Foreground);
+
         if (bindItem.BackGround != null) visualChild.SetValue(BackgroundProperty, bindItem.BackGround);
         if (bindItem.BorderBrush != null) visualChild.SetValue(BorderBrushProperty, bindItem.BorderBrush);
         if (bindItem.DisplayFormatString != null) visualChild.SetValue(DateEdit.DisplayFormatStringProperty, bindItem.DisplayFormatString);
 
-        visualChild.SetValue(TextElement.FontSizeProperty, bindItem.FontSize);
-        visualChild.SetValue(TextElement.FontWeightProperty, bindItem.FontWeight);
-        visualChild.SetValue(TextElement.ForegroundProperty, bindItem.Foreground);
+        if (bindItem.Padding != null)
+        {
+            visualChild.SetValue(Control.PaddingProperty, bindItem.Padding);
+        }
+        else
+        {
+            visualChild.SetValue(Control.PaddingProperty, new Thickness(this.ItemPadding));
+        }
 
         if (bindItem.IsBindClickEvent) AddBindClickEvent(visualChild, bindItem);
 

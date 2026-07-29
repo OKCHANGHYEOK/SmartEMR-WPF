@@ -24,7 +24,7 @@
 
     <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Vertical">
-            <Xpf:LayoutPanel ItemHeight="0.8*">
+            <Xpf:LayoutPanel ItemHeight="0.85*">
                 <Xpf:StyleGrid  LayoutDefinitions="1,3"
                                 RowSizeDefinitions="Auto,Auto,*">
 
@@ -222,7 +222,8 @@
                             Background="{x:Static resources:SmartBrush.SMART_BRUSH_SECTION_BACKGROUND}"
                             Margin="0,2,0,2"/>
 
-                    <local:vSmartEMRRESInfo_PatientInfo Grid.Column="0"
+                    <local:vSmartEMRRESInfo_PatientInfo x:Name="RESInfo_PatientInfo"
+                                                        Grid.Column="0"
                                                         Grid.ColumnSpan="2"
                                                         Grid.Row="2"
                                                         DataContext="{Binding InputPatient}"
@@ -247,6 +248,7 @@
                                           dx:ThemeManager.ThemeName="Win11Light"
                                           VirtualizingStackPanel.IsVirtualizing="False"
                                           ScrollViewer.CanContentScroll="False"
+                                          SelectedItem="{Binding SelectedSlot}"
                                           EditValueChanged="OnEditValueChanged_ListBoxEdit">
                             <dxe:ListBoxEdit.ItemTemplate>
                                 <DataTemplate>
@@ -257,7 +259,8 @@
                     </Xpf:StyleGrid>
                 </Xpf:LayoutPanel>
                 <Xpf:LayoutPanel ItemWidth="0.6*" Caption="에약정보">
-                    <Xpf:BindGrid LayoutDefinitions="2,7"
+                    <Xpf:BindGrid x:Name="RESInfoGrid"
+                                  LayoutDefinitions="2,7"
                                   BindStyle="DataCell"
                                   ItemSpace="2">
 
@@ -331,6 +334,7 @@
                                         Row="4"
                                         RowSpan="3"
                                         Margin="1"
+                                        Padding="5"
                                         ContentAlignment="LeftTop"
                                         IsBottomLine="False"/>
                     </Xpf:BindGrid>

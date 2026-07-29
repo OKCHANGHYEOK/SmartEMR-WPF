@@ -44,7 +44,7 @@ public class BindItem
     public double Width { get; set; }
     public double Height { get; set; }
     public Thickness? Margin { get; set; }
-    public Thickness Padding { get; set; } = new Thickness(0);
+    public Thickness? Padding { get; set; }
     public Brush? BorderBrush { get; set; }
     public Thickness BorderThickness { get; set; } = new Thickness(1);
     public Brush? BackGround { get; set; }
