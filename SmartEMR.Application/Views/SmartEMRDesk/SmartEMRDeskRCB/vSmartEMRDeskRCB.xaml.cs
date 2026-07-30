@@ -129,6 +129,10 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             {
                 popup.AddMenu(new PopupMenuItem { MenuAction = "EditRES", Content = "예약수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
                 popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRCP", Content = "예약취소", Glyph = GlyphImage("Images/smartemr_cancel_paper.png") });
+                
+                popup.AddSeperator();
+
+                popup.AddMenu(new PopupMenuItem { MenuAction = "SetRESToRCP", Content = "접수등록", Glyph = GlyphImage("Images/smartemr_register_pen.png") });
             }
             else if (dataItem.RCB_Type == "RCP")
             {
@@ -149,6 +153,14 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             {
                 case "SearchPAT":
                     await SmartUI.SendMessageToSearchView("SetSelectedPatient", new Patient { PAT_Idx = dataItem.PAT_Idx });
+                    break;
+
+                case "SetRESToRCP":
+                    bool isSuccess = await SmartMVVM.Common.SetReceptionByRES(SmartMVVM.ModelProperty.GetReservationDataForSaveByRCB(dataItem));
+                    if (isSuccess)
+                    {
+                        await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
+                    }
                     break;
 
                 case "EditPAT":

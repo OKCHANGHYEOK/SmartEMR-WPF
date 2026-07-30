@@ -17,9 +17,15 @@
 
         <Border.Resources>
             <Style TargetType="Border">
+                <Setter Property="IsHitTestVisible" Value="True"/>
+
                 <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsReserved}" Value="True">
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </DataTrigger>
+                    
                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                        <Setter Property="Background" Value="#D9ECFF"></Setter>
+                        <Setter Property="Background" Value="#D9ECFF"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

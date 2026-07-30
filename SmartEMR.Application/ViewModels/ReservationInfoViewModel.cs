@@ -74,6 +74,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             item.MUR_Idx_STF = 0;
             item.RES_Route = "DSK";
             item.RES_Subject = "GNR";
+            item.RES_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
             item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
             item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
         }
@@ -115,6 +116,10 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         if (Model.RES_Idx > 0)
         {
             SelectedSlot = Reservations.FirstOrDefault(x => x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx);
+        }
+        else if (Model.RES_YYMMDD == DateTime.Now.ToString("yyyy-MM-dd"))
+        {
+            SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == Model.RES_ReservationTime);
         }
 
         if (SelectedSlot is null)

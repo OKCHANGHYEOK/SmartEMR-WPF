@@ -13,7 +13,7 @@
     <Xpf:BindGrid   x:Name="PatientInfoGrid"
                     LayoutDefinitions="8,9"
                     BindStyle="DataCell"
-                    HeaderWidth="70"
+                    HeaderWidth="65"
                     ItemSpace="1"
                     ItemPadding="3">
 
@@ -37,7 +37,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Stretch="UniformToFill"
-                                Source="Images/smartemr_default_profile.png"/>
+                                Source="{Binding  PAT_ImageSource, TargetNullValue='Images/smartemr_default_profile.png'}"/>
                 </Border>
 
                 <Xpf:StyleGrid  Grid.Row="1"
@@ -213,8 +213,8 @@
                             FontSize="11"
                             FontWeight="SemiBold"
                             Converter="{common:YNToBooleanConverter}"
-                            Width="100"
-                            Margin="4,0,0,0"
+                            Width="90"
+                            Margin="4,0,2,0"
                             IsHeader="False"/>
         </x:Array>
 

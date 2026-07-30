@@ -43,6 +43,7 @@
     <None Remove="Images\smartemr_menu_settings.png" />
     <None Remove="Images\smartemr_patient_default_image.png" />
     <None Remove="Images\smartemr_register.png" />
+    <None Remove="Images\smartemr_register_pen.png" />
     <None Remove="Images\smartemr_reset.png" />
     <None Remove="Images\smartemr_save.png" />
     <None Remove="Images\smartemr_search.png" />
@@ -107,6 +108,7 @@
     <Resource Include="Images\smartemr_find_glasses.png" />
     <Resource Include="Images\smartemr_patient_default_image.png" />
     <Resource Include="Images\smartemr_register.png" />
+    <Resource Include="Images\smartemr_register_pen.png" />
     <Resource Include="Images\smartemr_reset.png" />
     <Resource Include="Images\smartemr_save.png" />
     <Resource Include="Images\smartemr_search.png" />

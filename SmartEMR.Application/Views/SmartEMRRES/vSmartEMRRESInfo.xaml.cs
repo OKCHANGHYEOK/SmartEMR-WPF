@@ -70,6 +70,7 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
                     deRES_ReservationDate.MinValue = DateTime.Today;
                 }
             }
+            // 기존 예약 수정인 경우 해당 예약날짜 이전의 선택만 막음
             else
             {
                 var RES_ReservationDate = vm.Model.RES_ReservationDate;

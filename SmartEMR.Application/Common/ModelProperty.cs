@@ -190,6 +190,29 @@ public class ModelProperty
         return item;
     }
 
+    public Reservation GetReservationDataForSaveByRCB(ReceptionBoard paramItem)
+    {
+        Reservation item = new Reservation
+        {
+            RES_Idx = paramItem.RES_Idx,
+            PAT_Idx = paramItem.PAT_Idx,
+            PAT_Name = paramItem.PAT_Name,
+            PAT_Sex = paramItem.PAT_Sex,
+            PAT_Age = paramItem.PAT_Age,
+            MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
+            MUR_Idx_STF = paramItem.MUR_Idx_STF,
+            RES_Route = paramItem.RCB_Route,
+            RES_Subject = paramItem.RCB_Subject,
+            RES_SubjectName = paramItem.RCB_SubjectName,
+            RES_ReservationDate = paramItem.RCB_Date,
+            RES_ReservationTime = paramItem.RCB_Time,
+            RES_Memo = paramItem.RCB_Memo,
+            RES_IsValid = true
+        };
+
+        return item;
+    }
+
     public void SetReservationData(Reservation oldItem, Reservation newItem)
     {
         oldItem.RES_Idx = newItem.RES_Idx;
