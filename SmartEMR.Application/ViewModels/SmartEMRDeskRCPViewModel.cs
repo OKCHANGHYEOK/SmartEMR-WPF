@@ -94,7 +94,7 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
             return;
         }
 
-        await SmartUI.SendMessage("RefreshRCB");
+        await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
 
         SmartUI.SetNofification("예약취소되었습니다.", NotificationType.Success);
     }

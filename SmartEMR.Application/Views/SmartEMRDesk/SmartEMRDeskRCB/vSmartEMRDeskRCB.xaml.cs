@@ -128,7 +128,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             if (dataItem.RCB_Type == "RES")
             {
                 popup.AddMenu(new PopupMenuItem { MenuAction = "EditRES", Content = "예약수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
-                popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRCP", Content = "예약취소", Glyph = GlyphImage("Images/smartemr_cancel_paper.png") });
+                popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRES", Content = "예약취소", Glyph = GlyphImage("Images/smartemr_cancel_paper.png") });
                 
                 popup.AddSeperator();
 
