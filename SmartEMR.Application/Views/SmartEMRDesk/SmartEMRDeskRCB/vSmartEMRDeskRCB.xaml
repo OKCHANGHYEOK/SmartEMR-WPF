@@ -67,9 +67,8 @@
 
             <Xpf:ColumnItem FieldName="vRES_Status"
                             Header="예약"
-                            ColumnType="Label"
                             ColumnWidth="32"
-                            HorizontalAlignment="Center"/>
+                            CellTemplateType="{x:Type template:RESStatusTemplate}"/>
 
             <Xpf:ColumnItem FieldName="vRCP_Status"
                             Header="접수"

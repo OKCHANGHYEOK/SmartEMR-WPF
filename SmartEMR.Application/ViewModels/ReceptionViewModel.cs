@@ -41,7 +41,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
             var retIRC = SmartMVVM.ModelProperty.GetInsuranceDataFromRCP(retRCP);
 
             SmartMVVM.ModelProperty.SetPatientData(PATItem, retPAT);
-            SmartMVVM.ModelProperty.SetReceptionData(Model, retRCP);
+            SmartMVVM.ModelProperty.SetReceptionData(RCPItem, retRCP);
             SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, retIRC);
         }
     }
@@ -119,7 +119,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
     {
         if (SmartUI.MsgYesNo("접수취소 하시겠습니까?") != MessageBoxResult.Yes) return false;
 
-        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = RCPItem.RCP_Idx, RCP_IsValid = false });
+        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_CancelReception, new Reception { RCP_Idx = RCPItem.RCP_Idx, RES_Idx = RCPItem.RES_Idx, RCP_IsValid = false });
 
         if (SmartMVVM.DataStore.retIsSuccess == false)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
@@ -40,7 +41,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         protected override void SetDataGrid()
         {
- 
+            this.DataGrids[0].GridControl.CustomRowFilter += OnCustomRowFilter_GridControl;
         }
 
         public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
@@ -180,8 +181,23 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     break;
 
                 case "CancelRCP":
-                    await vm.CancelRCP(new Reception { RCP_Idx = dataItem.RCP_Idx });
+                    await vm.CancelRCP(new Reception { RCP_Idx = dataItem.RCP_Idx, RES_Idx = dataItem.RES_Idx });
                     break;
+            }
+        }
+
+        private void OnCustomRowFilter_GridControl(object sender, RowFilterEventArgs e)
+        {
+            var element = sender as GridControl;
+            if (element is null) return;
+
+            var dataItem = element.GetRow(e.ListSourceRowIndex) as ReceptionBoard;
+            if (dataItem is null) return;
+            
+            if (!dataItem.IsVisible.GetValueOrDefault(false))
+            {
+                e.Visible = false;
+                e.Handled = true;
             }
         }
 

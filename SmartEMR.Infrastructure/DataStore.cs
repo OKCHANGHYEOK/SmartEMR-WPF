@@ -50,6 +50,10 @@ public class DataStore
                 return result.Item;
             }
         }
+        else
+        {
+            UpdateResponseStatusByFail();
+        }
 
         return default;
     }
@@ -70,6 +74,10 @@ public class DataStore
                 return result.Items.AsQueryable();
             }
         }
+        else
+        {
+            UpdateResponseStatusByFail();
+        }
 
         return Enumerable.Empty<T>().AsQueryable();
     }
@@ -81,7 +89,7 @@ public class DataStore
     {
         HttpResponseMessage? response = null;
 
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(180));
 
         try
         {
@@ -209,6 +217,14 @@ public class DataStore
         this.retIsSuccess = result.IsSuccess;
         this.retCount = result.TotalCount;
         this.retStatusCode = (int)result.ResponseCode;
+    }
+
+    private void UpdateResponseStatusByFail()
+    {
+        this.retMessage = "";
+        this.retIsSuccess = false;
+        this.retCount = 0;
+        this.retStatusCode = 500;
     }
 
     private string GetAPIUrlByPath(eAPI path)

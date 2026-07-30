@@ -15,11 +15,17 @@ public class ReceptionBoardProcessor : IQueryResultListProcessor<ReceptionBoard>
             mitem.vRCB_Type = mitem.RCB_Type == "RES" ? "예약" : mitem.RCB_Type == "RCP" ? "접수" : "";
             mitem.vRCB_Subject = SmartMVVM.Common.GetCommonCodeName("RCB", "Subject", mitem.RCB_Subject ?? "");
             mitem.vRCB_Route = SmartMVVM.Common.GetCommonCodeName("RCB", "Route", mitem.RCB_Route ?? "");
+            mitem.IsVisible = true;
 
             if (mitem.RCB_Type == "RES")
             {
-                mitem.vRES_Status = SmartMVVM.Common.GetCommonCodeName("RES", "Status", mitem.RES_Status ?? "")?.Substring(2);
+                mitem.vRES_Status = SmartMVVM.Common.GetCommonCodeName("RES", "Status", mitem.RES_Status ?? "")?.Replace("예약", "");
                 mitem.vRCP_Status = "-";
+
+                if (mitem.RES_Status == "VIS")
+                {
+                    mitem.IsVisible = false;
+                }
             }
             else if (mitem.RCB_Type == "RCP")
             {

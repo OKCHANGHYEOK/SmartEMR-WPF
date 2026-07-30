@@ -19,6 +19,7 @@ public class RESStatusToBrushConverter : BaseConverter
         {
             "HLD" => SmartBrush.SMART_BRUSH_STATUS_PENDING,
             "CNF" => SmartBrush.SMART_BRUSH_STATUS_CONFIRMED,
+            "VIS" => SmartBrush.SMART_BRUSH_STATUS_COMPLETE,
             "CNL" => SmartBrush.SMART_BRUSH_STATUS_CANCEL,
             _ => Brushes.Transparent
         };

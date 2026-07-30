@@ -103,15 +103,15 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
     {
         if (SmartUI.MsgYesNo("접수취소하시겠습니까?") is MessageBoxResult.No) return;
 
-        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, new Reception { RCP_Idx = item.RCP_Idx, RCP_IsValid = false });
+        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_CancelReception, new Reception { RCP_Idx = item.RCP_Idx, RES_Idx = item.RES_Idx, RCP_IsValid = false });
         
-        if (!SmartMVVM.DataStore.retIsSuccess)
+       if (!SmartMVVM.DataStore.retIsSuccess)
         {
             SmartUI.SetNofification("접수취소에 실패했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
             return;
         }
 
-        await SmartUI.SendMessage("RefreshRCB");
+        await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
 
         SmartUI.SetNofification("접수취소되었습니다.", NotificationType.Success);
     }
