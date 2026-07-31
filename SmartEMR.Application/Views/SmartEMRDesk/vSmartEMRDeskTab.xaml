@@ -7,6 +7,7 @@
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:view="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
+                        xmlns:patient="clr-namespace:SmartEMR.Application.Views.Patients"
                         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
@@ -29,7 +30,7 @@
                 </dxd:LayoutGroup>
 
                 <Xpf:LayoutPanel Caption="환자이력" ItemHeight="0.5*">
-                    <view:vSmartEMRPatientHistory x:Name="SmartEMRDeskPATHistory"/>
+                    <patient:vSmartEMRPatientHistory x:Name="SmartEMRDeskPATHistory"/>
                 </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
             <dxd:LayoutGroup Orientation="Vertical">
