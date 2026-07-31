@@ -1,0 +1,21 @@
+﻿<base:ModelViewLayout x:TypeArguments="vm:ReservationViewModel"
+                      x:Class="SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab.vSmartEMRRESCalendar"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                      xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                      xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                      xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                      xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                      xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+                      mc:Ignorable="d"
+                      d:DesignHeight="450"
+                      d:DesignWidth="800">
+
+    <Xpf:StyleGrid>
+
+    </Xpf:StyleGrid>
+</base:ModelViewLayout>

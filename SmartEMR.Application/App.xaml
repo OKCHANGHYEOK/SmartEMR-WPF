@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:SmartEMR.Application"
              xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
              xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+             xmlns:calendar="clr-namespace:SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab"
              ShutdownMode="OnExplicitShutdown">
     
     <Application.Resources>
@@ -11,6 +12,10 @@
             <converter:SvgPathConverter x:Key="SvgPathConverter"/>
             <converter:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
 
+            <DataTemplate x:Key="CalendarHeaderItemTemplate">
+                <calendar:CalendarHeaderItemTemplate/>
+            </DataTemplate>
+            
             <Style TargetType="{x:Type Xpf:Label}">
                 <Setter Property="MinWidth" Value="10"/>
                 <Setter Property="MinHeight" Value="10"/>

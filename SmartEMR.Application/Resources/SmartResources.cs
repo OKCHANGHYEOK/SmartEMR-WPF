@@ -57,6 +57,9 @@ public static class SmartBrush
     public static readonly Brush SMART_BRUSH_VISIT_FIR = CreateBrushFromRGB(67, 160, 71);
     public static readonly Brush SMART_BRUSH_VISIT_REP = CreateBrushFromRGB(120, 144, 156);
 
+    public static readonly Brush SMART_BRUSH_DAY_WEEKDAY = CreateBrushFromString("#4B5563");
+    public static readonly Brush SMART_BRUSH_DAY_SAT = CreateBrushFromString("#2563EB");
+    public static readonly Brush SMART_BRUSH_DAY_SUN = CreateBrushFromString("#DC2626"); 
 
     private static Brush CreateBrushFromString(string hex)
     {
