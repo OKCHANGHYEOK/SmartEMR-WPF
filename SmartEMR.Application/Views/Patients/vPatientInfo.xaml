@@ -4,6 +4,7 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:local="clr-namespace:SmartEMR.Application.Views.Patients"
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                         xmlns:view="clr-namespace:SmartEMR.Application.Views"
@@ -48,7 +49,7 @@
                                         VerticalAlignment="Center"
                                         Stretch="UniformToFill"
                                         Source="{Binding    PATItem.PAT_ImageSource, 
-                                                            RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}},
+                                                            RelativeSource={RelativeSource AncestorType={x:Type local:vPatientInfo}},
                                                             TargetNullValue='Images/smartemr_default_profile.png'}"/>
                         </Border>
 
@@ -322,7 +323,7 @@
                             Margin="2,0,0,0"
                             Command="{Binding SetPatientCommand}"
                             CommandParameter="{x:Static common:SaveMode.DELETE}"
-                            IsEnabled="{Binding PATItem.PAT_Idx, RelativeSource={RelativeSource AncestorType={x:Type view:vPatientInfo}},Converter={common:IntToBooleanConverter invert=True}}">
+                            IsEnabled="{Binding PATItem.PAT_Idx, RelativeSource={RelativeSource AncestorType={x:Type local:vPatientInfo}},Converter={common:IntToBooleanConverter invert=True}}">
 
                     <Xpf:Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -344,7 +345,7 @@
 
                 <Xpf:Button x:Name="btnSave"
                             Grid.Column="2" 
-                            Content="{Binding ViewTitle, RelativeSource={RelativeSource AncestorType=view:vPatientInfo}}"
+                            Content="{Binding ViewTitle, RelativeSource={RelativeSource AncestorType=local:vPatientInfo}}"
                             Width="85"
                             Height="27"
                             FontWeight="SemiBold"
