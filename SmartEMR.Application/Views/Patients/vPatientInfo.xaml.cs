@@ -6,7 +6,7 @@ using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
 
-namespace SmartEMR.Application.Views;
+namespace SmartEMR.Application.Views.Patients;
 
 /// <summary>
 /// vPatientInfo.xaml에 대한 상호 작용 논리

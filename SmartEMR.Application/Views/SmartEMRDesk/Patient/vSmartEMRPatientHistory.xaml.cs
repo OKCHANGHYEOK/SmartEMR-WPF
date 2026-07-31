@@ -8,11 +8,11 @@ using SmartEMR.Domain.Entities;
 namespace SmartEMR.Application.Views.SmartEMRDesk
 {
     /// <summary>
-    /// vSmartEMRDeskPATHistory.xaml에 대한 상호 작용 논리
+    /// vSmartEMRPatientHistory.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class vSmartEMRDeskPATHistory : ModelViewLayout<PatientHistoryViewModel>
+    public partial class vSmartEMRPatientHistory : ModelViewLayout<PatientHistoryViewModel>
     {
-        public vSmartEMRDeskPATHistory() { }
+        public vSmartEMRPatientHistory() { }
 
         protected override void Initialize()
         {

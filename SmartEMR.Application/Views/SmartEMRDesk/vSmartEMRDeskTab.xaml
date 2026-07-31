@@ -29,7 +29,7 @@
                 </dxd:LayoutGroup>
 
                 <Xpf:LayoutPanel Caption="환자이력" ItemHeight="0.5*">
-                    <view:vSmartEMRDeskPATHistory x:Name="SmartEMRDeskPATHistory"/>
+                    <view:vSmartEMRPatientHistory x:Name="SmartEMRDeskPATHistory"/>
                 </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
             <dxd:LayoutGroup Orientation="Vertical">

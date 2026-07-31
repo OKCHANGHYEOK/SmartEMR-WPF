@@ -1,4 +1,4 @@
-﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.vPatientInfo"
+﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.Patients.vPatientInfo"
                         x:TypeArguments="vm:PatientInfoViewModel"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

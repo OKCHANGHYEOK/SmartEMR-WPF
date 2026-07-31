@@ -3,6 +3,7 @@ using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Views.Patients;
 using SmartEMR.Application.Views.SmartEMRRCP;
 using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Application.Xpf;
