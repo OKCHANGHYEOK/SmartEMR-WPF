@@ -16,10 +16,10 @@ namespace SmartEMR.Application.Common;
 
 public enum eSmartEMRLocation 
 { 
-    CALENDAR = 0,
-    DESK = 1,
-    EXAM = 2,
-    PAYMENT = 3,
+    RES = 0,
+    DSK = 1,
+    CST = 2,
+    PAY = 3,
     CRM = 4,
     CONFIG = 5
 }

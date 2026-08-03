@@ -13,12 +13,12 @@ public class SmartMVVM
 
     private static readonly SmartMVVM _Instance = new();
 
-    public static readonly ApplicationSession AppSession = new();
-    public static readonly DataStore DataStore = new(AppSession);
-    public static readonly Common.Common Common = new();
-    public static readonly Master Master = new();
-    public static readonly ModelProperty ModelProperty = new();
-    public static readonly ProcessorProvider ProcessorProvider = new();
+    public static ApplicationSession AppSession { get; } = new();
+    public static DataStore DataStore { get; } = new(AppSession);
+    public static Common.Common Common { get; } = new();
+    public static Master Master { get; } = new();
+    public static ModelProperty ModelProperty { get; } = new();
+    public static ProcessorProvider ProcessorProvider { get; } = new();
 
     private static RoutedEventArgs? _lastProcessedEventArgs = null;
 

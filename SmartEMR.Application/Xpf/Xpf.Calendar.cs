@@ -1,6 +1,8 @@
-﻿using System.Windows;
-using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
+﻿using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Grid;
+using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
+using System.Diagnostics;
+using System.Windows;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -81,10 +83,16 @@ public class Calendar : CustomControl
     public GridControl GridControl { get; set; } = new();
     public TableView TableView { get; set; } = new();
 
+    private DataTemplate? _headerItemTemplate = null;
+
     public Calendar()
     {
+        _headerItemTemplate = FindResource("CalendarHeaderItemTemplate") as DataTemplate; 
+
         GridControl.View = TableView;
 
+        TableView.HeaderPanelMinHeight = 45;
+        TableView.RowMinHeight = 45;
         TableView.ShowGroupPanel = false;
         TableView.ShowIndicator = false;
         TableView.AllowEditing = false;
@@ -117,14 +125,21 @@ public class Calendar : CustomControl
             {
                 DateTime dt = StartDay.AddDays(i);
 
-                GridControl.Columns.Add(new GridColumn
+                var column = new GridColumn
                 {
                     FieldName = dt.ToString("yyyyMMdd"),
                     Header = new CalendarHeaderItem { Date = dt, DayOfWeek = dt.DayOfWeek },
-                    HeaderTemplate = (DataTemplate)FindResource("CalendarHeaderItemTemplate")
-                });
+                    HorizontalHeaderContentAlignment = HorizontalAlignment.Stretch,
+                    Width = new GridColumnWidth(1, GridColumnUnitType.Star)
+                };
 
-            } 
+                column.HeaderTemplate = _headerItemTemplate;
+
+                GridControl.Columns.Add(column);
+
+                Debug.WriteLine(column.Header);
+                Debug.WriteLine(column.HeaderTemplate);
+            }
         }
     } 
 }

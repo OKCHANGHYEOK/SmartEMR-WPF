@@ -22,13 +22,13 @@
 
                         <Style.Triggers>
                             <!-- 예약 -->
-                            <DataTrigger Binding="{Binding CHT_CHTType}" Value="RES">
+                            <DataTrigger Binding="{Binding RCB_Type}" Value="RES">
                                 <Setter Property="Background" Value="#E0F2FE"/>
                                 <Setter Property="BorderBrush" Value="#38BDF8"/>
                             </DataTrigger>
 
                             <!-- 접수 -->
-                            <DataTrigger Binding="{Binding CHT_CHTType}" Value="CHT">
+                            <DataTrigger Binding="{Binding RCB_RCB_Type}" Value="RCP">
                                 <Setter Property="Background" Value="#DCFCE7"/>
                                 <Setter Property="BorderBrush" Value="#4ADE80"/>
                             </DataTrigger>
@@ -36,7 +36,7 @@
                     </Style>
                 </Border.Style>
 
-                <Xpf:TextBlock  Text="{Binding vCHT_CHTType}"
+                <Xpf:TextBlock  Text="{Binding vRCB_RCB_Type}"
                                 FontSize="10"
                                 Foreground="White"
                                 FontWeight="SemiBold"/>

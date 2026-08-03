@@ -7,7 +7,7 @@ namespace SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 /// <summary>
 /// vSmartEMRRESCalendar.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class vSmartEMRRESCalendar : ModelViewLayout<ReservationViewModel>
+public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
 {
     public vSmartEMRRESCalendar() { }
 

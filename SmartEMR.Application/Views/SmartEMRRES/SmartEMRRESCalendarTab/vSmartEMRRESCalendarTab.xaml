@@ -9,6 +9,7 @@
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:view="clr-namespace:SmartEMR.Application.Views"
                       xmlns:patient="clr-namespace:SmartEMR.Application.Views.Patients"
+                      xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
@@ -20,15 +21,17 @@
     <dxd:DockLayoutManager>
         <dxd:LayoutGroup Orientation="Horizontal">
             <dxd:LayoutGroup ItemWidth="0.5*" Orientation="Vertical">
-                <dxd:LayoutPanel ItemHeight="Auto" ShowCaption="False">
-                    <patient:vPatientInfo/>
+                <dxd:LayoutPanel ItemHeight="Auto" ShowCaption="False" ShowBorder="False">
+                    <patient:vPatientViewSummary/>
                 </dxd:LayoutPanel>
                 <dxd:LayoutPanel ItemHeight="*" Caption="환자이력">
                     <patient:vSmartEMRPatientHistory/>
                 </dxd:LayoutPanel>
             </dxd:LayoutGroup>
             <dxd:LayoutGroup>
-
+                <Xpf:LayoutPanel Caption="예약현황">
+                    <local:vSmartEMRRESCalendar Padding="2"/>
+                </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
         </dxd:LayoutGroup>
     </dxd:DockLayoutManager>

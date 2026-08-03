@@ -14,7 +14,7 @@ public class ApplicationSession : ITokenProvider
     public MemberUser? MemberUser => _user;
 
     // 추후 환경설정에서 변경할 수 있도록 할 예정
-    public int ReservationTimeInterval = 30;
+    public int ReservationTimeInterval { get; } = 30;
 
     public TokenResponse? GetToken()
     {

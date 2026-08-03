@@ -1,4 +1,7 @@
 ﻿using SmartEMR.Application.Common;
+using SmartEMR.Application.Core;
+using SmartEMR.Application.Views;
+using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 using System.Collections.ObjectModel; // 추가
 using System.Collections.Specialized;
 using System.Windows;
@@ -51,7 +54,7 @@ namespace SmartEMR.Application.Xpf.Bar
             }
         }
 
-        private void OnBarItem_Click(object sender, RoutedEventArgs e)
+        private async void OnBarItem_Click(object sender, RoutedEventArgs e)
         {
             var element = sender as Button;
 
@@ -63,16 +66,18 @@ namespace SmartEMR.Application.Xpf.Bar
                 {
                     switch (location)
                     {
-                        case eSmartEMRLocation.CALENDAR:
+                        case eSmartEMRLocation.RES:
+                            await SmartUI.NavigateToPage(new vSmartEMRRESCalendarTab());
                             break;
 
-                        case eSmartEMRLocation.DESK:
+                        case eSmartEMRLocation.DSK:
+                            await SmartUI.NavigateToPage(new vSmartEMRDeskTab());
                             break;
 
-                        case eSmartEMRLocation.EXAM:
+                        case eSmartEMRLocation.CST:
                             break;
 
-                        case eSmartEMRLocation.PAYMENT:
+                        case eSmartEMRLocation.PAY:
                             break;
 
                         case eSmartEMRLocation.CRM:

@@ -15,19 +15,19 @@
     <bar:NavigationBar Height="80" Background="Transparent">
         <bar:BarItem    Content="예약" 
                         Glyph="/Images/smartemr_menu_calendar.png" 
-                        Tag="CALENDAR"/>
+                        Tag="RES"/>
 
         <bar:BarItem    Content="접수" 
                         Glyph="/Images/smartemr_menu_desk.png" 
-                        Tag="DESK"/>
+                        Tag="DSK"/>
 
         <bar:BarItem    Content="진료"
                         Glyph="/Images/smartemr_menu_exam.png"
-                        Tag="EXAM"/>
+                        Tag="CST"/>
 
         <bar:BarItem    Content="수납"
                         Glyph="/Images/smartemr_menu_payment.png"
-                        Tag="PAYMENT"/>
+                        Tag="PAY"/>
 
         <bar:BarItem    Content="CRM"
                         Glyph="/Images/smartemr_menu_crm.png"
