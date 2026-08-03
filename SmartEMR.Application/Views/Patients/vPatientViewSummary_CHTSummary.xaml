@@ -1,4 +1,4 @@
-﻿<Xpf:CustomControl x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskPATView_CHTSummary"
+﻿<Xpf:CustomControl x:Class="SmartEMR.Application.Views.Patients.vPatientViewSummary_CHTSummary"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

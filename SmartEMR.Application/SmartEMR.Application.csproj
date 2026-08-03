@@ -138,4 +138,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\SmartEMRDesk\Patient\" />
+  </ItemGroup>
+
 </Project>

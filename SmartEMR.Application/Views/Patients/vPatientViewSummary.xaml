@@ -1,4 +1,4 @@
-﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskPATView"
+﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.Patients.vPatientViewSummary"
                         x:TypeArguments="vm:PatientViewModel"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,7 +9,7 @@
                         xmlns:view="clr-namespace:SmartEMR.Application.Views"
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
-                        xmlns:desk="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
+                        xmlns:patient="clr-namespace:SmartEMR.Application.Views.Patients"
                         xmlns:resources="clr-namespace:SmartEMR.Application.Resources"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
@@ -61,26 +61,26 @@
                                 Background="#F1F3F5"
                                 Margin="0,0,3,0"
                                 Click="OnClick_Button"/>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
+                <patient:vPatientViewSummary_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">성명</Label>
                     <Label Content="{Binding Model.PAT_Name}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="4">
+                </patient:vPatientViewSummary_TextItem>
+                <patient:vPatientViewSummary_TextItem Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">성별/나이</Label>
                     <Label Content="{Binding Model.vPAT_Info}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">
+                </patient:vPatientViewSummary_TextItem>
+                <patient:vPatientViewSummary_TextItem Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">생년월일</Label>
                     <Label Content="{Binding Model.PAT_BirthDate}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">
+                </patient:vPatientViewSummary_TextItem>
+                <patient:vPatientViewSummary_TextItem Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">전화번호</Label>
                     <Label Content="{Binding Model.PAT_PhoneNum}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="8">
+                </patient:vPatientViewSummary_TextItem>
+                <patient:vPatientViewSummary_TextItem Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="8">
                     <Label FontWeight="SemiBold">주소</Label>
                     <Label Content="{Binding Model.vPAT_Address}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
+                </patient:vPatientViewSummary_TextItem>
                 <Xpf:ImageButton    x:Name="btnCopyAddress"
                                     Grid.Row="3" 
                                     Grid.Column="12" 
@@ -91,22 +91,22 @@
                                     Cursor="Hand"
                                     Glyph="/Images/copy.png"
                                     Click="OnClick_ImageButton"/>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4">
+                <patient:vPatientViewSummary_TextItem Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">최초내원일</Label>
                     <Label Content="{Binding Model.PAT_FirstVisitDate}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="4">
+                </patient:vPatientViewSummary_TextItem>
+                <patient:vPatientViewSummary_TextItem Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">최종내원일</Label>
                     <Label Content="{Binding Model.PAT_LastVisitDate}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="4">
+                </patient:vPatientViewSummary_TextItem>
+                <patient:vPatientViewSummary_TextItem Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">내원경로</Label>
                     <Label Content="{Binding Model.vPAT_SourceType}" Margin="5,0"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
-                <desk:vSmartEMRDeskPATView_TextItem Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="4">
+                </patient:vPatientViewSummary_TextItem>
+                <patient:vPatientViewSummary_TextItem Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">다음예약일</Label>
                     <Label Content="{Binding Model.NEXT_CHT_DATE_RES}"/>
-                </desk:vSmartEMRDeskPATView_TextItem>
+                </patient:vPatientViewSummary_TextItem>
 
                 <Xpf:StyleGrid  LayoutDefinitions="1,2"
                                 RowSizeDefinitions="Auto,*"

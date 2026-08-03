@@ -1,18 +1,17 @@
 ﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
-using SmartEMR.Application.Views.Patients;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Windows;
 
-namespace SmartEMR.Application.Views.SmartEMRDesk;
+namespace SmartEMR.Application.Views.Patients;
 
 /// <summary>
 /// vSmartEMRDeskPATInfo.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class vSmartEMRDeskPATView : ModelViewLayout<PatientViewModel>
+public partial class vPatientViewSummary : ModelViewLayout<PatientViewModel>
 {
     private Patient PATItem => vm.Model;
 

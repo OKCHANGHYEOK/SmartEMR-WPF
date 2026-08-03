@@ -18,7 +18,7 @@
         <dxd:LayoutGroup Orientation="Horizontal">
             <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.7*">
                 <Xpf:LayoutPanel ItemHeight="0.7*" ShowCaption="False">
-                    <view:vSmartEMRDeskPATView x:Name="SmartEMRDeskPATView"/>
+                    <patient:vPatientViewSummary x:Name="SmartEMRDeskPATView"/>
                 </Xpf:LayoutPanel>
                 <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="0.8*">
                     <Xpf:LayoutPanel Caption="접수정보">

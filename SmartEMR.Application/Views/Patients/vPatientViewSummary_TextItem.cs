@@ -2,16 +2,16 @@
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace SmartEMR.Application.Views.SmartEMRDesk;
+namespace SmartEMR.Application.Views.Patients;
 
 [ContentProperty(nameof(Children))]
-public class vSmartEMRDeskPATView_TextItem : UserControl
+public class vPatientViewSummary_TextItem : UserControl
 {
     private StackPanel ContentPanel = new();
 
     public UIElementCollection Children => ContentPanel.Children;
 
-    public vSmartEMRDeskPATView_TextItem()
+    public vPatientViewSummary_TextItem()
     {
         this.FontSize = 13;
         this.Content = ContentPanel;
