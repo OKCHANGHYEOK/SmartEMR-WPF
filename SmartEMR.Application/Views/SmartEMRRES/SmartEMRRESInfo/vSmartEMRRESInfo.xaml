@@ -270,7 +270,9 @@
                                             BindType="DateEdit"
                                             Col="0"
                                             ColSpan="2"
-                                            Row="0"/>
+                                            Row="0"
+                                            DisplayFormatString="yyyy-MM-dd"
+                                            IsBindClickEvent="True"/>
 
                             <Xpf:BindItem   FieldName="RES_ReservationTime"
                                             BindType="ComboBox"

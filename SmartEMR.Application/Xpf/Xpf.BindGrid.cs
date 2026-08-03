@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -252,7 +253,11 @@ public partial class BindGrid : StyleGrid, IDisposable
 
         if (bindItem.BackGround != null) visualChild.SetValue(BackgroundProperty, bindItem.BackGround);
         if (bindItem.BorderBrush != null) visualChild.SetValue(BorderBrushProperty, bindItem.BorderBrush);
-        if (bindItem.DisplayFormatString != null) visualChild.SetValue(DateEdit.DisplayFormatStringProperty, bindItem.DisplayFormatString);
+        if (bindItem.DisplayFormatString != null) 
+        {
+            visualChild.SetValue(DateEdit.DisplayFormatStringProperty, bindItem.DisplayFormatString);
+            visualChild.SetValue(DateEdit.MaskUseAsDisplayFormatProperty, true);
+        }
 
         if (bindItem.Padding != null)
         {
@@ -410,15 +415,26 @@ public partial class BindGrid : StyleGrid, IDisposable
     {
         if (sender is FrameworkElement fe && fe.Tag is BindItem element)
         {
+            object? oldValue = null;
             object? newValue = null;
 
-            if (sender is BaseEdit && e is EditValueChangingEventArgs evcArgs)
+            if (sender is BaseEdit be && e is EditValueChangingEventArgs evcArgs)
             {
+                oldValue = evcArgs.OldValue;
                 newValue = evcArgs.NewValue;
-            }
 
-            var args = new BindClickEventArgs(e.RoutedEvent, this, element, newValue);
-            BindGrid_BindClickEvent?.Invoke(this, args);
+                var args = new BindClickEventArgs(e.RoutedEvent, this, element, oldValue, newValue);
+
+                BindGrid_BindClickEvent?.Invoke(this, args);
+
+                evcArgs.IsCancel = args.Cancel;
+                evcArgs.Handled = args.Cancel;
+
+                SmartUI.BeginInvoke(() =>
+                {
+                    Keyboard.ClearFocus();
+                }, System.Windows.Threading.DispatcherPriority.Background);
+            }
         }
     }
 
@@ -491,12 +507,22 @@ public partial class BindGrid
         var descriptor = DependencyPropertyDescriptor.FromProperty(dp, element.GetType());
         if (descriptor != null)
         {
+            object? oldValue = descriptor.GetValue(element);
+
             EventHandler handler = (s, e) =>
             {
-                if (this.IsPreventBindGridEvent) return;
+                if (IsPreventBindGridEvent) return;
 
-                var args = new BindItemChangedEventArgs(bindItem, element, dp, descriptor.GetValue(element));
-                BindGrid_BindItemChangedEvent?.Invoke(this, args);
+                object? newValue = descriptor.GetValue(element);
+
+                if (!Equals(oldValue, newValue))
+                {
+                    var args = new BindItemChangedEventArgs(bindItem, element, dp, oldValue, newValue);
+
+                   BindGrid_BindItemChangedEvent?.Invoke(this, args);
+
+                    oldValue = newValue;
+                }
             };
 
             descriptor.AddValueChanged(element, handler);
@@ -517,28 +543,40 @@ public partial class BindGrid
 public class BindClickEventArgs : RoutedEventArgs
 {
     public BindItem BindItem { get; }
+    public object? OldValue { get; }
     public object? NewValue { get; }
+    public bool Cancel { get; set; }
 
-    public BindClickEventArgs(RoutedEvent routedEvent, object source, BindItem item, object? newValue = null) 
+    public BindClickEventArgs(RoutedEvent routedEvent, object source, BindItem item, object? oldValue, object? newValue, bool cancel = false) 
         : base(routedEvent, source)
     {
         BindItem = item;
+        OldValue = oldValue;        
         NewValue = newValue;
+        Cancel = cancel;
     }
 }
 
 public class BindItemChangedEventArgs : EventArgs
 {
-    public BindItem BindItem { get; }            // 메타데이터 정보
-    public FrameworkElement UIElement { get; }     // 실제 렌더링된 TextBox 등의 UI객체
-    public DependencyProperty Property { get; }    // 변경된 속성 (TextProperty 등)
-    public object? NewValue { get; }               // 바뀐 새로운 값
+    // 메타데이터 정보
+    public BindItem BindItem { get; }
+    // 실제 렌더링된 TextBox 등의 UI객체
+    public FrameworkElement Element { get; }
+    // 변경된 속성 (TextProperty 등)
+    public DependencyProperty Property { get; }
+    // 기존 값
+    public object? OldValue { get; }
 
-    public BindItemChangedEventArgs(BindItem bindItem, FrameworkElement uiElement, DependencyProperty property, object? newValue)
+    // 바뀐 새로운 값
+    public object? NewValue { get; }               
+
+    public BindItemChangedEventArgs(BindItem bindItem, FrameworkElement element, DependencyProperty property, object? oldValue, object? newValue)
     {
         BindItem = bindItem;
-        UIElement = uiElement;
+        Element = element;
         Property = property;
+        OldValue = oldValue;
         NewValue = newValue;
     }
 }

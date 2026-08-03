@@ -91,16 +91,46 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         CanChangingIsNewPatient = true;
     }
 
+    public void SetSelectedSlot(string? reservationTime = "")
+    {
+        if (Reservations is null) return;
+
+        // 초기 설정 또는 예약날짜 변경시(시간이 전달되지 않은 경우)
+        if (string.IsNullOrWhiteSpace(reservationTime))
+        {
+            // 오늘 날짜로 변경된 경우
+            if (SmartMVVM.Common.IsToday(Model.RES_YYMMDD))
+            {
+                if (Model.RES_Idx.GetValueOrDefault(0) > 0) // 예약 수정으로 들어온 경우 해당 예약의 시간으로 설정
+                {
+                    SelectedSlot = Reservations.FirstOrDefault(x => x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx);
+                }
+                else // 예약 등록으로 들어온 경우 현재 기준으로 가장 가까운 시간으로 설정
+                {
+                    SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval));
+                }
+
+            }
+            // 오늘 날짜가 아닌 경우 첫 번째 시각으로 설정
+            else
+            {
+                SelectedSlot = Reservations.First();
+            }
+        }
+        // 예약시간 변경시
+        else
+        {
+            SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == reservationTime);
+        }
+    }
+
     public async Task UpdateReservations(string? RES_YYMMDD = "")
     {
         Reservations = SmartMVVM.Common.GetReservationSlots();
 
-        var getRES = new Reservation
-        {
-            RES_YYMMDD = string.IsNullOrWhiteSpace(RES_YYMMDD) ? Model.RES_YYMMDD : DateTime.Parse(RES_YYMMDD).ToString("yyyy-MM-dd")
-        };
+        Model.RES_YYMMDD = string.IsNullOrWhiteSpace(RES_YYMMDD) ? Model.RES_YYMMDD : DateTime.Parse(RES_YYMMDD).ToString("yyyy-MM-dd");
 
-        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, getRES);
+        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_YYMMDD = Model.RES_YYMMDD });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
             SmartUI.SetNofification("예약현황 조회에 실패했습니다.", NotificationType.Error);
@@ -113,28 +143,17 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             slot.IsReserved = slot.RESItem is not null;
         }
 
-        if (Model.RES_Idx > 0)
-        {
-            SelectedSlot = Reservations.FirstOrDefault(x => x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx);
-        }
-        else if (Model.RES_YYMMDD == DateTime.Now.ToString("yyyy-MM-dd"))
-        {
-            SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == Model.RES_ReservationTime);
-        }
-
-        if (SelectedSlot is null)
-        {
-            await SmartUI.SendMessage("SetRESListBoxScrollToTop", Reservations.First());
-        }
+        SetSelectedSlot();
     }
 
-    public void UpdateSelectedSlot(ReservationSlot selectedSlot)
+    public void UpdateReservationTime(string? RES_Time)
     {
-        if (Reservations is null) return;
+        if (string.IsNullOrWhiteSpace(RES_Time)) return;
 
-        Model.RES_ReservationTime = selectedSlot.RES_Time;
-
-        SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == Model.RES_ReservationTime);
+        if (Model.RES_ReservationTime != RES_Time)
+        {
+            Model.RES_ReservationTime = RES_Time;
+        }
     }
 
     public void UpdateInputPatientByRegisterNum1(bool isUpdatedRegNo1)

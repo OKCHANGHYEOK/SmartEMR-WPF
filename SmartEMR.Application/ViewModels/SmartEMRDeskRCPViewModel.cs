@@ -101,9 +101,9 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
 
     public async Task CancelRCP(Reception item)
     {
-        if (SmartUI.MsgYesNo("접수취소하시겠습니까?") is MessageBoxResult.No) return;
+       if (SmartUI.MsgYesNo("접수취소하시겠습니까?") is MessageBoxResult.No) return;
 
-        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_CancelReception, new Reception { RCP_Idx = item.RCP_Idx, RES_Idx = item.RES_Idx, RCP_IsValid = false });
+       await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_CancelReception, new Reception { RCP_Idx = item.RCP_Idx, RES_Idx = item.RES_Idx, RCP_IsValid = false });
         
        if (!SmartMVVM.DataStore.retIsSuccess)
         {
@@ -111,9 +111,9 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
             return;
         }
 
-        await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
+       await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
 
-        SmartUI.SetNofification("접수취소되었습니다.", NotificationType.Success);
+       SmartUI.SetNofification("접수취소되었습니다.", NotificationType.Success);
     }
 
     public void SetRCB_YYMMDD(string RCB_YYMMDD)

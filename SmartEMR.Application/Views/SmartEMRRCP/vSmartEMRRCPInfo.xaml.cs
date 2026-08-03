@@ -43,42 +43,6 @@ public partial class vSmartEMRRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel
             stbRCP_SubjectName.Margin = new Thickness(1, 0, 1, 0);
         }
 
-        //var cmbMUR_Idx_DOC = this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_DOC");
-        //if (cmbMUR_Idx_DOC != null)
-        //{
-        //    cmbMUR_Idx_DOC.ItemsSource = vm.arrMUR_DOC;
-        //}
-
-        //var cmbMUR_Idx_STF = this.BindGrids[0].GetBindItem<ComboBoxEdit>("MUR_Idx_STF");
-        //if (cmbMUR_Idx_STF != null)
-        //{
-        //    cmbMUR_Idx_STF.ItemsSource = vm.arrMUR_STF;
-        //}
-
-        //var cmbRCP_Subject = this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Subject");
-        //if (cmbRCP_Subject != null)
-        //{
-        //    cmbRCP_Subject.ItemsSource = vm.arrRCP_Subject;
-        //}
-
-        //var cmbRCP_VisitType = this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_VisitType");
-        //if (cmbRCP_VisitType != null)
-        //{
-        //    cmbRCP_VisitType.ItemsSource = vm.arrRCP_VisitType;
-        //}
-
-        //var cmbRCP_Route = this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_Route");
-        //if (cmbRCP_Route != null)
-        //{
-        //    cmbRCP_Route.ItemsSource = vm.arrRCP_Route;
-        //}
-
-        //var cmbRCP_InsuranceType = this.BindGrids[0].GetBindItem<ComboBoxEdit>("RCP_InsuranceType");
-        //if (cmbRCP_InsuranceType != null)
-        //{
-        //    cmbRCP_InsuranceType.ItemsSource = vm.arrRCP_InsuranceType;
-        //}
-
         var stbRCP_Memo = this.BindGrids[0].GetBindItem<StyleTextBox>("RCP_Memo");
         if (stbRCP_Memo != null)
         {
@@ -95,8 +59,20 @@ public partial class vSmartEMRRCPInfo : ModelViewLayout<SmartEMRRCPInfoViewModel
         var bindItem = e.BindItem;
         if (bindItem == null) return;
 
+        var newValue = e.NewValue?.ToString();
+
         switch (bindItem.FieldName)
         {
+            case "RCP_ReceiptDate":
+                if (string.IsNullOrWhiteSpace(newValue)) return;
+
+                if (SmartMVVM.Common.IsHoliday(newValue) && SmartUI.MsgYesNo("휴일을 선택하셨습니다. 계속 하시겠습니까?") is MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+
+                break;
+
         }
     }
 

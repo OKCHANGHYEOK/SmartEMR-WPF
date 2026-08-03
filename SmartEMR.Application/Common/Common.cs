@@ -250,6 +250,27 @@ public partial class Common
 
         return isExisits;
     }
+
+    public bool IsToday(string? yyMMdd)
+    {
+        if (string.IsNullOrWhiteSpace(yyMMdd)) return false;
+
+        return yyMMdd == DateTime.Now.ToString("yyyy-MM-dd");
+    }
+
+    public bool IsHoliday(string yyMMdd)
+    {
+        if (!DateTime.TryParse(yyMMdd, out var dt)) return false;
+
+        if (dt.DayOfWeek == DayOfWeek.Sunday)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 public partial class Common

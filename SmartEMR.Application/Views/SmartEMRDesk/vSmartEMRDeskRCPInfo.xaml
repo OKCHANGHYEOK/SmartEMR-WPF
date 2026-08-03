@@ -30,7 +30,9 @@
                                 BindType="DateEdit"
                                 Col="0"
                                 Row="0"
-                                ColSpan="2"/>
+                                ColSpan="2"
+                                DisplayFormatString="yyyy-MM-dd"
+                                IsBindClickEvent="true"/>
 
                 <Xpf:BindItem   FieldName="RCP_ReceiptTime"
                                 BindType="DateEdit"

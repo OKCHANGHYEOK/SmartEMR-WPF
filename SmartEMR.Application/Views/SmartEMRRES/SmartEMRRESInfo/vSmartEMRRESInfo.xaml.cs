@@ -85,11 +85,27 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         }
     }
 
-    public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
+    public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
-        if (sender is BindGrid bg)
-        {
+        var bindGrid = sender as BindGrid;
+        if (bindGrid == null) return;
 
+        var bindItem = e.BindItem;
+        if (bindItem == null) return;
+
+        var newValue = e.NewValue?.ToString();
+
+        switch (bindItem.FieldName)
+        {
+            case "RES_ReservationDate":
+                if (string.IsNullOrWhiteSpace(newValue)) return;
+
+                if (SmartMVVM.Common.IsHoliday(newValue) && SmartUI.MsgYesNo("휴일을 선택하셨습니다. 계속 하시겠습니까?") is MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+
+                break;
         }
     }
 
@@ -148,7 +164,7 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
 
                 case "RES_ReservationTime":
                     {
-                        SetSelectedSlot(newValue);
+                        vm.SetSelectedSlot(newValue);
                         break;
                     }
             }
@@ -177,7 +193,8 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
                     var paramItem = request.MessageParameter as Reservation;
                     if (paramItem is null) return null;
 
-                    SetSelectedSlot(paramItem.RES_ReservationTime);
+                    vm.SetSelectedSlot(paramItem.RES_ReservationTime);
+
                     break;
                 }
 
@@ -214,20 +231,6 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
 
 
         return response;
-    }
-
-    private void SetSelectedSlot(string? reservationTime = "")
-    {
-        if (vm.Reservations is null) return;
-
-        if (vm.Model.RES_Idx.GetValueOrDefault(0) > 0)
-        {
-            ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RESItem is not null && x.RESItem.RES_Idx == vm.Model.RES_Idx);
-        }
-        else
-        {
-            ReservationSlotListBox.SelectedItem = vm.Reservations.FirstOrDefault(x => x.RES_Time == reservationTime);
-        }
     }
 
     private void OnPreviewMouseLeftButtonDown_CheckEdit(object sender, MouseButtonEventArgs e)
@@ -275,6 +278,11 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
     {
         var listBoxEdit = sender as ListBoxEdit;
         if (listBoxEdit is null) return;
+
+        var dataItem = e.NewValue as ReservationSlot;
+        if (dataItem is null) return;
+
+        vm.UpdateReservationTime(dataItem.RES_Time);
 
         SmartUI.BeginInvoke(() =>
         {

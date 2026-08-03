@@ -41,8 +41,20 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             var bindItem = e.BindItem;
             if (bindItem == null) return;
 
+            var newValue = e.NewValue?.ToString();
+
             switch (bindItem.FieldName)
             {
+                case "RCP_ReceiptDate":
+                    if (string.IsNullOrWhiteSpace(newValue)) return;
+
+                    if (SmartMVVM.Common.IsHoliday(newValue) && SmartUI.MsgYesNo("휴일을 선택하셨습니다. 계속 하시겠습니까?") is MessageBoxResult.No)
+                    {
+                        e.Cancel = true;
+                    }
+
+                    break;
+
             }
         }
 

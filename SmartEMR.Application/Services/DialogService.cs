@@ -10,27 +10,13 @@ namespace SmartEMR.Application.Services;
 
 public class DialogService
 {
-    private UIWindow? _window
-    {
-        get
-        {
-            return SmartUI.CurrentWindow ?? default;
-        }
-    }
-
     public MessageBoxResult MsgConfirm(string msg)
     {
         var msgBox = new SmartMessageBox();
         msgBox.SetMessage(msg);
         msgBox.SetButtonVisibility(MessageBoxType.OK);
-
-        if (_window != null)
-        {
-            msgBox.Owner = _window;
-            msgBox.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        }
-
         msgBox.ShowDialog();
+
         return msgBox.Result;
     }
 
@@ -39,14 +25,8 @@ public class DialogService
         var msgBox = new SmartMessageBox();
         msgBox.SetMessage(msg);
         msgBox.SetButtonVisibility(MessageBoxType.YesNo);
-
-        if (_window != null)
-        {
-            msgBox.Owner = _window;
-            msgBox.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        }
-
         msgBox.ShowDialog();
+
         return msgBox.Result;
     }
 
@@ -55,14 +35,8 @@ public class DialogService
         var msgBox = new SmartMessageBox();
         msgBox.SetMessage(inlines);
         msgBox.SetButtonVisibility(MessageBoxType.YesNo);
-
-        if (_window != null)
-        {
-            msgBox.Owner = _window;
-            msgBox.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        }
-
         msgBox.ShowDialog();
+
         return msgBox.Result;
     }
 
@@ -91,6 +65,15 @@ public class DialogService
             this.ResizeMode = ResizeMode.NoResize;
             this.AllowsTransparency = true;
             this.Background = Brushes.Transparent;
+            this.Owner = SmartUI.CurrentWindow;
+            this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            this.Topmost = true;
+            this.Loaded += (s, e) =>
+            {
+                this.Topmost = false;
+            };
+
+            VirtualizingPanel.SetIsVirtualizing(this, false);
 
             // 크기는 요청하신 360x300 비율을 기본으로 유지
             this.Width = 375;  // 그림자 마진 여유 공간을 위해 15px 정도 늘림
