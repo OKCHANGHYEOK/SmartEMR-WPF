@@ -238,6 +238,13 @@ public partial class Common
         return slots;
     }
 
+    public string? GetYYMMDDByDateString(string? strDate)
+    {
+        if (DateTime.TryParse(strDate, out var dt) == false) return null;
+
+        return dt.ToString("yyyy-MM-dd");
+    }
+
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)
     {
         bool isExisits = false;
