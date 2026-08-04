@@ -216,6 +216,7 @@ public class ModelProperty
     public void SetReservationData(Reservation oldItem, Reservation newItem)
     {
         oldItem.RES_Idx = newItem.RES_Idx;
+        oldItem.PAT_Idx = newItem.PAT_Idx;
         oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC;
         oldItem.MUR_Idx_STF = newItem.MUR_Idx_STF;
         oldItem.RES_Status = newItem.RES_Status;

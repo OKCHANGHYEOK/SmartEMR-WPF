@@ -9,6 +9,7 @@ public class SmartResourceDictionary
 {
     private static readonly ResourceDictionary _dictGeneric = new ResourceDictionary { Source = new Uri("../Themes/Generic.xaml", UriKind.RelativeOrAbsolute) };
     private static readonly ResourceDictionary _dictDataGridCell = new ResourceDictionary { Source = new Uri("../Template/DataGridCellTemplates.xaml", UriKind.RelativeOrAbsolute) };
+    private static readonly ResourceDictionary _dictCalendar = new ResourceDictionary { Source = new Uri("../Template/CalendarTemplates.xaml", UriKind.RelativeOrAbsolute) };
 
     public static T? GetStaticResource<T>(TargetResource targetResource, string resourceKey) where T : class
     {
@@ -19,6 +20,9 @@ public class SmartResourceDictionary
 
             case TargetResource.DataGridCell:
                 return _dictDataGridCell.Contains(resourceKey) ? _dictDataGridCell[resourceKey] as T : null;
+
+            case TargetResource.Calendar:
+                return _dictCalendar.Contains(resourceKey) ? _dictCalendar[resourceKey] as T : null;
         }
 
         return null;

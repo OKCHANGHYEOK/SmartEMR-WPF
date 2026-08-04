@@ -28,6 +28,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     [ObservableProperty]
     private bool canChangingIsNewPatient = false;
 
+    private bool _initialized = false;
+
     public ReservationInfoViewModel() { }
     public ReservationInfoViewModel(Reservation item) : base(item) { }
 
@@ -64,6 +66,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         }
 
         await UpdateReservations();
+
+        _initialized = true;
     }
 
     protected override Reservation GetModel(Reservation item)
@@ -76,7 +80,11 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             item.RES_Subject = "GNR";
             item.RES_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
             item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
-            item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
+        
+            if (string.IsNullOrWhiteSpace(item.RES_ReservationTime))
+            {
+                item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
+            }
         }
 
         item.PageSize = 10;
@@ -110,12 +118,16 @@ public partial class ReservationInfoViewModel : ReservationViewModel
                         return x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx;
                     };
                 }             
-                else // 예약 등록으로 들어온 경우 현재 기준으로 가장 가까운 시간으로 설정
+                else // 예약 등록으로 들어온 경우 초기 설정 시 -> 모델의 예약시간을 따라감, 그 이후에는 현재를 기준으로 가장 가까운 시각
                 {
-                    selectFunc = (x) =>
+                    if (!_initialized)
                     {
-                        return x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
-                    };
+                        selectFunc = (x) => { return x.RES_Time == Model.RES_ReservationTime; };
+                    }
+                    else
+                    {
+                        selectFunc = (x) => { return x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval); };
+                    }
                 }
 
             }

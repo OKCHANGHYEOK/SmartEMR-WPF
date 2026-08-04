@@ -79,11 +79,12 @@ public partial class CalendarViewModel : ReservationViewModel
 
         for (TimeSpan time = StartTime; time < EndTime; time += interval)
         {
-            var row = new CalendarRowItem { Time = time.ToString(@"hh\:mm"), Reservations = new Dictionary<string, Reservation>() };
+            var strTime = time.ToString(@"hh\:mm");
+            var row = new CalendarRowItem { Time = strTime, Reservations = new Dictionary<string, Reservation>() };
             
             foreach (var day in days)
             {
-                row.Reservations[day.ToString("yyyy-MM-dd")] = new Reservation();
+                row.Reservations[day.ToString("yyyy-MM-dd")] = new Reservation() { RES_ReservationTime = strTime };
             }
 
             CalenderItems.Add(row);

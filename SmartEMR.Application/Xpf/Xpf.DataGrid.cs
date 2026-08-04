@@ -205,29 +205,28 @@ public partial class DataGrid : ContentControl
 
     private void TableView_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
+        if (DataGrid_PopupMenuOpening is null) return;
+
         var view = sender as TableView;
         if (view == null) return;
 
         var source = e.OriginalSource as DependencyObject;
         if (source == null) return;
 
-        var row = GetRowData(source);
+        var row = GridRowHelper.GetRowData(source, TableView, GridControl);
         if (row == null) return;
 
-        if (DataGrid_PopupMenuOpening != null)
+        var popupMenu = new PopupMenu
         {
-            var popupMenu = new PopupMenu
-            {
-                PlacementTarget = GridControl,
-                Placement = PlacementMode.MousePoint,
-                DataContext = row
-            };
+            PlacementTarget = GridControl,
+            Placement = PlacementMode.MousePoint,
+            DataContext = row
+        };
 
-            DataGrid_PopupMenuOpening.Invoke(this, new PopupMenuOpeningEventArgs(popupMenu, row, GridControl.CurrentColumn));
+        DataGrid_PopupMenuOpening.Invoke(this, new PopupMenuOpeningEventArgs(popupMenu, row, GridControl.CurrentColumn));
 
-            popupMenu.PopupMenuClick += DataGrid_PopupMenuItemClick;
-            popupMenu.IsOpen = true;
-        }
+        popupMenu.PopupMenuClick += DataGrid_PopupMenuItemClick;
+        popupMenu.IsOpen = true;
     }
 
     private void InvokeDataItemChanged(object? item)
@@ -236,14 +235,6 @@ public partial class DataGrid : ContentControl
 
         var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
         this.DataGrid_DataItemChangedEvent?.Invoke(this, args);
-    }
-
-    private object? GetRowData(DependencyObject source)
-    {
-        var hitInfo = TableView.CalcHitInfo(source);
-        if (hitInfo == null || !hitInfo.InRowCell) return null;
-
-        return GridControl.GetRow(hitInfo.RowHandle);
     }
 
     #endregion

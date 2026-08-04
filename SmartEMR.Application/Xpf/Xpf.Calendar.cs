@@ -7,9 +7,8 @@ using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Resources;
 using System.Windows.Input;
-using System.Diagnostics;
+using System.Windows.Controls.Primitives;
 using SmartEMR.Domain.Entities;
-using System.Windows.Controls;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -94,12 +93,13 @@ public class Calendar : CustomControl
         set => SetValue(CalendarModeProperty, value);
     }
 
+    public event EventHandler<PopupMenuOpeningEventArgs>? Calendar_PopupMenuOpening;
+    public event EventHandler<PopupMenuItemClickEventArgs>? Calendar_PopupMenuItemClick;
 
     public GridControl GridControl { get; set; } = new();
     public TableView TableView { get; set; } = new();
     
     private DataTemplate? _headerItemTemplate = null;
-    private DataTemplate? _calenderItemTemplate = null;
 
     public Calendar()
     {
@@ -122,7 +122,7 @@ public class Calendar : CustomControl
         TableView.EnableImmediatePosting = true;
         TableView.ShowDragDropHint = false;
         TableView.IsColumnMenuEnabled = false;
-        TableView.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown_TableView;
+        TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
 
         this.Content = GridControl;
 
@@ -132,7 +132,6 @@ public class Calendar : CustomControl
     private void InitializeTemplate()
     {
         _headerItemTemplate = SmartResourceDictionary.GetStaticResource<DataTemplate>(TargetResource.Calendar, "CalendarHeaderItemTemplate");
-        _calenderItemTemplate = SmartResourceDictionary.GetStaticResource<DataTemplate>(TargetResource.Calendar, "CalendarItemTemplate");
     }
 
     private void SetCalendar() 
@@ -164,31 +163,39 @@ public class Calendar : CustomControl
 
     private DataTemplate CreateCalendarItemTemplate(DateTime day)
     {
-        var factory = new FrameworkElementFactory(typeof(ReservationCalendarCellItem));
-        factory.SetBinding(ReservationCalendarCellItem.ReservationProperty, new Binding($"RowData.Row.Reservations[{day:yyyy-MM-dd}]"));
-
         return new DataTemplate
         {
-            VisualTree = factory
+            VisualTree = new FrameworkElementFactory(typeof(ReservationCalendarCellItem))
         };
     }
 
-    private void OnPreviewMouseLeftButtonDown_TableView(object sender, MouseButtonEventArgs e)
+    private void TableView_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
+        if (Calendar_PopupMenuOpening is null) return;
+
         var view = sender as TableView;
         if (view is null) return;
 
-        var hitInfo = view.CalcHitInfo(e.OriginalSource as DependencyObject);
-        if (!hitInfo.InRowCell) return;
+        var source = e.OriginalSource as DependencyObject;
+        if (source is null) return;
 
-        var row = GridControl.GetRow(hitInfo.RowHandle) as CalendarRowItem;
+        var row = GridRowHelper.GetRowData(source, TableView, GridControl) as CalendarRowItem;
         if (row is null) return;
-        
-        foreach (var item in row.Reservations)
+
+        var column = GridRowHelper.GetColumn(source, TableView);
+        var dataItem = row.Reservations[column.FieldName] as Reservation;
+        if (dataItem is null) return;
+
+        var popupMenu = new PopupMenu
         {
-            if (SmartMVVM.Common.IsToday(item.Key) && item.Value is Reservation reservation)
-            {
-            }
-        }
+            PlacementTarget = GridControl,
+            Placement = PlacementMode.MousePoint,
+            DataContext = dataItem
+        };
+
+        Calendar_PopupMenuOpening.Invoke(this, new PopupMenuOpeningEventArgs(popupMenu, dataItem, GridControl.CurrentColumn));
+
+        popupMenu.PopupMenuClick += Calendar_PopupMenuItemClick;
+        popupMenu.IsOpen = true;
     }
 }
