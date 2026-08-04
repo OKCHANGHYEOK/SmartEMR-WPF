@@ -19,9 +19,11 @@
     <Xpf:StyleGrid>
         <Xpf:Calendar StartDay="{Binding StartDay}"
                       DisplayDays="{Binding DisplayDays}"
-                      StartTime="00:00"
-                      EndTime="23:59"
-                      SlotInterval="{Binding ReservationTimeInterval, Source={x:Static core:SmartMVVM.AppSession}}">
+                      StartTime="{Binding StartTime}"
+                      EndTime="{Binding EndTime}"
+                      SlotInterval="{Binding ReservationTimeInterval, Source={x:Static core:SmartMVVM.AppSession}}"
+                      ItemsSource="{Binding CalenderItems}"
+                      VirtualizingStackPanel.IsVirtualizing="False">
         </Xpf:Calendar>
     </Xpf:StyleGrid>
-</base:ModelViewLayout>
+</base:ModelViewLayout> 

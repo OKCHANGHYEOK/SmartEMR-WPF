@@ -222,10 +222,19 @@ public class ModelProperty
         oldItem.RES_Route = newItem.RES_Route;
         oldItem.RES_Subject = newItem.RES_Subject;
         oldItem.RES_SubjectName = newItem.RES_SubjectName;
+        oldItem.vRES_SubjectName = newItem.RES_Subject == "ETC" ? newItem.RES_SubjectName : SmartMVVM.Common.GetCommonCodeName("RES", "Subject", newItem.RES_Subject ?? "");
         oldItem.RES_ReservationDate = newItem.RES_ReservationDate;
         oldItem.RES_ReservationTime = newItem.RES_ReservationTime;
         oldItem.RES_YYMMDD = newItem.RES_YYMMDD;
         oldItem.RES_Memo = newItem.RES_Memo;
+
+        oldItem.PAT_ChartNo = newItem.PAT_ChartNo;
+        oldItem.PAT_Name = newItem.PAT_Name;
+        oldItem.PAT_Sex = newItem.PAT_Sex;
+        oldItem.PAT_Age = newItem.PAT_Age;
+        oldItem.vPAT_Info = (newItem.PAT_Sex == "M" ? "남" : "여") + "/" + newItem.PAT_Age + "세";
+
+        oldItem.MUR_Name_DOC = string.IsNullOrWhiteSpace(newItem.MUR_Name_DOC) ? "담당의미정" : newItem.MUR_Name_DOC;
     }
 
     public void ClearRESData(Reservation item, bool isNewRES = false)

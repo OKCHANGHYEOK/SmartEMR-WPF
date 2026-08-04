@@ -1,18 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DevExpress.Utils;
 using DevExpress.Xpf.Grid;
-using DevExpress.XtraRichEdit.Import.OpenDocument;
 using SmartEMR.Application.Core;
-using SmartEMR.Application.Resources;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
 
@@ -143,77 +137,7 @@ public partial class DataGrid : ContentControl
 
     public void Add(ColumnItem item)
     {
-        StyleGridColumn element = new StyleGridColumn();
-
-        if (item.ColumnStyle != null)
-        {
-            SetHorizontalAlignment(item);
-        }
-
-        element.FieldName = item.FieldName;
-        element.Header = item.Header;
-        element.Width = item.ColumnWidth > 0 ? new GridColumnWidth(item.ColumnWidth, GridColumnUnitType.Pixel) : new GridColumnWidth(1, GridColumnUnitType.Star);
-        element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
-        element.CellTemplate = GetCellTemplate(item);
-        element.ColumnItem = item;
-        element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;
-
-        this.Columns.Add(element);
-    }
-
-    private void SetHorizontalAlignment(ColumnItem item)
-    {
-        item.HorizontalAlignment = item.ColumnStyle switch
-        {
-            ColumnStyle.Name => HorizontalAlignment.Left,
-            ColumnStyle.Code => HorizontalAlignment.Center,
-            ColumnStyle.YYMMDD => HorizontalAlignment.Center,
-            ColumnStyle.Sum => HorizontalAlignment.Right,
-            _ => HorizontalAlignment.Left
-        };
-    }
-
-    private DataTemplate? GetCellTemplate(ColumnItem item)
-    {
-        var template = new DataTemplate();
-
-        if (item.CellTemplateType != null)
-        {
-            if (!typeof(FrameworkElement).IsAssignableFrom(item.CellTemplateType))
-            {
-                Debug.WriteLine($"{item.CellTemplateType.Name}은 FrameworkElement를 상속해야 합니다.");
-                return null;
-            }
-
-            template = CreateTemplate(item.CellTemplateType);
-        }
-        else
-        {
-            string resourceKey = item.ColumnType switch
-            {
-                ColumnType.Label => "GridColumnLabelTemplate",
-                ColumnType.TextBox => "GridColumnTextBoxTemplate",
-                ColumnType.CheckBox => "GridColumnCheckBoxTemplate",
-                ColumnType.TextLink => "GridColumnTextLinkTemplate",
-                _ => "GridColumnLabelTemplate" // 기본값
-            };
-
-            template = SmartResourceDictionary.GetStaticResource<DataTemplate>(TargetResource.DataGridCell, resourceKey);
-        }
-
-        return template;
-    }
-
-    private DataTemplate CreateTemplate(Type templateType)
-    {
-        var presenter = new FrameworkElementFactory(typeof(ContentPresenter));
-        var innerTemplate = new DataTemplate();
-        innerTemplate.VisualTree = new FrameworkElementFactory(templateType);
-
-        presenter.SetBinding(ContentPresenter.ContentProperty, new Binding("RowData.Row"));
-        presenter.SetValue(ContentPresenter.ContentTemplateProperty, innerTemplate);
-
-        return new DataTemplate { VisualTree = presenter };
+        this.Columns.Add(GridColumnFactory.Create(item));
     }
 
     private void OnItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

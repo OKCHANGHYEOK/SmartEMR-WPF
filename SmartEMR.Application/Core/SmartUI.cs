@@ -31,7 +31,8 @@ public enum NotificationType
 public enum TargetResource
 {
     Generic,
-    DataGridCell
+    DataGridCell,
+    Calendar
 }
 
 public static partial class SmartUI

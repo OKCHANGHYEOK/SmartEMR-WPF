@@ -4,6 +4,6 @@ namespace SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 
 public class CalendarRowItem
 {
-    public string? RES_Time { get; set; }
-    public Dictionary<string, Reservation>? Reservations { get; set; }
+    public string? Time { get; set; }
+    public Dictionary<string, Reservation> Reservations { get; set; } = new();
 }

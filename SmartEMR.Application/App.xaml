@@ -12,24 +12,6 @@
             <converter:SvgPathConverter x:Key="SvgPathConverter"/>
             <converter:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
 
-            <DataTemplate x:Key="CalendarHeaderItemTemplate"> 
-                <Xpf:StyleGrid LayoutDefinitions="1,2"
-                               HorizontalAlignment="Stretch"
-                               Background="{Binding DayOfWeek, Converter={converter:DayOfWeekToBackgroundConverter}}">
-                    <Xpf:TextBlock  Grid.Row="0"
-                                    Text="{Binding Date, Converter={converter:DateTimeToStringConverter DisplayFormat='yyyy-MM-dd'}}" 
-                                    FontWeight="Bold"
-                                    Foreground="#4B5563"
-                                    Margin="4"/>
-
-                    <Xpf:TextBlock  Grid.Row="1"
-                                    Text="{Binding DayOfWeek, Converter={converter:DayOfWeekToStringConverter}}"
-                                    FontWeight="Bold"
-                                    Foreground="{Binding DayOfWeek, Converter={converter:DayOfWeekToForegroundConverter}}"
-                                    Margin="4"/>
-                </Xpf:StyleGrid>
-            </DataTemplate>
-
             <Style TargetType="{x:Type Xpf:Label}">
                 <Setter Property="MinWidth" Value="10"/>
                 <Setter Property="MinHeight" Value="10"/>

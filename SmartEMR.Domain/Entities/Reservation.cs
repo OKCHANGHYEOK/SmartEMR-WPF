@@ -12,6 +12,7 @@ public class Reservation : BaseEntity
     private string? m_PAT_Name;
     private string? m_PAT_Sex;
     private int? m_PAT_Age;
+    private string? m_vPAT_Info;
     private string? m_RES_Status;
     private string? m_RES_Route;
     private string? m_RES_Subject;
@@ -23,6 +24,11 @@ public class Reservation : BaseEntity
     private string? m_RES_Date;
     private string? m_RES_YYMMDD;
     private bool? m_RES_IsValid;
+
+    private string? m_MUR_Name_DOC;
+
+    private string? m_sDay;
+    private string? m_eDay;
 
     private Patient? m_PATItem;
 
@@ -86,6 +92,12 @@ public class Reservation : BaseEntity
     {
         get => m_PAT_Age;
         set => SetProperty(ref m_PAT_Age, value);
+    }
+
+    public string? vPAT_Info
+    {
+        get => m_vPAT_Info;
+        set => SetProperty(ref m_vPAT_Info, value);
     }
 
     public string? RES_Status
@@ -153,6 +165,25 @@ public class Reservation : BaseEntity
         get => m_RES_IsValid;
         set => SetProperty(ref m_RES_IsValid, value);
     }
+
+    public string? MUR_Name_DOC
+    {
+        get => m_MUR_Name_DOC;
+        set => SetProperty(ref m_MUR_Name_DOC, value);
+    }
+
+    public string? sDay
+    {
+        get => m_sDay;
+        set => SetProperty(ref m_sDay, value);
+    }
+
+    public string? eDay
+    {
+        get => m_eDay;
+        set => SetProperty(ref m_eDay, value);
+    }
+
 
     public Patient? PATItem
     {

@@ -9,11 +9,11 @@ namespace SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 /// </summary>
 public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
 {
-    public vSmartEMRRESCalendar() { }
+    public vSmartEMRRESCalendar() {  }
 
-    protected override void Initialize()
+    protected override async void Initialize()
     {
-
+        await vm.FetchDataAsync();
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)

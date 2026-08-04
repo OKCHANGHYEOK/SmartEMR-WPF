@@ -95,6 +95,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     {
         if (Reservations is null) return;
 
+        Func<ReservationSlot, bool>? selectFunc = null;
+
         // 초기 설정 또는 예약날짜 변경시(시간이 전달되지 않은 경우)
         if (string.IsNullOrWhiteSpace(reservationTime))
         {
@@ -103,25 +105,39 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             {
                 if (Model.RES_Idx.GetValueOrDefault(0) > 0) // 예약 수정으로 들어온 경우 해당 예약의 시간으로 설정
                 {
-                    SelectedSlot = Reservations.FirstOrDefault(x => x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx);
-                }
+                    selectFunc = (x) =>
+                    {
+                        return x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx;
+                    };
+                }             
                 else // 예약 등록으로 들어온 경우 현재 기준으로 가장 가까운 시간으로 설정
                 {
-                    SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval));
+                    selectFunc = (x) =>
+                    {
+                        return x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
+                    };
                 }
 
             }
             // 오늘 날짜가 아닌 경우 첫 번째 시각으로 설정
             else
             {
-                SelectedSlot = Reservations.First();
+                selectFunc = (x) =>
+                {
+                    return true;
+                };
             }
         }
         // 예약시간 변경시
         else
         {
-            SelectedSlot = Reservations.FirstOrDefault(x => x.RES_Time == reservationTime);
+            selectFunc = (x) =>
+            {
+                return x.RES_Time == reservationTime;
+            };
         }
+
+        SelectedSlot = Reservations.FirstOrDefault(selectFunc);
     }
 
     public async Task UpdateReservations(string? RES_YYMMDD = "")
@@ -148,12 +164,9 @@ public partial class ReservationInfoViewModel : ReservationViewModel
 
     public void UpdateReservationTime(string? RES_Time)
     {
-        if (string.IsNullOrWhiteSpace(RES_Time)) return;
+        if (string.IsNullOrWhiteSpace(RES_Time) || Model.RES_ReservationTime == RES_Time) return;
 
-        if (Model.RES_ReservationTime != RES_Time)
-        {
-            Model.RES_ReservationTime = RES_Time;
-        }
+        Model.RES_ReservationTime = RES_Time;
     }
 
     public void UpdateInputPatientByRegisterNum1(bool isUpdatedRegNo1)
