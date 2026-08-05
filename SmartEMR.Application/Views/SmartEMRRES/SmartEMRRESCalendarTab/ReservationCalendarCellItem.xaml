@@ -13,7 +13,8 @@
             BorderThickness="1"
             Background="White"
             Margin="2"
-            Cursor="Hand">
+            Cursor="Hand"
+            Visibility="{Binding RES_Idx, Converter={converter:IntToVisibilityConverter}}">
 
         <Border.DataContext>
             <MultiBinding Converter="{local:DictionaryValueConverter}">
@@ -24,12 +25,7 @@
 
         <Border.Style>
             <Style TargetType="Border">
-                <Setter Property="Visibility" Value="Visible"/>
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding RES_Idx}" Value="{x:Null}">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                    </DataTrigger>
-
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Opacity" Value="0.8"/>
                     </Trigger>

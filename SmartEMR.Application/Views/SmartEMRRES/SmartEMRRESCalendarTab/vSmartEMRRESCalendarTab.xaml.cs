@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 
@@ -21,6 +22,20 @@ namespace SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab
 
         public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
         {
+        }
+
+        public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+        {
+            var response = new ViewMessageResponse { IsSuccess = true };
+
+            switch (request.MessageAction)
+            {
+                case "UpdateCalendar":
+                    await SmartEMRCalendar.UpdateCalendar();
+                    break;
+            }
+
+            return response;
         }
     }
 }

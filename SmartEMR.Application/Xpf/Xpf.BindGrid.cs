@@ -418,23 +418,26 @@ public partial class BindGrid : StyleGrid, IDisposable
             object? oldValue = null;
             object? newValue = null;
 
+            var args = new BindClickEventArgs(e.RoutedEvent, this, element, oldValue, newValue);
             if (sender is BaseEdit be && e is EditValueChangingEventArgs evcArgs)
             {
                 oldValue = evcArgs.OldValue;
                 newValue = evcArgs.NewValue;
 
-                var args = new BindClickEventArgs(e.RoutedEvent, this, element, oldValue, newValue);
-
                 BindGrid_BindClickEvent?.Invoke(this, args);
 
                 evcArgs.IsCancel = args.Cancel;
                 evcArgs.Handled = args.Cancel;
-
-                SmartUI.BeginInvoke(() =>
-                {
-                    Keyboard.ClearFocus();
-                }, System.Windows.Threading.DispatcherPriority.Background);
             }
+            else
+            {
+                BindGrid_BindClickEvent?.Invoke(this, args);
+            }
+
+            SmartUI.BeginInvoke(() =>
+            {
+                Keyboard.ClearFocus();
+            }, System.Windows.Threading.DispatcherPriority.Background);
         }
     }
 

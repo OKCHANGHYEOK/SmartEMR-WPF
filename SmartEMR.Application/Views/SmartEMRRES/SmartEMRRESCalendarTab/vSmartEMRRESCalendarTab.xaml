@@ -30,7 +30,7 @@
             </dxd:LayoutGroup>
             <dxd:LayoutGroup>
                 <Xpf:LayoutPanel Caption="예약현황">
-                    <local:vSmartEMRRESCalendar Padding="2"/>
+                    <local:vSmartEMRRESCalendar x:Name="SmartEMRCalendar" Padding="2"/>
                 </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
         </dxd:LayoutGroup>

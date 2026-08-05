@@ -241,6 +241,7 @@ public class ModelProperty
     public void ClearRESData(Reservation item, bool isNewRES = false)
     {
         item.RES_Idx = isNewRES ? 0 : item.RES_Idx;
+        item.PAT_Idx = 0;
         item.MUR_Idx_DOC = 0;
         item.MUR_Idx_STF = 0;
         item.RES_Status = "RDY";
@@ -250,6 +251,14 @@ public class ModelProperty
         item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
         item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
         item.RES_Memo = "";
+
+        item.PAT_ChartNo = "";
+        item.PAT_Name = "";
+        item.PAT_Sex = "";
+        item.PAT_Age = 0;
+        item.vPAT_Info = "";
+
+        item.MUR_Name_DOC = "";
     }
 
     #endregion

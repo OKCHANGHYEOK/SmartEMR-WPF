@@ -1,27 +1,38 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 using System.Collections;
-using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Resources;
-using System.Windows.Input;
-using System.Windows.Controls.Primitives;
 using SmartEMR.Domain.Entities;
+using DevExpress.Xpf.Grid;
+using System.Windows.Controls;
+using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SmartEMR.Application.Xpf;
 
 public enum CalendarMode
 {
     Week,
-    Day
+    Month
 }
 
 public class Calendar : CustomControl
 {
     public static readonly DependencyProperty StartDayProperty =
-        DependencyProperty.Register(nameof(StartDay), typeof(DateTime), typeof(Calendar), new PropertyMetadata(DateTime.Today));
+        DependencyProperty.Register(nameof(StartDay), typeof(DateTime), typeof(Calendar), new PropertyMetadata(DateTime.Today, OnStartDayChanged));
+
+    private static void OnStartDayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Calendar calendar && e.NewValue is not null)
+        {
+            calendar.SetCalendar();
+        }
+    }
 
     public DateTime StartDay
     {
@@ -81,7 +92,7 @@ public class Calendar : CustomControl
     public static readonly DependencyProperty ItemsSourceProperty =
         DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(Calendar), new PropertyMetadata(null));
 
-    public IEnumerable ItemsSource
+    public IEnumerable? ItemsSource
     {
         get => (IEnumerable)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
@@ -100,6 +111,7 @@ public class Calendar : CustomControl
     public TableView TableView { get; set; } = new();
     
     private DataTemplate? _headerItemTemplate = null;
+    private bool _initialized = false;
 
     public Calendar()
     {
@@ -122,7 +134,32 @@ public class Calendar : CustomControl
         TableView.EnableImmediatePosting = true;
         TableView.ShowDragDropHint = false;
         TableView.IsColumnMenuEnabled = false;
+        TableView.MouseLeftButtonDown += (s, e) =>
+        {
+            try
+            {
+                var source = e.OriginalSource as DependencyObject;
+                if (source is null) return;
+
+                var row = GridRowHelper.GetRowData(source, TableView, GridControl) as CalendarRowItem;
+                if (row is null) return;
+
+                var column = GridRowHelper.GetColumn(source, TableView);
+                var dataItem = row.Reservations[column.FieldName] as Reservation;
+                if (dataItem is null) return;
+
+                Debug.WriteLine(dataItem.RES_Idx);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.StackTrace);
+            }
+        };
+
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
+
+        VirtualizingStackPanel.SetIsVirtualizing(GridControl, false);
+        VirtualizingStackPanel.SetIsVirtualizing(TableView, false);
 
         this.Content = GridControl;
 
@@ -136,30 +173,64 @@ public class Calendar : CustomControl
 
     private void SetCalendar() 
     {
-        GridControl.Columns.Clear();
-        GridControl.Columns.Add(GridColumnFactory.Create(new ColumnItem { FieldName = "Time", Header = "", ColumnType = ColumnType.Label, ColumnWidth = 80, FontSize = 15, FontWeight = FontWeights.SemiBold, Foreground = Brushes.DimGray, HorizontalAlignment = HorizontalAlignment.Center }));
+        GridControl.BeginDataUpdate();
 
+        if (!_initialized)
+        {
+            GridControl.Columns.Clear();
+            GridControl.Columns.Add(GridColumnFactory.Create(new ColumnItem { FieldName = "Time", Header = "", ColumnType = ColumnType.Label, ColumnWidth = 80, FontSize = 15, FontWeight = FontWeights.SemiBold, Foreground = Brushes.DimGray, HorizontalAlignment = HorizontalAlignment.Center }));
+
+            SetColumns();
+        }
+        else
+        {
+            SetColumns();
+        }
+
+        GridControl.EndDataUpdate();
+        GridControl.RefreshData();
+
+        _initialized = true;
+    } 
+
+    private void SetColumns()
+    {
         // 주별 캘린더
         if (CalendarMode == CalendarMode.Week)
         {
-            for (int i = 0; i < DisplayDays; i++)
+            if (!_initialized)
             {
-                DateTime dt = StartDay.AddDays(i);
-
-                var column = new GridColumn
+                for (int i = 0; i < DisplayDays; i++)
                 {
-                    FieldName = dt.ToString("yyyy-MM-dd"),
-                    Header = new CalendarHeaderItem { Date = dt, DayOfWeek = dt.DayOfWeek },
-                    HeaderTemplate = _headerItemTemplate,
-                    HorizontalHeaderContentAlignment = HorizontalAlignment.Stretch,
-                    Width = new GridColumnWidth(1, GridColumnUnitType.Star),
-                    CellTemplate = CreateCalendarItemTemplate(dt),
-                };
+                    DateTime dt = StartDay.AddDays(i);
 
-                GridControl.Columns.Add(column);
+                    var column = new GridColumn
+                    {
+                        FieldName = dt.ToString("yyyy-MM-dd"),
+                        Header = new CalendarHeaderItem { Date = dt, DayOfWeek = dt.DayOfWeek },
+                        HeaderTemplate = _headerItemTemplate,
+                        HorizontalHeaderContentAlignment = HorizontalAlignment.Stretch,
+                        Width = new GridColumnWidth(1, GridColumnUnitType.Star),
+                        CellTemplate = CreateCalendarItemTemplate(dt),
+                    };
+
+                    GridControl.Columns.Add(column);
+                }
+            }
+            else
+            {
+                var dateHeaders = GridControl.Columns.Where(x => x.FieldName != "Time").ToList();
+
+                for (int i = 0; i < DisplayDays; i++)
+                {
+                    DateTime dt = StartDay.AddDays(i);
+
+                    dateHeaders[i].FieldName = dt.ToString("yyyy-MM-dd");
+                    dateHeaders[i].Header = new CalendarHeaderItem { Date = dt, DayOfWeek = dt.DayOfWeek };
+                }
             }
         }
-    } 
+    }
 
     private DataTemplate CreateCalendarItemTemplate(DateTime day)
     {
@@ -198,4 +269,18 @@ public class Calendar : CustomControl
         popupMenu.PopupMenuClick += Calendar_PopupMenuItemClick;
         popupMenu.IsOpen = true;
     }
+}
+
+public class CalendarHeaderItem
+{
+    public DateTime Date { get; set; }
+    public DayOfWeek DayOfWeek { get; set; }
+}
+
+public partial class CalendarRowItem : ObservableObject
+{
+    [ObservableProperty]
+    private string? time;
+    [ObservableProperty]
+    private Dictionary<string, Reservation> reservations = new();
 }

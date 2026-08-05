@@ -1,0 +1,64 @@
+﻿<Xpf:CustomControl x:Class="SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab.vSmartEMRRESCalendarHeaderGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab"
+             xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+             xmlns:resource="clr-namespace:SmartEMR.Application.Resources"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d" 
+             d:DesignHeight="35" d:DesignWidth="800">
+
+    <Xpf:StyleGrid  LayoutDefinitions="5,1"
+                    ColumnSizeDefinitions="Auto,Auto,Auto,*,Auto"
+                    Background="#F5F5F5">
+        <Xpf:Label Grid.Column="0" Content="시작일자" Foreground="DimGray" FontSize="11" FontWeight="SemiBold" Margin="2,0,0,0"/>
+        <Xpf:DateEdit Grid.Column="1" EditValue="{Binding StartDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" Height="23" VerticalAlignment="Center" Margin="4,2,0,0" EditValueChanged="OnEditValueChanged_DateEdit"/>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="15,0,0,0">
+            <Border Background="{x:Static resource:SmartBrush.SMART_BRUSH_STATUS_PENDING}"
+                    Width="10"
+                    Height="10"
+                    BorderBrush="Black"
+                    BorderThickness="1"/>
+            <Xpf:Label Content="보류"  FontSize="11" Margin="3,0,0,0"/>
+            <Xpf:TextBlock FontSize="11" Margin="3,0,0,0" Text="{Binding PendingCount, StringFormat={}{0}건}" />
+
+            <Border Background="{x:Static resource:SmartBrush.SMART_BRUSH_STATUS_CONFIRMED}"
+                    Width="10"
+                    Height="10"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    Margin="4,0,0,0"/>
+            <Xpf:Label Content="확정" FontSize="11" Margin="3,0,0,0"/>
+            <Xpf:TextBlock FontSize="11" Margin="3,0,0,0" Text="{Binding ConfirmedCount, StringFormat={}{0}건}" />
+
+            <Border Background="{x:Static resource:SmartBrush.SMART_BRUSH_STATUS_COMPLETE}"
+                    Width="10"
+                    Height="10"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    Margin="4,0,0,0"/>
+            <Xpf:Label Content="내원" FontSize="11" Margin="3,0,0,0"/>
+            <Xpf:TextBlock FontSize="11" Margin="3,0,0,0" Text="{Binding VisitCount, StringFormat={}{0}건}" />
+
+            <Border Background="{x:Static resource:SmartBrush.SMART_BRUSH_STATUS_CANCEL}"
+                    Width="10"
+                    Height="10"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    Margin="4,0,0,0"/>
+            <Xpf:Label Content="취소" FontSize="11" Margin="3,0,0,0"/>
+            <Xpf:TextBlock FontSize="11" Margin="3,0,0,0" Text="{Binding CanceledCount, StringFormat={}{0}건}" />
+        </StackPanel>
+
+        <Xpf:StyleGrid Grid.Column="4"
+                       LayoutDefinitions="2,1"
+                       Width="120"
+                       Height="32">
+
+            <RadioButton Grid.Column="0" Content="주별" Tag="Week" FontSize="11" FontWeight="Bold" Foreground="DimGray" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="True" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown_RadioButton"/>
+            <RadioButton Grid.Column="1" Content="월별" Tag="Month" FontSize="11" FontWeight="Bold" Foreground="DimGray" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown_RadioButton"/>
+        </Xpf:StyleGrid>
+    </Xpf:StyleGrid>
+</Xpf:CustomControl>

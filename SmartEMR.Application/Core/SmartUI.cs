@@ -1,5 +1,4 @@
-﻿using SmartEMR.Application.Common;
-using SmartEMR.Application.Resources;
+﻿using SmartEMR.Application.Resources;
 using SmartEMR.Application.Services;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views.Shared;

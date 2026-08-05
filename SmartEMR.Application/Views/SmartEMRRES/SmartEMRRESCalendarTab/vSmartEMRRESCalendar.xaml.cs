@@ -15,7 +15,7 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
 
     protected override async void Initialize()
     {
-        await vm.FetchDataAsync();
+        await UpdateCalendar();
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -24,6 +24,19 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+    }
+
+    public async Task UpdateCalendar()
+    {
+        await vm.UpdateCalendar();
+
+        Calendar.ItemsSource = null;
+        Calendar.ItemsSource = vm.CalendarItems;
+
+        SmartUI.BeginInvoke(() =>
+        {
+            Calendar.GridControl.RefreshData();
+        }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
     }
 
     private void OnPopupMenuOpening_Calendar(object sender, PopupMenuOpeningEventArgs e)
