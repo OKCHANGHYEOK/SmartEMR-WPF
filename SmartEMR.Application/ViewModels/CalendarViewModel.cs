@@ -76,10 +76,6 @@ public partial class CalendarViewModel : ReservationViewModel
                 {
                     SmartMVVM.ModelProperty.SetReservationData(row.Reservations[cell.Key], reservation);
                 }
-                else
-                {
-                    SmartMVVM.ModelProperty.ClearRESData(row.Reservations[cell.Key], true);
-                }
             }
         }
 
@@ -101,7 +97,7 @@ public partial class CalendarViewModel : ReservationViewModel
 
             foreach (var day in days)
             {
-                row.Reservations[day.ToString("yyyy-MM-dd")] = new Reservation() { RES_Idx = 0, RES_ReservationTime = strTime };
+                row.Reservations[day.ToString("yyyy-MM-dd")] = new Reservation() { RES_ReservationTime = strTime };
             }
 
             CalendarItems.Add(row);
