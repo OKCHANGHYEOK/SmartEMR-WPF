@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
@@ -97,13 +98,56 @@ public partial class CalendarViewModel : ReservationViewModel
 
             foreach (var day in days)
             {
-                row.Reservations[day.ToString("yyyy-MM-dd")] = new Reservation() { RES_ReservationTime = strTime };
+                var yyyyMMdd = day.ToString("yyyy-MM-dd");
+
+                row.Reservations[yyyyMMdd] = new Reservation() { RES_ReservationDate = yyyyMMdd, RES_ReservationTime = strTime };
             }
 
             CalendarItems.Add(row);
         }
 
         await FetchDataAsync();
+    }
+
+    public async Task SetReservationByStatus(Reservation item, string targetStatus)
+    {
+        var msg = "예약" + (targetStatus == "CNF" ? "등록" : targetStatus == "CNL" ? "취소" : "");
+        if (SmartUI.MsgYesNo($"{msg} 하시겠습니까?") is MessageBoxResult.No) return;
+
+        var setRES = new Reservation
+        {
+            RES_Idx = item.RES_Idx,
+            RES_Status = targetStatus
+        };
+
+        var ret = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservationByStatus, setRES);
+
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification($"{msg}에 실패했습니다.", NotificationType.Error);
+            return;
+        }
+
+        await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
+
+        SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
+    }
+
+    public async Task DeleteRES(Reservation item)
+    {
+        if (SmartUI.MsgYesNo("예약삭제하시겠습니까? 삭제이후에는 복구할 수 없습니다.") is MessageBoxResult.No) return;
+
+        await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservation, new Reservation { RES_Idx = item.RES_Idx, RES_IsValid = false });
+
+        if (!SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("예약삭제하지 못했습니다.", NotificationType.Error);
+            return;
+        }
+
+        await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
+
+        SmartUI.SetNofification($"삭제되었습니다.", NotificationType.Success);
     }
 
     private void SetDays()

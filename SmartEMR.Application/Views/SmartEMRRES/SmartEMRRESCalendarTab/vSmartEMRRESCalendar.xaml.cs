@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Common;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -29,14 +30,6 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
     public async Task UpdateCalendar()
     {
         await vm.UpdateCalendar();
-
-        Calendar.ItemsSource = null;
-        Calendar.ItemsSource = vm.CalendarItems;
-
-        SmartUI.BeginInvoke(() =>
-        {
-            Calendar.GridControl.RefreshData();
-        }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
     }
 
     private void OnPopupMenuOpening_Calendar(object sender, PopupMenuOpeningEventArgs e)
@@ -54,7 +47,17 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
         }
         else
         {
-            popup.AddMenu(new PopupMenuItem { MenuAction = "EditRES", Content = "예약수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
+            if (dataItem.RES_Status != "CNL")
+            {
+                popup.AddMenu(new PopupMenuItem { MenuAction = "EditRES", Content = "예약수정", Glyph = GlyphImage("Images/smartemr_edit_paper.png") });
+                popup.AddMenu(new PopupMenuItem { MenuAction = "CancelRES", Content = "예약취소", Glyph = GlyphImage("Images/smartemr_cancel_new.png") });
+            }
+            else
+            {
+                popup.AddMenu(new PopupMenuItem { MenuAction = "ReAddRES", Content = "예약재등록", Glyph = GlyphImage("Images/smartemr_calendar_refresh.png") });
+                popup.AddMenu(new PopupMenuItem { MenuAction = "DeleteRES", Content = "예약삭제", Glyph = GlyphImage("Images/smartemr_delete.png") });
+            }
+
             popup.AddSeperator();
             popup.AddMenu(new PopupMenuItem { MenuAction = "EditPAT", Content = $"{dataItem.PAT_Name}님 정보수정", Glyph = GlyphImage("Images/smartemr_edit_patient.png") });
         }
@@ -71,11 +74,23 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
         switch (e.MenuAction)
         {
             case "AddRES":
-                await SmartUI.NavigateToPage(new vSmartEMRRESInfo(new Reservation { RES_ReservationTime = dataItem.RES_ReservationTime}), isPopup:true);
+                await SmartUI.NavigateToPage(new vSmartEMRRESInfo(new Reservation { RES_ReservationDate = dataItem.RES_ReservationDate, RES_ReservationTime = dataItem.RES_ReservationTime}), isPopup:true);
                 break;
 
             case "EditRES":
                 await SmartUI.NavigateToPage(new vSmartEMRRESInfo(new Reservation { RES_Idx = dataItem.RES_Idx, PAT_Idx = dataItem.PAT_Idx }), isPopup: true);
+                break;
+
+            case "CancelRES":
+                await vm.SetReservationByStatus(dataItem, "CNL");
+                break;
+
+            case "ReAddRES":
+                await vm.SetReservationByStatus(dataItem, "CNF");
+                break;
+
+            case "DeleteRES":
+                await vm.DeleteRES(dataItem);
                 break;
         }
     }

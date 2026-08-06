@@ -16,6 +16,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     public Patient SelectedPatient { get; set; } = new();
     public Patient InputPatient { get; set; } = new();
 
+    private Reservation OriginalReservation = new();
+
     [ObservableProperty]
     private ReservationSlot? selectedSlot;
     [ObservableProperty]
@@ -63,6 +65,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             }
 
             SmartMVVM.ModelProperty.SetReservationData(Model, retRES);
+            SmartMVVM.ModelProperty.SetReservationData(OriginalReservation, retRES);
         }
 
         await UpdateReservations();
@@ -79,8 +82,12 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             item.RES_Route = "DSK";
             item.RES_Subject = "GNR";
             item.RES_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
-            item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
         
+            if (string.IsNullOrWhiteSpace(item.RES_ReservationDate))
+            {
+                item.RES_ReservationDate = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
             if (string.IsNullOrWhiteSpace(item.RES_ReservationTime))
             {
                 item.RES_ReservationTime = SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval);
@@ -102,63 +109,75 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     public void SetSelectedSlot(string? reservationTime = "")
     {
         if (Reservations is null) return;
+        
+        SelectedSlot = Reservations.FirstOrDefault(GetSelectSlotFunc(reservationTime));
+    }
 
+    private Func<ReservationSlot, bool> GetSelectSlotFunc(string? reservationTime)
+    {
         Func<ReservationSlot, bool>? selectFunc = null;
 
         // 초기 설정 또는 예약날짜 변경시(시간이 전달되지 않은 경우)
         if (string.IsNullOrWhiteSpace(reservationTime))
         {
-            // 오늘 날짜로 변경된 경우
-            if (SmartMVVM.Common.IsToday(Model.RES_YYMMDD))
+            if (Model.RES_Idx.GetValueOrDefault(0) > 0) // 예약 수정으로 들어온 경우 
             {
-                if (Model.RES_Idx.GetValueOrDefault(0) > 0) // 예약 수정으로 들어온 경우 해당 예약의 시간으로 설정
+                // 기존 예약과 같은 날짜면
+                if (SmartMVVM.Common.GetYYMMDDByDateString(Model.RES_ReservationDate) == OriginalReservation.RES_ReservationDate)
                 {
-                    selectFunc = (x) =>
-                    {
-                        return x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx;
-                    };
-                }             
-                else // 예약 등록으로 들어온 경우 초기 설정 시 -> 모델의 예약시간을 따라감, 그 이후에는 현재를 기준으로 가장 가까운 시각
+                    selectFunc = (x) => { return x.RESItem is not null && x.RESItem.RES_Idx == Model.RES_Idx; };
+                }
+                else
                 {
-                    if (!_initialized)
-                    {
-                        selectFunc = (x) => { return x.RES_Time == Model.RES_ReservationTime; };
-                    }
-                    else
-                    {
-                        selectFunc = (x) => { return x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval); };
-                    }
+                    selectFunc = (x) => { return true; };
                 }
 
+                return selectFunc;
             }
-            // 오늘 날짜가 아닌 경우 첫 번째 시각으로 설정
+
+            // 예약 등록으로 들어온 경우
+            // 초기 설정 시 -> 모델의 예약시간을 따라감, 그 이후에는 현재를 기준으로 가장 가까운 시각
+            if (!_initialized)
+            {
+                selectFunc = (x) => { return x.RES_Time == Model.RES_ReservationTime; };
+            }
             else
             {
-                selectFunc = (x) =>
+                // 오늘 날짜라면 가장 가까운 시각으로 설정
+                if (SmartMVVM.Common.IsToday(Model.RES_ReservationDate))
                 {
-                    return true;
-                };
+                    selectFunc = (x) => { return x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval); };
+                }
+                // 오늘 날짜가 아닌 경우 첫 번째 시각으로 설정
+                else
+                {
+                    selectFunc = (x) => { return true; };
+                }
             }
-        }
-        // 예약시간 변경시
-        else
-        {
-            selectFunc = (x) =>
-            {
-                return x.RES_Time == reservationTime;
-            };
+
+            return selectFunc;
         }
 
-        SelectedSlot = Reservations.FirstOrDefault(selectFunc);
+        // 예약시간 변경시
+        selectFunc = (x) => { return x.RES_Time == reservationTime; };
+
+        return selectFunc;
     }
 
     public async Task UpdateReservations(string? RES_YYMMDD = "")
     {
         Reservations = SmartMVVM.Common.GetReservationSlots();
 
-        Model.RES_YYMMDD = string.IsNullOrWhiteSpace(RES_YYMMDD) ? Model.RES_YYMMDD : DateTime.Parse(RES_YYMMDD).ToString("yyyy-MM-dd");
+        if (string.IsNullOrWhiteSpace(RES_YYMMDD))
+        {
+            RES_YYMMDD = SmartMVVM.Common.GetYYMMDDByDateString(Model.RES_ReservationDate);
+        }
+        else
+        {
+            RES_YYMMDD = SmartMVVM.Common.GetYYMMDDByDateString(RES_YYMMDD);
+        }
 
-        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_YYMMDD = Model.RES_YYMMDD });
+        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_YYMMDD = RES_YYMMDD });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
             SmartUI.SetNofification("예약현황 조회에 실패했습니다.", NotificationType.Error);
@@ -337,10 +356,37 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         SmartUI.SetNofification($"예약{actionName}되었습니다.", NotificationType.Success);
     }
 
-    protected override async Task NotifyCompletedTaskAsync(SaveMode operation)
+    [RelayCommand]
+    public async Task SetReservationByStatus(string targetStatus)
+    {
+        var msg = "예약" + (targetStatus == "CNF" ? "등록" : targetStatus == "CNL" ? "취소" : "");
+        if (SmartUI.MsgYesNo($"{msg} 하시겠습니까?") is MessageBoxResult.No) return;
+
+        var setRES = new Reservation
+        {
+            RES_Idx = Model.RES_Idx,
+            RES_Status = targetStatus
+        };
+
+        var ret = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservationByStatus, setRES);
+
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification($"{msg}에 실패했습니다.", NotificationType.Error);
+
+            return;
+        }
+
+        await NotifyCompletedTaskAsync();
+
+        SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
+    }
+
+    protected override async Task NotifyCompletedTaskAsync(SaveMode operation = SaveMode.SAVE)
     {
         await SmartUI.SendMessage("CloseView");
         await SmartUI.SendMessage("RefreshRCB", viewType: TargetViewType.PageView);
+        await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
     }
 
     private bool ValidatePatientData()
