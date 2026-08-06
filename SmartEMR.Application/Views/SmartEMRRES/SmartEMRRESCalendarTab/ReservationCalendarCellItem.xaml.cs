@@ -3,10 +3,10 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
-using System.Runtime.InteropServices;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using static SmartEMR.Application.Core.MousePointHelper;
 
 namespace SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 
@@ -44,7 +44,8 @@ public partial class ReservationCalendarCellItem : CustomControl
 
         // 수정된 부분: Win32 API를 사용해 화면 절대 좌표를 가져옵니다.
         Win32Point w32Mouse = new Win32Point();
-        GetCursorPos(ref w32Mouse);
+
+        MousePointHelper.GetCursorPos(ref w32Mouse);
 
         Point screenPoint = new Point(w32Mouse.X, w32Mouse.Y);
 
@@ -88,21 +89,6 @@ public partial class ReservationCalendarCellItem : CustomControl
             _isDragging = false;
         }
     }
-}
-
-public partial class ReservationCalendarCellItem
-{
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Win32Point
-    {
-        public int X;
-        public int Y;
-    };
-
-    [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    internal static extern bool GetCursorPos(ref Win32Point pt);
 }
 
 public class DictionaryValueConverter : MarkupExtension, IMultiValueConverter
