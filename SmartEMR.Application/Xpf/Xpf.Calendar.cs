@@ -134,28 +134,6 @@ public class Calendar : CustomControl
         TableView.EnableImmediatePosting = true;
         TableView.ShowDragDropHint = false;
         TableView.IsColumnMenuEnabled = false;
-        TableView.MouseLeftButtonDown += (s, e) =>
-        {
-            try
-            {
-                var source = e.OriginalSource as DependencyObject;
-                if (source is null) return;
-
-                var row = GridRowHelper.GetRowData(source, TableView, GridControl) as CalendarRowItem;
-                if (row is null) return;
-
-                var column = GridRowHelper.GetColumn(source, TableView);
-                var dataItem = row.Reservations[column.FieldName] as Reservation;
-                if (dataItem is null) return;
-
-                Debug.WriteLine(dataItem.RES_Idx);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.StackTrace);
-            }
-        };
-
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
 
         VirtualizingStackPanel.SetIsVirtualizing(GridControl, false);
