@@ -10,7 +10,6 @@ using SmartEMR.Application.Resources;
 using SmartEMR.Domain.Entities;
 using DevExpress.Xpf.Grid;
 using System.Windows.Controls;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SmartEMR.Application.Xpf;
@@ -104,12 +103,20 @@ public class Calendar : CustomControl
         set => SetValue(CalendarModeProperty, value);
     }
 
+    public event EventHandler<CalendarDropEventArgs>? Calendar_Drop;
+
     public event EventHandler<PopupMenuOpeningEventArgs>? Calendar_PopupMenuOpening;
     public event EventHandler<PopupMenuItemClickEventArgs>? Calendar_PopupMenuItemClick;
 
     public GridControl GridControl { get; set; } = new();
     public TableView TableView { get; set; } = new();
-    
+    public Canvas DragOverlay { get; set; } = new();
+
+    private Reservation? _dragReservation;
+    private ReservationCalendarCellPreviewItem? _dragPreview;
+
+    private bool _isDragging;
+
     private DataTemplate? _headerItemTemplate = null;
     private bool _initialized = false;
 
@@ -117,7 +124,15 @@ public class Calendar : CustomControl
     {
         InitializeTemplate();
 
+        var layoutRoot = new StyleGrid();
+
+        layoutRoot.AddElement(GridControl, 0, 0);
+        layoutRoot.AddElement(DragOverlay, 0, 0);
+
         GridControl.View = TableView;
+        GridControl.AllowDrop = true;
+        GridControl.DragOver += GridControl_OnDragOver;
+        GridControl.Drop += GridControl_OnDrop;
         GridControl.SetBinding(GridControl.ItemsSourceProperty, new Binding("ItemsSource") { Source = this });
 
         TableView.HeaderPanelMinHeight = 45;
@@ -129,17 +144,20 @@ public class Calendar : CustomControl
         TableView.AllowColumnFiltering = false;
         TableView.AllowColumnMoving = false;
         TableView.AllowSorting = false;
-        TableView.AllowDragDrop = true;
         TableView.AllowCellMerge = false;
         TableView.EnableImmediatePosting = true;
         TableView.ShowDragDropHint = false;
         TableView.IsColumnMenuEnabled = false;
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
 
+        DragOverlay.HorizontalAlignment = HorizontalAlignment.Stretch;
+        DragOverlay.VerticalAlignment = VerticalAlignment.Stretch;
+        DragOverlay.IsHitTestVisible = false;
+
         VirtualizingStackPanel.SetIsVirtualizing(GridControl, false);
         VirtualizingStackPanel.SetIsVirtualizing(TableView, false);
 
-        this.Content = GridControl;
+        this.Content = layoutRoot;
 
         SetCalendar();
     }
@@ -218,6 +236,65 @@ public class Calendar : CustomControl
         };
     }
 
+    private void GridControl_OnDragOver(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(typeof(Reservation)))
+        {
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
+            return;
+        }
+
+        var dateInfo = GetDropCellDateInfo(e);
+        if (dateInfo is null)
+        {
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
+            return;
+        }
+
+        if (SmartMVVM.Common.IsPast(dateInfo.GetValueOrDefault()))
+        {
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
+            return;
+        }
+
+        e.Effects = DragDropEffects.Move;
+        e.Handled = true;
+    }
+
+    private void GridControl_OnDrop(object sender, DragEventArgs e)
+    {
+        var reservation = e.Data.GetData(typeof(Reservation)) as Reservation;
+        if (reservation is null) return;
+
+        var dateInfo = GetDropCellDateInfo(e).GetValueOrDefault();
+        if (dateInfo == default) return;
+
+        if (SmartMVVM.Common.IsPast(dateInfo)) return;
+
+        EndDrag();
+
+        Calendar_Drop?.Invoke(this, new CalendarDropEventArgs(reservation, dateInfo.Date, dateInfo.TimeOfDay));
+    }
+
+    private DateTime? GetDropCellDateInfo(DragEventArgs e)
+    {
+        Point point = e.GetPosition(GridControl);
+
+        var hitInfo = TableView.CalcHitInfo(point);
+        if (!hitInfo.InRowCell) return null;
+
+        var row = GridControl.GetRow(hitInfo.RowHandle) as CalendarRowItem;
+        if (row is null) return null;
+
+        var dt = hitInfo.Column.FieldName + " " + row.Time;
+        if (!DateTime.TryParse(dt, out var result)) return null;
+
+        return result;
+    }
+
     private void TableView_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (Calendar_PopupMenuOpening is null) return;
@@ -247,6 +324,52 @@ public class Calendar : CustomControl
         popupMenu.PopupMenuClick += Calendar_PopupMenuItemClick;
         popupMenu.IsOpen = true;
     }
+
+    public void StartDrag(Reservation reservation, UIElement? dragElement)
+    {
+        if (dragElement is null) return;
+        if (_isDragging) return;
+
+        _isDragging = true;
+
+        _dragReservation = reservation;
+
+        _dragPreview = new ReservationCalendarCellPreviewItem
+        {
+            Width = dragElement.RenderSize.Width,
+            Height = dragElement.RenderSize.Height,
+            DataContext = reservation
+        };
+
+        DragOverlay.Children.Add(_dragPreview);
+
+        Canvas.SetLeft(_dragPreview, 0);
+        Canvas.SetTop(_dragPreview, 0);
+    }
+
+    public void MoveDrag(Point point)
+    {
+        if (_dragPreview is null) return;
+
+        Canvas.SetLeft(_dragPreview, point.X - 60);
+        Canvas.SetTop(_dragPreview, point.Y - 25);
+    }
+
+    public Reservation? EndDrag()
+    {
+        Reservation? result = _dragReservation;
+
+        if (_dragPreview is not null)
+        {
+            DragOverlay.Children.Remove(_dragPreview);
+            _dragPreview = null;
+        }
+
+        _dragReservation = null;
+        _isDragging = false;
+
+        return result;
+    }
 }
 
 public class CalendarHeaderItem
@@ -258,7 +381,21 @@ public class CalendarHeaderItem
 public partial class CalendarRowItem : ObservableObject
 {
     [ObservableProperty]
-    private string? time;
+    private string time = "";
     [ObservableProperty]
     private Dictionary<string, Reservation> reservations = new();
+}
+
+public class CalendarDropEventArgs : EventArgs
+{
+    public Reservation Reservation { get; }
+    public DateTime TargetDate { get; }
+    public TimeSpan TargetTime { get; }
+
+    public CalendarDropEventArgs(Reservation reservation, DateTime targetDate, TimeSpan targetTime)
+    {
+        Reservation = reservation;
+        TargetDate = targetDate;
+        TargetTime = targetTime;
+    }
 }

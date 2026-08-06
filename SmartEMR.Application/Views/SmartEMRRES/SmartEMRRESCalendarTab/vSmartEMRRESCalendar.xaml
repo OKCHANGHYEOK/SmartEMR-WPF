@@ -30,6 +30,7 @@
                         SlotInterval="{Binding ReservationTimeInterval, Source={x:Static core:SmartMVVM.AppSession}}"
                         ItemsSource="{Binding CalendarItems}"
                         VirtualizingStackPanel.IsVirtualizing="False"
+                        Calendar_Drop="OnDrop_Calendar"
                         Calendar_PopupMenuOpening="OnPopupMenuOpening_Calendar"
                         Calendar_PopupMenuItemClick="OnPopupMenuItemClick_Calendar">
         </Xpf:Calendar>

@@ -278,6 +278,39 @@ public partial class Common
             return false;
         }
     }
+
+    public bool IsPast(string? yyyyMMdd, string? time)
+    {
+        var date = yyyyMMdd + " " + time; 
+        
+        if (DateTime.TryParse(date, out var result) && result < DateTime.Now)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool IsPast(DateTime dt)
+    {
+        return dt < DateTime.Now;
+    }
+
+    public bool IsSameDate(DateTime targetDate, TimeSpan targetTime, string? fromDate, string? fromTime)
+    {
+        if (!DateTime.TryParse(fromDate + " " + fromTime, out var dt)) return false;
+
+        if (dt.Date == targetDate && dt.TimeOfDay == targetTime)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 public partial class Common
