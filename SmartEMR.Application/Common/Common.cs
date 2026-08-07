@@ -231,7 +231,7 @@ public partial class Common
                 string actualValue = i.ToString().PadLeft(2, '0') + ":" + strMM;
                 string displayValue = strAMPM + " " + actualValue;
 
-                slots.Add(new ReservationSlot { RES_Time = actualValue, vRES_Time = displayValue});
+                slots.Add(new ReservationSlot { RES_Time = actualValue, vRES_Time = displayValue, IsSelectable = true});
             }
         }
 

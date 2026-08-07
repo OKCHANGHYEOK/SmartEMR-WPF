@@ -250,9 +250,17 @@
                                           ScrollViewer.CanContentScroll="False"
                                           SelectedItem="{Binding SelectedSlot}"
                                           EditValueChanged="OnEditValueChanged_ListBoxEdit">
+                            
+                            ,
+                            <dxe:ListBoxEdit.ItemContainerStyle>
+                                <Style TargetType="{x:Type dxe:ListBoxEditItem}">
+                                    <Setter Property="IsEnabled" Value="{Binding IsSelectable}"/>
+                                </Style>
+                            </dxe:ListBoxEdit.ItemContainerStyle>
+                            
                             <dxe:ListBoxEdit.ItemTemplate>
                                 <DataTemplate>
-                                    <local:ReservationItemTemplate MinHeight="26" Height="26"/>
+                                    <local:ReservationSlotItemTemplate MinHeight="26" Height="26"/>
                                 </DataTemplate>
                             </dxe:ListBoxEdit.ItemTemplate>
                         </dxe:ListBoxEdit>

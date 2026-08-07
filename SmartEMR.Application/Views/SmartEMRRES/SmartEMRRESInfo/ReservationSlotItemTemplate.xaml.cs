@@ -3,8 +3,8 @@
 namespace SmartEMR.Application.Views.SmartEMRRES;
 
 /// <summary>
-/// ReservationItemTemplate.xaml에 대한 상호 작용 논리
+/// ReservationSlotItemTemplate.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class ReservationItemTemplate : CustomControl
+public partial class ReservationSlotItemTemplate : CustomControl
 {
 }

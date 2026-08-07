@@ -144,7 +144,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             else
             {
                 // 오늘 날짜라면 가장 가까운 시각으로 설정
-                if (SmartMVVM.Common.IsToday(Model.RES_ReservationDate))
+                if (SmartMVVM.Common.IsToday(SmartMVVM.Common.GetYYMMDDByDateString(Model.RES_ReservationDate)))
                 {
                     selectFunc = (x) => { return x.RES_Time == SmartMVVM.Common.GetRoundUpTimeByInterval(DateTime.Now, SmartMVVM.AppSession.ReservationTimeInterval); };
                 }
@@ -183,12 +183,22 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             SmartUI.SetNofification("예약현황 조회에 실패했습니다.", NotificationType.Error);
             return;
         }
-        
+
         foreach (var slot in Reservations)
         {
-            slot.RESItem = ret.FirstOrDefault(x => x.RES_ReservationTime == slot.RES_Time);
-            slot.IsReserved = slot.RESItem is not null;
+            var item = ret.FirstOrDefault(x => x.RES_ReservationTime == slot.RES_Time);
+            bool isSelectable = true;
+
+            if (item is not null || SmartMVVM.Common.IsPast(RES_YYMMDD, slot.RES_Time))
+            {
+                isSelectable = false;
+            }
+
+            slot.RESItem = item;
+            slot.IsSelectable = isSelectable;
         }
+
+        await SmartUI.SendMessage("UpdateReservationTimes");
 
         SetSelectedSlot();
     }

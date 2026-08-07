@@ -10,7 +10,7 @@ public partial class ReservationSlot : ObservableObject
     public Reservation? RESItem { get; set; }
 
     [ObservableProperty]
-    private bool isSelected;
+    private bool isSelectable;
     [ObservableProperty]
     private bool isReserved; 
 }
