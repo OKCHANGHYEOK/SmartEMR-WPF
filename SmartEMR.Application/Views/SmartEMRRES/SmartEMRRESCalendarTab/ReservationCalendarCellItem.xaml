@@ -15,7 +15,6 @@
             Margin="2"
             Cursor="Hand"
             Visibility="{Binding RES_Idx, Converter={converter:IntToVisibilityConverter}}"
-            GiveFeedback="OnReservationCalendarCellItem_GiveFeedBack"
             MouseLeftButtonDown="OnReservationCalendarCellItem_MouseLeftButtonDown"
             MouseMove="OnReservationCalendarCellItem_MouseMove">
 

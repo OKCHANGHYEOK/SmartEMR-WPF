@@ -266,17 +266,31 @@ public class Calendar : CustomControl
 
     private void GridControl_OnDrop(object sender, DragEventArgs e)
     {
-        var reservation = e.Data.GetData(typeof(Reservation)) as Reservation;
-        if (reservation is null) return;
+        if (sender is not GridControl element) return;
 
-        var dateInfo = GetDropCellDateInfo(e).GetValueOrDefault();
-        if (dateInfo == default) return;
+        Point point = e.GetPosition(element);
+        var hitInfo = TableView.CalcHitInfo(point);
 
-        if (SmartMVVM.Common.IsPast(dateInfo)) return;
+        if (hitInfo.InRowCell)
+        {
+            var row = element.GetRow(hitInfo.RowHandle) as CalendarRowItem;
+            if (row is null) return;
 
-        EndDrag();
+            var source = e.Data.GetData(typeof(Reservation)) as Reservation;
+            if (source is null) return;
 
-        Calendar_Drop?.Invoke(this, new CalendarDropEventArgs(reservation, dateInfo.Date, dateInfo.TimeOfDay));
+            var dateInfo = GetDropCellDateInfo(e).GetValueOrDefault();
+            if (dateInfo == default) return;
+
+            if (SmartMVVM.Common.IsPast(dateInfo)) return;
+
+            if (row.Reservations.TryGetValue(hitInfo.Column.FieldName, out var destination))
+            {
+                EndDrag();
+
+                Calendar_Drop?.Invoke(this, new CalendarDropEventArgs(source, destination));
+            }
+        }
     }
 
     private DateTime? GetDropCellDateInfo(DragEventArgs e)
@@ -388,14 +402,12 @@ public partial class CalendarRowItem : ObservableObject
 
 public class CalendarDropEventArgs : EventArgs
 {
-    public Reservation Reservation { get; }
-    public DateTime TargetDate { get; }
-    public TimeSpan TargetTime { get; }
+    public Reservation SourceCellData { get; }
+    public Reservation DestinationCellData { get; }
 
-    public CalendarDropEventArgs(Reservation reservation, DateTime targetDate, TimeSpan targetTime)
+    public CalendarDropEventArgs(Reservation source, Reservation destination)
     {
-        Reservation = reservation;
-        TargetDate = targetDate;
-        TargetTime = targetTime;
+        SourceCellData = source;
+        DestinationCellData = destination;
     }
 }

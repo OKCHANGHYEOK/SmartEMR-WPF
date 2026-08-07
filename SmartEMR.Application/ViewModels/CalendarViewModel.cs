@@ -1,10 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -148,6 +149,27 @@ public partial class CalendarViewModel : ReservationViewModel
         await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
 
         SmartUI.SetNofification($"삭제되었습니다.", NotificationType.Success);
+    }
+
+    public async Task MoveReservation(Reservation source, Reservation destination)
+    {
+        var item = new Reservation
+        {
+            RES_Idx = source.RES_Idx,
+            RES_ReservationDate = destination.RES_ReservationDate,
+            RES_ReservationTime = destination.RES_ReservationTime
+        };
+
+        var ret = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_MoveReservationDate, item);
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("예약일시를 변경하지 못했습니다.", NotificationType.Error);
+            return;
+        }
+
+        await UpdateCalendar();
+
+        SmartUI.SetNofification("예약일시가 변경되었습니다.", NotificationType.Success);
     }
 
     private void SetDays()

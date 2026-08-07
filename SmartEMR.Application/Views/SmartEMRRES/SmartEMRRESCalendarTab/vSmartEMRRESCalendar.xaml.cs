@@ -5,6 +5,9 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
@@ -58,21 +61,41 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
         }
     }
 
-    private void OnDrop_Calendar(object sender, CalendarDropEventArgs e)
+    private async void OnDrop_Calendar(object sender, CalendarDropEventArgs e)
     {
-        var element = sender as Calendar;
+        var element = sender as Xpf.Calendar;
         if (element is null) return;
 
-        if (SmartMVVM.Common.IsSameDate(e.TargetDate, e.TargetTime, e.Reservation.RES_ReservationDate, e.Reservation.RES_ReservationTime))
-        {
-            return;
-        }
+        var source = e.SourceCellData;
+        var destination = e.DestinationCellData;
 
+        if (!CanMove(source, destination)) return;
+
+        var dataItem = e.SourceCellData;
+        var messages = new List<Inline>();
+        messages.AddRange(MessageBuilder.CreateReservationInfo(dataItem));
+        messages.Add(new LineBreak());
+        messages.Add(new InlineUIContainer(new Border
+        {
+            Width = 215,
+            Height = 1,
+            Background = Brushes.Gray,
+            Opacity = 0.9,
+            Margin = new Thickness(10, 4, 10, 4)
+        }));
+        messages.Add(new LineBreak());
+        messages.Add(new Run("예약일시를 변경하시겠습니까?"));
+        messages.Add(new LineBreak());
+        messages.Add(new Run($"변경일시 : {destination.RES_ReservationDate} {destination.RES_ReservationTime}"));
+
+        if (SmartUI.MsgYesNo(messages) is MessageBoxResult.No) return;
+
+        await vm.MoveReservation(source, destination);
     }
 
     private void OnPopupMenuOpening_Calendar(object sender, PopupMenuOpeningEventArgs e)
     {
-        var element = sender as Calendar;
+        var element = sender as Xpf.Calendar;
         if (element is null) return;
 
         var popup = e.PopupMenu;
@@ -133,5 +156,27 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
                 await vm.DeleteRES(dataItem);
                 break;
         }
+    }
+
+    private bool CanMove(Reservation source, Reservation destination)
+    {
+        if (source.RES_Idx == destination.RES_Idx)
+        {
+            return false;
+        }
+
+        if (SmartMVVM.Common.IsPast(destination.RES_ReservationDate, destination.RES_ReservationTime))
+        {
+            SmartUI.SetNofification("과거일시로는 변경하실 수 없습니다.", NotificationType.Warning);
+            return false;
+        }
+
+        if (destination.RES_Idx.GetValueOrDefault(0) > 0)
+        {
+            SmartUI.SetNofification("해당 시간에는 이미 예약이 존재합니다.", NotificationType.Warning);
+            return false;
+        }
+
+        return true;
     }
 }

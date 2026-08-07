@@ -74,8 +74,6 @@ public partial class ReservationCalendarCellItem : CustomControl
         if (_dragReservation is null)
             return;
 
-        Point current = e.GetPosition(ParentCalendar?.DragOverlay);
-
         if (!_isDragging)
         {
             _isDragging = true;
