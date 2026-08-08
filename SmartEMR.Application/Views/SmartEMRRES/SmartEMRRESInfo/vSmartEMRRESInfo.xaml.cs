@@ -83,6 +83,12 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
                 }
             }
         }
+
+        var cmbRES_ReservationTime = RESInfoGrid.GetBindItem<Xpf.ComboBoxEdit>("RES_ReservationTime");
+        if (cmbRES_ReservationTime is not null)
+        {
+            cmbRES_ReservationTime.EditValueChanging += OnComboBoxEdit_EditValueChanging;
+        }
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -180,6 +186,17 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         }
 
         return true;
+    }
+
+    private void SetSelectedPatient(Patient item)
+    {
+        SearchPanel.SetSelectedPatient(item);
+
+        vm.SetSelectedPatient(item);
+
+        chkIsNewPAT.IsChecked = false;
+
+        IsPopupOpen = false;
     }
 
     public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
@@ -350,14 +367,17 @@ public partial class vSmartEMRRESInfo : ModelViewLayout<ReservationInfoViewModel
         SetSelectedPatient(patient);
     }
 
-    private void SetSelectedPatient(Patient item)
+    private void OnComboBoxEdit_EditValueChanging(object sender, EditValueChangingEventArgs e)
     {
-        SearchPanel.SetSelectedPatient(item);
+        var element = sender as Xpf.ComboBoxEdit;
+        if (element is null) return;
 
-        vm.SetSelectedPatient(item);
+        var newValue = e.NewValue.ToString();
 
-        chkIsNewPAT.IsChecked = false;
-
-        IsPopupOpen = false;
+        if (!vm.IsSelectableTime(newValue))
+        {
+            e.Handled = true;
+            e.IsCancel = true;
+        }
     }
 }

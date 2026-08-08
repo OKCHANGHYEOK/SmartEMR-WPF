@@ -281,6 +281,25 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         return false;
     }
 
+    public bool IsSelectableTime(string? newValue)
+    {
+        if (string.IsNullOrWhiteSpace(newValue)) return false;
+
+        if (SmartMVVM.Common.IsPast(SmartMVVM.Common.GetYYMMDDByDateString(Model.RES_ReservationDate), newValue)) 
+        {
+            SmartUI.SetNofification("과거시간은 선택할 수 없습니다.", NotificationType.Warning);
+            return false;
+        }
+
+        if (Reservations.Any(x => x.RES_Time == newValue && x.RESItem is not null))
+        {
+            SmartUI.SetNofification("다른 예약이 존재하는 시간은 선택할 수 없습니다.", NotificationType.Warning);
+            return false;
+        }
+
+        return true;
+    }
+
     [RelayCommand]
     public async Task Search()
     {
