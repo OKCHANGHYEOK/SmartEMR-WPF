@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -70,7 +71,7 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
 
         if (retRCB != null && retRCB.Any())
         {
-            SmartMVVM.ProcessorProvider.ReceptionBoardProcessor.Process(retRCB);
+            DisplayDataMappers.ReceptionBoardDisplayDataMapper.Map(retRCB);
 
             arrRCB = retRCB.ToList();
             return true;

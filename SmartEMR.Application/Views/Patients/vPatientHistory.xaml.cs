@@ -26,9 +26,9 @@ public partial class vSmartEMRPatientHistory : ModelViewLayout<PatientHistoryVie
     {
     }
 
-    public override void SetPatientData(Patient item)
+    public override async void SetPatientData(Patient item)
     {
-        vm.SetPatientData(item);
+        await vm.SetPatientData(item);
     }
 
     public void ClearData()

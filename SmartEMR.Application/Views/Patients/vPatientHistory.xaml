@@ -21,7 +21,7 @@
                             Header="예약" 
                             IsSelected="True">
                 <Xpf:DataGrid ItemsSource="{Binding ReservationItems}" AutoWidth="False">
-                    <Xpf:ColumnItem FieldName="vRES_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="vRES_Status" Header="상태" ColumnWidth="45" CellTemplateType="{x:Type template:RESStatusTemplate}" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="RES_ReservationDate" Header="예약일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="RES_ReservationTime" Header="예약시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="vRES_Route" Header="예약경로" ColumnWidth="60" HorizontalAlignment="Center"/>

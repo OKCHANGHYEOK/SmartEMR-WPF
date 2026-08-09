@@ -14,7 +14,9 @@ public class Reservation : BaseEntity
     private int? m_PAT_Age;
     private string? m_vPAT_Info;
     private string? m_RES_Status;
+    private string? m_vRES_Status;
     private string? m_RES_Route;
+    private string? m_vRES_Route;
     private string? m_RES_Subject;
     private string? m_RES_SubjectName;
     private string? m_vRES_SubjectName;
@@ -106,10 +108,24 @@ public class Reservation : BaseEntity
         set => SetProperty(ref m_RES_Status, value);
     }
 
+    public string? vRES_Status
+    {
+        get => m_vRES_Status;
+        set => SetProperty(ref m_vRES_Status, value);
+    }
+
+
     public string? RES_Route
     {
         get => m_RES_Route;
         set => SetProperty(ref m_RES_Route, value);
+    }
+
+
+    public string? vRES_Route
+    {
+        get => m_vRES_Route;
+        set => SetProperty(ref m_vRES_Route, value);
     }
 
     public string? RES_Subject

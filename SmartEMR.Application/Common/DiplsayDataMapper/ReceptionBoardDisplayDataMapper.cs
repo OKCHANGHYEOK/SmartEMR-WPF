@@ -1,11 +1,11 @@
 ﻿using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 
-namespace SmartEMR.Application.Common.Processor;
+namespace SmartEMR.Application.Common.DisplayDataMapper;
 
-public class ReceptionBoardProcessor : IQueryResultListProcessor<ReceptionBoard>
+public class ReceptionBoardDisplayDataMapper : IDisplayDataMapper<ReceptionBoard>
 {
-    public void Process(IEnumerable<ReceptionBoard> items)
+    public void Map(IEnumerable<ReceptionBoard> items)
     {
         foreach (var mitem in items)
         {

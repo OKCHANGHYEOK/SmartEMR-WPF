@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -65,9 +66,11 @@ public partial class PatientHistoryViewModel : PatientViewModel
         }
     }
 
-    public void SetPatientData(Patient item)
+    public async Task SetPatientData(Patient item)
     {
         SmartMVVM.ModelProperty.SetPatientData(Model, item);
+
+        await FetchDataAsync(ePatientHistoryType.RES);
     }
 
     public async Task UpdateHistoryBySelection(string targetHistoryType)
@@ -91,26 +94,28 @@ public partial class PatientHistoryViewModel : PatientViewModel
 
     private async Task FetchRESHistoryAsync()
     {
-        SmartUI.SetNofification("기능 구현중입니다.", NotificationType.Info);
-        return;
+        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { PAT_Idx = Model.PAT_Idx });
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("예약이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            return;
+        }
 
-        //var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { PAT_Idx = Model.PAT_Idx });
-        //if (ret == null || !SmartMVVM.DataStore.retIsSuccess)
-        //{
+        DisplayDataMappers.ReservationDisplayDataMapper.Map(ret);
 
-        //}
+        ReservationItems = ret.ToList();
     }
 
     private async Task FetchRCPHistoryAsync()
     {
         var ret = await SmartMVVM.DataStore.GetItems<Reception>(eAPI.Reception_GetReception, new Reception { PAT_Idx = Model.PAT_Idx });
-        if (ret == null || !SmartMVVM.DataStore.retIsSuccess)
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
             SmartUI.SetNofification("접수이력을 불러오는 데 실패했습니다.", NotificationType.Error);
             return;
         }
 
-        SmartMVVM.ProcessorProvider.ReceptionProcessor.Process(ret);
+        DisplayDataMappers.ReceptionDisplayDataMapper.Map(ret);
 
         ReceptionItems = ret.ToList();
     }

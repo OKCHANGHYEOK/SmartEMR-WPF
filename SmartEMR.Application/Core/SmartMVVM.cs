@@ -18,7 +18,6 @@ public class SmartMVVM
     public static Common.Common Common { get; } = new();
     public static Master Master { get; } = new();
     public static ModelProperty ModelProperty { get; } = new();
-    public static ProcessorProvider ProcessorProvider { get; } = new();
 
     private static RoutedEventArgs? _lastProcessedEventArgs = null;
 
