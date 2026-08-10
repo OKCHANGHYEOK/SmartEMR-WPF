@@ -69,7 +69,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
 
     public async Task SaveDataAsync(SaveMode operation)
     {
-        bool isNew = Model.RCP_Idx.GetValueOrDefault(0) == 0;
+        bool isNew = RCPItem.RCP_Idx.GetValueOrDefault(0) == 0;
         string actionName = operation switch
         {
             SaveMode.SAVE => isNew ? "등록" : "수정",
@@ -86,8 +86,8 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
             // 접수 등록시 오늘 날짜의 기존 접수 체크
             if (isNew)
             {
-                var IsExistsTodayRCP = await SmartMVVM.Common.ExisitsReception(RCPItem.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
-                if (IsExistsTodayRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
+                var existsTodayRCP = await SmartMVVM.Common.ExisitsReception(RCPItem.PAT_Idx.GetValueOrDefault(0), DateTime.Now.ToString("yyyy-MM-dd"));
+                if (existsTodayRCP && SmartUI.MsgYesNo("오늘 날짜의 접수가 존재합니다. 접수 진행하시겠습니까?") != MessageBoxResult.Yes)
                 {
                     return;
                 }
