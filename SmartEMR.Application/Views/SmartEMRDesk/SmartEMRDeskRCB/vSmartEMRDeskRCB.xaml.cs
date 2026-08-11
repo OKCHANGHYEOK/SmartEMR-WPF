@@ -161,6 +161,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     bool isSuccess = await SmartMVVM.Common.SetReceptionByRES(SmartMVVM.ModelProperty.GetReservationDataForSaveByRCB(dataItem));
                     if (isSuccess)
                     {
+                        await SmartUI.SendMessage("SetSelectedPatient", new Patient { PAT_Idx = dataItem.PAT_Idx }, viewType:TargetViewType.PageView);
                         await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
                     }
                     break;

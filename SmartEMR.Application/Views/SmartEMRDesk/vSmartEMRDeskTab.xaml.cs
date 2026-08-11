@@ -169,11 +169,11 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
             await SmartUI.SendMessageToSearchView("ClearPAT");
 
             SmartEMRDeskPATView.ClearData();
+            SmartEMRDeskPATHistory.ClearData();
         }
 
         SmartEMRDeskRCPInfo.ClearData();
         SmartEMRDeskIRCInfo.ClearData();
-        SmartEMRDeskPATHistory.ClearData();
     }
 
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)

@@ -112,6 +112,7 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
             return;
         }
 
+       await SmartUI.SendMessage("ClearRCP", new Reception { RCP_Idx = item.RCP_Idx }, viewType: TargetViewType.PageView);
        await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
 
        SmartUI.SetNofification("접수취소되었습니다.", NotificationType.Success);
