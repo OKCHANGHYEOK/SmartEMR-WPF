@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Views;
+using SmartEMR.Application.Views.SmartEMRCST;
 using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
 using System.Collections.ObjectModel; // 추가
 using System.Collections.Specialized;
@@ -75,6 +76,7 @@ namespace SmartEMR.Application.Xpf.Bar
                             break;
 
                         case eSmartEMRLocation.CST:
+                            await SmartUI.NavigateToPage(new vSmartEMRConsultationTab());
                             break;
 
                         case eSmartEMRLocation.PAY:

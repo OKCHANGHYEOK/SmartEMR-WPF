@@ -5,8 +5,11 @@ public class Consultation : BaseEntity
     private int? m_CST_Idx;
     private int? m_MEM_Idx;
     private int? m_MUR_Idx;
+    private int? m_MUR_Idx_DOC;
     private int? m_PAT_Idx;
     private int? m_RCP_Idx;
+    private int? m_IRC_Idx;
+    private string? m_CST_InsuranceType;
     private string? m_CST_Status;
     private string? m_CST_PayStatus;
     private string? m_CST_TreatResult;
@@ -25,6 +28,12 @@ public class Consultation : BaseEntity
     private string? m_CST_Date;
     private string? m_CST_YYMMDD;
     private bool? m_CST_IsValid;
+
+    private string? m_PAT_Name;
+    private string? m_PAT_ChartNo;
+    private string? m_PAT_Sex;
+    private string? m_vPAT_Sex;
+    private int? m_PAT_Age;
 
     #region "NotifyPropertyChanged"
 
@@ -46,6 +55,12 @@ public class Consultation : BaseEntity
         set => SetProperty(ref m_MUR_Idx, value);
     }
 
+    public int? MUR_Idx_DOC
+    {
+        get => m_MUR_Idx_DOC;
+        set => SetProperty(ref m_MUR_Idx_DOC, value);
+    }
+
     public int? PAT_Idx
     {
         get => m_PAT_Idx;
@@ -56,6 +71,18 @@ public class Consultation : BaseEntity
     {
         get => m_RCP_Idx;
         set => SetProperty(ref m_RCP_Idx, value);
+    }
+
+    public int? IRC_Idx
+    {
+        get => m_IRC_Idx;
+        set => SetProperty(ref m_IRC_Idx, value);
+    }
+
+    public string? CST_InsuranceType
+    {
+        get => m_CST_InsuranceType;
+        set => SetProperty(ref m_CST_InsuranceType, value);
     }
 
     public string? CST_Status
@@ -164,6 +191,36 @@ public class Consultation : BaseEntity
     {
         get => m_CST_IsValid;
         set => SetProperty(ref m_CST_IsValid, value);
+    }
+
+    public string? PAT_Name
+    {
+        get => m_PAT_Name;
+        set => SetProperty(ref m_PAT_Name, value);
+    }
+
+    public string? PAT_ChartNo
+    {
+        get => m_PAT_ChartNo;
+        set => SetProperty(ref m_PAT_ChartNo, value);
+    }
+
+    public string? PAT_Sex
+    {
+        get => m_PAT_Sex;
+        set => SetProperty(ref m_PAT_Sex, value);
+    }
+
+    public string? vPAT_Sex
+    {
+        get => m_vPAT_Sex;
+        set => SetProperty(ref m_vPAT_Sex, value);
+    }
+
+    public int? PAT_Age
+    {
+        get => m_PAT_Age;
+        set => SetProperty(ref m_PAT_Age, value);
     }
 
     #endregion

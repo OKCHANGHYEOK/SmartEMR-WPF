@@ -64,6 +64,15 @@ public partial class BindGrid : StyleGrid, IDisposable
         set => SetValue(HeaderWidthProperty, value);
     }
 
+    public static readonly DependencyProperty HeaderBackgroundProperty =
+        DependencyProperty.Register(nameof(HeaderBackground), typeof(Brush), typeof(BindGrid), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(245, 245, 245))));
+
+    public Brush HeaderBackground
+    {
+        get => (Brush)GetValue(HeaderBackgroundProperty);
+        set => SetValue(HeaderBackgroundProperty, value);
+    }
+
     #endregion
 
     public event EventHandler<BindClickEventArgs>? BindGrid_BindClickEvent;
@@ -199,7 +208,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         var lblHeader = new Label
         {
             Width = headerInfo.HeaderWidth is double hWidth ? hWidth : this.HeaderWidth,
-            Background = new SolidColorBrush(Color.FromRgb(245, 245, 245)),
+            Background = this.HeaderBackground,
             FontSize = headerInfo.HeaderFontSize,
             FontWeight = headerInfo.HeaderFontWeight,
             Foreground = headerInfo.HeaderForeground,

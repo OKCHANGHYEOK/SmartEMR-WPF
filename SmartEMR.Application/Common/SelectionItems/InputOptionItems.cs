@@ -22,4 +22,7 @@ public class InputOptionItems
     public static IEnumerable<CommonCode> InsuranceTypes => SmartMVVM.Common.GetCommonCode("RCP", "InsuranceType");
 
     public static IEnumerable<Insurance> InsuranceCoperations => SmartMVVM.Master.Query<Insurance>("IRC_CoName");
+
+    public static IEnumerable<CommonCode> ConsultationStatuses => SmartMVVM.Common.GetCommonCode("CST", "Status");
+    public static IEnumerable<CommonCode> TreatResultTypes => SmartMVVM.Common.GetCommonCode("CST", "TreatResult");
 }

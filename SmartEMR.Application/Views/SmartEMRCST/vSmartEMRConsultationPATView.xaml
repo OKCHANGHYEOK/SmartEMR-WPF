@@ -1,0 +1,75 @@
+﻿<base:ModelViewLayout x:TypeArguments="vm:PatientViewModel"
+                      x:Class="SmartEMR.Application.Views.SmartEMRCST.vSmartEMRConsultationPATView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                      xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                      xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                      xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                      xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      mc:Ignorable="d"
+                      d:DesignHeight="450"
+                      d:DesignWidth="800">
+
+    <Xpf:BindGrid   LayoutDefinitions="8,3"
+                    BindStyle="DataCell"
+                    Background="#F3F6FA"
+                    HeaderWidth="80"
+                    HeaderBackground="#E3EDF7">
+
+        <Xpf:BindItem   FieldName="PAT_ImageSource"
+                        BindType="Image"
+                        Col="0"
+                        Row="0"
+                        ColSpan="2"
+                        RowSpan="3"
+                        IsHeader="False"/>
+
+        <Xpf:BindItem   FieldName="PAT_ChartNo"
+                        Header="차 트 번 호"
+                        BindType="Label"
+                        Col="2"
+                        ColSpan="3"
+                        Row="0"
+                        HAlignment="Center"/>
+
+        <Xpf:BindItem   FieldName="PAT_Name"
+                        Header="성       명"
+                        Col="5"
+                        ColSpan="3"
+                        Row="0">
+            
+            <StackPanel Orientation="Horizontal">
+                <Xpf:TextLink Text="{Binding Model.PAT_Name}" FontWeight="Bold" Margin="2,0,0,0"/>
+                <Xpf:TextBlock Margin="2,0,0,0">
+                    <Run Foreground="Gray" FontSize="11">(</Run>
+                    <Run Text="{Binding Model.vPAT_Info}"/>
+                    <Run Foreground="Gray" FontSize="11">)</Run>
+                </Xpf:TextBlock>
+            </StackPanel>
+        </Xpf:BindItem>
+
+        <Xpf:BindItem   FieldName="PAT_FirstVisitDate"
+                        Header="최 초 내 원"
+                        BindType="Label"
+                        Col="2"
+                        ColSpan="3"
+                        Row="1"/>
+
+        <Xpf:BindItem   FieldName="PAT_LastVisitDate"
+                        Header="최 종 내 원"
+                        BindType="Label"
+                        Col="5"
+                        ColSpan="3"
+                        Row="1"/>
+
+        <Xpf:BindItem   FieldName="PAT_Bigo"
+                        Header="비       고"
+                        BindType="Label"
+                        Col="2"
+                        ColSpan="6"
+                        Row="2"/>
+    </Xpf:BindGrid>
+</base:ModelViewLayout>
