@@ -42,7 +42,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
 
     public async Task SetReceptionData(Reception? item = null)
     {
-        if (item == null)
+        if (item is null)
         {
             var getRCP = new Reception
             {
@@ -51,13 +51,14 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
             };
 
             var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
-            if (retRCP != null)
-            {
-                item = retRCP;
-            }
+            if (retRCP is null) return;
+
+            item = retRCP;
         }
 
-        if (item == null) return;
+        if (item is null) return;
+
+        item.RCP_VisitType = await SmartMVVM.Common.GetVisitType(item.PAT_Idx.GetValueOrDefault(0));
 
         SmartMVVM.ModelProperty.SetReceptionData(Model, item);
     }

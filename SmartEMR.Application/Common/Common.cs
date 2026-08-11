@@ -245,6 +245,24 @@ public partial class Common
         return dt.ToString("yyyy-MM-dd");
     }
 
+    public async Task<string> GetVisitType(int PAT_Idx)
+    {
+        var recentCST = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = PAT_Idx, SortField = "CST_YYMMDD", SortDir = "desc" });
+        if (recentCST is null)
+        {
+            return "FIR";
+        }
+
+        if (recentCST.CST_TreatResult == "END")
+        {
+            return "FIR";
+        }
+        else
+        {
+            return "REC";
+        }
+    }
+
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)
     {
         bool isExisits = false;

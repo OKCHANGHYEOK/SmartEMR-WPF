@@ -10,7 +10,7 @@
                     d:DesignHeight="450" d:DesignWidth="800">
 
     <Xpf:Label Content="{Binding vRES_Status}"
-               Background="White"
+               Background="Transparent"
                BorderThickness="1"
                BorderBrush="{Binding RES_Status, Converter={converter:RESStatusToBrushConverter}}"
                Foreground="{Binding RES_Status, Converter={converter:RESStatusToBrushConverter}}"

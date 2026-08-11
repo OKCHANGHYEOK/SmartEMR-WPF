@@ -53,10 +53,10 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
                         await SmartUI.SendMessageToSearchView("SetSelectedPatient", item);
 
-                        if (paramItem.RCP_Idx.GetValueOrDefault(0) > 0)
+                        if (paramItem.RCP_Idx.GetValueOrDefault(0) > 0 || paramItem.RES_Idx.GetValueOrDefault(0) > 0)
                         {
                             Reception RCPItem = SmartMVVM.ModelProperty.GetReceptionDataFromRCB(paramItem);
-
+                            
                             SmartEMRDeskRCPInfo.UpdateReceptionData(RCPItem);
                         }
                     }
