@@ -32,6 +32,15 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Foreground" Value="#333333"/>
             </Style>
+
+            <Style TargetType="{x:Type Xpf:ComboBoxEdit}">
+                <Setter Property="MinHeight" Value="20"/>
+                <Setter Property="MinWidth" Value="40"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="ShowNullTextForEmptyValue" Value="False"/>
+                <Setter Property="IsTextEditable" Value="False"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

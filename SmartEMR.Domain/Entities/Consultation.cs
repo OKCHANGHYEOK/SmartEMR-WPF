@@ -9,7 +9,9 @@ public class Consultation : BaseEntity
     private int? m_PAT_Idx;
     private int? m_RCP_Idx;
     private int? m_IRC_Idx;
+    private string? m_CST_VisitType;
     private string? m_CST_InsuranceType;
+    private string? m_vCST_InsuranceType;
     private string? m_CST_Status;
     private string? m_CST_PayStatus;
     private string? m_CST_TreatResult;
@@ -79,10 +81,22 @@ public class Consultation : BaseEntity
         set => SetProperty(ref m_IRC_Idx, value);
     }
 
+    public string? CST_VisitType
+    {
+        get => m_CST_VisitType;
+        set => SetProperty(ref m_CST_VisitType, value);
+    }
+
     public string? CST_InsuranceType
     {
         get => m_CST_InsuranceType;
         set => SetProperty(ref m_CST_InsuranceType, value);
+    }
+
+    public string? vCST_InsuranceType
+    {
+        get => m_vCST_InsuranceType;
+        set => SetProperty(ref m_vCST_InsuranceType, value);
     }
 
     public string? CST_Status

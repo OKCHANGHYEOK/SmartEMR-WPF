@@ -4,9 +4,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>false</ImplicitUsings>
+
     <UseWPF>true</UseWPF>
-	<UseWindowsForms>false</UseWindowsForms>
+    <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Images\mainlogo.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -37,6 +38,7 @@
     <None Remove="Images\smartemr_find_address.png" />
     <None Remove="Images\smartemr_find_glasses.png" />
     <None Remove="Images\smartemr_info.png" />
+    <None Remove="Images\smartemr_insurance.png" />
     <None Remove="Images\smartemr_menu_calendar.png" />
     <None Remove="Images\smartemr_menu_crm.png" />
     <None Remove="Images\smartemr_menu_desk.png" />
@@ -61,13 +63,12 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 	<PackageReference Include="DevExpress.Mvvm" Version="25.2.6" />
-	<PackageReference Include="DevExpress.Win.Design" Version="25.2.6" />
-	<PackageReference Include="DevExpress.Win.Navigation" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.Controls" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.Core" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.Docking" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.Grid.Core" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.LayoutControl" Version="25.2.6" />
+  <PackageReference Include="DevExpress.Wpf.RichEdit" Version="25.2.6" />
 	<PackageReference Include="DevExpress.Wpf.Themes.All" Version="25.2.6" />
     <PackageReference Include="HandyControl" Version="3.6.0-rc3" />
     <PackageReference Include="MahApps.Metro" Version="3.0.0-rc0529" />
@@ -86,6 +87,10 @@
     <Content Include="Images\Svg\smartemr-error.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\smartemr_insurance.png" />
   </ItemGroup>
 
   <ItemGroup>

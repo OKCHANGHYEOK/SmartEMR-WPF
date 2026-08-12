@@ -407,4 +407,21 @@ public class ModelProperty
     }
 
     #endregion
+
+    #region "Consultation"
+
+    public void SetDefaultConsultationData(Consultation item)
+    {
+        item.MUR_Idx_DOC = 0;
+        item.CST_Status = "RDY";
+        item.CST_InsuranceType = "NOR";
+        item.CST_VisitType = "FIR";
+        item.CST_Subject = "GNR";
+        item.CST_TreatResult = "CON";
+        item.CST_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+        item.CST_StartTime = "00:00";
+        item.CST_EndTime = "23:59";
+    }
+
+    #endregion
 }
