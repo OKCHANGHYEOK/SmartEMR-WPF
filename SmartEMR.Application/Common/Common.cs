@@ -355,6 +355,40 @@ public partial class Common
     }
 }
 
+// RichTextEdit Toolbar 관련
+public partial class Common
+{
+    public static List<string> FontFamilies => Fonts.SystemFontFamilies.Select(x => x.Source).OrderBy(x => x).ToList();
+    public static List<double> FontSizes => GetFontSizes();
+
+
+    private static List<double> GetFontSizes()
+    {
+        List<double> fontsizes = new List<double>()
+        {
+            8,
+            9,
+            10,
+            11,
+            12,
+            14,
+            16,
+            18,
+            20,
+            22,
+            24,
+            26,
+            28,
+            32,
+            36,
+            48,
+            72
+        };
+
+        return fontsizes;
+    }
+}
+
 public class PAT_ImageSourceToImageConverter : BaseConverter
 {
     private static readonly BitmapImage DefaultImage = GlyphImage("Images/smartemr_patient_default_image.png");

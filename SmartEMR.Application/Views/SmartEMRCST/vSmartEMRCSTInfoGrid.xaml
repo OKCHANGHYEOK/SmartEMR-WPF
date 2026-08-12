@@ -129,6 +129,6 @@
 
         <Border Grid.Row="1"  BorderBrush="#DDE2E8" BorderThickness="0,0,0,1" Margin="2"/>
 
-        <dxre:RichEditControl Grid.Row="2"></dxre:RichEditControl>
+        <Xpf:RichTextEdit Grid.Row="2"></Xpf:RichTextEdit>
     </Xpf:StyleGrid>
 </Xpf:CustomControl>
