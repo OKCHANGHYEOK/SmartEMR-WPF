@@ -14,7 +14,11 @@ public class InputOptionItems
     public static IEnumerable<MemberUser> Staffs => SmartMVVM.Master.GetMemberUsers("STF", true, "직원선택");
 
     public static IEnumerable<CommonCode> Subjects => SmartMVVM.Common.GetCommonCode("", "Subject").DistinctBy(x => x.CCI_Cd);
+    public static IEnumerable<CommonCode> ConsultationSubjects => SmartMVVM.Common.GetCommonCode("", "Subject", "", true, "진료과목").DistinctBy(x => x.CCI_Cd);
+
     public static IEnumerable<CommonCode> VisitTypes => SmartMVVM.Common.GetCommonCode("", "VisitType").DistinctBy(x => x.CCI_Cd);
+    public static IEnumerable<CommonCode> ConsultationVisitTypes => SmartMVVM.Common.GetCommonCode("", "VisitType", "", true, "방문구분").DistinctBy(x => x.CCI_Cd);
+
     public static IEnumerable<CommonCode> RouteTypes => SmartMVVM.Common.GetCommonCode("", "Route").DistinctBy(x => x.CCI_Cd);
 
     public static IEnumerable<object> ReservationTimes => SmartMVVM.Common.GetTimesByInterval(SmartMVVM.AppSession.ReservationTimeInterval);
@@ -23,6 +27,6 @@ public class InputOptionItems
 
     public static IEnumerable<Insurance> InsuranceCoperations => SmartMVVM.Master.Query<Insurance>("IRC_CoName");
 
-    public static IEnumerable<CommonCode> ConsultationStatuses => SmartMVVM.Common.GetCommonCode("CST", "Status");
-    public static IEnumerable<CommonCode> TreatResultTypes => SmartMVVM.Common.GetCommonCode("CST", "TreatResult");
+    public static IEnumerable<CommonCode> ConsultationStatuses => SmartMVVM.Common.GetCommonCode("CST", "Status", "", true, "진료상태");
+    public static IEnumerable<CommonCode> TreatResultTypes => SmartMVVM.Common.GetCommonCode("CST", "TreatResult", "", true, "치료상태");
 }

@@ -25,9 +25,10 @@ public enum  eAPI
     Insurance_GetInsurance = 19,
     Insurance_SetInsurance = 20,
     Consultation_GetConsultation = 21,
-    Consultation_SetConsultation = 22,
-    ConsultationOrder_GetConsultationOrder = 23,
-    ConsultationOrder_SetConsultationOrder = 24,
-    Pay_GetPay = 25,
-    Pay_SetPay = 26
+    Consultation_GetConsultationByRCP = 22,
+    Consultation_SetConsultation = 23,
+    ConsultationOrder_GetConsultationOrder = 24,
+    ConsultationOrder_SetConsultationOrder = 25,
+    Pay_GetPay = 26,
+    Pay_SetPay = 27
 }

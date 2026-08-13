@@ -11,18 +11,21 @@
                       xmlns:patient="clr-namespace:SmartEMR.Application.Views.Patients"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                       xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
                       d:DesignWidth="800">
 
-    <dxd:DockLayoutManager>
+    <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2010Blue">
         <dxd:LayoutGroup Orientation="Horizontal">
-            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.3*">
-                <Xpf:LayoutPanel Caption="진료현황"></Xpf:LayoutPanel>
+            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.4*">
+                <Xpf:LayoutPanel Caption="진료현황">
+                    <local:vSmartEMRConsultationTabCST/>
+                </Xpf:LayoutPanel>
                 <Xpf:LayoutPanel Caption="업무메모"></Xpf:LayoutPanel>
             </dxd:LayoutGroup>
-            <dxd:LayoutGroup Orientation="Vertical">
+            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="1.1*">
                 <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="215">
                     <Xpf:LayoutPanel Caption="진료환자">
                         <local:vSmartEMRConsultationPATView/>

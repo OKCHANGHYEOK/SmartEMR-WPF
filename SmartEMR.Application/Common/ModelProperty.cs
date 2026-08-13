@@ -414,7 +414,8 @@ public class ModelProperty
     {
         item.MUR_Idx_DOC = 0;
         item.CST_Status = "RDY";
-        item.CST_InsuranceType = "NOR";
+        item.CST_InsuranceType = "NON";
+        item.CST_PayStatus = "RDY";
         item.CST_VisitType = "FIR";
         item.CST_Subject = "GNR";
         item.CST_TreatResult = "CON";
