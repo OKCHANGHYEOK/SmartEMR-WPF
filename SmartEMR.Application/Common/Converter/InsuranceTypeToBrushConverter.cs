@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Common.Converter;
 
-public class RCBInsuranceTypeToBrushConverter : BaseConverter
+public class InsuranceTypeToBrushConverter : BaseConverter
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

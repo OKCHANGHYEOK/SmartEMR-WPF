@@ -27,6 +27,7 @@ public class Reception : BaseEntity
     private string? m_vRCP_Route;
     private string? m_RCP_Subject;
     private string? m_RCP_SubjectName;
+    private string? m_vRCP_SubjectName;
     private string? m_RCP_InsuranceType;
     private string? m_vRCP_InsuranceType;
     private string? m_RCP_ReceiptDate;
@@ -40,6 +41,7 @@ public class Reception : BaseEntity
 
     private int? m_IRC_Idx;
     private string? m_IRC_Type;
+    private string? m_vIRC_Type;
     private string? m_IRC_CertNum;
     private string? m_IRC_ContractorName;
     private string? m_IRC_InsuredName;
@@ -184,6 +186,12 @@ public class Reception : BaseEntity
         set => SetProperty(ref m_RCP_SubjectName, value);
     }
 
+    public string? vRCP_SubjectName
+    {
+        get => m_vRCP_SubjectName;
+        set => SetProperty(ref m_vRCP_SubjectName, value);
+    }
+
     public string? RCP_InsuranceType
     {
         get => m_RCP_InsuranceType;
@@ -255,6 +263,13 @@ public class Reception : BaseEntity
         get => m_IRC_Type;
         set => SetProperty(ref m_IRC_Type, value);
     }
+
+    public string? vIRC_Type
+    {
+        get => m_vIRC_Type;
+        set => SetProperty(ref m_vIRC_Type, value);
+    }
+
     public string? IRC_CertNum
     {
         get => m_IRC_CertNum;

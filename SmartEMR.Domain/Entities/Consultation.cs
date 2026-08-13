@@ -13,10 +13,12 @@ public class Consultation : BaseEntity
     private string? m_CST_InsuranceType;
     private string? m_vCST_InsuranceType;
     private string? m_CST_Status;
+    private string? m_vCST_Status;
     private string? m_CST_PayStatus;
     private string? m_CST_TreatResult;
     private string? m_CST_Subject;
     private string? m_CST_SubjectName;
+    private string? m_vCST_SubjectName;
     private string? m_CST_StartTime;
     private string? m_CST_EndTime;
     private Decimal? m_CST_TotalPrice;
@@ -31,11 +33,17 @@ public class Consultation : BaseEntity
     private string? m_CST_YYMMDD;
     private bool? m_CST_IsValid;
 
+    private string? m_MUR_Name_DOC;
+
     private string? m_PAT_Name;
     private string? m_PAT_ChartNo;
     private string? m_PAT_Sex;
     private string? m_vPAT_Sex;
     private int? m_PAT_Age;
+    private string? m_vPAT_Info;
+
+    private string? m_IRC_Type;
+    private string? m_vIRC_Type;
 
     #region "NotifyPropertyChanged"
 
@@ -105,6 +113,12 @@ public class Consultation : BaseEntity
         set => SetProperty(ref m_CST_Status, value);
     }
 
+    public string? vCST_Status
+    {
+        get => m_vCST_Status;
+        set => SetProperty(ref m_vCST_Status, value);
+    }
+
     public string? CST_PayStatus
     {
         get => m_CST_PayStatus;
@@ -127,6 +141,12 @@ public class Consultation : BaseEntity
     {
         get => m_CST_SubjectName;
         set => SetProperty(ref m_CST_SubjectName, value);
+    }
+
+    public string? vCST_SubjectName
+    {
+        get => m_vCST_SubjectName;
+        set => SetProperty(ref m_vCST_SubjectName, value);
     }
 
     public string? CST_StartTime
@@ -207,6 +227,12 @@ public class Consultation : BaseEntity
         set => SetProperty(ref m_CST_IsValid, value);
     }
 
+    public string? MUR_Name_DOC
+    {
+        get => m_MUR_Name_DOC;
+        set => SetProperty(ref m_MUR_Name_DOC, value);
+    }
+
     public string? PAT_Name
     {
         get => m_PAT_Name;
@@ -235,6 +261,24 @@ public class Consultation : BaseEntity
     {
         get => m_PAT_Age;
         set => SetProperty(ref m_PAT_Age, value);
+    }
+
+    public string? vPAT_Info
+    {
+        get => m_vPAT_Info;
+        set => SetProperty(ref m_vPAT_Info, value);
+    }
+
+    public string? IRC_Type
+    {
+        get => m_IRC_Type;
+        set => SetProperty(ref m_IRC_Type, value);
+    }
+
+    public string? vIRC_Type
+    {
+        get => m_vIRC_Type;
+        set => SetProperty(ref m_vIRC_Type, value);
     }
 
     #endregion

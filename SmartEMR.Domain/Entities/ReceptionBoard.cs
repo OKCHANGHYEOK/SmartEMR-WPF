@@ -42,6 +42,9 @@ public class ReceptionBoard : BaseEntity
     private int? m_PAT_Age;
     private string? m_vPAT_Info;
 
+    private string? m_IRC_Type;
+    private string? m_vIRC_Type;
+
     #region "NotifyPropertChanged"
 
     public int? MEM_Idx
@@ -247,6 +250,18 @@ public class ReceptionBoard : BaseEntity
     {
         get => m_vPAT_Info;
         set => SetProperty(ref m_vPAT_Info, value);
+    }
+
+    public string? IRC_Type
+    {
+        get => m_IRC_Type;
+        set => SetProperty(ref m_IRC_Type, value);
+    }
+
+    public string? vIRC_Type
+    {
+        get => m_vIRC_Type;
+        set => SetProperty(ref m_vIRC_Type, value);
     }
 
     #endregion

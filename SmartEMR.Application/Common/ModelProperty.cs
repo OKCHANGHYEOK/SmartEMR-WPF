@@ -424,5 +424,34 @@ public class ModelProperty
         item.CST_EndTime = "23:59";
     }
 
+    public void ClearCSTData(Consultation item, bool isClearFilter)
+    {
+        if (isClearFilter)
+        {
+            item.MUR_Idx_DOC = 0;
+            item.CST_Status = "";
+            item.CST_Subject = "";
+            item.CST_InsuranceType = "";
+        }
+        else
+        {
+            item.CST_Idx = 0;
+            item.RCP_Idx = 0;
+            item.PAT_Idx = 0;
+            item.IRC_Idx = 0;
+            item.CST_InsuranceType = "";
+            item.IRC_Type = "";
+            item.vIRC_Type = "";
+            item.CST_Status = "";
+            item.CST_Subject = "";
+            item.CST_SubjectName = "";
+            item.vCST_SubjectName = "";
+            item.CST_StartTime = "00:00";
+            item.CST_EndTime = "23:59";
+            item.CST_Opinion = "";
+            item.CST_Memo = "";
+        }
+    }
+
     #endregion
 }

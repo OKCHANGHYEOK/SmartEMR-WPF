@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -26,7 +27,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     }
 
     [RelayCommand]
-    public async Task GetConsultationByRCP()
+    public async Task UpdateConsultationsByRCP()
     {
         var item = new Consultation
         {
@@ -53,6 +54,14 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             return;
         }
 
+        DisplayDataMappers.ConsultationDisplayDataMapper.Map(ret);
+
         Consultations = ret.ToList();
+    }
+
+    [RelayCommand]
+    public void ClearData(bool isClearFilter = false)
+    {
+        SmartMVVM.ModelProperty.ClearCSTData(Model, isClearFilter);
     }
 }

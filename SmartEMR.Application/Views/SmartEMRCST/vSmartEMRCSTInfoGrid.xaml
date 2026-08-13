@@ -21,12 +21,12 @@
 
         <Xpf:StyleGrid  Grid.Row="0"
                         LayoutDefinitions="20,1"
-                        ColumnSizeDefinitions="*,*,*,*,*,*,*,Auto,*,*,*,*,*,*,*,*,*,*,*"
+                        ColumnSizeDefinitions="*,*,*,*,*,*,,Auto,*,*,*,*,*,*,*,*,*,*,*,*"
                         Height="25"
                         Margin="2">
 
             <dxc:SimpleButton   Grid.Column="0"
-                                Grid.ColumnSpan="3"
+                                Grid.ColumnSpan="2"
                                 Content="{Binding Model.vCST_InsuranceType, TargetNullValue='비보험'}"
                                 Glyph="/Images/smartemr_insurance.png"
                                 FontWeight="Bold"
@@ -34,7 +34,7 @@
                                 Margin="2,0,2,0"
                                 dxc:ThemeManager.ThemeName="Office2013LightGray"/>
 
-            <Xpf:DateEdit   Grid.Column="3"
+            <Xpf:DateEdit   Grid.Column="2"
                             Grid.ColumnSpan="3"
                             EditValue="{Binding Model.CST_YYMMDD}"
                             FontWeight="Bold"
@@ -44,7 +44,7 @@
                             ShowToday="False"/>
 
 
-            <Xpf:DateEdit   Grid.Column="6"
+            <Xpf:DateEdit   Grid.Column="5"
                             EditValue="{Binding Model.CST_StartTime}"
                             MaskType="TimeOnly"
                             Mask="HH:mm"
@@ -56,9 +56,9 @@
                 </Xpf:DateEdit.StyleSettings>
             </Xpf:DateEdit>
 
-            <Xpf:Label Grid.Column="7"  Content="~" FontSize="10" Foreground="DimGray" Margin="1,0,1,0"/>
+            <Xpf:Label Grid.Column="6"  Content="~" FontSize="10" Foreground="DimGray" Margin="1,0,1,0"/>
 
-            <Xpf:DateEdit   Grid.Column="8"
+            <Xpf:DateEdit   Grid.Column="7"
                             EditValue="{Binding Model.CST_EndTime}"
                             MaskType="TimeOnly"
                             Mask="HH:mm"
@@ -70,7 +70,7 @@
                 </Xpf:DateEdit.StyleSettings>
             </Xpf:DateEdit>
             
-            <Xpf:ComboBoxEdit   Grid.Column="9"
+            <Xpf:ComboBoxEdit   Grid.Column="8"
                                 EditValue="{Binding Model.CST_VisitType}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationVisitTypes}"
                                 DisplayMember="CCI_Name"
@@ -78,7 +78,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="10"
+            <Xpf:ComboBoxEdit   Grid.Column="9"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.CST_Status}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationStatuses}"
@@ -87,7 +87,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="12"
+            <Xpf:ComboBoxEdit   Grid.Column="11"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.MUR_Idx_DOC}"
                                 ItemsSource="{x:Static selection:InputOptionItems.Docters}"
@@ -96,7 +96,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="14"
+            <Xpf:ComboBoxEdit   Grid.Column="13"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.CST_Subject}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationSubjects}"
@@ -105,7 +105,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="16"
+            <Xpf:ComboBoxEdit   Grid.Column="15"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.CST_TreatResult}"
                                 ItemsSource="{x:Static selection:InputOptionItems.TreatResultTypes}"
@@ -114,31 +114,38 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <dxc:SimpleButton   Grid.Column="18"
-                                Content="저장하기"
-                                Glyph="/Images/smartemr_save.png"
-                                GlyphWidth="18"
-                                GlyphHeight="18"
-                                GlyphToContentOffset="3"
-                                HorizontalContentAlignment="Stretch"
-                                FontSize="11"
-                                FontWeight="SemiBold"
-                                dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                Padding="2"
-                                Margin="2,0,2,0"/>
-            
-            <dxc:SimpleButton   Grid.Column="19"
-                                Content="초기화"
-                                Glyph="/Images/smartemr_empty_paper.png"
-                                GlyphWidth="18"
-                                GlyphHeight="18"
-                                GlyphToContentOffset="5"
-                                HorizontalContentAlignment="Stretch"
-                                FontSize="11"
-                                FontWeight="SemiBold"
-                                dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                Padding="2"
-                                Margin="2,0,2,0"/>
+            <Xpf:StyleGrid  Grid.Column="17"
+                            Grid.ColumnSpan="3"
+                            LayoutDefinitions="2,1">
+
+                <dxc:SimpleButton   Grid.Column="0"
+                                    Content="저장하기"
+                                    Glyph="/Images/smartemr_save.png"
+                                    GlyphWidth="18"
+                                    GlyphHeight="18"
+                                    GlyphToContentOffset="3"
+                                    GlyphAlignment="Left"
+                                    HorizontalContentAlignment="Center"
+                                    FontSize="11"
+                                    FontWeight="SemiBold"
+                                    dxc:ThemeManager.ThemeName="Office2016Colorful"
+                                    Padding="2"
+                                    Margin="2,0,2,0"/>
+
+                <dxc:SimpleButton   Grid.Column="1"
+                                    Content="전체초기화"
+                                    Glyph="/Images/smartemr_empty_paper.png"
+                                    GlyphWidth="18"
+                                    GlyphHeight="18"
+                                    GlyphAlignment="Left"
+                                    GlyphToContentOffset="5"
+                                    HorizontalContentAlignment="Center"
+                                    FontSize="11"
+                                    FontWeight="SemiBold"
+                                    dxc:ThemeManager.ThemeName="Office2016Colorful"
+                                    Padding="2"
+                                    Margin="2,0,2,0"/>
+            </Xpf:StyleGrid>
         </Xpf:StyleGrid>
 
         <Border Grid.Row="1"  BorderBrush="#DDE2E8" BorderThickness="0,0,0,1" Margin="2"/>
