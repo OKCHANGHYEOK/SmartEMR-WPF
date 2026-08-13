@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace SmartEMR.Application.ViewBase;
 
-public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid, IDataGrid
+public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid, IDataGrid, IDisposable
 {
     public static readonly DependencyProperty ViewTitleProperty =
         DependencyProperty.Register("ViewTitle", typeof(string), typeof(ViewLayout), new PropertyMetadata("SmartEMR"));
@@ -28,7 +28,7 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid
     }
 
     public bool IsPopupView { get; set; } = false;
-
+    public abstract bool disposed { get; set; }
 
     public ViewLayout()
     {
@@ -47,6 +47,8 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid
         var vl = sender as ViewLayout;
         if (vl == null) return;
     }
+
+    public abstract void Dispose(bool disposedValue);
 }
 
 // BindGrid
@@ -68,10 +70,11 @@ public abstract partial class ViewLayout
     public abstract void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e);
 }
 
-public abstract partial class ModelViewLayout : ViewLayout, IDisposable
+public abstract partial class ModelViewLayout : ViewLayout
 {
     public bool InitializedViewData { get; set; } = false;
-    public bool disposed { get; set; }
+
+    public override bool disposed { get; set; }
 
     public override abstract Task InitializeViewData();
 
@@ -80,7 +83,7 @@ public abstract partial class ModelViewLayout : ViewLayout, IDisposable
     protected virtual void SetBindGrid() { }
     protected virtual void SetDataGrid() { }
 
-    public virtual void Dispose(bool disposedValue)
+    public override void Dispose(bool disposedValue)
     {
         if (!disposedValue || disposed) return;
         disposed = true;

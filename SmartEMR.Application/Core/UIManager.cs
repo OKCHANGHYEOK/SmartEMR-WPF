@@ -155,7 +155,15 @@ public partial class UIManager
 
     public void ClosePopup(FloatPanel floatPanel)
     {
-        PopupManager.Close(floatPanel);
+        var vl = floatPanel.Content as ViewLayout;
+        if (vl is not null)
+        {
+           var isRemoved = UnRegisterView(vl);
+           if (isRemoved)
+            {
+                PopupManager.Close(floatPanel);
+            }
+        }
     }
 
     public void RegisterView(ViewLayout view)
@@ -168,11 +176,6 @@ public partial class UIManager
         if (mv == null) return;
 
         FindAndRegisterElements(mv);
-
-        if (view is FrameworkElement fe)
-        {
-            fe.Unloaded += (s, e) => UnRegisterView(mv);
-        }
     }
 
     // TargetViewType에 따른 타겟 추출 로직 (UIManager 활용)
@@ -189,7 +192,7 @@ public partial class UIManager
 
     public void RemoveViewLayout(ViewLayout view)
     {
-        bool isRemoved = _activeViews.Remove(view);
+        bool isRemoved = UnRegisterView(view);
         if (isRemoved)
         {
             if (view.Parent is FloatPanel floatPanel)
@@ -227,11 +230,15 @@ public partial class UIManager
         return default!;
     }
 
-    private void UnRegisterView(ModelViewLayout view)
+    private bool UnRegisterView(ViewLayout view)
     {
-        _activeViews.Remove(view);
+        bool isRemoved = _activeViews.Remove(view);
+        if (isRemoved)
+        {
+            view.Dispose(true); // IDisposable 명시적 캐스팅 대신 직접 호출
+        }
 
-        view.Dispose(true); // IDisposable 명시적 캐스팅 대신 직접 호출
+        return isRemoved;
     }
 
     private void FindAndRegisterElements(ModelViewLayout view, DependencyObject? parent = null)

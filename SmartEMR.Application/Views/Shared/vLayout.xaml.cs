@@ -25,6 +25,8 @@ public partial class vLayout : ViewLayout
     public override IReadOnlyList<BindGrid> BindGrids => default!;
     public override IReadOnlyList<DataGrid> DataGrids => default!;
 
+    public override bool disposed { get; set; }
+
     public vLayout()
     {
         this.Loaded += async (s, e) =>
@@ -73,5 +75,9 @@ public partial class vLayout : ViewLayout
                 await SmartUI.SendMessageToSearchView("SetFocusToSearchText");
                 break;
         }
+    }
+
+    public override void Dispose(bool disposedValue)
+    {
     }
 }

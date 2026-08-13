@@ -94,10 +94,16 @@ public static partial class SmartUI
 
         Mouse.OverrideCursor = Cursors.Wait;
 
+        var vlayout = CurrentWindow?.Content as vLayout;
+        if (vlayout is null) return;
+
         try
         {
             if (targetView is ModelViewLayout mvLayout)
             {
+                vlayout.SetIndicatorVisibility(true);
+
+                await Task.Delay(500);
                 await mvLayout.InitializeViewData();
             }
 
@@ -107,13 +113,9 @@ public static partial class SmartUI
             }
             else
             {
-                // 메인 레이아웃 준비
-                var vlayout = CurrentWindow?.Content as vLayout;
-                if (vlayout == null) return;
-
                 // 이미 해당 만들어진 해당 페이지가 존재하는지 체크
                 var vl = UIManager.Views.FirstOrDefault(x => x.GetType() == targetView.GetType());
-                if (vl != null)
+                if (vl is not null)
                 {
                     targetView = vl;
                 }
@@ -125,6 +127,8 @@ public static partial class SmartUI
             {
                 targetView.SetViewData(parameter);
             }
+
+            vlayout.SetIndicatorVisibility(false);
         }
         finally
         {
@@ -136,10 +140,10 @@ public static partial class SmartUI
     public static async Task RefreshCurrentPage()
     {
         var currentView = CurrentPageView;
-        if (currentView == null) return;
+        if (currentView is null) return;
 
         var vlayout = CurrentWindow?.Content as vLayout;
-        if (vlayout == null) return;
+        if (vlayout is null) return;
 
         vlayout.SetIndicatorVisibility(true);
 
