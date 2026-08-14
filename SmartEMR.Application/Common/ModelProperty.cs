@@ -394,7 +394,6 @@ public class ModelProperty
         item.IRC_ContractorName = "";
         item.IRC_InsuredName = "";
         item.IRC_CoName = "";
-        item.IRC_CoName = "";
         item.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
         item.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
         item.IRC_Specific = "";

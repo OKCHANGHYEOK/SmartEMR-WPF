@@ -11,7 +11,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     /// <summary>
     /// vSmartEMRDeskRCVInfo.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class vSmartEMRDeskPAYInfo : ModelViewLayout<SmartEMRIRCInfoViewModel>
+    public partial class vSmartEMRDeskIRCInfo : ModelViewLayout<SmartEMRIRCInfoViewModel>
     {
         public Insurance IRCItem
         {
@@ -23,6 +23,18 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
 
         public Patient PATItem { get; set; } = new();
 
+        public static DependencyProperty MaskControlVisiblityProperty =
+            DependencyProperty.Register(nameof(MaskControlVisiblity), typeof(Visibility), typeof(vSmartEMRDeskIRCInfo), new PropertyMetadata(Visibility.Visible));
+
+
+        public Visibility MaskControlVisiblity
+        {
+            get => (Visibility)GetValue(MaskControlVisiblityProperty);
+            set => SetValue(MaskControlVisiblityProperty, value);
+        }
+
+        private string[] _InputItems = { "IRC_CertNum", "IRC_ContractorName", "IRC_InsuredName", "chkIsSameAsContractor", "IRC_CoName", "vIRC_CoName", "IRC_EffectiveYYMMDD", "IRC_ExpiredYYMMDDD", "IRC_Specific" };
+
         protected override void Initialize()
         {
         }
@@ -31,14 +43,21 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         {
             this.BindGrids[0].GetBindItem<Label>("vIRC_Type")?.HorizontalContentAlignment = HorizontalAlignment.Left;
 
-            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Height = 38;
-            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CoName")?.Margin = new Thickness(1, 0, 1, 0);
+            var cmbIRC_CoName = this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName");
+            if (cmbIRC_CoName is not null)
+            {
+                cmbIRC_CoName.EditValueChanged += (s, e) =>
+                {
+                    SmartUI.BeginInvoke(() =>
+                    {
+                        if (string.IsNullOrWhiteSpace(e.NewValue?.ToString()))
+                        {
+                            cmbIRC_CoName.SelectedIndex = 0;
+                        }
 
-            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_CertNum")?.Margin = new Thickness(1);
-            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_ContractorName")?.Margin = new Thickness(1);
-            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_InsuredName")?.Margin = new Thickness(1);
-            this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_Specific")?.Margin = new Thickness(1);
+                    }, System.Windows.Threading.DispatcherPriority.Background);
+                };
+            }
         }
 
         public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -77,6 +96,15 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
            
             switch (fieldName)
             {
+                case "IRC_Type":
+                    var newValue = e.NewValue?.ToString();
+                    if (!string.IsNullOrWhiteSpace(newValue))
+                    {
+                        SetLayoutByInsuranceType(newValue);
+                    }
+
+                    break;
+
                 case "IRC_CoName":
                     var selectedItem = this.BindGrids[0].GetBindItem<ComboBoxEdit>("IRC_CoName")?.SelectedItem as Insurance;
                     if (selectedItem != null && selectedItem.IRC_CoCd == "ETC")
@@ -143,19 +171,17 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
         }
 
-        private void OnClick_Button(object sender, RoutedEventArgs e)
+        private void SetLayoutByInsuranceType(string IRC_Type)
         {
-            var element = sender as Button;
-            if (element == null) return;
+            bool isEnabled = IRC_Type != "NON";
 
-            switch (element.Name)
+            foreach (string fieldName in _InputItems)
             {
-                case "btnClear":
-                    if (SmartUI.MsgYesNo("보험구분을 제외한 정보가 초기화됩니다. 초기화하시겠습니까?") != MessageBoxResult.Yes) return;
-
-                    ClearData(false);
-
-                    break;
+                var element = this.BindGrids[0].GetBindItem<FrameworkElement>(fieldName);
+                if (element is not null ) 
+                {
+                    element.IsEnabled = isEnabled;
+                }
             }
         }
     }

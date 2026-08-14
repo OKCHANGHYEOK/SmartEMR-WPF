@@ -169,12 +169,12 @@
                         </Style>
                     </Border.Resources>
 
-                    <Xpf:TextBlock Text="{Binding Model.vPAT_IsAgreePersonalInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Margin="0,4,0,0" FontWeight="Bold">
+                    <Xpf:TextBlock Text="{Binding Model.vPAT_IsAgreePersonalInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Padding="0,0,0,3" FontSize="13" Margin="0,4,0,0" FontWeight="Bold">
                         <Xpf:TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Model.PAT_IsAgreePersonalInfo}" Value="y">
-                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Foreground" Value="#2E7D32"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Model.PAT_IsAgreePersonalInfo}" Value="n">
                                         <Setter Property="Foreground" Value="DimGray"/>

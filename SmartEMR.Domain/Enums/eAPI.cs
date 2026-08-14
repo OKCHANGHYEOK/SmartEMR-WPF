@@ -23,12 +23,13 @@ public enum  eAPI
     Reception_SetReceptionByRES = 17,
     Reception_CancelReception = 18,
     Insurance_GetInsurance = 19,
-    Insurance_SetInsurance = 20,
-    Consultation_GetConsultation = 21,
-    Consultation_GetConsultationByRCP = 22,
-    Consultation_SetConsultation = 23,
-    ConsultationOrder_GetConsultationOrder = 24,
-    ConsultationOrder_SetConsultationOrder = 25,
-    Pay_GetPay = 26,
-    Pay_SetPay = 27
+    Insurance_GetRecentInsurance = 20,
+    Insurance_SetInsurance = 21,
+    Consultation_GetConsultation = 22,
+    Consultation_GetConsultationByRCP = 23,
+    Consultation_SetConsultation = 24,
+    ConsultationOrder_GetConsultationOrder = 25,
+    ConsultationOrder_SetConsultationOrder = 26,
+    Pay_GetPay = 27,
+    Pay_SetPay = 28
 }

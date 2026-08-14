@@ -28,8 +28,6 @@ public partial class vPatientViewSummary : ModelViewLayout<PatientViewModel>
 
     public override async void SetPatientData(Patient item)
     {
-        if (PATItem.PAT_Idx == item.PAT_Idx) return;
-
         var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
         if (ret == null || SmartMVVM.DataStore.retIsSuccess == false)
         {

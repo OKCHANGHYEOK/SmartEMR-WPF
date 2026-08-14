@@ -11,6 +11,7 @@
                         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         mc:Ignorable="d"
                         d:DesignWidth="1000"
                         d:DesignHeight="600">
@@ -25,7 +26,7 @@
                         <view:vSmartEMRDeskRCPInfo x:Name="SmartEMRDeskRCPInfo"/>
                     </Xpf:LayoutPanel>
                     <Xpf:LayoutPanel Caption="보험정보">
-                        <view:vSmartEMRDeskPAYInfo x:Name="SmartEMRDeskIRCInfo"/>
+                        <view:vSmartEMRDeskIRCInfo x:Name="SmartEMRDeskIRCInfo" MaskControlVisiblity="{Binding IsReceptionEditing, ElementName=SmartEMRDeskRCPInfo, Converter={converter:BooleanToVisibilityConverter invert=True}}"/>
                     </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
 

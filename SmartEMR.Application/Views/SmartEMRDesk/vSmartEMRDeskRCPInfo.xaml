@@ -13,6 +13,7 @@
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
+                        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
     
@@ -127,34 +128,41 @@
                         ColumnSizeDefinitions="Auto,1*,Auto"
                         Margin="0,2,0,2">
             
-            <Xpf:Button x:Name="btnCancelRCP"
-                        Grid.Column="0"
-                        Content="접수취소"
-                        Glyph="/Images/smartemr_cancel.png"
-                        Width="90"
-                        MinHeight="24"
-                        Height="24"
-                        Margin="2,0,0,0"
-                        Command="{Binding RequestSetRCPCommand}"
-                        CommandParameter="{x:Static common:SaveMode.DELETE}"
-                        IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
+            <dxc:SimpleButton   x:Name="btnCancelRCP"
+                                Grid.Column="0"
+                                Content="접수취소"
+                                MinHeight="24"
+                                Height="24"
+                                Glyph="/Images/smartemr_cancel.png"
+                                GlyphWidth="16"
+                                GlyphHeight="16"
+                                Padding="2"
+                                Margin="2,0,0,0"
+                                Cursor="Hand"
+                                Command="{Binding RequestSetRCPCommand}"
+                                CommandParameter="{x:Static common:SaveMode.DELETE}"
+                                IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
 
-            <Xpf:Button x:Name="btnSaveRCP"
-                        Grid.Column="2"
-                        Content="접수등록"
-                        Glyph="/Images/smartemr_save.png"
-                        Width="90"
-                        MinHeight="24"
-                        Height="24"
-                        Margin="0,0,2,0"
-                        Command="{Binding RequestSetRCPCommand}"
-                        CommandParameter="{x:Static common:SaveMode.SAVE}">
-            </Xpf:Button>
+            <dxc:SimpleButton   x:Name="btnSaveRCP"
+                                Grid.Column="2"
+                                Content="접수등록"
+                                MinHeight="24"
+                                Height="24"
+                                Glyph="/Images/smartemr_save.png"
+                                GlyphWidth="16"
+                                GlyphHeight="16"
+                                Padding="2"
+                                Margin="0,0,2,0"
+                                Cursor="Hand"
+                                Command="{Binding RequestSetRCPCommand}"
+                                CommandParameter="{x:Static common:SaveMode.SAVE}">
+            </dxc:SimpleButton>
         </Xpf:StyleGrid>
 
         <Xpf:MaskControl    x:Name="MaskControl"
                             Grid.RowSpan="2"
-                            MaskText="환자선택후 접수 등록할 수 있습니다."                            
+                            MaskText="환자선택후 접수 등록할 수 있습니다."
+                            Visibility="{Binding IsReceptionEditing, RelativeSource={RelativeSource AncestorType=desk:vSmartEMRDeskRCPInfo}, Converter={converter:BooleanToVisibilityConverter invert=True}}"
                             ButtonText="접수등록"
                             ButtonImage="/Images/smartemr_register.png"
                             ButtonCommand="{Binding ShowRCPInfoCommand, RelativeSource={RelativeSource AncestorType={x:Type desk:vSmartEMRDeskRCPInfo}}}"

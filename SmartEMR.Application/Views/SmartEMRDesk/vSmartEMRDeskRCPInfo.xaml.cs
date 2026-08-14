@@ -16,6 +16,15 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
     {
         public Reception RCPItem => vm.Model;
 
+        public static readonly DependencyProperty IsReceptionEditingProperty =
+            DependencyProperty.Register(nameof(IsReceptionEditing), typeof(bool), typeof(vSmartEMRDeskRCPInfo), new PropertyMetadata(false));
+
+        public bool IsReceptionEditing
+        {
+            get => (bool)GetValue(IsReceptionEditingProperty);
+            set => SetValue(IsReceptionEditingProperty, value);
+        }
+
         protected override void Initialize()
         {
         }
@@ -142,19 +151,18 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         {
             await vm.SetReceptionData(item);
 
-            Insurance? IRCItem = null;
-
             if (RCPItem.RCP_Idx.GetValueOrDefault(0) > 0)
             {
-                var retIRC = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, new Insurance { PAT_Idx = RCPItem.PAT_Idx, RCP_Idx = RCPItem.RCP_Idx });
-                if (retIRC != null)
-                {
-                    IRCItem = retIRC;
-                }
-
                 btnSaveRCP.Content = "접수수정";
 
-                MaskControl.Visibility = Visibility.Collapsed;
+                IsReceptionEditing = true;
+
+                // 접수 수정시 해당 접수의 보험 정보를 가져옴
+                var IRCItem = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, new Insurance { PAT_Idx = RCPItem.PAT_Idx, RCP_Idx = RCPItem.RCP_Idx });
+                if (IRCItem is not null)
+                {
+                    await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
+                }
             }
             else
             {
@@ -166,14 +174,12 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                 MaskControl.MaskText = "오늘 날짜의 접수내역이 없습니다.";
                 MaskControl.ShowButton = true;
             }
-
-            await SmartUI.SendMessage("SetInsurance", IRCItem, viewType: TargetViewType.PageView);
         }
 
         [RelayCommand]
         private void ShowRCPInfo()
         {
-            MaskControl.Visibility = Visibility.Collapsed;
+            IsReceptionEditing = true;
         }
 
         private void OnEditValueChanged_CheckBoxEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)

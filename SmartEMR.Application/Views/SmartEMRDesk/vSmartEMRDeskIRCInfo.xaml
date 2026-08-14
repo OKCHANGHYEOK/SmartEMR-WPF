@@ -1,9 +1,10 @@
-﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskPAYInfo"
+﻿<base:ModelViewLayout   x:Class="SmartEMR.Application.Views.SmartEMRDesk.vSmartEMRDeskIRCInfo"
                         x:TypeArguments="vm:SmartEMRIRCInfoViewModel"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:sys="clr-namespace:System;assembly=mscorlib"
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                         xmlns:view="clr-namespace:SmartEMR.Application.Views"
@@ -12,6 +13,8 @@
                         xmlns:model="clr-namespace:SmartEMR.Domain.Entities;assembly=SmartEMR.Domain"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                        xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
+                        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
     
@@ -24,22 +27,26 @@
                         BindStyle="DataCell"
                         ItemSpace="2">
 
-            <Xpf:BindItem   FieldName="vIRC_Type"
+            <Xpf:BindItem   FieldName="IRC_Type"
                             Header="보 험 구 분"
-                            BindType="Label"
+                            BindType="ComboBox"
                             Col="0"
                             Row="0"
                             ColSpan="2"
                             FontSize="12"
-                            HAlignment="Left"
-                            FontWeight="Bold"/>
+                            FontWeight="Bold"
+                            ItemsSource="{x:Static selection:InputOptionItems.InsuranceTypes}"
+                            DisplayMember="CCI_Name"
+                            ValueMember="CCI_Cd"
+                            IsEnabled="False"/>
 
             <Xpf:BindItem   FieldName="IRC_CertNum"
                             Header="보험증번호"
                             BindType="TextBox"
                             Col="0"
                             Row="1"
-                            ColSpan="2"/>
+                            ColSpan="2"
+                            IsEnabled="False"/>
 
 
             <x:Array Type="{x:Type Xpf:BindItem}">
@@ -49,11 +56,13 @@
                                 Col="0"
                                 Row="2"
                                 ColSpan="2"
-                                Placeholder="가입자명"/>
+                                Placeholder="가입자명"
+                                IsEnabled="False"/>
 
                 <Xpf:BindItem   FieldName="IRC_InsuredName"
                                 BindType="TextBox"
-                                Placeholder="피보험자명"/>
+                                Placeholder="피보험자명"
+                                IsEnabled="False"/>
 
                 <Xpf:BindItem   FieldName="chkIsSameAsContractor"
                                 BindType="CheckBox"
@@ -64,7 +73,8 @@
                                 Width="42"
                                 ToolTip="가입자가 본인과 동일함"
                                 IsBinding="False"
-                                IsBindClickEvent="True"/>
+                                IsBindClickEvent="True"
+                                IsEnabled="False"/>
             </x:Array>
 
             <x:Array Type="{x:Type Xpf:BindItem}">
@@ -75,7 +85,8 @@
                                 ValueMember="IRC_CoName"
                                 Col="0"
                                 Row="3"
-                                ColSpan="2"/>
+                                ColSpan="2"
+                                IsEnabled="False"/>
 
                 <Xpf:BindItem   FieldName="vIRC_CoName"
                                 BindType="TextBox"
@@ -91,7 +102,8 @@
                                 BindType="DateEdit"
                                 Col="0"
                                 Row="4"
-                                ColSpan="2"/>
+                                ColSpan="2"
+                                IsEnabled="False"/>
 
                 <Xpf:BindItem   FieldName=""
                                 BindType="Label"
@@ -101,7 +113,8 @@
                                 IsBinding="False"/>
 
                 <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDDD"
-                                BindType="DateEdit"/>
+                                BindType="DateEdit"
+                                IsEnabled="False"/>
             </x:Array>
 
             <Xpf:BindItem   FieldName="IRC_Specific"
@@ -110,29 +123,51 @@
                             Row="5"
                             ColSpan="2"
                             RowSpan="3"
-                            ContentAlignment="LeftTop"/>
+                            ContentAlignment="LeftTop"
+                            IsEnabled="False"/>
         </Xpf:BindGrid>
 
         <Xpf:StyleGrid  Grid.Row="1"
-                        LayoutDefinitions="1,1"
+                        LayoutDefinitions="3,1"
+                        ColumnSizeDefinitions="Auto,*,Auto"
                         Margin="0,2,0,2">
 
-            <Xpf:Button x:Name="btnClear"
-                        Grid.Column="0"
-                        Content="초기화"
-                        Glyph="/Images/smartemr_empty_paper.png"
-                        Width="90"
-                        MinHeight="24"
-                        Height="24"
-                        HorizontalAlignment="Right"
-                        Margin="0,0,2,0"
-                        Click="OnClick_Button"/>
+            <dxc:SimpleButton   x:Name="btnSetRecentInsurance"
+                                Grid.Column="0"
+                                Content="최근보험적용"
+                                Glyph="/Images/smartemr_recent_data.png"
+                                GlyphWidth="16"
+                                GlyphHeight="16"
+                                MinHeight="24"
+                                Height="24"
+                                Padding="2"
+                                Margin="2,0,0,0"
+                                Cursor="Hand"
+                                Command="{Binding SetRecentinsuranceCommand}"/>
+
+            <dxc:SimpleButton   x:Name="btnClear"
+                                Grid.Column="2"
+                                Content="초기화"
+                                Glyph="/Images/smartemr_empty_paper.png"
+                                GlyphWidth="16"
+                                GlyphHeight="16"
+                                MinHeight="24"
+                                Height="24"
+                                Padding="2"
+                                Margin="0,0,2,0"
+                                Cursor="Hand"
+                                Command="{Binding ClearDataCommand}">
+                
+                <dxc:SimpleButton.CommandParameter>
+                    <sys:Boolean>True</sys:Boolean>
+                </dxc:SimpleButton.CommandParameter>
+            </dxc:SimpleButton>
         </Xpf:StyleGrid>
 
-        <Xpf:MaskControl x:Name="MaskControl" Grid.RowSpan="2" Visibility="{Binding Model.IRC_Type, Converter={converter:IRCTypeToVisibilityConverter}}"
+        <Xpf:MaskControl x:Name="MaskControl" Grid.RowSpan="2" Visibility="{Binding MaskControlVisiblity, RelativeSource={RelativeSource AncestorType=desk:vSmartEMRDeskIRCInfo}}"
                          ShowButton="False">
             <Xpf:TextBlock TextAlignment="Center">
-                <Run>접수정보에서 비보험외의 보험 선택 시 활성화됩니다.</Run>
+                <Run>접수등록/수정시 활성화됩니다.</Run>
             </Xpf:TextBlock>
         </Xpf:MaskControl>
     </Xpf:StyleGrid>
