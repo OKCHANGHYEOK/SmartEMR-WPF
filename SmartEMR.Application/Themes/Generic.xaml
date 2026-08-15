@@ -7,7 +7,8 @@
                     xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                    xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit">
+                    xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit"
+                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
     <converter:StringAndFocusToVisiblityConverter x:Key="StringAndFocusToVisiblityConverter"/>
     
         <!--#region Xpf.Button -->
@@ -475,27 +476,31 @@
                             <ToggleButton   Content="B"
                                             FontWeight="Bold"
                                             Width="28"
-                                            Height="28"/>
+                                            Height="28"
+                                            Command="{Binding CommandProvider.FontBold, ElementName=RichEdit}"/>
 
                             <ToggleButton   Content="𝐈"
                                             FontStyle="Italic"
                                             Width="28"
-                                            Height="28"/>
+                                            Height="28"
+                                            Command="{Binding CommandProvider.FontItalic, ElementName=RichEdit}"/>
 
                             <ToggleButton   Width="28"
-                                            Height="28">
-
+                                            Height="28"
+                                            Command="{Binding CommandProvider.FontUnderline, ElementName=RichEdit}">
                                 <Xpf:TextBlock Text="U" TextDecorations="Underline"/>
                             </ToggleButton>
 
                             <Separator/>
 
                             <!-- 글꼴 -->
-                            <Xpf:ComboBoxEdit   Width="120"
+                            <Xpf:ComboBoxEdit   x:Name="cmbFontFamiliy"
+                                                Width="120"
                                                 Height="28"
                                                 ItemsSource="{x:Static common:Common.FontFamilies}"
                                                 SelectedIndex="0"
-                                                Margin="2,0,2,0"/>
+                                                Margin="2,0,2,0">
+                            </Xpf:ComboBoxEdit>
 
                             <!-- 글자 크기 -->
                             <Xpf:ComboBoxEdit   Width="60"
@@ -508,38 +513,38 @@
 
                             <!-- 정렬 -->
                             <Button Content="≡"
-                                Width="28"
-                                Height="28"/>
+                                    Width="28"
+                                    Height="28"/>
 
                             <Button Content="≡"
-                                Width="28"
-                                Height="28"/>
+                                    Width="28"
+                                    Height="28"/>
 
                             <Button Content="≡"
-                                Width="28"
-                                Height="28"/>
+                                    Width="28"
+                                    Height="28"/>
 
                             <Separator/>
 
                             <!-- 목록 -->
                             <Button Content="•"
-                                Width="28"
-                                Height="28"/>
+                                    Width="28"
+                                    Height="28"/>
 
                             <Button Content="1."
-                                Width="28"
-                                Height="28"/>
+                                    Width="28"
+                                    Height="28"/>
 
                             <Separator/>
 
                             <!-- 실행 취소 / 다시 실행 -->
                             <Button Content="↶"
-                                Width="28"
-                                Height="28"/>
+                                    Width="28"
+                                    Height="28"/>
 
                             <Button Content="↷"
-                                Width="28"
-                                Height="28"/>
+                                    Width="28"
+                                    Height="28"/>
 
                             <Separator/>
 
@@ -554,7 +559,8 @@
 
 
                         <!-- Rich Text Editor -->
-                        <dxre:RichEditControl   Grid.Row="1"
+                        <dxre:RichEditControl   x:Name="RichEdit"
+                                                Grid.Row="1"
                                                 ActiveViewType="Simple"
                                                 ShowCaretInReadOnly="False"
                                                 ShowReviewingPane="False"
