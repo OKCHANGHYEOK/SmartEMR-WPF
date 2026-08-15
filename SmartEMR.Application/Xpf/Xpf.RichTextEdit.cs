@@ -1,20 +1,39 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using CommunityToolkit.Mvvm.Input;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.RichEdit;
 using DevExpress.XtraRichEdit.API.Native;
+using SmartEMR.Application.Core;
 
 namespace SmartEMR.Application.Xpf;
 
-public class RichTextEdit : UserControl
+public partial class RichTextEdit : UserControl
 {
+    private PopupColorEdit? _colorEdit;
+    private ComboBoxEdit? _fontFamilyComboBox;
+    private ComboBoxEdit? _fontSizeComboBox;
+    private RichEditControl? _richEdit;
+
     static RichTextEdit()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(RichTextEdit), new FrameworkPropertyMetadata(typeof(RichTextEdit)));
     }
 
-    private ComboBoxEdit? _fontFamilyComboBox;
-    private RichEditControl? _richEdit;
+    [RelayCommand]
+    public void ClearDocument()
+    {
+        if (_richEdit is null) return;
+
+        DocumentRange range = _richEdit.Document.Range;
+        if (range.Length == 0) return;
+
+        if (SmartUI.MsgYesNo("입력된 내용이 모두 지워집니다. 지우시겠습니까?") is MessageBoxResult.Yes)
+        {
+            _richEdit.Document.Delete(range);
+        }
+    }
 
     public override void OnApplyTemplate()
     {
@@ -27,13 +46,46 @@ public class RichTextEdit : UserControl
         base.OnApplyTemplate();
 
         // Template 내부 컨트롤 가져오기
+        _colorEdit = GetTemplateChild("ColorEdit") as PopupColorEdit;
         _fontFamilyComboBox = GetTemplateChild("cmbFontFamiliy") as ComboBoxEdit;
+        _fontSizeComboBox = GetTemplateChild("cmbFontSize") as ComboBoxEdit;
         _richEdit = GetTemplateChild("RichEdit") as RichEditControl;
+
+        if (_colorEdit is not null)
+        {
+            _colorEdit.EditValueChanged += OnEditValueChanged_ColorEdit;
+        }
 
         // 이벤트 연결
         if (_fontFamilyComboBox is not null)
         {
             _fontFamilyComboBox.EditValueChanged += OnEditValueChanged_FontFamily;
+        }
+
+        if (_fontSizeComboBox is not null)
+        {
+            _fontSizeComboBox.EditValueChanged += OnEditValueChanged_FontSize;
+        }
+    }
+
+    private void OnEditValueChanged_ColorEdit(object sender, EditValueChangedEventArgs e)
+    {
+        if (_richEdit is null) return;
+
+        DocumentRange range = _richEdit.Document.Selection;
+        if (range.Length == 0) return;
+
+        if (e.NewValue is not Color color) return;
+
+        CharacterProperties properties = _richEdit.Document.BeginUpdateCharacters(range);
+
+        try
+        {
+            properties.ForeColor = color.ToDrawingColor();
+        }
+        finally
+        {
+            _richEdit.Document.EndUpdateCharacters(properties);
         }
     }
 
@@ -56,6 +108,28 @@ public class RichTextEdit : UserControl
         try
         {
             properties.FontName = fontName;
+        }
+        finally
+        {
+            _richEdit.Document.EndUpdateCharacters(properties);
+        }
+    }
+
+    private void OnEditValueChanged_FontSize(object sender, EditValueChangedEventArgs e)
+    {
+        if (_richEdit is null) return;
+
+        DocumentRange range = _richEdit.Document.Selection;
+
+        if (range.Length == 0) return;
+
+        if (e.NewValue is not double fontSize) return;
+
+        CharacterProperties properties = _richEdit.Document.BeginUpdateCharacters(range);
+
+        try
+        {
+            properties.FontSize = (float)fontSize;
         }
         finally
         {

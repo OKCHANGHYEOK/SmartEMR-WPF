@@ -20,11 +20,13 @@
 
   <ItemGroup>
     <None Remove="Images\copy.png" />
+    <None Remove="Images\smartemr_align_right.png" />
     <None Remove="Images\smartemr_booking.png" />
     <None Remove="Images\smartemr_calendar_refresh.png" />
     <None Remove="Images\smartemr_cancel.png" />
     <None Remove="Images\smartemr_cancel_new.png" />
     <None Remove="Images\smartemr_cancel_paper.png" />
+    <None Remove="Images\smartemr_center_align.png" />
     <None Remove="Images\smartemr_check.png" />
     <None Remove="Images\smartemr_clear.png" />
     <None Remove="Images\smartemr_cross.png" />
@@ -91,6 +93,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\smartemr_align_left.png" />
+    <Resource Include="Images\smartemr_align_right.png" />
+    <Resource Include="Images\smartemr_center_align.png" />
     <Resource Include="Images\smartemr_insurance.png" />
   </ItemGroup>
 

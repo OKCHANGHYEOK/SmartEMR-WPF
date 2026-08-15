@@ -493,6 +493,18 @@
 
                             <Separator/>
 
+                            <!-- 글자색 -->
+                            <dxe:PopupColorEdit  x:Name="ColorEdit"
+                                                Width="40"
+                                                Height="28"
+                                                Color="Black"
+                                                ColumnCount="10"
+                                                ShowNoColorButton="True"
+                                                NoColorButtonContent="Empty Color"
+                                                MoreColorsButtonContent="Color picker"
+                                                ChipSize="Medium"
+                                                ShowBorder="True"/>
+
                             <!-- 글꼴 -->
                             <Xpf:ComboBoxEdit   x:Name="cmbFontFamiliy"
                                                 Width="120"
@@ -503,48 +515,69 @@
                             </Xpf:ComboBoxEdit>
 
                             <!-- 글자 크기 -->
-                            <Xpf:ComboBoxEdit   Width="60"
+                            <Xpf:ComboBoxEdit   x:Name="cmbFontSize"
+                                                Width="60"
                                                 Height="28"
                                                 ItemsSource="{x:Static common:Common.FontSizes}"
                                                 SelectedIndex="0"
-                                                Margin="2,0,2,0"/>
+                                                Margin="2,0,2,0">
+                            </Xpf:ComboBoxEdit>
 
                             <Separator/>
 
                             <!-- 정렬 -->
-                            <Button Content="≡"
-                                    Width="28"
-                                    Height="28"/>
+                            <dxc:SimpleButton   Glyph="/Images/smartemr_align_left.png"
+                                                GlyphWidth="12"
+                                                GlyphHeight="12"
+                                                Width="28"
+                                                Height="28"
+                                                BorderBrush="Transparent"
+                                                Command="{Binding CommandProvider.ParagraphAlignLeft, ElementName=RichEdit}"
+                                                ToolTip="왼쪽정렬"/>
 
-                            <Button Content="≡"
-                                    Width="28"
-                                    Height="28"/>
+                            <dxc:SimpleButton   Glyph="/Images/smartemr_center_align.png"
+                                                GlyphWidth="12"
+                                                GlyphHeight="12"
+                                                Width="28"
+                                                Height="28"
+                                                BorderBrush="Transparent"
+                                                Command="{Binding CommandProvider.ParagraphAlignCenter, ElementName=RichEdit}"
+                                                ToolTip="가운데정렬"/>
 
-                            <Button Content="≡"
-                                    Width="28"
-                                    Height="28"/>
 
+                            <dxc:SimpleButton   Glyph="/Images/smartemr_align_right.png"
+                                                GlyphWidth="12"
+                                                GlyphHeight="12"
+                                                Width="28"
+                                                Height="28"
+                                                BorderBrush="Transparent"
+                                                Command="{Binding CommandProvider.ParagraphAlignRight, ElementName=RichEdit}"
+                                                ToolTip="우측정렬"/>
                             <Separator/>
 
                             <!-- 목록 -->
                             <Button Content="•"
                                     Width="28"
-                                    Height="28"/>
+                                    Height="28"
+                                    Command="{Binding CommandProvider.BulletedList, ElementName=RichEdit}"/>
 
                             <Button Content="1."
                                     Width="28"
-                                    Height="28"/>
+                                    Height="28"
+                                    Command="{Binding CommandProvider.NumberingList, ElementName=RichEdit}"/>
 
                             <Separator/>
 
                             <!-- 실행 취소 / 다시 실행 -->
                             <Button Content="↶"
                                     Width="28"
-                                    Height="28"/>
+                                    Height="28"
+                                    Command="{Binding CommandProvider.Undo, ElementName=RichEdit}"/>
 
                             <Button Content="↷"
                                     Width="28"
-                                    Height="28"/>
+                                    Height="28"
+                                    Command="{Binding CommandProvider.Redo, ElementName=RichEdit}"/>
 
                             <Separator/>
 
@@ -554,7 +587,8 @@
                                               Padding="2"
                                               BorderBrush="Transparent"
                                               BorderThickness="0"
-                                              Background="Transparent"></dxc:SimpleButton>
+                                              Background="Transparent"
+                                              Command="{Binding ClearDocumentCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </ToolBar>
 
 
