@@ -116,13 +116,12 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:StyleGrid  Grid.Column="17"
-                            Grid.ColumnSpan="3"
-                            LayoutDefinitions="2,1">
+            <StackPanel  Grid.Column="17"
+                         Grid.ColumnSpan="3"
+                         Orientation="Horizontal">
 
-                <dxc:SimpleButton   Grid.Column="0"
-                                    Content="저장하기"
-                                    Glyph="/Images/smartemr_save.png"
+                <dxc:SimpleButton   Content="최근진료 불러오기"
+                                    Glyph="/Images/smartemr_recent_data.png"
                                     GlyphWidth="18"
                                     GlyphHeight="18"
                                     GlyphToContentOffset="3"
@@ -136,8 +135,8 @@
                                     Command="{Binding SetConsultationCommand}"
                                     Cursor="Hand"/>
 
-                <dxc:SimpleButton   Grid.Column="1"
-                                    Content="전체초기화"
+                <dxc:SimpleButton   Content="초기화"
+                                    Width="70"
                                     Glyph="/Images/smartemr_empty_paper.png"
                                     GlyphWidth="18"
                                     GlyphHeight="18"
@@ -158,7 +157,7 @@
                         </sys:Boolean>
                     </dxc:SimpleButton.CommandParameter>
                 </dxc:SimpleButton>
-            </Xpf:StyleGrid>
+            </StackPanel>
         </Xpf:StyleGrid>
 
         <Border Grid.Row="1"  BorderBrush="#DDE2E8" BorderThickness="0,0,0,1" Margin="2"/>

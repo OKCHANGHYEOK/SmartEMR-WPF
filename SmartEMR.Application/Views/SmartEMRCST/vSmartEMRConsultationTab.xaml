@@ -19,28 +19,25 @@
 
     <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2010Blue">
         <dxd:LayoutGroup Orientation="Horizontal">
-            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.4*">
-                <Xpf:LayoutPanel Caption="진료현황">
-                    <local:vSmartEMRConsultationTabCST/>
-                </Xpf:LayoutPanel>
-                <Xpf:LayoutPanel Caption="업무메모"></Xpf:LayoutPanel>
-            </dxd:LayoutGroup>
-            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="1.1*">
-                <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="215">
-                    <Xpf:LayoutPanel Caption="진료환자">
-                        <local:vSmartEMRConsultationPATView/>
+            <Xpf:LayoutPanel Caption="진료현황"  ItemWidth="0.5*">
+                <local:vSmartEMRConsultationTabCST/>
+            </Xpf:LayoutPanel>
+            <dxd:LayoutGroup Orientation="Vertical">
+                <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="0.5*">
+                    <Xpf:LayoutPanel ItemWidth="1.2*" ShowCaption="False">
+                        <patient:vPatientViewSummary x:Name="PatientViewSummary"/>
                     </Xpf:LayoutPanel>
                     <Xpf:LayoutPanel Caption="진료환자 이력" ItemWidth="0.8*">
-                        <patient:vSmartEMRPatientHistory/>
+                        <patient:vPatientHistory x:Name="PatientHistory"/>
                     </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
 
                 <dxd:LayoutGroup Orientation="Vertical">
                     <Xpf:LayoutPanel Caption="진료정보" ItemHeight="250">
-                        <local:vSmartEMRCSTInfoGrid/>
+                        <local:vSmartEMRCSTInfoGrid x:Name="SmartEMRCSTInfo"/>
                     </Xpf:LayoutPanel>
-                    <Xpf:LayoutPanel Caption="처방정보" ItemHeight="1*"></Xpf:LayoutPanel>
-                    <Xpf:LayoutPanel Caption="수납정보" ItemHeight="0.4*"></Xpf:LayoutPanel>
+                    <Xpf:LayoutPanel Caption="처방정보" ItemHeight="1*"/>
+                    <Xpf:LayoutPanel Caption="수납정보" ItemHeight="0.4*"/>
                 </dxd:LayoutGroup>
             </dxd:LayoutGroup>
         </dxd:LayoutGroup>

@@ -33,6 +33,15 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         switch (request.MessageAction)
         {
+            case "SetSelectedPatient":
+                var paramItem = request.MessageParameter as Patient;
+                if (paramItem is not null)
+                {
+                    SetPatientData(paramItem);
+                }
+
+                break;
+
             case "MoveIRCInfo":
                 if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
                 {
@@ -44,10 +53,29 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 //await SmartUI.NavigateToPage();
 
                 break;
+
+            case "ClearPAT":
+                ClearData();
+                break;
         }
 
         response.IsSuccess = true;
 
         return response;
+    }
+
+    public override async void SetPatientData(Patient item)
+    {
+        PatientViewSummary.SetPatientData(item);
+        PatientHistory.SetPatientData(item);
+        
+        await SmartEMRCSTInfo.UpdateDataByPAT(item);
+    }
+
+    private void ClearData()
+    {
+        PatientViewSummary.ClearData();
+        PatientHistory.ClearData();
+        SmartEMRCSTInfo.ClearDataByPAT();
     }
 }

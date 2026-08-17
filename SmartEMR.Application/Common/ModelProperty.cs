@@ -423,7 +423,28 @@ public class ModelProperty
         item.CST_EndTime = "23:59";
     }
 
-    public void ClearCSTData(Consultation item, bool isClearFilter)
+    public void SetConsultationData(Consultation oldItem, Consultation newItem)
+    {
+        oldItem.CST_Idx = newItem.CST_Idx;
+        oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC;
+        oldItem.PAT_Idx = newItem.PAT_Idx;
+        oldItem.RCP_Idx = newItem.RCP_Idx;
+        oldItem.IRC_Idx = newItem.IRC_Idx;
+        oldItem.CST_VisitType = newItem.CST_VisitType;
+        oldItem.CST_InsuranceType = newItem.CST_InsuranceType;
+        oldItem.CST_Status = newItem.CST_Status;
+        oldItem.CST_PayStatus = newItem.CST_PayStatus;
+        oldItem.CST_TreatResult = newItem.CST_TreatResult;
+        oldItem.CST_Subject = newItem.CST_Subject;
+        oldItem.CST_SubjectName = newItem.CST_SubjectName;
+        oldItem.CST_StartTime = newItem.CST_StartTime;
+        oldItem.CST_Opinion = newItem.CST_Opinion;
+        oldItem.CST_Memo = newItem.CST_Memo;
+        oldItem.CST_YYMMDD = newItem.CST_YYMMDD;
+    }
+
+
+    public void ClearCSTData(Consultation item, bool isClearFilter = false)
     {
         if (isClearFilter)
         {

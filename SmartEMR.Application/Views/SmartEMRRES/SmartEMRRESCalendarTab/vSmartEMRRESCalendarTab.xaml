@@ -25,7 +25,7 @@
                     <patient:vPatientViewSummary/>
                 </dxd:LayoutPanel>
                 <dxd:LayoutPanel ItemHeight="*" Caption="환자이력">
-                    <patient:vSmartEMRPatientHistory/>
+                    <patient:vPatientHistory/>
                 </dxd:LayoutPanel>
             </dxd:LayoutGroup>
             <dxd:LayoutGroup>
