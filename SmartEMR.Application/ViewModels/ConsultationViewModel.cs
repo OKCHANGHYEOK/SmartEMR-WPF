@@ -4,6 +4,7 @@ using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -60,8 +61,28 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     }
 
     [RelayCommand]
+    public async Task SetConsultation()
+    {
+        if (Model.CST_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNofification("선택된 진료가 없습니다.", NotificationType.Warning);
+            return;
+        }
+
+
+    }
+
+    [RelayCommand]
     public void ClearData(bool isClearFilter = false)
     {
         SmartMVVM.ModelProperty.ClearCSTData(Model, isClearFilter);
+    }
+
+    [RelayCommand]
+    public void ClearDataByCSTInfo()
+    {
+        if (SmartUI.MsgYesNo("입력된 데이터가 초기화됩니다. 초기화하시겠습니까?") is MessageBoxResult.No) return;
+
+        ClearData();
     }
 }

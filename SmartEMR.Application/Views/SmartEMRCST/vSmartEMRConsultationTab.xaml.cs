@@ -1,6 +1,8 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -9,6 +11,8 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 /// </summary>
 public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationViewModel>
 {
+    private Consultation SelectedCST => vm.Model;
+
     public vSmartEMRConsultationTab() { }
 
     protected override void Initialize()
@@ -21,5 +25,29 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+    }
+
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse { IsSuccess = false };
+
+        switch (request.MessageAction)
+        {
+            case "MoveIRCInfo":
+                if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
+                {
+                    SmartUI.SetNofification("선택된 진료가 없습니다.", NotificationType.Warning);
+                    return null;
+                }
+
+                // 보험 수정 페이지 이동
+                //await SmartUI.NavigateToPage();
+
+                break;
+        }
+
+        response.IsSuccess = true;
+
+        return response;
     }
 }

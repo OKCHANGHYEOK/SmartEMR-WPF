@@ -1,4 +1,6 @@
-﻿using SmartEMR.Application.Xpf;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
+using SmartEMR.Application.Xpf;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -7,4 +9,10 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 /// </summary>
 public partial class vSmartEMRCSTInfoGrid : CustomControl
 {
+    private async void OnClick_Button(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (sender is not SimpleButton sbtn) return;
+
+        await SmartUI.SendMessage("MoveIRCInfo", viewType: TargetViewType.PageView);
+    }
 }
