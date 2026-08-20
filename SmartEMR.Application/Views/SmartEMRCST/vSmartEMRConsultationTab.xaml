@@ -14,7 +14,7 @@
                       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                       xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                       mc:Ignorable="d"
-                      d:DesignHeight="450"
+                      d:DesignHeight="920"
                       d:DesignWidth="800">
 
     <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2010Blue">
@@ -32,12 +32,18 @@
                     </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
 
-                <dxd:LayoutGroup Orientation="Vertical">
-                    <Xpf:LayoutPanel Caption="진료정보" ItemHeight="250">
-                        <local:vSmartEMRCSTInfoGrid x:Name="SmartEMRCSTInfo"/>
+                <dxd:LayoutGroup Orientation="Horizontal">
+                    <Xpf:LayoutPanel Caption="오더목록" ItemWidth="0.4*">
+                        <local:vSmartEMRConsultationTabOrder/>
                     </Xpf:LayoutPanel>
-                    <Xpf:LayoutPanel Caption="처방정보" ItemHeight="1*"/>
-                    <Xpf:LayoutPanel Caption="수납정보" ItemHeight="0.4*"/>
+                    
+                    <dxd:LayoutGroup Orientation="Vertical">
+                        <Xpf:LayoutPanel Caption="진료정보" ItemHeight="250">
+                            <local:vSmartEMRCSTInfoGrid x:Name="SmartEMRCSTInfo"/>
+                        </Xpf:LayoutPanel>
+                        <Xpf:LayoutPanel Caption="처방정보" ItemHeight="1*"></Xpf:LayoutPanel>
+                        <Xpf:LayoutPanel Caption="수납정보" ItemHeight="0.4*"></Xpf:LayoutPanel>
+                    </dxd:LayoutGroup>
                 </dxd:LayoutGroup>
             </dxd:LayoutGroup>
         </dxd:LayoutGroup>

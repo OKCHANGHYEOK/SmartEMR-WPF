@@ -1,0 +1,36 @@
+﻿<base:ModelViewLayout x:TypeArguments="vm:OrderViewModel"
+                      x:Class="SmartEMR.Application.Views.SmartEMRCST.vSmartEMRConsultationTabOrder"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                      xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                      xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                      xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                      xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                      xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+                      mc:Ignorable="d"
+                      d:DesignHeight="450"
+                      d:DesignWidth="800">
+
+    <Xpf:StyleGrid  LayoutDefinitions="1,3"
+                    RowSizeDefinitions="0.5*,Auto,1*">
+
+        <ItemsControl   Grid.Row="0"
+                        Background="#EEF3F8">
+            
+        </ItemsControl>
+
+        <Border Background="#E4EBF3" Height="1" Grid.Row="1"></Border>
+
+        <dxc:DXTabControl   Grid.Row="2">
+            <dxc:DXTabItem  Header="시술"></dxc:DXTabItem>
+            <dxc:DXTabItem  Header="처치"></dxc:DXTabItem>
+            <dxc:DXTabItem  Header="검사"></dxc:DXTabItem>
+            <dxc:DXTabItem  Header="문서"></dxc:DXTabItem>
+            <dxc:DXTabItem  Header="기타"></dxc:DXTabItem>
+        </dxc:DXTabControl>
+    </Xpf:StyleGrid>
+</base:ModelViewLayout>
