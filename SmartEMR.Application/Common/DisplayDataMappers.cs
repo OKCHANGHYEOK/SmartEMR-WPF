@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Common.DisplayDataMapper;
+﻿using SmartEMR.Application.Common.DiplsayDataMapper;
+using SmartEMR.Application.Common.DisplayDataMapper;
 
 namespace SmartEMR.Application.Common;
 
@@ -8,4 +9,5 @@ public class DisplayDataMappers
     public static ReceptionDisplayDataMapper ReceptionDisplayDataMapper = new();
     public static ReservationDisplayDataMapper ReservationDisplayDataMapper = new();
     public static ConsultationDisplayDataMapper ConsultationDisplayDataMapper = new();
+    public static OrderDisplayDataMapper OrderDisplayDataMapper = new();
 }

@@ -18,6 +18,7 @@ public class Order : BaseEntity
     private DateTime? m_ORD_EffectiveToDay;
     private bool? m_ORD_IsUse;
     private bool? m_ORD_IsQuickOrder;
+    private bool? m_ORD_IsView;
 
     #region "NotityPropertyChanged":
 
@@ -116,6 +117,12 @@ public class Order : BaseEntity
         get => m_ORD_IsQuickOrder;
         set => SetProperty(ref m_ORD_IsQuickOrder, value);
     }
-    
+
+    public bool? ORD_IsView
+    {
+        get => m_ORD_IsView;
+        set => SetProperty(ref m_ORD_IsView, value);
+    }
+
     #endregion
 }
