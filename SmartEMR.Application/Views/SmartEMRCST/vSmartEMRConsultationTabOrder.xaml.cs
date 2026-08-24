@@ -17,7 +17,7 @@ public partial class vSmartEMRConsultationTabOrder : ModelViewLayout<OrderViewMo
 
     public override async Task InitializeViewData()
     {
-        vm.SetOrderViewType(OrderViewType.NON);
+        vm.SetOrderType(OrderType.NON);
 
         await vm.FetchDataAsync();
     }

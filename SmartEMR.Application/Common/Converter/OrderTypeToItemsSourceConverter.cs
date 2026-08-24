@@ -1,11 +1,14 @@
 ﻿using System.Globalization;
 using SmartEMR.Application.Common.Converter.Base;
+using SmartEMR.Application.ViewModels;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Common.Converter;
 
 internal class OrderTypeToItemsSourceConverter : BaseConverter
 {
+    public OrderType OrderType { get; set; }
+
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is not IEnumerable<Order> enumarable) return default!;

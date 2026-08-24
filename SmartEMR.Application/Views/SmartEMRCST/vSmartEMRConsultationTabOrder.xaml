@@ -18,44 +18,15 @@
                       d:DataContext="{d:DesignInstance Type=vm:OrderViewModel}">
 
     <Xpf:StyleGrid  LayoutDefinitions="1,3"
-                    RowSizeDefinitions="0.5*,Auto,1*">
+                    RowSizeDefinitions="Auto,Auto,1*">
 
         <StackPanel Grid.Row="0"
                     Background="#EEF3F8">
-            <Xpf:StyleGrid  x:Name="ASMGrid"
-                            LayoutDefinitions="1,3"
-                            RowSizeDefinitions="Auto,Auto,*">
 
-                <Xpf:Label  Grid.Row="0" Content="[진찰료]" Foreground="DimGray" FontWeight="Bold" FontSize="12" Margin="4" HorizontalAlignment="Left"/>
-                <Border Grid.Row="1" Height="1" Background="#CBD5E1" Margin="0,1,0,1"/>
-                <ItemsControl Grid.Row="2"
-                              ItemsSource="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='ASM'}"
-                              Margin="0,2,0,0">
-
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Xpf:Button Content="{Binding ORD_Name}"
-                                        Height="18"
-                                        FontSize="11"
-                                        Foreground="#F8F9FA"
-                                        FontWeight="SemiBold"
-                                        Background="#5B7083"
-                                        BorderBrush="#B8C9DC"
-                                        CornerRadius="5"
-                                        Margin="2,0,2,0"
-                                        Visibility="{Binding ORD_IsView, Converter={converter:BooleanToVisibilityConverter}}">
-                            </Xpf:Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Xpf:StyleGrid>
-            
+            <local:OrderSectionTemplate Title="[진찰료]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='ASM'}"/>
+            <local:OrderSectionTemplate Title="[처치]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='TRT'}"/>
+            <local:OrderSectionTemplate Title="[주사]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='MED'}"/>
+            <local:OrderSectionTemplate Title="[검사]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='EXM'}"/>
         </StackPanel>
 
         <Border Background="#E4EBF3" Height="1" Grid.Row="1"></Border>

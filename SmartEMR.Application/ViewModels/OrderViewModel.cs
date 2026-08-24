@@ -7,7 +7,7 @@ using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.ViewModels;
 
-public enum OrderViewType
+public enum OrderType
 {
     NON,
     PRC,
@@ -19,7 +19,7 @@ public enum OrderViewType
 
 public partial class OrderViewModel : BaseViewModel<Order>
 {
-    private OrderViewType _orderViewType = OrderViewType.NON;
+    private OrderType _orderType = OrderType.NON;
 
     [ObservableProperty]
     private List<Order>? orders;
@@ -35,31 +35,31 @@ public partial class OrderViewModel : BaseViewModel<Order>
 
     public override async Task<bool> FetchDataAsync()
     {
-        var getItem = new Order { ORD_IsUse = true };
+        var getItem = new Order { ORD_IsUse = true, PageSize = Model.PageSize };
 
-        switch (_orderViewType)
+        switch (_orderType)
         {
-            case OrderViewType.NON:
+            case OrderType.NON:
                 getItem.ORD_IsQuickOrder = true;
                 break;
 
-            case OrderViewType.PRC:
+            case OrderType.PRC:
                 getItem.ORDC_Cd = "PRC";
                 break;
 
-            case OrderViewType.TRT:
+            case OrderType.TRT:
                 getItem.ORDC_Cd = "TRT";
                 break;
 
-            case OrderViewType.EXM:
+            case OrderType.EXM:
                 getItem.ORDC_Cd = "EXM";
                 break;
 
-            case OrderViewType.DOC:
+            case OrderType.DOC:
                 getItem.ORDC_Cd = "DOC";
                 break;
 
-            case OrderViewType.ETC:
+            case OrderType.ETC:
                 getItem.ORDC_Cd = "ETC";
                 break;
         }
@@ -71,7 +71,7 @@ public partial class OrderViewModel : BaseViewModel<Order>
             return false;
         }
 
-        DisplayDataMappers.OrderDisplayDataMapper.Map(ret, _orderViewType);
+        DisplayDataMappers.OrderDisplayDataMapper.Map(ret, _orderType);
 
         Orders = ret.ToList();
 
@@ -83,9 +83,14 @@ public partial class OrderViewModel : BaseViewModel<Order>
         return item;
     }
 
-    public void SetOrderViewType(OrderViewType orderViewType)
+    public void SetOrderType(OrderType orderType)
     {
-        _orderViewType = orderViewType;
+        _orderType = orderType;
+    
+        if (_orderType == OrderType.NON)
+        {
+            Model.PageSize = 100;
+        }
     }
 
     [RelayCommand]
