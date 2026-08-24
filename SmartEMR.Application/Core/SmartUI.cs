@@ -99,6 +99,13 @@ public static partial class SmartUI
 
         try
         {
+            var vl = UIManager.Views.FirstOrDefault(x => x.GetType() == targetView.GetType());
+
+            if (vl is not null)
+            {
+                targetView = vl;
+            }
+
             if (targetView is ModelViewLayout mvLayout)
             {
                 vlayout.SetIndicatorVisibility(true);
@@ -107,25 +114,18 @@ public static partial class SmartUI
                 await mvLayout.InitializeViewData();
             }
 
+            if (parameter is not null)
+            {
+                targetView.SetViewData(parameter);
+            }
+
             if (isPopup)
             {
                 UIManager.ShowPopup(targetView);
             }
             else
             {
-                // 이미 해당 만들어진 해당 페이지가 존재하는지 체크
-                var vl = UIManager.Views.FirstOrDefault(x => x.GetType() == targetView.GetType());
-                if (vl is not null)
-                {
-                    targetView = vl;
-                }
-
                 vlayout.MainContent = targetView;
-            }
-
-            if (parameter is not null)
-            {
-                targetView.SetViewData(parameter);
             }
 
             vlayout.SetIndicatorVisibility(false);

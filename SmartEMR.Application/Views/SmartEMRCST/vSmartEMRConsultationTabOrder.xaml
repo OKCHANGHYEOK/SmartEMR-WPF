@@ -31,8 +31,11 @@
 
         <Border Background="#E4EBF3" Height="1" Grid.Row="1"></Border>
 
-        <dxc:DXTabControl   Grid.Row="2">
-            <dxc:DXTabItem  Header="시술"></dxc:DXTabItem>
+        <dxc:DXTabControl   Grid.Row="2"
+                            Padding="2">
+            <dxc:DXTabItem  Header="시술">
+                <local:vSmartEMRConsultationTabOrderPRC x:Name="SmartEMRConsultationTabOrderPRC"/>
+            </dxc:DXTabItem>
             <dxc:DXTabItem  Header="처치"></dxc:DXTabItem>
             <dxc:DXTabItem  Header="검사"></dxc:DXTabItem>
             <dxc:DXTabItem  Header="문서"></dxc:DXTabItem>

@@ -31,41 +31,44 @@ public class SmartResourceDictionary
 
 public static class SmartBrush
 {
-    public static readonly Brush SMART_BRUSH_SECTION_BACKGROUND = CreateBrushFromString("#F5F6F8");
-    public static readonly Brush SMART_BRUSH_SECTION_BORDER = CreateBrushFromString("#D8DDE3");
+    public static readonly Brush SMART_BRUSH_SECTION_BACKGROUND = CreateBrushFromHex("#F5F6F8");
+    public static readonly Brush SMART_BRUSH_SECTION_BORDER = CreateBrushFromHex("#D8DDE3");
 
-    public static readonly Brush SMART_BRUSH_INFO = CreateBrushFromString("#00BCD4");
-    public static readonly Brush SMART_BRUSH_SUCCESS = CreateBrushFromString("#009688");
-    public static readonly Brush SMART_BRUSH_WARNING = CreateBrushFromString("#ED7D31");
-    public static readonly Brush SMART_BRUSH_ERROR = CreateBrushFromString("#E91E63");
+    public static readonly Brush SMART_BRUSH_INFO = CreateBrushFromHex("#00BCD4");
+    public static readonly Brush SMART_BRUSH_SUCCESS = CreateBrushFromHex("#009688");
+    public static readonly Brush SMART_BRUSH_WARNING = CreateBrushFromHex("#ED7D31");
+    public static readonly Brush SMART_BRUSH_ERROR = CreateBrushFromHex("#E91E63");
 
-    public static readonly Brush SMART_BRUSH_PERSONAL_INFO_AGREE = CreateBrushFromString("#009688");
-    public static readonly Brush SMART_BRUSH_PERSONAL_INFO_NOTAGREE = CreateBrushFromString("#D1D5D8");
+    public static readonly Brush SMART_BRUSH_PERSONAL_INFO_AGREE = CreateBrushFromHex("#009688");
+    public static readonly Brush SMART_BRUSH_PERSONAL_INFO_NOTAGREE = CreateBrushFromHex("#D1D5D8");
 
     public static readonly Brush SMART_BRUSH_RES = CreateBrushFromRGB(59, 130, 246);
     public static readonly Brush SMART_BRUSH_RCP = CreateBrushFromRGB(16, 185, 129);
 
-    public static readonly Brush SMART_BRUSH_STATUS_PENDING = CreateBrushFromString("#D4A017");
+    public static readonly Brush SMART_BRUSH_STATUS_PENDING = CreateBrushFromHex("#D4A017");
     public static readonly Brush SMART_BRUSH_STATUS_CONFIRMED = CreateBrushFromRGB(37, 99, 235);
     public static readonly Brush SMART_BRUSH_STATUS_WAIT = CreateBrushFromRGB(255, 159, 67);
     public static readonly Brush SMART_BRUSH_STATUS_PROGRESS = CreateBrushFromRGB(59, 130, 246);
     public static readonly Brush SMART_BRUSH_STATUS_COMPLETE = CreateBrushFromRGB(22, 163, 74);
     public static readonly Brush SMART_BRUSH_STATUS_CANCEL = CreateBrushFromRGB(239, 68, 68);
 
-    public static readonly Brush SMART_BRUSH_INSURANCE_GUN = CreateBrushFromString("#3478F6"); // 건보
-    public static readonly Brush SMART_BRUSH_INSURANCE_MED = CreateBrushFromString("#7CA4E8"); // 의보
-    public static readonly Brush SMART_BRUSH_INSURANCE_CAR = CreateBrushFromString("#F5A623"); // 자보
-    public static readonly Brush SMART_BRUSH_INSURANCE_SAN = CreateBrushFromString("#8E6CCF"); // 산재
-    public static readonly Brush SMART_BRUSH_INSURANCE_NON = CreateBrushFromString("#9E9E9E"); // 비보험
+    public static readonly Brush SMART_BRUSH_INSURANCE_GUN = CreateBrushFromHex("#3478F6"); // 건보
+    public static readonly Brush SMART_BRUSH_INSURANCE_MED = CreateBrushFromHex("#7CA4E8"); // 의보
+    public static readonly Brush SMART_BRUSH_INSURANCE_CAR = CreateBrushFromHex("#F5A623"); // 자보
+    public static readonly Brush SMART_BRUSH_INSURANCE_SAN = CreateBrushFromHex("#8E6CCF"); // 산재
+    public static readonly Brush SMART_BRUSH_INSURANCE_NON = CreateBrushFromHex("#9E9E9E"); // 비보험
 
     public static readonly Brush SMART_BRUSH_VISIT_FIR = CreateBrushFromRGB(67, 160, 71);
     public static readonly Brush SMART_BRUSH_VISIT_REP = CreateBrushFromRGB(120, 144, 156);
 
-    public static readonly Brush SMART_BRUSH_DAY_WEEKDAY = CreateBrushFromString("#4B5563");
-    public static readonly Brush SMART_BRUSH_DAY_SAT = CreateBrushFromString("#2563EB");
-    public static readonly Brush SMART_BRUSH_DAY_SUN = CreateBrushFromString("#DC2626"); 
+    public static readonly Brush SMART_BRUSH_DAY_WEEKDAY = CreateBrushFromHex("#4B5563");
+    public static readonly Brush SMART_BRUSH_DAY_SAT = CreateBrushFromHex("#2563EB");
+    public static readonly Brush SMART_BRUSH_DAY_SUN = CreateBrushFromHex("#DC2626");
 
-    private static Brush CreateBrushFromString(string hex)
+    public static readonly Brush SMART_BRUSH_ORD_INSURANCE_INS = CreateBrushFromHex("#3B82C4");
+    public static readonly Brush SMART_BRUSH_ORD_INSURANCE_NON = CreateBrushFromHex("#D9822B");
+
+    private static Brush CreateBrushFromHex(string hex)
     {
         if (!(ColorConverter.ConvertFromString(hex) is Color hexColor))
         {

@@ -185,14 +185,14 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
 
     public override async Task InitializeViewData()
     {
+        Initialize();
+
         if (vm is BaseViewModel bvm)
         {
             bvm.Initialize();
 
             await bvm.InitializeAsync();
         }
-
-        Initialize();
 
         InitializedViewData = true;
     }

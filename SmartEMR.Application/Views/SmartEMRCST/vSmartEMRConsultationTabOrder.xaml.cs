@@ -19,7 +19,13 @@ public partial class vSmartEMRConsultationTabOrder : ModelViewLayout<OrderViewMo
     {
         vm.SetOrderType(OrderType.NON);
 
+        await UpdateOrders();
+    }
+
+    public async Task UpdateOrders()
+    {
         await vm.FetchDataAsync();
+        await SmartEMRConsultationTabOrderPRC.UpdateOrders();
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)

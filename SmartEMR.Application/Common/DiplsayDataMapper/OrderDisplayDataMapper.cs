@@ -46,6 +46,8 @@ public class OrderDisplayDataMapper : IDisplayDataMapper<Order>
                     item.ORD_Name = GetDisplayOrderNameByMED(item.ORD_Name, item.ORD_SugaCode);
                 }
             }
+
+            item.vORD_InsuranceType = item.ORD_InsuranceType == "INS" ? "급여" : "비급여";
         }
     }
 

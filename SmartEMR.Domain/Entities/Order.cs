@@ -11,6 +11,7 @@ public class Order : BaseEntity
     private string? m_ORD_ClassCode;
     private string? m_ORD_Name;
     private string? m_ORD_InsuranceType;
+    private string? m_vORD_InsuranceType;
     private string? m_ORD_SurgeryType;
     private int? m_ORD_Price;
     private string? m_ORD_Source;
@@ -74,6 +75,12 @@ public class Order : BaseEntity
     {
         get => m_ORD_InsuranceType;
         set => SetProperty(ref m_ORD_InsuranceType, value);
+    }
+
+    public string? vORD_InsuranceType
+    {
+        get => m_vORD_InsuranceType;
+        set => SetProperty(ref m_vORD_InsuranceType, value);
     }
 
     public string? ORD_SurgeryType

@@ -80,6 +80,8 @@ public partial class OrderViewModel : BaseViewModel<Order>
 
     protected override Order GetModel(Order item)
     {
+        item.ORD_InsuranceType = "";
+
         return item;
     }
 
@@ -91,6 +93,10 @@ public partial class OrderViewModel : BaseViewModel<Order>
         {
             Model.PageSize = 100;
         }
+        else
+        {
+            Model.PageSize = 20;
+        }
     }
 
     [RelayCommand]
@@ -99,5 +105,17 @@ public partial class OrderViewModel : BaseViewModel<Order>
         if (paramItem is not Order order) return;
 
         await SmartUI.SendMessage("AddORDItem", order, TargetViewType.PageView);
+    }
+
+    [RelayCommand]
+    public async Task Search()
+    {
+        await FetchDataAsync();
+    }
+
+    [RelayCommand]
+    public void Reset()
+    {
+        Model.Keyword = "";
     }
 }

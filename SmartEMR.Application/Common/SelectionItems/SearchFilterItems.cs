@@ -17,4 +17,6 @@ public class SearchFilterItems
     public static IEnumerable<CommonCode> ConsultationStatues => SmartMVVM.Common.GetCommonCode("CST", "Status", "", true, "진료상태");
 
     public static IEnumerable<CommonCode> PayStatuses => SmartMVVM.Common.GetCommonCode("PAY", "Status", "", true, "수납상태");
+
+    public static IEnumerable<CommonCode> OrderInsuranceTypes => SmartMVVM.Common.GetCommonCode("ORD", "InsuranceType", "", true, "급여구분");
 }

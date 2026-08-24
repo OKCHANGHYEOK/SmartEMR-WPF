@@ -21,9 +21,10 @@
                     dxc:ThemeManager.ThemeName="VS2019Blue">
 
         <Xpf:StyleGrid  Grid.Row="0"
-                        LayoutDefinitions="20,1"
-                        ColumnSizeDefinitions="*,*,*,*,*,*,,Auto,*,*,*,*,*,*,*,*,*,*,*,*"
-                        Height="25"
+                        LayoutDefinitions="20,3"
+                        ColumnSizeDefinitions="*,*,*,*,*,*,*,Auto,*,*,*,*,*,*,*,*,*,*,*,*"
+                        RowSizeDefinitions="*,Auto,*"
+                        Height="50"
                         Margin="2">
 
             <dxc:SimpleButton   Grid.Column="0"
@@ -47,6 +48,7 @@
 
 
             <Xpf:DateEdit   Grid.Column="5"
+                            Grid.ColumnSpan="2"
                             EditValue="{Binding Model.CST_StartTime}"
                             MaskType="TimeOnly"
                             Mask="HH:mm"
@@ -58,9 +60,10 @@
                 </Xpf:DateEdit.StyleSettings>
             </Xpf:DateEdit>
 
-            <Xpf:Label Grid.Column="6"  Content="~" FontSize="10" Foreground="DimGray" Margin="1,0,1,0"/>
+            <Xpf:Label Grid.Column="7"  Content="~" FontSize="10" Foreground="DimGray" Margin="1,0,1,0"/>
 
-            <Xpf:DateEdit   Grid.Column="7"
+            <Xpf:DateEdit   Grid.Column="8"
+                            Grid.ColumnSpan="2"
                             EditValue="{Binding Model.CST_EndTime}"
                             MaskType="TimeOnly"
                             Mask="HH:mm"
@@ -72,7 +75,8 @@
                 </Xpf:DateEdit.StyleSettings>
             </Xpf:DateEdit>
             
-            <Xpf:ComboBoxEdit   Grid.Column="8"
+            <Xpf:ComboBoxEdit   Grid.Column="10"
+                                Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.CST_VisitType}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationVisitTypes}"
                                 DisplayMember="CCI_Name"
@@ -80,7 +84,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="9"
+            <Xpf:ComboBoxEdit   Grid.Column="12"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.CST_Status}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationStatuses}"
@@ -89,7 +93,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="11"
+            <Xpf:ComboBoxEdit   Grid.Column="14"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.MUR_Idx_DOC}"
                                 ItemsSource="{x:Static selection:InputOptionItems.Docters}"
@@ -98,7 +102,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="13"
+            <Xpf:ComboBoxEdit   Grid.Column="16"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.CST_Subject}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationSubjects}"
@@ -107,7 +111,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="15"
+            <Xpf:ComboBoxEdit   Grid.Column="18"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding Model.CST_TreatResult}"
                                 ItemsSource="{x:Static selection:InputOptionItems.TreatResultTypes}"
@@ -116,8 +120,11 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <StackPanel  Grid.Column="17"
-                         Grid.ColumnSpan="3"
+            <Border Background="#E4EBF3" Height="1" Grid.Column="0" Grid.ColumnSpan="19" Grid.Row="1" Margin="2"></Border>
+
+            <StackPanel  Grid.Column="0"
+                         Grid.ColumnSpan="19"
+                         Grid.Row="2"
                          Orientation="Horizontal">
 
                 <dxc:SimpleButton   Content="최근진료 불러오기"
