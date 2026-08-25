@@ -41,7 +41,6 @@ public static partial class SmartUI
 
     private static DialogService _dialogService = new();
 
-
     public static void RegisterView(ViewLayout vl)
     {
         Messenger.Register(vl, vl.ReceiveMessage);

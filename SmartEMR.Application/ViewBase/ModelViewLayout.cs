@@ -174,19 +174,23 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
     public ModelViewLayout() : base()
     {
         SetDataContext(null);
+
+        Initialize();
+
         this.Loaded += OnViewLoaded;
     }
 
     public ModelViewLayout(object item) : base()
     {
         SetDataContext(item);
+
+        Initialize();
+
         this.Loaded += OnViewLoaded;
     }
 
     public override async Task InitializeViewData()
     {
-        Initialize();
-
         if (vm is BaseViewModel bvm)
         {
             bvm.Initialize();
@@ -199,8 +203,6 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
 
     private async void OnViewLoaded(object sender, RoutedEventArgs e)
     {
-        this.Loaded -= OnViewLoaded;
-
         if (!InitializedViewData)
         {
             await InitializeViewData();
@@ -209,6 +211,8 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
         SetViewLayout();
         SetBindGrid();
         SetDataGrid();
+
+        this.Loaded -= OnViewLoaded;
     }
 
     private void SetDataContext(object? item)
@@ -224,6 +228,8 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
             this.DataContext = Activator.CreateInstance<T>();
         }
     }
+
+    protected override abstract void Initialize();
 
     public virtual void SetPatientData(Patient item) { }
 }

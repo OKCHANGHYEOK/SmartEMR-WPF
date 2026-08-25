@@ -14,7 +14,11 @@ public class ViewMessenger
 
     public void Register(ViewLayout view, Func<ViewMessageRequest, Task<ViewMessageResponse?>> handler)
     {
-        _subscribers.Add((view, handler));
+        var sub = _subscribers.FirstOrDefault(v => v.View == view);
+        if (sub.View is null)
+        {
+            _subscribers.Add((view, handler));
+        }
     }
 
     public void UnRegister(ViewLayout view)

@@ -1,7 +1,6 @@
 ﻿using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -168,9 +167,10 @@ public partial class UIManager
 
     public void RegisterView(ViewLayout view)
     {
-        if (_activeViews.Contains(view)) return;
-
-        _activeViews.Add(view);
+        if (!_activeViews.Contains(view))
+        {
+            _activeViews.Add(view);
+        }
 
         var mv = view as ModelViewLayout;
         if (mv == null) return;
