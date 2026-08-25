@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Common.Converter;
 
-public class ORDInsuranceTypeToBrushConverter : BaseConverter
+public class ORDInsuranceTypeToBorderBrushConverter : BaseConverter
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -15,7 +15,7 @@ public class ORDInsuranceTypeToBrushConverter : BaseConverter
             return Brushes.Transparent;
         }
 
-        return ORD_InsuranceType == "INS" ? SmartBrush.SMART_BRUSH_ORD_INSURANCE_INS : SmartBrush.SMART_BRUSH_ORD_INSURANCE_NON;
+        return ORD_InsuranceType == "INS" ? SmartBrush.SMART_BRUSH_ORD_INSURANCE_INS_BORDER : SmartBrush.SMART_BRUSH_ORD_INSURANCE_NON_BORDER;
     }
 
     public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -14,6 +14,7 @@ public enum OrderType
     TRT,
     EXM,
     DOC,
+    MED,
     ETC
 }
 

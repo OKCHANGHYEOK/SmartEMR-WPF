@@ -9,7 +9,9 @@
                    Foreground="{Binding Column.ColumnItem.Foreground}"
                    FontSize="{Binding Column.ColumnItem.FontSize}"
                    FontWeight="{Binding Column.ColumnItem.FontWeight}"
-                   HorizontalAlignment="{Binding Column.ColumnItem.HorizontalAlignment}">
+                   HorizontalAlignment="{Binding Column.ColumnItem.HorizontalAlignment}"
+                   ToolTip="{Binding Value}"
+                   ToolTipService.IsEnabled="{Binding Column.ColumnItem.ShowToolTip}">
 
             <Xpf:Label.Content>
                 <MultiBinding Converter="{converter:DataGridCellValueConverter}">

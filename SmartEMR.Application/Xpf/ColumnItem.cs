@@ -37,4 +37,6 @@ public class ColumnItem
     public string? Prefix { get; set; }
     public string? Suffix { get; set; } 
     public bool AllowSorting { get; set; } = false;
+
+    public bool ShowToolTip { get; set; } = false;
 }

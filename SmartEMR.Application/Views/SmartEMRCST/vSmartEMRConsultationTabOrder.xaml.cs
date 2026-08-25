@@ -1,4 +1,6 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 
@@ -13,19 +15,7 @@ public partial class vSmartEMRConsultationTabOrder : ModelViewLayout<OrderViewMo
 
     protected override void Initialize()
     {
-    }
-
-    public override async Task InitializeViewData()
-    {
         vm.SetOrderType(OrderType.NON);
-
-        await UpdateOrders();
-    }
-
-    public async Task UpdateOrders()
-    {
-        await vm.FetchDataAsync();
-        await SmartEMRConsultationTabOrderPRC.UpdateOrders();
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -34,5 +24,41 @@ public partial class vSmartEMRConsultationTabOrder : ModelViewLayout<OrderViewMo
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+    }
+
+    public async Task UpdateOrders()
+    {
+        await vm.FetchDataAsync();
+    }
+
+    private async void OnSelectionChanged_TabControl(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)
+    {
+        if (sender is not DXTabControl tabControl) return;
+
+        var selectedItem = e.NewSelectedItem as DXTabItem;
+        if (selectedItem is null) return;
+
+        switch (selectedItem.Tag)
+        {
+            case "PRC":
+                await SmartEMRConsultationTabOrderPRC.UpdateOrders();
+                break;
+
+            case "TRT":
+                await SmartEMRConsultationTabOrderTRT.UpdateOrders();
+                break;
+
+            case "EXM":
+                await SmartEMRConsultationTabOrderEXM.UpdateOrders();
+                break;
+
+            case "DOC":
+                await SmartEMRConsultationTabOrderDOC.UpdateOrders();
+                break;
+
+            case "MED":
+                await SmartEMRConsultationTabOrderMED.UpdateOrders();
+                break;
+        }
     }
 }

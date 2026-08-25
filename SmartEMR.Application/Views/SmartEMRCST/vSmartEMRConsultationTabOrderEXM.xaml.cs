@@ -7,15 +7,15 @@ using SmartEMR.Domain.Entities;
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
 /// <summary>
-/// vSmartEMRConsultationTabOrderPRC.xaml에 대한 상호 작용 논리
+/// vSmartEMRConsultationTabOrderEXM.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class vSmartEMRConsultationTabOrderPRC : ModelViewLayout<OrderViewModel>
+public partial class vSmartEMRConsultationTabOrderEXM : ModelViewLayout<OrderViewModel>
 {
-    public vSmartEMRConsultationTabOrderPRC() { }
+    public vSmartEMRConsultationTabOrderEXM() { }
 
     protected override void Initialize()
     {
-        vm.SetOrderType(OrderType.PRC);
+        vm.SetOrderType(OrderType.EXM);
     }
 
     public async Task UpdateOrders()

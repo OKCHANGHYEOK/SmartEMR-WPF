@@ -32,14 +32,24 @@
         <Border Background="#E4EBF3" Height="1" Grid.Row="1"></Border>
 
         <dxc:DXTabControl   Grid.Row="2"
-                            Padding="2">
-            <dxc:DXTabItem  Header="시술">
+                            Padding="2"
+                            SelectedIndex="0"
+                            SelectionChanged="OnSelectionChanged_TabControl">
+            <dxc:DXTabItem  Header="시술" Tag="PRC">
                 <local:vSmartEMRConsultationTabOrderPRC x:Name="SmartEMRConsultationTabOrderPRC"/>
             </dxc:DXTabItem>
-            <dxc:DXTabItem  Header="처치"></dxc:DXTabItem>
-            <dxc:DXTabItem  Header="검사"></dxc:DXTabItem>
-            <dxc:DXTabItem  Header="문서"></dxc:DXTabItem>
-            <dxc:DXTabItem  Header="기타"></dxc:DXTabItem>
+            <dxc:DXTabItem  Header="처치" Tag="TRT">
+                <local:vSmartEMRConsultationTabOrderTRT x:Name="SmartEMRConsultationTabOrderTRT"/>
+            </dxc:DXTabItem>
+            <dxc:DXTabItem  Header="검사" Tag="EXM">
+                <local:vSmartEMRConsultationTabOrderEXM x:Name="SmartEMRConsultationTabOrderEXM"/>
+            </dxc:DXTabItem>
+            <dxc:DXTabItem  Header="문서">
+                <local:vSmartEMRConsultationTabOrderDOC x:Name="SmartEMRConsultationTabOrderDOC"/>
+            </dxc:DXTabItem>
+            <dxc:DXTabItem  Header="투약">
+                <local:vSmartEMRConsultationTabOrderMED x:Name="SmartEMRConsultationTabOrderMED"/>
+            </dxc:DXTabItem>
         </dxc:DXTabControl>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

@@ -23,7 +23,7 @@
                 <local:vSmartEMRConsultationTabCST/>
             </Xpf:LayoutPanel>
             <Xpf:LayoutPanel Caption="오더목록" ItemWidth="0.4*">
-                <local:vSmartEMRConsultationTabOrder/>
+                <local:vSmartEMRConsultationTabOrder x:Name="SmartEMRConsultationTabOrder"/>
             </Xpf:LayoutPanel>
 
             <dxd:LayoutGroup Orientation="Vertical">

@@ -10,10 +10,10 @@
                     d:DesignHeight="450" d:DesignWidth="800">
 
     <Xpf:Label  Content="{Binding vORD_InsuranceType}" 
-                Foreground="{Binding ORD_InsuranceType, Converter={converter:ORDInsuranceTypeToBrushConverter}}"
-                BorderBrush="{Binding ORD_InsuranceType, Converter={converter:ORDInsuranceTypeToBrushConverter}}"
+                Foreground="White"
+                Background="{Binding ORD_InsuranceType, Converter={converter:ORDInsuranceTypeToBackgroundConverter}}"
+                BorderBrush="{Binding ORD_InsuranceType, Converter={converter:ORDInsuranceTypeToBorderBrushConverter}}"
                 BorderThickness="1"
-                Background="Transparent"
                 Height="23"
                 Margin="2">
     </Xpf:Label>

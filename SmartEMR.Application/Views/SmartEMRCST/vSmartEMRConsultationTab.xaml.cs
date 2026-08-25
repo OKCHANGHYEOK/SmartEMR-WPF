@@ -19,6 +19,11 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
     {
     }
 
+    public override async Task InitializeViewData()
+    {
+        await SmartEMRConsultationTabOrder.UpdateOrders();
+    }
+
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
     }

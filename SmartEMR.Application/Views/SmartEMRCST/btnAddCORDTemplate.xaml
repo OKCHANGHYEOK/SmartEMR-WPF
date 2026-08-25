@@ -6,15 +6,21 @@
                     xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRCST"
                     xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                     xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                     mc:Ignorable="d">
 
-    <Xpf:Button Content="처방"
-                FontSize="11"
-                Width="25"
-                Height="18"
-                Foreground="#245B63"
-                Background="#E6F3F5"
-                BorderBrush="#8FC7CE"
-                BorderThickness="1"
-                CornerRadius="5"/>
+    <Xpf:Button   Content="처방"
+                  FontSize="11"
+                  MinWidth="40"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Center"
+                  Foreground="#1B444A"
+                  FontWeight="Bold"
+                  Background="#E6F3F5"
+                  BorderBrush="#8FC7CE"
+                  BorderThickness="1"
+                  CornerRadius="5"
+                  Margin="2"
+                  Padding="0"
+                  Cursor="Hand"/>
 </Xpf:GridTemplate>
