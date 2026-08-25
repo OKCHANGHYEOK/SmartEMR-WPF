@@ -250,6 +250,7 @@ public partial class UIManager
         for (int i = 0; i < childCount; i++)
         {
             DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+            if (child is ModelViewLayout) continue;
 
             if (child is BindGrid bindGrid)
             {

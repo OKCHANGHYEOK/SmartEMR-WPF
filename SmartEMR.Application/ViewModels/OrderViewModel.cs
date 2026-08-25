@@ -95,7 +95,7 @@ public partial class OrderViewModel : BaseViewModel<Order>
         }
         else
         {
-            Model.PageSize = 20;
+            Model.PageSize = 15;
         }
     }
 

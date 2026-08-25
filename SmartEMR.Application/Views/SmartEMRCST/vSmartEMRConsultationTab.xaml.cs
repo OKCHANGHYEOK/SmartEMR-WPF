@@ -61,7 +61,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     var paramItem = request.MessageParameter as Order;
                     if (paramItem is not null)
                     {
-                        // 처방내역에 오더 추가
+                        AddCORD(paramItem);
                     }
 
                     break;
@@ -83,6 +83,15 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         PatientHistory.SetPatientData(item);
         
         await SmartEMRCSTInfo.UpdateDataByPAT(item);
+    }
+
+    private void AddCORD(Order item)
+    {
+        if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNofification("진료 선택후 처방할 수 있습니다.", NotificationType.Warning);
+            return;
+        }
     }
 
     private void ClearData()

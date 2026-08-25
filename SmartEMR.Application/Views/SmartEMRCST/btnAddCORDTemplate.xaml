@@ -9,7 +9,12 @@
                     mc:Ignorable="d">
 
     <Xpf:Button Content="처방"
-                BorderBrush="Black"
+                FontSize="11"
+                Width="25"
+                Height="18"
+                Foreground="#245B63"
+                Background="#E6F3F5"
+                BorderBrush="#8FC7CE"
                 BorderThickness="1"
                 CornerRadius="5"/>
 </Xpf:GridTemplate>

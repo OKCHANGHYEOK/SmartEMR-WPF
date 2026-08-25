@@ -116,7 +116,7 @@ public partial class DataGrid : ContentControl
         TableView.ShowIndicator = false;
         TableView.IsColumnMenuEnabled = false;
         TableView.RowDoubleClick += TableView_OnRowDoubleClick;
-        TableView.MouseLeftButtonDown += TableView_OnMouseLeftButtonDown;
+        TableView.PreviewMouseLeftButtonDown += TableView_OnPreviewMouseLeftButtonDown;
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
 
         this.Content = GridControl;
@@ -187,7 +187,7 @@ public partial class DataGrid : ContentControl
         }
     }
 
-    private void TableView_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void TableView_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         var view = sender as TableView;
         if (view == null) return;

@@ -36,7 +36,8 @@
 
             <Xpf:BindItem   FieldName="keyword"
                             BindType="SearchEdit"
-                            Col="1">
+                            Col="1"
+                            Margin="0,2,0,0">
                 <Xpf:SearchPanel NullText="수가코드/수가명으로 검색하세요."/>
             </Xpf:BindItem>
         </Xpf:BindGrid>
@@ -68,7 +69,7 @@
             <Xpf:ColumnItem FieldName="btnAddCORD"
                             Header=" "
                             CellTemplateType="{x:Type local:btnAddCORDTemplate}"
-                            ColumnWidth="40"/>
+                            ColumnWidth="45"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>
