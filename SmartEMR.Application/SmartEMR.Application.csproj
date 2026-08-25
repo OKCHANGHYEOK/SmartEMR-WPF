@@ -155,6 +155,9 @@
     <Compile Update="Template\CSTStatusTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\SmartEMRCST\btnAddCORDTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

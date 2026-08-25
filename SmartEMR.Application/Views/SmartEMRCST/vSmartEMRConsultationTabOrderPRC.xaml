@@ -4,6 +4,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRCST"
                       xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                       xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
@@ -63,6 +64,11 @@
                             Header="단가"
                             ColumnWidth="80"
                             ColumnStyle="Sum"/>
+
+            <Xpf:ColumnItem FieldName="btnAddCORD"
+                            Header=" "
+                            CellTemplateType="{x:Type local:btnAddCORDTemplate}"
+                            ColumnWidth="40"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

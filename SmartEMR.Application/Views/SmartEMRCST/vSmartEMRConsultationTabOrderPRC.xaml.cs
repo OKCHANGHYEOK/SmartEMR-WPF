@@ -2,6 +2,7 @@
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -31,5 +32,19 @@ public partial class vSmartEMRConsultationTabOrderPRC : ModelViewLayout<OrderVie
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+    }
+
+    public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
+    {
+        if (sender is not DataGrid dataGrid) return;
+        if (e.DataItem is not Order dataItem) return;
+
+        var fieldName = e.Column.FieldName;
+        switch (fieldName)
+        {
+            case "btnAddCORD":
+                await SmartUI.SendMessage("AddCORD", dataItem, TargetViewType.PageView);
+                break;
+        }
     }
 }

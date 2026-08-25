@@ -34,13 +34,15 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         switch (request.MessageAction)
         {
             case "SetSelectedPatient":
-                var paramItem = request.MessageParameter as Patient;
-                if (paramItem is not null)
                 {
-                    SetPatientData(paramItem);
-                }
+                    var paramItem = request.MessageParameter as Patient;
+                    if (paramItem is not null)
+                    {
+                        SetPatientData(paramItem);
+                    }
 
-                break;
+                    break;
+                }
 
             case "MoveIRCInfo":
                 if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
@@ -53,6 +55,17 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 //await SmartUI.NavigateToPage();
 
                 break;
+
+            case "AddCORD":
+                {
+                    var paramItem = request.MessageParameter as Order;
+                    if (paramItem is not null)
+                    {
+                        // 처방내역에 오더 추가
+                    }
+
+                    break;
+                }
 
             case "ClearPAT":
                 ClearData();
