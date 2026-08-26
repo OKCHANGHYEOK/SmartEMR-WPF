@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
-using SmartEMR.Application.Xpf;
 using System.Windows;
 using System.Windows.Input;
 
@@ -21,9 +20,6 @@ public partial class vLayout : ViewLayout
         get => (IViewLayout)GetValue(MainContentProperty);
         set => SetValue(MainContentProperty, value);
     }
-
-    public override IReadOnlyList<BindGrid> BindGrids => default!;
-    public override IReadOnlyList<DataGrid> DataGrids => default!;
 
     public override bool disposed { get; set; }
 
@@ -52,13 +48,6 @@ public partial class vLayout : ViewLayout
 
         return await vl.ReceiveMessage(request);
     }
-
-    public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e) {}
-    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e) {}
-
-    public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) {}
-    public override void OnDataGrid_PopupMenuOpening(object? sender, PopupMenuOpeningEventArgs e) {}
-    public override void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e) {}
 
     private async void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {

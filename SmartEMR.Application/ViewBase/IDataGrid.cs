@@ -9,4 +9,5 @@ internal interface IDataGrid
     void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e);
     void OnDataGrid_PopupMenuOpening(object? sender, PopupMenuOpeningEventArgs e); 
     void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e);
+    void OnDataGrid_PageIndexChanged(object? sender, PageIndexChangedEventArgs e);
 }

@@ -86,7 +86,7 @@ public partial class Common
             }
         }
 
-        if (element is ViewLayout view)
+        if (element is ModelViewLayout view)
         {
             foreach (var bindGrid in view.BindGrids)
             {

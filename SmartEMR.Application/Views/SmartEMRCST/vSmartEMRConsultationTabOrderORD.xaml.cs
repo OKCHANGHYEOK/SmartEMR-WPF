@@ -45,7 +45,7 @@ public partial class vSmartEMRConsultationTabOrderORD : ModelViewLayout<OrderVie
 
     public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
     {
-        if (sender is not DataGrid dataGrid) return;
+        if (sender is not DataGrid) return;
         if (e.DataItem is not Order dataItem) return;
 
         var fieldName = e.Column.FieldName;
@@ -55,6 +55,14 @@ public partial class vSmartEMRConsultationTabOrderORD : ModelViewLayout<OrderVie
                 await SmartUI.SendMessage("AddCORD", dataItem, TargetViewType.PageView);
                 break;
         }
+    }
+
+    public override async void OnDataGrid_PageIndexChanged(object? sender, PageIndexChangedEventArgs e)
+    {
+        if (sender is not DataGrid) return;
+        if (e.PageIndex < 0) return;
+
+        await vm.LoadPageAsync(e.PageIndex);
     }
 
     private void SetOrderType(OrderType type)

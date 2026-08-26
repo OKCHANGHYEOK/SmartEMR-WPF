@@ -45,7 +45,10 @@
         <Border Grid.Row="1" Height="1" Background="#CBD5E1" Margin="0,1,0,1"/>
         
         <Xpf:DataGrid   Grid.Row="2"
-                        ItemsSource="{Binding Orders}">
+                        ItemsSource="{Binding Orders}"
+                        PageSize="{Binding PageSize}"
+                        TotalCount="{Binding TotalCount}"
+                        ShowPager="True">
             <Xpf:ColumnItem FieldName="ORD_InsuranceType"
                             Header=" "
                             ColumnWidth="27"

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace SmartEMR.Application.ViewBase;
 
-public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid, IDataGrid, IDisposable
+public abstract partial class ViewLayout : CustomControl, IViewLayout, IDisposable
 {
     public static readonly DependencyProperty ViewTitleProperty =
         DependencyProperty.Register("ViewTitle", typeof(string), typeof(ViewLayout), new PropertyMetadata("SmartEMR"));
@@ -51,26 +51,7 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IBindGrid
     public abstract void Dispose(bool disposedValue);
 }
 
-// BindGrid
-public abstract partial class ViewLayout
-{
-    public abstract IReadOnlyList<BindGrid> BindGrids { get; }
-
-    public abstract void OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
-    public abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
-}
-
-// DataGrid
-public abstract partial class ViewLayout
-{
-    public abstract IReadOnlyList<DataGrid> DataGrids { get; }
-
-    public abstract void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e);
-    public abstract void OnDataGrid_PopupMenuOpening(object? sender, PopupMenuOpeningEventArgs e);
-    public abstract void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e);
-}
-
-public abstract partial class ModelViewLayout : ViewLayout
+public abstract partial class ModelViewLayout : ViewLayout, IBindGrid, IDataGrid
 {
     public bool InitializedViewData { get; set; } = false;
 
@@ -96,10 +77,10 @@ public abstract partial class ModelViewLayout : ViewLayout
 public abstract partial class ModelViewLayout
 {
     protected readonly List<BindGrid> _bindGrids = new();
-    public override IReadOnlyList<BindGrid> BindGrids => _bindGrids;
+    public IReadOnlyList<BindGrid> BindGrids => _bindGrids;
 
-    public override abstract void OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
-    public override abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
+    public abstract void OnBindGrid_BindClick(object? sender, BindClickEventArgs e);
+    public abstract void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e);
 
     // ViewLayout의 추상 메서드 구현: UIManager가 이벤트를 라우팅해주는 통로
     public async void HandleBindGridClick(object? sender, BindClickEventArgs e)
@@ -134,11 +115,12 @@ public abstract partial class ModelViewLayout
 public abstract partial class ModelViewLayout
 {
     protected readonly List<DataGrid> _dataGrids = new();
-    public override IReadOnlyList<DataGrid> DataGrids => _dataGrids;
+    public IReadOnlyList<DataGrid> DataGrids => _dataGrids;
 
-    public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) { }
-    public override void OnDataGrid_PopupMenuOpening(object? sender, PopupMenuOpeningEventArgs e) { }
-    public override void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e) { }
+    public virtual void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e) { }
+    public virtual void OnDataGrid_PopupMenuOpening(object? sender, PopupMenuOpeningEventArgs e) { }
+    public virtual void OnDataGridPopupMenu_PopupMenuItemClicked(object? sender, PopupMenuItemClickEventArgs e) { }
+    public virtual void OnDataGrid_PageIndexChanged(object? sender, PageIndexChangedEventArgs e) { }
 
     internal void AddDataGrid(DataGrid dataGrid)
     {
@@ -147,6 +129,7 @@ public abstract partial class ModelViewLayout
             dataGrid.DataGrid_DataItemChangedEvent += this.OnDataGrid_DataItemChanged;
             dataGrid.DataGrid_PopupMenuOpening += this.OnDataGrid_PopupMenuOpening;
             dataGrid.DataGrid_PopupMenuItemClick += this.OnDataGridPopupMenu_PopupMenuItemClicked;
+            dataGrid.DataGrid_PageIndexChanged += this.OnDataGrid_PageIndexChanged;
 
             _dataGrids.Add(dataGrid);
         }

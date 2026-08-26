@@ -25,6 +25,12 @@ public partial class OrderViewModel : BaseViewModel<Order>
     [ObservableProperty]
     private List<Order>? orders;
 
+    [ObservableProperty]
+    private int pageSize;
+
+    [ObservableProperty]
+    private int totalCount;
+
     public override void Initialize()
     {
         
@@ -36,7 +42,7 @@ public partial class OrderViewModel : BaseViewModel<Order>
 
     public override async Task<bool> FetchDataAsync()
     {
-        var getItem = new Order { ORD_IsUse = true, PageSize = Model.PageSize };
+        var getItem = new Order { ORD_IsUse = true, PageSize = Model.PageSize, PageIndex = Model.PageIndex.GetValueOrDefault(0) };
 
         switch (_orderType)
         {
@@ -75,6 +81,8 @@ public partial class OrderViewModel : BaseViewModel<Order>
         DisplayDataMappers.OrderDisplayDataMapper.Map(ret, _orderType);
 
         Orders = ret.ToList();
+        PageSize = Model.PageSize.GetValueOrDefault(0);
+        TotalCount = SmartMVVM.DataStore.retCount.GetValueOrDefault(0);
 
         return true;
     }
@@ -118,5 +126,12 @@ public partial class OrderViewModel : BaseViewModel<Order>
     public void Reset()
     {
         Model.Keyword = "";
+    }
+
+    public async Task LoadPageAsync(int pageIndex)
+    {
+        Model.PageIndex = pageIndex;
+
+        await FetchDataAsync();
     }
 }
