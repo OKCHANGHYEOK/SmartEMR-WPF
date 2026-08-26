@@ -74,9 +74,9 @@
                             DisplayFormat="#,##0"
                             Suffix="원"/>
 
-            <Xpf:ColumnItem FieldName="btnAddCORD"
+            <Xpf:ColumnItem FieldName="btnAddCSTO"
                             Header=" "
-                            CellTemplateType="{x:Type local:btnAddCORDTemplate}"
+                            CellTemplateType="{x:Type local:btnAddCSTOTemplate}"
                             ColumnWidth="48"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>

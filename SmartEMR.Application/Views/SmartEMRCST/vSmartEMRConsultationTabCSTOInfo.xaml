@@ -1,0 +1,81 @@
+﻿<base:ModelViewLayout x:TypeArguments="vm:ConsultationOrderViewModel"
+                      x:Class="SmartEMR.Application.Views.SmartEMRCST.vSmartEMRConsultationTabCSTOInfo"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                      xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                      xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                      xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                      xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:template="clr-namespace:SmartEMR.Application.Template"
+                      mc:Ignorable="d"
+                      d:DesignHeight="450"
+                      d:DesignWidth="800">
+
+    <Xpf:StyleGrid LayoutDefinitions="1,3"
+                   RowSizeDefinitions="Auto,Auto,*"
+                   Background="#F8F9FA">
+        
+        <Xpf:StyleGrid LayoutDefinitions="3,1"
+                       ColumnSizeDefinitions="Auto,*,Auto">
+
+            <Xpf:Button Grid.Column="0"
+                        x:Name="btnGetRecentCSTO"
+                        Content="최근 처방 불러오기"
+                        Glyph="/Images/smartemr_recent_data.png"
+                        Margin="2"/>
+
+            <Xpf:Button Grid.Column="2"
+                        x:Name="btnClearCSTO"
+                        Content="초기화"
+                        Glyph="/Images/smartemr_empty_paper.png"
+                        Margin="2"/>
+        </Xpf:StyleGrid>
+
+        <Border Grid.Row="1"  Height="1" Background="LightGray" Margin="2,0,2,0"/>
+
+        <Xpf:DataGrid Grid.Row="2">
+            <Xpf:ColumnItem FieldName="CSTO_InsuranceType"
+                            Header=" "
+                            ColumnWidth="32"
+                            CellTemplateType="{x:Type template:CSTOInsuranceTypeTemplate}"/>
+
+            <Xpf:ColumnItem FieldName="ORDC_Cd"
+                            Header=" "
+                            ColumnWidth="48"
+                            CellTemplateType="{x:Type template:OrderTypeTemplate}"/>
+
+            <Xpf:ColumnItem FieldName="CSTO_SugaCode"
+                            Header="코드"
+                            ColumnWidth="65"/>
+
+            <Xpf:ColumnItem FieldName="CSTO_Price"
+                            Header="단가"
+                            ColumnWidth="50"
+                            ColumnStyle="Sum"/>
+
+            <Xpf:ColumnItem FieldName="CSTO_Name"
+                            Header="오더명"
+                            ColumnWidth="160"
+                            ColumnStyle="Name"/>
+
+            <Xpf:ColumnItem FieldName="CSTO_Day"
+                            Header="일수"
+                            ColumnWidth="45"/>
+
+            <Xpf:ColumnItem FieldName="CSTO_Count"
+                            Header="일투"
+                            ColumnWidth="45"/>
+
+            <Xpf:ColumnItem FieldName="CSTO_Amount"
+                            Header="총투"
+                            ColumnWidth="45"/>
+
+            <Xpf:ColumnItem FieldName="CSTO_TotalPrice"
+                            Header="총액"
+                            ColumnWidth="50"/>
+        </Xpf:DataGrid>
+    </Xpf:StyleGrid>
+</base:ModelViewLayout>

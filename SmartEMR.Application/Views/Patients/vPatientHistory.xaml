@@ -58,7 +58,7 @@
                 <Xpf:DataGrid ItemsSource="{Binding ConsultationOrderItems}" AutoWidth="False">
                     <Xpf:ColumnItem FieldName="CSTO_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CSTO_YYMMDD" Header="처방일자" ColumnWidth="80" ColumnStyle="YYMMDD"  Foreground="DimGray"/>
-                    <Xpf:ColumnItem FieldName="ORDC_Name" Header="구분" ColumnWidth="45" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="ORDC_Cd" Header="구분" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CSTO_InsuranceType" Header="보험" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CSTO_Name" Header="처방명" ColumnWidth="100" FontWeight="Bold"/>
                     <Xpf:ColumnItem FieldName="CSTO_Amount" Header="총량" ColumnStyle="Sum" ColumnWidth="40"/>

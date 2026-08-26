@@ -71,6 +71,13 @@ public static class SmartBrush
     public static readonly Brush SMART_BRUSH_ORD_INSURANCE_NON_BACK = CreateBrushFromHex("#B77A3D");
     public static readonly Brush SMART_BRUSH_ORD_INSURANCE_NON_BORDER = CreateBrushFromHex("#96602D");
 
+    public static readonly Brush SMART_BRUSH_ORD_PRC = CreateBrushFromHex("#3B82F6");
+    public static readonly Brush SMART_BRUSH_ORD_TRT = CreateBrushFromHex("#F59E0B");
+    public static readonly Brush SMART_BRUSH_ORD_EXM = CreateBrushFromHex("#8B5CF6");
+    public static readonly Brush SMART_BRUSH_ORD_DOC = CreateBrushFromHex("#14B8A6");
+    public static readonly Brush SMART_BRUSH_ORD_MED = CreateBrushFromHex("#22A06B");
+    public static readonly Brush SMART_BRUSH_ORD_ETC = CreateBrushFromHex("#64748B");
+
 
     private static Brush CreateBrushFromHex(string hex)
     {

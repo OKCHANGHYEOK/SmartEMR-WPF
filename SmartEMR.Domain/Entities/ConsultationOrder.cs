@@ -7,16 +7,21 @@ public class ConsultationOrder : BaseEntity
     private int? m_MUR_Idx;
     private int? m_PAT_Idx;
     private int? m_CST_Idx;
+    private int? m_ORD_Idx;
     private string? m_ORDC_Cd;
-    private string? m_ORDC_Name;
+    private string? m_vORDC_Cd;
     private string? m_ORDG_Cd;
     private string? m_ORDG_Name;
     private string? m_ORDI_Cd;
-    private string? m_CSTO_InsuredType;
+    private string? m_CSTO_SugaCode;
+    private string? m_CSTO_ClassCode;
+    private string? m_CSTO_InsuranceType;
+    private string? m_vCSTO_InsuranceType;
     private string? m_CSTO_Status;
     private string? m_CSTO_Name;
-    private int? m_CSTO_Amount;
+    private int? m_CSTO_Day;
     private int? m_CSTO_Count;
+    private int? m_CSTO_Amount;
     private Decimal? m_CSTO_UnitPrice;
     private Decimal? m_CSTO_TotalPrice;
     private string? m_CSTO_Memo;
@@ -56,16 +61,22 @@ public class ConsultationOrder : BaseEntity
         set => SetProperty(ref m_CST_Idx, value);
     }
 
+    public int? ORD_Idx
+    {
+        get => m_ORD_Idx;
+        set => SetProperty(ref m_ORD_Idx, value);
+    }
+
     public string? ORDC_Cd
     {
         get => m_ORDC_Cd;
         set => SetProperty(ref m_ORDC_Cd, value);
     }
 
-    public string? ORDC_Name
+    public string? vORDC_Cd
     {
-        get => m_ORDC_Name;
-        set => SetProperty(ref m_ORDC_Name, value);
+        get => m_vORDC_Cd;
+        set => SetProperty(ref m_vORDC_Cd, value);
     }
 
     public string? ORDG_Cd
@@ -86,10 +97,28 @@ public class ConsultationOrder : BaseEntity
         set => SetProperty(ref m_ORDI_Cd, value);
     }
 
-    public string? CSTO_InsuredType
+    public string? CSTO_SugaCode
     {
-        get => m_CSTO_InsuredType;
-        set => SetProperty(ref m_CSTO_InsuredType, value);
+        get => m_CSTO_SugaCode;
+        set => SetProperty(ref m_CSTO_SugaCode, value);
+    }
+
+    public string? CSTO_ClassCode
+    {
+        get => m_CSTO_ClassCode;
+        set => SetProperty(ref m_CSTO_ClassCode, value);
+    }
+
+    public string? CSTO_InsuranceType
+    {
+        get => m_CSTO_InsuranceType;
+        set => SetProperty(ref m_CSTO_InsuranceType, value);
+    }
+
+    public string? vCSTO_InsuranceType
+    {
+        get => m_vCSTO_InsuranceType;
+        set => SetProperty(ref m_vCSTO_InsuranceType, value);
     }
 
     public string? CSTO_Status
@@ -104,16 +133,22 @@ public class ConsultationOrder : BaseEntity
         set => SetProperty(ref m_CSTO_Name, value);
     }
 
-    public int? CSTO_Amount
+    public int? CSTO_Day
     {
-        get => m_CSTO_Amount;
-        set => SetProperty(ref m_CSTO_Amount, value);
+        get => m_CSTO_Day;
+        set => SetProperty(ref m_CSTO_Day, value);
     }
 
     public int? CSTO_Count
     {
         get => m_CSTO_Count;
         set => SetProperty(ref m_CSTO_Count, value);
+    }
+
+    public int? CSTO_Amount
+    {
+        get => m_CSTO_Amount;
+        set => SetProperty(ref m_CSTO_Amount, value);
     }
 
     public Decimal? CSTO_UnitPrice

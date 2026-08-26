@@ -33,7 +33,7 @@
                         <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
                     </TextBlock.Effect>
                 </TextBlock>
-                <TextBlock Text="Electronic Medical Record System" 
+                <TextBlock Text="Electronic Medical ReCSTO System" 
                        FontSize="12" 
                        Foreground="#E1EAF6" 
                        HorizontalAlignment="Center"

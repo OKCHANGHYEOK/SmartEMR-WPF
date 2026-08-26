@@ -3,11 +3,11 @@
 namespace SmartEMR.Application.Template
 {
     /// <summary>
-    /// OrderInsuranceTypeTemplate.xaml에 대한 상호 작용 논리
+    /// CSTOInsuranceTypeTemplate.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class OrderInsuranceTypeTemplate : GridTemplate
+    public partial class CSTOInsuranceTypeTemplate : GridTemplate
     {
-        public OrderInsuranceTypeTemplate() { }
+        public CSTOInsuranceTypeTemplate() { }
 
         public override void Initialize()
         {

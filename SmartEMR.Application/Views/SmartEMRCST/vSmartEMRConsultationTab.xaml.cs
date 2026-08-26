@@ -61,12 +61,12 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
                 break;
 
-            case "AddCORD":
+            case "AddCSTO":
                 {
                     var paramItem = request.MessageParameter as Order;
                     if (paramItem is not null)
                     {
-                        AddCORD(paramItem);
+                        AddCSTO(paramItem);
                     }
 
                     break;
@@ -90,7 +90,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         await SmartEMRCSTInfo.UpdateDataByPAT(item);
     }
 
-    private void AddCORD(Order item)
+    private void AddCSTO(Order item)
     {
         if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
         {
