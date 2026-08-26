@@ -297,6 +297,7 @@ public partial class DataGrid
     private void SetDataPager()
     {
         DataPager.Visibility = Visibility.Visible;
+        DataPager.ShowTotalPageCount = true;
 
         DataPager.SetBinding(DataPager.PageSizeProperty, new Binding("PageSize") { Source = this });
         DataPager.SetBinding(DataPager.ItemCountProperty, new Binding("TotalCount") { Source = this });

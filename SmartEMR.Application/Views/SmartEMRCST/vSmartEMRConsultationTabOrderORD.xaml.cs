@@ -4,6 +4,7 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -39,8 +40,25 @@ public partial class vSmartEMRConsultationTabOrderORD : ModelViewLayout<OrderVie
     {
     }
 
-    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    public override async void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+        if (sender is not BindGrid) return;
+
+        var bindItem = e.BindItem;
+        switch (bindItem.FieldName)
+        {
+            case "ORD_InsuranceType":
+                await vm.FetchDataAsync();
+                break;
+
+            case "keyword":
+                if (string.IsNullOrWhiteSpace(e.NewValue?.ToString()))
+                {
+                    await vm.FetchDataAsync();
+                }
+
+                break;
+        }
     }
 
     public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)

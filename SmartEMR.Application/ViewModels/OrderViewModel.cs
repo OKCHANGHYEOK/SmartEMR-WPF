@@ -42,7 +42,13 @@ public partial class OrderViewModel : BaseViewModel<Order>
 
     public override async Task<bool> FetchDataAsync()
     {
-        var getItem = new Order { ORD_IsUse = true, PageSize = Model.PageSize, PageIndex = Model.PageIndex.GetValueOrDefault(0) };
+        var getItem = new Order { 
+            ORD_InsuranceType = Model.ORD_InsuranceType,
+            ORD_IsUse = true, 
+            
+            Keyword = Model.Keyword,
+            PageSize = Model.PageSize, 
+            PageIndex = Model.PageIndex.GetValueOrDefault(0) };
 
         switch (_orderType)
         {
@@ -108,6 +114,13 @@ public partial class OrderViewModel : BaseViewModel<Order>
         }
     }
 
+    public async Task LoadPageAsync(int pageIndex)
+    {
+        Model.PageIndex = pageIndex;
+
+        await FetchDataAsync();
+    }
+
     [RelayCommand]
     public async Task AddORDItem(object paramItem)
     {
@@ -123,14 +136,9 @@ public partial class OrderViewModel : BaseViewModel<Order>
     }
 
     [RelayCommand]
-    public void Reset()
+    public async Task Reset()
     {
         Model.Keyword = "";
-    }
-
-    public async Task LoadPageAsync(int pageIndex)
-    {
-        Model.PageIndex = pageIndex;
 
         await FetchDataAsync();
     }

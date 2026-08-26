@@ -38,7 +38,8 @@
                             BindType="SearchEdit"
                             Col="1"
                             Margin="0,2,0,0">
-                <Xpf:SearchPanel NullText="수가코드/수가명으로 검색하세요."/>
+                <Xpf:SearchPanel NullText="수가코드/수가명으로 검색하세요."
+                                 SearchCommand="{Binding SearchCommand}"/>
             </Xpf:BindItem>
         </Xpf:BindGrid>
 
