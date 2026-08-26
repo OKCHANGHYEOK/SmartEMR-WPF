@@ -158,16 +158,7 @@
     <Compile Update="Views\SmartEMRCST\btnAddCORDTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderMED.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderDOC.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderEXM.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderTRT.xaml.cs">
+    <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderORD.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

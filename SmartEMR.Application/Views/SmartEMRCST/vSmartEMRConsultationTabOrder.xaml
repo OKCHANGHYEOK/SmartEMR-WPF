@@ -36,19 +36,22 @@
                             SelectedIndex="0"
                             SelectionChanged="OnSelectionChanged_TabControl">
             <dxc:DXTabItem  Header="시술" Tag="PRC">
-                <local:vSmartEMRConsultationTabOrderPRC x:Name="SmartEMRConsultationTabOrderPRC"/>
+                <local:vSmartEMRConsultationTabOrderORD OrderType="PRC"/>
             </dxc:DXTabItem>
             <dxc:DXTabItem  Header="처치" Tag="TRT">
-                <local:vSmartEMRConsultationTabOrderTRT x:Name="SmartEMRConsultationTabOrderTRT"/>
+                <local:vSmartEMRConsultationTabOrderORD OrderType="TRT"/>
             </dxc:DXTabItem>
             <dxc:DXTabItem  Header="검사" Tag="EXM">
-                <local:vSmartEMRConsultationTabOrderEXM x:Name="SmartEMRConsultationTabOrderEXM"/>
+                <local:vSmartEMRConsultationTabOrderORD OrderType="EXM"/>
             </dxc:DXTabItem>
             <dxc:DXTabItem  Header="문서">
-                <local:vSmartEMRConsultationTabOrderDOC x:Name="SmartEMRConsultationTabOrderDOC"/>
+                <local:vSmartEMRConsultationTabOrderORD OrderType="DOC"/>
             </dxc:DXTabItem>
             <dxc:DXTabItem  Header="투약">
-                <local:vSmartEMRConsultationTabOrderMED x:Name="SmartEMRConsultationTabOrderMED"/>
+                <local:vSmartEMRConsultationTabOrderORD OrderType="MED"/>
+            </dxc:DXTabItem>
+            <dxc:DXTabItem  Header="기타">
+                <local:vSmartEMRConsultationTabOrderORD OrderType="ETC"/>
             </dxc:DXTabItem>
         </dxc:DXTabControl>
     </Xpf:StyleGrid>

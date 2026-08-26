@@ -38,27 +38,10 @@ public partial class vSmartEMRConsultationTabOrder : ModelViewLayout<OrderViewMo
         var selectedItem = e.NewSelectedItem as DXTabItem;
         if (selectedItem is null) return;
 
-        switch (selectedItem.Tag)
+        var targetView = selectedItem.Content as vSmartEMRConsultationTabOrderORD;
+        if (targetView is not null)
         {
-            case "PRC":
-                await SmartEMRConsultationTabOrderPRC.UpdateOrders();
-                break;
-
-            case "TRT":
-                await SmartEMRConsultationTabOrderTRT.UpdateOrders();
-                break;
-
-            case "EXM":
-                await SmartEMRConsultationTabOrderEXM.UpdateOrders();
-                break;
-
-            case "DOC":
-                await SmartEMRConsultationTabOrderDOC.UpdateOrders();
-                break;
-
-            case "MED":
-                await SmartEMRConsultationTabOrderMED.UpdateOrders();
-                break;
+            await targetView.UpdateOrders();
         }
     }
 }
