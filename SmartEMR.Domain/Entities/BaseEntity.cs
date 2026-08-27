@@ -10,6 +10,7 @@ public partial class BaseEntity : ObservableObject
     private string? m_SortField;
     private string? m_SortDir;
     private string? m_ViewType;
+    private int? m_ViewIndex;
     private bool? m_IsUpdated;
     private bool? m_IsVisible;
 
@@ -49,6 +50,12 @@ public partial class BaseEntity : ObservableObject
     {
         get => m_ViewType;
         set => SetProperty(ref m_ViewType, value);
+    }
+
+    public int? ViewIndex
+    {
+        get => m_ViewIndex;
+        set => SetProperty(ref m_ViewIndex, value);
     }
 
     public bool? IsUpdated

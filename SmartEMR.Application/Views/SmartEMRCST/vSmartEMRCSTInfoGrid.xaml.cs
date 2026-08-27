@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -14,14 +15,27 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
     private Patient SelectedPatient { get; set; } = new();
     private Consultation SelectedCST { get; set; } = new();
 
-    public async Task UpdateDataByPAT(Patient item)
+    public async Task SetPatientData(Patient item)
     {
         SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, item);
+    }
 
-        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = item.PAT_Idx, CST_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd") });
-        if (ret is not null)
+    public async Task UpdateDataBySelectedCST(Consultation item)
+    {
+        Consultation? currentCST = new();
+        
+        if (item.RCP_Idx.GetValueOrDefault(0) == 0)
         {
-            SmartMVVM.ModelProperty.SetConsultationData(SelectedCST, ret);
+            currentCST = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = item.PAT_Idx, CST_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd") });
+        }
+        else
+        {
+            currentCST = item;
+        }
+
+        if (currentCST is not null)
+        {
+            SmartMVVM.ModelProperty.SetConsultationData(SelectedCST, currentCST);
         }
     }
 

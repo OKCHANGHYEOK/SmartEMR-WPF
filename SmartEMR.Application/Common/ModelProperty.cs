@@ -413,18 +413,23 @@ public class ModelProperty
     {
         item.MUR_Idx_DOC = 0;
         item.CST_Status = "RDY";
-        item.CST_InsuranceType = "NON";
+        item.CST_InsuranceType = string.IsNullOrWhiteSpace(item.CST_InsuranceType) ? "NON" : item.CST_InsuranceType;
         item.CST_PayStatus = "RDY";
-        item.CST_VisitType = "FIR";
-        item.CST_Subject = "GNR";
+        item.CST_VisitType = string.IsNullOrWhiteSpace(item.CST_VisitType) ? "FIR" : item.CST_VisitType;
+        item.CST_Subject = string.IsNullOrWhiteSpace(item.CST_Subject) ? "GNR" : item.CST_Subject;
         item.CST_TreatResult = "CON";
-        item.CST_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+        item.CST_YYMMDD = string.IsNullOrWhiteSpace(item.CST_YYMMDD) ? DateTime.Now.ToString("yyyy-MM-dd") : item.CST_YYMMDD;
         item.CST_StartTime = "00:00";
         item.CST_EndTime = "23:59";
     }
 
     public void SetConsultationData(Consultation oldItem, Consultation newItem)
     {
+        if (newItem.CST_Idx.GetValueOrDefault(0) == 0)
+        {
+            SetDefaultConsultationData(newItem);
+        }
+
         oldItem.CST_Idx = newItem.CST_Idx;
         oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC;
         oldItem.PAT_Idx = newItem.PAT_Idx;
@@ -438,6 +443,7 @@ public class ModelProperty
         oldItem.CST_Subject = newItem.CST_Subject;
         oldItem.CST_SubjectName = newItem.CST_SubjectName;
         oldItem.CST_StartTime = newItem.CST_StartTime;
+        oldItem.CST_EndTime = newItem.CST_EndTime;
         oldItem.CST_Opinion = newItem.CST_Opinion;
         oldItem.CST_Memo = newItem.CST_Memo;
         oldItem.CST_YYMMDD = newItem.CST_YYMMDD;

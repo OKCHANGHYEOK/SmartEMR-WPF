@@ -26,7 +26,7 @@ public partial class vPatientHistory : ModelViewLayout<PatientHistoryViewModel>
     {
     }
 
-    public override async void SetPatientData(Patient item)
+    public override async Task SetPatientData(Patient item)
     {
         await vm.SetPatientData(item);
     }

@@ -57,7 +57,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
                 var paramItem = request.MessageParameter as Patient;
                 if (paramItem == null) return null;
 
-                SetPatientData(paramItem);
+                await SetPatientData(paramItem);
 
                 break;
 
@@ -89,7 +89,7 @@ public partial class vSearchView : ModelViewLayout<SearchViewModel>
 
     #region "Event & Function"
 
-    public override async void SetPatientData(Patient item)
+    public override async Task SetPatientData(Patient item)
     {
         if (!string.IsNullOrWhiteSpace(item.PAT_ChartNo) && !string.IsNullOrWhiteSpace(item.PAT_Name))
         {

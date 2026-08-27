@@ -24,8 +24,33 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
     {
     }
 
+    public override void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
+    {
+        if (sender is not DataGrid) return;
+
+        var dataItem = e.DataItem as ConsultationOrder;
+        if (dataItem is null) return;
+
+        switch (e.Column.FieldName)
+        {
+            case "btnDelete":
+                DeleteCSTO(dataItem);
+                break;
+        }
+    }
+
+    public async Task UpdateDataBySelectedCST(Consultation item)
+    {
+       await vm.UpdateDataBySelectedCST(item);
+    }
+
     public void AddCSTO(Order item)
     {
         vm.AddCSTO(item);
+    }
+
+    private void DeleteCSTO(ConsultationOrder item)
+    {
+        vm.DeleteCSTO(item);
     }
 }

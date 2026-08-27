@@ -17,6 +17,11 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     {
     }
 
+    public override async Task InitializeAsync()
+    {
+        await UpdateConsultationsByRCP();
+    }
+
     protected override Consultation GetModel(Consultation item)
     {
         if (item.CST_Idx.GetValueOrDefault(0) == 0)
@@ -25,6 +30,11 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         }
 
         return item;
+    }
+
+    public void SetSelectedCST(Consultation item)
+    {
+        SmartMVVM.ModelProperty.SetConsultationData(Model, item);
     }
 
     [RelayCommand]

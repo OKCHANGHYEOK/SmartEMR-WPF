@@ -4,6 +4,7 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.Views;
 
@@ -153,13 +154,20 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         return response;
     }
 
-    public override void SetPatientData(Patient item)
+    public override async Task SetPatientData(Patient item)
     {
-        vm.SetPatientData(item);
+        var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
+        if (ret == null || SmartMVVM.DataStore.retIsSuccess == false)
+        {
+            SmartUI.SetNofification("환자정보 로딩중 오류가 발생했습니다. 다시 시도해주세요", NotificationType.Error);
+            return;
+        }
 
-        SmartEMRDeskPATView.SetPatientData(item);
-        SmartEMRDeskRCPInfo.SetPatientData(item);
-        SmartEMRDeskPATHistory.SetPatientData(item);
+        vm.SetPatientData(ret);
+
+        await SmartEMRDeskPATView.SetPatientData(ret);
+        await SmartEMRDeskRCPInfo.SetPatientData(ret);
+        await SmartEMRDeskPATHistory.SetPatientData(ret);
     }
 
     private async void ClearData(bool isClearPAT = true)

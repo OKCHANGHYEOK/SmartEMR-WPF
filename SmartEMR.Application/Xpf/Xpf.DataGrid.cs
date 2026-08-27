@@ -111,7 +111,7 @@ public partial class DataGrid : ContentControl
         GridControl.View = TableView;
         GridControl.Margin = new Thickness(2);
         GridControl.AllowInitiallyFocusedRow = false;
-        GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
+        //GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
 
         TableView.NavigationStyle = GridViewNavigationStyle.Cell;
         TableView.RowMinHeight = 24;
@@ -212,8 +212,8 @@ public partial class DataGrid : ContentControl
         var row = GridControl.GetRow(hitInfo.RowHandle);
         var column = hitInfo.Column;
 
+        this.DataItem = null;
         this.DataItem = row;
-        this.InvokeDataItemChanged(row);
     }
 
     private void TableView_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -244,7 +244,7 @@ public partial class DataGrid : ContentControl
 
     private void InvokeDataItemChanged(object? item)
     {
-        if (!this.IsUpdatedItemsSource) return;
+        if (item is null || !this.IsUpdatedItemsSource) return;
 
         var args = new DataItemChangedEventArgs(item, this.GridControl.CurrentColumn);
         this.DataGrid_DataItemChangedEvent?.Invoke(this, args);

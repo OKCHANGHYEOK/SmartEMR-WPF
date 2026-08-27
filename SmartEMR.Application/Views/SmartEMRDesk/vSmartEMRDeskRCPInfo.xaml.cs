@@ -126,12 +126,12 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             return response;
         }
 
-        public override async void SetPatientData(Patient item)
+        public override async Task SetPatientData(Patient item)
         {
             if (item.PAT_Idx.GetValueOrDefault(0) == 0) return;
 
             // 환자 정보 세팅
-            vm.SetPatientData(item);
+            await vm.SetPatientData(item);
 
             UpdateReceptionData();
         }

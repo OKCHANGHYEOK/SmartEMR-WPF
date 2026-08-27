@@ -63,7 +63,7 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
         SmartMVVM.ModelProperty.SetReceptionData(Model, item);
     }
 
-    public void SetPatientData(Patient item)
+    public async Task SetPatientData(Patient item)
     {
         SmartMVVM.ModelProperty.SetPatientData(PATItem, item);
 

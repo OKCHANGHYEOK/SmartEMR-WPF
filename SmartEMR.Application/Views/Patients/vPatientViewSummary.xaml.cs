@@ -26,16 +26,9 @@ public partial class vPatientViewSummary : ModelViewLayout<PatientViewModel>
     {
     }
 
-    public override async void SetPatientData(Patient item)
+    public override async Task SetPatientData(Patient item)
     {
-        var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
-        if (ret == null || SmartMVVM.DataStore.retIsSuccess == false)
-        {
-            SmartUI.SetNofification("환자정보 로딩중 오류가 발생했습니다. 다시 시도해주세요", NotificationType.Error);
-            return;
-        } 
-
-        SmartMVVM.ModelProperty.SetPatientData(PATItem, ret);
+        SmartMVVM.ModelProperty.SetPatientData(PATItem, item);
     }
 
     public void ClearData()

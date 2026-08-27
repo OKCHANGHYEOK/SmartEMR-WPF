@@ -54,4 +54,8 @@
                            SelectedIndex="0"
                            Margin="2"/>
     </DataTemplate>
+
+    <DataTemplate x:Key="GridColumnTextLinkTemplate">
+        <Xpf:TextLink  Text="{Binding Value}"/>
+    </DataTemplate>
 </ResourceDictionary>

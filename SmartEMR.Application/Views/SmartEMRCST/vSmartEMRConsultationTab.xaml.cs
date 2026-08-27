@@ -43,16 +43,27 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     var paramItem = request.MessageParameter as Patient;
                     if (paramItem is not null)
                     {
-                        SetPatientData(paramItem);
+                       await SetPatientData(paramItem);
+                    }
+
+                    break;
+                }
+
+            case "SetSelectedCST":
+                {
+                    var paramItem = request.MessageParameter as Consultation;
+                    if (paramItem is not null)
+                    {
+                        SetSelectedCST(paramItem);
                     }
 
                     break;
                 }
 
             case "MoveIRCInfo":
-                if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
+                if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
                 {
-                    SmartUI.SetNofification("선택된 진료가 없습니다.", NotificationType.Warning);
+                    SmartUI.SetNofification("선택된 접수가 없습니다.", NotificationType.Warning);
                     return null;
                 }
 
@@ -82,21 +93,30 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         return response;
     }
 
-    public override async void SetPatientData(Patient item)
+    public override async Task SetPatientData(Patient item)
     {
-        PatientViewSummary.SetPatientData(item);
-        PatientHistory.SetPatientData(item);
-        
-        await SmartEMRCSTInfo.UpdateDataByPAT(item);
+        await PatientViewSummary.SetPatientData(item);
+        await PatientHistory.SetPatientData(item);
+        await SmartEMRCSTInfo.SetPatientData(item);
+    }
+
+    private async void SetSelectedCST(Consultation item)
+    {
+        await SetPatientData(new Patient { PAT_Idx = item.PAT_Idx });
+
+        vm.SetSelectedCST(item);
+
+        await SmartEMRCSTInfo.UpdateDataBySelectedCST(item);
+        await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(item);
     }
 
     private void AddCSTO(Order item)
     {
-        //if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
-        //{
-        //    SmartUI.SetNofification("진료 선택후 처방할 수 있습니다.", NotificationType.Warning);
-        //    return;
-        //}
+        if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNofification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
+            return;
+        }
 
         SmartEMRConulstationTabCSTOInfo.AddCSTO(item);
     }

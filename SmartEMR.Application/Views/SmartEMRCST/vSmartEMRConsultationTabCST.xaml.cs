@@ -1,5 +1,7 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Views.Patients;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 
@@ -36,5 +38,27 @@ public partial class vSmartEMRConsultationTabCST : ModelViewLayout<ConsultationV
         if (bindGrid is null) return;
 
         await vm.UpdateConsultationsByRCP();
+    }
+
+    public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
+    {
+        if (sender is not DataGrid dataGrid) return;
+
+        var dataItem = e.DataItem as Consultation;
+        if (dataItem is null) return;
+
+        if (dataGrid.IsDoubleClicked)
+        {
+            await SmartUI.SendMessage("SetSelectedCST", dataItem, TargetViewType.PageView);
+        }
+        else
+        {
+            switch (e.Column.FieldName)
+            {
+                case "PAT_Name":
+                    await SmartUI.NavigateToPage(new vPatientInfo(new Patient {PAT_Idx = dataItem.PAT_Idx}), isPopup:true);
+                    break;
+            }
+        }
     }
 }
