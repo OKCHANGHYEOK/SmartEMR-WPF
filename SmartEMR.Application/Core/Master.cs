@@ -87,6 +87,13 @@ public class Master
 
         AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "GUN", IRC_CoName = "근로복지공단" });
         AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "ETC", IRC_CoName = "기타" });
+
+        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "PRC", vORDC_Cd = "시술" });
+        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "TRT", vORDC_Cd = "처치" });
+        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "EXM", vORDC_Cd = "검사" });
+        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "DOC", vORDC_Cd = "문서" });
+        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "MED", vORDC_Cd = "투약" });
+        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "ETC", vORDC_Cd = "기타" });
     }
 
     public List<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")

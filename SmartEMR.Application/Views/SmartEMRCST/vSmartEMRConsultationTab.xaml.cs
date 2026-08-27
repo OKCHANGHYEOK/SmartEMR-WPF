@@ -92,11 +92,13 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
     private void AddCSTO(Order item)
     {
-        if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
-        {
-            SmartUI.SetNofification("진료 선택후 처방할 수 있습니다.", NotificationType.Warning);
-            return;
-        }
+        //if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
+        //{
+        //    SmartUI.SetNofification("진료 선택후 처방할 수 있습니다.", NotificationType.Warning);
+        //    return;
+        //}
+
+        SmartEMRConulstationTabCSTOInfo.AddCSTO(item);
     }
 
     private void ClearData()

@@ -5,6 +5,7 @@ public class ConsultationOrder : BaseEntity
     private int? m_CSTO_Idx;
     private int? m_MEM_Idx;
     private int? m_MUR_Idx;
+    private int? m_MUR_Idx_DOC;
     private int? m_PAT_Idx;
     private int? m_CST_Idx;
     private int? m_ORD_Idx;
@@ -22,7 +23,7 @@ public class ConsultationOrder : BaseEntity
     private int? m_CSTO_Day;
     private int? m_CSTO_Count;
     private int? m_CSTO_Amount;
-    private Decimal? m_CSTO_UnitPrice;
+    private Decimal? m_CSTO_Price;
     private Decimal? m_CSTO_TotalPrice;
     private string? m_CSTO_Memo;
     private string? m_CSTO_Date;
@@ -47,6 +48,12 @@ public class ConsultationOrder : BaseEntity
     {
         get => m_MUR_Idx;
         set => SetProperty(ref m_MUR_Idx, value);
+    }
+
+    public int? MUR_Idx_DOC
+    {
+        get => m_MUR_Idx_DOC;
+        set => SetProperty(ref m_MUR_Idx_DOC, value);
     }
 
     public int? PAT_Idx
@@ -151,10 +158,10 @@ public class ConsultationOrder : BaseEntity
         set => SetProperty(ref m_CSTO_Amount, value);
     }
 
-    public Decimal? CSTO_UnitPrice
+    public Decimal? CSTO_Price
     {
-        get => m_CSTO_UnitPrice;
-        set => SetProperty(ref m_CSTO_UnitPrice, value);
+        get => m_CSTO_Price;
+        set => SetProperty(ref m_CSTO_Price, value);
     }
 
     public Decimal? CSTO_TotalPrice

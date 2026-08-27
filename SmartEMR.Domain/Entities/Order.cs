@@ -5,6 +5,7 @@ public class Order : BaseEntity
     private int? m_ORD_Idx;
     private int? m_SUGA_Idx;
     private string? m_ORDC_Cd;
+    private string? m_vORDC_Cd;
     private string? m_ORDG_Cd;
     private string? m_ORDI_Cd;
     private string? m_ORD_SugaCode;
@@ -39,6 +40,12 @@ public class Order : BaseEntity
     {
         get => m_ORDC_Cd;
         set => SetProperty(ref m_ORDC_Cd, value);
+    }
+
+    public string? vORDC_Cd
+    {
+        get => m_vORDC_Cd;
+        set => SetProperty(ref m_vORDC_Cd, value);
     }
 
     public string? ORDG_Cd

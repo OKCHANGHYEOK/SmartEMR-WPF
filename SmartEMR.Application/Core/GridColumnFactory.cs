@@ -63,8 +63,10 @@ public class GridColumnFactory
             {
                 ColumnType.Label => "GridColumnLabelTemplate",
                 ColumnType.TextBox => "GridColumnTextBoxTemplate",
-                ColumnType.CheckBox => "GridColumnCheckBoxTemplate",
                 ColumnType.TextLink => "GridColumnTextLinkTemplate",
+                ColumnType.TextEdit => "GridColumnTextEditTemplate",
+                ColumnType.CheckBox => "GridColumnCheckBoxTemplate",
+                ColumnType.ComboBox => "GridColumnComboBoxTemplate",
                 _ => "GridColumnLabelTemplate" // 기본값
             };
 

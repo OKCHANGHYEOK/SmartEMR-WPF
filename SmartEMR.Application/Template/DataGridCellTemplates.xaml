@@ -27,14 +27,31 @@
     <DataTemplate   x:Key="GridColumnTextBoxTemplate">
         <Xpf:StyleTextBox   TextBoxType="Text"
                             Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            HorizontalContentAlignment="Left"/>
+                            HorizontalContentAlignment="Left"
+                            IsNumericOnly="True"
+                            Margin="2"/>
     </DataTemplate>
 
     <DataTemplate   x:Key="GridColumnCheckBoxTemplate">
         <Xpf:CheckEdit IsChecked="{Binding Value, Mode=TwoWay}"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="GridColumnTextLinkTemplate">
-        <Xpf:TextLink  Text="{Binding Value}"/>
+    <DataTemplate x:Key="GridColumnTextEditTemplate">
+        <Xpf:TextEdit EditValue="{Binding Value}"
+                      HorizontalContentAlignment="Center"
+                      MaskType="Numeric" 
+                      Mask="n0" 
+                      Margin="2"/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="GridColumnComboBoxTemplate">
+        <Xpf:ComboBoxEdit  EditValue="{Binding Value}"
+                           ItemsSource="{Binding Column.ColumnItem.ItemsSource}"
+                           DisplayMember="{Binding Column.ColumnItem.DisplayMember}"
+                           ValueMember="{Binding Column.ColumnItem.ValueMember}"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           SelectedIndex="0"
+                           Margin="2"/>
     </DataTemplate>
 </ResourceDictionary>

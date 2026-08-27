@@ -41,8 +41,10 @@
                         <Xpf:LayoutPanel Caption="진료정보" ItemHeight="250">
                             <local:vSmartEMRCSTInfoGrid x:Name="SmartEMRCSTInfo"/>
                         </Xpf:LayoutPanel>
-                        <Xpf:LayoutPanel Caption="처방정보" ItemHeight="1*"></Xpf:LayoutPanel>
-                        <Xpf:LayoutPanel Caption="수납정보" ItemHeight="0.4*"></Xpf:LayoutPanel>
+                        <Xpf:LayoutPanel ShowCaption="False" ItemHeight="1*">
+                            <local:vSmartEMRConsultationTabCSTOInfo x:Name="SmartEMRConulstationTabCSTOInfo"/>
+                        </Xpf:LayoutPanel>
+                        <Xpf:LayoutPanel ShowCaption="False" ItemHeight="0.4*"></Xpf:LayoutPanel>
                     </dxd:LayoutGroup>
                 </dxd:LayoutGroup>
             </dxd:LayoutGroup>

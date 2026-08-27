@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -21,5 +22,10 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+    }
+
+    public void AddCSTO(Order item)
+    {
+        vm.AddCSTO(item);
     }
 }

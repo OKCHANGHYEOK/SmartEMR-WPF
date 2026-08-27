@@ -6,9 +6,11 @@ namespace SmartEMR.Application.Xpf;
 public enum ColumnType
 {
     Label,
+    TextEdit,
     TextBox,
     TextLink,
-    CheckBox
+    CheckBox,
+    ComboBox
 }
 
 public enum ColumnStyle
@@ -36,7 +38,11 @@ public class ColumnItem
     public string? DisplayFormat { get; set; }
     public string? Prefix { get; set; }
     public string? Suffix { get; set; } 
-    public bool AllowSorting { get; set; } = false;
 
+    public IEnumerable? ItemsSource { get; set; }
+    public string? DisplayMember { get; set; }
+    public string? ValueMember { get; set; }
+    
+    public bool AllowSorting { get; set; } = false;
     public bool ShowToolTip { get; set; } = false;
 }
