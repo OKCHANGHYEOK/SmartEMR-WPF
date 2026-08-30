@@ -43,6 +43,14 @@ public enum FromViewType
     POPUP
 }
 
+public enum ConsultationStatus
+{
+    RDY,
+    PND,
+    ING,
+    END
+}
+
 public partial class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();

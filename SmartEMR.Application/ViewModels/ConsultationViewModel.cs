@@ -70,8 +70,22 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Consultations = ret.ToList();
     }
 
+    public async Task SaveDataAsync(ConsultationStatus targetStatus = ConsultationStatus.RDY, bool CST_IsValid = true)
+    {
+        if (!CST_IsValid && SmartUI.MsgYesNo("진료취소하시겠습니까?") is MessageBoxResult.Yes)
+        {
+            if (!await DeleteConsultation())
+            {
+                SmartUI.SetNofification("진료취소하지 못했습니다.", NotificationType.Error);
+                return;
+            }
+        }
+
+        await SetConsultation(targetStatus);
+    }
+
     [RelayCommand]
-    public async Task SetConsultation()
+    public async Task SetConsultation(ConsultationStatus targetStatus)
     {
         if (Model.CST_Idx.GetValueOrDefault(0) == 0)
         {
@@ -80,6 +94,18 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         }
 
 
+    }
+
+    private async Task<bool> DeleteConsultation()
+    {
+        await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultation, new Consultation { CST_Idx = Model.CST_Idx, CST_IsValid = false });
+
+        if (!SmartMVVM.DataStore.retIsSuccess)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     [RelayCommand]

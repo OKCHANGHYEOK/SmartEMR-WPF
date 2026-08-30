@@ -1,8 +1,11 @@
-﻿using SmartEMR.Application.Core;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Common;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -126,5 +129,37 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         PatientViewSummary.ClearData();
         PatientHistory.ClearData();
         SmartEMRCSTInfo.ClearDataByPAT();
+    }
+
+    private async Task OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (sender is not SimpleButton element) return;
+
+        switch (element.Tag)
+        {
+            case "btnReady":
+                await vm.SaveDataAsync(ConsultationStatus.RDY);
+                break;
+
+            case "btnPending":
+                await vm.SaveDataAsync(ConsultationStatus.PND);
+                break;
+
+            case "btnContinue":
+                await vm.SaveDataAsync(ConsultationStatus.ING);
+                break;
+
+            case "btnFinish":
+                await vm.SaveDataAsync(ConsultationStatus.END);
+                break;
+
+            case "btnCancel":
+                await vm.SaveDataAsync(CST_IsValid:false);
+                break;
+
+            case "btnClear":
+                vm.ClearData();
+                break;
+        }
     }
 }
