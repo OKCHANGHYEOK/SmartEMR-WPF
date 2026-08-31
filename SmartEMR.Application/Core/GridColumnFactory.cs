@@ -30,15 +30,6 @@ public class GridColumnFactory
         element.CellTemplate = GetCellTemplate(item);
         element.ColumnItem = item;
         element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;
-        //element.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
-
-        //if (item.ColumnType == ColumnType.TextEdit || item.ColumnType == ColumnType.ComboBox)
-        //{
-        //    element.EditSettings = CreateEditSettings(item);
-        //}
-        //else
-        //{
-        //}
 
         return element;
     }

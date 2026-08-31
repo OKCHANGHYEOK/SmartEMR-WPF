@@ -1,9 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DevExpress.Mvvm;
+using DevExpress.Mvvm.Xpf;
 using DevExpress.Xpf.Editors.DataPager;
 using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -94,6 +98,7 @@ public partial class DataGrid : ContentControl
 
     public event EventHandler<PopupMenuOpeningEventArgs>? DataGrid_PopupMenuOpening;
     public event EventHandler<PopupMenuItemClickEventArgs>? DataGrid_PopupMenuItemClick;
+    public DevExpress.Mvvm.ICommand<GridCellData> CellValueChanged { get; }
 
     public DataGrid()
     {
@@ -133,6 +138,7 @@ public partial class DataGrid : ContentControl
         DataPager.Visibility = Visibility.Collapsed;
 
         this.Content = _layoutRoot;
+        this.CellValueChanged = new DelegateCommand<GridCellData>(OnCellValueChanged);
     }
 
     public void SetItemsSource(IEnumerable enumerable)
@@ -151,6 +157,17 @@ public partial class DataGrid : ContentControl
     public void Add(ColumnItem item)
     {
         this.Columns.Add(GridColumnFactory.Create(item));
+    }
+
+    private void OnCellValueChanged(GridCellData cellData)
+    {
+        var fieldName = cellData.Column.FieldName;
+        var row = cellData.Row;
+        var property = row.GetType().GetProperty(fieldName);
+
+        if (property is null) return;
+
+        property.SetValue(row, cellData.Value);
     }
 
     private void OnItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

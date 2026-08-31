@@ -37,8 +37,8 @@
         <Xpf:CheckEdit IsChecked="{Binding Value, Mode=TwoWay}"/>
     </DataTemplate>
 
-    <!--<DataTemplate x:Key="GridColumnTextEditTemplate">
-        <Xpf:TextEdit   EditValue="{Binding Value}"
+    <DataTemplate x:Key="GridColumnTextEditTemplate">
+        <Xpf:TextEdit   EditValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         HorizontalContentAlignment="Center"
                         MaskType="Numeric" 
                         Mask="n0" 
@@ -47,14 +47,14 @@
             
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand EventName="EditValueChanged" 
-                                       Command="{Binding View.DataContext.UpdateCollectionCommand}"
+                                       Command="{Binding CellValueChanged, RelativeSource={RelativeSource AncestorType=Xpf:DataGrid}}"
                                        CommandParameter="{Binding}"/>
             </dxmvvm:Interaction.Behaviors>
         </Xpf:TextEdit>
     </DataTemplate>
     
     <DataTemplate x:Key="GridColumnComboBoxTemplate">
-        <Xpf:ComboBoxEdit  EditValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=0}"
+        <Xpf:ComboBoxEdit  EditValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            ItemsSource="{Binding Column.ColumnItem.ItemsSource}"
                            DisplayMember="{Binding Column.ColumnItem.DisplayMember}"
                            ValueMember="{Binding Column.ColumnItem.ValueMember}"
@@ -62,8 +62,15 @@
                            VerticalAlignment="Stretch"
                            SelectedIndex="0"
                            Margin="2"
-                           IsEnabled="{Binding Column.ColumnItem.IsEnabled}"/>
-    </DataTemplate>-->
+                           IsEnabled="{Binding Column.ColumnItem.IsEnabled}">
+
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand EventName="EditValueChanged" 
+                                       Command="{Binding CellValueChanged, RelativeSource={RelativeSource AncestorType=Xpf:DataGrid}}"
+                                       CommandParameter="{Binding}"/>
+            </dxmvvm:Interaction.Behaviors>
+        </Xpf:ComboBoxEdit>
+    </DataTemplate>
 
     <DataTemplate x:Key="GridColumnTextLinkTemplate">
         <Xpf:TextLink  Text="{Binding Value}"/>
