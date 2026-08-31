@@ -38,6 +38,12 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     }
 
     [RelayCommand]
+    public async Task GetRecentCST()
+    {
+        SmartUI.SetNofification("기능 구현 중입니다.", NotificationType.Warning);
+    }
+
+    [RelayCommand]
     public async Task UpdateConsultationsByRCP()
     {
         var item = new Consultation
@@ -77,8 +83,9 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             if (!await DeleteConsultation())
             {
                 SmartUI.SetNofification("진료취소하지 못했습니다.", NotificationType.Error);
-                return;
             }
+
+            return;
         }
 
         await SetConsultation(targetStatus);
@@ -112,13 +119,5 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     public void ClearData(bool isClearFilter = false)
     {
         SmartMVVM.ModelProperty.ClearCSTData(Model, isClearFilter);
-    }
-
-    [RelayCommand]
-    public void ClearDataByCSTInfo()
-    {
-        if (SmartUI.MsgYesNo("입력된 데이터가 초기화됩니다. 초기화하시겠습니까?") is MessageBoxResult.No) return;
-
-        ClearData();
     }
 }

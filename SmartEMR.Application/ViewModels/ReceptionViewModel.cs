@@ -145,10 +145,8 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
         }
     }
 
-    public void ClearData(bool isClickedClearButton = false)
+    public void ClearData()
     {
-        if (isClickedClearButton && SmartUI.MsgYesNo("초기화하시겠습니까?") is not MessageBoxResult.Yes) return;
-
         SmartMVVM.ModelProperty.ClearRCPData(RCPItem, false);
         SmartMVVM.ModelProperty.ClearIRCData(IRCItem, true);
     }

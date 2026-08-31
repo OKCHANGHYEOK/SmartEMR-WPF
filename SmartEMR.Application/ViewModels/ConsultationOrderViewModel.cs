@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -90,15 +92,49 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         }
     }
 
+    public void ClearData()
+    {
+        ClearCSTO();
+    }
+
+    [RelayCommand]
+    public void UpdateCollection(GridCellData item)
+    {
+        var fieldName = item.Column.FieldName;   
+        if (string.IsNullOrWhiteSpace(fieldName)) return;
+
+        var dataItem = item.Row as ConsultationOrder;
+        if (dataItem is null) return;
+
+        Debug.WriteLine(item.Value);
+
+        switch (fieldName)
+        {
+            case "CSTO_Day" or "CSTO_Count":
+                UpdatePrice(dataItem);
+                break;
+        }
+    }
+
     [RelayCommand]
     public void ResetCSTO()
     {
         if (SmartUI.MsgYesNo("처방내역을 초기화하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
 
+        ClearCSTO();
+    }
+
+    private void ClearCSTO()
+    {
         foreach (var item in ConsultationOrderItems.Reverse())
         {
             ConsultationOrderItems.Remove(item);
         }
+    }
+
+    private void UpdatePrice(ConsultationOrder item)
+    {
+        item.CSTO_TotalPrice = item.CSTO_Price * item.CSTO_Day * item.CSTO_Count;
     }
 
     private void OnConsultationOrderItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)

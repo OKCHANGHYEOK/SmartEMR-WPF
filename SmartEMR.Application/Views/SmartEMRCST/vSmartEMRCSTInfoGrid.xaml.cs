@@ -39,19 +39,33 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
         }
     }
 
-    public void ClearDataByPAT()
+    public void ClearData(bool isClearCST = false)
     {
-        if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) > 0)
+        SmartMVVM.ModelProperty.ClearPATData(SelectedPatient);
+    
+        if (isClearCST)
         {
-            SmartMVVM.ModelProperty.ClearPATData(SelectedPatient);
             SmartMVVM.ModelProperty.ClearCSTData(SelectedCST);
         }
     }
 
-    private async void OnClick_Button(object sender, System.Windows.RoutedEventArgs e)
+    private async void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
     {
-        if (sender is not SimpleButton sbtn) return;
+        if (sender is not SimpleButton element) return;
 
-        await SmartUI.SendMessage("MoveIRCInfo", viewType: TargetViewType.PageView);
+        switch (element.Tag)
+        {
+            case "btnMoveIRCInfo":
+                await SmartUI.SendMessage("MoveIRCInfo", viewType: TargetViewType.PageView);
+                break;
+
+            case "btnClear":
+                if (SmartUI.MsgYesNo("진료 정보를 초기화하시겠습니까?") is System.Windows.MessageBoxResult.Yes)
+                {
+                    await SmartUI.SendMessage("ClearCSTInfo", viewType: TargetViewType.PageView);
+                }
+
+                break;
+        }
     }
 }

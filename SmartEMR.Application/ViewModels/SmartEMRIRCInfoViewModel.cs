@@ -23,11 +23,16 @@ public partial class SmartEMRIRCInfoViewModel : InsuranceInfoViewModel
         SmartUI.SetNofification("최근보험이 적용되었습니다.", NotificationType.Success);
     }
 
-    [RelayCommand]
-    public new void ClearData(bool isClickedClearButton = false)
+    public void ClearData()
     {
-        if (isClickedClearButton && SmartUI.MsgYesNo("보험정보를 초기화하시겠습니까?") is MessageBoxResult.No) return;
-
         SmartMVVM.ModelProperty.ClearIRCData(Model);
+    }
+
+    [RelayCommand]
+    public void ResetIRC()
+    {
+        if (SmartUI.MsgYesNo("보험정보를 초기화하시겠습니까?") is MessageBoxResult.No) return;
+
+        ClearData();
     }
 }

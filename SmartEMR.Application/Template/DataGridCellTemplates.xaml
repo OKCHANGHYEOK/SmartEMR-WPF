@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                    xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter">
+                    xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
 
     <DataTemplate   x:Key="GridColumnLabelTemplate">
         <Xpf:Label x:Name="PART_Editor"
@@ -36,24 +37,33 @@
         <Xpf:CheckEdit IsChecked="{Binding Value, Mode=TwoWay}"/>
     </DataTemplate>
 
-    <DataTemplate x:Key="GridColumnTextEditTemplate">
-        <Xpf:TextEdit EditValue="{Binding Value}"
-                      HorizontalContentAlignment="Center"
-                      MaskType="Numeric" 
-                      Mask="n0" 
-                      Margin="2"/>
+    <!--<DataTemplate x:Key="GridColumnTextEditTemplate">
+        <Xpf:TextEdit   EditValue="{Binding Value}"
+                        HorizontalContentAlignment="Center"
+                        MaskType="Numeric" 
+                        Mask="n0" 
+                        Margin="2"
+                        IsEnabled="{Binding Column.ColumnItem.IsEnabled}">
+            
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand EventName="EditValueChanged" 
+                                       Command="{Binding View.DataContext.UpdateCollectionCommand}"
+                                       CommandParameter="{Binding}"/>
+            </dxmvvm:Interaction.Behaviors>
+        </Xpf:TextEdit>
     </DataTemplate>
     
     <DataTemplate x:Key="GridColumnComboBoxTemplate">
-        <Xpf:ComboBoxEdit  EditValue="{Binding Value}"
+        <Xpf:ComboBoxEdit  EditValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=0}"
                            ItemsSource="{Binding Column.ColumnItem.ItemsSource}"
                            DisplayMember="{Binding Column.ColumnItem.DisplayMember}"
                            ValueMember="{Binding Column.ColumnItem.ValueMember}"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            SelectedIndex="0"
-                           Margin="2"/>
-    </DataTemplate>
+                           Margin="2"
+                           IsEnabled="{Binding Column.ColumnItem.IsEnabled}"/>
+    </DataTemplate>-->
 
     <DataTemplate x:Key="GridColumnTextLinkTemplate">
         <Xpf:TextLink  Text="{Binding Value}"/>

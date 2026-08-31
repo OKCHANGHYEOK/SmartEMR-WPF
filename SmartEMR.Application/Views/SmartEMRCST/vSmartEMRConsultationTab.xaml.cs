@@ -5,6 +5,8 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using SmartEMR.Domain.Enums;
+using System.Collections.ObjectModel;
 using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
@@ -15,6 +17,8 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationViewModel>
 {
     private Consultation SelectedCST => vm.Model;
+
+    private ObservableCollection<ConsultationOrder> ConsultationOrders => SmartEMRConulstationTabCSTOInfo.ConsultationOrders;
 
     public vSmartEMRConsultationTab() { }
 
@@ -87,7 +91,11 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 }
 
             case "ClearPAT":
-                ClearData();
+                ClearData(true);
+                break;
+
+            case "ClearCSTInfo":
+                SmartEMRCSTInfo.ClearData(true);
                 break;
         }
 
@@ -98,9 +106,16 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
     public override async Task SetPatientData(Patient item)
     {
-        await PatientViewSummary.SetPatientData(item);
-        await PatientHistory.SetPatientData(item);
-        await SmartEMRCSTInfo.SetPatientData(item);
+        var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("환자 정보를 불러오지 못했습니다.", NotificationType.Error);
+            return;
+        }
+
+        await PatientViewSummary.SetPatientData(ret);
+        await PatientHistory.SetPatientData(ret);
+        await SmartEMRCSTInfo.SetPatientData(ret);
     }
 
     private async void SetSelectedCST(Consultation item)
@@ -124,14 +139,22 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         SmartEMRConulstationTabCSTOInfo.AddCSTO(item);
     }
 
-    private void ClearData()
+    private void ClearData(bool isClearPAT = false, bool isClearCST = false)
     {
-        PatientViewSummary.ClearData();
-        PatientHistory.ClearData();
-        SmartEMRCSTInfo.ClearDataByPAT();
+        if (isClearPAT)
+        {
+            PatientViewSummary.ClearData();
+            PatientHistory.ClearData();
+        }
+
+        if (isClearCST)
+        {
+            SmartEMRCSTInfo.ClearData();
+            SmartEMRConulstationTabCSTOInfo.ClearData();
+        } 
     }
 
-    private async Task OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
+    private async void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
     {
         if (sender is not SimpleButton element) return;
 
@@ -158,7 +181,11 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 break;
 
             case "btnClear":
-                vm.ClearData();
+                if (SmartUI.MsgYesNo("진료 초기화하시겠습니까? 진료 및 처방 정보 모두 초기화됩니다.") is System.Windows.MessageBoxResult.Yes)
+                {
+                    ClearData(false, true);
+                }
+
                 break;
         }
     }

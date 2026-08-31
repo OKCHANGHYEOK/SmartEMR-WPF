@@ -29,13 +29,14 @@
 
             <dxc:SimpleButton   Grid.Column="0"
                                 Grid.ColumnSpan="2"
+                                Tag="btnMoveIRCInfo"
                                 Content="{Binding Model.vCST_InsuranceType, TargetNullValue='비보험'}"
                                 Glyph="/Images/smartemr_insurance.png"
                                 FontWeight="Bold"
                                 Padding="2"
                                 Margin="2,0,2,0"
                                 dxc:ThemeManager.ThemeName="Office2013LightGray"
-                                Click="OnClick_Button"/>
+                                Click="OnClick_SimpleButton"/>
 
             <Xpf:DateEdit   Grid.Column="2"
                             Grid.ColumnSpan="3"
@@ -122,12 +123,14 @@
 
             <Border Background="#E4EBF3" Height="1" Grid.Column="0" Grid.ColumnSpan="19" Grid.Row="1" Margin="2"></Border>
 
-            <StackPanel  Grid.Column="0"
-                         Grid.ColumnSpan="19"
-                         Grid.Row="2"
-                         Orientation="Horizontal">
+            <Xpf:StyleGrid   Grid.Column="0"
+                             Grid.ColumnSpan="20"
+                             Grid.Row="2"
+                             LayoutDefinitions="3,1"
+                             ColumnSizeDefinitions="Auto,*,Auto">
 
-                <dxc:SimpleButton   Content="최근진료 불러오기"
+                <dxc:SimpleButton   Grid.Column="0"
+                                    Content="최근 진료 불러오기"
                                     Glyph="/Images/smartemr_recent_data.png"
                                     GlyphWidth="18"
                                     GlyphHeight="18"
@@ -137,13 +140,13 @@
                                     FontSize="11"
                                     FontWeight="SemiBold"
                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                    Padding="2"
                                     Margin="2,0,2,0"
-                                    Command="{Binding SetConsultationCommand}"
+                                    Command="{Binding GetRecentCSTCommand}"
                                     Cursor="Hand"/>
 
-                <dxc:SimpleButton   Content="초기화"
-                                    Width="70"
+                <dxc:SimpleButton   Grid.Column="2"
+                                    Tag="btnClear"
+                                    Content="초기화"
                                     Glyph="/Images/smartemr_empty_paper.png"
                                     GlyphWidth="18"
                                     GlyphHeight="18"
@@ -153,10 +156,9 @@
                                     FontSize="11"
                                     FontWeight="SemiBold"
                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                    Padding="2"
                                     Margin="2,0,2,0"
-                                    Command="{Binding ClearDataByCSTInfoCommand}"
-                                    Cursor="Hand">
+                                    Cursor="Hand"
+                                    Click="OnClick_SimpleButton">
 
                     <dxc:SimpleButton.CommandParameter>
                         <sys:Boolean>
@@ -164,7 +166,7 @@
                         </sys:Boolean>
                     </dxc:SimpleButton.CommandParameter>
                 </dxc:SimpleButton>
-            </StackPanel>
+            </Xpf:StyleGrid>
         </Xpf:StyleGrid>
 
         <Border Grid.Row="1"  BorderBrush="#DDE2E8" BorderThickness="0,0,0,1" Margin="2"/>

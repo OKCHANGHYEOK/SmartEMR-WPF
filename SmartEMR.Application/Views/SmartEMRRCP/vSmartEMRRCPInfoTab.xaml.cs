@@ -6,6 +6,7 @@ using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Diagnostics;
 using System.Globalization;
+using System.Windows;
 
 namespace SmartEMR.Application.Views.SmartEMRRCP;
 
@@ -84,7 +85,11 @@ public partial class vSmartEMRRCPInfoTab : ModelViewLayout<ReceptionViewModel>
         switch (btn.Name)
         {
             case "btnClear":
-                vm.ClearData(true);
+                if (SmartUI.MsgYesNo("초기화하시겠습니까?") is not MessageBoxResult.Yes)
+                {
+                    vm.ClearData();
+                }
+
                 break;
         }
     }
