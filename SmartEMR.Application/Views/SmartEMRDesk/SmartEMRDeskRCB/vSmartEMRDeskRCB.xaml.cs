@@ -100,7 +100,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             
             if (dataGrid.IsDoubleClicked)
             {
-                await SmartUI.SendMessage("SetPatientByRCB", dataItem, TargetViewType.PageView);
+                await SmartUI.SendMessage("SetPatientByRCB", dataItem, viewType:TargetViewType.PageView);
                 return;
             }
 

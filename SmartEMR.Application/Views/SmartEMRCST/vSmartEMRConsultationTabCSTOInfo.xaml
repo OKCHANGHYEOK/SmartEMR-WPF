@@ -100,13 +100,14 @@
             <Xpf:ColumnItem FieldName="CSTO_Amount"
                             Header="총투"
                             ColumnType="TextEdit"
-                            ColumnWidth="45"/>
+                            ColumnWidth="45"
+                            IsReadOnly="True"/>
 
             <Xpf:ColumnItem FieldName="CSTO_TotalPrice"
                             Header="총액"
                             ColumnType="TextEdit"
                             ColumnWidth="50"
-                            IsEnabled="False"/>
+                            IsReadOnly="True"/>
 
             <Xpf:ColumnItem FieldName="MUR_Name_DOC"
                             Header="처방의"

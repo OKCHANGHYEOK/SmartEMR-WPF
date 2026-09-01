@@ -47,4 +47,5 @@ public class ColumnItem
     public bool ShowToolTip { get; set; } = false;
 
     public bool IsEnabled { get; set; } = true;
+    public bool IsReadOnly { get; set; } = false;
 }

@@ -33,7 +33,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             set => SetValue(MaskControlVisiblityProperty, value);
         }
 
-        private string[] _InputItems = { "IRC_CertNum", "IRC_ContractorName", "IRC_InsuredName", "chkIsSameAsContractor", "IRC_CoName", "vIRC_CoName", "IRC_EffectiveYYMMDD", "IRC_ExpiredYYMMDDD", "IRC_Specific" };
+        private string[] _InputItems = { "IRC_CertNum", "IRC_ContractorName", "IRC_InsuredName", "chkIsSameAsContractor", "IRC_CoName", "vIRC_CoName", "IRC_EffectiveYYMMDD", "IRC_ExpiredYYMMDD", "IRC_Specific" };
 
         protected override void Initialize()
         {

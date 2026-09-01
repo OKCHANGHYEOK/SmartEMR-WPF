@@ -20,7 +20,7 @@ public class InsuranceInfoViewModel : InsuranceViewModel
         {
             item.IRC_CoName = "삼성화재";
             item.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
-            item.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
+            item.IRC_ExpiredYYMMDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
         }
 
         return item;

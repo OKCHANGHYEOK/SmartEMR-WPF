@@ -70,7 +70,7 @@ public partial class vSmartEMRConsultationTabOrderORD : ModelViewLayout<OrderVie
         switch (fieldName)
         {
             case "btnAddCSTO":
-                await SmartUI.SendMessage("AddCSTO", dataItem, TargetViewType.PageView);
+                await SmartUI.SendMessage("AddCSTO", dataItem, viewType:TargetViewType.PageView);
                 break;
         }
     }

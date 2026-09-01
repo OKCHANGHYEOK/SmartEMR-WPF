@@ -41,9 +41,21 @@
         <Xpf:TextEdit   EditValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         HorizontalContentAlignment="Center"
                         MaskType="Numeric" 
-                        Mask="n0" 
+                        Mask="n0"
                         Margin="2"
-                        IsEnabled="{Binding Column.ColumnItem.IsEnabled}">
+                        IsEnabled="{Binding Column.ColumnItem.IsEnabled}"
+                        IsReadOnly="{Binding Column.ColumnItem.IsReadOnly}">
+
+            <Xpf:TextEdit.Resources>
+                <Style TargetType="{x:Type Xpf:TextEdit}">
+                    <Style.Triggers>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Background" Value="#E9ECEF"/>
+                            <Setter Property="Foreground" Value="#5C6770"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Xpf:TextEdit.Resources>
             
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand EventName="EditValueChanged" 
@@ -54,13 +66,12 @@
     </DataTemplate>
     
     <DataTemplate x:Key="GridColumnComboBoxTemplate">
-        <Xpf:ComboBoxEdit  EditValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <Xpf:ComboBoxEdit  EditValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={converter:NullValueToZeroConverter}}"
                            ItemsSource="{Binding Column.ColumnItem.ItemsSource}"
                            DisplayMember="{Binding Column.ColumnItem.DisplayMember}"
                            ValueMember="{Binding Column.ColumnItem.ValueMember}"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
-                           SelectedIndex="0"
                            Margin="2"
                            IsEnabled="{Binding Column.ColumnItem.IsEnabled}">
 

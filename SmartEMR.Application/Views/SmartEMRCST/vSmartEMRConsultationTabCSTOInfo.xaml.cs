@@ -82,7 +82,7 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
         switch (fieldName)
         {
             case "CSTO_Day" or "CSTO_Count":
-                vm.UpdatePriceData(dataItem);
+                vm.UpdateCSTOData(dataItem);
                 break;
         }
     }

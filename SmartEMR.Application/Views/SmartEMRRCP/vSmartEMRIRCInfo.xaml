@@ -101,7 +101,7 @@
                                 Width="10"
                                 IsBinding="False"/>
 
-                <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDDD"
+                <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDD"
                                 BindType="DateEdit"/>
             </x:Array>
 

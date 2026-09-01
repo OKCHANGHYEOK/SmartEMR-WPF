@@ -59,7 +59,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
         var addItem = new ConsultationOrder
         {
-            MUR_Idx_DOC = SmartMVVM.AppSession.MemberUser?.MUR_Idx,
+            MUR_Idx_DOC = SmartMVVM.AppSession.MemberUser?.MUR_JobCode == "DOC" ? SmartMVVM.AppSession.MemberUser?.MUR_Idx.GetValueOrDefault(0) : 0,
             ORD_Idx = item.ORD_Idx,
             PAT_Idx = SelectedCST.PAT_Idx,
             CST_Idx = SelectedCST.CST_Idx,
@@ -97,9 +97,10 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         }
     }
 
-    public void UpdatePriceData(ConsultationOrder item)
+    public void UpdateCSTOData(ConsultationOrder item)
     {
-        item.CSTO_TotalPrice = item.CSTO_Price * item.CSTO_Day * item.CSTO_Count;
+        item.CSTO_Amount = item.CSTO_Day * item.CSTO_Count;
+        item.CSTO_TotalPrice = item.CSTO_Price * item.CSTO_Amount;
     }
 
     public void ClearData()

@@ -172,7 +172,7 @@ public partial class DataGrid : ContentControl
 
         var oldValue = property.GetValue(row);
         var args = new DataGridCellValueChangedEventArgs(row, cellData.Column, cellData.Value, oldValue);
-       
+
         property.SetValue(row, cellData.Value);
 
         DataGrid_CellValueChanged?.Invoke(this, args);

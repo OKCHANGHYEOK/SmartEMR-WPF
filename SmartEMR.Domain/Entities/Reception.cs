@@ -48,7 +48,7 @@ public class Reception : BaseEntity
     private string? m_IRC_CoName;
     private string? m_IRC_Specific;
     private string? m_IRC_EffectiveYYMMDD;
-    private string? m_IRC_ExpiredYYMMDDD;
+    private string? m_IRC_ExpiredYYMMDD;
 
     private Insurance? m_IRCItem;
 
@@ -306,10 +306,10 @@ public class Reception : BaseEntity
         set => SetProperty(ref m_IRC_EffectiveYYMMDD, value);
     }
 
-    public string? IRC_ExpiredYYMMDDD
+    public string? IRC_ExpiredYYMMDD
     {
-        get => m_IRC_ExpiredYYMMDDD;
-        set => SetProperty(ref m_IRC_ExpiredYYMMDDD, value);
+        get => m_IRC_ExpiredYYMMDD;
+        set => SetProperty(ref m_IRC_ExpiredYYMMDD, value);
     }
 
     public Insurance? IRCItem

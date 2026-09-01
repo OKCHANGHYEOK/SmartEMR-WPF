@@ -92,7 +92,6 @@
                                 BindType="TextBox"
                                 Placeholder="직접입력"
                                 Width="80"
-                                Margin="1"
                                 IsEnabled="False"/>
             </x:Array>
 
@@ -103,6 +102,7 @@
                                 Col="0"
                                 Row="4"
                                 ColSpan="2"
+                                DisplayFormatString="yyyy-MM-dd"
                                 IsEnabled="False"/>
 
                 <Xpf:BindItem   FieldName=""
@@ -112,8 +112,9 @@
                                 Width="10"
                                 IsBinding="False"/>
 
-                <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDDD"
+                <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDD"
                                 BindType="DateEdit"
+                                DisplayFormatString="yyyy-MM-dd"
                                 IsEnabled="False"/>
             </x:Array>
 

@@ -371,7 +371,7 @@ public class ModelProperty
             IRC_CoName = item.IRC_CoName,
             IRC_Specific = item.IRC_Specific,
             IRC_EffectiveYYMMDD = item.IRC_EffectiveYYMMDD,
-            IRC_ExpiredYYMMDDD = item.IRC_ExpiredYYMMDDD
+            IRC_ExpiredYYMMDD = item.IRC_ExpiredYYMMDD
         };
     }
 
@@ -386,7 +386,7 @@ public class ModelProperty
         oldItem.IRC_CoName = newItem.IRC_CoName;
         oldItem.IRC_Specific = newItem.IRC_Specific;
         oldItem.IRC_EffectiveYYMMDD = newItem.IRC_EffectiveYYMMDD;
-        oldItem.IRC_ExpiredYYMMDDD = newItem.IRC_ExpiredYYMMDDD;
+        oldItem.IRC_ExpiredYYMMDD = newItem.IRC_ExpiredYYMMDD;
     }
 
     public void ClearIRCData(Insurance item, bool isClearIRCType = false)
@@ -396,7 +396,7 @@ public class ModelProperty
         item.IRC_InsuredName = "";
         item.IRC_CoName = "";
         item.IRC_EffectiveYYMMDD = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
-        item.IRC_ExpiredYYMMDDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
+        item.IRC_ExpiredYYMMDD = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
         item.IRC_Specific = "";
         
         if(isClearIRCType)
