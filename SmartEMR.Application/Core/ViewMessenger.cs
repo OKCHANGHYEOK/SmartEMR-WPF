@@ -30,9 +30,9 @@ public class ViewMessenger
         }
     }
 
-    public async Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
+    public async Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, object[]? parameters = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
-        var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter };
+        var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter, MessageParameters = parameters };
         ViewLayout? targetView = SmartUI.UIManager.GetTargetView(viewType);
 
         var sub = _subscribers.FirstOrDefault(s => s.View == targetView);
@@ -40,10 +40,10 @@ public class ViewMessenger
         return sub.Handler != null ? await sub.Handler(request) : null;
     }
 
-    public async Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView, object? sender= null) where T : class
+    public async Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, object[]? parameters = null, TargetViewType viewType = TargetViewType.CurrentView, object? sender= null) where T : class
     {
         // 일반 SendMessage를 먼저 호출
-        var response = await SendMessage(action, parameter, viewType);
+        var response = await SendMessage(action, parameter, parameters, viewType);
 
         if (response == null) return null;
 
@@ -73,10 +73,11 @@ public class ViewMessenger
     }
 }
 
-public class ViewMessageRequest()
+public class ViewMessageRequest
 {
     public string? MessageAction { get; set; } 
     public object? MessageParameter { get; set; }
+    public object[]? MessageParameters { get; set; }
 }
 
 public class ViewMessageResponse

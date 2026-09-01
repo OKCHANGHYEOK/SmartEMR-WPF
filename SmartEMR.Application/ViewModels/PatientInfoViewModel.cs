@@ -153,7 +153,7 @@ public partial class PatientInfoViewModel : PatientViewModel
                 if (PATItem.PAT_Idx.GetValueOrDefault(0) == 0 || PATItem.PAT_Idx == Model.PAT_Idx)
                 {
                     await SmartUI.SendMessageToSearchView("SetSelectedPatient", Model);
-                    await SmartUI.SendMessage("SetSelectedPatient", Model, TargetViewType.PageView);
+                    await SmartUI.SendMessage("SetSelectedPatient", Model, viewType:TargetViewType.PageView);
                 }
             }
         }

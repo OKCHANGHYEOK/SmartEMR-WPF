@@ -23,6 +23,11 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         ConsultationOrderItems.CollectionChanged += OnConsultationOrderItemsChanged;
     }
 
+    public override async Task InitializeAsync()
+    {
+        await SmartUI.SendMessage("SetConsultationOrders", parameters: [ConsultationOrderItems, deletedItems], viewType:TargetViewType.PageView);
+    }
+
     protected override ConsultationOrder GetModel(ConsultationOrder item)
     {
         return item;
@@ -106,8 +111,6 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         var dataItem = item.Row as ConsultationOrder;
         if (dataItem is null) return;
 
-        Debug.WriteLine(item.Value);
-
         switch (fieldName)
         {
             case "CSTO_Day" or "CSTO_Count":
@@ -152,6 +155,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
             {
                 if (item is ConsultationOrder cItem)
                 {
+                    cItem.CSTO_IsValid = false;
                     deletedItems.Add(cItem);
                 }
             }

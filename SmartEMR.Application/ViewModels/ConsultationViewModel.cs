@@ -12,6 +12,8 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 {
     [ObservableProperty]
     private List<Consultation>? consultations;
+    private List<ConsultationOrder> _consultationOrders = default!;
+    private List<ConsultationOrder> _deletedCSTOItems = default!;
 
     public override void Initialize()
     {
@@ -35,6 +37,14 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     public void SetSelectedCST(Consultation item)
     {
         SmartMVVM.ModelProperty.SetConsultationData(Model, item);
+    }
+
+    public void SetConsultationOrders(IEnumerable<ConsultationOrder>[] items)
+    {
+        if (items.Length < 2) return;
+
+        _consultationOrders = [.. items[0]];
+        _deletedCSTOItems = [.. items[1]];
     }
 
     [RelayCommand]
@@ -76,19 +86,27 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Consultations = ret.ToList();
     }
 
-    public async Task SaveDataAsync(ConsultationStatus targetStatus = ConsultationStatus.RDY, bool CST_IsValid = true)
+    public async Task SaveDataAsync(SaveMode saveMode = SaveMode.SAVE, ConsultationStatus targetStatus = ConsultationStatus.RDY)
     {
-        if (!CST_IsValid && SmartUI.MsgYesNo("진료취소하시겠습니까?") is MessageBoxResult.Yes)
+        string actionName = saveMode switch
         {
-            if (!await DeleteConsultation())
-            {
-                SmartUI.SetNofification("진료취소하지 못했습니다.", NotificationType.Error);
-            }
+            SaveMode.SAVE => "저장",
+            SaveMode.DELETE => "취소",
+            _ => ""
+        };
 
-            return;
+        if (saveMode == SaveMode.DELETE)
+        {
+            if (!await DeleteConsultation()) return;
+        }
+        else
+        {
+            await SetConsultation(targetStatus);
         }
 
-        await SetConsultation(targetStatus);
+        await NotifyCompletedTaskAsync(saveMode);
+
+        SmartUI.SetNofification($"진료{actionName} 되었습니다.", NotificationType.Success);
     }
 
     [RelayCommand]
@@ -100,15 +118,43 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             return;
         }
 
+        SetConsultationStatus(targetStatus);
 
+        var item = SmartMVVM.ModelProperty.GetConsultationDataForSave(Model, _consultationOrders.Concat(_deletedCSTOItems));
+        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultation, item);
+
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("진료 저장에 실패했습니다.", NotificationType.Error);
+            return;
+        }
+
+        SmartMVVM.ModelProperty.SetConsultationData(Model, ret);
+    }
+
+    private void SetConsultationStatus(ConsultationStatus targetStatus)
+    {
+        var CST_Status = targetStatus switch
+        {
+            ConsultationStatus.RDY => "RDY",
+            ConsultationStatus.PND => "PND",
+            ConsultationStatus.ING => "ING",
+            ConsultationStatus.END => "END",
+            _ => ""
+        };
+
+        Model.CST_Status = CST_Status;
     }
 
     private async Task<bool> DeleteConsultation()
     {
+        if (SmartUI.MsgYesNo("진료취소하시겠습니까? 진료 및 처방 기록 모두 삭제됩니다.") is MessageBoxResult.No) return false;
+
         await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultation, new Consultation { CST_Idx = Model.CST_Idx, CST_IsValid = false });
 
         if (!SmartMVVM.DataStore.retIsSuccess)
         {
+            SmartUI.SetNofification("진료취소하지 못했습니다.", NotificationType.Error);
             return false;
         }
 

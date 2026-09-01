@@ -251,14 +251,14 @@ public static partial class SmartUI
 {
     public static ViewMessenger Messenger = ViewMessenger.Instance;
 
-    public static Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView)
+    public static Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, object[]? parameters = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
-        return Messenger.SendMessage(action, parameter, viewType);
+        return Messenger.SendMessage(action, parameter, parameters, viewType);
     }
     
-    public static Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
+    public static Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, object[]? parameters = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
     {
-       return Messenger.SendMessage<T>(action, parameter, viewType);
+       return Messenger.SendMessage<T>(action, parameter, parameters, viewType);
     }
     
     public static Task<ViewMessageResponse?> SendMessageToSearchView(string action, object? parameter = null)

@@ -126,7 +126,7 @@ public partial class OrderViewModel : BaseViewModel<Order>
     {
         if (paramItem is not Order order) return;
 
-        await SmartUI.SendMessage("AddORDItem", order, TargetViewType.PageView);
+        await SmartUI.SendMessage("AddORDItem", order, viewType:TargetViewType.PageView);
     }
 
     [RelayCommand]

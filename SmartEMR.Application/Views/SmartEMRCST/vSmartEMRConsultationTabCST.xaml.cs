@@ -49,7 +49,7 @@ public partial class vSmartEMRConsultationTabCST : ModelViewLayout<ConsultationV
 
         if (dataGrid.IsDoubleClicked)
         {
-            await SmartUI.SendMessage("SetSelectedCST", dataItem, TargetViewType.PageView);
+            await SmartUI.SendMessage("SetSelectedCST", dataItem, viewType:TargetViewType.PageView);
         }
         else
         {

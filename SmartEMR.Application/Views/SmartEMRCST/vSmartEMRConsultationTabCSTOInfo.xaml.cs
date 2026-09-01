@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
@@ -15,9 +16,7 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
 
     public vSmartEMRConsultationTabCSTOInfo() {}
 
-    protected override void Initialize()
-    {
-    }
+    protected override async void Initialize() {}
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {

@@ -67,6 +67,18 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "SetConsultationOrders":
+                {
+                    var paramItem = request.MessageParameters as IEnumerable<ConsultationOrder>[];
+
+                    if (paramItem is not null)
+                    {
+                        vm.SetConsultationOrders(paramItem);
+                    }
+
+                    break;
+                }
+
             case "MoveIRCInfo":
                 if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
                 {
@@ -161,23 +173,23 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         switch (element.Tag)
         {
             case "btnReady":
-                await vm.SaveDataAsync(ConsultationStatus.RDY);
+                await vm.SaveDataAsync(targetStatus:ConsultationStatus.RDY);
                 break;
 
             case "btnPending":
-                await vm.SaveDataAsync(ConsultationStatus.PND);
+                await vm.SaveDataAsync(targetStatus:ConsultationStatus.PND);
                 break;
 
             case "btnContinue":
-                await vm.SaveDataAsync(ConsultationStatus.ING);
+                await vm.SaveDataAsync(targetStatus:ConsultationStatus.ING);
                 break;
 
             case "btnFinish":
-                await vm.SaveDataAsync(ConsultationStatus.END);
+                await vm.SaveDataAsync(targetStatus:ConsultationStatus.END);
                 break;
 
             case "btnCancel":
-                await vm.SaveDataAsync(CST_IsValid:false);
+                await vm.SaveDataAsync(SaveMode.DELETE);
                 break;
 
             case "btnClear":

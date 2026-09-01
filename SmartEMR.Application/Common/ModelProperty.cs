@@ -1,5 +1,6 @@
 ﻿using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
+using System.Text.Json;
 
 namespace SmartEMR.Application.Common;
 
@@ -408,6 +409,30 @@ public class ModelProperty
     #endregion
 
     #region "Consultation"
+
+    public Consultation GetConsultationDataForSave(Consultation paramItem, IEnumerable<ConsultationOrder> consultationOrders)
+    {
+        var item = new Consultation();
+        item.CST_Idx = paramItem.CST_Idx;
+        item.MUR_Idx_DOC = paramItem.MUR_Idx_DOC;
+        item.PAT_Idx = paramItem.PAT_Idx;
+        item.RCP_Idx = paramItem.RCP_Idx;
+        item.IRC_Idx = paramItem.IRC_Idx;
+        item.CST_VisitType = paramItem.CST_VisitType;
+        item.CST_InsuranceType = paramItem.CST_InsuranceType;
+        item.CST_Status = paramItem.CST_Status;
+        item.CST_PayStatus = paramItem.CST_PayStatus;
+        item.CST_TreatResult = paramItem.CST_TreatResult;
+        item.CST_Subject = paramItem.CST_Subject;
+        item.CST_SubjectName = paramItem.CST_SubjectName;
+        item.CST_StartTime = paramItem.CST_StartTime;
+        item.CST_EndTime = paramItem.CST_EndTime;
+        item.CST_TotalPrice = paramItem.CST_TotalPrice;
+        item.CST_Opinion = paramItem.CST_Opinion;
+        item.CSTO_ItemsString = JsonSerializer.Serialize(consultationOrders, new JsonSerializerOptions { WriteIndented = true });
+
+        return item;
+    }
 
     public void SetDefaultConsultationData(Consultation item)
     {
