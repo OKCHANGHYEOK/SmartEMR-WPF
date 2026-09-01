@@ -88,6 +88,7 @@ public class Master
         AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "GUN", IRC_CoName = "근로복지공단" });
         AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "ETC", IRC_CoName = "기타" });
 
+        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "ASM", vORDC_Cd = "진찰료" });
         AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "PRC", vORDC_Cd = "시술" });
         AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "TRT", vORDC_Cd = "처치" });
         AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "EXM", vORDC_Cd = "검사" });

@@ -48,6 +48,7 @@ public class OrderDisplayDataMapper : IDisplayDataMapper<Order>
             }
 
             item.vORD_InsuranceType = item.ORD_InsuranceType == "INS" ? "급" : "비";
+            item.IsSelected = false;
         }
     }
 

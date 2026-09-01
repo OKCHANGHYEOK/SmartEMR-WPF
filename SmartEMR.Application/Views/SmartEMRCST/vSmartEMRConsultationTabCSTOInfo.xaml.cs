@@ -45,7 +45,11 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
         switch (e.Column.FieldName)
         {
             case "btnDelete":
-                DeleteCSTO(dataItem);
+                if (SmartUI.MsgYesNo("삭제하시겠습니까?") is System.Windows.MessageBoxResult.Yes)
+                {
+                    DeleteCSTO(dataItem);
+                }
+
                 break;
         }
     }
@@ -65,7 +69,7 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
         vm.AddCSTO(item);
     }
 
-    private void DeleteCSTO(ConsultationOrder item)
+    public void DeleteCSTO(ConsultationOrder item)
     {
         vm.DeleteCSTO(item);
     }

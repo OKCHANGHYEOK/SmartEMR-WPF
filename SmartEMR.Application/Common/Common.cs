@@ -271,6 +271,20 @@ public partial class Common
         }
     }
 
+    public string GetOrderInsuranceType(string ORD_InsuranceType, string CST_InsuranceType)
+    {
+        if (string.IsNullOrWhiteSpace(CST_InsuranceType) || CST_InsuranceType == "NON")
+        {
+            return "NON";
+        }
+
+        // 원래는 진료 보험과 오더의 보험에 따른 급여/비급여 판별 로직이 있어야하지만,
+        // 상용 EMR과 같이 세세하게 판별하는 것은 힘드므로 여기서는 진료 보험이 비급여가 아닌 경우
+        // 오더의 급여/비급여 여부로 판단
+
+        return ORD_InsuranceType ?? "NON";
+    }
+
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)
     {
         bool isExisits = false;
@@ -322,20 +336,6 @@ public partial class Common
     public bool IsPast(DateTime dt)
     {
         return dt < DateTime.Now;
-    }
-
-    public string GetOrderInsuranceType(Order item, Consultation selectedCST)
-    {
-        if (string.IsNullOrWhiteSpace(selectedCST.CST_InsuranceType) || selectedCST.CST_InsuranceType == "NON")
-        {
-            return "NON";
-        }
-
-        // 원래는 진료 보험과 오더의 보험에 따른 급여/비급여 판별 로직이 있어야하지만,
-        // 상용 EMR과 같이 세세하게 판별하는 것은 힘드므로 여기서는 진료 보험이 비급여가 아닌 경우
-        // 오더의 급여/비급여 여부로 판단
-
-        return item.ORD_InsuranceType ?? "NON";
     }
 }
 

@@ -13,12 +13,14 @@
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                     xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit"
                     mc:Ignorable="d" 
-                    d:DesignHeight="450" d:DesignWidth="800">
+                    d:DesignHeight="450" d:DesignWidth="800"
+                    x:Name="root">
 
     <Xpf:StyleGrid  LayoutDefinitions="1,3"
                     RowSizeDefinitions="Auto,Auto,*"
                     Background="#F3F6FA"
-                    dxc:ThemeManager.ThemeName="VS2019Blue">
+                    dxc:ThemeManager.ThemeName="VS2019Blue"
+                    DataContext="{Binding SelectedCST, ElementName=root}">
 
         <Xpf:StyleGrid  Grid.Row="0"
                         LayoutDefinitions="20,3"
@@ -30,7 +32,7 @@
             <dxc:SimpleButton   Grid.Column="0"
                                 Grid.ColumnSpan="2"
                                 Tag="btnMoveIRCInfo"
-                                Content="{Binding Model.vCST_InsuranceType, TargetNullValue='비보험'}"
+                                Content="{Binding vCST_InsuranceType, TargetNullValue='비보험'}"
                                 Glyph="/Images/smartemr_insurance.png"
                                 FontWeight="Bold"
                                 Padding="2"
@@ -40,7 +42,7 @@
 
             <Xpf:DateEdit   Grid.Column="2"
                             Grid.ColumnSpan="3"
-                            EditValue="{Binding Model.CST_YYMMDD}"
+                            EditValue="{Binding CST_YYMMDD}"
                             FontWeight="Bold"
                             DisplayFormatString="yyyy년 MM월 dd일 dddd"
                             Margin="2,0,2,0"
@@ -50,7 +52,7 @@
 
             <Xpf:DateEdit   Grid.Column="5"
                             Grid.ColumnSpan="2"
-                            EditValue="{Binding Model.CST_StartTime}"
+                            EditValue="{Binding CST_StartTime}"
                             MaskType="TimeOnly"
                             Mask="HH:mm"
                             MaskUseAsDisplayFormat="True"
@@ -65,7 +67,7 @@
 
             <Xpf:DateEdit   Grid.Column="8"
                             Grid.ColumnSpan="2"
-                            EditValue="{Binding Model.CST_EndTime}"
+                            EditValue="{Binding CST_EndTime}"
                             MaskType="TimeOnly"
                             Mask="HH:mm"
                             MaskUseAsDisplayFormat="True"
@@ -78,7 +80,7 @@
             
             <Xpf:ComboBoxEdit   Grid.Column="10"
                                 Grid.ColumnSpan="2"
-                                EditValue="{Binding Model.CST_VisitType}"
+                                EditValue="{Binding CST_VisitType}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationVisitTypes}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"
@@ -87,7 +89,7 @@
 
             <Xpf:ComboBoxEdit   Grid.Column="12"
                                 Grid.ColumnSpan="2"
-                                EditValue="{Binding Model.CST_Status}"
+                                EditValue="{Binding CST_Status}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationStatuses}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"
@@ -96,7 +98,7 @@
 
             <Xpf:ComboBoxEdit   Grid.Column="14"
                                 Grid.ColumnSpan="2"
-                                EditValue="{Binding Model.MUR_Idx_DOC}"
+                                EditValue="{Binding MUR_Idx_DOC}"
                                 ItemsSource="{x:Static selection:InputOptionItems.Docters}"
                                 DisplayMember="MUR_Name"
                                 ValueMember="MUR_Idx"
@@ -105,7 +107,7 @@
 
             <Xpf:ComboBoxEdit   Grid.Column="16"
                                 Grid.ColumnSpan="2"
-                                EditValue="{Binding Model.CST_Subject}"
+                                EditValue="{Binding CST_Subject}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationSubjects}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"
@@ -114,7 +116,7 @@
 
             <Xpf:ComboBoxEdit   Grid.Column="18"
                                 Grid.ColumnSpan="2"
-                                EditValue="{Binding Model.CST_TreatResult}"
+                                EditValue="{Binding CST_TreatResult}"
                                 ItemsSource="{x:Static selection:InputOptionItems.TreatResultTypes}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"
@@ -129,7 +131,8 @@
                              LayoutDefinitions="3,1"
                              ColumnSizeDefinitions="Auto,*,Auto">
 
-                <dxc:SimpleButton   Grid.Column="0"
+                <dxc:SimpleButton   Tag="btnGetRecentCST"
+                                    Grid.Column="0"
                                     Content="최근 진료 불러오기"
                                     Glyph="/Images/smartemr_recent_data.png"
                                     GlyphWidth="18"
@@ -141,8 +144,8 @@
                                     FontWeight="SemiBold"
                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
                                     Margin="2,0,2,0"
-                                    Command="{Binding GetRecentCSTCommand}"
-                                    Cursor="Hand"/>
+                                    Cursor="Hand"
+                                    Click="OnClick_SimpleButton"/>
 
                 <dxc:SimpleButton   Grid.Column="2"
                                     Tag="btnClear"

@@ -9,11 +9,10 @@
                     mc:Ignorable="d" 
                     d:DesignHeight="450" d:DesignWidth="800">
 
-    <Xpf:Label  Content="{Binding vORDC_Cd}" 
-                Foreground="{Binding ORDC_Cd, Converter={converter:OrderTypeToBrushConverter}}"
-                BorderBrush="{Binding ORDC_Cd, Converter={converter:OrderTypeToBrushConverter}}"
+    <Xpf:Label  Content="{Binding vORDC_Cd}"
+                Foreground="White"
+                Background="{Binding ORDC_Cd, Converter={converter:OrderTypeToBrushConverter}}"
                 BorderThickness="1"
-                Background="Transparent"
                 Margin="2">
     </Xpf:Label>
 </Xpf:GridTemplate>

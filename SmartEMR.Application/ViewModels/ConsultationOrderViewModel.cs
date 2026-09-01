@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -25,7 +23,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public override async Task InitializeAsync()
     {
-        await SmartUI.SendMessage("SetConsultationOrders", parameters: [ConsultationOrderItems, deletedItems], viewType:TargetViewType.PageView);
+        await SmartUI.SendMessage("SetConsultationOrders", parameters: new IEnumerable<ConsultationOrder>[] { ConsultationOrderItems, deletedItems }, viewType:TargetViewType.PageView);
     }
 
     protected override ConsultationOrder GetModel(ConsultationOrder item)
@@ -35,18 +33,23 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public async Task UpdateDataBySelectedCST(Consultation item)
     {
-        if (item.CST_Idx.GetValueOrDefault(0) == 0) return;
+        if (item.RCP_Idx.GetValueOrDefault(0) == 0) return;
 
-        var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, new ConsultationOrder { CST_Idx = item.CST_Idx });
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
-        {
-            SmartUI.SetNofification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
-            return;
-        }
+        SmartMVVM.ModelProperty.SetConsultationData(SelectedCST, item);
 
-        foreach (var cItem in ret)
+        if (item.CST_Idx.GetValueOrDefault(0) > 0)
         {
-            ConsultationOrderItems.Add(cItem);
+            var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, new ConsultationOrder { CST_Idx = item.CST_Idx });
+            if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+            {
+                SmartUI.SetNofification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
+                return;
+            }
+
+            foreach (var cItem in ret)
+            {
+                ConsultationOrderItems.Add(cItem);
+            }
         }
     }
 
@@ -70,7 +73,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
             CSTO_SugaCode = item.ORD_SugaCode,
             CSTO_ClassCode = item.ORD_ClassCode,
-            CSTO_InsuranceType = SmartMVVM.Common.GetOrderInsuranceType(item, SelectedCST),
+            CSTO_InsuranceType = SmartMVVM.Common.GetOrderInsuranceType(item.ORD_InsuranceType ?? "", SelectedCST.CST_InsuranceType ?? ""),
             CSTO_Status = "RDY",
             CSTO_Name = item.ORD_Name,
             CSTO_Price = item.ORD_Price,
@@ -81,19 +84,17 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         };
 
         addItem.vORDC_Cd = SmartMVVM.Master.Query<Order>("ORDC_Cd").FirstOrDefault(x => x.ORDC_Cd == item.ORDC_Cd)?.vORDC_Cd;
-        addItem.vCSTO_InsuranceType = SmartMVVM.Common.GetCommonCodeName("ORD", "InsuranceType", addItem.CSTO_InsuranceType);
+        addItem.vCSTO_InsuranceType = SmartMVVM.Common.GetCommonCodeName("ORD", "InsuranceType", addItem.CSTO_InsuranceType)?[..1];
 
         ConsultationOrderItems.Add(addItem);
     }
 
     public void DeleteCSTO(ConsultationOrder item)
     {
-        if (SmartUI.MsgYesNo("삭제하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
-
-        var delCSTO = ConsultationOrderItems.FirstOrDefault(x => x.ORD_Idx == item.ORD_Idx && x.ViewIndex == item.ViewIndex);
-        if (delCSTO is not null)
+        var delItem = ConsultationOrderItems.FirstOrDefault(x => x.ORD_Idx == item.ORD_Idx && x.ViewIndex == item.ViewIndex);
+        if (delItem is not null)
         {
-            ConsultationOrderItems.Remove(delCSTO);
+            ConsultationOrderItems.Remove(delItem);
         }
     }
 

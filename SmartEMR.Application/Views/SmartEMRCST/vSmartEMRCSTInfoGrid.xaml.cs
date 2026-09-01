@@ -13,7 +13,12 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 public partial class vSmartEMRCSTInfoGrid : CustomControl
 {
     private Patient SelectedPatient { get; set; } = new();
-    private Consultation SelectedCST { get; set; } = new();
+    public Consultation SelectedCST { get; set; } = new();
+
+    public vSmartEMRCSTInfoGrid() : base()
+    {
+        SmartMVVM.ModelProperty.SetDefaultConsultationData(SelectedCST);
+    }
 
     public async Task SetPatientData(Patient item)
     {
@@ -55,6 +60,10 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
 
         switch (element.Tag)
         {
+            case "btnGetRecentCST":
+                await SmartUI.SendMessage("GetRecentCST", viewType: TargetViewType.PageView);
+                break;
+
             case "btnMoveIRCInfo":
                 await SmartUI.SendMessage("MoveIRCInfo", viewType: TargetViewType.PageView);
                 break;

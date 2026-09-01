@@ -18,8 +18,6 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 {
     private Consultation SelectedCST => vm.Model;
 
-    private ObservableCollection<ConsultationOrder> ConsultationOrders => SmartEMRConulstationTabCSTOInfo.ConsultationOrders;
-
     public vSmartEMRConsultationTab() { }
 
     protected override void Initialize()
@@ -45,6 +43,10 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         switch (request.MessageAction)
         {
+            case "GetRecentCST":
+                await vm.GetRecentCST();
+                break;
+
             case "SetSelectedPatient":
                 {
                     var paramItem = request.MessageParameter as Patient;
@@ -102,6 +104,28 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "AddCSTOFromOrderSection":
+                {
+                    var paramItem = request.MessageParameter as Order;
+                    if (paramItem is not null)
+                    {
+                        AddCSTOFromOrderSection(paramItem);
+                    }
+
+                    break;
+                }
+
+            case "DeleteCSTOFromOrderSection":
+                {
+                    var paramItem = request.MessageParameter as Order;
+                    if (paramItem is not null)
+                    {
+                        DeleteCSTOFromOrderSection(paramItem);
+                    }
+
+                    break;
+                }
+
             case "ClearPAT":
                 ClearData(true);
                 break;
@@ -149,6 +173,29 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         }
 
         SmartEMRConulstationTabCSTOInfo.AddCSTO(item);
+    }
+
+    private void AddCSTOFromOrderSection(Order paramItem)
+    {
+        if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNofification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
+            return;
+        }
+
+        paramItem.IsSelected = true;
+
+        SmartEMRConulstationTabCSTOInfo.AddCSTO(paramItem);
+    }
+
+    private void DeleteCSTOFromOrderSection(Order paramItem)
+    {
+        var delItem = vm.GetCSTOItemByDEL(paramItem);
+        if (delItem is null) return;
+
+        paramItem.IsSelected = false;
+
+        SmartEMRConulstationTabCSTOInfo.DeleteCSTO(delItem);
     }
 
     private void ClearData(bool isClearPAT = false, bool isClearCST = false)

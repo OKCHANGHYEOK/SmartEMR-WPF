@@ -13,6 +13,7 @@ public class OrderTypeToBrushConverter : BaseConverter
 
         Brush brush = orderType switch
         {
+            "ASM" => SmartBrush.SMART_BRUSH_ORD_ASM,
             "PRC" => SmartBrush.SMART_BRUSH_ORD_PRC,
             "TRT" => SmartBrush.SMART_BRUSH_ORD_TRT,
             "EXM" => SmartBrush.SMART_BRUSH_ORD_EXM,

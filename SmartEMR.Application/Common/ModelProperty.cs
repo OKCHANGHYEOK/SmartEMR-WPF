@@ -462,6 +462,7 @@ public class ModelProperty
         oldItem.IRC_Idx = newItem.IRC_Idx;
         oldItem.CST_VisitType = newItem.CST_VisitType;
         oldItem.CST_InsuranceType = newItem.CST_InsuranceType;
+        oldItem.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", newItem.CST_InsuranceType);
         oldItem.CST_Status = newItem.CST_Status;
         oldItem.CST_PayStatus = newItem.CST_PayStatus;
         oldItem.CST_TreatResult = newItem.CST_TreatResult;

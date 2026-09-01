@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Xpf;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using System.Windows;
 
@@ -25,5 +26,22 @@ public partial class OrderSectionTemplate : CustomControl
     {
         get => (IEnumerable<Order>)GetValue(OrdersProperty);
         set => SetValue(OrdersProperty, value);
+    }
+
+    private async void OnClick_Button(object sender, RoutedEventArgs e)
+    {
+        if (sender is not ToggleButton element) return;
+
+        var dataItem = element.DataContext as Order;
+        if (dataItem is null) return;
+
+        if (!dataItem.IsSelected)
+        {
+            await SmartUI.SendMessage("AddCSTOFromOrderSection", dataItem, viewType: TargetViewType.PageView);
+        }
+        else
+        {
+            await SmartUI.SendMessage("DeleteCSTOFromOrderSection", dataItem, viewType: TargetViewType.PageView);
+        }
     }
 }

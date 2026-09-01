@@ -62,7 +62,7 @@
                       ItemsSource="{Binding ConsultationOrderItems}">
             <Xpf:ColumnItem FieldName="CSTO_InsuranceType"
                             Header=" "
-                            ColumnWidth="32"
+                            ColumnWidth="20"
                             CellTemplateType="{x:Type template:CSTOInsuranceTypeTemplate}"/>
 
             <Xpf:ColumnItem FieldName="ORDC_Cd"

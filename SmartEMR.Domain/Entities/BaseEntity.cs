@@ -13,6 +13,7 @@ public partial class BaseEntity : ObservableObject
     private int? m_ViewIndex;
     private bool? m_IsUpdated;
     private bool? m_IsVisible;
+    private bool m_IsSelected;
 
     #region "NotifyPropertyChanged"
 
@@ -68,6 +69,12 @@ public partial class BaseEntity : ObservableObject
     {
         get => m_IsVisible;
         set => SetProperty(ref m_IsVisible, value);
+    }
+
+    public bool IsSelected
+    {
+        get => m_IsSelected;
+        set => SetProperty(ref m_IsSelected, value);
     }
 
     #endregion
