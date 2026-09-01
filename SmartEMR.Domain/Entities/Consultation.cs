@@ -32,7 +32,7 @@ public class Consultation : BaseEntity
     private string? m_CST_Date;
     private string? m_CST_YYMMDD;
     private bool? m_CST_IsValid;
-    private string? m_CSTO_ItemsString;
+    private string? m_CSTO_Property;
 
     private string? m_MUR_Name_DOC;
 
@@ -228,10 +228,10 @@ public class Consultation : BaseEntity
         set => SetProperty(ref m_CST_IsValid, value);
     }
 
-    public string? CSTO_ItemsString
+    public string? CSTO_Property
     {
-        get => m_CSTO_ItemsString;
-        set => SetProperty(ref m_CSTO_ItemsString, value);
+        get => m_CSTO_Property;
+        set => SetProperty(ref m_CSTO_Property, value);
     }
 
     public string? MUR_Name_DOC
