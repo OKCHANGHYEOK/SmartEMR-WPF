@@ -97,26 +97,14 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         }
     }
 
+    public void UpdatePriceData(ConsultationOrder item)
+    {
+        item.CSTO_TotalPrice = item.CSTO_Price * item.CSTO_Day * item.CSTO_Count;
+    }
+
     public void ClearData()
     {
         ClearCSTO();
-    }
-
-    [RelayCommand]
-    public void UpdateCollection(GridCellData item)
-    {
-        var fieldName = item.Column.FieldName;   
-        if (string.IsNullOrWhiteSpace(fieldName)) return;
-
-        var dataItem = item.Row as ConsultationOrder;
-        if (dataItem is null) return;
-
-        switch (fieldName)
-        {
-            case "CSTO_Day" or "CSTO_Count":
-                UpdatePrice(dataItem);
-                break;
-        }
     }
 
     [RelayCommand]
@@ -133,11 +121,6 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         {
             ConsultationOrderItems.Remove(item);
         }
-    }
-
-    private void UpdatePrice(ConsultationOrder item)
-    {
-        item.CSTO_TotalPrice = item.CSTO_Price * item.CSTO_Day * item.CSTO_Count;
     }
 
     private void OnConsultationOrderItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)

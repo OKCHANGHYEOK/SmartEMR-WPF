@@ -18,6 +18,15 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
 
     protected override async void Initialize() {}
 
+    protected override void SetDataGrid()
+    {
+        var dataGrid = this.DataGrids[0];
+        if (dataGrid is not null)
+        {
+            dataGrid.DataGrid_CellValueChanged += OnDataGrid_CellValueChanged;
+        }
+    }
+
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
     }
@@ -59,5 +68,22 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
     private void DeleteCSTO(ConsultationOrder item)
     {
         vm.DeleteCSTO(item);
+    }
+
+    private void OnDataGrid_CellValueChanged(object? sender, DataGridCellValueChangedEventArgs e)
+    {
+        if (sender is not DataGrid dataGrid) return;
+
+        var dataItem = e.DataItem as ConsultationOrder;
+        if (dataItem is null) return;
+
+        var fieldName = e.Column.FieldName;
+
+        switch (fieldName)
+        {
+            case "CSTO_Day" or "CSTO_Count":
+                vm.UpdatePriceData(dataItem);
+                break;
+        }
     }
 }

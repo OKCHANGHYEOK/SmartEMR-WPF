@@ -1,13 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using DevExpress.Mvvm;
-using DevExpress.Mvvm.Xpf;
-using DevExpress.Xpf.Editors.DataPager;
-using DevExpress.Xpf.Grid;
-using SmartEMR.Application.Core;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -15,6 +7,11 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using SmartEMR.Application.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Editors.DataPager;
+using DevExpress.Xpf.Grid;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -22,12 +19,26 @@ namespace SmartEMR.Application.Xpf;
 [ContentProperty(nameof(Items))]
 public partial class DataGrid : ContentControl
 {
+    private StyleGrid _layoutRoot = new();
+    public DevExpress.Xpf.Grid.GridControl GridControl { get; private set; }
+    public DevExpress.Xpf.Grid.TableView TableView { get; private set; }
+
+    public GridColumnCollection Columns => GridControl.Columns;
+
     private bool IsUpdatedItemsSource { get; set; } = false;
 
-    public event EventHandler<DataItemChangedEventArgs>? DataGrid_DataItemChangedEvent;
+    public DevExpress.Mvvm.ICommand<GridCellData> CellValueChanged { get; }
+
+    public bool AutoWidth
+    {
+        get => TableView.AutoWidth;
+        set => TableView.AutoWidth = value;
+    }
+
+    #region "DependencyProperty"
 
     public static readonly DependencyProperty ItemsSourceProperty =
-        DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), new PropertyMetadata(null, OnItemsSourceChanged));
+    DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), new PropertyMetadata(null, OnItemsSourceChanged));
 
     private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -84,21 +95,13 @@ public partial class DataGrid : ContentControl
         set => SetValue(IsDoubleClickedProperty, value);
     }
 
-    public bool AutoWidth
-    {
-        get => TableView.AutoWidth;
-        set => TableView.AutoWidth = value;
-    }
+    #endregion
 
-    private StyleGrid _layoutRoot = new();
-    public DevExpress.Xpf.Grid.GridControl GridControl { get; private set; }
-    public DevExpress.Xpf.Grid.TableView TableView { get; private set; }
-
-    public GridColumnCollection Columns => GridControl.Columns;
+    public event EventHandler<DataItemChangedEventArgs>? DataGrid_DataItemChangedEvent;
+    public event EventHandler<DataGridCellValueChangedEventArgs>? DataGrid_CellValueChanged;
 
     public event EventHandler<PopupMenuOpeningEventArgs>? DataGrid_PopupMenuOpening;
     public event EventHandler<PopupMenuItemClickEventArgs>? DataGrid_PopupMenuItemClick;
-    public DevExpress.Mvvm.ICommand<GridCellData> CellValueChanged { get; }
 
     public DataGrid()
     {
@@ -167,7 +170,12 @@ public partial class DataGrid : ContentControl
 
         if (property is null) return;
 
+        var oldValue = property.GetValue(row);
+        var args = new DataGridCellValueChangedEventArgs(row, cellData.Column, cellData.Value, oldValue);
+       
         property.SetValue(row, cellData.Value);
+
+        DataGrid_CellValueChanged?.Invoke(this, args);
     }
 
     private void OnItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -352,6 +360,22 @@ public class PageIndexChangedEventArgs : EventArgs
     public PageIndexChangedEventArgs(int pageIndex)
     {
         PageIndex = pageIndex;
+    }
+}
+
+public class DataGridCellValueChangedEventArgs : EventArgs
+{
+    public object DataItem { get; }
+    public ColumnBase Column { get; }
+    public object? newValue { get; }
+    public object? oldValue { get; }
+
+    public DataGridCellValueChangedEventArgs(object dataItem, ColumnBase column, object? newValue, object? oldValue) 
+    {
+        this.DataItem = dataItem;
+        this.Column = column;
+        this.newValue = newValue;
+        this.oldValue = oldValue;
     }
 }
 
