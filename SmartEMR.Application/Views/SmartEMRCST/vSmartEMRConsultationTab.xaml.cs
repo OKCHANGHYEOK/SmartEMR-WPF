@@ -6,7 +6,6 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
-using System.Collections.ObjectModel;
 using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
@@ -158,10 +157,22 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
     {
         await SetPatientData(new Patient { PAT_Idx = item.PAT_Idx });
 
-        vm.SetSelectedCST(item);
+        Consultation? selectedCST = new();
 
-        await SmartEMRCSTInfo.UpdateDataBySelectedCST(item);
-        await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(item);
+        if (item.RCP_Idx.GetValueOrDefault(0) == 0)
+        {
+            selectedCST = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = item.PAT_Idx, CST_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd") });
+        }
+        else
+        {
+            selectedCST = item;
+        }
+
+        if (selectedCST is null) return;
+
+        vm.SetSelectedCST(selectedCST);
+        
+        await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(selectedCST);
     }
 
     private void AddCSTO(Order item)
@@ -172,7 +183,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
             return;
         }
 
-        SmartEMRConulstationTabCSTOInfo.AddCSTO(item);
+        SmartEMRConulstationTabCSTOInfo.AddCSTO(item, SelectedCST.MUR_Idx_DOC.GetValueOrDefault(0));
     }
 
     private void AddCSTOFromOrderSection(Order paramItem)
@@ -183,9 +194,14 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
             return;
         }
 
+        if (!vm.CanEnterOrder(paramItem))
+        {
+            return;
+        }
+
         paramItem.IsSelected = true;
 
-        SmartEMRConulstationTabCSTOInfo.AddCSTO(paramItem);
+        SmartEMRConulstationTabCSTOInfo.AddCSTO(paramItem, SelectedCST.MUR_Idx_DOC.GetValueOrDefault(0));
     }
 
     private void DeleteCSTOFromOrderSection(Order paramItem)

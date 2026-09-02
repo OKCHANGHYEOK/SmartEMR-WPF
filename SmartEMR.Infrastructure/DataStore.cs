@@ -1,8 +1,9 @@
 ﻿using System.Net.Http.Json;
+using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SmartEMR.Domain.Enums;
 using SmartEMR.Domain.DTOs;
-using System.Net.Http.Headers;
 
 namespace SmartEMR.Infrastructure;
 
@@ -24,7 +25,8 @@ public class DataStore
     private readonly JsonSerializerOptions _options = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true,
-        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString
     };
 
     public DataStore(ITokenProvider tokenProvider)

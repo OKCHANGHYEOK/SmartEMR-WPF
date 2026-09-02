@@ -12,7 +12,9 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 {
     [ObservableProperty]
     private List<Consultation>? consultations;
+
     private IEnumerable<ConsultationOrder> _consultationOrders = default!;
+    
     private IEnumerable<ConsultationOrder> _deletedCSTOItems = default!;
 
     public override void Initialize()
@@ -61,6 +63,21 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     public async Task GetRecentCST()
     {
         SmartUI.SetNofification("기능 구현 중입니다.", NotificationType.Warning);
+    }
+
+    public bool CanEnterOrder(Order item)
+    {
+        if (OrderMaster.ORDER_ASSESSMENTS.Contains(item.ORD_SugaCode))
+        {
+            ConsultationOrder? ASMItem = _consultationOrders.FirstOrDefault(x => OrderMaster.ORDER_ASSESSMENTS.Contains(x.CSTO_SugaCode));
+            if (ASMItem is not null)
+            {
+                SmartUI.SetNofification("진찰료는 중복 처방할 수 없습니다.", NotificationType.Warning);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     [RelayCommand]
@@ -134,7 +151,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         SetConsultationStatus(targetStatus);
 
         var item = SmartMVVM.ModelProperty.GetConsultationDataForSave(Model, _consultationOrders.Concat(_deletedCSTOItems));
-        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultation, item);
+        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultationByCST, item);
 
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {

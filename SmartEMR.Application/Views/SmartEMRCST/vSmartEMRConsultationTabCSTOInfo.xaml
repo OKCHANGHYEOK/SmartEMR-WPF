@@ -73,12 +73,14 @@
             <Xpf:ColumnItem FieldName="CSTO_SugaCode"
                             Header="코드"
                             ColumnWidth="65"
-                            ColumnStyle="Code"/>
+                            ColumnStyle="Code"
+                            Foreground="DimGray"/>
 
             <Xpf:ColumnItem FieldName="CSTO_Price"
                             Header="단가"
                             ColumnWidth="50"
                             ColumnStyle="Sum"
+                            Foreground="DarkSlateGray"
                             DisplayFormat="#,##0"
                             Suffix="원"/>
 
@@ -109,7 +111,7 @@
                             ColumnWidth="50"
                             IsReadOnly="True"/>
 
-            <Xpf:ColumnItem FieldName="MUR_Name_DOC"
+            <Xpf:ColumnItem FieldName="MUR_Idx_DOC"
                             Header="처방의"
                             ColumnType="ComboBox"
                             ColumnWidth="60"

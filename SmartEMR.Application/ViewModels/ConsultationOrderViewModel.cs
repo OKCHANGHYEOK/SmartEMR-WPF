@@ -53,7 +53,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         }
     }
 
-    public void AddCSTO(Order item)
+    public void AddCSTO(Order item, int MUR_Idx_DOC)
     {
         if (ConsultationOrderItems.Count > 0 && ConsultationOrderItems.Any(x => x.ORD_Idx == item.ORD_Idx))
         {
@@ -62,7 +62,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
         var addItem = new ConsultationOrder
         {
-            MUR_Idx_DOC = SmartMVVM.AppSession.MemberUser?.MUR_JobCode == "DOC" ? SmartMVVM.AppSession.MemberUser?.MUR_Idx.GetValueOrDefault(0) : 0,
+            MUR_Idx_DOC = SmartMVVM.AppSession.MemberUser?.MUR_JobCode == "DOC" ? SmartMVVM.AppSession.MemberUser?.MUR_Idx.GetValueOrDefault(0) : MUR_Idx_DOC,
             ORD_Idx = item.ORD_Idx,
             PAT_Idx = SelectedCST.PAT_Idx,
             CST_Idx = SelectedCST.CST_Idx,
@@ -80,7 +80,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
             CSTO_TotalPrice = item.ORD_Price,
             CSTO_Day = 1,
             CSTO_Count = 1,
-            CSTO_Amount = 1
+            CSTO_Amount = 1,
+            CSTO_IsValid = true
         };
 
         addItem.vORDC_Cd = SmartMVVM.Master.Query<Order>("ORDC_Cd").FirstOrDefault(x => x.ORDC_Cd == item.ORDC_Cd)?.vORDC_Cd;

@@ -2,10 +2,12 @@
 
 public class OrderMaster
 {
+    public static string[] ORDER_ASSESSMENTS = { ORDER_CLINIC_ASM_FIR, ORDER_CLINIC_ASM_REP, ORDER_HOSPITAL_ASM_FIR, ORDER_HOSPITAL_ASM_REP };
+
     public const string ORDER_CLINIC_ASM_FIR = "AA154";                 //  초진진찰료 - 의원
     public const string ORDER_CLINIC_ASM_REP = "AA254";                 //  재진진찰료 - 의원
-    public const string ORDER_HOSPITAL_ASM_FIR = "AA155";               //  재진진찰료 - 의원
-    public const string ORDER_HOSPITAL_ASM_REP = "AA255";               //  재진진찰료 - 의원
+    public const string ORDER_HOSPITAL_ASM_FIR = "AA155";               //  초진진찰료 - 병원
+    public const string ORDER_HOSPITAL_ASM_REP = "AA255";               //  재진진찰료 - 병원
     public const string ORDER_EXM_BLOOD = "BZ001";                      //  일반혈액검사
     public const string ORDER_EXM_URINE = "CZ322";                      //  뇨(소변)검사
     public const string ORDER_MED_SCIM_INJECTION = "KK010";             //  피하 또는 근육내주사

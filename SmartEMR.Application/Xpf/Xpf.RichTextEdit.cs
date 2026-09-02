@@ -11,6 +11,15 @@ namespace SmartEMR.Application.Xpf;
 
 public partial class RichTextEdit : UserControl
 {
+    public static readonly DependencyProperty TextProperty =
+        DependencyProperty.Register(nameof(Text), typeof(string), typeof(RichTextEdit), new PropertyMetadata(string.Empty));
+
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
+
     private PopupColorEdit? _colorEdit;
     private ComboBoxEdit? _fontFamilyComboBox;
     private ComboBoxEdit? _fontSizeComboBox;
@@ -46,10 +55,15 @@ public partial class RichTextEdit : UserControl
         base.OnApplyTemplate();
 
         // Template 내부 컨트롤 가져오기
+        _richEdit = GetTemplateChild("RichEdit") as RichEditControl;
         _colorEdit = GetTemplateChild("ColorEdit") as PopupColorEdit;
         _fontFamilyComboBox = GetTemplateChild("cmbFontFamiliy") as ComboBoxEdit;
         _fontSizeComboBox = GetTemplateChild("cmbFontSize") as ComboBoxEdit;
-        _richEdit = GetTemplateChild("RichEdit") as RichEditControl;
+
+        if (_richEdit is not null)
+        {
+            _richEdit.TextChanged += OnTextChanged_RichEdit;
+        }
 
         if (_colorEdit is not null)
         {
@@ -66,6 +80,13 @@ public partial class RichTextEdit : UserControl
         {
             _fontSizeComboBox.EditValueChanged += OnEditValueChanged_FontSize;
         }
+    }
+
+    private void OnTextChanged_RichEdit(object? sender, EventArgs e)
+    {
+        if (sender is not RichEditControl element) return;
+
+        SetValue(TextProperty, element.RtfText);
     }
 
     private void OnEditValueChanged_ColorEdit(object sender, EditValueChangedEventArgs e)

@@ -7,38 +7,39 @@ public enum eAPI
     Consultation_GetConsultation = 1,
     Consultation_GetConsultationByRCP = 2,
     Consultation_SetConsultation = 3,
+    Consultation_SetConsultationByCST = 4,
 
-    ConsultationOrder_GetConsultationOrder = 4,
-    ConsultationOrder_SetConsultationOrder = 5,
+    ConsultationOrder_GetConsultationOrder = 5,
+    ConsultationOrder_SetConsultationOrder = 6,
 
-    Insurance_GetInsurance = 6,
-    Insurance_GetRecentInsurance = 7,
-    Insurance_SetInsurance = 8,
+    Insurance_GetInsurance = 7,
+    Insurance_GetRecentInsurance = 8,
+    Insurance_SetInsurance = 9,
 
-    Login_login = 9,
+    Login_login = 10,
 
-    Member_GetMember = 10,
-    Member_SetMember = 11,
+    Member_GetMember = 11,
+    Member_SetMember = 12,
 
-    MemberUser_GetMemberUser = 12,
-    MemberUser_SetMemberUser = 13,
+    MemberUser_GetMemberUser = 13,
+    MemberUser_SetMemberUser = 14,
 
-    Order_GetOrder = 14,
+    Order_GetOrder = 15,
 
-    Patient_GetPatient = 15,
-    Patient_SetPatient = 16,
+    Patient_GetPatient = 16,
+    Patient_SetPatient = 17,
 
-    Pay_GetPay = 17,
-    Pay_SetPay = 18,
+    Pay_GetPay = 18,
+    Pay_SetPay = 19,
 
-    Reception_CancelReception = 19,
-    Reception_GetReception = 20,
-    Reception_GetReceptionBoard = 21,
-    Reception_SetReception = 22,
-    Reception_SetReceptionByRES = 23,
+    Reception_CancelReception = 20,
+    Reception_GetReception = 21,
+    Reception_GetReceptionBoard = 22,
+    Reception_SetReception = 23,
+    Reception_SetReceptionByRES = 24,
 
-    Reservation_GetReservation = 24,
-    Reservation_MoveReservationDate = 25,
-    Reservation_SetReservation = 26,
-    Reservation_SetReservationByStatus = 27
+    Reservation_GetReservation = 25,
+    Reservation_MoveReservationDate = 26,
+    Reservation_SetReservation = 27,
+    Reservation_SetReservationByStatus = 28
 }
