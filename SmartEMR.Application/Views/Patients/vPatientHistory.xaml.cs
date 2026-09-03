@@ -18,6 +18,11 @@ public partial class vPatientHistory : ModelViewLayout<PatientHistoryViewModel>
     {
     }
 
+    protected override void SetDataGrid()
+    {
+        
+    }
+
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
     }
@@ -26,14 +31,50 @@ public partial class vPatientHistory : ModelViewLayout<PatientHistoryViewModel>
     {
     }
 
+    public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
+    {
+        if (sender is not DataGrid dataGrid) return;
+
+        if (dataGrid.IsDoubleClicked)
+        {
+            switch (dataGrid.Tag)
+            {
+                case "CST":
+                    var dataItem = e.DataItem as Consultation;
+                    if (dataItem is not null)
+                    {
+                        await SmartUI.SendMessage("SetSelectedCST", dataItem, viewType:TargetViewType.PageView);
+                    }
+                    break;
+            }
+        }
+    }
+
     public override async Task SetPatientData(Patient item)
     {
+        if (item.PAT_Idx != vm.Model.PAT_Idx)
+        {
+            ClearData();
+        }
+
         await vm.SetPatientData(item);
     }
 
     public void ClearData()
     {
+        TabControl.SelectedIndex = 0;
+
         vm.ClearData();
+    }
+
+    private void OnLoaded_DataGrid(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (sender is not DataGrid dataGrid) return;
+
+        if (!this.DataGrids.Contains(dataGrid))
+        {
+            AddDataGrid(dataGrid);
+        }
     }
 
     private async void OnTabControl_SelectionChanged(object sender, TabControlSelectionChangedEventArgs e)

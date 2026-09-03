@@ -111,7 +111,7 @@ public partial class PatientHistoryViewModel : PatientViewModel
         var ret = await SmartMVVM.DataStore.GetItems<Reception>(eAPI.Reception_GetReception, new Reception { PAT_Idx = Model.PAT_Idx });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("접수이력을 불러오는 데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNofification("접수이력을 불러오는데 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -122,8 +122,16 @@ public partial class PatientHistoryViewModel : PatientViewModel
 
     private async Task FetchCSTHistoryAsync()
     {
-        SmartUI.SetNofification("기능 구현중입니다.", NotificationType.Info);
-        return;
+        var ret = await SmartMVVM.DataStore.GetItems<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = Model.PAT_Idx });
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("진료이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            return;
+        }
+
+        DisplayDataMappers.ConsultationDisplayDataMapper.Map(ret);
+
+        ConsultationItems = ret.ToList();
     }
 
     private async Task FetchCSTOHistoryAsync()

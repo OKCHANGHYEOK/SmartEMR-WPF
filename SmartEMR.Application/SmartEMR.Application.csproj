@@ -158,6 +158,9 @@
     <Compile Update="Template\CSTOInsuranceTypeTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Template\ConsultationPAYStatusTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Template\RCPStatusTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -20,7 +20,7 @@
             <dx:DXTabItem   Tag="RES" 
                             Header="예약" 
                             IsSelected="True">
-                <Xpf:DataGrid ItemsSource="{Binding ReservationItems}" AutoWidth="False">
+                <Xpf:DataGrid Tag="RES" ItemsSource="{Binding ReservationItems}" AutoWidth="False" Loaded="OnLoaded_DataGrid">
                     <Xpf:ColumnItem FieldName="vRES_Status" Header="상태" ColumnWidth="45" CellTemplateType="{x:Type template:RESStatusTemplate}" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="RES_ReservationDate" Header="예약일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="RES_ReservationTime" Header="예약시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
@@ -30,7 +30,7 @@
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="RCP" Header="접수">
-                <Xpf:DataGrid ItemsSource="{Binding ReceptionItems}" AutoWidth="False">
+                <Xpf:DataGrid Tag="RCP" ItemsSource="{Binding ReceptionItems}" AutoWidth="False" Loaded="OnLoaded_DataGrid">
                     <Xpf:ColumnItem FieldName="vRCP_InsuranceType" CellTemplateType="{x:Type template:InsuranceTypeTemplate}" ColumnWidth="25" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="vRCP_Status" Header="상태" CellTemplateType="{x:Type template:RCPStatusTemplate}" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="RCP_ReceiptDate" Header="접수일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
@@ -41,21 +41,21 @@
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="CST" Header="진료">
-                <Xpf:DataGrid ItemsSource="{Binding ConsultationItems}" AutoWidth="False">
-                    <Xpf:ColumnItem FieldName="CST_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
+                <Xpf:DataGrid Tag="CST" ItemsSource="{Binding ConsultationItems}" AutoWidth="False" Loaded="OnLoaded_DataGrid">
+                    <Xpf:ColumnItem FieldName="CST_Status" Header="상태" ColumnWidth="45" CellTemplateType="{x:Type template:CSTStatusTemplate}" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CST_YYMMDD" Header="진료일자" ColumnStyle="YYMMDD" ColumnWidth="80" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="CST_StartTime" Header="시작시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="CST_EndTime" Header="종료시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
-                    <Xpf:ColumnItem FieldName="CST_PayStatus" Header="수납" ColumnWidth="45" HorizontalAlignment="Center"/>
-                    <Xpf:ColumnItem FieldName="CST_TotalPrice" Header="총진료비" ColumnStyle="Sum" ColumnWidth="60"/>
-                    <Xpf:ColumnItem FieldName="CST_Memo" Header="메모"/>
+                    <Xpf:ColumnItem FieldName="CST_PayStatus" Header="수납" ColumnWidth="45" CellTemplateType="{x:Type template:ConsultationPAYStatusTemplate}" HorizontalAlignment="Center"/>
+                    <Xpf:ColumnItem FieldName="CST_TotalPrice" Header="총진료비" ColumnStyle="Sum" DisplayFormat="#,##0" ColumnWidth="60"/>
+                    <Xpf:ColumnItem FieldName="CST_Memo" Header="메모" ColumnWidth="200"/>
                     <!--<Xpf:ColumnItem FieldName="CST_InsuredPrice" Header="급여비" ColumnStyle="Sum" ColumnWidth="60"/>-->
                     <!--<Xpf:ColumnItem FieldName="CST_NonInsurecPrice" Header="비급여비" ColumnStyle="Sum" ColumnWidth="60"/>-->
                     <!--<Xpf:ColumnItem FieldName="CST_OwnPatientPrice" Header="본인부담금" ColumnStyle="Sum" ColumnWidth="60"/>-->
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="CSTO" Header="처방">
-                <Xpf:DataGrid ItemsSource="{Binding ConsultationOrderItems}" AutoWidth="False">
+                <Xpf:DataGrid Tag="CSTO" ItemsSource="{Binding ConsultationOrderItems}" AutoWidth="False" Loaded="OnLoaded_DataGrid">
                     <Xpf:ColumnItem FieldName="CSTO_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CSTO_YYMMDD" Header="처방일자" ColumnWidth="80" ColumnStyle="YYMMDD"  Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="ORDC_Cd" Header="구분" ColumnWidth="45" HorizontalAlignment="Center"/>
@@ -67,7 +67,7 @@
                 </Xpf:DataGrid>
             </dx:DXTabItem>
             <dx:DXTabItem Tag="PAY" Header="수납">
-                <Xpf:DataGrid ItemsSource="{Binding PayItems}" AutoWidth="False">
+                <Xpf:DataGrid Tag="PAY" ItemsSource="{Binding PayItems}" AutoWidth="False" Loaded="OnLoaded_DataGrid">
                     <Xpf:ColumnItem FieldName="PAY_Status" Header="상태" ColumnWidth="45" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="PAY_YYMMDD" Header="수납일자" ColumnStyle="YYMMDD" ColumnWidth="80"  Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="PAY_TotalPrice" Header="총수납액" ColumnStyle="Sum" ColumnWidth="70"/>

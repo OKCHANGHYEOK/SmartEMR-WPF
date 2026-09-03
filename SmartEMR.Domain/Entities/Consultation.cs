@@ -15,6 +15,7 @@ public class Consultation : BaseEntity
     private string? m_CST_Status;
     private string? m_vCST_Status;
     private string? m_CST_PayStatus;
+    private string? m_vCST_PayStatus;
     private string? m_CST_TreatResult;
     private string? m_CST_Subject;
     private string? m_CST_SubjectName;
@@ -124,6 +125,12 @@ public class Consultation : BaseEntity
     {
         get => m_CST_PayStatus;
         set => SetProperty(ref m_CST_PayStatus, value);
+    }
+
+    public string? vCST_PayStatus
+    {
+        get => m_vCST_PayStatus;
+        set => SetProperty(ref m_vCST_PayStatus, value);
     }
 
     public string? CST_TreatResult

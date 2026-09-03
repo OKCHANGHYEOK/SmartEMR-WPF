@@ -22,6 +22,8 @@ public class DataStore
     public int? retCount { get; set; }
     public bool retIsSuccess { get; set; }
 
+    private readonly SemaphoreSlim _requestSemaphore = new(1, 1);
+
     private readonly JsonSerializerOptions _options = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true,
@@ -89,6 +91,8 @@ public class DataStore
     /// </summary>
     public async Task<HttpResponseMessage?> PostAsync(string url, object? paramItem = null)
     {
+        await _requestSemaphore.WaitAsync();
+
         HttpResponseMessage? response = null;
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(180));
@@ -153,6 +157,10 @@ public class DataStore
             retMessage = "서버와 통신중 오류가 발생했습니다.";
             retStatusCode = 500;
             retIsSuccess = false;
+        }
+        finally
+        {
+            _requestSemaphore.Release();
         }
 
         if (!retIsSuccess)

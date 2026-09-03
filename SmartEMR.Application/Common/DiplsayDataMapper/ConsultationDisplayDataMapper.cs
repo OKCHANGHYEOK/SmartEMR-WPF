@@ -14,6 +14,7 @@ public class ConsultationDisplayDataMapper : IDisplayDataMapper<Consultation>
             item.vIRC_Type = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", item.CST_InsuranceType ?? "")?[..1];
             item.vPAT_Info = (item.PAT_Sex == "M" ? "남" : "여") + "/" + item.PAT_Age + "세";
             item.vCST_Status = SmartMVVM.Common.GetCommonCodeName("CST", "Status", item.CST_Status ?? "")?[..2];
+            item.vCST_PayStatus = SmartMVVM.Common.GetCommonCodeName("CST", "PayStatus", item.CST_PayStatus ?? "")?[..2];
             item.vCST_SubjectName = item.CST_Subject == "ETC" ? item.CST_SubjectName : SmartMVVM.Common.GetCommonCodeName("CST", "Subject", item.CST_Subject ?? "");
         }
     }
