@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;

@@ -45,6 +45,7 @@
                             <local:vSmartEMRConsultationTabCSTOInfo x:Name="SmartEMRConulstationTabCSTOInfo"/>
                         </Xpf:LayoutPanel>
                         <Xpf:LayoutPanel ShowCaption="False" ItemHeight="0.4*">
+                            <local:vSmartEMRConsultationTabPayInfo x:Name="SmartEMRPayInfo"/>
                         </Xpf:LayoutPanel>
                         <Xpf:LayoutPanel ItemHeight="Auto" Padding="2" ShowBorder="False" ShowCaption="False">
                             <Xpf:StyleGrid LayoutDefinitions="6,1" Height="27">
