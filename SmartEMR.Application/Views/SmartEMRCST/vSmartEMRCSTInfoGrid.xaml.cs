@@ -11,6 +11,7 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 public partial class vSmartEMRCSTInfoGrid : CustomControl
 {
     private Patient SelectedPatient { get; set; } = new();
+    private Consultation SelectedCST => this.DataContext as Consultation ?? default!;
 
     public vSmartEMRCSTInfoGrid() : base()
     {
@@ -21,9 +22,14 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
         SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, item);
     }
 
-    public void ClearData(bool isClearCST = false)
+    public void ClearPATData()
     {
         SmartMVVM.ModelProperty.ClearPATData(SelectedPatient);
+    }
+
+    public void ClearCSTData()
+    {
+        SmartMVVM.ModelProperty.SetDefaultConsultationData(SelectedCST);
     }
 
     private async void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
@@ -43,7 +49,7 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
             case "btnClear":
                 if (SmartUI.MsgYesNo("진료 정보를 초기화하시겠습니까?") is System.Windows.MessageBoxResult.Yes)
                 {
-                    await SmartUI.SendMessage("ClearCSTInfo", viewType: TargetViewType.PageView);
+                    ClearCSTData();
                 }
 
                 break;

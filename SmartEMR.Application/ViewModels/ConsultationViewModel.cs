@@ -193,6 +193,16 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Model.CST_Status = CST_Status;
     }
 
+    protected override async Task NotifyCompletedTaskAsync(SaveMode operation)
+    {
+        await SmartUI.SendMessage("RefreshCST");
+
+        if (operation == SaveMode.DELETE)
+        {
+            await SmartUI.SendMessage("ClearSelectedCST");
+        }
+    }
+
     [RelayCommand]
     public void ClearData(bool isClearFilter = false)
     {

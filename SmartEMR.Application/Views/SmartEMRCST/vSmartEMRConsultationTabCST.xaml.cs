@@ -61,4 +61,9 @@ public partial class vSmartEMRConsultationTabCST : ModelViewLayout<ConsultationV
             }
         }
     }
+
+    public async Task RefreshData()
+    {
+        await vm.UpdateConsultationsByRCP();
+    }
 }

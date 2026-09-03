@@ -20,7 +20,7 @@
     <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2010Blue">
         <dxd:LayoutGroup Orientation="Horizontal">
             <Xpf:LayoutPanel Caption="진료현황"  ItemWidth="0.5*">
-                <local:vSmartEMRConsultationTabCST/>
+                <local:vSmartEMRConsultationTabCST x:Name="SmartEMRConsultationTabCST"/>
             </Xpf:LayoutPanel>
             <Xpf:LayoutPanel Caption="오더목록" ItemWidth="0.4*">
                 <local:vSmartEMRConsultationTabOrder x:Name="SmartEMRConsultationTabOrder"/>

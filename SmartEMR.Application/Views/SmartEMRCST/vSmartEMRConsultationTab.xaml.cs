@@ -125,12 +125,16 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "RefreshCST":
+                await SmartEMRConsultationTabCST.RefreshData();
+                break;
+
             case "ClearPAT":
                 ClearData(true);
                 break;
 
-            case "ClearCSTInfo":
-                SmartEMRCSTInfo.ClearData(true);
+            case "ClearSelectedCST":
+                ClearData(false, true);
                 break;
         }
 
@@ -220,11 +224,12 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         {
             PatientViewSummary.ClearData();
             PatientHistory.ClearData();
+            SmartEMRCSTInfo.ClearPATData();
         }
 
         if (isClearCST)
         {
-            SmartEMRCSTInfo.ClearData();
+            vm.ClearData();
             SmartEMRConulstationTabCSTOInfo.ClearData();
         } 
     }
