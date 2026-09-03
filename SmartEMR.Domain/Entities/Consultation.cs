@@ -29,6 +29,7 @@ public class Consultation : BaseEntity
     private Decimal? m_CST_PaidPrice;
     private Decimal? m_CST_RemainPrice;
     private string? m_CST_Opinion;
+    private string? m_vCST_Opinion;
     private string? m_CST_Memo;
     private string? m_CST_Date;
     private string? m_CST_YYMMDD;
@@ -46,6 +47,8 @@ public class Consultation : BaseEntity
 
     private string? m_IRC_Type;
     private string? m_vIRC_Type;
+
+    private Insurance? m_IRCItem;
 
     #region "NotifyPropertyChanged"
 
@@ -211,6 +214,12 @@ public class Consultation : BaseEntity
         set => SetProperty(ref m_CST_Opinion, value);
     }
 
+    public string? vCST_Opinion
+    {
+        get => m_vCST_Opinion;
+        set => SetProperty(ref m_vCST_Opinion, value);
+    }
+
     public string? CST_Memo
     {
         get => m_CST_Memo;
@@ -293,6 +302,11 @@ public class Consultation : BaseEntity
     {
         get => m_vIRC_Type;
         set => SetProperty(ref m_vIRC_Type, value);
+    }
+    public Insurance? IRCItem
+    {
+        get => m_IRCItem;
+        set => SetProperty(ref m_IRCItem, value);
     }
 
     #endregion

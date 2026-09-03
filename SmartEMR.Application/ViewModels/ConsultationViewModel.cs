@@ -36,9 +36,26 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         return item;
     }
 
-    public void SetSelectedCST(Consultation item)
+    public async Task SetSelectedCST(Consultation item)
     {
         SmartMVVM.ModelProperty.SetConsultationData(Model, item);
+
+        Insurance? IRCItem = null;
+
+        if (item.IRC_Idx > 0)
+        {
+            var retIRC = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, new Insurance { IRC_Idx = item.IRC_Idx });
+            if (retIRC != null)
+            {
+                IRCItem = retIRC;
+            }
+        }
+        else
+        {
+            IRCItem = new Insurance { IRC_Type = item.RCP_Idx > 0 ? item.CST_InsuranceType : "NON" };
+        }
+
+        Model.IRCItem = IRCItem;
     }
 
     public void SetConsultationOrders(IEnumerable<ConsultationOrder>[] items)
@@ -122,7 +139,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             _ => ""
         };
 
-        var isSuccess = false;
+        bool isSuccess;
 
         if (saveMode == SaveMode.SAVE)
         {

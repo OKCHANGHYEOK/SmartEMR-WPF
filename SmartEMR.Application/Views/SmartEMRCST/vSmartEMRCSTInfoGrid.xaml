@@ -175,6 +175,7 @@
         <Border Grid.Row="1"  BorderBrush="#DDE2E8" BorderThickness="0,0,0,1" Margin="2"/>
 
         <Xpf:RichTextEdit Grid.Row="2"
-                          Text="{Binding CST_Memo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                          Text="{Binding CST_Opinion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          NullText="진료소견을 입력하세요."/>
     </Xpf:StyleGrid>
 </Xpf:CustomControl>

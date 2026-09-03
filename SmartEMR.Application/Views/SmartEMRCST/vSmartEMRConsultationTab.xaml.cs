@@ -174,8 +174,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         if (selectedCST is null) return;
 
-        vm.SetSelectedCST(selectedCST);
-        
+        await vm.SetSelectedCST(selectedCST);
         await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(selectedCST);
     }
 

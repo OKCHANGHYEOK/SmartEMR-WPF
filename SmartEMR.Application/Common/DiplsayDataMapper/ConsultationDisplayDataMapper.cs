@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Common.Converter.etc;
+using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Common.DisplayDataMapper;
@@ -16,6 +17,11 @@ public class ConsultationDisplayDataMapper : IDisplayDataMapper<Consultation>
             item.vCST_Status = SmartMVVM.Common.GetCommonCodeName("CST", "Status", item.CST_Status ?? "")?[..2];
             item.vCST_PayStatus = SmartMVVM.Common.GetCommonCodeName("CST", "PayStatus", item.CST_PayStatus ?? "")?[..2];
             item.vCST_SubjectName = item.CST_Subject == "ETC" ? item.CST_SubjectName : SmartMVVM.Common.GetCommonCodeName("CST", "Subject", item.CST_Subject ?? "");
+        
+            if (!string.IsNullOrWhiteSpace(item.CST_Opinion))
+            {
+                item.vCST_Opinion = RtfConverter.ConvertRtfToPlainText(item.CST_Opinion);
+            }
         }
     }
 }

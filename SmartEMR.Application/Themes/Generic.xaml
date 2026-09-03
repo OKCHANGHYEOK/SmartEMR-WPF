@@ -601,6 +601,29 @@
                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                                 VirtualizingPanel.IsVirtualizing="False"/>
+
+                        <TextBlock  Grid.Row="1"
+                                    Text="{Binding NullText, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Margin="18,8"
+                                    Foreground="Gray"
+                                    IsHitTestVisible="False">
+                            
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsFocused, ElementName=RichEdit}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        
+                                        <DataTrigger Binding="{Binding Text, ElementName=RichEdit}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Xpf:StyleGrid>
                 </ControlTemplate>
             </Setter.Value>

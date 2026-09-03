@@ -430,6 +430,7 @@ public class ModelProperty
         item.CST_TotalPrice = paramItem.CST_TotalPrice;
         item.CST_Opinion = paramItem.CST_Opinion;
         item.CST_Memo = paramItem.CST_Memo;
+        item.CST_IsValid = true;
         item.CSTO_Property = JsonSerializer.Serialize(consultationOrders, new JsonSerializerOptions { WriteIndented = true });
 
         return item;

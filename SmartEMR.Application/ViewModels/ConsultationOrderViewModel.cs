@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
@@ -39,17 +40,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
         if (item.CST_Idx.GetValueOrDefault(0) > 0)
         {
-            var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, new ConsultationOrder { CST_Idx = item.CST_Idx });
-            if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
-            {
-                SmartUI.SetNofification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
-                return;
-            }
-
-            foreach (var cItem in ret)
-            {
-                ConsultationOrderItems.Add(cItem);
-            }
+           await UpdateCSTOItems(item);
         }
     }
 
@@ -107,7 +98,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public void ClearData()
     {
-        ClearCSTO();
+        ClearCSTOItems();
     }
 
     [RelayCommand]
@@ -115,10 +106,32 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     {
         if (SmartUI.MsgYesNo("처방내역을 초기화하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
 
-        ClearCSTO();
+        ClearCSTOItems();
     }
 
-    private void ClearCSTO()
+    private async Task UpdateCSTOItems(Consultation item)
+    {
+        ClearCSTOItems();
+
+        if (item.CST_Idx > 0)
+        {
+            var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, new ConsultationOrder { CST_Idx = item.CST_Idx });
+            if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+            {
+                SmartUI.SetNofification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
+                return;
+            }
+
+            DisplayDataMappers.ConsultationOrderDisplayDataMapper.Map(ret);
+
+            foreach (var cItem in ret)
+            {
+                ConsultationOrderItems.Add(cItem);
+            }
+        }
+    }
+
+    private void ClearCSTOItems()
     {
         foreach (var item in ConsultationOrderItems.Reverse())
         {

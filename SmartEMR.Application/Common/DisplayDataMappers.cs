@@ -9,5 +9,6 @@ public class DisplayDataMappers
     public static ReceptionDisplayDataMapper ReceptionDisplayDataMapper = new();
     public static ReservationDisplayDataMapper ReservationDisplayDataMapper = new();
     public static ConsultationDisplayDataMapper ConsultationDisplayDataMapper = new();
+    public static ConsultationOrderDisplayDataMapper ConsultationOrderDisplayDataMapper = new();
     public static OrderDisplayDataMapper OrderDisplayDataMapper = new();
 }

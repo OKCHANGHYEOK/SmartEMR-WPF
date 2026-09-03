@@ -13,6 +13,6 @@
                Foreground="{Binding CST_PayStatus, Converter={converter:PAYStatusToBrushConverter}}"
                BorderBrush="{Binding CST_PayStatus, Converter={converter:PAYStatusToBrushConverter}}"
                BorderThickness="1"
-               Background="White"
+               Background="Transparent"
                Margin="2"/>
 </Xpf:GridTemplate>

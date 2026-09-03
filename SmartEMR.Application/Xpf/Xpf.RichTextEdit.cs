@@ -1,9 +1,12 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.RichEdit;
+using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
 using SmartEMR.Application.Core;
 
@@ -12,12 +15,36 @@ namespace SmartEMR.Application.Xpf;
 public partial class RichTextEdit : UserControl
 {
     public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(RichTextEdit), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(Text), typeof(string), typeof(RichTextEdit), new PropertyMetadata(string.Empty, OnTextChanged));
+
+    private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RichTextEdit element && e.OldValue is null && e.NewValue != null)
+        {
+            var rtf = e.NewValue as string;
+
+            if (!string.IsNullOrWhiteSpace(rtf))
+            {
+                using var stream = new MemoryStream(Encoding.UTF8.GetBytes(rtf));
+
+                element._richEdit?.LoadDocument(stream, DocumentFormat.Rtf);
+            }
+        }
+    }
 
     public string Text
     {
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
+    }
+
+    public static readonly DependencyProperty NullTextProperty =
+        DependencyProperty.Register(nameof(NullText), typeof(string), typeof(RichTextEdit), new PropertyMetadata(string.Empty));
+
+    public string NullText
+    {
+        get => (string)GetValue(NullTextProperty);
+        set => SetValue(NullTextProperty, value);
     }
 
     private PopupColorEdit? _colorEdit;

@@ -5,12 +5,10 @@ using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Globalization;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace SmartEMR.Application.Common;
 
@@ -377,7 +375,7 @@ public partial class Common
     }
 }
 
-// RichTextEdit Toolbar 관련
+// RichTextEdit 관련
 public partial class Common
 {
     public static List<string> FontFamilies => Fonts.SystemFontFamilies.Select(x => x.Source).OrderBy(x => x).ToList();
@@ -411,42 +409,6 @@ public partial class Common
     }
 }
 
-public class PAT_ImageSourceToImageConverter : BaseConverter
-{
-    private static readonly BitmapImage DefaultImage = GlyphImage("Images/smartemr_patient_default_image.png");
-
-    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is not byte[] bytes || bytes.Length == 0)
-        {
-            return DefaultImage;
-        }
-
-        try
-        {
-            using (MemoryStream stream = new MemoryStream(bytes))
-            {
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad; // 메모리 누수 방지 (중요!)
-                image.StreamSource = stream;
-                image.EndInit();
-                image.Freeze(); // UI 스레드 간 성능 최적화 및 크로스 스레드 예외 방지
-                return image;
-            }
-        }
-        catch
-        {
-            return DefaultImage;
-        }
-    }
-
-    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
-}
-
 public class IntToBooleanConverter : BaseConverter
 {
     public bool invert { get; set; } = false;
@@ -467,22 +429,6 @@ public class IntToBooleanConverter : BaseConverter
         throw new NotImplementedException();
     }
 }
-
-public class IntoToContentConveter : BaseConverter
-{
-    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value == null || Int32.TryParse(value.ToString(), out var intValue) == false) return "";
-
-        return intValue == 0 ? "등록" : "수정";
-    }
-
-    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
-}
-
 public class YNToBooleanConverter : BaseConverter
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 
@@ -11,7 +12,19 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 public partial class vSmartEMRCSTInfoGrid : CustomControl
 {
     private Patient SelectedPatient { get; set; } = new();
-    private Consultation SelectedCST => this.DataContext as Consultation ?? default!;
+    private Consultation SelectedCST
+    {
+        get
+        {
+            var vm = this.DataContext as ConsultationViewModel;
+            if (vm != null)
+            {
+                return vm.Model;
+            }
+
+            return default!;
+        }
+    }
 
     public vSmartEMRCSTInfoGrid() : base()
     {

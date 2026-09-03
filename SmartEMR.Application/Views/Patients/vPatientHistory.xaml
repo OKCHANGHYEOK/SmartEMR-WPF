@@ -48,7 +48,7 @@
                     <Xpf:ColumnItem FieldName="CST_EndTime" Header="종료시간" ColumnStyle="YYMMDD" ColumnWidth="60" Foreground="DimGray"/>
                     <Xpf:ColumnItem FieldName="CST_PayStatus" Header="수납" ColumnWidth="45" CellTemplateType="{x:Type template:ConsultationPAYStatusTemplate}" HorizontalAlignment="Center"/>
                     <Xpf:ColumnItem FieldName="CST_TotalPrice" Header="총진료비" ColumnStyle="Sum" DisplayFormat="#,##0" ColumnWidth="60"/>
-                    <Xpf:ColumnItem FieldName="CST_Memo" Header="메모" ColumnWidth="200"/>
+                    <Xpf:ColumnItem FieldName="vCST_Opinion" Header="진료소견" ColumnWidth="200"/>
                     <!--<Xpf:ColumnItem FieldName="CST_InsuredPrice" Header="급여비" ColumnStyle="Sum" ColumnWidth="60"/>-->
                     <!--<Xpf:ColumnItem FieldName="CST_NonInsurecPrice" Header="비급여비" ColumnStyle="Sum" ColumnWidth="60"/>-->
                     <!--<Xpf:ColumnItem FieldName="CST_OwnPatientPrice" Header="본인부담금" ColumnStyle="Sum" ColumnWidth="60"/>-->
