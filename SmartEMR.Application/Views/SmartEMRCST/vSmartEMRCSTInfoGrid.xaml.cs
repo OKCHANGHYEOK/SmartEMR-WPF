@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -65,6 +66,27 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
                     ClearCSTData();
                 }
 
+                break;
+        }
+    }
+
+    private async void OnEditValueChanging_DateEdit(object sender, DevExpress.Xpf.Editors.EditValueChangingEventArgs e)
+    {
+        if (sender is not DateEdit element) return;
+        if (e.NewValue is not DateTime targetDate) return;
+
+        var targetYYMMDD = targetDate.ToString("yyyy-MM-dd");
+
+        switch (element.Tag)
+        {
+            case "CST_YYMMDD":
+                var response = await SmartUI.SendMessage("SetSelectedCSTByDate", targetYYMMDD, viewType:TargetViewType.PageView);
+                if (response is not null && !response.IsSuccess)
+                {
+                    e.Handled = true;
+                    e.IsCancel = true;
+                }
+                
                 break;
         }
     }

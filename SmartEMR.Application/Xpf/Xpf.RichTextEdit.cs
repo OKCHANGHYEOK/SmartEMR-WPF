@@ -19,16 +19,19 @@ public partial class RichTextEdit : UserControl
 
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is RichTextEdit element && e.OldValue is null && e.NewValue != null)
+        if (d is RichTextEdit element && e.NewValue != null)
         {
-            var rtf = e.NewValue as string;
-
-            if (!string.IsNullOrWhiteSpace(rtf))
+            if (!element._isUpdatedByUserInput)
             {
-                using var stream = new MemoryStream(Encoding.UTF8.GetBytes(rtf));
+                var rtf = e.NewValue as string;
 
-                element._richEdit?.LoadDocument(stream, DocumentFormat.Rtf);
-            }
+                if (!string.IsNullOrWhiteSpace(rtf))
+                {
+                    using var stream = new MemoryStream(Encoding.UTF8.GetBytes(rtf));
+
+                    element._richEdit?.LoadDocument(stream, DocumentFormat.Rtf);
+                }
+            } 
         }
     }
 
@@ -51,6 +54,8 @@ public partial class RichTextEdit : UserControl
     private ComboBoxEdit? _fontFamilyComboBox;
     private ComboBoxEdit? _fontSizeComboBox;
     private RichEditControl? _richEdit;
+
+    private bool _isUpdatedByUserInput = false;
 
     static RichTextEdit()
     {
@@ -113,7 +118,11 @@ public partial class RichTextEdit : UserControl
     {
         if (sender is not RichEditControl element) return;
 
+        _isUpdatedByUserInput = true;
+
         SetValue(TextProperty, element.RtfText);
+
+        _isUpdatedByUserInput = false;
     }
 
     private void OnEditValueChanged_ColorEdit(object sender, EditValueChangedEventArgs e)

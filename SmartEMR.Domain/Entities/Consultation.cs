@@ -1,6 +1,6 @@
 ﻿namespace SmartEMR.Domain.Entities;
 
-public class Consultation : BaseEntity
+public class Consultation : BaseEntity, ICloneable<Consultation>
 {
     private int? m_CST_Idx;
     private int? m_MEM_Idx;
@@ -47,6 +47,8 @@ public class Consultation : BaseEntity
 
     private string? m_IRC_Type;
     private string? m_vIRC_Type;
+
+    private string? m_NOW_RECEPTION_YYMMDD;
 
     private Insurance? m_IRCItem;
 
@@ -303,11 +305,24 @@ public class Consultation : BaseEntity
         get => m_vIRC_Type;
         set => SetProperty(ref m_vIRC_Type, value);
     }
+
+    public string? NOW_RECEPTION_YYMMDD
+    {
+        get => m_NOW_RECEPTION_YYMMDD;
+        set => SetProperty(ref m_NOW_RECEPTION_YYMMDD, value);
+    }
+
     public Insurance? IRCItem
     {
         get => m_IRCItem;
         set => SetProperty(ref m_IRCItem, value);
     }
 
+    public Consultation Clone()
+    {
+        return (Consultation)MemberwiseClone();
+    }
+
     #endregion
+
 }

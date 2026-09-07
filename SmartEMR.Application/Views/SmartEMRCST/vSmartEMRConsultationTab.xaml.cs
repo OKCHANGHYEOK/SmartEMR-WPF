@@ -15,6 +15,7 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 /// </summary>
 public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationViewModel>
 {
+    private Patient SelectedPAT => vm.SelectedPAT; 
     private Consultation SelectedCST => vm.Model;
 
     public vSmartEMRConsultationTab() { }
@@ -68,13 +69,38 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "SetSelectedCSTByDate":
+                {
+                    var parameter = request.MessageParameter as string;
+                    if (!string.IsNullOrWhiteSpace(parameter))
+                    {
+                        if (!await SetSelectedCSTByDate(parameter))
+                        {
+                            response.IsSuccess = false;
+                            return response;
+                        }
+                    }
+
+                    break;
+                }
+
             case "SetConsultationOrders":
                 {
                     var paramItem = request.MessageParameters as IEnumerable<ConsultationOrder>[];
-
                     if (paramItem is not null)
                     {
                         vm.SetConsultationOrders(paramItem);
+                    }
+
+                    break;
+                }
+
+            case "UpdateCSTOInfo":
+                {
+                    var paramItem = request.MessageParameter as Consultation;
+                    if (paramItem is not null)
+                    {
+                       await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(paramItem);
                     }
 
                     break;
@@ -143,6 +169,16 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         return response;
     }
 
+    // 진료 일자 변경시 로직
+    // 선택된 환자가 없으면 날짜 변경
+    // 그 외의 경우 판별 로직은 뷰모델을 참조
+    private async Task<bool> SetSelectedCSTByDate(string targetDate)
+    {
+        if (SelectedPAT.PAT_Idx.GetValueOrDefault(0) == 0) return true;
+
+        return await vm.SetSelectedCSTByDate(targetDate);
+    }
+
     public override async Task SetPatientData(Patient item)
     {
         var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
@@ -152,9 +188,11 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
             return;
         }
 
-        await PatientViewSummary.SetPatientData(ret);
-        await PatientHistory.SetPatientData(ret);
-        await SmartEMRCSTInfo.SetPatientData(ret);
+        SmartMVVM.ModelProperty.SetPatientData(SelectedPAT, ret);
+
+        await PatientViewSummary.SetPatientData(SelectedPAT);
+        await PatientHistory.SetPatientData(SelectedPAT);
+        await SmartEMRCSTInfo.SetPatientData(SelectedPAT);
     }
 
     private async void SetSelectedCST(Consultation item)
@@ -175,7 +213,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         if (selectedCST is null) return;
 
         await vm.SetSelectedCST(selectedCST);
-        await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(selectedCST);
+        //await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(selectedCST);
     }
 
     private void AddCSTO(Order item)

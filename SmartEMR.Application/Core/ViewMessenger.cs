@@ -85,7 +85,7 @@ public class ViewMessageResponse
     public string? MessageAction { get; set; }
     public object? Item { get; set; }
     public List<object>? Items { get; set; }
-    public bool? IsSuccess { get; set; }
+    public bool IsSuccess { get; set; }
 }
 
 public class ViewMessageResponse<T>() : ViewMessageResponse where T : class

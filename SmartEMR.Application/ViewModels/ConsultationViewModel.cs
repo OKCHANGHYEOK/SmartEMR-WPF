@@ -10,11 +10,14 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class ConsultationViewModel : BaseViewModel<Consultation>
 {
+    public Patient SelectedPAT = new();
+
     [ObservableProperty]
     private List<Consultation>? consultations;
 
+    private Consultation SelectedCST = new();
+
     private IEnumerable<ConsultationOrder> _consultationOrders = default!;
-    
     private IEnumerable<ConsultationOrder> _deletedCSTOItems = default!;
 
     public override void Initialize()
@@ -36,26 +39,59 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         return item;
     }
 
-    public async Task SetSelectedCST(Consultation item)
+    public async Task SetSelectedCST(Consultation item, bool isUserSelection = true)
     {
         SmartMVVM.ModelProperty.SetConsultationData(Model, item);
 
-        Insurance? IRCItem = null;
+        await SetInsuranceData(item);
+        await SmartUI.SendMessage("UpdateCSTOInfo", item, viewType: TargetViewType.PageView);
 
-        if (item.IRC_Idx > 0)
+        if (isUserSelection)
         {
-            var retIRC = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, new Insurance { IRC_Idx = item.IRC_Idx });
-            if (retIRC != null)
+            SelectedCST = Model.Clone();
+        }
+    }
+
+    //  진료 일자 변경시 로직
+    /// ===============================
+    //  현재 상태   대상날짜   진료 결과
+    //  ===============================
+    //  진료 없음   있음      해당진료 선택
+    //  진료 없음   없음      날짜 변경
+    //  진료 있음   있음      물어보고 대상 진료 선택
+    //  진료 있음   없음      접수일 이전이면 변경 거부
+    //  진료 있음   없음      접수일 이후면 현재 진료 날짜 변경
+    public async Task<bool> SetSelectedCSTByDate(string targetDate)
+    {
+        // 변경하려는 일자가 기존에 선택된 진료일자와 같은 경우
+        if (targetDate == SelectedCST.CST_YYMMDD)
+        {
+            await SetSelectedCST(SelectedCST);
+            return true;
+        }
+
+        Consultation? retCST = await SmartMVVM.Common.GetConsultationByDate(SelectedPAT.PAT_Idx.GetValueOrDefault(0), targetDate);
+
+        if (Model.CST_Idx.GetValueOrDefault(0) > 0 && retCST is null)
+        {
+            if (string.Compare(Model.NOW_RECEPTION_YYMMDD, targetDate) > 0)
             {
-                IRCItem = retIRC;
+                SmartUI.SetNofification("해당 날짜에 진료 기록이 없으므로 접수일 이전으로 날짜 변경할 수 없습니다.", NotificationType.Warning);
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
-        else
+
+        if (retCST != null && SmartUI.MsgYesNo("해당 날짜에 진료 기록이 있습니다" + "\n" + "해당 진료로 변경하시겠습니까?") is MessageBoxResult.Yes)
         {
-            IRCItem = new Insurance { IRC_Type = item.RCP_Idx > 0 ? item.CST_InsuranceType : "NON" };
+            await SetSelectedCST(retCST, isUserSelection:false);
+            return true;
         }
 
-        Model.IRCItem = IRCItem;
+        return true;
     }
 
     public void SetConsultationOrders(IEnumerable<ConsultationOrder>[] items)
@@ -155,6 +191,26 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         await NotifyCompletedTaskAsync(saveMode);
 
         SmartUI.SetNofification($"진료{actionName} 되었습니다.", NotificationType.Success);
+    }
+
+    private async Task SetInsuranceData(Consultation item)
+    {
+        Insurance? IRCItem = null;
+
+        if (item.IRC_Idx > 0)
+        {
+            var retIRC = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, new Insurance { IRC_Idx = item.IRC_Idx });
+            if (retIRC != null)
+            {
+                IRCItem = retIRC;
+            }
+        }
+        else
+        {
+            IRCItem = new Insurance { IRC_Type = item.RCP_Idx > 0 ? item.CST_InsuranceType : "NON" };
+        }
+
+        Model.IRCItem = IRCItem;
     }
 
     private async Task<bool> SetConsultation(ConsultationStatus targetStatus)

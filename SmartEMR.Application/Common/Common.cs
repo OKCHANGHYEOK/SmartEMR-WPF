@@ -289,6 +289,18 @@ public partial class Common
         return ORD_InsuranceType ?? "NON";
     }
 
+    public async Task<Consultation?> GetConsultationByDate(int PAT_Idx, string targetDate)
+    {
+        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = PAT_Idx, CST_YYMMDD = targetDate });
+        if (!SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("진료 조회에 실패했습니다.", NotificationType.Error);
+            return null;
+        }
+
+        return ret;
+    }
+
     public async Task<bool> ExisitsReception(int PAT_Idx, string RCP_YYMMDD)
     {
         bool isExisits = false;

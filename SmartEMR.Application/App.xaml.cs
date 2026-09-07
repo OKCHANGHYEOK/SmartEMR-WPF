@@ -1,5 +1,5 @@
 ﻿global using static SmartEMR.Application.Common.Module;
-global using IDisposable = SmartEMR.Application.Common.IDisposable;
+global using IDisposable = SmartEMR.Application.Interface.IDisposable;
 global using System;
 global using System.Linq;
 global using System.Threading;

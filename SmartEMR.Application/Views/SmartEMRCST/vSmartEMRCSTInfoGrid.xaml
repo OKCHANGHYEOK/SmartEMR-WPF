@@ -42,12 +42,14 @@
 
             <Xpf:DateEdit   Grid.Column="2"
                             Grid.ColumnSpan="3"
+                            Tag="CST_YYMMDD"
                             EditValue="{Binding CST_YYMMDD}"
                             FontWeight="Bold"
                             DisplayFormatString="yyyy년 MM월 dd일 dddd"
                             Margin="2,0,2,0"
                             ShowClearButton="False"
-                            ShowToday="False"/>
+                            ShowToday="False"
+                            EditValueChanging="OnEditValueChanging_DateEdit"/>
 
 
             <Xpf:DateEdit   Grid.Column="5"
