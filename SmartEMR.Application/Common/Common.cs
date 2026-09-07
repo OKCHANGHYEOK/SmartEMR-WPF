@@ -49,6 +49,12 @@ public enum ConsultationStatus
     END
 }
 
+public enum CopaymentType
+{
+    General,
+    Senior
+}
+
 public partial class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();
@@ -406,6 +412,76 @@ public partial class Common
         };
 
         return fontsizes;
+    }
+}
+
+public partial class Common
+{
+    public decimal CalculateOwnPatientPrice(decimal insuredPrice, CopaymentType copaymentType = CopaymentType.General)
+    {
+        if (SmartMVVM.AppSession.Member?.MEM_BizType == "HOS")
+        {
+            return GetOwnPatientPriceHospital(insuredPrice);
+        }
+        else if (SmartMVVM.AppSession.Member?.MEM_BizType == "CLN")
+        {
+            return GetOwnPatientPriceClinic(insuredPrice, copaymentType);
+        }
+        else
+        {
+            throw new InvalidOperationException("지원하지 않는 의료기관 종별입니다.");
+        }
+    }
+
+
+    public CopaymentType GetCopaymentType(Patient patient)
+    {
+        if (patient.PAT_Age >= 65)
+        {
+            return CopaymentType.Senior;
+        }
+
+        return CopaymentType.General;
+    }
+
+    private decimal GetOwnPatientPriceHospital(decimal insuredPrice) 
+    {
+        return insuredPrice * 0.40m;
+    }
+
+    private decimal GetOwnPatientPriceClinic(decimal insuredPrice, CopaymentType copaymentType)
+    {
+        return copaymentType switch
+        {
+            CopaymentType.General => insuredPrice * 0.30m,
+            CopaymentType.Senior => CalculateOwnPatientPriceForSenior(insuredPrice),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
+    private decimal CalculateOwnPatientPriceForSenior(decimal insuredPrice)
+    {
+        if (insuredPrice <= 15000)
+        {
+            return 1500;
+        }
+
+        decimal ownPatientRate;
+
+        if (insuredPrice <= 20000)
+        {
+            ownPatientRate = 0.10m;
+        }
+        else if (insuredPrice <= 25000)
+        {
+            ownPatientRate = 0.20m;
+        }
+        else
+        {
+            ownPatientRate = 0.30m;
+        }
+
+        return insuredPrice * ownPatientRate;
     }
 }
 
