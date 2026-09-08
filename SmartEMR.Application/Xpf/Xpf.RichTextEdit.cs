@@ -105,17 +105,8 @@ public partial class RichTextEdit : UserControl
 
         DocumentRange range = _richEdit.Document.Selection;
         if (range.Length == 0) return;
-        
-        CharacterProperties properties = _richEdit.Document.BeginUpdateCharacters(range);
 
-        try
-        {
-            properties.Bold = element.IsChecked.GetValueOrDefault(false);
-        }
-        finally
-        {
-            _richEdit.Document.EndUpdateCharacters(properties);
-        }
+        SetFontBold(range);
     }
 
     private void OnTextChanged_RichEdit(object? sender, EventArgs e)
@@ -131,32 +122,14 @@ public partial class RichTextEdit : UserControl
 
     private void OnAutoCorrect_RichEdit(object? sender, AutoCorrectEventArgs e)
     {
-        if (_richEdit is null || _fontBoldToggle is null)
-            return;
-
-        if (e.AutoCorrectInfo.Text.Length <= 0)
-            return;
+        if (_richEdit is null || e.AutoCorrectInfo.Text.Length <= 0) return;
 
         Document document = _richEdit.Document;
 
         int position = document.CaretPosition.ToInt() - 1;
+        if (position < 0) return;
 
-        if (position < 0)
-            return;
-
-        DocumentRange range = document.CreateRange(position, 1);
-
-        CharacterProperties properties =
-            document.BeginUpdateCharacters(range);
-
-        try
-        {
-            properties.Bold = _fontBoldToggle.IsChecked.GetValueOrDefault(false);
-        }
-        finally
-        {
-            document.EndUpdateCharacters(properties);
-        }
+        SetFontBold(document.CreateRange(position, 1));
     }
 
     private void OnEditValueChanged_ColorEdit(object sender, EditValueChangedEventArgs e)
@@ -221,6 +194,22 @@ public partial class RichTextEdit : UserControl
         try
         {
             properties.FontSize = (float)fontSize;
+        }
+        finally
+        {
+            _richEdit.Document.EndUpdateCharacters(properties);
+        }
+    }
+
+    private void SetFontBold(DocumentRange range)
+    {
+        if (_richEdit is null || _fontBoldToggle is null) return;
+
+        CharacterProperties properties = _richEdit.Document.BeginUpdateCharacters(range);
+
+        try
+        {
+            properties.Bold = _fontBoldToggle.IsChecked.GetValueOrDefault(false);
         }
         finally
         {
