@@ -473,11 +473,11 @@
                         <!-- Toolbar -->
                         <ToolBar Grid.Row="0">
                             <!-- 문자 서식 -->
-                            <ToggleButton   Content="B"
+                            <ToggleButton   x:Name="FontBoldToggle"
+                                            Content="B"
                                             FontWeight="Bold"
                                             Width="28"
-                                            Height="28"
-                                            Command="{Binding CommandProvider.FontBold, ElementName=RichEdit}"/>
+                                            Height="28"/>
 
                             <ToggleButton   Content="𝐈"
                                             FontStyle="Italic"
