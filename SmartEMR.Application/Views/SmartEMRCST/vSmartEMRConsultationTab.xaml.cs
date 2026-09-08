@@ -213,7 +213,8 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         if (selectedCST is null) return;
 
         await vm.SetSelectedCST(selectedCST);
-        //await SmartEMRConulstationTabCSTOInfo.UpdateDataBySelectedCST(selectedCST);
+
+        SmartUI.SetNofification("진료 선택되었습니다.", NotificationType.Info);
     }
 
     private void AddCSTO(Order item)

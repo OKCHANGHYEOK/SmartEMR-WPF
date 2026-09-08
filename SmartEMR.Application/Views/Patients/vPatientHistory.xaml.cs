@@ -46,7 +46,6 @@ public partial class vPatientHistory : ModelViewLayout<PatientHistoryViewModel>
                     {
                         await SmartUI.SendMessage("SetSelectedCST", dataItem, viewType:TargetViewType.PageView);
 
-                        SmartUI.SetNofification("선택된 진료가 적용되었습니다.", NotificationType.Info);
                     }
                     break;
             }

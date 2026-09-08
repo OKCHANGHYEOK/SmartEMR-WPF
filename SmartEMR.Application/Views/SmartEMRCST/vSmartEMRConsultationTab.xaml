@@ -38,7 +38,7 @@
 
                 <dxd:LayoutGroup Orientation="Horizontal">
                     <dxd:LayoutGroup Orientation="Vertical">
-                        <Xpf:LayoutPanel Caption="진료정보" ItemHeight="250">
+                        <Xpf:LayoutPanel Caption="진료정보" ItemHeight="1.4*">
                             <local:vSmartEMRCSTInfoGrid x:Name="SmartEMRCSTInfo"/>
                         </Xpf:LayoutPanel>
                         <Xpf:LayoutPanel ShowCaption="False" ItemHeight="1*">
