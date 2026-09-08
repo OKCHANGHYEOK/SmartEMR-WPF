@@ -9,6 +9,12 @@ namespace SmartEMR.Infrastructure;
 
 public class DataStore
 {
+    private class RefreshTokenRequest
+    {
+        public int? MUR_Idx { get; set; }
+        public string? TOKEN_VALUE { get; set; }
+    }
+
     private readonly HttpClient _client = new HttpClient();
     private readonly ITokenProvider _tokenProvider;
 
@@ -28,7 +34,7 @@ public class DataStore
     {
         PropertyNameCaseInsensitive = true,
         DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
-        NumberHandling = JsonNumberHandling.AllowReadingFromString
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
     };
 
     public DataStore(ITokenProvider tokenProvider)
@@ -182,7 +188,7 @@ public class DataStore
 
             string url = $"{APIUrl.TrimEnd('/')}/Auth/refresh_access_token";
 
-            var request = new
+            var request = new RefreshTokenRequest
             {
                 MUR_Idx = currentToken.User?.MUR_Idx,
                 TOKEN_VALUE = currentToken.RefreshToken
