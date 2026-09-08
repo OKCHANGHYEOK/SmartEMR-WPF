@@ -199,7 +199,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
     {
         await SetPatientData(new Patient { PAT_Idx = item.PAT_Idx });
 
-        Consultation? selectedCST = new();
+        Consultation? selectedCST = null;
 
         if (item.RCP_Idx.GetValueOrDefault(0) == 0)
         {

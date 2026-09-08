@@ -145,7 +145,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             CST_Status = Model.CST_Status,
             CST_PayStatus = Model.CST_PayStatus,
             CST_Subject = Model.CST_Subject,
-            CST_YYMMDD = Model.CST_YYMMDD,
+            CST_YYMMDD = SmartMVVM.Common.GetYYMMDDByDateString(Model.CST_YYMMDD),
 
             Keyword = Model.Keyword,
             SortField = Model.SortField,
