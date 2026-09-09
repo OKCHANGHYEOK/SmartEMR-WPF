@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
-public partial class RichTextEdit : UserControl
+public partial class RichTextEdit : UserControl, IDisposable
 {
     public static readonly DependencyProperty TextProperty =
         DependencyProperty.Register(nameof(Text), typeof(string), typeof(RichTextEdit), new PropertyMetadata(string.Empty, OnTextChanged));
@@ -49,9 +49,12 @@ public partial class RichTextEdit : UserControl
         get => (string)GetValue(NullTextProperty);
         set => SetValue(NullTextProperty, value);
     }
+    public bool disposed { get; set; } = false;
 
     private PopupColorEdit? _colorEdit;
     private System.Windows.Controls.Primitives.ToggleButton? _fontBoldToggle;
+    private System.Windows.Controls.Primitives.ToggleButton? _fontItalicToggle;
+    private System.Windows.Controls.Primitives.ToggleButton? _fontUnderlineToggle;
     private ComboBoxEdit? _fontFamilyComboBox;
     private ComboBoxEdit? _fontSizeComboBox;
     private RichEditControl? _richEdit;
@@ -79,7 +82,7 @@ public partial class RichTextEdit : UserControl
 
     public override void OnApplyTemplate()
     {
-        //ClearEventHandler();
+        ClearEventHandler();
 
         base.OnApplyTemplate();
 
@@ -87,6 +90,8 @@ public partial class RichTextEdit : UserControl
         _richEdit = GetTemplateChild("RichEdit") as RichEditControl;
         _colorEdit = GetTemplateChild("ColorEdit") as PopupColorEdit;
         _fontBoldToggle = GetTemplateChild("FontBoldToggle") as System.Windows.Controls.Primitives.ToggleButton;
+        _fontItalicToggle = GetTemplateChild("FontItalicToggle") as System.Windows.Controls.Primitives.ToggleButton;
+        _fontUnderlineToggle = GetTemplateChild("FontUnderlineToggle") as System.Windows.Controls.Primitives.ToggleButton;
         _fontFamilyComboBox = GetTemplateChild("cmbFontFamiliy") as ComboBoxEdit;
         _fontSizeComboBox = GetTemplateChild("cmbFontSize") as ComboBoxEdit;
 
@@ -94,6 +99,8 @@ public partial class RichTextEdit : UserControl
         _richEdit?.AutoCorrect += OnAutoCorrect_RichEdit;
         _colorEdit?.EditValueChanged += OnEditValueChanged_ColorEdit;
         _fontBoldToggle?.Click += OnClick_ToggleButton;
+        _fontItalicToggle?.Click += OnClick_ToggleButton;
+        _fontUnderlineToggle?.Click += OnClick_ToggleButton;
         _fontFamilyComboBox?.EditValueChanged += OnEditValueChanged_FontFamily;
         _fontSizeComboBox?.EditValueChanged += OnEditValueChanged_FontSize;
     }
@@ -106,7 +113,18 @@ public partial class RichTextEdit : UserControl
         DocumentRange range = _richEdit.Document.Selection;
         if (range.Length == 0) return;
 
-        SetFontBold(range);
+        if (element == _fontBoldToggle)
+        {
+            SetFontBold(range);
+        }
+        else if (element == _fontItalicToggle)
+        {
+            SetFontItalic(range);
+        }
+        else if (element == _fontUnderlineToggle)
+        {
+            SetFontUnderline(range);
+        }
     }
 
     private void OnTextChanged_RichEdit(object? sender, EventArgs e)
@@ -130,6 +148,8 @@ public partial class RichTextEdit : UserControl
         if (position < 0) return;
 
         SetFontBold(document.CreateRange(position, 1));
+        SetFontItalic(document.CreateRange(position, 1));
+        SetFontUnderline(document.CreateRange(position, 1));
     }
 
     private void OnEditValueChanged_ColorEdit(object sender, EditValueChangedEventArgs e)
@@ -214,6 +234,85 @@ public partial class RichTextEdit : UserControl
         finally
         {
             _richEdit.Document.EndUpdateCharacters(properties);
+        }
+    }
+
+    private void SetFontItalic(DocumentRange range)
+    {
+        if (_richEdit is null || _fontItalicToggle is null) return;
+
+        CharacterProperties properties = _richEdit.Document.BeginUpdateCharacters(range);
+        try
+        {
+            properties.Italic = _fontItalicToggle.IsChecked.GetValueOrDefault(false);
+        }
+        finally
+        {
+            _richEdit.Document.EndUpdateCharacters(properties);
+        }
+    }
+
+
+    private void SetFontUnderline(DocumentRange range)
+    {
+        if (_richEdit is null || _fontUnderlineToggle is null) return;
+
+        CharacterProperties properties = _richEdit.Document.BeginUpdateCharacters(range);
+        try
+        {
+            properties.Underline = _fontUnderlineToggle.IsChecked.GetValueOrDefault(false) ? UnderlineType.Single : UnderlineType.None;
+        }
+        finally
+        {
+            _richEdit.Document.EndUpdateCharacters(properties);
+        }
+    }
+
+    private void ClearEventHandler()
+    {
+        if (_richEdit is not null)
+        {
+            _richEdit.TextChanged -= OnTextChanged_RichEdit;
+            _richEdit.AutoCorrect -= OnAutoCorrect_RichEdit;
+        }
+
+        if (_colorEdit is not null)
+        {
+            _colorEdit.EditValueChanged -= OnEditValueChanged_ColorEdit;
+        }
+
+        if (_fontBoldToggle is not null)
+        {
+            _fontBoldToggle.Click -= OnClick_ToggleButton;
+        }
+
+        if (_fontItalicToggle is not null)
+        {
+            _fontItalicToggle.Click -= OnClick_ToggleButton;
+        }
+
+        if (_fontUnderlineToggle is not null)
+        {
+            _fontUnderlineToggle.Click -= OnClick_ToggleButton;
+        }
+
+        if (_fontFamilyComboBox is not null)
+        {
+            _fontFamilyComboBox.EditValueChanged -= OnEditValueChanged_FontFamily;
+        }
+
+        if (_fontSizeComboBox is not null)
+        {
+            _fontSizeComboBox.EditValueChanged -= OnEditValueChanged_FontSize;
+        }
+    }
+
+    public void Dispose(bool disposedValue)
+    {
+        if (!disposedValue) 
+        {
+            ClearEventHandler();
+            disposed = true;
         }
     }
 }

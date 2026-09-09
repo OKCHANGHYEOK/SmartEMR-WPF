@@ -479,15 +479,15 @@
                                             Width="28"
                                             Height="28"/>
 
-                            <ToggleButton   Content="𝐈"
+                            <ToggleButton   x:Name="FontItalicToggle"
+                                            Content="𝐈"
                                             FontStyle="Italic"
                                             Width="28"
-                                            Height="28"
-                                            Command="{Binding CommandProvider.FontItalic, ElementName=RichEdit}"/>
+                                            Height="28"/>
 
-                            <ToggleButton   Width="28"
-                                            Height="28"
-                                            Command="{Binding CommandProvider.FontUnderline, ElementName=RichEdit}">
+                            <ToggleButton   x:Name="FontUnderlineToggle"
+                                            Width="28"
+                                            Height="28">
                                 <Xpf:TextBlock Text="U" TextDecorations="Underline"/>
                             </ToggleButton>
 
