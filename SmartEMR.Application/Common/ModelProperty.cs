@@ -448,6 +448,8 @@ public class ModelProperty
         item.CST_YYMMDD = string.IsNullOrWhiteSpace(item.CST_YYMMDD) ? DateTime.Now.ToString("yyyy-MM-dd") : item.CST_YYMMDD;
         item.CST_StartTime = "00:00";
         item.CST_EndTime = "23:59";
+        item.CST_Memo = "";
+        item.CST_Opinion = "";
     }
 
     public void SetConsultationData(Consultation oldItem, Consultation newItem)

@@ -3,7 +3,6 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -44,6 +43,8 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
     public void ClearCSTData()
     {
         SmartMVVM.ModelProperty.SetDefaultConsultationData(SelectedCST);
+
+        RichTextEdit.ClearDocument();
     }
 
     private async void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
