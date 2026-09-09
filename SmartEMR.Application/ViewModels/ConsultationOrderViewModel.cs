@@ -136,7 +136,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
             PAY_TotalPrice = insuredTotal + nonInsuredTotal
         };
 
-        await SmartUI.SendMessage("UpdatePriceInfo", sendItem, viewType:TargetViewType.PageView);
+        await SmartUI.SendMessage("UpdatePayInfo", sendItem, viewType:TargetViewType.PageView);
     }
 
     public void ClearData()

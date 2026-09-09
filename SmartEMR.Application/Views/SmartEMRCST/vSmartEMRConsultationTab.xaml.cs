@@ -107,12 +107,12 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
-            case "UpdatePriceInfo":
+            case "UpdatePayInfo":
                 {
                     var paramItem = request.MessageParameter as Pay;
                     if (paramItem is not null)
                     {
-                        UpdatePriceInfo(paramItem);
+                        UpdatePayInfo(paramItem);
                     }
 
                     break;
@@ -270,7 +270,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         SmartEMRConulstationTabCSTOInfo.DeleteCSTO(delItem);
     }
 
-    private void UpdatePriceInfo(Pay item)
+    private void UpdatePayInfo(Pay item)
     {
         SmartEMRConsultationTabPayInfo.UpdatePriceData(item);
     }
