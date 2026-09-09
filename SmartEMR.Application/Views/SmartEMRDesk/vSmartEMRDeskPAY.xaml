@@ -96,7 +96,7 @@
                             DisplayFormat="N0"
                             Suffix="원"/>
 
-            <Xpf:ColumnItem FieldName="PAY_NonInsurecPrice"
+            <Xpf:ColumnItem FieldName="PAY_NonInsuredPrice"
                             Header="비급여총액"
                             ColumnWidth="80"
                             ColumnStyle="Sum"

@@ -6,6 +6,7 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using System.Windows.Data;
 using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
@@ -106,6 +107,17 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "UpdatePriceInfo":
+                {
+                    var paramItem = request.MessageParameter as Pay;
+                    if (paramItem is not null)
+                    {
+                        UpdatePriceInfo(paramItem);
+                    }
+
+                    break;
+                }
+
             case "MoveIRCInfo":
                 if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
                 {
@@ -192,7 +204,9 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         await PatientViewSummary.SetPatientData(SelectedPAT);
         await PatientHistory.SetPatientData(SelectedPAT);
-        await SmartEMRCSTInfo.SetPatientData(SelectedPAT);
+        await SmartEMRConulstationTabCSTOInfo.SetPatientData(SelectedPAT);
+
+        SmartEMRCSTInfo.SetPatientData(SelectedPAT);
     }
 
     private async void SetSelectedCST(Consultation item)
@@ -256,7 +270,12 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         SmartEMRConulstationTabCSTOInfo.DeleteCSTO(delItem);
     }
 
-    private void ClearData(bool isClearPAT = false, bool isClearCST = false)
+    private void UpdatePriceInfo(Pay item)
+    {
+        SmartEMRConsultationTabPayInfo.UpdatePriceData(item);
+    }
+
+    private async void ClearData(bool isClearPAT = false, bool isClearCST = false)
     {
         if (isClearPAT)
         {
@@ -267,7 +286,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         if (isClearCST)
         {
-            vm.ClearData();
+            await vm.ClearData();
             SmartEMRConulstationTabCSTOInfo.ClearData();
         } 
     }

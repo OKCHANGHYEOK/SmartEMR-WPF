@@ -5,7 +5,6 @@ using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -15,11 +14,24 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     private ObservableCollection<ConsultationOrder> consultationOrderItems = new();
     private List<ConsultationOrder> deletedItems = new();
 
+    private Patient SelectedPAT = new();
     private Consultation SelectedCST = new();
+
+    private CopaymentType copaymentType
+    {
+        get
+        {
+            if (SelectedPAT is not null)
+            {
+                return SmartMVVM.Common.GetCopaymentType(SelectedPAT);
+            }
+
+            return CopaymentType.General;
+        }
+    }
 
     public override void Initialize()
     {
-        ConsultationOrderItems.CollectionChanged += OnConsultationOrderItemsChanged;
     }
 
     public override async Task InitializeAsync()
@@ -30,6 +42,11 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     protected override ConsultationOrder GetModel(ConsultationOrder item)
     {
         return item;
+    }
+
+    public void SetPatientData(Patient item)
+    {
+        SmartMVVM.ModelProperty.SetPatientData(SelectedPAT, item);
     }
 
     public async Task UpdateDataBySelectedCST(Consultation item)
@@ -79,6 +96,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         addItem.vCSTO_InsuranceType = SmartMVVM.Common.GetCommonCodeName("ORD", "InsuranceType", addItem.CSTO_InsuranceType)?[..1];
 
         ConsultationOrderItems.Add(addItem);
+
+        UpdatePriceData();
     }
 
     public void DeleteCSTO(ConsultationOrder item)
@@ -87,13 +106,37 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         if (delItem is not null)
         {
             ConsultationOrderItems.Remove(delItem);
+
+            delItem.CSTO_IsValid = false;
+            deletedItems.Add(delItem);
         }
+
+        UpdatePriceData();
     }
 
     public void UpdateCSTOData(ConsultationOrder item)
     {
         item.CSTO_Amount = item.CSTO_Day * item.CSTO_Count;
         item.CSTO_TotalPrice = item.CSTO_Price * item.CSTO_Amount;
+
+        UpdatePriceData();
+    }
+
+    public async void UpdatePriceData()
+    {
+        var insuredTotal = ConsultationOrderItems.Where(x => x.CSTO_InsuranceType == "INS").Sum(x => x.CSTO_TotalPrice);
+        var ownPatientTotal = SmartMVVM.Common.CalculateOwnPatientPrice(insuredTotal.GetValueOrDefault(0), copaymentType);
+        var nonInsuredTotal = ConsultationOrderItems.Where(x => x.CSTO_InsuranceType == "NON").Sum(x => x.CSTO_TotalPrice);
+
+        var sendItem = new Pay
+        {
+            PAY_InsuredPrice = insuredTotal,
+            PAY_OwnPatientPrice = ownPatientTotal,
+            PAY_NonInsuredPrice = nonInsuredTotal,
+            PAY_TotalPrice = insuredTotal + nonInsuredTotal
+        };
+
+        await SmartUI.SendMessage("UpdatePriceInfo", sendItem, viewType:TargetViewType.PageView);
     }
 
     public void ClearData()
@@ -135,29 +178,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     {
         foreach (var item in ConsultationOrderItems.Reverse())
         {
-            ConsultationOrderItems.Remove(item);
-        }
-    }
-
-    private void OnConsultationOrderItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (sender is not ObservableCollection<ConsultationOrder> consultationOrders) return;
-
-        foreach (var item in consultationOrders)
-        {
-            item.ViewIndex = consultationOrders.IndexOf(item);
-        }
-
-        if (e.Action == NotifyCollectionChangedAction.Remove && e.NewItems != null)
-        {
-            foreach (var item in e.NewItems)
-            {
-                if (item is ConsultationOrder cItem)
-                {
-                    cItem.CSTO_IsValid = false;
-                    deletedItems.Add(cItem);
-                }
-            }
+            DeleteCSTO(item);
         }
     }
 }

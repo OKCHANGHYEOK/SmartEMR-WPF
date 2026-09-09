@@ -30,7 +30,7 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
     {
     }
 
-    public async Task SetPatientData(Patient item)
+    public void SetPatientData(Patient item)
     {
         SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, item);
     }

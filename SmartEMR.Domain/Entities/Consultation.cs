@@ -24,7 +24,7 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     private string? m_CST_EndTime;
     private Decimal? m_CST_TotalPrice;
     private Decimal? m_CST_InsuredPrice;
-    private Decimal? m_CST_NonInsurecPrice;
+    private Decimal? m_CST_NonInsuredPrice;
     private Decimal? m_CST_OwnPatientPrice;
     private Decimal? m_CST_PaidPrice;
     private Decimal? m_CST_RemainPrice;
@@ -186,10 +186,10 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
         set => SetProperty(ref m_CST_InsuredPrice, value);
     }
 
-    public Decimal? CST_NonInsurecPrice
+    public Decimal? CST_NonInsuredPrice
     {
-        get => m_CST_NonInsurecPrice;
-        set => SetProperty(ref m_CST_NonInsurecPrice, value);
+        get => m_CST_NonInsuredPrice;
+        set => SetProperty(ref m_CST_NonInsuredPrice, value);
     }
 
     public Decimal? CST_OwnPatientPrice

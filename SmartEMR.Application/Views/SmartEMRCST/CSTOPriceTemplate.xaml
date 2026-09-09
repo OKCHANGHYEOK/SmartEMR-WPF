@@ -1,0 +1,31 @@
+﻿<Xpf:GridTemplate   x:Class="SmartEMR.Application.Views.SmartEMRCST.CSTOPriceTemplate"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRCST"
+                    xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                    xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    mc:Ignorable="d">
+
+    <Xpf:TextEdit EditValue="{Binding CSTO_Price, UpdateSourceTrigger=PropertyChanged}"
+                  DisplayFormatString="#,##0"
+                  IsReadOnly="{Binding CSTO_InsuranceType, Converter={local:InsuranceTypeToBooleanConverter}}"
+                  Mask="n0"
+                  MaskType="Numeric"
+                  Margin="2"
+                  EditValueChanged="OnEditValueChanged_TextEdit">
+        
+        <Xpf:TextEdit.Resources>
+            <Style TargetType="{x:Type Xpf:TextEdit}">
+                <Style.Triggers>
+                    <Trigger Property="IsReadOnly" Value="True">
+                        <Setter Property="Background" Value="#E9ECEF"/>
+                        <Setter Property="Foreground" Value="#5C6770"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Xpf:TextEdit.Resources>
+    </Xpf:TextEdit>
+</Xpf:GridTemplate>

@@ -24,12 +24,17 @@
             <Xpf:Label Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Background="#F8FAFC">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <Xpf:TextBlock HorizontalAlignment="Center">
-                        <Run Text="{Binding Model.PAY_InsuredPrice, TargetNullValue=0}" FontWeight="Bold"/>
+                        <Run Text="{Binding Model.PAY_InsuredPrice, 
+                                            TargetNullValue=0,
+                                            StringFormat={}{0:N0}}" 
+                             FontWeight="Bold"/>
                         <Run>원</Run>
                         <Run>  </Run>
                         <Run Foreground="#356A8A">(</Run>
                         <Run Foreground="#356A8A">본인부담금 : </Run>
-                        <Run Text="{Binding Model.PAY_OwnPatientPrice, TargetNullValue=0}"/>
+                        <Run Text="{Binding Model.PAY_OwnPatientPrice, 
+                                            TargetNullValue=0,
+                                            StringFormat={}{0:N0}}"/>
                         <Run Foreground="#356A8A">원</Run>
                         <Run Foreground="#356A8A">)</Run>
                     </Xpf:TextBlock>
@@ -45,7 +50,7 @@
             <Xpf:Label Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Background="#F8FAFC">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <Xpf:TextBlock HorizontalAlignment="Center">
-                        <Run Text="{Binding Model.PAY_NonInsurecPrice, TargetNullValue=0}" FontWeight="Bold"/>
+                        <Run Text="{Binding Model.PAY_NonInsuredPrice, TargetNullValue=0}" FontWeight="Bold"/>
                         <Run>원</Run>
                     </Xpf:TextBlock>
                 </StackPanel>

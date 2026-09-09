@@ -80,9 +80,7 @@
                             Header="단가"
                             ColumnWidth="50"
                             ColumnStyle="Sum"
-                            Foreground="DarkSlateGray"
-                            DisplayFormat="#,##0"
-                            Suffix="원"/>
+                            CellTemplateType="{x:Type local:CSTOPriceTemplate}"/>
 
             <Xpf:ColumnItem FieldName="CSTO_Name"
                             Header="오더명"

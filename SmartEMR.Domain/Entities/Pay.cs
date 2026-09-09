@@ -10,7 +10,7 @@ public class Pay : BaseEntity
     private string? m_PAY_Status;
     private Decimal? m_PAY_TotalPrice;
     private Decimal? m_PAY_InsuredPrice;
-    private Decimal? m_PAY_NonInsurecPrice;
+    private Decimal? m_PAY_NonInsuredPrice;
     private Decimal? m_PAY_OwnPatientPrice;
     private Decimal? m_PAY_PaidPrice;
     private Decimal? m_PAY_RemainPrice;
@@ -69,10 +69,10 @@ public class Pay : BaseEntity
         set => SetProperty(ref m_PAY_InsuredPrice, value);
     }
 
-    public Decimal? PAY_NonInsurecPrice
+    public Decimal? PAY_NonInsuredPrice
     {
-        get => m_PAY_NonInsurecPrice;
-        set => SetProperty(ref m_PAY_NonInsurecPrice, value);
+        get => m_PAY_NonInsuredPrice;
+        set => SetProperty(ref m_PAY_NonInsuredPrice, value);
     }
 
     public Decimal? PAY_OwnPatientPrice

@@ -3,7 +3,6 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using System.Collections.ObjectModel;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -12,8 +11,6 @@ namespace SmartEMR.Application.Views.SmartEMRCST;
 /// </summary>
 public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<ConsultationOrderViewModel>
 {
-    public ObservableCollection<ConsultationOrder> ConsultationOrders => vm.ConsultationOrderItems;
-
     public vSmartEMRConsultationTabCSTOInfo() {}
 
     protected override async void Initialize() {}
@@ -52,6 +49,32 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
 
                 break;
         }
+    }
+
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse() { IsSuccess = false };
+
+        switch (request.MessageAction)
+        {
+            case "UpdateCSTOByPrice":
+                var paramItem = request.MessageParameter as ConsultationOrder;
+                if (paramItem is not null)
+                {
+                    vm.UpdateCSTOData(paramItem);
+                }
+
+                break;
+        }
+
+        response.IsSuccess = true;
+
+        return response;
+    }
+
+    public override async Task SetPatientData(Patient item)
+    {
+        vm.SetPatientData(item);
     }
 
     public async Task UpdateDataBySelectedCST(Consultation item)

@@ -114,6 +114,8 @@ public abstract partial class ModelViewLayout
 
 public abstract partial class ModelViewLayout
 {
+    public ModelViewLayout() { }
+
     protected readonly List<DataGrid> _dataGrids = new();
     public IReadOnlyList<DataGrid> DataGrids => _dataGrids;
 

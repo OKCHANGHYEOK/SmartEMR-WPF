@@ -7,6 +7,8 @@ public partial class PayViewModel : BaseViewModel<Pay>
 {
     public string NowYYYYMMDD { get; set; } = DateTime.Now.ToString("yyyy.MM.dd");
 
+    public PayViewModel() { }
+
     public override void Initialize()
     {
     }

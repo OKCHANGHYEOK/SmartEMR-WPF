@@ -509,4 +509,16 @@ public class ModelProperty
     }
 
     #endregion
+
+    #region "Pay"
+
+    public void SetPayData(Pay oldItem, Pay newItem)
+    {
+        oldItem.PAY_InsuredPrice = newItem.PAY_InsuredPrice;
+        oldItem.PAY_OwnPatientPrice = newItem.PAY_OwnPatientPrice;
+        oldItem.PAY_NonInsuredPrice = newItem.PAY_NonInsuredPrice;
+        oldItem.PAY_TotalPrice = newItem.PAY_TotalPrice;
+    }
+
+    #endregion
 }

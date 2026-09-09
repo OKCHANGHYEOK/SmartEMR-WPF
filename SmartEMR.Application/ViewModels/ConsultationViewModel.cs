@@ -277,8 +277,13 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     }
 
     [RelayCommand]
-    public void ClearData(bool isClearFilter = false)
+    public async Task ClearData(bool isClearFilter = false)
     {
         SmartMVVM.ModelProperty.ClearCSTData(Model, isClearFilter);
+
+        if (isClearFilter)
+        {
+            await UpdateConsultationsByRCP();
+        }
     }
 }
