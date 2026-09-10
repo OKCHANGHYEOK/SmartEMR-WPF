@@ -427,11 +427,15 @@ public class ModelProperty
         item.CST_SubjectName = paramItem.CST_SubjectName;
         item.CST_StartTime = paramItem.CST_StartTime;
         item.CST_EndTime = paramItem.CST_EndTime;
+        item.CST_InsuredPrice = paramItem.CST_InsuredPrice;
+        item.CST_OwnPatientPrice = paramItem.CST_OwnPatientPrice;
+        item.CST_NonInsuredPrice = paramItem.CST_NonInsuredPrice;
         item.CST_TotalPrice = paramItem.CST_TotalPrice;
         item.CST_Opinion = paramItem.CST_Opinion;
         item.CST_Memo = paramItem.CST_Memo;
-        item.CST_IsValid = true;
         item.CSTO_Property = JsonSerializer.Serialize(consultationOrders, new JsonSerializerOptions { WriteIndented = true });
+        item.CST_IsValid = true;
+        item.IRCItem = paramItem.IRCItem;
 
         return item;
     }

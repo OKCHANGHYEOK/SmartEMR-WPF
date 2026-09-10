@@ -283,6 +283,8 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
     private void UpdatePayInfo(Pay item)
     {
         SmartEMRConsultationTabPayInfo.UpdatePriceData(item);
+
+        vm.UpdatePriceData(item);
     }
 
     private async void ClearData(bool isClearPAT = false, bool isClearCST = false)

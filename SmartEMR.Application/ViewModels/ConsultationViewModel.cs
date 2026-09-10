@@ -38,6 +38,20 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 
         return item;
     }
+    public async Task GetRecentCST()
+    {
+        SmartUI.SetNofification("기능 구현 중입니다.", NotificationType.Warning);
+    }
+    public ConsultationOrder? GetCSTOItemByDEL(Order paramItem)
+    {
+        var targetItem = _consultationOrders.FirstOrDefault(x => x.ORD_Idx == paramItem.ORD_Idx);
+        if (targetItem is not null)
+        {
+            return targetItem;
+        }
+
+        return null;
+    }
 
     public async Task SetSelectedCST(Consultation item, bool isUserSelection = true)
     {
@@ -102,35 +116,12 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         _deletedCSTOItems = items[1];
     }
 
-    public ConsultationOrder? GetCSTOItemByDEL(Order paramItem)
+    public void UpdatePriceData(Pay item)
     {
-        var targetItem = _consultationOrders.FirstOrDefault(x => x.ORD_Idx == paramItem.ORD_Idx);
-        if (targetItem is not null)
-        {
-            return targetItem;
-        }
-
-        return null;
-    }
-
-    public async Task GetRecentCST()
-    {
-        SmartUI.SetNofification("기능 구현 중입니다.", NotificationType.Warning);
-    }
-
-    public bool CanEnterOrder(Order item)
-    {
-        if (OrderMaster.ORDER_ASSESSMENTS.Contains(item.ORD_SugaCode))
-        {
-            ConsultationOrder? ASMItem = _consultationOrders.FirstOrDefault(x => OrderMaster.ORDER_ASSESSMENTS.Contains(x.CSTO_SugaCode));
-            if (ASMItem is not null)
-            {
-                SmartUI.SetNofification("진찰료는 중복 처방할 수 없습니다.", NotificationType.Warning);
-                return false;
-            }
-        }
-
-        return true;
+        Model.CST_InsuredPrice = item.PAY_InsuredPrice;
+        Model.CST_NonInsuredPrice = item.PAY_NonInsuredPrice;
+        Model.CST_OwnPatientPrice = item.PAY_OwnPatientPrice;
+        Model.CST_TotalPrice = item.PAY_TotalPrice;
     }
 
     [RelayCommand]
@@ -191,6 +182,20 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         await NotifyCompletedTaskAsync(saveMode);
 
         SmartUI.SetNofification($"진료{actionName} 되었습니다.", NotificationType.Success);
+    }
+
+    public bool CanEnterOrder(Order item)
+    {
+        if (OrderMaster.ORDER_ASSESSMENTS.Contains(item.ORD_SugaCode))
+        {
+            if (_consultationOrders.FirstOrDefault(x => OrderMaster.ORDER_ASSESSMENTS.Contains(x.CSTO_SugaCode)) is not null)
+            {
+                SmartUI.SetNofification("진찰료는 중복 처방할 수 없습니다.", NotificationType.Warning);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private async Task SetInsuranceData(Consultation item)

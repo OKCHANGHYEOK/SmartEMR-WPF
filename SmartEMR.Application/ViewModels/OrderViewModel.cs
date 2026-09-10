@@ -68,6 +68,10 @@ public partial class OrderViewModel : BaseViewModel<Order>
                 getItem.ORDC_Cd = "EXM";
                 break;
 
+            case OrderType.MED:
+                getItem.ORDC_Cd = "MED";
+                break;
+
             case OrderType.DOC:
                 getItem.ORDC_Cd = "DOC";
                 break;
