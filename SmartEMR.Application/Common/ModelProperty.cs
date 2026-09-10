@@ -492,6 +492,7 @@ public class ModelProperty
         else
         {
             item.CST_Idx = 0;
+            item.RCP_Idx = 0;
             item.PAT_Idx = 0;
             item.IRC_Idx = 0;
             item.CST_InsuranceType = "";

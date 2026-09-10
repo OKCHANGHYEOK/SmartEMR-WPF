@@ -588,7 +588,7 @@
                                               BorderBrush="Transparent"
                                               BorderThickness="0"
                                               Background="Transparent"
-                                              Command="{Binding ClearDocumentCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                              Command="{Binding ClearDataCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </ToolBar>
 
 

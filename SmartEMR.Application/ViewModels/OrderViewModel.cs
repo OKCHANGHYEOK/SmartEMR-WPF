@@ -142,4 +142,14 @@ public partial class OrderViewModel : BaseViewModel<Order>
 
         await FetchDataAsync();
     }
+
+    public void ClearData()
+    {
+        if (Orders is null) return;
+
+        foreach (var order in Orders)
+        {
+            order.IsSelected = false;
+        }
+    }
 }

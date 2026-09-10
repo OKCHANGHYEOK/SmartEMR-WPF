@@ -168,11 +168,19 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 break;
 
             case "ClearPAT":
-                ClearData(true);
+                if (SmartUI.MsgYesNo("선택된 환자를 초기화하시겠습니까?\n입력중인 진료도 초기화됩니다.") is System.Windows.MessageBoxResult.No)
+                {
+                    ClearData(true, true);
+                }
+
                 break;
 
             case "ClearSelectedCST":
                 ClearData(false, true);
+                break;
+
+            case "ClearSelectedOrder":
+                SmartEMRConsultationTabOrder.ClearData();
                 break;
         }
 
@@ -199,6 +207,8 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
             SmartUI.SetNofification("환자 정보를 불러오지 못했습니다.", NotificationType.Error);
             return;
         }
+
+        ClearData(true, true);
 
         SmartMVVM.ModelProperty.SetPatientData(SelectedPAT, ret);
 
@@ -287,7 +297,10 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         if (isClearCST)
         {
             await vm.ClearData();
+
+            SmartEMRCSTInfo.ClearCSTData();
             SmartEMRConulstationTabCSTOInfo.ClearData();
+            SmartEMRConsultationTabOrder.ClearData();
         } 
     }
 

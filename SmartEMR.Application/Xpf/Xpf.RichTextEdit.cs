@@ -67,6 +67,13 @@ public partial class RichTextEdit : UserControl, IDisposable
     }
 
     [RelayCommand]
+    public void ClearData()
+    {
+        if (SmartUI.MsgYesNo("입력된 내용이 모두 지워집니다. 지우시겠습니까?") is MessageBoxResult.No) return;
+
+        ClearDocument();
+    }
+
     public void ClearDocument()
     {
         if (_richEdit is null) return;
@@ -74,10 +81,7 @@ public partial class RichTextEdit : UserControl, IDisposable
         DocumentRange range = _richEdit.Document.Range;
         if (range.Length == 0) return;
 
-        if (SmartUI.MsgYesNo("입력된 내용이 모두 지워집니다. 지우시겠습니까?") is MessageBoxResult.Yes)
-        {
-            _richEdit.Document.Delete(range);
-        }
+        _richEdit.Document.Delete(range);
     }
 
     public override void OnApplyTemplate()

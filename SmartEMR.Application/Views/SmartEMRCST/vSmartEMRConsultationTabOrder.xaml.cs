@@ -31,6 +31,11 @@ public partial class vSmartEMRConsultationTabOrder : ModelViewLayout<OrderViewMo
         await vm.FetchDataAsync();
     }
 
+    public void ClearData()
+    {
+        vm.ClearData();
+    }
+
     private async void OnSelectionChanged_TabControl(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)
     {
         if (sender is not DXTabControl tabControl) return;
