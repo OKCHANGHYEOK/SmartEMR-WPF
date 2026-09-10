@@ -42,13 +42,16 @@ public partial class OrderViewModel : BaseViewModel<Order>
 
     public override async Task<bool> FetchDataAsync()
     {
-        var getItem = new Order { 
+        var getItem = new Order 
+        { 
             ORD_InsuranceType = Model.ORD_InsuranceType,
+            ORD_BizType = SmartMVVM.AppSession.Member?.MEM_BizType,
             ORD_IsUse = true, 
             
             Keyword = Model.Keyword,
             PageSize = Model.PageSize, 
-            PageIndex = Model.PageIndex.GetValueOrDefault(0) };
+            PageIndex = Model.PageIndex.GetValueOrDefault(0) 
+        };
 
         switch (_orderType)
         {
@@ -115,6 +118,31 @@ public partial class OrderViewModel : BaseViewModel<Order>
         else
         {
             Model.PageSize = 15;
+        }
+    }
+
+    public void SetSelectedOrders(IQueryable<ConsultationOrder> arrCSTO)
+    {
+        if (Orders is null) return;
+
+        foreach (var item in arrCSTO)
+        {
+            var targetOrder = Orders.FirstOrDefault(x => x.ORD_Idx == item.ORD_Idx);
+            if (targetOrder is not null)
+            {
+                targetOrder.IsSelected = true;
+            }
+        }
+    }
+
+    public void DeSelectOrder(Order item)
+    {
+        if (Orders is null) return;
+
+        var targetOrder = Orders.FirstOrDefault(x => x.ORD_Idx == item.ORD_Idx);
+        if (targetOrder is not null)
+        {
+            targetOrder.IsSelected = false;
         }
     }
 

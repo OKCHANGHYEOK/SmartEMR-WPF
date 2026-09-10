@@ -26,24 +26,26 @@ public class OrderDisplayDataMapper : IDisplayDataMapper<Order>
                 {
                     item.ORD_Name = item.ORD_Name?[0..5];
                 
-                    if (item.ORD_SugaCode == OrderMaster.ORDER_CLINIC_ASM_FIR || item.ORD_SugaCode == OrderMaster.ORDER_CLINIC_ASM_REP)
-                    {
-                        item.ORD_IsView = SmartMVVM.AppSession.Member?.MEM_BizType == "CLN";
-                    }
-                    else if (item.ORD_SugaCode == OrderMaster.ORDER_HOSPITAL_ASM_FIR || item.ORD_SugaCode == OrderMaster.ORDER_HOSPITAL_ASM_REP)
-                    {
-                        item.ORD_IsView = SmartMVVM.AppSession.Member?.MEM_BizType == "HOS";
-                    }
+                    //if (item.ORD_SugaCode == OrderMaster.ORDER_CLINIC_ASM_FIR || item.ORD_SugaCode == OrderMaster.ORDER_CLINIC_ASM_REP)
+                    //{
+                    //    item.ORD_IsView = SmartMVVM.AppSession.Member?.MEM_BizType == "CLN";
+                    //}
+                    //else if (item.ORD_SugaCode == OrderMaster.ORDER_HOSPITAL_ASM_FIR || item.ORD_SugaCode == OrderMaster.ORDER_HOSPITAL_ASM_REP)
+                    //{
+                    //    item.ORD_IsView = SmartMVVM.AppSession.Member?.MEM_BizType == "HOS";
+                    //}
                 }
-
-                if (item.ORDC_Cd == "TRT")
+                else
                 {
-                    item.ORD_Name = GetDisplayOrderNameByTRT(item.ORD_Name);
-                }
+                    if (item.ORDC_Cd == "TRT")
+                    {
+                        item.ORD_Name = GetDisplayOrderNameByTRT(item.ORD_Name);
+                    }
 
-                if (item.ORDC_Cd == "MED")
-                {
-                    item.ORD_Name = GetDisplayOrderNameByMED(item.ORD_Name, item.ORD_SugaCode);
+                    if (item.ORDC_Cd == "MED")
+                    {
+                        item.ORD_Name = GetDisplayOrderNameByMED(item.ORD_Name, item.ORD_SugaCode);
+                    }
                 }
             }
 

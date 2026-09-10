@@ -157,31 +157,44 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Consultations = ret.ToList();
     }
 
-    public async Task SaveDataAsync(SaveMode saveMode = SaveMode.SAVE, ConsultationStatus targetStatus = ConsultationStatus.RDY)
+    [RelayCommand]
+    public async Task SetConsultation(ConsultationStatus targetStatus)
     {
-        string actionName = saveMode switch
+        if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
         {
-            SaveMode.SAVE => "저장",
-            SaveMode.DELETE => "취소",
-            _ => ""
-        };
-
-        bool isSuccess;
-
-        if (saveMode == SaveMode.SAVE)
-        {
-            isSuccess = await SetConsultation(targetStatus);
-        }
-        else
-        {
-            isSuccess = await DeleteConsultation();
+            SmartUI.SetNofification("선택된 진료(접수)가 없습니다.", NotificationType.Warning);
+            return;
         }
 
-        if (!isSuccess) return;
+        SetConsultationStatus(targetStatus);
 
-        await NotifyCompletedTaskAsync(saveMode);
+        var item = SmartMVVM.ModelProperty.GetConsultationDataForSave(Model, _consultationOrders.Concat(_deletedCSTOItems));
+        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultationByCST, item);
 
-        SmartUI.SetNofification($"진료{actionName} 되었습니다.", NotificationType.Success);
+        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("진료 저장에 실패했습니다.", NotificationType.Error);
+            return;
+        }
+
+        await SetSelectedCST(ret);
+        await NotifyCompletedTaskAsync(SaveMode.SAVE);
+    }
+
+    [RelayCommand]
+    public async Task CancelConsultation()
+    {
+        if (SmartUI.MsgYesNo("진료 및 처방 기록이 모두 삭제됩니다.\n 취소하시겠습니까?") is MessageBoxResult.No) return;
+
+        await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_CancelConsultation, new Consultation { CST_Idx = Model.CST_Idx, CST_IsValid = false });
+
+        if (!SmartMVVM.DataStore.retIsSuccess)
+        {
+            SmartUI.SetNofification("진료취소하지 못했습니다.", NotificationType.Error);
+            return;
+        }
+
+        await NotifyCompletedTaskAsync(SaveMode.DELETE);
     }
 
     public bool CanEnterOrder(Order item)
@@ -218,44 +231,6 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Model.IRCItem = IRCItem;
     }
 
-    private async Task<bool> SetConsultation(ConsultationStatus targetStatus)
-    {
-        if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
-        {
-            SmartUI.SetNofification("선택된 진료(접수)가 없습니다.", NotificationType.Warning);
-            return false;
-        }
-
-        SetConsultationStatus(targetStatus);
-
-        var item = SmartMVVM.ModelProperty.GetConsultationDataForSave(Model, _consultationOrders.Concat(_deletedCSTOItems));
-        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultationByCST, item);
-
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
-        {
-            SmartUI.SetNofification("진료 저장에 실패했습니다.", NotificationType.Error);
-            return false;
-        }
-
-        await SetSelectedCST(ret);
-
-        return true;
-    }
-
-    private async Task<bool> DeleteConsultation()
-    {
-        if (SmartUI.MsgYesNo("진료취소하시겠습니까? 진료 및 처방 기록 모두 삭제됩니다.") is MessageBoxResult.No) return false;
-
-        await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultation, new Consultation { CST_Idx = Model.CST_Idx, CST_IsValid = false });
-
-        if (!SmartMVVM.DataStore.retIsSuccess)
-        {
-            SmartUI.SetNofification("진료취소하지 못했습니다.", NotificationType.Error);
-            return false;
-        }
-
-        return true;
-    }
 
     private void SetConsultationStatus(ConsultationStatus targetStatus)
     {
@@ -279,6 +254,8 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         {
             await SmartUI.SendMessage("ClearSelectedCST");
         }
+
+        SmartUI.SetNofification($"진료{(operation == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
     }
 
     [RelayCommand]

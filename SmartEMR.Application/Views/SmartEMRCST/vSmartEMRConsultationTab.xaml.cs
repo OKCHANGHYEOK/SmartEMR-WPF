@@ -96,6 +96,17 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "SetSelectedOrders":
+                {
+                    var paramItem = request.MessageParameter as IQueryable<ConsultationOrder>;
+                    if (paramItem is not null)
+                    {
+                        SmartEMRConsultationTabOrder.SetSelectedOrders(paramItem);
+                    }
+
+                    break;
+                }
+
             case "UpdateCSTOInfo":
                 {
                     var paramItem = request.MessageParameter as Consultation;
@@ -158,6 +169,17 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     if (paramItem is not null)
                     {
                         DeleteCSTOFromOrderSection(paramItem);
+                    }
+
+                    break;
+                }
+
+            case "DeSelectOrder":
+                {
+                    var paramItem = request.MessageParameter as Order;
+                    if (paramItem is not null)
+                    {
+                        SmartEMRConsultationTabOrder.DeSelectOrder(paramItem);
                     }
 
                     break;
@@ -314,25 +336,25 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         switch (element.Tag)
         {
-            case "btnReady":
-                await vm.SaveDataAsync(targetStatus:ConsultationStatus.RDY);
-                break;
+            //case "btnReady":
+            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.RDY);
+            //    break;
 
-            case "btnPending":
-                await vm.SaveDataAsync(targetStatus:ConsultationStatus.PND);
-                break;
+            //case "btnPending":
+            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.PND);
+            //    break;
 
-            case "btnContinue":
-                await vm.SaveDataAsync(targetStatus:ConsultationStatus.ING);
-                break;
+            //case "btnContinue":
+            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.ING);
+            //    break;
 
-            case "btnFinish":
-                await vm.SaveDataAsync(targetStatus:ConsultationStatus.END);
-                break;
+            //case "btnFinish":
+            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.END);
+            //    break;
 
-            case "btnCancel":
-                await vm.SaveDataAsync(SaveMode.DELETE);
-                break;
+            //case "btnCancel":
+            //    await vm.SaveDataAsync(SaveMode.DELETE);
+            //    break;
 
             case "btnClear":
                 if (SmartUI.MsgYesNo("진료 초기화하시겠습니까? 진료 및 처방 정보 모두 초기화됩니다.") is System.Windows.MessageBoxResult.Yes)

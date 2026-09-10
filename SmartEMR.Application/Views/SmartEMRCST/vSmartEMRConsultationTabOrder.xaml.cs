@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
 
@@ -29,6 +30,16 @@ public partial class vSmartEMRConsultationTabOrder : ModelViewLayout<OrderViewMo
     public async Task UpdateOrders()
     {
         await vm.FetchDataAsync();
+    }
+
+    public void SetSelectedOrders(IQueryable<ConsultationOrder> arrCSTO)
+    {
+        vm.SetSelectedOrders(arrCSTO);
+    }
+
+    public void DeSelectOrder(Order item)
+    {
+        vm.DeSelectOrder(item);
     }
 
     public void ClearData()

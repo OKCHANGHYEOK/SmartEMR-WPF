@@ -26,6 +26,7 @@ public class ConsultationOrder : BaseEntity
     private decimal? m_CSTO_Price;
     private decimal? m_CSTO_TotalPrice;
     private string? m_CSTO_Memo;
+    private int? m_CSTO_ViewIndex;
     private string? m_CSTO_Date;
     private string? m_CSTO_YYMMDD;
     private bool? m_CSTO_IsValid;
@@ -174,6 +175,12 @@ public class ConsultationOrder : BaseEntity
     {
         get => m_CSTO_Memo;
         set => SetProperty(ref m_CSTO_Memo, value);
+    }
+    
+    public int? CSTO_ViewIndex
+    {
+        get => m_CSTO_ViewIndex;
+        set => SetProperty(ref m_CSTO_ViewIndex, value);
     }
 
     public string? CSTO_Date

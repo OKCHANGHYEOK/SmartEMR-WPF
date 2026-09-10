@@ -11,6 +11,7 @@ public class Order : BaseEntity
     private string? m_ORD_SugaCode;
     private string? m_ORD_ClassCode;
     private string? m_ORD_Name;
+    private string? m_ORD_BizType;
     private string? m_ORD_InsuranceType;
     private string? m_vORD_InsuranceType;
     private string? m_ORD_SurgeryType;
@@ -76,6 +77,12 @@ public class Order : BaseEntity
     {
         get => m_ORD_Name;
         set => SetProperty(ref m_ORD_Name, value);
+    }
+
+    public string? ORD_BizType
+    {
+        get => m_ORD_BizType;
+        set => SetProperty(ref m_ORD_BizType, value);
     }
 
     public string? ORD_InsuranceType

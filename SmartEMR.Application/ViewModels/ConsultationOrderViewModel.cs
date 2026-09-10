@@ -57,7 +57,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
         if (item.CST_Idx.GetValueOrDefault(0) > 0)
         {
-           await UpdateCSTOItems(item);
+           await SetCSTOData(item);
         }
     }
 
@@ -89,6 +89,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
             CSTO_Day = 1,
             CSTO_Count = 1,
             CSTO_Amount = 1,
+            CSTO_ViewIndex = ConsultationOrderItems.Count,
             CSTO_IsValid = true
         };
 
@@ -100,15 +101,22 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         UpdatePriceData();
     }
 
-    public void DeleteCSTO(ConsultationOrder item)
+    public async void DeleteCSTO(ConsultationOrder item)
     {
-        var delItem = ConsultationOrderItems.FirstOrDefault(x => x.ORD_Idx == item.ORD_Idx && x.ViewIndex == item.ViewIndex);
+        var delItem = ConsultationOrderItems.FirstOrDefault(x => x.ORD_Idx == item.ORD_Idx && x.CSTO_ViewIndex == item.CSTO_ViewIndex);
         if (delItem is not null)
         {
             ConsultationOrderItems.Remove(delItem);
 
             delItem.CSTO_IsValid = false;
             deletedItems.Add(delItem);
+
+            await SmartUI.SendMessage("DeSelectOrder", new Order { ORD_Idx = item.ORD_Idx }, viewType:TargetViewType.PageView);
+        }
+
+        foreach (var order in ConsultationOrderItems)
+        {
+            order.CSTO_ViewIndex = ConsultationOrderItems.IndexOf(order);
         }
 
         UpdatePriceData();
@@ -139,12 +147,14 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         await SmartUI.SendMessage("UpdatePayInfo", sendItem, viewType:TargetViewType.PageView);
     }
 
-    public void ClearData()
+    public async void ClearData()
     {
         ConsultationOrderItems.Clear();
         deletedItems.Clear();
 
         UpdatePriceData();
+
+        await SmartUI.SendMessage("ClearSelectedOrder", viewType: TargetViewType.PageView);
     }
 
     [RelayCommand]
@@ -152,23 +162,24 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     {
         if (SmartUI.MsgYesNo("처방내역을 초기화하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
 
-        foreach (var item in ConsultationOrderItems.Reverse())
-        {
-            DeleteCSTO(item);
-        }
-
-        UpdatePriceData();
-
-        await SmartUI.SendMessage("ClearSelectedOrder", viewType:TargetViewType.PageView);
+        ClearData();
     }
 
-    private async Task UpdateCSTOItems(Consultation item)
+    private async Task SetCSTOData(Consultation item)
     {
         ClearData();
 
         if (item.CST_Idx > 0)
         {
-            var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, new ConsultationOrder { CST_Idx = item.CST_Idx });
+            var getItem = new ConsultationOrder
+            {
+                CST_Idx = item.CST_Idx,
+
+                SortField = "CSTO_ViewIndex",
+                SortDir = "desc"
+            };
+
+            var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, getItem);
             if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
             {
                 SmartUI.SetNofification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
@@ -183,6 +194,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
             }
 
             UpdatePriceData();
+
+            await SmartUI.SendMessage("SetSelectedOrders", ret, viewType:TargetViewType.PageView);
         }
     }
 }

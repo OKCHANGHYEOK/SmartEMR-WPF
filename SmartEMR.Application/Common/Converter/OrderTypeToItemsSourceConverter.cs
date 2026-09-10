@@ -14,11 +14,12 @@ internal class OrderTypeToItemsSourceConverter : BaseConverter
         if (value is not IEnumerable<Order> enumarable) return default!;
         if (parameter is not string type) return default!;
 
-        IEnumerable<Order>? finalList = enumarable.Where(x => x.ORDC_Cd == type);
+        IEnumerable<Order>? finalList = enumarable.Where(x => x.ORDC_Cd == type).OrderBy(x => x.ORD_Idx).ThenBy(x => x.ORD_SugaCode);
         if (finalList is null)
         {
             return default!;
         }
+
 
         return finalList;
     }
