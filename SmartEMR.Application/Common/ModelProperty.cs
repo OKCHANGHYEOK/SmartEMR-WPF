@@ -412,30 +412,33 @@ public class ModelProperty
 
     public Consultation GetConsultationDataForSave(Consultation paramItem, IEnumerable<ConsultationOrder> consultationOrders)
     {
-        var item = new Consultation();
-        item.CST_Idx = paramItem.CST_Idx;
-        item.MUR_Idx_DOC = paramItem.MUR_Idx_DOC;
-        item.PAT_Idx = paramItem.PAT_Idx;
-        item.RCP_Idx = paramItem.RCP_Idx;
-        item.IRC_Idx = paramItem.IRC_Idx;
-        item.CST_VisitType = paramItem.CST_VisitType;
-        item.CST_InsuranceType = paramItem.CST_InsuranceType;
-        item.CST_Status = paramItem.CST_Status;
-        item.CST_PayStatus = paramItem.CST_PayStatus;
-        item.CST_TreatResult = paramItem.CST_TreatResult;
-        item.CST_Subject = paramItem.CST_Subject;
-        item.CST_SubjectName = paramItem.CST_SubjectName;
-        item.CST_StartTime = paramItem.CST_StartTime;
-        item.CST_EndTime = paramItem.CST_EndTime;
-        item.CST_InsuredPrice = paramItem.CST_InsuredPrice;
-        item.CST_OwnPatientPrice = paramItem.CST_OwnPatientPrice;
-        item.CST_NonInsuredPrice = paramItem.CST_NonInsuredPrice;
-        item.CST_TotalPrice = paramItem.CST_TotalPrice;
-        item.CST_Opinion = paramItem.CST_Opinion;
-        item.CST_Memo = paramItem.CST_Memo;
-        item.CSTO_Property = JsonSerializer.Serialize(consultationOrders, new JsonSerializerOptions { WriteIndented = true });
-        item.CST_IsValid = true;
-        item.IRCItem = paramItem.IRCItem;
+        var item = new Consultation
+        {
+            CST_Idx = paramItem.CST_Idx,
+            MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
+            PAT_Idx = paramItem.PAT_Idx,
+            RCP_Idx = paramItem.RCP_Idx,
+            IRC_Idx = paramItem.IRC_Idx,
+            PAY_Idx = paramItem.PAY_Idx,
+            CST_VisitType = paramItem.CST_VisitType,
+            CST_InsuranceType = paramItem.CST_InsuranceType,
+            CST_Status = paramItem.CST_Status,
+            CST_PayStatus = paramItem.CST_PayStatus,
+            CST_TreatResult = paramItem.CST_TreatResult,
+            CST_Subject = paramItem.CST_Subject,
+            CST_SubjectName = paramItem.CST_SubjectName,
+            CST_StartTime = paramItem.CST_StartTime,
+            CST_EndTime = paramItem.CST_EndTime,
+            CST_InsuredPrice = paramItem.CST_InsuredPrice,
+            CST_OwnPatientPrice = paramItem.CST_OwnPatientPrice,
+            CST_NonInsuredPrice = paramItem.CST_NonInsuredPrice,
+            CST_TotalPrice = paramItem.CST_TotalPrice,
+            CST_Opinion = paramItem.CST_Opinion,
+            CST_Memo = paramItem.CST_Memo,
+            CSTO_Property = JsonSerializer.Serialize(consultationOrders, new JsonSerializerOptions { WriteIndented = true }),
+            CST_IsValid = true,
+            IRCItem = paramItem.IRCItem
+        };
 
         return item;
     }
@@ -468,6 +471,7 @@ public class ModelProperty
         oldItem.PAT_Idx = newItem.PAT_Idx;
         oldItem.RCP_Idx = newItem.RCP_Idx;
         oldItem.IRC_Idx = newItem.IRC_Idx;
+        oldItem.PAY_Idx = newItem.PAY_Idx;
         oldItem.CST_VisitType = newItem.CST_VisitType;
         oldItem.CST_InsuranceType = newItem.CST_InsuranceType;
         oldItem.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", newItem.CST_InsuranceType ?? "");
@@ -499,6 +503,7 @@ public class ModelProperty
             item.RCP_Idx = 0;
             item.PAT_Idx = 0;
             item.IRC_Idx = 0;
+            item.PAY_Idx = 0;
             item.CST_InsuranceType = "";
             item.IRC_Type = "";
             item.vIRC_Type = "";

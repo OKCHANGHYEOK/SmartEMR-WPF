@@ -237,7 +237,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             return false;
         }
 
-        SmartMVVM.ModelProperty.SetConsultationData(Model, ret);
+        await SetSelectedCST(ret);
 
         return true;
     }

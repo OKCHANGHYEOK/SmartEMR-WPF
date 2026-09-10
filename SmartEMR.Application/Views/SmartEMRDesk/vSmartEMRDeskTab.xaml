@@ -18,7 +18,7 @@
     <dxd:DockLayoutManager x:Name="DockLayoutManager">
         <dxd:LayoutGroup Orientation="Horizontal">
             <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.7*">
-                <Xpf:LayoutPanel ItemHeight="0.7*" ShowCaption="False">
+                <Xpf:LayoutPanel ItemHeight="Auto" ShowCaption="False">
                     <patient:vPatientViewSummary x:Name="SmartEMRDeskPATView"/>
                 </Xpf:LayoutPanel>
                 <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="0.8*">

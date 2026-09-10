@@ -27,7 +27,7 @@
             </Xpf:LayoutPanel>
 
             <dxd:LayoutGroup Orientation="Vertical">
-                <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="0.5*">
+                <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="280">
                     <Xpf:LayoutPanel ItemWidth="1.2*" ShowCaption="False">
                         <patient:vPatientViewSummary x:Name="PatientViewSummary"/>
                     </Xpf:LayoutPanel>
@@ -36,20 +36,19 @@
                     </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
 
-                <dxd:LayoutGroup Orientation="Horizontal">
-                    <dxd:LayoutGroup Orientation="Vertical">
-                        <Xpf:LayoutPanel Caption="진료정보" ItemHeight="1.4*">
-                            <local:vSmartEMRCSTInfoGrid x:Name="SmartEMRCSTInfo"/>
-                        </Xpf:LayoutPanel>
-                        <Xpf:LayoutPanel ShowCaption="False" ItemHeight="1*">
-                            <local:vSmartEMRConsultationTabCSTOInfo x:Name="SmartEMRConulstationTabCSTOInfo"/>
-                        </Xpf:LayoutPanel>
-                        <Xpf:LayoutPanel ShowCaption="False" ItemHeight="0.4*">
-                            <local:vSmartEMRConsultationTabPayInfo x:Name="SmartEMRConsultationTabPayInfo"/>
-                        </Xpf:LayoutPanel>
-                        <Xpf:LayoutPanel ItemHeight="Auto" Padding="2" ShowBorder="False" ShowCaption="False">
-                            <Xpf:StyleGrid LayoutDefinitions="6,1" Height="27">
-                                <dxc:SimpleButton   Grid.Column="0"
+                <dxd:LayoutGroup Orientation="Vertical">
+                    <Xpf:LayoutPanel Caption="진료정보" ItemHeight="1.4*">
+                        <local:vSmartEMRCSTInfoGrid x:Name="SmartEMRCSTInfo"/>
+                    </Xpf:LayoutPanel>
+                    <Xpf:LayoutPanel ShowCaption="False" ItemHeight="1*">
+                        <local:vSmartEMRConsultationTabCSTOInfo x:Name="SmartEMRConulstationTabCSTOInfo"/>
+                    </Xpf:LayoutPanel>
+                    <Xpf:LayoutPanel ShowCaption="False" ItemHeight="0.4*">
+                        <local:vSmartEMRConsultationTabPayInfo x:Name="SmartEMRConsultationTabPayInfo"/>
+                    </Xpf:LayoutPanel>
+                    <Xpf:LayoutPanel ItemHeight="Auto" Padding="2" ShowBorder="False" ShowCaption="False">
+                        <Xpf:StyleGrid LayoutDefinitions="6,1" Height="27">
+                            <dxc:SimpleButton   Grid.Column="0"
                                                     Tag="btnCancel"
                                                     Content="진료취소" 
                                                     Glyph="/Images/smartemr_cancel_new.png"
@@ -62,7 +61,7 @@
                                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                     Click="OnClick_SimpleButton"/>
 
-                                <dxc:SimpleButton   Grid.Column="1"
+                            <dxc:SimpleButton   Grid.Column="1"
                                                     Content="진료대기"
                                                     Tag="btnReady"
                                                     Glyph="/Images/smartemr-wait.png"
@@ -76,7 +75,7 @@
                                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                     Click="OnClick_SimpleButton"/>
 
-                                <dxc:SimpleButton   Grid.Column="2"
+                            <dxc:SimpleButton   Grid.Column="2"
                                                     Tag="btnPending"
                                                     Content="진료보류" 
                                                     Glyph="/Images/smartemr-holding.png"
@@ -90,7 +89,7 @@
                                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                     Click="OnClick_SimpleButton"/>
 
-                                <dxc:SimpleButton   Grid.Column="3"
+                            <dxc:SimpleButton   Grid.Column="3"
                                                     Tag="btnContinue"
                                                     Content="진료계속" 
                                                     Glyph="/Images/smartemr-continue.png"
@@ -104,7 +103,7 @@
                                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                     Click="OnClick_SimpleButton"/>
 
-                                <dxc:SimpleButton   Grid.Column="4"
+                            <dxc:SimpleButton   Grid.Column="4"
                                                     Tag="btnFinish"
                                                     Content="진료완료" 
                                                     Glyph="/Images/smartemr_save.png"
@@ -118,7 +117,7 @@
                                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                     Click="OnClick_SimpleButton"/>
 
-                                <dxc:SimpleButton   Grid.Column="5"
+                            <dxc:SimpleButton   Grid.Column="5"
                                                     Tag="btnClear"
                                                     Content="진료초기화" 
                                                     Glyph="/Images/smartemr_empty_paper.png"    
@@ -130,9 +129,8 @@
                                                     Cursor="Hand"
                                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                     Click="OnClick_SimpleButton"/>
-                            </Xpf:StyleGrid> 
-                        </Xpf:LayoutPanel>
-                    </dxd:LayoutGroup>
+                        </Xpf:StyleGrid>
+                    </Xpf:LayoutPanel>
                 </dxd:LayoutGroup>
             </dxd:LayoutGroup>
         </dxd:LayoutGroup>

@@ -598,9 +598,9 @@
                                                 ActiveViewType="Simple"
                                                 ShowCaretInReadOnly="False"
                                                 ShowReviewingPane="False"
-                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                VirtualizingPanel.IsVirtualizing="False"/>
+                                                HorizontalScrollBarVisibility="Collapsed"
+                                                VirtualizingPanel.IsVirtualizing="False"
+                                                dxc:ScrollBarExtensions.ScrollBarMode="TouchOverlap"/>
 
                         <TextBlock  Grid.Row="1"
                                     Text="{Binding NullText, RelativeSource={RelativeSource TemplatedParent}}"

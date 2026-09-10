@@ -141,7 +141,10 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public void ClearData()
     {
-        ClearCSTOItems();
+        ConsultationOrderItems.Clear();
+        deletedItems.Clear();
+
+        UpdatePriceData();
     }
 
     [RelayCommand]
@@ -149,14 +152,19 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     {
         if (SmartUI.MsgYesNo("처방내역을 초기화하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
 
-        ClearCSTOItems();
+        foreach (var item in ConsultationOrderItems.Reverse())
+        {
+            DeleteCSTO(item);
+        }
+
+        UpdatePriceData();
 
         await SmartUI.SendMessage("ClearSelectedOrder", viewType:TargetViewType.PageView);
     }
 
     private async Task UpdateCSTOItems(Consultation item)
     {
-        ClearCSTOItems();
+        ClearData();
 
         if (item.CST_Idx > 0)
         {
@@ -176,15 +184,5 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
             UpdatePriceData();
         }
-    }
-
-    private void ClearCSTOItems()
-    {
-        foreach (var item in ConsultationOrderItems.Reverse())
-        {
-            DeleteCSTO(item);
-        }
-
-        UpdatePriceData();
     }
 }

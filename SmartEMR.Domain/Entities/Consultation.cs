@@ -9,6 +9,7 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     private int? m_PAT_Idx;
     private int? m_RCP_Idx;
     private int? m_IRC_Idx;
+    private int? m_PAY_Idx;
     private string? m_CST_VisitType;
     private string? m_CST_InsuranceType;
     private string? m_vCST_InsuranceType;
@@ -94,6 +95,12 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     {
         get => m_IRC_Idx;
         set => SetProperty(ref m_IRC_Idx, value);
+    }
+
+    public int? PAY_Idx
+    {
+        get => m_PAY_Idx;
+        set => SetProperty(ref m_PAY_Idx, value);
     }
 
     public string? CST_VisitType

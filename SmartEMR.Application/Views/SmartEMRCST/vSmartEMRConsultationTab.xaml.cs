@@ -168,7 +168,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 break;
 
             case "ClearPAT":
-                if (SmartUI.MsgYesNo("선택된 환자를 초기화하시겠습니까?\n입력중인 진료도 초기화됩니다.") is System.Windows.MessageBoxResult.No)
+                if (SmartUI.MsgYesNo("선택된 환자를 초기화하시겠습니까?\n입력중인 진료도 초기화됩니다.") is System.Windows.MessageBoxResult.Yes)
                 {
                     ClearData(true, true);
                 }
@@ -221,6 +221,8 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
     private async void SetSelectedCST(Consultation item)
     {
+        ClearData(true, true);
+
         await SetPatientData(new Patient { PAT_Idx = item.PAT_Idx });
 
         Consultation? selectedCST = null;

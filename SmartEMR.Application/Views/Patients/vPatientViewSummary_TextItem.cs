@@ -16,10 +16,10 @@ public class vPatientViewSummary_TextItem : UserControl
         this.FontSize = 13;
         this.Content = ContentPanel;
 
-        ContentPanel.Height = 25;
+        ContentPanel.Height = 27;
         ContentPanel.VerticalAlignment = VerticalAlignment.Center;
         ContentPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-        ContentPanel.Margin = new Thickness(10, 5, 10, 5);
+        ContentPanel.Margin = new Thickness(10, 0, 10, 0);
 
         ContentPanel.Orientation = Orientation.Horizontal;
     }

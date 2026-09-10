@@ -26,7 +26,9 @@
         </Border.Effect>
 
         <Grid>
-            <Xpf:StyleGrid LayoutDefinitions="13,11" Padding="5">
+            <Xpf:StyleGrid LayoutDefinitions="13,11" 
+                           RowSizeDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,*,*,*,*"
+                           Padding="5">
                 <Border x:Name="PatientImageBorder" 
                         Grid.Column="0"
                         Grid.Row="0"
@@ -42,7 +44,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                 </Border>
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.RowSpan="2"  Grid.Column="4" Grid.ColumnSpan="8" Margin="10,0">
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.RowSpan="2"  Grid.Column="4" Grid.ColumnSpan="8" Margin="10,0,10,4">
                     <Label FontSize="18" FontWeight="SemiBold" Foreground="#1F1F1F">No.</Label>
                     <Label Content="{Binding Model.PAT_ChartNo}"  FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray"/>
                 </StackPanel>
@@ -60,7 +62,7 @@
                                 HorizontalContentAlignment="Center" 
                                 VerticalContentAlignment="Center"
                                 Background="#F1F3F5"
-                                Margin="0,0,3,0"
+                                Margin="6,3"
                                 Click="OnClick_Button"/>
                 <patient:vPatientViewSummary_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">성명</Label>
@@ -138,7 +140,8 @@
                             Grid.ColumnSpan="4" 
                             Content="환자수정"
                             Glyph="/Images/smartemr_edit_patient.png"
-                            Margin="5,2" 
+                            Height="23"
+                            Margin="5,0" 
                             Background="#F1F3F5" 
                             BorderBrush="LightGray" 
                             BorderThickness="1"
@@ -148,6 +151,7 @@
                         Grid.Row="9"
                         Grid.RowSpan="2"
                         Grid.ColumnSpan="4"
+                        Height="36"
                         Background="#E8F5E9"
                         BorderBrush="#009688"
                         BorderThickness="2"
