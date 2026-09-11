@@ -86,7 +86,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
             CSTO_SugaCode = item.ORD_SugaCode,
             CSTO_ClassCode = item.ORD_ClassCode,
-            CSTO_InsuranceType = SmartMVVM.Common.GetOrderInsuranceType(item.ORD_InsuranceType ?? "", SelectedCST.CST_InsuranceType ?? ""),
+            CSTO_InsuranceType = item.ORD_InsuranceType,
             CSTO_Status = "RDY",
             CSTO_Name = item.ORD_Name,
             CSTO_Price = item.ORD_Price,
@@ -99,7 +99,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         };
 
         addItem.vORDC_Cd = SmartMVVM.Master.Query<Order>("ORDC_Cd").FirstOrDefault(x => x.ORDC_Cd == item.ORDC_Cd)?.vORDC_Cd;
-        addItem.vCSTO_InsuranceType = SmartMVVM.Common.GetCommonCodeName("ORD", "InsuranceType", addItem.CSTO_InsuranceType)?[..1];
+        addItem.vCSTO_InsuranceType = SmartMVVM.Common.GetCommonCodeName("ORD", "InsuranceType", addItem.CSTO_InsuranceType ?? "")?[..1];
 
         ConsultationOrderItems.Add(addItem);
 
@@ -138,7 +138,11 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     public async void UpdatePriceData()
     {
         var insuredTotal = ConsultationOrderItems.Where(x => x.CSTO_InsuranceType == "INS").Sum(x => x.CSTO_TotalPrice);
-        var ownPatientTotal = SmartMVVM.Common.CalculateOwnPatientPrice(insuredTotal.GetValueOrDefault(0), copaymentType);
+        var ownPatientTotal = SelectedCST.CST_InsuranceType switch
+        {
+            "NON" => insuredTotal,
+            _ => SmartMVVM.Common.CalculateOwnPatientPrice(insuredTotal.GetValueOrDefault(0), copaymentType)
+        };
         var nonInsuredTotal = ConsultationOrderItems.Where(x => x.CSTO_InsuranceType == "NON").Sum(x => x.CSTO_TotalPrice);
 
         var sendItem = new Pay

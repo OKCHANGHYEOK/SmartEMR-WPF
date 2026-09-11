@@ -23,14 +23,13 @@
                     DataContext="{Binding vm.Model, RelativeSource={RelativeSource AncestorType=local:vSmartEMRConsultationTab}}">
 
         <Xpf:StyleGrid  Grid.Row="0"
-                        LayoutDefinitions="20,3"
-                        ColumnSizeDefinitions="*,*,*,*,*,*,*,Auto,*,*,*,*,*,*,*,*,*,*,*,*"
-                        RowSizeDefinitions="*,Auto,*"
-                        Height="50"
+                        LayoutDefinitions="22,1"
+                        ColumnSizeDefinitions="*,*,*,*,*,*,*,*,Auto,*,*,*,*,*,*,*,*,*,*,*,*,Auto"
+                        Height="25"
                         Margin="2">
 
             <dxc:SimpleButton   Grid.Column="0"
-                                Grid.ColumnSpan="2"
+                                Grid.ColumnSpan="3"
                                 Tag="btnMoveIRCInfo"
                                 Content="{Binding vCST_InsuranceType, TargetNullValue='비보험'}"
                                 Glyph="/Images/smartemr_insurance.png"
@@ -41,7 +40,7 @@
                                 dxc:ThemeManager.ThemeName="Office2013LightGray"
                                 Click="OnClick_SimpleButton"/>
 
-            <Xpf:DateEdit   Grid.Column="2"
+            <Xpf:DateEdit   Grid.Column="3"
                             Grid.ColumnSpan="3"
                             Tag="CST_YYMMDD"
                             EditValue="{Binding CST_YYMMDD}"
@@ -53,7 +52,7 @@
                             EditValueChanging="OnEditValueChanging_DateEdit"/>
 
 
-            <Xpf:DateEdit   Grid.Column="5"
+            <Xpf:DateEdit   Grid.Column="6"
                             Grid.ColumnSpan="2"
                             EditValue="{Binding CST_StartTime}"
                             MaskType="TimeOnly"
@@ -66,9 +65,9 @@
                 </Xpf:DateEdit.StyleSettings>
             </Xpf:DateEdit>
 
-            <Xpf:Label Grid.Column="7"  Content="~" FontSize="10" Foreground="DimGray" Margin="1,0,1,0"/>
+            <Xpf:Label Grid.Column="8"  Content="~" FontSize="10" Foreground="DimGray" Margin="1,0,1,0"/>
 
-            <Xpf:DateEdit   Grid.Column="8"
+            <Xpf:DateEdit   Grid.Column="9"
                             Grid.ColumnSpan="2"
                             EditValue="{Binding CST_EndTime}"
                             MaskType="TimeOnly"
@@ -81,7 +80,7 @@
                 </Xpf:DateEdit.StyleSettings>
             </Xpf:DateEdit>
             
-            <Xpf:ComboBoxEdit   Grid.Column="10"
+            <Xpf:ComboBoxEdit   Grid.Column="11"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding CST_VisitType}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationVisitTypes}"
@@ -90,7 +89,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="12"
+            <Xpf:ComboBoxEdit   Grid.Column="13"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding CST_Status}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationStatuses}"
@@ -99,7 +98,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="14"
+            <Xpf:ComboBoxEdit   Grid.Column="15"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding MUR_Idx_DOC}"
                                 ItemsSource="{x:Static selection:InputOptionItems.Docters}"
@@ -108,7 +107,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="16"
+            <Xpf:ComboBoxEdit   Grid.Column="17"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding CST_Subject}"
                                 ItemsSource="{x:Static selection:InputOptionItems.ConsultationSubjects}"
@@ -117,7 +116,7 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Xpf:ComboBoxEdit   Grid.Column="18"
+            <Xpf:ComboBoxEdit   Grid.Column="19"
                                 Grid.ColumnSpan="2"
                                 EditValue="{Binding CST_TreatResult}"
                                 ItemsSource="{x:Static selection:InputOptionItems.TreatResultTypes}"
@@ -126,9 +125,17 @@
                                 HorizontalAlignment="Stretch"
                                 Margin="2,0,2,0"/>
 
-            <Border Background="#E4EBF3" Height="1" Grid.Column="0" Grid.ColumnSpan="19" Grid.Row="1" Margin="2"></Border>
+            <dxc:SimpleButton Grid.Column="21"
+                              Tag="btnClear"
+                              Glyph="/Images/smartemr_empty_paper_v2.png"
+                              Padding="2"
+                              Cursor="Hand"
+                              Click="OnClick_SimpleButton"
+                              dxc:ThemeManager.ThemeName="Office2016Colorful"/>
 
-            <Xpf:StyleGrid   Grid.Column="0"
+            <!--<Border Background="#E4EBF3" Height="1" Grid.Column="0" Grid.ColumnSpan="19" Grid.Row="1" Margin="2"></Border>-->
+
+            <!--<Xpf:StyleGrid   Grid.Column="0"
                              Grid.ColumnSpan="20"
                              Grid.Row="2"
                              LayoutDefinitions="3,1"
@@ -172,7 +179,7 @@
                         </sys:Boolean>
                     </dxc:SimpleButton.CommandParameter>
                 </dxc:SimpleButton>
-            </Xpf:StyleGrid>
+            </Xpf:StyleGrid>-->
         </Xpf:StyleGrid>
 
         <Border Grid.Row="1"  BorderBrush="#DDE2E8" BorderThickness="0,0,0,1" Margin="2"/>
