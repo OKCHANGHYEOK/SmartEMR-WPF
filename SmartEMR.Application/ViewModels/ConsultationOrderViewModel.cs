@@ -61,6 +61,11 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         }
     }
 
+    public void UpdateCSTByIRC(Consultation item)
+    {
+        SelectedCST.CST_InsuranceType = item.CST_InsuranceType;
+    }
+
     public void AddCSTO(Order item, int MUR_Idx_DOC)
     {
         if (ConsultationOrderItems.Count > 0 && ConsultationOrderItems.Any(x => x.ORD_Idx == item.ORD_Idx))

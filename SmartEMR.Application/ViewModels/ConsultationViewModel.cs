@@ -184,9 +184,17 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     [RelayCommand]
     public async Task CancelConsultation()
     {
-        if (SmartUI.MsgYesNo("진료 및 처방 기록이 모두 삭제됩니다.\n 취소하시겠습니까?") is MessageBoxResult.No) return;
+        if (SmartUI.MsgYesNo("진료/보험/처방 기록이 모두 삭제됩니다.\n 취소하시겠습니까?") is MessageBoxResult.No) return;
 
-        await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_CancelConsultation, new Consultation { CST_Idx = Model.CST_Idx, CST_IsValid = false });
+        var item = new Consultation
+        {
+            CST_Idx = Model.CST_Idx,
+            RCP_Idx = Model.RCP_Idx,
+            IRC_Idx = Model.IRC_Idx,
+            CST_IsValid = false
+        };
+
+        await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_CancelConsultation, item);
 
         if (!SmartMVVM.DataStore.retIsSuccess)
         {
@@ -228,6 +236,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             IRCItem = new Insurance { IRC_Type = item.RCP_Idx > 0 ? item.CST_InsuranceType : "NON" };
         }
 
+        Model.CST_InsuranceType = IRCItem?.IRC_Type;
         Model.IRCItem = IRCItem;
     }
 

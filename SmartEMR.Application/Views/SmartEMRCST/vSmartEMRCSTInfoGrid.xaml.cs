@@ -35,11 +35,6 @@ public partial class vSmartEMRCSTInfoGrid : CustomControl
         SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, item);
     }
 
-    public void UpdateIRCData()
-    {
-        SelectedCST.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", SelectedCST.IRCItem?.IRC_Type ?? "");
-    }
-
     public void ClearPATData()
     {
         SmartMVVM.ModelProperty.ClearPATData(SelectedPatient);

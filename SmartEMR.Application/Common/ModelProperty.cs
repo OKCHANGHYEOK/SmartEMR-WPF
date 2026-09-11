@@ -448,6 +448,7 @@ public class ModelProperty
         item.MUR_Idx_DOC = 0;
         item.CST_Status = "RDY";
         item.CST_InsuranceType = string.IsNullOrWhiteSpace(item.CST_InsuranceType) ? "NON" : item.CST_InsuranceType;
+        item.vCST_InsuranceType = "비보험";
         item.CST_PayStatus = "RDY";
         item.CST_VisitType = string.IsNullOrWhiteSpace(item.CST_VisitType) ? "FIR" : item.CST_VisitType;
         item.CST_Subject = string.IsNullOrWhiteSpace(item.CST_Subject) ? "GNR" : item.CST_Subject;

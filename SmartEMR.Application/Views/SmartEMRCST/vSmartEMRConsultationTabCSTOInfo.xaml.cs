@@ -82,6 +82,11 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
        await vm.UpdateDataBySelectedCST(item);
     }
 
+    public void UpdateCSTByIRC(Consultation item)
+    {
+        vm.UpdateCSTByIRC(item);
+    }
+
     public void ClearData()
     {
         vm.ClearData();

@@ -314,7 +314,10 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
     private void UpdateCSTByIRC()
     {
-        SmartEMRCSTInfo.UpdateIRCData();
+        SelectedCST.CST_InsuranceType = SelectedCST.IRCItem?.IRC_Type;
+        SelectedCST.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", SelectedCST.IRCItem?.IRC_Type ?? "");
+
+        SmartEMRConulstationTabCSTOInfo.UpdateCSTByIRC(SelectedCST);
     }
 
     private async void ClearData(bool isClearPAT = false, bool isClearCST = false)
@@ -342,26 +345,6 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         switch (element.Tag)
         {
-            //case "btnReady":
-            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.RDY);
-            //    break;
-
-            //case "btnPending":
-            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.PND);
-            //    break;
-
-            //case "btnContinue":
-            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.ING);
-            //    break;
-
-            //case "btnFinish":
-            //    await vm.SaveDataAsync(targetStatus:ConsultationStatus.END);
-            //    break;
-
-            //case "btnCancel":
-            //    await vm.SaveDataAsync(SaveMode.DELETE);
-            //    break;
-
             case "btnClear":
                 if (SmartUI.MsgYesNo("진료 초기화하시겠습니까? 진료 및 처방 정보 모두 초기화됩니다.") is System.Windows.MessageBoxResult.Yes)
                 {
