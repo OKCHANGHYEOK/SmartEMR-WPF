@@ -1,12 +1,18 @@
-﻿using SmartEMR.Application.Core;
+﻿using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
-public class InsuranceInfoViewModel : InsuranceViewModel
+public partial class InsuranceInfoViewModel : InsuranceViewModel
 {
+    public InsuranceInfoViewModel() { }
+
+    public InsuranceInfoViewModel(Insurance item) : base(item) { }
+
     public override void Initialize()
     {
+        SetData(Model);
     }
 
     public override async Task InitializeAsync()
@@ -31,6 +37,15 @@ public class InsuranceInfoViewModel : InsuranceViewModel
         SmartMVVM.ModelProperty.SetInsuranceData(Model, item);
     }
 
+    [RelayCommand]
+    public async Task ApplyInsurance()
+    {
+        SmartUI.CloseView();
+
+        await SmartUI.SendMessage("UpdateCSTByIRC", viewType:TargetViewType.PageView);
+    }
+
+    [RelayCommand]
     public void ClearData(bool isClearIRCType)
     {
         SmartMVVM.ModelProperty.ClearIRCData(Model, isClearIRCType);

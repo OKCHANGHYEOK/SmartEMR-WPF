@@ -196,7 +196,7 @@ public class DataStore
 
             _client.DefaultRequestHeaders.Clear();
 
-            var response = await _client.PostAsJsonAsync(url, request);
+            var response = await _client.PostAsJsonAsync(url, request, _options);
             if (!response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadFromJsonAsync<DataResponse>();

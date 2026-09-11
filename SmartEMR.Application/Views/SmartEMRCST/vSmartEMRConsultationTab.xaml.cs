@@ -1,12 +1,11 @@
 ﻿using DevExpress.Xpf.Core;
-using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Views.SmartEMRRCP;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
-using System.Windows.Data;
 using NotificationType = SmartEMR.Application.Core.NotificationType;
 
 namespace SmartEMR.Application.Views.SmartEMRCST;
@@ -129,6 +128,10 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "UpdateCSTByIRC":
+                UpdateCSTByIRC();
+                break;
+
             case "MoveIRCInfo":
                 if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
                 {
@@ -136,9 +139,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     return null;
                 }
 
-                // 보험 수정 페이지 이동
-                //await SmartUI.NavigateToPage();
-
+                await SmartUI.NavigateToPage(new vSmartEMRIRCInfo(SelectedCST.IRCItem ?? new Insurance()), ViewMode.POPUP, isPopup:true);
                 break;
 
             case "AddCSTO":
@@ -309,6 +310,11 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         SmartEMRConsultationTabPayInfo.UpdatePriceData(item);
 
         vm.UpdatePriceData(item);
+    }
+
+    private void UpdateCSTByIRC()
+    {
+        SmartEMRCSTInfo.UpdateIRCData();
     }
 
     private async void ClearData(bool isClearPAT = false, bool isClearCST = false)

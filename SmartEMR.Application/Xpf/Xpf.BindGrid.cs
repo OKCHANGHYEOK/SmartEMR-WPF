@@ -533,7 +533,14 @@ public partial class BindGrid
 
                    BindGrid_BindItemChangedEvent?.Invoke(this, args);
 
-                    oldValue = newValue;
+                    if (args.IsCancel)
+                    {
+                        descriptor.SetValue(element, oldValue);
+                    }
+                    else
+                    {
+                        oldValue = newValue;
+                    }
                 }
             };
 
@@ -581,7 +588,8 @@ public class BindItemChangedEventArgs : EventArgs
     public object? OldValue { get; }
 
     // 바뀐 새로운 값
-    public object? NewValue { get; }               
+    public object? NewValue { get; }   
+    public bool IsCancel { get; set; }
 
     public BindItemChangedEventArgs(BindItem bindItem, FrameworkElement element, DependencyProperty property, object? oldValue, object? newValue)
     {

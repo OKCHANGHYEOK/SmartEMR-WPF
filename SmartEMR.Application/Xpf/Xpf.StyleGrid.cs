@@ -41,11 +41,11 @@ public partial class StyleGrid : ContentControl
     // RowSizeDefinitions
     public string RowSizeDefinitions
     {
-        get => (string)GetValue(RowSizeDefintionsProperty);
-        set => SetValue(RowSizeDefintionsProperty, value);
+        get => (string)GetValue(RowSizeDefinitionsProperty);
+        set => SetValue(RowSizeDefinitionsProperty, value);
     }
 
-    public static readonly DependencyProperty RowSizeDefintionsProperty = DependencyProperty.Register(
+    public static readonly DependencyProperty RowSizeDefinitionsProperty = DependencyProperty.Register(
         nameof(RowSizeDefinitions),
         typeof(string),
         typeof(StyleGrid),

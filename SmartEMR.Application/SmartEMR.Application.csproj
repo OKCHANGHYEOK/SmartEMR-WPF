@@ -24,6 +24,7 @@
     <None Remove="Images\smartemr-holding.png" />
     <None Remove="Images\smartemr-wait.png" />
     <None Remove="Images\smartemr_align_right.png" />
+    <None Remove="Images\smartemr_apply.png" />
     <None Remove="Images\smartemr_booking.png" />
     <None Remove="Images\smartemr_calendar_refresh.png" />
     <None Remove="Images\smartemr_cancel.png" />
@@ -102,6 +103,7 @@
     <Resource Include="Images\smartemr-wait.png" />
     <Resource Include="Images\smartemr_align_left.png" />
     <Resource Include="Images\smartemr_align_right.png" />
+    <Resource Include="Images\smartemr_apply.png" />
     <Resource Include="Images\smartemr_center_align.png" />
     <Resource Include="Images\smartemr_insurance.png" />
   </ItemGroup>

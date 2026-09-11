@@ -7,6 +7,12 @@ using System.Windows.Input;
 
 namespace SmartEMR.Application.ViewBase;
 
+public enum ViewMode
+{
+    DEFAULT,
+    POPUP
+}
+
 public abstract partial class ViewLayout : CustomControl, IViewLayout, IDisposable
 {
     public static readonly DependencyProperty ViewTitleProperty =
@@ -25,6 +31,15 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IDisposab
     {
         get => (Size)GetValue(ViewSizeProperty);
         set => SetValue(ViewSizeProperty, value);
+    }
+
+    public static readonly DependencyProperty ViewModeProperty =
+        DependencyProperty.Register("ViewMode", typeof(ViewMode), typeof(ViewLayout), new PropertyMetadata(ViewMode.DEFAULT));
+
+    public ViewMode ViewMode
+    {
+        get => (ViewMode)GetValue(ViewModeProperty);
+        set => SetValue(ViewModeProperty, value);
     }
 
     public bool IsPopupView { get; set; } = false;

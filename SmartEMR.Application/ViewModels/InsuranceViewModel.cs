@@ -4,6 +4,9 @@ namespace SmartEMR.Application.ViewModels;
 
 public class InsuranceViewModel : BaseViewModel<Insurance>
 {
+    public InsuranceViewModel() { }
+    public InsuranceViewModel(Insurance item) : base(item) { }
+
     public override void Initialize()
     {
     }
