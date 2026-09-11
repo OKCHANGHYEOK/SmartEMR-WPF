@@ -17,42 +17,48 @@
                       d:DesignWidth="800"
                       d:DataContext="{d:DesignInstance Type=vm:OrderViewModel}">
 
-    <Xpf:StyleGrid  LayoutDefinitions="1,3"
-                    RowSizeDefinitions="Auto,Auto,1*">
+    <Xpf:StyleGrid  LayoutDefinitions="3,1"
+                    ColumnSizeDefinitions="0.8*,Auto,*">
 
-        <StackPanel Grid.Row="0"
-                    Background="#EEF3F8">
+        <Xpf:LayoutPanel Grid.Column="0" 
+                         Caption="기본오더">
+            <StackPanel Background="#EEF3F8">
 
-            <local:OrderSectionTemplate Title="[진찰료]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='ASM'}"/>
-            <local:OrderSectionTemplate Title="[처치]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='TRT'}"/>
-            <local:OrderSectionTemplate Title="[주사]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='MED'}"/>
-            <local:OrderSectionTemplate Title="[검사]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='EXM'}"/>
-        </StackPanel>
+                <local:OrderSectionTemplate Title="[진찰료]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='ASM'}"/>
+                <local:OrderSectionTemplate Title="[처치]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='TRT'}"/>
+                <local:OrderSectionTemplate Title="[주사]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='MED'}"/>
+                <local:OrderSectionTemplate Title="[검사]" Orders="{Binding Orders, Converter={converter:OrderTypeToItemsSourceConverter}, ConverterParameter='EXM'}"/>
+            </StackPanel>
+        </Xpf:LayoutPanel>
 
-        <Border Background="#E4EBF3" Height="1" Grid.Row="1"></Border>
+        <Border Background="#E4EBF3" Width="1" Grid.Column="1" Margin="1"/>
 
-        <dxc:DXTabControl   Grid.Row="2"
-                            Padding="2"
-                            SelectedIndex="0"
-                            SelectionChanged="OnSelectionChanged_TabControl">
-            <dxc:DXTabItem  Header="시술" Tag="PRC">
-                <local:vSmartEMRConsultationTabOrderORD OrderType="PRC"/>
-            </dxc:DXTabItem>
-            <dxc:DXTabItem  Header="처치" Tag="TRT">
-                <local:vSmartEMRConsultationTabOrderORD OrderType="TRT"/>
-            </dxc:DXTabItem>
-            <dxc:DXTabItem  Header="검사" Tag="EXM">
-                <local:vSmartEMRConsultationTabOrderORD OrderType="EXM"/>
-            </dxc:DXTabItem>
-            <dxc:DXTabItem  Header="문서">
-                <local:vSmartEMRConsultationTabOrderORD OrderType="DOC"/>
-            </dxc:DXTabItem>
-            <dxc:DXTabItem  Header="투약">
-                <local:vSmartEMRConsultationTabOrderORD OrderType="MED"/>
-            </dxc:DXTabItem>
-            <dxc:DXTabItem  Header="기타">
-                <local:vSmartEMRConsultationTabOrderORD OrderType="ETC"/>
-            </dxc:DXTabItem>
-        </dxc:DXTabControl>
+        <Xpf:LayoutPanel Grid.Column="2"
+                         Caption="오더목록"
+                         Margin="0">
+            
+            <dxc:DXTabControl   Padding="2"
+                                SelectedIndex="0"
+                                SelectionChanged="OnSelectionChanged_TabControl">
+                <dxc:DXTabItem  Header="시술" Tag="PRC">
+                    <local:vSmartEMRConsultationTabOrderORD OrderType="PRC"/>
+                </dxc:DXTabItem>
+                <dxc:DXTabItem  Header="처치" Tag="TRT">
+                    <local:vSmartEMRConsultationTabOrderORD OrderType="TRT"/>
+                </dxc:DXTabItem>
+                <dxc:DXTabItem  Header="검사" Tag="EXM">
+                    <local:vSmartEMRConsultationTabOrderORD OrderType="EXM"/>
+                </dxc:DXTabItem>
+                <dxc:DXTabItem  Header="문서">
+                    <local:vSmartEMRConsultationTabOrderORD OrderType="DOC"/>
+                </dxc:DXTabItem>
+                <dxc:DXTabItem  Header="투약">
+                    <local:vSmartEMRConsultationTabOrderORD OrderType="MED"/>
+                </dxc:DXTabItem>
+                <dxc:DXTabItem  Header="기타">
+                    <local:vSmartEMRConsultationTabOrderORD OrderType="ETC"/>
+                </dxc:DXTabItem>
+            </dxc:DXTabControl>
+        </Xpf:LayoutPanel>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

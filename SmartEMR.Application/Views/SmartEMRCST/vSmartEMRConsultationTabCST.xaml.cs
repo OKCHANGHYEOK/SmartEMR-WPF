@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using DevExpress.Xpf.Core.ConditionalFormatting.Native;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Views.Patients;

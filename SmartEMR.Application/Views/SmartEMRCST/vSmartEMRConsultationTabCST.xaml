@@ -27,7 +27,7 @@
                         Background="#EAF2F8">
             
             <Xpf:BindGrid   Grid.Column="0"
-                            LayoutDefinitions="9,1"
+                            LayoutDefinitions="15,1"
                             MinHeight="27"
                             Height="27"
                             Margin="2"
@@ -63,9 +63,20 @@
                                 ItemsSource="{x:Static selection:SearchFilterItems.InsuranceTypes}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"/>
+
+                <Xpf:BindItem   FieldName="Keyword"
+                                Col="9"
+                                ColSpan="6">
+
+                    <Xpf:SearchPanel NullText="차트번호/환자명으로 검색하세요." 
+                                     MinHeight="23" 
+                                     Height="23" 
+                                     Margin="2,0,2,0"
+                                     SearchCommand="{Binding SearchCommand}"/>
+                </Xpf:BindItem>
             </Xpf:BindGrid>
 
-            <dxc:SimpleButton Grid.Column="1"
+            <!--<dxc:SimpleButton Grid.Column="1"
                               Width="24"
                               Height="24"
                               Glyph="/Images/smartemr_reset.png"
@@ -78,7 +89,7 @@
                 <dxc:SimpleButton.CommandParameter>
                     <sys:Boolean>True</sys:Boolean>
                 </dxc:SimpleButton.CommandParameter>
-            </dxc:SimpleButton>
+            </dxc:SimpleButton>-->
         </Xpf:StyleGrid>
 
         <Border Grid.Column="0"  

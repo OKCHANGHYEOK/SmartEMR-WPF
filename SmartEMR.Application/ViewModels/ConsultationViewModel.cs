@@ -205,6 +205,18 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         await NotifyCompletedTaskAsync(SaveMode.DELETE);
     }
 
+    [RelayCommand]
+    public async Task Search()
+    {
+        await UpdateConsultationsByRCP();
+    }
+
+    [RelayCommand]
+    public async Task Reset()
+    {
+        await ClearData(true);
+    }
+
     public bool CanEnterOrder(Order item)
     {
         if (OrderMaster.ORDER_ASSESSMENTS.Contains(item.ORD_SugaCode))

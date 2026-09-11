@@ -19,12 +19,14 @@
 
     <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2010Blue">
         <dxd:LayoutGroup Orientation="Horizontal">
-            <Xpf:LayoutPanel Caption="진료현황"  ItemWidth="0.5*">
-                <local:vSmartEMRConsultationTabCST x:Name="SmartEMRConsultationTabCST"/>
-            </Xpf:LayoutPanel>
-            <Xpf:LayoutPanel Caption="오더목록" ItemWidth="0.4*">
-                <local:vSmartEMRConsultationTabOrder x:Name="SmartEMRConsultationTabOrder"/>
-            </Xpf:LayoutPanel>
+            <dxd:LayoutGroup Orientation="Vertical" ItemWidth="0.8*">
+                <Xpf:LayoutPanel Caption="진료현황"  ItemHeight="0.5*">
+                    <local:vSmartEMRConsultationTabCST x:Name="SmartEMRConsultationTabCST"/>
+                </Xpf:LayoutPanel>
+                <Xpf:LayoutPanel ItemHeight="1*" ShowCaption="False" ShowBorder="False" Margin="0" Padding="0">
+                    <local:vSmartEMRConsultationTabOrder x:Name="SmartEMRConsultationTabOrder"/>
+                </Xpf:LayoutPanel>
+            </dxd:LayoutGroup>
 
             <dxd:LayoutGroup Orientation="Vertical">
                 <dxd:LayoutGroup Orientation="Horizontal" ItemHeight="280">
