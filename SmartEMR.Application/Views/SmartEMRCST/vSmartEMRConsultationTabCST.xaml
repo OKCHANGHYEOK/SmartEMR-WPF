@@ -25,7 +25,7 @@
                         LayoutDefinitions="2,1"
                         ColumnSizeDefinitions="*,Auto"
                         Background="#EAF2F8">
-            
+
             <Xpf:BindGrid   Grid.Column="0"
                             LayoutDefinitions="15,1"
                             MinHeight="27"
@@ -75,21 +75,6 @@
                                      SearchCommand="{Binding SearchCommand}"/>
                 </Xpf:BindItem>
             </Xpf:BindGrid>
-
-            <!--<dxc:SimpleButton Grid.Column="1"
-                              Width="24"
-                              Height="24"
-                              Glyph="/Images/smartemr_reset.png"
-                              GlyphWidth="16"
-                              GlyphHeight="16"
-                              Cursor="Hand"
-                              Padding="3"
-                              Margin="2,0,2,0"
-                              Command="{Binding ClearDataCommand}">
-                <dxc:SimpleButton.CommandParameter>
-                    <sys:Boolean>True</sys:Boolean>
-                </dxc:SimpleButton.CommandParameter>
-            </dxc:SimpleButton>-->
         </Xpf:StyleGrid>
 
         <Border Grid.Column="0"  
@@ -100,7 +85,8 @@
 
         <Xpf:DataGrid   Grid.Column="0"
                         Grid.Row="2"
-                        ItemsSource="{Binding Consultations}">
+                        ItemsSource="{Binding Consultations}"
+                        AutoWidth="False">
             
             <Xpf:ColumnItem FieldName="IRC_Type"
                             Header=" "
@@ -144,6 +130,8 @@
                             ColumnWidth="80"
                             HorizontalAlignment="Center"/>
 
+            <Xpf:ColumnItem FieldName="PAT_Bigo"
+                            Header="비고"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

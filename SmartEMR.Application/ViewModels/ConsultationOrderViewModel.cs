@@ -64,6 +64,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     public void UpdateCSTByIRC(Consultation item)
     {
         SelectedCST.CST_InsuranceType = item.CST_InsuranceType;
+
+        UpdatePriceData();
     }
 
     public void AddCSTO(Order item, int MUR_Idx_DOC)

@@ -45,6 +45,7 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     private string? m_vPAT_Sex;
     private int? m_PAT_Age;
     private string? m_vPAT_Info;
+    private string? m_PAT_Bigo;
 
     private string? m_IRC_Type;
     private string? m_vIRC_Type;
@@ -299,6 +300,12 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     {
         get => m_vPAT_Info;
         set => SetProperty(ref m_vPAT_Info, value);
+    }
+
+    public string? PAT_Bigo
+    {
+        get => m_PAT_Bigo;
+        set => SetProperty(ref m_PAT_Bigo, value);
     }
 
     public string? IRC_Type

@@ -17,176 +17,292 @@
                         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800"
-                        ViewTitle="보험수정"
-                        ViewSize="500,400">
-    
-    <Xpf:StyleGrid  x:Name="LayoutRoot">
-        <Xpf:StyleGrid.Style>
-            <Style TargetType="Xpf:StyleGrid">
-                <Setter Property="LayoutDefinitions" Value="1,1"/>
+                        ViewTitle="보험설정"
+                        ViewSize="500,400"
+                        ViewMode="DEFAULT">
 
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding ViewMode, RelativeSource={RelativeSource AncestorType={x:Type base:ModelViewLayout}}}" Value="POPUP">
-                        <Setter Property="LayoutDefinitions" Value="1,3"/>
-                        <Setter Property="RowSizeDefinitions" Value="*,Auto,Auto"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Xpf:StyleGrid.Style>
+    <Grid>
+        <Xpf:StyleGrid  x:Name="IRCInfoGrid_DEFAULT">
+            <Xpf:StyleGrid.Style>
+                <Style TargetType="{x:Type Xpf:StyleGrid}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
 
-        <Xpf:BindGrid   Grid.Row="0"
-                        LayoutDefinitions="2,8"
-                        BindStyle="DataCell"
-                        ItemSpace="2">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ViewMode, RelativeSource={RelativeSource AncestorType={x:Type base:ModelViewLayout}}}" Value="DEFAULT">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Xpf:StyleGrid.Style>
 
-            <Xpf:BindItem   FieldName="vIRC_Type"
-                            Header="보 험 구 분"
-                            BindType="Label"
-                            Col="0"
-                            Row="0"
-                            ColSpan="2"
-                            FontSize="12"
-                            HAlignment="Left"
-                            FontWeight="Bold"/>
+            <Xpf:BindGrid   Grid.Row="0"
+                            LayoutDefinitions="2,8"
+                            BindStyle="DataCell"
+                            ItemSpace="2">
 
-            <Xpf:BindItem   FieldName="IRC_Type"
-                            Header="보 험 구 분"
-                            BindType="ComboBox"
-                            Col="0"
-                            Row="0"
-                            ColSpan="2"
-                            FontSize="12"
-                            FontWeight="Bold"
-                            ItemsSource="{x:Static selections:InputOptionItems.InsuranceTypes}"
-                            DisplayMember="CCI_Name"
-                            ValueMember="CCI_Cd"/>
-
-            <Xpf:BindItem   FieldName="IRC_CertNum"
-                            Header="보험증번호"
-                            BindType="TextBox"
-                            Col="0"
-                            Row="1"
-                            ColSpan="2"/>
-
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="IRC_ContractorName"
-                                Header="보 험 관 계 자"
-                                BindType="TextBox"
-                                Col="0"
-                                Row="2"
-                                ColSpan="2"
-                                Placeholder="가입자명"/>
-
-                <Xpf:BindItem   FieldName="IRC_InsuredName"
-                                BindType="TextBox"
-                                Placeholder="피보험자명"/>
-
-                <Xpf:BindItem   FieldName="chkIsSameAsContractor"
-                                BindType="CheckBox"
-                                TextValue="본인"
-                                FontSize="11"
-                                Foreground="DimGray"
-                                FontWeight="DemiBold"
-                                Width="42"
-                                ToolTip="가입자가 본인과 동일함"
-                                IsBinding="False"
-                                IsBindClickEvent="True"/>
-            </x:Array>
-
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="IRC_CoName"
-                                Header="보 험 사 명"
-                                BindType="ComboBox"
-                                ItemsSource="{x:Static selections:InputOptionItems.InsuranceCoperations}"
-                                DisplayMember="IRC_CoName"
-                                ValueMember="IRC_CoName"
-                                Col="0"
-                                Row="3"
-                                ColSpan="2"/>
-
-                <Xpf:BindItem   FieldName="vIRC_CoName"
-                                BindType="TextBox"
-                                Placeholder="직접입력"
-                                Width="80"
-                                IsEnabled="False"/>
-            </x:Array>
-
-            <x:Array Type="{x:Type Xpf:BindItem}">
-                <Xpf:BindItem   FieldName="IRC_EffectiveYYMMDD"
-                                Header="유 효 기 간"
-                                BindType="DateEdit"
-                                Col="0"
-                                Row="4"
-                                ColSpan="2"/>
-
-                <Xpf:BindItem   FieldName=""
+                <Xpf:BindItem   FieldName="vIRC_Type"
+                                Header="보 험 구 분"
                                 BindType="Label"
-                                TextValue="-"
-                                FontSize="10"
-                                Width="10"
-                                IsBinding="False"/>
+                                Col="0"
+                                Row="0"
+                                ColSpan="2"
+                                FontSize="12"
+                                HAlignment="Left"
+                                FontWeight="Bold"/>
 
-                <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDD"
-                                BindType="DateEdit"/>
-            </x:Array>
+                <Xpf:BindItem   FieldName="IRC_CertNum"
+                                Header="보험증번호"
+                                BindType="TextBox"
+                                Col="0"
+                                Row="1"
+                                ColSpan="2"/>
 
-            <Xpf:BindItem   FieldName="IRC_Specific"
-                            Header="특 정 내 역"
-                            Col="0"
-                            Row="5"
-                            ColSpan="2"
-                            RowSpan="3"
-                            ContentAlignment="LeftTop"
-                            IsBottomLine="False"/>
-        </Xpf:BindGrid>
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="IRC_ContractorName"
+                                    Header="보 험 관 계 자"
+                                    BindType="TextBox"
+                                    Col="0"
+                                    Row="2"
+                                    ColSpan="2"
+                                    Placeholder="가입자명"/>
 
-        <Xpf:MaskControl x:Name="MaskControl" Grid.RowSpan="2" Visibility="{Binding Model.IRC_Type, Converter={converter:IRCTypeToVisibilityConverter}}"
-                         ShowButton="False">
-            <Xpf:TextBlock TextAlignment="Center">
-                <Run>접수정보에서 비보험외의 보험 선택 시 활성화됩니다.</Run>
-            </Xpf:TextBlock>
-        </Xpf:MaskControl>
+                    <Xpf:BindItem   FieldName="IRC_InsuredName"
+                                    BindType="TextBox"
+                                    Placeholder="피보험자명"/>
 
-        <Border Grid.Row="1"  
-                Background="LightGray" 
-                Height="1" 
-                Margin="0,2,0,2"/>
+                    <Xpf:BindItem   FieldName="chkIsSameAsContractor"
+                                    BindType="CheckBox"
+                                    TextValue="본인"
+                                    FontSize="11"
+                                    Foreground="DimGray"
+                                    FontWeight="DemiBold"
+                                    Width="42"
+                                    ToolTip="가입자가 본인과 동일함"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True"/>
+                </x:Array>
 
-        <Xpf:StyleGrid Grid.Row="2"
-                       LayoutDefinitions="3,1"
-                       ColumnSizeDefinitions="Auto,*,Auto">
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="IRC_CoName"
+                                    Header="보 험 사 명"
+                                    BindType="ComboBox"
+                                    ItemsSource="{x:Static selections:InputOptionItems.InsuranceCoperations}"
+                                    DisplayMember="IRC_CoName"
+                                    ValueMember="IRC_CoName"
+                                    Col="0"
+                                    Row="3"
+                                    ColSpan="2"/>
 
-            <dxc:SimpleButton   Grid.Column="0"
-                                Content="초기화"
-                                Width="100"
-                                Height="23"
-                                Glyph="/Images/smartemr_empty_paper.png"
-                                GlyphWidth="18"
-                                GlyphHeight="18"
-                                Padding="2"
-                                Margin="2"
-                                dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                Cursor="Hand"
-                                Command="{Binding ClearDataCommand}">
+                    <Xpf:BindItem   FieldName="vIRC_CoName"
+                                    BindType="TextBox"
+                                    Placeholder="직접입력"
+                                    Width="80"
+                                    IsEnabled="False"/>
+                </x:Array>
 
-                <dxc:SimpleButton.CommandParameter>
-                    <sys:Boolean>True</sys:Boolean>
-                </dxc:SimpleButton.CommandParameter>
-            </dxc:SimpleButton>
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="IRC_EffectiveYYMMDD"
+                                    Header="유 효 기 간"
+                                    BindType="DateEdit"
+                                    Col="0"
+                                    Row="4"
+                                    ColSpan="2"/>
 
+                    <Xpf:BindItem   FieldName=""
+                                    BindType="Label"
+                                    TextValue="-"
+                                    FontSize="10"
+                                    Width="10"
+                                    IsBinding="False"/>
 
-            <dxc:SimpleButton   Grid.Column="2"
-                                Content="적용 후 닫기"
-                                Width="100"
-                                Height="23"
-                                Glyph="/Images/smartemr_apply.png"
-                                GlyphWidth="18"
-                                GlyphHeight="18"
-                                Padding="2"
-                                Margin="2"
-                                dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                Cursor="Hand"
-                                Command="{Binding ApplyInsuranceCommand}"/>
+                    <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDD"
+                                    BindType="DateEdit"/>
+                </x:Array>
+
+                <Xpf:BindItem   FieldName="IRC_Specific"
+                                Header="특 정 내 역"
+                                Col="0"
+                                Row="5"
+                                ColSpan="2"
+                                RowSpan="3"
+                                ContentAlignment="LeftTop"
+                                IsBottomLine="False"/>
+            </Xpf:BindGrid>
+
+            <Xpf:MaskControl x:Name="MaskControl" Grid.RowSpan="2" Visibility="{Binding Model.IRC_Type, Converter={converter:IRCTypeToVisibilityConverter}}"
+                       ShowButton="False">
+                <Xpf:TextBlock TextAlignment="Center">
+                    <Run>접수정보에서 비보험외의 보험 선택 시 활성화됩니다.</Run>
+                </Xpf:TextBlock>
+            </Xpf:MaskControl>
         </Xpf:StyleGrid>
-    </Xpf:StyleGrid>
+
+        <Xpf:LayoutPanel Padding="1" ShowCaption="False">
+            <Xpf:LayoutPanel.Style>
+                <Style TargetType="{x:Type Xpf:LayoutPanel}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ViewMode, RelativeSource={RelativeSource AncestorType={x:Type base:ModelViewLayout}}}" Value="POPUP">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Xpf:LayoutPanel.Style>
+
+
+            <Xpf:StyleGrid  x:Name="IRCInfoGrid_POPUP"
+                            LayoutDefinitions="1,3"
+                            RowSizeDefinitions="*,Auto,Auto">
+
+                <Xpf:BindGrid   Grid.Row="0"
+                                LayoutDefinitions="2,8"
+                                BindStyle="DataCell"
+                                ItemSpace="2">
+
+                    <x:Array Type="{x:Type Xpf:BindItem}">
+                        <Xpf:BindItem   FieldName="IRC_Type"
+                                        Header="보 험 구 분"
+                                        BindType="ComboBox"
+                                        Col="0"
+                                        Row="0"
+                                        ColSpan="2"
+                                        FontSize="12"
+                                        FontWeight="Bold"
+                                        ItemsSource="{x:Static selections:InputOptionItems.InsuranceTypes}"
+                                        DisplayMember="CCI_Name"
+                                        ValueMember="CCI_Cd"/>
+
+                        <Xpf:BindItem   FieldName="chkIsSameWithIRCByRCP"
+                                        BindType="CheckBox"
+                                        Width="130"
+                                        TextValue="접수 보험과 동일"
+                                        IsBinding="False"
+                                        IsBindClickEvent="True"
+                                        IsChecked="True"/>
+                    </x:Array>
+
+                    <Xpf:BindItem   FieldName="IRC_CertNum"
+                                    Header="보험증번호"
+                                    BindType="TextBox"
+                                    Col="0"
+                                    Row="1"
+                                    ColSpan="2"/>
+
+                    <x:Array Type="{x:Type Xpf:BindItem}">
+                        <Xpf:BindItem   FieldName="IRC_ContractorName"
+                                        Header="보 험 관 계 자"
+                                        BindType="TextBox"
+                                        Col="0"
+                                        Row="2"
+                                        ColSpan="2"
+                                        Placeholder="가입자명"/>
+
+                        <Xpf:BindItem   FieldName="IRC_InsuredName"
+                                        BindType="TextBox"
+                                        Placeholder="피보험자명"/>
+
+                        <Xpf:BindItem   FieldName="chkIsSameAsContractor"
+                                        BindType="CheckBox"
+                                        TextValue="본인"
+                                        FontSize="11"
+                                        Foreground="DimGray"
+                                        FontWeight="DemiBold"
+                                        Width="42"
+                                        ToolTip="가입자가 본인과 동일함"
+                                        IsBinding="False"
+                                        IsBindClickEvent="True"/>
+                    </x:Array>
+
+                    <x:Array Type="{x:Type Xpf:BindItem}">
+                        <Xpf:BindItem   FieldName="IRC_CoName"
+                                        Header="보 험 사 명"
+                                        BindType="ComboBox"
+                                        ItemsSource="{x:Static selections:InputOptionItems.InsuranceCoperations}"
+                                        DisplayMember="IRC_CoName"
+                                        ValueMember="IRC_CoName"
+                                        Col="0"
+                                        Row="3"
+                                        ColSpan="2"/>
+
+                        <Xpf:BindItem   FieldName="vIRC_CoName"
+                                        BindType="TextBox"
+                                        Placeholder="직접입력"
+                                        Width="80"
+                                        IsEnabled="False"/>
+                    </x:Array>
+
+                    <x:Array Type="{x:Type Xpf:BindItem}">
+                        <Xpf:BindItem   FieldName="IRC_EffectiveYYMMDD"
+                                        Header="유 효 기 간"
+                                        BindType="DateEdit"
+                                        Col="0"
+                                        Row="4"
+                                        ColSpan="2"/>
+
+                        <Xpf:BindItem   FieldName=""
+                                        BindType="Label"
+                                        TextValue="-"
+                                        FontSize="10"
+                                        Width="10"
+                                        IsBinding="False"/>
+
+                        <Xpf:BindItem   FieldName="IRC_ExpiredYYMMDD"
+                                        BindType="DateEdit"/>
+                    </x:Array>
+
+                    <Xpf:BindItem   FieldName="IRC_Specific"
+                                    Header="특 정 내 역"
+                                    Col="0"
+                                    Row="5"
+                                    ColSpan="2"
+                                    RowSpan="3"
+                                    ContentAlignment="LeftTop"
+                                    IsBottomLine="False"/>
+                </Xpf:BindGrid>
+
+                <Border Grid.Row="1"  
+                        Background="LightGray" 
+                        Height="1" 
+                        Margin="0,2,0,2"/>
+
+                <Xpf:StyleGrid Grid.Row="2"
+                               LayoutDefinitions="3,1"
+                               ColumnSizeDefinitions="Auto,*,Auto">
+
+                    <dxc:SimpleButton   Grid.Column="0"
+                                        Content="초기화"
+                                        Width="100"
+                                        Height="23"
+                                        Glyph="/Images/smartemr_empty_paper.png"
+                                        GlyphWidth="18"
+                                        GlyphHeight="18"
+                                        Padding="2"
+                                        Margin="2"
+                                        dxc:ThemeManager.ThemeName="Office2016Colorful"
+                                        Cursor="Hand"
+                                        Command="{Binding ClearDataCommand}">
+
+                        <dxc:SimpleButton.CommandParameter>
+                            <sys:Boolean>True</sys:Boolean>
+                        </dxc:SimpleButton.CommandParameter>
+                    </dxc:SimpleButton>
+
+
+                    <dxc:SimpleButton   Grid.Column="2"
+                                        Content="적용 후 닫기"
+                                        Width="100"
+                                        Height="23"
+                                        Glyph="/Images/smartemr_apply.png"
+                                        GlyphWidth="18"
+                                        GlyphHeight="18"
+                                        Padding="2"
+                                        Margin="2"
+                                        dxc:ThemeManager.ThemeName="Office2016Colorful"
+                                        Cursor="Hand"
+                                        Command="{Binding ApplyInsuranceCommand}"/>
+                </Xpf:StyleGrid>
+            </Xpf:StyleGrid>
+        </Xpf:LayoutPanel>        
+    </Grid>
 </base:ModelViewLayout>

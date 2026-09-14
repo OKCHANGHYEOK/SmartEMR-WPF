@@ -3,7 +3,6 @@ using DevExpress.Xpf.Editors;
 using MahApps.Metro.Controls;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -278,8 +277,7 @@ public partial class BindGrid : StyleGrid, IDisposable
         }
 
         if (bindItem.IsBindClickEvent) AddBindClickEvent(visualChild, bindItem);
-
-        if (bindItem.IsBinding == true)
+        if (bindItem.IsBinding)
         {
             SmartUI.BeginInvoke(() =>
             {
@@ -362,7 +360,8 @@ public partial class BindGrid : StyleGrid, IDisposable
                     Content = bindItem.TextValue,
                     FontSize = bindItem.FontSize,
                     FontWeight = bindItem.FontWeight,
-                    Foreground = bindItem.Foreground
+                    Foreground = bindItem.Foreground,
+                    IsChecked = bindItem.IsChecked
                 };
 
                 break;
@@ -424,14 +423,11 @@ public partial class BindGrid : StyleGrid, IDisposable
     {
         if (sender is FrameworkElement fe && fe.Tag is BindItem element)
         {
-            object? oldValue = null;
-            object? newValue = null;
+            BindClickEventArgs? args = null;
 
-            var args = new BindClickEventArgs(e.RoutedEvent, this, element, oldValue, newValue);
             if (sender is BaseEdit be && e is EditValueChangingEventArgs evcArgs)
             {
-                oldValue = evcArgs.OldValue;
-                newValue = evcArgs.NewValue;
+                args = new BindClickEventArgs(e.RoutedEvent, this, element, evcArgs.OldValue, evcArgs.NewValue);
 
                 BindGrid_BindClickEvent?.Invoke(this, args);
 
@@ -440,7 +436,7 @@ public partial class BindGrid : StyleGrid, IDisposable
             }
             else
             {
-                BindGrid_BindClickEvent?.Invoke(this, args);
+                BindGrid_BindClickEvent?.Invoke(this, new BindClickEventArgs(e.RoutedEvent, this, element, null, null));
             }
 
             SmartUI.BeginInvoke(() =>

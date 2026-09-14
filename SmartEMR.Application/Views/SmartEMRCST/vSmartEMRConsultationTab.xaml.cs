@@ -318,6 +318,8 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         SelectedCST.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", SelectedCST.IRCItem?.IRC_Type ?? "");
 
         SmartEMRConulstationTabCSTOInfo.UpdateCSTByIRC(SelectedCST);
+
+        SmartUI.SetNofification("보험 적용되었습니다.", NotificationType.Info);
     }
 
     private async void ClearData(bool isClearPAT = false, bool isClearCST = false)

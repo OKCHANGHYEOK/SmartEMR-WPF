@@ -235,20 +235,34 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     {
         Insurance? IRCItem = null;
 
-        if (item.IRC_Idx > 0)
+        // 보험 기준
+        // 진료 O 보험 O -> 진료의 보험
+        // 진료 X 접수 O 보험 O -> 접수의 보험
+        // 진료와 접수 모두 연결된 보험이 없는 경우 -> 기본값
+        Insurance getIRC = new Insurance();
+
+        if (item.CST_Idx > 0)
         {
-            var retIRC = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, new Insurance { IRC_Idx = item.IRC_Idx });
-            if (retIRC != null)
-            {
-                IRCItem = retIRC;
-            }
+            getIRC.CST_Idx = item.CST_Idx;
+            getIRC.IRC_Idx = item.IRC_Idx;
         }
-        else
+        else if (item.RCP_Idx > 0)
         {
-            IRCItem = new Insurance { IRC_Type = item.RCP_Idx > 0 ? item.CST_InsuranceType : "NON" };
+            getIRC.RCP_Idx = item.RCP_Idx;
+            getIRC.IRC_Idx = item.IRC_Idx;
         }
 
-        Model.CST_InsuranceType = IRCItem?.IRC_Type;
+        IRCItem = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetInsurance, getIRC);
+
+        if (IRCItem is null)
+        {
+            IRCItem = new Insurance { IRC_Type = "NON" };
+        }
+
+        IRCItem.CST_Idx = Model.CST_Idx;
+        IRCItem.RCP_Idx = Model.RCP_Idx;
+
+        Model.CST_InsuranceType = IRCItem.IRC_Type;
         Model.IRCItem = IRCItem;
     }
 

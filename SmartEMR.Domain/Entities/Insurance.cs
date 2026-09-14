@@ -1,11 +1,12 @@
 ﻿namespace SmartEMR.Domain.Entities;
 
-public class Insurance : BaseEntity
+public class Insurance : BaseEntity, ICloneable<Insurance>
 {
     private int? m_IRC_Idx;
     private int? m_MEM_Idx;
     private int? m_PAT_Idx;
     private int? m_RCP_Idx;
+    private int? m_CST_Idx;
     private string? m_IRC_Type;
     private string? m_vIRC_Type;
     private string? m_IRC_CertNum;
@@ -43,6 +44,12 @@ public class Insurance : BaseEntity
     {
         get => m_RCP_Idx;
         set => SetProperty(ref m_RCP_Idx, value);
+    }
+
+    public int? CST_Idx
+    {
+        get => m_CST_Idx;
+        set => SetProperty(ref m_CST_Idx, value);
     }
 
     public string? IRC_Type
@@ -117,5 +124,10 @@ public class Insurance : BaseEntity
         set => SetProperty(ref m_IRC_IsValid, value);
     }
 
-    #endregion
+    #endregion;
+
+    public Insurance Clone()
+    {
+        return (Insurance)this.MemberwiseClone();
+    }
 }

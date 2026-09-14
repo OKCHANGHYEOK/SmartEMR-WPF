@@ -127,59 +127,11 @@
 
             <dxc:SimpleButton Grid.Column="21"
                               Tag="btnClear"
-                              Glyph="/Images/smartemr_empty_paper_v2.png"
+                              Glyph="/Images/smartemr_empty_paper_white.png"
                               Padding="2"
                               Cursor="Hand"
                               Click="OnClick_SimpleButton"
                               dxc:ThemeManager.ThemeName="Office2016Colorful"/>
-
-            <!--<Border Background="#E4EBF3" Height="1" Grid.Column="0" Grid.ColumnSpan="19" Grid.Row="1" Margin="2"></Border>-->
-
-            <!--<Xpf:StyleGrid   Grid.Column="0"
-                             Grid.ColumnSpan="20"
-                             Grid.Row="2"
-                             LayoutDefinitions="3,1"
-                             ColumnSizeDefinitions="Auto,*,Auto">
-
-                <dxc:SimpleButton   Tag="btnGetRecentCST"
-                                    Grid.Column="0"
-                                    Content="최근 진료 불러오기"
-                                    Glyph="/Images/smartemr_recent_data.png"
-                                    GlyphWidth="18"
-                                    GlyphHeight="18"
-                                    GlyphToContentOffset="3"
-                                    GlyphAlignment="Left"
-                                    HorizontalContentAlignment="Center"
-                                    FontSize="11"
-                                    FontWeight="SemiBold"
-                                    dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                    Margin="2,0,2,0"
-                                    Cursor="Hand"
-                                    Click="OnClick_SimpleButton"/>
-
-                <dxc:SimpleButton   Grid.Column="2"
-                                    Tag="btnClear"
-                                    Content="초기화"
-                                    Glyph="/Images/smartemr_empty_paper.png"
-                                    GlyphWidth="18"
-                                    GlyphHeight="18"
-                                    GlyphAlignment="Left"
-                                    GlyphToContentOffset="5"
-                                    HorizontalContentAlignment="Center"
-                                    FontSize="11"
-                                    FontWeight="SemiBold"
-                                    dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                    Margin="2,0,2,0"
-                                    Cursor="Hand"
-                                    Click="OnClick_SimpleButton">
-
-                    <dxc:SimpleButton.CommandParameter>
-                        <sys:Boolean>
-                            False
-                        </sys:Boolean>
-                    </dxc:SimpleButton.CommandParameter>
-                </dxc:SimpleButton>
-            </Xpf:StyleGrid>-->
         </Xpf:StyleGrid>
 
         <Border Grid.Row="1"  BorderBrush="#DDE2E8" BorderThickness="0,0,0,1" Margin="2"/>
