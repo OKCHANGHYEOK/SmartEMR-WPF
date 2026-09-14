@@ -9,7 +9,7 @@ namespace SmartEMR.Application.ViewModels;
 public partial class SmartEMRIRCInfoViewModel : InsuranceInfoViewModel
 {
     [RelayCommand]
-    public async Task SetRecentinsurance()
+    public async Task SetRecentInsurance()
     {
         var ret = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetRecentInsurance, new Insurance { PAT_Idx = Model.PAT_Idx });
         if (ret is null)
@@ -18,7 +18,7 @@ public partial class SmartEMRIRCInfoViewModel : InsuranceInfoViewModel
             return;
         }
 
-        SmartMVVM.ModelProperty.SetInsuranceData(Model, ret);
+        SmartMVVM.ModelProperty.SetInsuranceData(Model, ret, isCopy:true);
 
         SmartUI.SetNofification("최근보험이 적용되었습니다.", NotificationType.Success);
     }

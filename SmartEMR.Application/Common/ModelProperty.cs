@@ -375,9 +375,10 @@ public class ModelProperty
         };
     }
 
-    public void SetInsuranceData(Insurance oldItem, Insurance newItem)
+    public void SetInsuranceData(Insurance oldItem, Insurance newItem, bool isCopy = false)
     {
-        oldItem.IRC_Idx = newItem.IRC_Idx.GetValueOrDefault(0);
+        oldItem.IRC_Idx = isCopy ? 0 : newItem.IRC_Idx.GetValueOrDefault(0);
+        oldItem.PAT_Idx = newItem.PAT_Idx;
         oldItem.IRC_Type = newItem.IRC_Type;
         oldItem.vIRC_Type = SmartMVVM.Common.GetCommonCodeName("RCP", "InsuranceType", newItem.IRC_Type ?? "");
         oldItem.IRC_CertNum = newItem.IRC_CertNum;

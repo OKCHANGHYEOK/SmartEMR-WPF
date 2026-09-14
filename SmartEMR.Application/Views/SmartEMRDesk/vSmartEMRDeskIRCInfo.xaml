@@ -25,7 +25,7 @@
         <Xpf:BindGrid   Grid.Row="0"
                         LayoutDefinitions="2,8"
                         BindStyle="DataCell"
-                        ItemSpace="2">
+                        ItemSpace="1">
 
             <Xpf:BindItem   FieldName="IRC_Type"
                             Header="보 험 구 분"
@@ -144,7 +144,7 @@
                                 Padding="2"
                                 Margin="2,0,0,0"
                                 Cursor="Hand"
-                                Command="{Binding SetRecentinsuranceCommand}"/>
+                                Command="{Binding SetRecentInsuranceCommand}"/>
 
             <dxc:SimpleButton   x:Name="btnClear"
                                 Grid.Column="2"
