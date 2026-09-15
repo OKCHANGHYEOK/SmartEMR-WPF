@@ -269,7 +269,8 @@
                                LayoutDefinitions="3,1"
                                ColumnSizeDefinitions="Auto,*,Auto">
 
-                    <dxc:SimpleButton   Grid.Column="0"
+                    <dxc:SimpleButton   Tag="btnClear"
+                                        Grid.Column="0"
                                         Content="초기화"
                                         Width="100"
                                         Height="23"
@@ -280,7 +281,7 @@
                                         Margin="2"
                                         dxc:ThemeManager.ThemeName="Office2016Colorful"
                                         Cursor="Hand"
-                                        Command="{Binding ClearDataCommand}">
+                                        Click="OnClick_SimpleButton">
 
                         <dxc:SimpleButton.CommandParameter>
                             <sys:Boolean>True</sys:Boolean>

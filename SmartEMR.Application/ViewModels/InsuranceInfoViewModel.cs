@@ -73,7 +73,7 @@ public partial class InsuranceInfoViewModel : InsuranceViewModel
     {
         SmartUI.CloseView();
 
-        await SmartUI.SendMessage("UpdateCSTByIRC", viewType:TargetViewType.PageView);
+        await SmartUI.SendMessage("UpdateCSTByIRC", Model.Clone(), viewType:TargetViewType.PageView);
     }
 
     [RelayCommand]

@@ -129,8 +129,14 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 }
 
             case "UpdateCSTByIRC":
-                UpdateCSTByIRC();
-                break;
+                {
+                    if (request.MessageParameter is Insurance paramItem)
+                    {
+                        UpdateCSTByIRC(paramItem);
+                    }
+
+                    break;
+                }
 
             case "MoveIRCInfo":
                 if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
@@ -139,7 +145,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     return null;
                 }
 
-                await SmartUI.NavigateToPage(new vSmartEMRIRCInfo(SelectedCST.IRCItem ?? new Insurance()), ViewMode.POPUP, isPopup:true);
+                await SmartUI.NavigateToPage(new vSmartEMRIRCInfo(SelectedCST.IRCItem?.Clone() ?? new Insurance()), ViewMode.POPUP, isPopup:true);
                 break;
 
             case "AddCSTO":
@@ -312,10 +318,9 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         vm.UpdatePriceData(item);
     }
 
-    private void UpdateCSTByIRC()
+    private void UpdateCSTByIRC(Insurance item)
     {
-        SelectedCST.CST_InsuranceType = SelectedCST.IRCItem?.IRC_Type;
-        SelectedCST.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", SelectedCST.IRCItem?.IRC_Type ?? "");
+        vm.UpdateInsuranceData(item);
 
         SmartEMRConulstationTabCSTOInfo.UpdateCSTByIRC(SelectedCST);
 

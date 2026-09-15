@@ -271,7 +271,7 @@ public partial class Common
         }
         else
         {
-            return "REC";
+            return "REP";
         }
     }
 

@@ -124,6 +124,16 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Model.CST_TotalPrice = item.PAY_TotalPrice;
     }
 
+    public void UpdateInsuranceData(Insurance item)
+    {
+        if (Model.IRCItem is null) return;
+
+        SmartMVVM.ModelProperty.SetInsuranceData(Model.IRCItem, item);
+
+        Model.CST_InsuranceType = item.IRC_Type;
+        Model.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", item.IRC_Type ?? "");
+    }
+
     [RelayCommand]
     public async Task UpdateConsultationsByRCP()
     {
@@ -286,10 +296,17 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     {
         await SmartUI.SendMessage("RefreshCST");
 
-        if (operation == SaveMode.DELETE)
+        switch (operation)
         {
-            await SmartUI.SendMessage("ClearSelectedCST");
+            case SaveMode.SAVE:
+                await SmartUI.SendMessage("SetSelectedCST", Model.Clone());
+                break;
+
+            case SaveMode.DELETE:
+                await SmartUI.SendMessage("ClearSelectedCST");
+                break;
         }
+
 
         SmartUI.SetNofification($"진료{(operation == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
     }

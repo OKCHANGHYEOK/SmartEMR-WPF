@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -31,6 +32,14 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
         "IRC_EffectiveYYMMDD", "IRC_ExpiredYYMMDD", "IRC_Specific"
     };
 
+    private CheckEdit? chkIsSameWithIRCByRCP
+    {
+        get
+        {
+            return this.BindGrids[0].GetBindItem<CheckEdit>("chkIsSameWithIRCByRCP");
+        }
+    }
+
     public vSmartEMRIRCInfo() { }
 
     public vSmartEMRIRCInfo(Insurance item) : base(item) { }
@@ -57,13 +66,25 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
         this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_InsuredName")?.Margin = new Thickness(1);
         this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_Specific")?.Margin = new Thickness(1);
 
-        if (this.ViewMode == ViewMode.POPUP && vm.IsIRCFromRCP())
+        if (this.ViewMode == ViewMode.POPUP)
         {
-            this.BindGrids[0].IsPreventBindGridEvent = true;
-            this.BindGrids[0].GetBindItem<CheckEdit>("chkIsSameWithIRCByRCP")?.IsChecked = true;
-            this.BindGrids[0].IsPreventBindGridEvent = false;
+            bool isEnabled = true;
 
-            UpdateBindLayout(false, ["IRC_Type"]);
+            if (vm.IsIRCFromRCP())
+            {
+                this.BindGrids[0].IsPreventBindGridEvent = true;
+                chkIsSameWithIRCByRCP?.IsChecked = true;
+                this.BindGrids[0].IsPreventBindGridEvent = false;
+
+                isEnabled = false;
+            }
+             
+            if (IRCItem.IRC_Type == "NON")
+            {
+                isEnabled = false;
+            }
+
+            UpdateBindLayout(isEnabled, ["IRC_Type"], ["IRC_Type"]);
         }
     }
 
@@ -104,12 +125,15 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
                         }
                         else
                         {
+                            IRCItem.IRC_Idx_From = 0;
+
                             e.Cancel = true;
+
                             return;
                         }
                     }
 
-                    UpdateBindLayout(!isChecked, ["IRC_Type"]);
+                    UpdateBindLayout(!isChecked, ["IRC_Type"], ["IRC_Type"]);
                     break;
                 }
         }
@@ -142,9 +166,10 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
                             return;
                         }
                     }
+
+                    UpdateBindLayout(isEnabled: IRCItem.IRC_Type != "NON");
                 }
 
-                UpdateBindLayout(isEnabled:IRCItem.IRC_Type != "NON");
                 break;
         }
     }
@@ -172,30 +197,68 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
     public void ClearData(bool isClearIRCType = true)
     {
         vm.ClearData(isClearIRCType);
+    
+        if (chkIsSameWithIRCByRCP is not null && chkIsSameWithIRCByRCP.IsChecked.GetValueOrDefault(false))
+        {
+            chkIsSameWithIRCByRCP.IsChecked = false;
+        }
+
+        UpdateBindLayout(false, ["IRC_Type"]);
     }
 
-    private void UpdateBindLayout(bool isEnabled, string[]? additionalDisabledFields = null)
+    private void UpdateBindLayout(bool isEnabled, string[]? additionalEnabledFields = null, string[]? additionalDisabledFields = null)
     {
-        foreach (var fieldName in NonInsuranceDisabledFields.Concat(additionalDisabledFields ?? []))
-        {
-            var element = this.BindGrids[0].GetBindItem<FrameworkElement>(fieldName);
-            if (element is null) continue;
+        IEnumerable<string>? enabledFields = null;
+        IEnumerable<string>? disabledFields = null;
 
-            element.IsEnabled = isEnabled;
+        if (isEnabled)
+        {
+            enabledFields = NonInsuranceDisabledFields.Concat(additionalEnabledFields ?? []);
+            disabledFields = additionalDisabledFields;
+        }
+        else
+        {
+            enabledFields = additionalEnabledFields;
+            disabledFields = NonInsuranceDisabledFields.Concat(additionalDisabledFields ?? []);
+        }
+
+        if (enabledFields != null)
+        {
+            foreach (var fieldName in enabledFields)
+            {
+                var element = this.BindGrids[0].GetBindItem<FrameworkElement>(fieldName);
+                if (element is null) continue;
+
+                element.IsEnabled = true;
+            }
+        }
+
+        if (disabledFields != null)
+        {
+            foreach (var fieldName in disabledFields)
+            {
+                var element = this.BindGrids[0].GetBindItem<FrameworkElement>(fieldName);
+                if (element is null) continue;
+
+                element.IsEnabled = false;
+            }
         }
     }
 
-    private void OnClick_Button(object sender, RoutedEventArgs e)
+    private void OnClick_SimpleButton(object sender, RoutedEventArgs e)
     {
-        var element = sender as Button;
-        if (element == null) return;
+        if (sender is not SimpleButton element) return;
 
-        switch (element.Name)
+        switch (element.Tag)
         {
             case "btnClear":
-                if (SmartUI.MsgYesNo("보험구분을 제외한 정보가 초기화됩니다. 초기화하시겠습니까?") != MessageBoxResult.Yes) return;
+                if (SmartUI.MsgYesNo("보험정보를 초기화하시겠습니까?") != MessageBoxResult.Yes) return;
 
-                ClearData(false);
+                this.BindGrids[0].IsPreventBindGridEvent = true;
+
+                ClearData();
+
+                this.BindGrids[0].IsPreventBindGridEvent = false;
 
                 break;
         }
