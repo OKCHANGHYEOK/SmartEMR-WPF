@@ -21,6 +21,14 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
         }
 
+        public Reception RCPItem
+        {
+            get
+            {
+                return vm.Reception ?? default!;
+            }
+        }
+
         public Patient PATItem { get; set; } = new();
 
         public static DependencyProperty MaskControlVisiblityProperty =
@@ -125,6 +133,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, item);
         }
 
+        public void SetReception(Reception item)
+        {
+            vm.SetReception(item);
+        }
+
         public void SetInsuranceType(string IRC_Type)
         {
             bool isNON = IRC_Type == "NON";
@@ -140,6 +153,18 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             if (!isNON)
             {
                 SetCoNameComboBoxItemsSource();
+            }
+        }
+
+        public async void UpdateViewLayoutByCST()
+        {
+            if (await vm.ExistsCST())
+            {
+                ConsultationMaskControl.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ConsultationMaskControl.Visibility = Visibility.Collapsed;
             }
         }
 

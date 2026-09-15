@@ -171,5 +171,15 @@
                 <Run>접수등록/수정시 활성화됩니다.</Run>
             </Xpf:TextBlock>
         </Xpf:MaskControl>
+
+        <Xpf:MaskControl x:Name="ConsultationMaskControl"
+                         Grid.RowSpan="2"
+                         Visibility="Collapsed"
+                         ShowButton="False">
+            
+            <Xpf:TextBlock TextAlignment="Center">
+                <Run>진료가 존재하는 접수의 보험은 수정할 수 없습니다.</Run>
+            </Xpf:TextBlock>
+        </Xpf:MaskControl>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

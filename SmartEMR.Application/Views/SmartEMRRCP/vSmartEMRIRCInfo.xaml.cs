@@ -128,12 +128,19 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
                             IRCItem.IRC_Idx_From = 0;
 
                             e.Cancel = true;
-
                             return;
                         }
                     }
 
-                    UpdateEnabledState(!isChecked, ["IRC_Type"], ["IRC_Type"]);
+                    if (isChecked)
+                    {
+                        UpdateEnabledState(false, additionalDisabledFields:["IRC_Type"]);
+                    }
+                    else
+                    {
+                        UpdateEnabledState(true, additionalEnabledFields:["IRC_Type"]);
+                    }
+
                     break;
                 }
         }

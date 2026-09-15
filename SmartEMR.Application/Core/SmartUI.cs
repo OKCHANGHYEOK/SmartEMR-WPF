@@ -125,6 +125,8 @@ public static partial class SmartUI
             else
             {
                 vlayout.MainContent = targetView;
+
+                Messenger.ExecuteRefresh(targetView);
             }
 
             vlayout.SetIndicatorVisibility(false);
@@ -264,6 +266,11 @@ public static partial class SmartUI
     public static Task<ViewMessageResponse?> SendMessageToSearchView(string action, object? parameter = null)
     {
         return Messenger.SendMessageToSearchView(action, parameter);
+    }
+
+    public static void AddRefreshRequest(RefreshPageType type)
+    {
+        Messenger.AddRefreshRequest(type);
     }
 }
 

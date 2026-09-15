@@ -56,6 +56,7 @@ public abstract partial class ViewLayout : CustomControl, IViewLayout, IDisposab
     public virtual bool ClosingFloatPanel() { return true; }
 
     public abstract Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request);
+    public abstract Task ReceiveRefreshRequest(List<RefreshPageType> types);
 
     private void OnPreviewKeyDown_ViewLayout(object sender, KeyEventArgs e)
     {
@@ -161,6 +162,11 @@ public abstract partial class ModelViewLayout
     public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
     {
         return new ViewMessageResponse();
+    }
+
+    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    {
+        
     }
 }
 #endregion

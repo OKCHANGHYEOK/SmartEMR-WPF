@@ -154,6 +154,16 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         return response;
     }
 
+    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    {
+        if (types is not null && types.Contains(RefreshPageType.DSK))
+        {
+            SmartEMRDeskIRCInfo.UpdateViewLayoutByCST();
+
+            types.Remove(RefreshPageType.DSK);
+        }
+    }
+
     public override async Task SetPatientData(Patient item)
     {
         var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });

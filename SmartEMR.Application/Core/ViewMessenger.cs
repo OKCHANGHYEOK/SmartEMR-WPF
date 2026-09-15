@@ -3,7 +3,14 @@ using SmartEMR.Application.Views.Shared;
 
 namespace SmartEMR.Application.Core;
 
-public class ViewMessenger
+public enum RefreshPageType
+{
+    RES,
+    DSK,
+    CST
+}
+
+public partial class ViewMessenger
 {
     private static readonly Lazy<ViewMessenger> _instance = new(() => new ViewMessenger());
 
@@ -11,6 +18,8 @@ public class ViewMessenger
 
     // 내부 저장소는 공통 베이스 클래스 핸들러로 관리
     private readonly List<(ViewLayout View, Func<ViewMessageRequest, Task<ViewMessageResponse?>> Handler)> _subscribers = new();
+
+    private readonly List<RefreshPageType> _refreshPageTypes = new();
 
     public void Register(ViewLayout view, Func<ViewMessageRequest, Task<ViewMessageResponse?>> handler)
     {
@@ -70,6 +79,19 @@ public class ViewMessenger
         await vSearchView.ReceiveMessage(new ViewMessageRequest { MessageAction = action, MessageParameter = parameter});
 
         return response;
+    }
+}
+
+public partial class ViewMessenger
+{
+    public void AddRefreshRequest(RefreshPageType type)
+    {
+        _refreshPageTypes.Add(type);
+    }
+
+    public void ExecuteRefresh(ViewLayout viewLayout)
+    {
+        viewLayout.ReceiveRefreshRequest(_refreshPageTypes);
     }
 }
 

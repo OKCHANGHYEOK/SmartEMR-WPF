@@ -307,7 +307,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
                 break;
         }
 
-
+        SmartUI.AddRefreshRequest(RefreshPageType.DSK);
         SmartUI.SetNofification($"진료{(operation == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
     }
 

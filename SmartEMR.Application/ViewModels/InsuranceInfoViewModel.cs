@@ -7,6 +7,7 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class InsuranceInfoViewModel : InsuranceViewModel
 {
+    public Reception? Reception = null;
     private Insurance? receptionInsurance = null;
 
     public InsuranceInfoViewModel() { }
@@ -54,6 +55,11 @@ public partial class InsuranceInfoViewModel : InsuranceViewModel
         if (receptionInsurance is null) return;
 
         SetData(receptionInsurance, isCopy:true);
+    }
+
+    public void SetReception(Reception item)
+    {
+        Reception = item;
     }
 
     public bool IsIRCFromRCP()

@@ -49,6 +49,10 @@ public partial class vLayout : ViewLayout
         return await vl.ReceiveMessage(request);
     }
 
+    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    {
+    }
+
     private async void OnPreviewKeyDown_vLayout(object sender, KeyEventArgs e) 
     {
         var vl = sender as vLayout;
