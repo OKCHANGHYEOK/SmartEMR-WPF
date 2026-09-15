@@ -57,8 +57,12 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
         this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_InsuredName")?.Margin = new Thickness(1);
         this.BindGrids[0].GetBindItem<StyleTextBox>("IRC_Specific")?.Margin = new Thickness(1);
 
-        if (this.ViewMode == ViewMode.POPUP)
+        if (this.ViewMode == ViewMode.POPUP && vm.IsIRCFromRCP())
         {
+            this.BindGrids[0].IsPreventBindGridEvent = true;
+            this.BindGrids[0].GetBindItem<CheckEdit>("chkIsSameWithIRCByRCP")?.IsChecked = true;
+            this.BindGrids[0].IsPreventBindGridEvent = false;
+
             UpdateBindLayout(false, ["IRC_Type"]);
         }
     }

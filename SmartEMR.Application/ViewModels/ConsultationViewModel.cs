@@ -261,6 +261,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 
         IRCItem.CST_Idx = Model.CST_Idx;
         IRCItem.RCP_Idx = Model.RCP_Idx;
+        IRCItem.IRC_Idx_From = Model.CST_Idx > 0 ? IRCItem.IRC_Idx_From.GetValueOrDefault(0) : IRCItem.IRC_Idx.GetValueOrDefault(0);
 
         Model.CST_InsuranceType = IRCItem.IRC_Type;
         Model.IRCItem = IRCItem;

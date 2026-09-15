@@ -421,6 +421,8 @@ public partial class BindGrid : StyleGrid, IDisposable
 
     private void OnBindClick(object sender, RoutedEventArgs e)
     {
+        if (IsPreventBindGridEvent) return;
+
         if (sender is FrameworkElement fe && fe.Tag is BindItem element)
         {
             BindClickEventArgs? args = null;

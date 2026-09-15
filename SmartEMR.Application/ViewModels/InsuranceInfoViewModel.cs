@@ -56,6 +56,18 @@ public partial class InsuranceInfoViewModel : InsuranceViewModel
         SetData(receptionInsurance, isCopy:true);
     }
 
+    public bool IsIRCFromRCP()
+    {
+        if (receptionInsurance != null && receptionInsurance.IRC_Idx.GetValueOrDefault(0) == Model.IRC_Idx_From)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     [RelayCommand]
     public async Task ApplyInsurance()
     {

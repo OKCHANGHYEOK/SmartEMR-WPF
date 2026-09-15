@@ -7,6 +7,7 @@ public class Insurance : BaseEntity, ICloneable<Insurance>
     private int? m_PAT_Idx;
     private int? m_RCP_Idx;
     private int? m_CST_Idx;
+    private int? m_IRC_Idx_From;
     private string? m_IRC_Type;
     private string? m_vIRC_Type;
     private string? m_IRC_CertNum;
@@ -50,6 +51,12 @@ public class Insurance : BaseEntity, ICloneable<Insurance>
     {
         get => m_CST_Idx;
         set => SetProperty(ref m_CST_Idx, value);
+    }
+
+    public int? IRC_Idx_From
+    {
+        get => m_IRC_Idx_From;
+        set => SetProperty(ref m_IRC_Idx_From, value);
     }
 
     public string? IRC_Type

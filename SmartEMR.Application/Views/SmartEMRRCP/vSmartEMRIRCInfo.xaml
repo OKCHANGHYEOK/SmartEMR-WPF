@@ -178,8 +178,7 @@
                                         Width="130"
                                         TextValue="접수 보험과 동일"
                                         IsBinding="False"
-                                        IsBindClickEvent="True"
-                                        IsChecked="True"/>
+                                        IsBindClickEvent="True"/>
                     </x:Array>
 
                     <Xpf:BindItem   FieldName="IRC_CertNum"
