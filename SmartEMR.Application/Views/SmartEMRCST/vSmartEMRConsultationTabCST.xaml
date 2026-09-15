@@ -36,13 +36,13 @@
                 <Xpf:BindItem   FieldName="CST_YYMMDD"
                                 BindType="DateEdit"
                                 Col="0"
-                                ColSpan="3"
+                                ColSpan="4"
                                 FontWeight="Bold"
-                                DisplayFormatString="yyyy년 MM월 dd일"/>
+                                Converter="{converter:DateTimeToStringConverter ValueFormat='yyyy-MM-dd',DisplayFormat='yyyy년 MM월 dd일 dddd'}"/>
 
                 <Xpf:BindItem   FieldName="MUR_Idx_DOC"
                                 BindType="ComboBox"
-                                Col="3"
+                                Col="4"
                                 ColSpan="2"
                                 ItemsSource="{x:Static selection:SearchFilterItems.Docters}"
                                 DisplayMember="MUR_Name"
@@ -50,7 +50,7 @@
 
                 <Xpf:BindItem   FieldName="CST_Status"
                                 BindType="ComboBox"
-                                Col="5"
+                                Col="6"
                                 ColSpan="2"
                                 ItemsSource="{x:Static selection:SearchFilterItems.ConsultationStatues}"
                                 DisplayMember="CCI_Name"
@@ -58,15 +58,15 @@
 
                 <Xpf:BindItem   FieldName="CST_InsuranceType"
                                 BindType="ComboBox"
-                                Col="7"
+                                Col="8"
                                 ColSpan="2"
                                 ItemsSource="{x:Static selection:SearchFilterItems.InsuranceTypes}"
                                 DisplayMember="CCI_Name"
                                 ValueMember="CCI_Cd"/>
 
                 <Xpf:BindItem   FieldName="Keyword"
-                                Col="9"
-                                ColSpan="6">
+                                Col="10"
+                                ColSpan="5">
 
                     <Xpf:SearchPanel NullText="차트번호/환자명으로 검색하세요." 
                                      MinHeight="23" 

@@ -29,4 +29,6 @@ public class InputOptionItems
 
     public static IEnumerable<CommonCode> ConsultationStatuses => SmartMVVM.Common.GetCommonCode("CST", "Status", "", true, "진료상태");
     public static IEnumerable<CommonCode> TreatResultTypes => SmartMVVM.Common.GetCommonCode("CST", "TreatResult", "", true, "치료상태");
+
+    public static IEnumerable<CommonCode> PayStatuses => SmartMVVM.Common.GetCommonCode("PAY", "Status", "", true, "수납상태"); 
 }

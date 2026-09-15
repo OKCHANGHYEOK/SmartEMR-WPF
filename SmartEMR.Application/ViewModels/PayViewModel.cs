@@ -16,6 +16,8 @@ public partial class PayViewModel : BaseViewModel<Pay>
     protected override Pay GetModel(Pay item)
     {
         item.PAY_Status = "RDY";
+        item.PAY_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+
         return item;
     }
 

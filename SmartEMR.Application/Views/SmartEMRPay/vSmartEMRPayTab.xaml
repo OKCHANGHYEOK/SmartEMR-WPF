@@ -9,6 +9,7 @@
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:view="clr-namespace:SmartEMR.Application.Views"
                       xmlns:patient="clr-namespace:SmartEMR.Application.Views.Patients"
+                      xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRPay"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                       xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
@@ -17,10 +18,10 @@
                       d:DesignHeight="450"
                       d:DesignWidth="800">
 
-    <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2019White">
+    <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2019Colorful">
         <dxd:LayoutGroup Orientation="Horizontal">
             <Xpf:LayoutPanel ItemWidth="0.7*" Caption="수납현황">
-                
+                <local:vSmartEMRPayTabPAY x:Name="SmartEMRPayTabPAY"/>
             </Xpf:LayoutPanel>
 
             <dxd:LayoutGroup ItemWidth="Auto" Orientation="Vertical">
