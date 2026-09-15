@@ -206,12 +206,12 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
         UpdateEnabledState(false, ["IRC_Type"]);
     }
 
-    private void UpdateEnabledState(bool enabledInsuranceFields, string[]? additionalEnabledFields = null, string[]? additionalDisabledFields = null)
+    private void UpdateEnabledState(bool enableInsuranceFields, string[]? additionalEnabledFields = null, string[]? additionalDisabledFields = null)
     {
         IEnumerable<string>? enabledFields;
         IEnumerable<string>? disabledFields;
 
-        if (enabledInsuranceFields)
+        if (enableInsuranceFields)
         {
             enabledFields = NonInsuranceDisabledFields.Concat(additionalEnabledFields ?? []);
             disabledFields = additionalDisabledFields;
