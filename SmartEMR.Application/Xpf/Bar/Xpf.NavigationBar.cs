@@ -1,13 +1,8 @@
-﻿using SmartEMR.Application.Common;
-using SmartEMR.Application.Core;
-using SmartEMR.Application.Views;
-using SmartEMR.Application.Views.SmartEMRCST;
-using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
-using System.Collections.ObjectModel; // 추가
-using System.Collections.Specialized;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Collections.ObjectModel; 
+using System.Collections.Specialized;
 
 namespace SmartEMR.Application.Xpf.Bar
 {
@@ -19,6 +14,8 @@ namespace SmartEMR.Application.Xpf.Bar
 
         // UIElementCollection 대신 ObservableCollection을 사용합니다.
         public ObservableCollection<UIElement> BarItems { get; } = new();
+
+        public event RoutedEventHandler? BarItemClick;
 
         public NavigationBar()
         {
@@ -48,45 +45,8 @@ namespace SmartEMR.Application.Xpf.Bar
                     {
                         if (item is Button btn)
                         {
-                            btn.Click += OnBarItem_Click;
+                            btn.Click += BarItemClick;
                         }
-                    }
-                }
-            }
-        }
-
-        private async void OnBarItem_Click(object sender, RoutedEventArgs e)
-        {
-            var element = sender as Button;
-
-            if (element != null)
-            {
-                var bFlag = Enum.TryParse<eSmartEMRLocation>(element.Tag.ToString(), out var location);
-
-                if (bFlag)
-                {
-                    switch (location)
-                    {
-                        case eSmartEMRLocation.RES:
-                            await SmartUI.NavigateToPage(new vSmartEMRRESCalendarTab());
-                            break;
-
-                        case eSmartEMRLocation.DSK:
-                            await SmartUI.NavigateToPage(new vSmartEMRDeskTab());
-                            break;
-
-                        case eSmartEMRLocation.CST:
-                            await SmartUI.NavigateToPage(new vSmartEMRConsultationTab());
-                            break;
-
-                        case eSmartEMRLocation.PAY:
-                            break;
-
-                        case eSmartEMRLocation.CRM:
-                            break;
-
-                        case eSmartEMRLocation.CONFIG:
-                            break;
                     }
                 }
             }

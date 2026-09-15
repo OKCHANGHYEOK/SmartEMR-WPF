@@ -12,7 +12,8 @@
              d:DesignWidth="500"
              Margin="3">
 
-    <bar:NavigationBar Height="80" Background="Transparent">
+    <bar:NavigationBar Height="80" Background="Transparent"
+                       BarItemClick="OnNavigationBar_BarItemClick">
         <bar:BarItem    Content="예약" 
                         Glyph="/Images/smartemr_menu_calendar.png" 
                         Tag="RES"/>
