@@ -84,7 +84,7 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
                 isEnabled = false;
             }
 
-            UpdateBindLayout(isEnabled, ["IRC_Type"], ["IRC_Type"]);
+            UpdateEnabledState(isEnabled, ["IRC_Type"], ["IRC_Type"]);
         }
     }
 
@@ -133,7 +133,7 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
                         }
                     }
 
-                    UpdateBindLayout(!isChecked, ["IRC_Type"], ["IRC_Type"]);
+                    UpdateEnabledState(!isChecked, ["IRC_Type"], ["IRC_Type"]);
                     break;
                 }
         }
@@ -167,7 +167,7 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
                         }
                     }
 
-                    UpdateBindLayout(isEnabled: IRCItem.IRC_Type != "NON");
+                    UpdateEnabledState(IRCItem.IRC_Type != "NON");
                 }
 
                 break;
@@ -203,15 +203,15 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
             chkIsSameWithIRCByRCP.IsChecked = false;
         }
 
-        UpdateBindLayout(false, ["IRC_Type"]);
+        UpdateEnabledState(false, ["IRC_Type"]);
     }
 
-    private void UpdateBindLayout(bool isEnabled, string[]? additionalEnabledFields = null, string[]? additionalDisabledFields = null)
+    private void UpdateEnabledState(bool enabledInsuranceFields, string[]? additionalEnabledFields = null, string[]? additionalDisabledFields = null)
     {
-        IEnumerable<string>? enabledFields = null;
-        IEnumerable<string>? disabledFields = null;
+        IEnumerable<string>? enabledFields;
+        IEnumerable<string>? disabledFields;
 
-        if (isEnabled)
+        if (enabledInsuranceFields)
         {
             enabledFields = NonInsuranceDisabledFields.Concat(additionalEnabledFields ?? []);
             disabledFields = additionalDisabledFields;
