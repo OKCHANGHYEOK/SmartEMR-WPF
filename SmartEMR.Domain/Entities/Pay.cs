@@ -7,7 +7,10 @@ public class Pay : BaseEntity
     private int? m_MUR_Idx;
     private int? m_PAT_Idx;
     private int? m_CST_Idx;
+    private string? m_CST_Status;
+    private string? m_vCST_Status;
     private string? m_PAY_Status;
+    private string? m_vPAY_Status;
     private Decimal? m_PAY_TotalPrice;
     private Decimal? m_PAY_InsuredPrice;
     private Decimal? m_PAY_NonInsuredPrice;
@@ -18,6 +21,16 @@ public class Pay : BaseEntity
     private string? m_PAY_Date;
     private string? m_PAY_YYMMDD;
     private bool? m_PAY_IsValid;
+
+    private string? m_PAT_Name;
+    private string? m_PAT_ChartNo;
+    private string? m_PAT_Sex;
+    private string? m_vPAT_Sex;
+    private int? m_PAT_Age;
+    private string? m_vPAT_Info;
+
+    private string? m_sDay;
+    private string? m_eDay;
 
     #region "NotifyPropertyChanged"
 
@@ -51,10 +64,28 @@ public class Pay : BaseEntity
         set => SetProperty(ref m_CST_Idx, value);
     }
 
+    public string? CST_Status
+    {
+        get => m_CST_Status;
+        set => SetProperty(ref m_CST_Status, value);
+    }
+
+    public string? vCST_Status
+    {
+        get => m_vCST_Status;
+        set => SetProperty(ref m_vCST_Status, value);
+    }
+
     public string? PAY_Status
     {
         get => m_PAY_Status;
         set => SetProperty(ref m_PAY_Status, value);
+    }
+
+    public string? vPAY_Status
+    {
+        get => m_vPAY_Status;
+        set => SetProperty(ref m_vPAY_Status, value);
     }
 
     public Decimal? PAY_TotalPrice
@@ -115,6 +146,54 @@ public class Pay : BaseEntity
     {
         get => m_PAY_IsValid;
         set => SetProperty(ref m_PAY_IsValid, value);
+    }
+
+    public string? PAT_Name
+    {
+        get => m_PAT_Name;
+        set => SetProperty(ref m_PAT_Name, value);
+    }
+
+    public string? PAT_ChartNo
+    {
+        get => m_PAT_ChartNo;
+        set => SetProperty(ref m_PAT_ChartNo, value);
+    }
+
+    public string? PAT_Sex
+    {
+        get => m_PAT_Sex;
+        set => SetProperty(ref m_PAT_Sex, value);
+    }
+
+    public string? vPAT_Sex
+    {
+        get => m_vPAT_Sex;
+        set => SetProperty(ref m_vPAT_Sex, value);
+    }
+
+    public int? PAT_Age
+    {
+        get => m_PAT_Age;
+        set => SetProperty(ref m_PAT_Age, value);
+    }
+
+    public string? vPAT_Info
+    {
+        get => m_vPAT_Info;
+        set => SetProperty(ref m_vPAT_Info, value);
+    }
+
+    public string? sDay
+    {
+        get => m_sDay;
+        set => SetProperty(ref m_sDay, value);
+    }
+
+    public string? eDay
+    {
+        get => m_eDay;
+        set => SetProperty(ref m_eDay, value);
     }
 
     #endregion

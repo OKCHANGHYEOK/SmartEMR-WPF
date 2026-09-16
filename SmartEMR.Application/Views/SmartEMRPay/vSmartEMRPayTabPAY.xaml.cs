@@ -1,6 +1,8 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.SmartEMRPay;
 
@@ -17,9 +19,42 @@ public partial class vSmartEMRPayTabPAY : ModelViewLayout<PayViewModel>
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
+        if (sender is not BindGrid) return;
+
+        var fieldName = e.BindItem.FieldName;
+
+        switch (fieldName)
+        {
+            case "btnToday":
+                vm.SetToday();
+                break;
+        }
     }
 
-    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    public override async void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+        if (sender is not BindGrid) return;
+
+        var fieldName = e.BindItem.FieldName;
+
+        switch (fieldName)
+        {
+            case "PAY_YYMMDD" or "CST_Status" or "PAY_Status":
+                await vm.FetchDataAsync();
+                break;
+        }
+    }
+
+    public override async void OnDataGrid_DataItemChanged(object? sender, DataItemChangedEventArgs e)
+    {
+        if (sender is not DataGrid dataGrid) return;
+
+        var dataItem = e.DataItem as Pay;
+        if (dataItem is null) return;
+
+        if (dataGrid.IsDoubleClicked)
+        {
+            await SmartUI.SendMessage("SetSelectedPAY", dataItem, viewType:TargetViewType.PageView);
+        }
     }
 }

@@ -52,7 +52,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     var paramItem = request.MessageParameter as Patient;
                     if (paramItem is not null)
                     {
-                       await SetPatientData(paramItem);
+                       await SetPatientDataAsync(paramItem);
                     }
 
                     break;
@@ -228,7 +228,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         return await vm.SetSelectedCSTByDate(targetDate);
     }
 
-    public override async Task SetPatientData(Patient item)
+    public override async Task SetPatientDataAsync(Patient item)
     {
         var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
@@ -241,18 +241,18 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         SmartMVVM.ModelProperty.SetPatientData(SelectedPAT, ret);
 
-        await PatientViewSummary.SetPatientData(SelectedPAT);
-        await PatientHistory.SetPatientData(SelectedPAT);
-        await SmartEMRConulstationTabCSTOInfo.SetPatientData(SelectedPAT);
-
+        PatientViewSummary.SetPatientData(SelectedPAT);
+        SmartEMRConulstationTabCSTOInfo.SetPatientData(SelectedPAT);
         SmartEMRCSTInfo.SetPatientData(SelectedPAT);
+
+        await PatientHistory.SetPatientDataAsync(SelectedPAT);
     }
 
     private async void SetSelectedCST(Consultation item)
     {
         ClearData(true, true);
 
-        await SetPatientData(new Patient { PAT_Idx = item.PAT_Idx });
+        await SetPatientDataAsync(new Patient { PAT_Idx = item.PAT_Idx });
 
         Consultation? selectedCST = null;
 

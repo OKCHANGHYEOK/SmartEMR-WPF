@@ -72,7 +72,7 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
         return response;
     }
 
-    public override async Task SetPatientData(Patient item)
+    public override void SetPatientData(Patient item)
     {
         vm.SetPatientData(item);
     }

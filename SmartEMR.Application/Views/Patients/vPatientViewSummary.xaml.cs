@@ -26,9 +26,9 @@ public partial class vPatientViewSummary : ModelViewLayout<PatientViewModel>
     {
     }
 
-    public override async Task SetPatientData(Patient item)
+    public override void SetPatientData(Patient item)
     {
-        SmartMVVM.ModelProperty.SetPatientData(PATItem, item);
+        vm.SetPatientData(item);
     }
 
     public void ClearData()

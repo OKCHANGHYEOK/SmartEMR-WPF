@@ -37,7 +37,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     var paramItem = request.MessageParameter as Patient;
                     if (paramItem == null) return null;
 
-                    await SetPatientData(paramItem);
+                    await SetPatientDataAsync(paramItem);
 
                     break;
                 }
@@ -173,7 +173,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         }
     }
 
-    public override async Task SetPatientData(Patient item)
+    public override async Task SetPatientDataAsync(Patient item)
     {
         var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
         if (ret == null || SmartMVVM.DataStore.retIsSuccess == false)
@@ -184,9 +184,10 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
         vm.SetPatientData(ret);
 
-        await SmartEMRDeskPATView.SetPatientData(ret);
-        await SmartEMRDeskRCPInfo.SetPatientData(ret);
-        await SmartEMRDeskPATHistory.SetPatientData(ret);
+        SmartEMRDeskPATView.SetPatientData(ret);
+        SmartEMRDeskRCPInfo.SetPatientData(ret);
+
+        await SmartEMRDeskPATHistory.SetPatientDataAsync(ret);
     }
 
     private void UpdateRCPData(Reception item)

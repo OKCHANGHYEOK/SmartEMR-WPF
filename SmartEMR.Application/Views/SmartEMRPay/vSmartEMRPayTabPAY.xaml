@@ -10,17 +10,18 @@
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                       xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
+                      xmlns:template="clr-namespace:SmartEMR.Application.Template"
                       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
-                      d:DesignWidth="800">
+                      d:DesignWidth="800"
+                      d:DataContext="{d:DesignInstance Type=vm:PayViewModel}">
 
     <Xpf:StyleGrid LayoutDefinitions="1,3"
                    RowSizeDefinitions="Auto,Auto,*">
 
         <Xpf:BindGrid Grid.Row="0"
-                      LayoutDefinitions="3,1"
-                      ColumnSizeDefinitions="Auto,Auto,*"
+                      LayoutDefinitions="5,2"
                       Background="#F5F5F5"
                       ItemSpace="2">
 
@@ -28,37 +29,95 @@
                 <Xpf:BindItem   FieldName="PAY_YYMMDD"
                                 BindType="DateEdit"
                                 Col="0"
-                                Width="200"
+                                ColSpan="3"
                                 FontWeight="Bold"
                                 Converter="{converter:DateTimeToStringConverter ValueFormat='yyyy-MM-dd',DisplayFormat='yyyy년 MM월 dd일 dddd'}"/>
 
                 <Xpf:BindItem   FieldName="btnToday"
                                 BindType="Button"
-                                Width="40">
+                                Width="40"
+                                IsBinding="False"
+                                IsBindClickEvent="True">
 
                     <dxc:SimpleButton Content="오늘"
                                       dxc:ThemeManager.ThemeName="Office2019White"/>
                 </Xpf:BindItem>
             </x:Array>
 
-            <Xpf:BindItem   FieldName="PAY_Status"
+            <Xpf:BindItem   FieldName="CST_Status"
                             BindType="ComboBox"
-                            Col="1"
-                            ItemsSource="{x:Static selections:InputOptionItems.PayStatuses}"
+                            Col="3"
+                            ItemsSource="{x:Static selections:SearchFilterItems.ConsultationStatues}"
                             DisplayMember="CCI_Name"
                             ValueMember="CCI_Cd"/>
 
-            <Xpf:BindItem   FieldName="keyword"
-                            Col="2">
+            <Xpf:BindItem   FieldName="PAY_Status"
+                            BindType="ComboBox"
+                            Col="4"
+                            ItemsSource="{x:Static selections:SearchFilterItems.PayStatuses}"
+                            DisplayMember="CCI_Name"
+                            ValueMember="CCI_Cd"/>
 
-                <Xpf:SearchPanel NullText="환자명/차트번호로 검색하세요."/>
+            <Xpf:BindItem   FieldName="Keyword"
+                            Col="0"
+                            ColSpan="5"
+                            Row="1">
+                <Xpf:SearchPanel    NullText="환자명/차트번호로 검색하세요."
+                                    SearchCommand="{Binding SearchCommand}"/>
             </Xpf:BindItem>
         </Xpf:BindGrid>
 
         <Border Grid.Row="1" Height="1" Background="LightGray" Margin="0,2,0,2"/>
 
-        <Xpf:DataGrid Grid.Row="2">
-            
+        <Xpf:DataGrid Grid.Row="2"
+                      ItemsSource="{Binding Pays}">
+            <Xpf:ColumnItem FieldName="vCST_Status"
+                            Header="진료"
+                            ColumnWidth="50"
+                            CellTemplateType="{x:Type template:CSTStatusTemplate}"/>
+
+            <Xpf:ColumnItem FieldName="vPAY_Status"
+                            Header="수납"
+                            ColumnWidth="50"
+                            CellTemplateType="{x:Type template:PAYStatusTemplate}"/>
+
+            <Xpf:ColumnItem FieldName="PAT_ChartNo"
+                            Header="차트번호"
+                            ColumnWidth="90"/>
+
+            <Xpf:ColumnItem FieldName="PAT_Name"
+                            Header="환자명"
+                            ColumnWidth="80"/>
+
+            <Xpf:ColumnItem FieldName="vPAT_Info"
+                            Header=" "
+                            ColumnWidth="45"/>
+
+            <Xpf:ColumnItem FieldName="PAY_TotalPrice"
+                            Header="총진료비"
+                            ColumnWidth="90"
+                            ColumnStyle="Sum"
+                            Foreground="#2F3E46"
+                            FontWeight="SemiBold"
+                            DisplayFormat="#,##0"
+                            Suffix="원"/>
+
+            <Xpf:ColumnItem FieldName="PAY_PaidPrice"
+                            Header="기수납금"
+                            ColumnWidth="90"
+                            ColumnStyle="Sum"
+                            Foreground="DarkSlateGray"
+                            DisplayFormat="#,##0"
+                            Suffix="원"/>
+
+            <Xpf:ColumnItem FieldName="PAY_RemainPrice"
+                            Header="미수납금"
+                            ColumnWidth="90"
+                            ColumnStyle="Sum"
+                            Foreground="#DC2626"
+                            FontWeight="Bold"
+                            DisplayFormat="#,##0"
+                            Suffix="원"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

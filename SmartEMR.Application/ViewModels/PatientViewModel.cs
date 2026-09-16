@@ -21,6 +21,11 @@ public partial class PatientViewModel : BaseViewModel<Patient>
         return item;
     }
 
+    public void SetPatientData(Patient item)
+    {
+        SmartMVVM.ModelProperty.SetPatientData(Model, item);
+    }
+
     public virtual void ClearData()
     {
         SmartMVVM.ModelProperty.ClearPATData(Model);

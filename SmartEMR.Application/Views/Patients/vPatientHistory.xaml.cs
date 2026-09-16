@@ -52,14 +52,14 @@ public partial class vPatientHistory : ModelViewLayout<PatientHistoryViewModel>
         }
     }
 
-    public override async Task SetPatientData(Patient item)
+    public override async Task SetPatientDataAsync(Patient item)
     {
         if (item.PAT_Idx != vm.Model.PAT_Idx)
         {
             ClearData();
         }
 
-        await vm.SetPatientData(item);
+        await vm.SetPatientDataAsync(item);
     }
 
     public void ClearData()

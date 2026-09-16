@@ -11,4 +11,5 @@ public class DisplayDataMappers
     public static ConsultationDisplayDataMapper ConsultationDisplayDataMapper = new();
     public static ConsultationOrderDisplayDataMapper ConsultationOrderDisplayDataMapper = new();
     public static OrderDisplayDataMapper OrderDisplayDataMapper = new();
+    public static PayDisplayDataMapper PayDisplayDataMapper = new();
 }

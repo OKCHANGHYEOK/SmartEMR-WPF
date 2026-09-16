@@ -23,11 +23,13 @@
                            Grid.Column="2"
                            Width="23"
                            Height="23"
+                           GlyphWidth="15"
+                           GlyphHeight="15"
                            Glyph="/Images/smartemr_search.png"
                            BorderBrush="LightGray"
                            Cursor="Hand"
-                           Padding="2"
-                           dxe:ThemeManager.ThemeName="Win10Light"
+                           Padding="3"
+                           dxe:ThemeManager.ThemeName="Office2019Colorful"
                            Command="{Binding SearchCommand}">
         </dxe:SimpleButton>
 
@@ -35,11 +37,13 @@
                             Grid.Column="4"
                             Width="23"
                             Height="23"
+                            GlyphWidth="15"
+                            GlyphHeight="15"
                             BorderBrush="LightGray"
                             Glyph="/Images/smartemr_reset.png"
                             Cursor="Hand"
-                            Padding="2"
-                            dxe:ThemeManager.ThemeName="Win10Light"
+                            Padding="3"
+                            dxe:ThemeManager.ThemeName="Office2019Colorful"
                             Command="{Binding ResetCommand}">
         </dxe:SimpleButton>
     </Xpf:StyleGrid>

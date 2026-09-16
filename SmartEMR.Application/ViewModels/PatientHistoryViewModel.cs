@@ -66,7 +66,7 @@ public partial class PatientHistoryViewModel : PatientViewModel
         }
     }
 
-    public async Task SetPatientData(Patient item)
+    public async Task SetPatientDataAsync(Patient item)
     {
         SmartMVVM.ModelProperty.SetPatientData(Model, item);
 

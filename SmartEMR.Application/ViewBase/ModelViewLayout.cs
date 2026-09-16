@@ -237,8 +237,10 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
 
     protected override abstract void Initialize();
 
-    public virtual Task SetPatientData(Patient item) 
+    public virtual Task SetPatientDataAsync(Patient item) 
     {
         return Task.CompletedTask;
     }
+
+    public virtual void SetPatientData(Patient item) { }
 }

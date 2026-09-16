@@ -20,16 +20,16 @@
 
     <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2019Colorful">
         <dxd:LayoutGroup Orientation="Horizontal">
-            <Xpf:LayoutPanel ItemWidth="0.7*" Caption="수납현황">
+            <Xpf:LayoutPanel ItemWidth="0.7*" ShowCaption="False">
                 <local:vSmartEMRPayTabPAY x:Name="SmartEMRPayTabPAY"/>
             </Xpf:LayoutPanel>
 
             <dxd:LayoutGroup ItemWidth="Auto" Orientation="Vertical">
                 <Xpf:LayoutPanel ItemHeight="Auto" ShowCaption="False">
-                    <patient:vPatientViewSummary/>
+                    <patient:vPatientViewSummary x:Name="PatientViewSummary"/>
                 </Xpf:LayoutPanel>
                 <Xpf:LayoutPanel ItemHeight="*" ShowCaption="False">
-                    <patient:vPatientHistory/>
+                    <patient:vPatientHistory x:Name="PatientHistory"/>
                 </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
 

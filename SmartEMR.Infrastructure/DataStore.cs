@@ -254,6 +254,11 @@ public class DataStore
         return $"{APIUrl.TrimEnd('/')}/{requestEntity}/{requestAction}";
     }
 
+    public async Task GetItem<T>(object eAPi)
+    {
+        throw new NotImplementedException();
+    }
+
     public class DataStoreErrorEventArgs : EventArgs
     {
         public string? Message;
