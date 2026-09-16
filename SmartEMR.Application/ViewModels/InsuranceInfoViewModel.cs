@@ -7,7 +7,7 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class InsuranceInfoViewModel : InsuranceViewModel
 {
-    public Reception? Reception = null;
+    public Reception Reception { get; set; } = new();
     private Insurance? receptionInsurance = null;
 
     public InsuranceInfoViewModel() { }
@@ -30,6 +30,10 @@ public partial class InsuranceInfoViewModel : InsuranceViewModel
             {
                 receptionInsurance = retIRC.Clone();
             }
+        }
+        else
+        {
+            ClearData(true, true);    
         }
     }
 
@@ -57,9 +61,9 @@ public partial class InsuranceInfoViewModel : InsuranceViewModel
         SetData(receptionInsurance, isCopy:true);
     }
 
-    public void SetReception(Reception item)
+    public void UpdateRCPData(Reception item)
     {
-        Reception = item;
+        SmartMVVM.ModelProperty.SetReceptionData(Reception, item);
     }
 
     public bool IsIRCFromRCP()
@@ -83,8 +87,18 @@ public partial class InsuranceInfoViewModel : InsuranceViewModel
     }
 
     [RelayCommand]
-    public void ClearData(bool isClearIRCType)
+    public void ClearIRCData(bool isClearIRCType)
     {
+        ClearData(false, isClearIRCType);
+    }
+
+    private void ClearData(bool isClearRCP, bool isClearIRCType)
+    {
+        if (isClearRCP)
+        {
+            SmartMVVM.ModelProperty.ClearRCPData(Reception, true);
+        }
+
         SmartMVVM.ModelProperty.ClearIRCData(Model, isClearIRCType);
     }
 }

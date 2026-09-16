@@ -302,6 +302,7 @@ public class ModelProperty
             MUR_Idx_DOC = paramItem.MUR_Idx_DOC,
             MUR_Idx_STF = paramItem.MUR_Idx_STF,
             RES_Idx = paramItem.RES_Idx,
+            CST_Idx = paramItem.CST_Idx,
             RCP_VisitType = paramItem.RCB_VisitType,
             RCP_InsuranceType = paramItem.RCP_InsuranceType,
             RCP_Status = string.IsNullOrWhiteSpace(paramItem.RCP_Status) ? "RDY" : paramItem.RCP_Status,
@@ -324,6 +325,7 @@ public class ModelProperty
         oldItem.PAT_Idx = newItem.PAT_Idx;
         oldItem.RES_Idx = newItem.RES_Idx;
         oldItem.IRC_Idx = newItem.IRC_Idx;
+        oldItem.CST_Idx = newItem.CST_Idx;
         oldItem.PAT_Name = newItem.PAT_Name;
         oldItem.RCP_VisitType = newItem.RCP_VisitType;
         oldItem.RCP_Status = newItem.RCP_Status;
@@ -343,6 +345,9 @@ public class ModelProperty
         item.RCP_Idx = isNewRCP ? 0 : item.RCP_Idx;
         item.MUR_Idx_DOC = 0;
         item.MUR_Idx_STF = 0;
+        item.IRC_Idx = 0;
+        item.RES_Idx = 0;
+        item.CST_Idx = 0;
         item.RCP_VisitType = "FIR";
         item.RCP_Status = "";
         item.RCP_Route = "DSK";

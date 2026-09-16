@@ -9,6 +9,7 @@ public class ReceptionBoard : BaseEntity
     private int? m_RCP_Idx;
     private int? m_RES_Idx;
     private int? m_IRC_Idx;
+    private int? m_CST_Idx;
 
     private string? m_RCP_Status;
     private string? m_vRCP_Status;
@@ -88,6 +89,12 @@ public class ReceptionBoard : BaseEntity
     {
         get => m_IRC_Idx;
         set => SetProperty(ref m_IRC_Idx, value);
+    }
+
+    public int? CST_Idx
+    {
+        get => m_CST_Idx;
+        set => SetProperty(ref m_CST_Idx, value);
     }
 
     public string? RCP_Status

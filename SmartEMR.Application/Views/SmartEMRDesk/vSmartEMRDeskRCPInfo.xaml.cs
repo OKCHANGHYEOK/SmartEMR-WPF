@@ -118,7 +118,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
                     var paramItem = request.MessageParameter as Reception;
                     if (paramItem == null) return null;
 
-                    UpdateReceptionData(paramItem);
+                    UpdateRCPData(paramItem);
 
                     break;
             }
@@ -133,7 +133,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             // 환자 정보 세팅
             await vm.SetPatientData(item);
 
-            UpdateReceptionData();
+            UpdateRCPData();
         }
 
         public void ClearData()
@@ -147,7 +147,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             btnSaveRCP.Content = "접수등록";
         }
 
-        public async void UpdateReceptionData(Reception? item = null)
+        public async void UpdateRCPData(Reception? item = null)
         {
             await vm.SetReceptionData(item);
 

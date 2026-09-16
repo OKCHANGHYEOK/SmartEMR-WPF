@@ -203,7 +203,7 @@ public partial class vSmartEMRIRCInfo : ModelViewLayout<InsuranceInfoViewModel>
 
     public void ClearData(bool isClearIRCType = true)
     {
-        vm.ClearData(isClearIRCType);
+        vm.ClearIRCData(isClearIRCType);
     
         if (chkIsSameWithIRCByRCP is not null && chkIsSameWithIRCByRCP.IsChecked.GetValueOrDefault(false))
         {

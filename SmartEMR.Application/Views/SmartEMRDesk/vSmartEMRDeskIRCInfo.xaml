@@ -174,7 +174,7 @@
 
         <Xpf:MaskControl x:Name="ConsultationMaskControl"
                          Grid.RowSpan="2"
-                         Visibility="Collapsed"
+                         Visibility="{Binding Reception.CST_Idx, Converter={converter:IntToVisibilityConverter}}"
                          ShowButton="False">
             
             <Xpf:TextBlock TextAlignment="Center">

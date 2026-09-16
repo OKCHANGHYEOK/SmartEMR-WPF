@@ -9,6 +9,7 @@ public class Reception : BaseEntity
     private int? m_MUR_Idx_DOC;
     private int? m_MUR_Idx_STF;
     private int? m_RES_Idx;
+    private int? m_CST_Idx;
 
     private string? m_MUR_Name_DOC;
     private string? m_MUR_Name_STF;
@@ -94,6 +95,12 @@ public class Reception : BaseEntity
     {
         get => m_RES_Idx;
         set => SetProperty(ref m_RES_Idx, value);
+    }
+
+    public int? CST_Idx
+    {
+        get => m_CST_Idx;
+        set => SetProperty(ref m_CST_Idx, value);
     }
 
     public string? MUR_Name_DOC

@@ -133,11 +133,6 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, item);
         }
 
-        public void SetReception(Reception item)
-        {
-            vm.SetReception(item);
-        }
-
         public void SetInsuranceType(string IRC_Type)
         {
             bool isNON = IRC_Type == "NON";
@@ -154,6 +149,11 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             {
                 SetCoNameComboBoxItemsSource();
             }
+        }
+
+        public void UpdateRCPData(Reception item)
+        {
+            vm.UpdateRCPData(item);
         }
 
         public async void UpdateViewLayoutByCST()

@@ -14,6 +14,8 @@ namespace SmartEMR.Application.Views;
 public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 {
 
+    private Reception SelectedRCP => vm.Model;
+
     public vSmartEMRDeskTab() { }
 
     protected override void Initialize()
@@ -57,8 +59,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                         if (paramItem.RCP_Idx.GetValueOrDefault(0) > 0 || paramItem.RES_Idx.GetValueOrDefault(0) > 0)
                         {
                             Reception RCPItem = SmartMVVM.ModelProperty.GetReceptionDataFromRCB(paramItem);
-                            
-                            SmartEMRDeskRCPInfo.UpdateReceptionData(RCPItem);
+
+                            UpdateRCPData(RCPItem);
                         }
                     }
 
@@ -123,7 +125,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     var paramItem = request.MessageParameter as Reception;
                     if (paramItem != null && paramItem.RCP_Idx == SmartEMRDeskRCPInfo.RCPItem.RCP_Idx)
                     {
-                        SmartEMRDeskRCPInfo.UpdateReceptionData(paramItem);
+                        UpdateRCPData(paramItem);
                     } 
 
                     break;
@@ -158,9 +160,16 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
     {
         if (types is not null && types.Contains(RefreshPageType.DSK))
         {
-            SmartEMRDeskIRCInfo.UpdateViewLayoutByCST();
+            if (SelectedRCP.RCP_Idx > 0)
+            {
+                var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, new Reception { RCP_Idx = SelectedRCP.RCP_Idx });
+                if (retRCP is not null)
+                {
+                    UpdateRCPData(retRCP);
+                }
+            }
 
-            types.Remove(RefreshPageType.DSK);
+            types.RemoveAll(x => x == RefreshPageType.DSK);
         }
     }
 
@@ -178,6 +187,12 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         await SmartEMRDeskPATView.SetPatientData(ret);
         await SmartEMRDeskRCPInfo.SetPatientData(ret);
         await SmartEMRDeskPATHistory.SetPatientData(ret);
+    }
+
+    private void UpdateRCPData(Reception item)
+    {
+        SmartEMRDeskRCPInfo.UpdateRCPData(item);
+        SmartEMRDeskIRCInfo.UpdateRCPData(item);
     }
 
     private async void ClearData(bool isClearPAT = true)
