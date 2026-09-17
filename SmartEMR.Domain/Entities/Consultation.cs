@@ -23,6 +23,7 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     private string? m_vCST_SubjectName;
     private string? m_CST_StartTime;
     private string? m_CST_EndTime;
+    private string? m_CST_Time;
     private Decimal? m_CST_TotalPrice;
     private Decimal? m_CST_InsuredPrice;
     private Decimal? m_CST_NonInsuredPrice;
@@ -180,6 +181,12 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     {
         get => m_CST_EndTime;
         set => SetProperty(ref m_CST_EndTime, value);
+    }
+
+    public string? CST_Time
+    {
+        get => m_CST_Time;
+        set => SetProperty(ref m_CST_Time, value);
     }
 
     public Decimal? CST_TotalPrice

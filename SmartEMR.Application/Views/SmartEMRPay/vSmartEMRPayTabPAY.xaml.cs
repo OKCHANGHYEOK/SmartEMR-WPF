@@ -1,6 +1,7 @@
 ﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Views.Patients;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 
@@ -55,6 +56,15 @@ public partial class vSmartEMRPayTabPAY : ModelViewLayout<PayViewModel>
         if (dataGrid.IsDoubleClicked)
         {
             await SmartUI.SendMessage("SetSelectedPAY", dataItem, viewType:TargetViewType.PageView);
+        }
+        else
+        {
+            switch (e.Column.FieldName)
+            {
+                case "PAT_Name":
+                    await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = dataItem.PAT_Idx }), isPopup:true);
+                    break;
+            }
         }
     }
 }

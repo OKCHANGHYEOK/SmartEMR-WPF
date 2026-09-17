@@ -25,9 +25,7 @@ public partial class DataGrid : ContentControl
 
     public GridColumnCollection Columns => GridControl.Columns;
 
-    private bool IsUpdatedItemsSource { get; set; } = false;
-
-    public DevExpress.Mvvm.ICommand<GridCellData> CellValueChanged { get; }
+    public DataTemplate? GroupRowTemplate;
 
     public bool AutoWidth
     {
@@ -103,6 +101,10 @@ public partial class DataGrid : ContentControl
     public event EventHandler<PopupMenuOpeningEventArgs>? DataGrid_PopupMenuOpening;
     public event EventHandler<PopupMenuItemClickEventArgs>? DataGrid_PopupMenuItemClick;
 
+    public DevExpress.Mvvm.ICommand<GridCellData> CellValueChanged { get; }
+
+    private bool IsUpdatedItemsSource { get; set; } = false;
+
     public DataGrid()
     {
         GridControl = new();
@@ -137,6 +139,11 @@ public partial class DataGrid : ContentControl
         TableView.RowDoubleClick += TableView_OnRowDoubleClick;
         TableView.PreviewMouseLeftButtonDown += TableView_OnPreviewMouseLeftButtonDown;
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
+
+        if (GroupRowTemplate is not null)
+        {
+            TableView.GroupRowTemplate = GroupRowTemplate;
+        }
 
         DataPager.Visibility = Visibility.Collapsed;
 

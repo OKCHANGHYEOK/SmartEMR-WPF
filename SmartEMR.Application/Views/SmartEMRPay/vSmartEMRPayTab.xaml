@@ -33,8 +33,8 @@
                 </Xpf:LayoutPanel>
             </dxd:LayoutGroup>
 
-            <Xpf:LayoutPanel ItemWidth="*" Caption="수납진행">
-                
+            <Xpf:LayoutPanel ItemWidth="*" ShowCaption="False">
+                <local:vSmartEMRPayTabPayInfo x:Name="SmartEMRPayTabPayInfo"/>
             </Xpf:LayoutPanel>
         </dxd:LayoutGroup>
     </dxd:DockLayoutManager>

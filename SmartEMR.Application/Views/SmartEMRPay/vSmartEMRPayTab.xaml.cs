@@ -56,7 +56,8 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
         }
 
         PatientViewSummary.SetPatientData(retPAT);
-
         await PatientHistory.SetPatientDataAsync(retPAT);
+
+        await SmartEMRPayTabPayInfo.UpdatePayInfo(item);
     }
 }

@@ -539,5 +539,24 @@ public class ModelProperty
         oldItem.PAY_TotalPrice = newItem.PAY_TotalPrice;
     }
 
+    public void ClearPAYData(Pay item)
+    {
+        item.PAY_Idx = 0;
+        item.PAT_Idx = 0;
+        item.CST_Idx = 0;
+        item.CST_Status = "";
+        item.vCST_Status = "";
+        item.PAY_Status = "";
+        item.vPAY_Status = "";
+        item.PAY_TotalPrice = 0;
+        item.PAY_InsuredPrice = 0;
+        item.PAY_NonInsuredPrice = 0;
+        item.PAY_OwnPatientPrice = 0;
+        item.PAY_PaidPrice = 0;
+        item.PAY_RemainPrice = 0;
+        item.PAY_Memo = "";
+        item.PAY_YYMMDD = "";
+    }
+
     #endregion
 }

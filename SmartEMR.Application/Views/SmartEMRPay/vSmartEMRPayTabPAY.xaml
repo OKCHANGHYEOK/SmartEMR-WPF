@@ -87,6 +87,7 @@
 
             <Xpf:ColumnItem FieldName="PAT_Name"
                             Header="환자명"
+                            ColumnType="TextLink"
                             ColumnWidth="80"/>
 
             <Xpf:ColumnItem FieldName="vPAT_Info"
