@@ -477,6 +477,7 @@ public class ModelProperty
 
         oldItem.CST_Idx = newItem.CST_Idx;
         oldItem.MUR_Idx_DOC = newItem.MUR_Idx_DOC;
+        oldItem.MUR_Name_DOC = newItem.MUR_Idx_DOC > 0 ? SmartMVVM.Master.GetMemberUsers("DOC").FirstOrDefault(x => x.MUR_Idx == newItem.MUR_Idx_DOC)?.MUR_Name : "미정";
         oldItem.PAT_Idx = newItem.PAT_Idx;
         oldItem.RCP_Idx = newItem.RCP_Idx;
         oldItem.IRC_Idx = newItem.IRC_Idx;
@@ -485,12 +486,16 @@ public class ModelProperty
         oldItem.CST_InsuranceType = newItem.CST_InsuranceType;
         oldItem.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", newItem.CST_InsuranceType ?? "");
         oldItem.CST_Status = newItem.CST_Status;
+        oldItem.vCST_Status = SmartMVVM.Common.GetCommonCodeName("CST", "Status", newItem.CST_Status ?? "");
         oldItem.CST_PayStatus = newItem.CST_PayStatus;
         oldItem.CST_TreatResult = newItem.CST_TreatResult;
+        oldItem.vCST_TreatResult = SmartMVVM.Common.GetCommonCodeName("CST", "TreatResult", newItem.CST_TreatResult ?? "");
         oldItem.CST_Subject = newItem.CST_Subject;
         oldItem.CST_SubjectName = newItem.CST_SubjectName;
+        oldItem.vCST_SubjectName = newItem.CST_Subject == "ETC" ? newItem.CST_SubjectName : SmartMVVM.Common.GetCommonCodeName("CST", "Subject", newItem.CST_Subject ?? "");
         oldItem.CST_StartTime = newItem.CST_StartTime;
         oldItem.CST_EndTime = newItem.CST_EndTime;
+        oldItem.CST_Time = $"{newItem.CST_StartTime} ~ {newItem.CST_EndTime}"; 
         oldItem.CST_Opinion = newItem.CST_Opinion;
         oldItem.CST_Memo = newItem.CST_Memo;
         oldItem.CST_YYMMDD = newItem.CST_YYMMDD;

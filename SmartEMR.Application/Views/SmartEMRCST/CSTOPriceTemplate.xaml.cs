@@ -25,7 +25,7 @@ public partial class CSTOPriceTemplate : GridTemplate
         var dataItem = element.DataContext as ConsultationOrder;
         if (dataItem is not null)
         {
-            await SmartUI.SendMessage("UpdateCSTOByPrice", dataItem);
+            await SmartUI.SendMessage("UpdateCSTOData", dataItem);
         }
 
         SmartUI.BeginInvoke(() =>

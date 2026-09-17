@@ -4,14 +4,17 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRPay"
                       xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                       xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                       xmlns:template="clr-namespace:SmartEMR.Application.Template"
+                      xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                       xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+                      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
                       d:DesignWidth="800"
@@ -23,7 +26,8 @@
         <dxlc:GroupBox  Grid.Row="0"
                         Header="진료정보"
                         FontWeight="Bold"
-                        Padding="0">
+                        Padding="0"
+                        ShowShadow="Never">
             
             <Xpf:BindGrid LayoutDefinitions="2,6"
                           BindStyle="DataCell"
@@ -33,7 +37,8 @@
                               Header="진 료 일 자"
                               BindType="Label"
                               Col="0"
-                              Row="0"/>
+                              Row="0"
+                              FontWeight="Bold"/>
 
                 <Xpf:BindItem FieldName="CST_Time"
                               Header="진 료 시 간"
@@ -41,19 +46,19 @@
                               Col="1"
                               Row="0"/>
 
-                <Xpf:BindItem FieldName="CST_Status"
+                <Xpf:BindItem FieldName="vCST_Status"
                               Header="상태"
                               BindType="Label"
                               Col="0"
                               Row="1"></Xpf:BindItem>
 
-                <Xpf:BindItem FieldName="vCST_Subject"
+                <Xpf:BindItem FieldName="vCST_SubjectName"
                               Header="진 료 과 목"
                               BindType="Label"
                               Col="1"
                               Row="1"/>
 
-                <Xpf:BindItem FieldName="CST_TreatResult"
+                <Xpf:BindItem FieldName="vCST_TreatResult"
                               Header="치 료 결 과"
                               BindType="Label"
                               Col="0"
@@ -85,13 +90,68 @@
         <dxlc:GroupBox Grid.Row="2"
                        Header="처방내역"
                        FontWeight="Bold"
-                       Padding="0">
+                       Padding="0"
+                       ShowShadow="Never">
 
+            <Xpf:DataGrid   ItemsSource="{Binding ConsultationOrders}">
+                <Xpf:DataGrid.RowStyle>
+                    <Style TargetType="{x:Type dxg:GridRowContent}">
+                        <Setter Property="Height" Value="23"/>
+                        <Setter Property="MaxHeight" Value="23"/>
+                        <Setter Property="Visibility" Value="Visible"/>
 
-            <Xpf:DataGrid>
-                <Xpf:ColumnItem FieldName="ORDC_Cd"
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Row.IsVisible}" Value="False">
+                                <Setter Property="Height" Value="0"/>
+                                <Setter Property="MaxHeight" Value="0"/>
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Xpf:DataGrid.RowStyle>
+                
+                <Xpf:DataGrid.GroupRowTemplate>
+                    <DataTemplate>
+                        <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                                        ColumnSizeDefinitions="Auto,*"
+                                        Background="#C9CED3"
+                                        Height="25">
+
+                            <Xpf:Label FontSize="9"
+                                       Margin="2,0,2,0"
+                                       VerticalAlignment="Center">
+                                <Xpf:Label.Style>
+                                    <Style TargetType="Xpf:Label">
+                                        <Setter Property="Content" Value="▶"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsRowExpanded}" Value="True">
+                                                <Setter Property="Content" Value="◢"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Xpf:Label.Style>
+                            </Xpf:Label>
+
+                            <Xpf:TextBlock  Grid.Column="1"
+                                            Text="{Binding Row.CSTO_InsuranceTypeName, Converter={local:InsuranceTypeNameToContentConverter}}"
+                                            FontWeight="Bold"
+                                            HorizontalAlignment="Stretch"
+                                            Margin="2,0,0,0">
+                            </Xpf:TextBlock>
+                        </Xpf:StyleGrid>
+                    </DataTemplate>
+                </Xpf:DataGrid.GroupRowTemplate>
+
+                <Xpf:ColumnItem FieldName="CSTO_InsuranceTypeName"
                                 Header=" "
-                                ColumnWidth="48"
+                                GroupIndex="0"
+                                ColumnWidth="0"
+                                Visible="False"/>
+
+                <Xpf:ColumnItem FieldName="ORDC_Cd"
+                                Header="구분"
+                                ColumnWidth="55"
                                 CellTemplateType="{x:Type template:OrderTypeTemplate}"/>
 
                 <Xpf:ColumnItem FieldName="CSTO_SugaCode"
@@ -103,35 +163,41 @@
                 <Xpf:ColumnItem FieldName="CSTO_Price"
                                 Header="단가"
                                 ColumnWidth="50"
-                                ColumnStyle="Sum"/>
+                                ColumnStyle="Sum"
+                                DisplayFormat="#,##0"
+                                Suffix="원"/>
 
                 <Xpf:ColumnItem FieldName="CSTO_Name"
                                 Header="오더명"
-                                ColumnWidth="240"
+                                ColumnWidth="200"
                                 ColumnStyle="Name"/>
 
                 <Xpf:ColumnItem FieldName="CSTO_Day"
                                 Header="일수"
-                                ColumnWidth="45"/>
+                                ColumnWidth="40"
+                                HorizontalAlignment="Center"/>
 
                 <Xpf:ColumnItem FieldName="CSTO_Count"
                                 Header="일투"
-                                ColumnWidth="45"/>
+                                ColumnWidth="40"
+                                HorizontalAlignment="Center"/>
 
                 <Xpf:ColumnItem FieldName="CSTO_Amount"
                                 Header="총투"
-                                ColumnWidth="45"/>
+                                ColumnWidth="40"
+                                HorizontalAlignment="Center"/>
 
                 <Xpf:ColumnItem FieldName="CSTO_TotalPrice"
                                 Header="총액"
-                                ColumnType="TextEdit"
-                                ColumnWidth="50"
-                                IsReadOnly="True"/>
+                                ColumnWidth="60"
+                                ColumnStyle="Sum"
+                                DisplayFormat="#,##0"
+                                Suffix="원"/>
 
-                <Xpf:ColumnItem FieldName="MUR_Idx_DOC"
+                <Xpf:ColumnItem FieldName="MUR_Name_DOC"
                                 Header="처방의"
-                                ColumnType="ComboBox"
-                                ColumnWidth="60"/>
+                                ColumnWidth="60"
+                                HorizontalAlignment="Center"/>
             </Xpf:DataGrid>
         </dxlc:GroupBox>
 
@@ -144,10 +210,297 @@
         <dxlc:GroupBox Grid.Row="4"
                        Header="수납정보"
                        FontWeight="Bold"
-                       Padding="0">
+                       Padding="0"
+                       ShowShadow="Never">
 
+            <Xpf:BindGrid LayoutDefinitions="1,6"
+                          BindStyle="DataCell"
+                          HeaderWidth="100"
+                          ItemSpace="1">
 
-            
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAY_TotalPrice"
+                                    Header="총 진 료 비"
+                                    BindType="TextBox"
+                                    HeaderFontWeight="SemiBold"
+                                    Col="0"
+                                    Row="0"
+                                    IsReadOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_DiscountPrice"
+                                    BindType="TextBox"
+                                    Width="100"
+                                    Placeholder="할인금액 입력"
+                                    IsNumericOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_CutUnit"
+                                    BindType="ComboBox"
+                                    Width="80"
+                                    ItemsSource="{x:Static selection:InputOptionItems.PayCutUnits}"
+                                    DisplayMember="attrName"
+                                    ValueMember="attrValue"/>
+
+                    <Xpf:BindItem   FieldName="btnDiscount"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton Content="할인"
+                                          Background="#E8F1F8"
+                                          Foreground="#3F6B89"
+                                          FontWeight="SemiBold"
+                                          Glyph="/Images/smartemr_discount.png"
+                                          GlyphWidth="16"
+                                          GlyphHeight="16"
+                                          Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnCutting"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="절사"
+                                            Background="#F3F0E8"
+                                            Foreground="#756A4F"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartmer_cutting.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnReset"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="초기화"
+                                            Background="#F5EAEA"
+                                            Foreground="#9A5C5C"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartemr_reset_pay.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+                </x:Array>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAY_InsuredPrice"
+                                    Header="급 여 진 료 비"
+                                    BindType="TextBox"
+                                    HeaderFontWeight="SemiBold"
+                                    Col="0"
+                                    Row="1"
+                                    IsReadOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_DiscountPrice"
+                                    BindType="TextBox"
+                                    Width="100"
+                                    Placeholder="할인금액 입력"
+                                    IsNumericOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_CutUnit"
+                                    BindType="ComboBox"
+                                    Width="80"
+                                    ItemsSource="{x:Static selection:InputOptionItems.PayCutUnits}"
+                                    DisplayMember="attrName"
+                                    ValueMember="attrValue"/>
+
+                    <Xpf:BindItem   FieldName="btnDiscount"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton Content="할인"
+                                          Background="#E8F1F8"
+                                          Foreground="#3F6B89"
+                                          FontWeight="SemiBold"
+                                          Glyph="/Images/smartemr_discount.png"
+                                          GlyphWidth="16"
+                                          GlyphHeight="16"
+                                          Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnCutting"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="절사"
+                                            Background="#F3F0E8"
+                                            Foreground="#756A4F"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartmer_cutting.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnReset"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="초기화"
+                                            Background="#F5EAEA"
+                                            Foreground="#9A5C5C"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartemr_reset_pay.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+                </x:Array>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAY_NonInsuredPrice"
+                                    Header="비 급 여 진 료 비"
+                                    BindType="TextBox"
+                                    HeaderFontWeight="SemiBold"
+                                    Col="0"
+                                    Row="2"
+                                    IsReadOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_DiscountPrice"
+                                    BindType="TextBox"
+                                    Width="100"
+                                    Placeholder="할인금액 입력"
+                                    IsNumericOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_CutUnit"
+                                    BindType="ComboBox"
+                                    Width="80"
+                                    ItemsSource="{x:Static selection:InputOptionItems.PayCutUnits}"
+                                    DisplayMember="attrName"
+                                    ValueMember="attrValue"/>
+
+                    <Xpf:BindItem   FieldName="btnDiscount"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton Content="할인"
+                                          Background="#E8F1F8"
+                                          Foreground="#3F6B89"
+                                          FontWeight="SemiBold"
+                                          Glyph="/Images/smartemr_discount.png"
+                                          GlyphWidth="16"
+                                          GlyphHeight="16"
+                                          Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnCutting"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="절사"
+                                            Background="#F3F0E8"
+                                            Foreground="#756A4F"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartmer_cutting.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnReset"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="초기화"
+                                            Background="#F5EAEA"
+                                            Foreground="#9A5C5C"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartemr_reset_pay.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+                </x:Array>
+
+                <x:Array Type="{x:Type Xpf:BindItem}">
+                    <Xpf:BindItem   FieldName="PAY_RemainPrice"
+                                    Header="미 수 납 금"
+                                    BindType="TextBox"
+                                    HeaderFontWeight="SemiBold"
+                                    HeaderForeground="#DC2626"
+                                    Col="0"
+                                    Row="3"
+                                    IsReadOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_DiscountPrice"
+                                    BindType="TextBox"
+                                    Width="100"
+                                    Placeholder="할인금액 입력"
+                                    IsNumericOnly="True"/>
+
+                    <Xpf:BindItem   FieldName="PAY_CutUnit"
+                                    BindType="ComboBox"
+                                    Width="80"
+                                    ItemsSource="{x:Static selection:InputOptionItems.PayCutUnits}"
+                                    DisplayMember="attrName"
+                                    ValueMember="attrValue"/>
+
+                    <Xpf:BindItem   FieldName="btnDiscount"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton Content="할인"
+                                          Background="#E8F1F8"
+                                          Foreground="#3F6B89"
+                                          FontWeight="SemiBold"
+                                          Glyph="/Images/smartemr_discount.png"
+                                          GlyphWidth="16"
+                                          GlyphHeight="16"
+                                          Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnCutting"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="절사"
+                                            Background="#F3F0E8"
+                                            Foreground="#756A4F"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartmer_cutting.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+
+                    <Xpf:BindItem   FieldName="btnReset"
+                                    Width="70"
+                                    IsBinding="False"
+                                    IsBindClickEvent="True">
+
+                        <dxc:SimpleButton   Content="초기화"
+                                            Background="#F5EAEA"
+                                            Foreground="#9A5C5C"
+                                            FontWeight="SemiBold"
+                                            Glyph="/Images/smartemr_reset_pay.png"
+                                            GlyphWidth="16"
+                                            GlyphHeight="16"
+                                            Padding="2"/>
+                    </Xpf:BindItem>
+                </x:Array>
+
+                <Xpf:BindItem   FieldName="PAY_Memo"
+                                Header="수 납 메 모"
+                                BindType="TextBox"
+                                Col="0"
+                                Row="4"
+                                RowSpan="2"
+                                Placeholder="수납메모를 입력하세요."
+                                ContentAlignment="LeftTop"
+                                Margin="2"/>
+            </Xpf:BindGrid>
         </dxlc:GroupBox>
 
         <Border Grid.Row="5"
@@ -155,32 +508,44 @@
                 Background="LightGray"/>
 
         <Xpf:StyleGrid Grid.Row="6"
-                       LayoutDefinitions="3,1"
-                       ColumnSizeDefinitions="Auto,*,Auto"
+                       LayoutDefinitions="5,1"
                        Margin="2">
 
-            <dxc:SimpleButton Grid.Column="0"
-                              Content="초기화"
-                              FontWeight="SemiBold"
-                              Width="100"
-                              Height="23"
-                              Glyph="/Images/smartemr_empty_paper_white.png"
-                              GlyphWidth="16"
-                              GlyphHeight="16"
-                              Padding="2"
-                              dxc:ThemeManager.ThemeName="Office2019Colorful"/>
+            <dxc:SimpleButton   Grid.Column="0"
+                                Content="수납취소"
+                                FontWeight="SemiBold"
+                                Background="#F3F3F3"
+                                Margin="1,0,1,0"
+                                dxc:ThemeManager.ThemeName="Office2019Colorful"/>
 
+            <dxc:SimpleButton   Grid.Column="1"
+                                Content="현금결제"
+                                FontWeight="SemiBold"
+                                Background="#F3F3F3"
+                                Margin="1,0,1,0"
+                                dxc:ThemeManager.ThemeName="Office2019Colorful"/>
 
-            <dxc:SimpleButton Grid.Column="2"
-                              Content="수납완료"
-                              FontWeight="SemiBold"
-                              Width="100"
-                              Height="23"
-                              Glyph="/Images/smartemr_payment.png"
-                              GlyphWidth="16"
-                              GlyphHeight="16"
-                              Padding="2"
-                              dxc:ThemeManager.ThemeName="Office2019Colorful"/>
+            <dxc:SimpleButton   Grid.Column="2"
+                                Content="카드결제"
+                                FontWeight="SemiBold"
+                                Background="#F3F3F3"
+                                Margin="1,0,1,0"
+                                dxc:ThemeManager.ThemeName="Office2019Colorful"/>
+
+            <dxc:SimpleButton   Grid.Column="3"
+                                Content="네이버페이"
+                                FontWeight="SemiBold"
+                                Background="#F3F3F3"
+                                Margin="1,0,1,0"
+                                dxc:ThemeManager.ThemeName="Office2019Colorful"/>
+
+            <dxc:SimpleButton   Grid.Column="4"
+                                Content="수납완료"
+                                FontWeight="SemiBold"
+                                Background="#3F6B89"
+                                Foreground="#FFFFFF"
+                                Margin="1,0,1,0"
+                                dxc:ThemeManager.ThemeName="Office2019Colorful"/>
         </Xpf:StyleGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

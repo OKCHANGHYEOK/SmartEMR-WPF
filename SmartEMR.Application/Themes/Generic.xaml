@@ -184,13 +184,24 @@
                                Content="{TemplateBinding Placeholder}" 
                                Foreground="#bbbbbb" 
                                HorizontalContentAlignment="{TemplateBinding PlaceHolderHorizontalAlignment}"
-                               VerticalAlignment="Center" 
                                Margin="{TemplateBinding PlaceHolderMargin}"
                                Padding="{TemplateBinding PlaceHolderPadding}"
                                BorderBrush="Transparent"
                                BorderThickness="0"
                                IsHitTestVisible="False">
 
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" Value="LeftTop">
+                                            <Setter Property="VerticalAlignment" Value="Top"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                            
                             <Label.Visibility>
                                 <MultiBinding Converter="{StaticResource StringAndFocusToVisiblityConverter}">
                                     <Binding Path="Text" RelativeSource="{RelativeSource TemplatedParent}"></Binding>

@@ -25,14 +25,6 @@ public partial class DataGrid : ContentControl
 
     public GridColumnCollection Columns => GridControl.Columns;
 
-    public DataTemplate? GroupRowTemplate;
-
-    public bool AutoWidth
-    {
-        get => TableView.AutoWidth;
-        set => TableView.AutoWidth = value;
-    }
-
     #region "DependencyProperty"
 
     public static readonly DependencyProperty ItemsSourceProperty =
@@ -84,6 +76,40 @@ public partial class DataGrid : ContentControl
         set => SetValue(DataItemProperty, value);
     }
 
+    public static readonly DependencyProperty RowStyleProperty =
+        DependencyProperty.Register(nameof(RowStyle), typeof(Style), typeof(DataGrid), new PropertyMetadata(null, OnRowStyleChanged));
+
+    private static void OnRowStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DataGrid dataGrid && e.NewValue is Style style)
+        {
+            dataGrid.TableView.RowStyle = style;
+        }
+    }
+
+    public Style RowStyle
+    {
+        get => (Style)GetValue(RowStyleProperty);
+        set => SetValue(RowStyleProperty, value);
+    }
+
+    public static readonly DependencyProperty GroupRowTemplateProperty =
+        DependencyProperty.Register(nameof(GroupRowTemplate), typeof(DataTemplate), typeof(DataGrid), new PropertyMetadata(null, OnGroupRowChanged));
+
+    private static void OnGroupRowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DataGrid dataGrid && e.NewValue is DataTemplate template)
+        {
+            dataGrid.TableView.GroupRowTemplate = template;
+        }
+    }
+
+    public DataTemplate GroupRowTemplate
+    {
+        get => (DataTemplate)GetValue(GroupRowTemplateProperty);
+        set => SetValue(GroupRowTemplateProperty, value);
+    }
+
     public static readonly DependencyProperty IsDoubleClickedProperty =
         DependencyProperty.Register(nameof(IsDoubleClicked), typeof(bool), typeof(DataGrid), new PropertyMetadata(false));
 
@@ -103,6 +129,12 @@ public partial class DataGrid : ContentControl
 
     public DevExpress.Mvvm.ICommand<GridCellData> CellValueChanged { get; }
 
+    public bool AutoWidth
+    {
+        get => TableView.AutoWidth;
+        set => TableView.AutoWidth = value;
+    }
+
     private bool IsUpdatedItemsSource { get; set; } = false;
 
     public DataGrid()
@@ -121,6 +153,7 @@ public partial class DataGrid : ContentControl
         GridControl.View = TableView;
         GridControl.Margin = new Thickness(2);
         GridControl.AllowInitiallyFocusedRow = false;
+        GridControl.AutoExpandAllGroups = true;
         //GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
 
         TableView.NavigationStyle = GridViewNavigationStyle.Cell;
@@ -139,11 +172,8 @@ public partial class DataGrid : ContentControl
         TableView.RowDoubleClick += TableView_OnRowDoubleClick;
         TableView.PreviewMouseLeftButtonDown += TableView_OnPreviewMouseLeftButtonDown;
         TableView.PreviewMouseRightButtonDown += TableView_OnPreviewMouseRightButtonDown;
-
-        if (GroupRowTemplate is not null)
-        {
-            TableView.GroupRowTemplate = GroupRowTemplate;
-        }
+        TableView.HeaderHorizontalAlignment = HorizontalAlignment.Stretch;
+        TableView.UseLightweightTemplates = UseLightweightTemplates.None;
 
         DataPager.Visibility = Visibility.Collapsed;
 

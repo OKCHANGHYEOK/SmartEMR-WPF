@@ -218,6 +218,16 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         return response;
     }
 
+    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    {
+        if (types.Contains(RefreshPageType.CST))
+        {
+            await SmartEMRConsultationTabCST.RefreshData();
+
+            types.RemoveAll(x => x == RefreshPageType.CST);
+        }
+    }
+
     // 진료 일자 변경시 로직
     // 선택된 환자가 없으면 날짜 변경
     // 그 외의 경우 판별 로직은 뷰모델을 참조
@@ -254,7 +264,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         await SetPatientDataAsync(new Patient { PAT_Idx = item.PAT_Idx });
 
-        Consultation? selectedCST = null;
+        Consultation? selectedCST;
 
         if (item.RCP_Idx.GetValueOrDefault(0) == 0)
         {

@@ -95,6 +95,11 @@ public class Master
         AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "DOC", vORDC_Cd = "문서" });
         AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "MED", vORDC_Cd = "투약" });
         AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "ETC", vORDC_Cd = "기타" });
+
+        AddMasterItem("PAY_CutUnit", new { attrName = "절사기준", attrValue = 0 });
+        AddMasterItem("PAY_CutUnit", new { attrName = "10원", attrValue = 10 });
+        AddMasterItem("PAY_CutUnit", new { attrName = "100원", attrValue = 100 });
+        AddMasterItem("PAY_CutUnit", new { attrName = "1000원", attrValue = 1000 });
     }
 
     public List<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")

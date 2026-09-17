@@ -25,11 +25,17 @@ public class GridColumnFactory
 
         element.FieldName = item.FieldName;
         element.Header = item.Header;
-        element.Width = item.ColumnWidth > 0 ? new GridColumnWidth(item.ColumnWidth, GridColumnUnitType.Pixel) : new GridColumnWidth(1, GridColumnUnitType.Star);
+        element.Width = item.ColumnWidth > 0 ? new GridColumnWidth(item.ColumnWidth, GridColumnUnitType.Pixel) : item.ColumnWidth == 0 ? 0 : new GridColumnWidth(1, GridColumnUnitType.Star);
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
         element.CellTemplate = GetCellTemplate(item);
         element.ColumnItem = item;
         element.AllowSorting = item.AllowSorting ? DefaultBoolean.True : DefaultBoolean.False;
+        element.Visible = item.Visible;
+
+        if (item.GroupIndex != null)
+        {
+            element.GroupIndex = item.GroupIndex.GetValueOrDefault(0);
+        }
 
         return element;
     }

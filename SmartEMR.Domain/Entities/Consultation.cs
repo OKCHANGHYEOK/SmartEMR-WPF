@@ -18,6 +18,7 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     private string? m_CST_PayStatus;
     private string? m_vCST_PayStatus;
     private string? m_CST_TreatResult;
+    private string? m_vCST_TreatResult;
     private string? m_CST_Subject;
     private string? m_CST_SubjectName;
     private string? m_vCST_SubjectName;
@@ -151,6 +152,12 @@ public class Consultation : BaseEntity, ICloneable<Consultation>
     {
         get => m_CST_TreatResult;
         set => SetProperty(ref m_CST_TreatResult, value);
+    }
+
+    public string? vCST_TreatResult
+    {
+        get => m_vCST_TreatResult;
+        set => SetProperty(ref m_vCST_TreatResult, value);
     }
 
     public string? CST_Subject

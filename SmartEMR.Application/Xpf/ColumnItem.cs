@@ -42,10 +42,13 @@ public class ColumnItem
     public IEnumerable? ItemsSource { get; set; }
     public string? DisplayMember { get; set; }
     public string? ValueMember { get; set; }
+
+    public int? GroupIndex { get; set; }
     
     public bool AllowSorting { get; set; } = false;
     public bool ShowToolTip { get; set; } = false;
 
     public bool IsEnabled { get; set; } = true;
     public bool IsReadOnly { get; set; } = false;
+    public bool Visible { get; set; } = true;
 }

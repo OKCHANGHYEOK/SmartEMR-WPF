@@ -143,6 +143,8 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
         {
             await SmartUI.SendMessage("ClearRCP", RCPItem, viewType: TargetViewType.PageView);
         }
+
+        SmartUI.AddRefreshRequest(RefreshPageType.CST);
     }
 
     public void ClearData()

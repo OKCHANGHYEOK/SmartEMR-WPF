@@ -13,6 +13,12 @@ public partial class PayInfoViewModel : PayViewModel
 
     public Consultation SelectedCST { get; set; } = new();
 
+    private List<ConsultationOrder> _defaultGroupHeaders = new List<ConsultationOrder>
+    {
+        new ConsultationOrder { CSTO_InsuranceTypeName = "급여", IsVisible = false },
+        new ConsultationOrder { CSTO_InsuranceTypeName = "비급여", IsVisible = false }
+    };
+
     public PayInfoViewModel() { }
 
     protected override Pay GetModel(Pay item)
@@ -20,6 +26,7 @@ public partial class PayInfoViewModel : PayViewModel
         item.PAY_InsuredPrice = 0;
         item.PAY_NonInsuredPrice = 0;
         item.PAY_OwnPatientPrice = 0;
+        item.PAY_CutUnit = 0;
 
         return item;
     }
@@ -68,7 +75,7 @@ public partial class PayInfoViewModel : PayViewModel
 
         DisplayDataMappers.ConsultationOrderDisplayDataMapper.Map(ret);
 
-        ConsultationOrders = [.. ret];
+        ConsultationOrders = _defaultGroupHeaders.Concat(ret).ToList();
     }
 
     private void ClearData()

@@ -38,6 +38,7 @@
     <None Remove="Images\smartemr_delete.png" />
     <None Remove="Images\smartemr_delete_v2.png" />
     <None Remove="Images\smartemr_desk_register.png" />
+    <None Remove="Images\smartemr_discount.png" />
     <None Remove="Images\smartemr_edit_paper.png" />
     <None Remove="Images\smartemr_edit_patient.png" />
     <None Remove="Images\smartemr_empty_paper.png" />
@@ -59,8 +60,10 @@
     <None Remove="Images\smartemr_register.png" />
     <None Remove="Images\smartemr_register_pen.png" />
     <None Remove="Images\smartemr_reset.png" />
+    <None Remove="Images\smartemr_reset_pay.png" />
     <None Remove="Images\smartemr_save.png" />
     <None Remove="Images\smartemr_search.png" />
+    <None Remove="Images\smartmer_cutting.png" />
     <None Remove="Images\Svg\smartemr-error.svg" />
     <None Remove="Images\Svg\smartemr_menu_calendar.svg" />
     <None Remove="Images\Svg\smartemr_menu_crm.svg" />
@@ -108,6 +111,7 @@
     <Resource Include="Images\smartemr_align_right.png" />
     <Resource Include="Images\smartemr_apply.png" />
     <Resource Include="Images\smartemr_center_align.png" />
+    <Resource Include="Images\smartemr_discount.png" />
     <Resource Include="Images\smartemr_empty_paper_v2.png" />
     <Resource Include="Images\smartemr_empty_paper_white.png" />
     <Resource Include="Images\smartemr_insurance.png" />
@@ -141,6 +145,7 @@
     <Resource Include="Images\smartemr_register.png" />
     <Resource Include="Images\smartemr_register_pen.png" />
     <Resource Include="Images\smartemr_reset.png" />
+    <Resource Include="Images\smartemr_reset_pay.png" />
     <Resource Include="Images\smartemr_save.png" />
     <Resource Include="Images\smartemr_search.png" />
     <Resource Include="Images\smartemr_warning.png" />
@@ -155,6 +160,7 @@
     <Resource Include="Images\smartemr_menu_exam.png" />
     <Resource Include="Images\smartemr_menu_settings.png" />
     <Resource Include="Images\smartemr_error.png" />
+    <Resource Include="Images\smartmer_cutting.png" />
     <Resource Include="Images\Svg\smartemr_menu_calendar.svg" />
     <Resource Include="Images\Svg\smartemr_menu_crm.svg" />
     <Resource Include="Images\Svg\smartemr_menu_desk.svg" />

@@ -57,7 +57,7 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
 
         switch (request.MessageAction)
         {
-            case "UpdateCSTOByPrice":
+            case "UpdateCSTOData":
                 var paramItem = request.MessageParameter as ConsultationOrder;
                 if (paramItem is not null)
                 {

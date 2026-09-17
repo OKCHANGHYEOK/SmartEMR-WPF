@@ -11,12 +11,14 @@ public class Pay : BaseEntity
     private string? m_vCST_Status;
     private string? m_PAY_Status;
     private string? m_vPAY_Status;
-    private Decimal? m_PAY_TotalPrice;
-    private Decimal? m_PAY_InsuredPrice;
-    private Decimal? m_PAY_NonInsuredPrice;
-    private Decimal? m_PAY_OwnPatientPrice;
-    private Decimal? m_PAY_PaidPrice;
-    private Decimal? m_PAY_RemainPrice;
+    private decimal? m_PAY_TotalPrice;
+    private decimal? m_PAY_InsuredPrice;
+    private decimal? m_PAY_NonInsuredPrice;
+    private decimal? m_PAY_OwnPatientPrice;
+    private decimal? m_PAY_PaidPrice;
+    private decimal? m_PAY_RemainPrice;
+    private double? m_PAY_DiscountPrice;
+    private int? m_PAY_CutUnit;
     private string? m_PAY_Memo;
     private string? m_PAY_Date;
     private string? m_PAY_YYMMDD;
@@ -88,40 +90,52 @@ public class Pay : BaseEntity
         set => SetProperty(ref m_vPAY_Status, value);
     }
 
-    public Decimal? PAY_TotalPrice
+    public decimal? PAY_TotalPrice
     {
         get => m_PAY_TotalPrice;
         set => SetProperty(ref m_PAY_TotalPrice, value);
     }
 
-    public Decimal? PAY_InsuredPrice
+    public decimal? PAY_InsuredPrice
     {
         get => m_PAY_InsuredPrice;
         set => SetProperty(ref m_PAY_InsuredPrice, value);
     }
 
-    public Decimal? PAY_NonInsuredPrice
+    public decimal? PAY_NonInsuredPrice
     {
         get => m_PAY_NonInsuredPrice;
         set => SetProperty(ref m_PAY_NonInsuredPrice, value);
     }
 
-    public Decimal? PAY_OwnPatientPrice
+    public decimal? PAY_OwnPatientPrice
     {
         get => m_PAY_OwnPatientPrice;
         set => SetProperty(ref m_PAY_OwnPatientPrice, value);
     }
 
-    public Decimal? PAY_PaidPrice
+    public decimal? PAY_PaidPrice
     {
         get => m_PAY_PaidPrice;
         set => SetProperty(ref m_PAY_PaidPrice, value);
     }
 
-    public Decimal? PAY_RemainPrice
+    public decimal? PAY_RemainPrice
     {
         get => m_PAY_RemainPrice;
         set => SetProperty(ref m_PAY_RemainPrice, value);
+    }
+
+    public double? PAY_DiscountPrice
+    {
+        get => m_PAY_DiscountPrice;
+        set => SetProperty(ref m_PAY_DiscountPrice, value);
+    }
+
+    public int? PAY_CutUnit
+    {
+        get => m_PAY_CutUnit;
+        set => SetProperty(ref m_PAY_CutUnit, value);
     }
 
     public string? PAY_Memo

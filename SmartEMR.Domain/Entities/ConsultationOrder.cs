@@ -6,6 +6,7 @@ public class ConsultationOrder : BaseEntity
     private int? m_MEM_Idx;
     private int? m_MUR_Idx;
     private int? m_MUR_Idx_DOC;
+    private string? m_MUR_Name_DOC;
     private int? m_PAT_Idx;
     private int? m_CST_Idx;
     private int? m_ORD_Idx;
@@ -18,6 +19,7 @@ public class ConsultationOrder : BaseEntity
     private string? m_CSTO_ClassCode;
     private string? m_CSTO_InsuranceType;
     private string? m_vCSTO_InsuranceType;
+    private string? m_CSTO_InsuranceTypeName;
     private string? m_CSTO_Status;
     private string? m_CSTO_Name;
     private int? m_CSTO_Day;
@@ -56,6 +58,13 @@ public class ConsultationOrder : BaseEntity
         get => m_MUR_Idx_DOC;
         set => SetProperty(ref m_MUR_Idx_DOC, value);
     }
+
+    public string? MUR_Name_DOC
+    {
+        get => m_MUR_Name_DOC;
+        set => SetProperty(ref m_MUR_Name_DOC, value);
+    }
+
 
     public int? PAT_Idx
     {
@@ -127,6 +136,12 @@ public class ConsultationOrder : BaseEntity
     {
         get => m_vCSTO_InsuranceType;
         set => SetProperty(ref m_vCSTO_InsuranceType, value);
+    }
+
+    public string? CSTO_InsuranceTypeName
+    {
+        get => m_CSTO_InsuranceTypeName;
+        set => SetProperty(ref m_CSTO_InsuranceTypeName, value);
     }
 
     public string? CSTO_Status
