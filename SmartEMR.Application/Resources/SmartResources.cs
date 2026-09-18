@@ -79,6 +79,11 @@ public static class SmartBrush
     public static readonly Brush SMART_BRUSH_ORD_MED = CreateBrushFromHex("#22A06B");
     public static readonly Brush SMART_BRUSH_ORD_ETC = CreateBrushFromHex("#64748B");
 
+    public static readonly Brush SMART_BRUSH_PAY_METHOD_CASH = CreateBrushFromHex("#287A3D");
+    public static readonly Brush SMART_BRUSH_PAY_METHOD_CARD = CreateBrushFromHex("#32658F");
+    public static readonly Brush SMART_BRUSH_PAY_METHOD_NAVERPAY = CreateBrushFromHex("#E9F7EE");
+
+
 
     private static Brush CreateBrushFromHex(string hex)
     {

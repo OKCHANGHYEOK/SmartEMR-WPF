@@ -11,6 +11,7 @@ public class Pay : BaseEntity
     private string? m_vCST_Status;
     private string? m_PAY_Status;
     private string? m_vPAY_Status;
+    private decimal? m_PAY_PriceForPay;
     private decimal? m_PAY_TotalPrice;
     private decimal? m_PAY_InsuredPrice;
     private decimal? m_PAY_NonInsuredPrice;
@@ -88,6 +89,12 @@ public class Pay : BaseEntity
     {
         get => m_vPAY_Status;
         set => SetProperty(ref m_vPAY_Status, value);
+    }
+
+    public decimal? PAY_PriceForPay
+    {
+        get => m_PAY_PriceForPay;
+        set => SetProperty(ref m_PAY_PriceForPay, value);
     }
 
     public decimal? PAY_TotalPrice

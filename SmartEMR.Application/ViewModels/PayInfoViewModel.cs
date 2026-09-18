@@ -26,6 +26,8 @@ public partial class PayInfoViewModel : PayViewModel
         item.PAY_InsuredPrice = 0;
         item.PAY_NonInsuredPrice = 0;
         item.PAY_OwnPatientPrice = 0;
+        item.PAY_TotalPrice = 0;
+        item.PAY_RemainPrice = 0;
         item.PAY_CutUnit = 0;
 
         return item;
@@ -75,7 +77,7 @@ public partial class PayInfoViewModel : PayViewModel
 
         DisplayDataMappers.ConsultationOrderDisplayDataMapper.Map(ret);
 
-        ConsultationOrders = _defaultGroupHeaders.Concat(ret).ToList();
+        ConsultationOrders = [.. _defaultGroupHeaders, .. ret];
     }
 
     private void ClearData()
