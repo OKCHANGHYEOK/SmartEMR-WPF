@@ -1,5 +1,4 @@
-﻿using SmartEMR.Application.Common.DiplsayDataMapper;
-using SmartEMR.Application.Common.DisplayDataMapper;
+﻿using SmartEMR.Application.Common.DisplayDataMapper;
 
 namespace SmartEMR.Application.Common;
 

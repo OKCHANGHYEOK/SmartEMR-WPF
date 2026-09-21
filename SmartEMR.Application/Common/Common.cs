@@ -69,7 +69,7 @@ public partial class Common
         var retCCC = await SmartMVVM.DataStore.GetItems<CommonCode>(eAPI.CommonCode_GetCommonCode, new CommonCode());
         if (retCCC == null || SmartMVVM.DataStore.retIsSuccess == false)
         {
-            SmartUI.SetNofification("CommonCode_GetCommonCode 조회에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("CommonCode_GetCommonCode 조회에 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -294,7 +294,7 @@ public partial class Common
         var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = PAT_Idx, CST_YYMMDD = targetDate });
         if (!SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("진료 조회에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("진료 조회에 실패했습니다.", NotificationType.Error);
             return null;
         }
 
@@ -364,11 +364,11 @@ public partial class Common
         var ret = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReceptionByRES, item);
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("예약 -> 접수등록에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("예약 -> 접수등록에 실패했습니다.", NotificationType.Error);
             return false;
         }
 
-        SmartUI.SetNofification("접수등록 되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification("접수등록 되었습니다.", NotificationType.Success);
 
         return true;
     }

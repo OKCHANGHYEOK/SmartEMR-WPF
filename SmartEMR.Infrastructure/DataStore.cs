@@ -1,9 +1,11 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SmartEMR.Domain.Enums;
 using SmartEMR.Domain.DTOs;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Infrastructure;
 
@@ -21,6 +23,8 @@ public class DataStore
     public event EventHandler<DataStoreErrorEventArgs>? ErrorOccured;
 
     public string APIUrl { get; set; } = "http://127.0.0.1:8000/";
+
+    public int RequestTimeoutSeconds { get; set; } = 180;
 
     // API 응답 상태를 저장하는 속성들
     public string? retMessage { get; set; }
@@ -101,7 +105,7 @@ public class DataStore
 
         HttpResponseMessage? response = null;
 
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(180));
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(RequestTimeoutSeconds));
 
         try
         {
@@ -227,6 +231,64 @@ public class DataStore
         }
     }
 
+    /// <summary>
+    /// 로그인 전용 요청 (인증 토큰 없이 호출)
+    /// </summary>
+    public async Task<TokenResponse?> Login(MemberUser user)
+    {
+        var retToken = new TokenResponse { };
+
+        await _requestSemaphore.WaitAsync();
+
+        try
+        {
+            _client.DefaultRequestHeaders.Clear();
+
+            var loginUrl = $"{APIUrl.TrimEnd('/')}/Login/login";
+
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(RequestTimeoutSeconds));
+
+            var response = await _client.PostAsJsonAsync(loginUrl, user, _options, cts.Token);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.Unauthorized:
+                        retToken.FailMessage = "존재하지 않는 사용자이거나 아이디,패스워드가 올바르지 않습니다.";
+                        return retToken;
+
+                    case HttpStatusCode.InternalServerError:
+                        retToken.FailMessage = "서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+                        return retToken;
+                }
+            }
+
+            retToken = await response.Content.ReadFromJsonAsync<TokenResponse>(_options) ?? new TokenResponse();
+
+            if (retToken == null || string.IsNullOrWhiteSpace(retToken.AccessToken))
+            {
+                return null;
+            }
+
+            return retToken;
+        }
+        catch (HttpRequestException)
+        {
+            retToken.FailMessage = "서버가 작동중이지 않습니다. 잠시후 다시 시도해주세요.";
+        }
+        catch (Exception ex)
+        {
+            retToken.FailMessage = ex.Message;
+        }
+        finally
+        {
+            _requestSemaphore.Release();
+        }
+
+        return retToken;
+    }
+
     private void UpdateResponseStatus<T>(DataResponse<T> result) where T : class
     {
         this.retMessage = result.Message;
@@ -252,11 +314,6 @@ public class DataStore
         string requestAction = parts[1];
 
         return $"{APIUrl.TrimEnd('/')}/{requestEntity}/{requestAction}";
-    }
-
-    public async Task GetItem<T>(object eAPi)
-    {
-        throw new NotImplementedException();
     }
 
     public class DataStoreErrorEventArgs : EventArgs

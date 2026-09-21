@@ -40,7 +40,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     }
     public async Task GetRecentCST()
     {
-        SmartUI.SetNofification("기능 구현 중입니다.", NotificationType.Warning);
+        SmartUI.SetNotification("기능 구현 중입니다.", NotificationType.Warning);
     }
     public ConsultationOrder? GetCSTOItemByDEL(Order paramItem)
     {
@@ -90,7 +90,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         {
             if (string.Compare(Model.NOW_RECEPTION_YYMMDD, targetDate) > 0)
             {
-                SmartUI.SetNofification("해당 날짜에 진료 기록이 없으므로 접수일 이전으로 날짜 변경할 수 없습니다.", NotificationType.Warning);
+                SmartUI.SetNotification("해당 날짜에 진료 기록이 없으므로 접수일 이전으로 날짜 변경할 수 없습니다.", NotificationType.Warning);
                 return false;
             }
             else
@@ -158,7 +158,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         var ret = await SmartMVVM.DataStore.GetItems<Consultation>(eAPI.Consultation_GetConsultationByRCP, item);
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("진료현황을 불러오지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("진료현황을 불러오지 못했습니다.", NotificationType.Error);
             return;
         }
 
@@ -172,7 +172,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     {
         if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
         {
-            SmartUI.SetNofification("선택된 진료(접수)가 없습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("선택된 진료(접수)가 없습니다.", NotificationType.Warning);
             return;
         }
 
@@ -183,7 +183,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("진료 저장에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("진료 저장에 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -208,7 +208,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 
         if (!SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("진료취소하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("진료취소하지 못했습니다.", NotificationType.Error);
             return;
         }
 
@@ -233,7 +233,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         {
             if (_consultationOrders.FirstOrDefault(x => OrderMaster.ORDER_ASSESSMENTS.Contains(x.CSTO_SugaCode)) is not null)
             {
-                SmartUI.SetNofification("진찰료는 중복 처방할 수 없습니다.", NotificationType.Warning);
+                SmartUI.SetNotification("진찰료는 중복 처방할 수 없습니다.", NotificationType.Warning);
                 return false;
             }
         }
@@ -308,7 +308,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         }
 
         SmartUI.AddRefreshRequest(RefreshPageType.DSK);
-        SmartUI.SetNofification($"진료{(operation == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification($"진료{(operation == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
     }
 
     [RelayCommand]

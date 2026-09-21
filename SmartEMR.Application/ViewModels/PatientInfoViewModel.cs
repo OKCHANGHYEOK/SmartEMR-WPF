@@ -26,7 +26,7 @@ public partial class PatientInfoViewModel : PatientViewModel
             var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
             if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
             {
-                SmartUI.SetNofification("존재하지 않거나 삭제된 회원입니다.", NotificationType.Error);
+                SmartUI.SetNotification("존재하지 않거나 삭제된 회원입니다.", NotificationType.Error);
                 SmartUI.CloseView(TargetViewType.CurrentView);                
                 return;
             }
@@ -71,7 +71,7 @@ public partial class PatientInfoViewModel : PatientViewModel
 
             if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
             {
-                SmartUI.SetNofification("환자정보 저장에 실패했습니다.", NotificationType.Error);
+                SmartUI.SetNotification("환자정보 저장에 실패했습니다.", NotificationType.Error);
                 return;
             }
 
@@ -80,7 +80,7 @@ public partial class PatientInfoViewModel : PatientViewModel
 
         await NotifyCompletedTaskAsync(operation);
 
-        SmartUI.SetNofification($"{actionName} 되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification($"{actionName} 되었습니다.", NotificationType.Success);
     }
 
     private async Task<bool> DeletePatientAsync()
@@ -91,7 +91,7 @@ public partial class PatientInfoViewModel : PatientViewModel
 
         if (SmartMVVM.DataStore.retIsSuccess == false)
         {
-            SmartUI.SetNofification("환자정보 삭제에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("환자정보 삭제에 실패했습니다.", NotificationType.Error);
             return false;
         }
 
@@ -123,7 +123,7 @@ public partial class PatientInfoViewModel : PatientViewModel
             var message = "아래 항목들을 입력해주세요.\n- ";
             message += string.Join(", ", missingFields.Select(field => field[1]));
 
-            SmartUI.SetNofification(message, NotificationType.Warning);
+            SmartUI.SetNotification(message, NotificationType.Warning);
 
             TextFocusBehavior.SetFocusByName(missingFields[0][0]);
 

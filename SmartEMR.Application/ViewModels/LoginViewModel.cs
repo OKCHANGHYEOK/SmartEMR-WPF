@@ -2,7 +2,6 @@
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.DTOs;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Infrastructure.Services;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -39,7 +38,7 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
             MUR_PassWord = Model.MUR_PassWord
         };
 
-        var ret = await AuthenticationService.AuthenticateUserByLogin(paramItem);
+        var ret = await SmartMVVM.DataStore.Login(paramItem);
 
         if (ret == null || !string.IsNullOrWhiteSpace(ret.FailMessage))
         {

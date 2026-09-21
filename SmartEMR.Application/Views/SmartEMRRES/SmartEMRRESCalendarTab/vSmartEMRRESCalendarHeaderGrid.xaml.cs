@@ -16,7 +16,7 @@ public partial class vSmartEMRRESCalendarHeaderGrid : CustomControl
 
         if (element.Tag.ToString() == "Month")
         {
-            SmartUI.SetNofification("기능 구현중입니다.", NotificationType.Info);
+            SmartUI.SetNotification("기능 구현중입니다.", NotificationType.Info);
 
             element.IsChecked = false;
             e.Handled = true;

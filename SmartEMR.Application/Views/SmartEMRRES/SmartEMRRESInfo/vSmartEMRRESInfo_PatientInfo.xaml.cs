@@ -42,7 +42,7 @@ public partial class vSmartEMRRESInfo_PatientInfo : UserControl
                 break;
 
             case "btnFindAddress":
-                SmartUI.SetNofification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
+                SmartUI.SetNotification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
                 break;
         }
     }

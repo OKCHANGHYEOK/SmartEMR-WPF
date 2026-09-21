@@ -1,9 +1,8 @@
-﻿using SmartEMR.Application.Common.DisplayDataMapper;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Domain.Entities;
 
-namespace SmartEMR.Application.Common.DiplsayDataMapper;
+namespace SmartEMR.Application.Common.DisplayDataMapper;
 
 public class OrderDisplayDataMapper : IDisplayDataMapper<Order>
 {

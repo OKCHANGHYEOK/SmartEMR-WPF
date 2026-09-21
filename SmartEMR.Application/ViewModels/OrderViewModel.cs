@@ -87,7 +87,7 @@ public partial class OrderViewModel : BaseViewModel<Order>
         var ret = await SmartMVVM.DataStore.GetItems<Order>(eAPI.Order_GetOrder, getItem);
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("오더를 불러오는데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("오더를 불러오는데 실패했습니다.", NotificationType.Error);
             return false;
         }
 

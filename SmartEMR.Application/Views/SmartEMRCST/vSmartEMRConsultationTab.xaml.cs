@@ -141,7 +141,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
             case "MoveIRCInfo":
                 if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
                 {
-                    SmartUI.SetNofification("선택된 접수가 없습니다.", NotificationType.Warning);
+                    SmartUI.SetNotification("선택된 접수가 없습니다.", NotificationType.Warning);
                     return null;
                 }
 
@@ -243,7 +243,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("환자 정보를 불러오지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("환자 정보를 불러오지 못했습니다.", NotificationType.Error);
             return;
         }
 
@@ -284,7 +284,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
     {
         if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
         {
-            SmartUI.SetNofification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
             return;
         }
 
@@ -295,7 +295,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
     {
         if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
         {
-            SmartUI.SetNofification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
             return;
         }
 
@@ -332,7 +332,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
         SmartEMRConulstationTabCSTOInfo.UpdateCSTByIRC(SelectedCST);
 
-        SmartUI.SetNofification("보험 적용되었습니다.", NotificationType.Info);
+        SmartUI.SetNotification("보험 적용되었습니다.", NotificationType.Info);
     }
 
     private async void ClearData(bool isClearPAT = false, bool isClearCST = false)

@@ -57,7 +57,7 @@ public partial class CalendarViewModel : ReservationViewModel
         var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, getItem);
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("예약현황을 불러오지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("예약현황을 불러오지 못했습니다.", NotificationType.Error);
             return false;
         }
 
@@ -125,13 +125,13 @@ public partial class CalendarViewModel : ReservationViewModel
 
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification($"{msg}에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification($"{msg}에 실패했습니다.", NotificationType.Error);
             return;
         }
 
         await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
 
-        SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification($"{msg} 되었습니다.", NotificationType.Success);
     }
 
     public async Task DeleteRES(Reservation item)
@@ -142,13 +142,13 @@ public partial class CalendarViewModel : ReservationViewModel
 
         if (!SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("예약삭제하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("예약삭제하지 못했습니다.", NotificationType.Error);
             return;
         }
 
         await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
 
-        SmartUI.SetNofification($"삭제되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification($"삭제되었습니다.", NotificationType.Success);
     }
 
     public async Task MoveReservation(Reservation source, Reservation destination)
@@ -163,13 +163,13 @@ public partial class CalendarViewModel : ReservationViewModel
         var ret = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_MoveReservationDate, item);
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("예약일시를 변경하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("예약일시를 변경하지 못했습니다.", NotificationType.Error);
             return;
         }
 
         await UpdateCalendar();
 
-        SmartUI.SetNofification("예약일시가 변경되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification("예약일시가 변경되었습니다.", NotificationType.Success);
     }
 
     private void SetDays()

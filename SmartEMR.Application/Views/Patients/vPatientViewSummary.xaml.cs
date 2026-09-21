@@ -46,7 +46,7 @@ public partial class vPatientViewSummary : ModelViewLayout<PatientViewModel>
             case "btnCopyAddress":
                 Clipboard.SetText(PATItem.PAT_Address1 ?? "");
 
-                SmartUI.SetNofification("주소가 복사되었습니다.", NotificationType.Info);
+                SmartUI.SetNotification("주소가 복사되었습니다.", NotificationType.Info);
 
                 break;
         }

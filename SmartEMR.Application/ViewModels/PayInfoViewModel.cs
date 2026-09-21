@@ -56,7 +56,7 @@ public partial class PayInfoViewModel : PayViewModel
         var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { CST_Idx = CST_Idx });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("진료 정보가 유효하지 않습니다.", NotificationType.Error);
+            SmartUI.SetNotification("진료 정보가 유효하지 않습니다.", NotificationType.Error);
             return;
         }
 
@@ -71,7 +71,7 @@ public partial class PayInfoViewModel : PayViewModel
 
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
             return;
         }
 

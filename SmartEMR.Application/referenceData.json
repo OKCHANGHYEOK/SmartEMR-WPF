@@ -1,0 +1,63 @@
+{
+  "PAT_Sex": [
+    { "vPAT_Sex": "성별선택", "PAT_Sex": "N" },
+    { "vPAT_Sex": "남", "PAT_Sex": "M" },
+    { "vPAT_Sex": "여", "PAT_Sex": "F" }
+  ],
+  "PAT_IsSolar": [
+    { "attrName": "양력", "attrValue": "y" },
+    { "attrName": "음력", "attrValue": "n" }
+  ],
+  "PAT_IsForegin": [
+    { "attrName": "내국인", "attrValue": "n" },
+    { "attrName": "외국인", "attrValue": "y" }
+  ],
+  "PAT_IsAgreePersonalInfo": [
+    { "attrName": "동의", "attrValue": "y" },
+    { "attrName": "동의안함", "attrValue": "n" }
+  ],
+  "IRC_CoName": [
+    { "IRC_Type": "GUN", "IRC_CoCd": "SSH", "IRC_CoName": "삼성화재" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "HDH", "IRC_CoName": "현대해상" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "DBS", "IRC_CoName": "DB손해보험" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "KBS", "IRC_CoName": "KB손해보험" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "MRT", "IRC_CoName": "메리츠화재" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "SSS", "IRC_CoName": "삼성생명" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "HAS", "IRC_CoName": "한화생명" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "KYB", "IRC_CoName": "교보생명" },
+    { "IRC_Type": "GUN", "IRC_CoCd": "ETC", "IRC_CoName": "기타" },
+    { "IRC_Type": "MED", "IRC_CoCd": "SSH", "IRC_CoName": "삼성화재" },
+    { "IRC_Type": "MED", "IRC_CoCd": "HDH", "IRC_CoName": "현대해상" },
+    { "IRC_Type": "MED", "IRC_CoCd": "DBS", "IRC_CoName": "DB손해보험" },
+    { "IRC_Type": "MED", "IRC_CoCd": "KBS", "IRC_CoName": "KB손해보험" },
+    { "IRC_Type": "MED", "IRC_CoCd": "MRT", "IRC_CoName": "메리츠화재" },
+    { "IRC_Type": "MED", "IRC_CoCd": "SSS", "IRC_CoName": "삼성생명" },
+    { "IRC_Type": "MED", "IRC_CoCd": "HAS", "IRC_CoName": "한화생명" },
+    { "IRC_Type": "MED", "IRC_CoCd": "KYB", "IRC_CoName": "교보생명" },
+    { "IRC_Type": "MED", "IRC_CoCd": "ETC", "IRC_CoName": "기타" },
+    { "IRC_Type": "CAR", "IRC_CoCd": "SSH", "IRC_CoName": "삼성화재" },
+    { "IRC_Type": "CAR", "IRC_CoCd": "HDH", "IRC_CoName": "현대해상" },
+    { "IRC_Type": "CAR", "IRC_CoCd": "DBS", "IRC_CoName": "DB손해보험" },
+    { "IRC_Type": "CAR", "IRC_CoCd": "KBS", "IRC_CoName": "KB손해보험" },
+    { "IRC_Type": "CAR", "IRC_CoCd": "MRT", "IRC_CoName": "메리츠화재" },
+    { "IRC_Type": "CAR", "IRC_CoCd": "AXA", "IRC_CoName": "AXA손해보험" },
+    { "IRC_Type": "CAR", "IRC_CoCd": "ETC", "IRC_CoName": "기타" },
+    { "IRC_Type": "SAN", "IRC_CoCd": "GUN", "IRC_CoName": "근로복지공단" },
+    { "IRC_Type": "SAN", "IRC_CoCd": "ETC", "IRC_CoName": "기타" }
+  ],
+  "ORDC_Cd": [
+    { "ORDC_Cd": "ASM", "vORDC_Cd": "진찰료" },
+    { "ORDC_Cd": "PRC", "vORDC_Cd": "시술" },
+    { "ORDC_Cd": "TRT", "vORDC_Cd": "처치" },
+    { "ORDC_Cd": "EXM", "vORDC_Cd": "검사" },
+    { "ORDC_Cd": "DOC", "vORDC_Cd": "문서" },
+    { "ORDC_Cd": "MED", "vORDC_Cd": "투약" },
+    { "ORDC_Cd": "ETC", "vORDC_Cd": "기타" }
+  ],
+  "PAY_CutUnit": [
+    { "attrName": "절사기준", "attrValue": 0 },
+    { "attrName": "10원", "attrValue": 10 },
+    { "attrName": "100원", "attrValue": 100 },
+    { "attrName": "1000원", "attrValue": 1000 }
+  ]
+}
