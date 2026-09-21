@@ -23,7 +23,7 @@ public partial class SearchViewModel : BaseViewModel<Patient>
 
         if (string.IsNullOrWhiteSpace(keyword))
         {
-            SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요", NotificationType.Warning);
+            SmartUI.SetNotification("검색어를 1글자 이상 입력해주세요", NotificationType.Warning);
 
             await SmartUI.SendMessageToSearchView("SetFocusToSearchText");
 
@@ -40,7 +40,7 @@ public partial class SearchViewModel : BaseViewModel<Patient>
         var retPAT = await SmartMVVM.DataStore.GetItems<Patient>(eAPI.Patient_GetPatient, getItem);
         if (retPAT == null || !retPAT.Any() || SmartMVVM.DataStore.retIsSuccess == false)
         {
-            SmartUI.SetNofification("조건에 해당하는 검색결과가 없습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("조건에 해당하는 검색결과가 없습니다.", NotificationType.Warning);
             return;
         }
 

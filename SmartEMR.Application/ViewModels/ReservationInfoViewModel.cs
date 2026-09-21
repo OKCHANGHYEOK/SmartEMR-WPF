@@ -42,7 +42,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
             if (retPAT is null || !SmartMVVM.DataStore.retIsSuccess)
             {
-                SmartUI.SetNofification("환자 조회에 실패했습니다.", NotificationType.Error);
+                SmartUI.SetNotification("환자 조회에 실패했습니다.", NotificationType.Error);
                 return;
             }
 
@@ -60,7 +60,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             var retRES = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_Idx = Model.RES_Idx });
             if (retRES is null || !SmartMVVM.DataStore.retIsSuccess)
             {
-                SmartUI.SetNofification("예약 조회에 실패했습니다.", NotificationType.Error);
+                SmartUI.SetNotification("예약 조회에 실패했습니다.", NotificationType.Error);
                 return;
             }
 
@@ -180,7 +180,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_YYMMDD = RES_YYMMDD });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("예약현황 조회에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("예약현황 조회에 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -287,13 +287,13 @@ public partial class ReservationInfoViewModel : ReservationViewModel
 
         if (SmartMVVM.Common.IsPast(SmartMVVM.Common.GetYYMMDDByDateString(Model.RES_ReservationDate), newValue)) 
         {
-            SmartUI.SetNofification("과거시간은 선택할 수 없습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("과거시간은 선택할 수 없습니다.", NotificationType.Warning);
             return false;
         }
 
         if (Reservations.Any(x => x.RES_Time == newValue && x.RESItem is not null))
         {
-            SmartUI.SetNofification("다른 예약이 존재하는 시간은 선택할 수 없습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("다른 예약이 존재하는 시간은 선택할 수 없습니다.", NotificationType.Warning);
             return false;
         }
 
@@ -305,7 +305,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     {
         if (string.IsNullOrWhiteSpace(Model.Keyword))
         {
-            SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요", NotificationType.Warning);
+            SmartUI.SetNotification("검색어를 1글자 이상 입력해주세요", NotificationType.Warning);
             return;
         }
 
@@ -318,7 +318,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         var retPAT = await SmartMVVM.DataStore.GetItems<Patient>(eAPI.Patient_GetPatient, getPAT);
         if (retPAT is null || !retPAT.Any() || !SmartMVVM.DataStore.retIsSuccess) 
         {
-            SmartUI.SetNofification("검색된 환자가 없습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("검색된 환자가 없습니다.", NotificationType.Warning);
             return;
         }
 
@@ -356,7 +356,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             }
             else if (SelectedPatient.PAT_Idx.GetValueOrDefault(0) == 0)  // 기존환자 예약인 경우 선택된 환자 있는지 체크
             {
-                SmartUI.SetNofification("선택된 환자가 없습니다. 신환예약 또는 환자선택후 다시 시도해주세요.", NotificationType.Warning);
+                SmartUI.SetNotification("선택된 환자가 없습니다. 신환예약 또는 환자선택후 다시 시도해주세요.", NotificationType.Warning);
                 return;
             }
 
@@ -375,14 +375,14 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         
             if (retRES is null || !SmartMVVM.DataStore.retIsSuccess)
             {
-                SmartUI.SetNofification("예약 저장에 실패했습니다.", NotificationType.Error);
+                SmartUI.SetNotification("예약 저장에 실패했습니다.", NotificationType.Error);
                 return;
             }
         }
 
         await NotifyCompletedTaskAsync(operation);
 
-        SmartUI.SetNofification($"예약{actionName}되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification($"예약{actionName}되었습니다.", NotificationType.Success);
     }
 
     [RelayCommand]
@@ -401,14 +401,14 @@ public partial class ReservationInfoViewModel : ReservationViewModel
 
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification($"{msg}에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification($"{msg}에 실패했습니다.", NotificationType.Error);
 
             return;
         }
 
         await NotifyCompletedTaskAsync();
 
-        SmartUI.SetNofification($"{msg} 되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification($"{msg} 되었습니다.", NotificationType.Success);
     }
 
     protected override async Task NotifyCompletedTaskAsync(SaveMode operation = SaveMode.SAVE)
@@ -443,7 +443,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             var message = "아래 항목들을 입력해주세요.\n- ";
             message += string.Join(", ", missingFields.Select(field => field[1]));
 
-            SmartUI.SetNofification(message, NotificationType.Warning);
+            SmartUI.SetNotification(message, NotificationType.Warning);
 
             TextFocusBehavior.SetFocusByName(missingFields[0][0]);
 

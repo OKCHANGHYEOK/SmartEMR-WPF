@@ -2,7 +2,6 @@
 using SmartEMR.Domain.DTOs;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Infrastructure;
-using SmartEMR.Infrastructure.Services;
 using System.Windows;
 
 namespace SmartEMR.Application.Core;
@@ -78,7 +77,7 @@ public class SmartMVVM
     public static async Task<DataResponse<object>?> SetUserByMUR_Idx(int MUR_Idx)
     {
         var retResponse = new DataResponse<object> { IsSuccess = false };
-        var retToken = await AuthenticationService.AuthenticateUserByLogin(new MemberUser { MUR_Idx = MUR_Idx });
+        var retToken = await SmartMVVM.DataStore.Login(new MemberUser { MUR_Idx = MUR_Idx });
 
         if (retToken == null || !string.IsNullOrWhiteSpace(retToken.FailMessage))
         {
@@ -110,11 +109,11 @@ public class SmartMVVM
                 break;
 
             case 408:
-                SmartUI.SetNofification(message, NotificationType.Error);
+                SmartUI.SetNotification(message, NotificationType.Error);
                 break;
 
             case 500:
-                SmartUI.SetNofification(message, NotificationType.Error);
+                SmartUI.SetNotification(message, NotificationType.Error);
                 break;
         }
     }

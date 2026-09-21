@@ -66,7 +66,7 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
         switch (bindItem.FieldName)
         {
             case "btnSMS":
-                SmartUI.SetNofification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
+                SmartUI.SetNotification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
                 break;
         }
     }
@@ -174,7 +174,7 @@ public partial class vPatientInfo : ModelViewLayout<PatientInfoViewModel>
                 break;
 
             case "btnFindAddress":
-                SmartUI.SetNofification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
+                SmartUI.SetNotification("현재 지원하지 않는 기능입니다.", NotificationType.Warning);
                 break;
         }
     }

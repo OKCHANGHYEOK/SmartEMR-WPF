@@ -35,7 +35,7 @@ public class Master
         var retMUR = await SmartMVVM.DataStore.GetItems<MemberUser>(eAPI.MemberUser_GetMemberUser, MURItem);
         if (retMUR == null || !retMUR.Any())
         {
-            SmartUI.SetNofification("직원 정보를 불러오지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("직원 정보를 불러오지 못했습니다.", NotificationType.Error);
             return;
         }
 
@@ -46,60 +46,28 @@ public class Master
     {
         _masterItems.Clear();
 
+        var reference = ReferenceDataLoader.Load();
+
         // PAT_Sex
-        AddMasterItem("PAT_Sex", new Patient { vPAT_Sex = "성별선택", PAT_Sex = "N" });
-        AddMasterItem("PAT_Sex", new Patient { vPAT_Sex = "남", PAT_Sex = "M" });
-        AddMasterItem("PAT_Sex", new Patient { vPAT_Sex = "여", PAT_Sex = "F" });
+        foreach (var item in reference.PAT_Sex) AddMasterItem("PAT_Sex", item);
 
         // PAT_IsSolar
-        AddMasterItem("PAT_IsSolar", new { attrName = "양력", attrValue = "y" });
-        AddMasterItem("PAT_IsSolar", new { attrName = "음력", attrValue = "n" });
+        foreach (var item in reference.PAT_IsSolar) AddMasterItem("PAT_IsSolar", item);
 
-        // PAT_IsForeginer
-        AddMasterItem("PAT_IsForegin", new { attrName = "내국인", attrValue = "n" });
-        AddMasterItem("PAT_IsForegin", new { attrName = "외국인", attrValue = "y" });
+        // PAT_IsForegin
+        foreach (var item in reference.PAT_IsForegin) AddMasterItem("PAT_IsForegin", item);
 
         // PAT_IsAgreePersonalInfo
-        AddMasterItem("PAT_IsAgreePersonalInfo", new { attrName = "동의", attrValue = "y" });
-        AddMasterItem("PAT_IsAgreePersonalInfo", new { attrName = "동의안함", attrValue = "n" });
+        foreach (var item in reference.PAT_IsAgreePersonalInfo) AddMasterItem("PAT_IsAgreePersonalInfo", item);
 
-        // IRC_CoName 
-        foreach (string type in new[] { "GUN", "MED" }) 
-        {
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "SSH", IRC_CoName = "삼성화재" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "HDH", IRC_CoName = "현대해상" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "DBS", IRC_CoName = "DB손해보험" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "KBS", IRC_CoName = "KB손해보험" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "MRT", IRC_CoName = "메리츠화재" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "SSS", IRC_CoName = "삼성생명" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "HAS", IRC_CoName = "한화생명" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "KYB", IRC_CoName = "교보생명" });
-            AddMasterItem("IRC_CoName", new Insurance { IRC_Type = type, IRC_CoCd = "ETC", IRC_CoName = "기타" });
-        }
+        // IRC_CoName
+        foreach (var item in reference.IRC_CoName) AddMasterItem("IRC_CoName", item);
 
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "SSH", IRC_CoName = "삼성화재" });
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "HDH", IRC_CoName = "현대해상" });
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "DBS", IRC_CoName = "DB손해보험" });
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "KBS", IRC_CoName = "KB손해보험" });
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "MRT", IRC_CoName = "메리츠화재" });
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "AXA", IRC_CoName = "AXA손해보험" });
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "CAR", IRC_CoCd = "ETC", IRC_CoName = "기타" });
+        // ORDC_Cd
+        foreach (var item in reference.ORDC_Cd) AddMasterItem("ORDC_Cd", item);
 
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "GUN", IRC_CoName = "근로복지공단" });
-        AddMasterItem("IRC_CoName", new Insurance { IRC_Type = "SAN", IRC_CoCd = "ETC", IRC_CoName = "기타" });
-
-        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "ASM", vORDC_Cd = "진찰료" });
-        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "PRC", vORDC_Cd = "시술" });
-        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "TRT", vORDC_Cd = "처치" });
-        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "EXM", vORDC_Cd = "검사" });
-        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "DOC", vORDC_Cd = "문서" });
-        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "MED", vORDC_Cd = "투약" });
-        AddMasterItem("ORDC_Cd", new Order { ORDC_Cd = "ETC", vORDC_Cd = "기타" });
-
-        AddMasterItem("PAY_CutUnit", new { attrName = "절사기준", attrValue = 0 });
-        AddMasterItem("PAY_CutUnit", new { attrName = "10원", attrValue = 10 });
-        AddMasterItem("PAY_CutUnit", new { attrName = "100원", attrValue = 100 });
-        AddMasterItem("PAY_CutUnit", new { attrName = "1000원", attrValue = 1000 });
+        // PAY_CutUnit
+        foreach (var item in reference.PAY_CutUnit) AddMasterItem("PAY_CutUnit", item);
     }
 
     public List<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")

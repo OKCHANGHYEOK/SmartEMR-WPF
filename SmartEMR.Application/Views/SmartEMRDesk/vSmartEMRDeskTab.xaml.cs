@@ -178,7 +178,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
         if (ret == null || SmartMVVM.DataStore.retIsSuccess == false)
         {
-            SmartUI.SetNofification("환자정보 로딩중 오류가 발생했습니다. 다시 시도해주세요", NotificationType.Error);
+            SmartUI.SetNotification("환자정보 로딩중 오류가 발생했습니다. 다시 시도해주세요", NotificationType.Error);
             return;
         }
 

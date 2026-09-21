@@ -51,7 +51,7 @@ public partial class vSmartEMRConsultationTabCST : ModelViewLayout<ConsultationV
         if (dataGrid.IsDoubleClicked)
         {
             await SmartUI.SendMessage("SetSelectedCST", dataItem, viewType:TargetViewType.PageView);
-            SmartUI.SetNofification("진료 선택되었습니다.", NotificationType.Info);
+            SmartUI.SetNotification("진료 선택되었습니다.", NotificationType.Info);
         }
         else
         {

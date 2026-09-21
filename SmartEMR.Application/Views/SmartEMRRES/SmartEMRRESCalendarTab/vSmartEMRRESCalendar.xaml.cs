@@ -167,13 +167,13 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
 
         if (SmartMVVM.Common.IsPast(destination.RES_ReservationDate, destination.RES_ReservationTime))
         {
-            SmartUI.SetNofification("과거일시로는 변경하실 수 없습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("과거일시로는 변경하실 수 없습니다.", NotificationType.Warning);
             return false;
         }
 
         if (destination.RES_Idx.GetValueOrDefault(0) > 0)
         {
-            SmartUI.SetNofification("해당 시간에는 이미 예약이 존재합니다.", NotificationType.Warning);
+            SmartUI.SetNotification("해당 시간에는 이미 예약이 존재합니다.", NotificationType.Warning);
             return false;
         }
 

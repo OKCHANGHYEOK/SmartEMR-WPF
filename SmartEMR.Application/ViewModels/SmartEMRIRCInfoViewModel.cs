@@ -32,13 +32,13 @@ public partial class SmartEMRIRCInfoViewModel : InsuranceInfoViewModel
         var ret = await SmartMVVM.DataStore.GetItem<Insurance>(eAPI.Insurance_GetRecentInsurance, new Insurance { PAT_Idx = Model.PAT_Idx });
         if (ret is null)
         {
-            SmartUI.SetNofification("최근보험 정보가 존재하지 않습니다.", NotificationType.Warning);
+            SmartUI.SetNotification("최근보험 정보가 존재하지 않습니다.", NotificationType.Warning);
             return;
         }
 
         SmartMVVM.ModelProperty.SetInsuranceData(Model, ret, isCopy:true);
 
-        SmartUI.SetNofification("최근보험이 적용되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification("최근보험이 적용되었습니다.", NotificationType.Success);
     }
 
 

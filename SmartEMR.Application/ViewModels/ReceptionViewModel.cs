@@ -27,14 +27,14 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
             var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
             if (retPAT == null || !SmartMVVM.DataStore.retIsSuccess)
             {
-                SmartUI.SetNofification("삭제됐거나 존재하지 않는 환자입니다.", NotificationType.Error);
+                SmartUI.SetNotification("삭제됐거나 존재하지 않는 환자입니다.", NotificationType.Error);
                 return;
             }
 
             var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, new Reception { RCP_Idx = Model.RCP_Idx });
             if (retRCP == null || !SmartMVVM.DataStore.retIsSuccess)
             {
-                SmartUI.SetNofification("삭제됐거나 존재하지 않는 접수입니다.", NotificationType.Error);
+                SmartUI.SetNotification("삭제됐거나 존재하지 않는 접수입니다.", NotificationType.Error);
                 return;
             }
 
@@ -98,7 +98,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
 
             if (retRCP == null || SmartMVVM.DataStore.retIsSuccess == false)
             {
-                SmartUI.SetNofification($"접수{actionName}하지 못했습니다.", NotificationType.Error);
+                SmartUI.SetNotification($"접수{actionName}하지 못했습니다.", NotificationType.Error);
                 return;
             }
 
@@ -112,7 +112,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
 
         await NotifyCompletedTaskAsync(operation);
 
-        SmartUI.SetNofification($"접수{actionName}되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification($"접수{actionName}되었습니다.", NotificationType.Success);
     }
 
     private async Task<bool> DeleteDataAsync()
@@ -123,7 +123,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
 
         if (SmartMVVM.DataStore.retIsSuccess == false)
         {
-            SmartUI.SetNofification("접수취소하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("접수취소하지 못했습니다.", NotificationType.Error);
             return false;
         }
 

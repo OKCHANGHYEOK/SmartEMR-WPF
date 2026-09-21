@@ -57,7 +57,7 @@ public partial class PayViewModel : BaseViewModel<Pay>
         var ret = await SmartMVVM.DataStore.GetItems<Pay>(eAPI.Pay_GetPay, getPAY);
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("수납내역 조회에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("수납내역 조회에 실패했습니다.", NotificationType.Error);
             return false;
         }
 

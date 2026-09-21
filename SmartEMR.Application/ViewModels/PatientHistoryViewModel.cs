@@ -97,7 +97,7 @@ public partial class PatientHistoryViewModel : PatientViewModel
         var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { PAT_Idx = Model.PAT_Idx });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("예약이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("예약이력을 불러오는데 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -111,7 +111,7 @@ public partial class PatientHistoryViewModel : PatientViewModel
         var ret = await SmartMVVM.DataStore.GetItems<Reception>(eAPI.Reception_GetReception, new Reception { PAT_Idx = Model.PAT_Idx });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("접수이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("접수이력을 불러오는데 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -125,7 +125,7 @@ public partial class PatientHistoryViewModel : PatientViewModel
         var ret = await SmartMVVM.DataStore.GetItems<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = Model.PAT_Idx });
         if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("진료이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("진료이력을 불러오는데 실패했습니다.", NotificationType.Error);
             return;
         }
 
@@ -136,13 +136,13 @@ public partial class PatientHistoryViewModel : PatientViewModel
 
     private async Task FetchCSTOHistoryAsync()
     {
-        SmartUI.SetNofification("기능 구현중입니다.", NotificationType.Info);
+        SmartUI.SetNotification("기능 구현중입니다.", NotificationType.Info);
         return;
     }
 
     private async Task FetchPAYHistoryAsync()
     {
-        SmartUI.SetNofification("기능 구현중입니다.", NotificationType.Info);
+        SmartUI.SetNotification("기능 구현중입니다.", NotificationType.Info);
         return;
     }
 }

@@ -91,13 +91,13 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
 
         if (!SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("예약취소에 실패했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
+            SmartUI.SetNotification("예약취소에 실패했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
             return;
         }
 
         await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
 
-        SmartUI.SetNofification("예약취소되었습니다.", NotificationType.Success);
+        SmartUI.SetNotification("예약취소되었습니다.", NotificationType.Success);
     }
 
     public async Task CancelRCP(Reception item)
@@ -108,14 +108,14 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         
        if (!SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNofification("접수취소에 실패했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
+            SmartUI.SetNotification("접수취소에 실패했습니다. 잠시후 다시 시도해주세요.", NotificationType.Error);
             return;
         }
 
        await SmartUI.SendMessage("ClearRCP", new Reception { RCP_Idx = item.RCP_Idx }, viewType: TargetViewType.PageView);
        await SmartUI.SendMessage("RefreshRCB", viewType:TargetViewType.PageView);
 
-       SmartUI.SetNofification("접수취소되었습니다.", NotificationType.Success);
+       SmartUI.SetNotification("접수취소되었습니다.", NotificationType.Success);
     }
 
     public void SetRCB_YYMMDD(string RCB_YYMMDD)
@@ -128,7 +128,7 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
     {
         if (string.IsNullOrWhiteSpace(Model.Keyword))
         {
-            SmartUI.SetNofification("검색어를 1글자 이상 입력해주세요.", NotificationType.Warning);
+            SmartUI.SetNotification("검색어를 1글자 이상 입력해주세요.", NotificationType.Warning);
 
             await SmartUI.SendMessage("SetFocusToSearch");
 
@@ -138,7 +138,7 @@ public partial class SmartEMRDeskRCBViewModel : BaseViewModel<ReceptionBoard>
         bool hasResult = await FetchDataAsync();
         if (!hasResult)
         {
-            SmartUI.SetNofification("조회된 결과가 없습니다.", NotificationType.Info);
+            SmartUI.SetNotification("조회된 결과가 없습니다.", NotificationType.Info);
         }
     }
 

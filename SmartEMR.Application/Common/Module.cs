@@ -80,7 +80,7 @@ public static class Module
         }
         catch (Exception ex)
         {
-            SmartUI.SetNofification("이미지 업로드중 오류가 발생했습니다.", NotificationType.Error);
+            SmartUI.SetNotification("이미지 업로드중 오류가 발생했습니다.", NotificationType.Error);
             return null;
         }
     }
@@ -103,13 +103,13 @@ public static class Module
 
                 if (imageBytes.Length > 0)
                 {
-                    SmartUI.SetNofification("이미지가 선택되었습니다.", NotificationType.Success);
+                    SmartUI.SetNotification("이미지가 선택되었습니다.", NotificationType.Success);
                     return imageBytes;
                 }
             }
             catch (Exception ex)
             {
-                SmartUI.SetNofification("이미지 업로드에 실패했습니다. 다시 시도해주세요.", NotificationType.Error);
+                SmartUI.SetNotification("이미지 업로드에 실패했습니다. 다시 시도해주세요.", NotificationType.Error);
                 return null;
             }
         }

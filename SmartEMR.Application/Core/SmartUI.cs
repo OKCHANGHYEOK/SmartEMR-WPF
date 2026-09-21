@@ -87,7 +87,7 @@ public static partial class SmartUI
         // 락을 즉시 획득할 수 있는지 확인 및 이미 실행중이면 함수 종료
         if (!_navigationLock.Wait(0))
         {
-            SetNofification("페이지 로딩중입니다. 잠시 기다려주세요.", NotificationType.Info);
+            SetNotification("페이지 로딩중입니다. 잠시 기다려주세요.", NotificationType.Info);
             return;
         }
 
@@ -278,7 +278,7 @@ public static partial class SmartUI
 {
     private static NotificationService NotificationService => NotificationService.Instance;
 
-    public static void SetNofification(string message, NotificationType type)
+    public static void SetNotification(string message, NotificationType type)
     {
         var notiItem = new NotiItem();
 

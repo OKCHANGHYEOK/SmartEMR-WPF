@@ -2,7 +2,7 @@
 using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 
-namespace SmartEMR.Application.Common.DiplsayDataMapper;
+namespace SmartEMR.Application.Common.DisplayDataMapper;
 
 public class PayDisplayDataMapper : IDisplayDataMapper<Pay>
 {

@@ -193,7 +193,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
             var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, getItem);
             if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
             {
-                SmartUI.SetNofification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
+                SmartUI.SetNotification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
                 return;
             }
 

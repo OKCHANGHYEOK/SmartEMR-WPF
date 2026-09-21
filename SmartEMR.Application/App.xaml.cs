@@ -22,7 +22,7 @@ namespace SmartEMR.Application
         private static Mutex? _mutex;
         private SplashScreenManager? _splashScreenManager;
 
-        private const int MUR_Idx = 100000;
+        private static int MUR_Idx => AppConfig.Settings.Development.AutoLoginUserIdx;
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -43,6 +43,9 @@ namespace SmartEMR.Application
             base.OnStartup(e);
 
             DevExpress.Xpf.Core.ApplicationThemeHelper.ApplicationThemeName = Theme.Win10LightName;
+
+            SmartMVVM.DataStore.APIUrl = AppConfig.Settings.Api.BaseUrl;
+            SmartMVVM.DataStore.RequestTimeoutSeconds = AppConfig.Settings.Api.RequestTimeoutSeconds;
 
             var isLogin = false;
 
