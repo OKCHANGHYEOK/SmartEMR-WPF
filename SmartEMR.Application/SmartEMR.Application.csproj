@@ -13,9 +13,13 @@
 
   <ItemGroup>
     <Compile Remove="Infrastructure\**" />
+    <Compile Remove="Views\SmartEMRDesk\Patient\**" />
     <EmbeddedResource Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="Views\SmartEMRDesk\Patient\**" />
     <None Remove="Infrastructure\**" />
+    <None Remove="Views\SmartEMRDesk\Patient\**" />
     <Page Remove="Infrastructure\**" />
+    <Page Remove="Views\SmartEMRDesk\Patient\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -202,10 +206,6 @@
     <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderORD.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\SmartEMRDesk\Patient\" />
   </ItemGroup>
 
 </Project>
