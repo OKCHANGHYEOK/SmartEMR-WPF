@@ -27,7 +27,7 @@ public class ColumnItem
     public string Header { get; set; } = string.Empty;
     public ColumnType ColumnType { get; set; } = ColumnType.Label;
     public ColumnStyle? ColumnStyle { get; set; }
-    public double ColumnWidth { get; set; }
+    public double ColumnWidth { get; set; } = Double.NegativeZero;
     public double FontSize { get; set; } = 11;
     public FontWeight FontWeight { get; set; } = FontWeights.Normal;
     public Brush? Foreground { get; set; } = Brushes.Black;

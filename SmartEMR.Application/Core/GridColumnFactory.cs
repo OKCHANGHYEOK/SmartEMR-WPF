@@ -25,7 +25,7 @@ public class GridColumnFactory
 
         element.FieldName = item.FieldName;
         element.Header = item.Header;
-        element.Width = item.ColumnWidth > 0 ? new GridColumnWidth(item.ColumnWidth, GridColumnUnitType.Pixel) : item.ColumnWidth == 0 ? 0 : new GridColumnWidth(1, GridColumnUnitType.Star);
+        element.Width = GetColumnWidth(item);
         element.HorizontalHeaderContentAlignment = HorizontalAlignment.Center;
         element.CellTemplate = GetCellTemplate(item);
         element.ColumnItem = item;
@@ -50,6 +50,18 @@ public class GridColumnFactory
             ColumnStyle.Sum => HorizontalAlignment.Right,
             _ => HorizontalAlignment.Left
         };
+    }
+
+    private static GridColumnWidth GetColumnWidth(ColumnItem item)
+    {
+        if (item.ColumnWidth == Double.NegativeZero)
+        {
+            return new GridColumnWidth(1, GridColumnUnitType.Star);
+        }
+        else
+        {
+            return new GridColumnWidth(item.ColumnWidth, GridColumnUnitType.Pixel);
+        }
     }
 
     private static DataTemplate? GetCellTemplate(ColumnItem item)
