@@ -536,6 +536,17 @@ public class ModelProperty
 
     #region "Pay"
 
+    public void SetDefaultPayData(Pay item)
+    {
+        item.PAY_InsuredPrice = 0;
+        item.PAY_NonInsuredPrice = 0;
+        item.PAY_OwnPatientPrice = 0;
+        item.PAY_TotalPrice = 0;
+        item.PAY_PaidPrice = 0;
+        item.PAY_RemainPrice = 0;
+        item.PAY_CutUnit = 0;
+    }
+
     public void SetPayData(Pay oldItem, Pay newItem)
     {
         oldItem.PAY_InsuredPrice = newItem.PAY_InsuredPrice;

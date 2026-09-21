@@ -23,13 +23,7 @@ public partial class PayInfoViewModel : PayViewModel
 
     protected override Pay GetModel(Pay item)
     {
-        item.PAY_InsuredPrice = 0;
-        item.PAY_NonInsuredPrice = 0;
-        item.PAY_OwnPatientPrice = 0;
-        item.PAY_TotalPrice = 0;
-        item.PAY_RemainPrice = 0;
-        item.PAY_CutUnit = 0;
-
+        SmartMVVM.ModelProperty.SetDefaultPayData(item);
         return item;
     }
 
