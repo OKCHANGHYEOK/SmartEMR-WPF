@@ -1,48 +1,17 @@
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Core;
 
 /// <summary>
-/// ReferenceData.json 항목 중 이름/값 쌍으로 구성된 항목 (DisplayMember="attrName", ValueMember="attrValue" 바인딩용)
+/// ReferenceData.json 항목 중 이름/값 쌍으로 구성된 항목입니다.
+/// ValueMember의 선언 타입을 실제 모델 값과 일치시켜 DevExpress가 불필요한 문자열 변환을 하지 않도록 합니다.
 /// </summary>
-public class AttrItem
+public class AttrItem<T>
 {
     public string? attrName { get; set; }
-
-    [JsonConverter(typeof(AttrItemValueConverter))]
-    public object? attrValue { get; set; }
-}
-
-public class AttrItemValueConverter : JsonConverter<object?>
-{
-    public override object? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        switch (reader.TokenType)
-        {
-            case JsonTokenType.Number:
-                return reader.TryGetInt32(out int intValue) ? intValue : reader.GetDouble();
-
-            case JsonTokenType.String:
-                return reader.GetString();
-
-            case JsonTokenType.True:
-                return true;
-
-            case JsonTokenType.False:
-                return false;
-
-            default:
-                return null;
-        }
-    }
-
-    public override void Write(Utf8JsonWriter writer, object? value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(writer, value, value?.GetType() ?? typeof(object), options);
-    }
+    public T attrValue { get; set; } = default!;
 }
 
 /// <summary>
@@ -51,12 +20,12 @@ public class AttrItemValueConverter : JsonConverter<object?>
 public class MasterReferenceData
 {
     public List<Patient> PAT_Sex { get; set; } = new();
-    public List<AttrItem> PAT_IsSolar { get; set; } = new();
-    public List<AttrItem> PAT_IsForegin { get; set; } = new();
-    public List<AttrItem> PAT_IsAgreePersonalInfo { get; set; } = new();
+    public List<AttrItem<string>> PAT_IsSolar { get; set; } = new();
+    public List<AttrItem<string>> PAT_IsForegin { get; set; } = new();
+    public List<AttrItem<string>> PAT_IsAgreePersonalInfo { get; set; } = new();
     public List<Insurance> IRC_CoName { get; set; } = new();
     public List<Order> ORDC_Cd { get; set; } = new();
-    public List<AttrItem> PAY_CutUnit { get; set; } = new();
+    public List<AttrItem<int>> PAY_CutUnit { get; set; } = new();
 }
 
 public static class ReferenceDataLoader
