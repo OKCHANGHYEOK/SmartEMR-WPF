@@ -75,7 +75,9 @@ namespace SmartEMR.Application
             var services = new ServiceCollection();
 
             services.AddSingleton<IDataStore>(_ => SmartMVVM.DataStore);
+            
             services.AddSingleton<IPayService, PayService>();
+            services.AddSingleton<IConsultationOrderService, ConsultationOrderService>();
 
             this.Services = services.BuildServiceProvider();
         }

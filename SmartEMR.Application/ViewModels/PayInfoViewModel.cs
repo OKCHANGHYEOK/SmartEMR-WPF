@@ -11,6 +11,8 @@ public partial class PayInfoViewModel : PayViewModel
 {
     public Consultation SelectedCST { get; set; } = new();
 
+    private IConsultationOrderService _consultationOrderService;
+
     [ObservableProperty]
     private List<ConsultationOrder> consultationOrders = default!;
 
@@ -20,7 +22,10 @@ public partial class PayInfoViewModel : PayViewModel
         new ConsultationOrder { CSTO_InsuranceTypeName = "비급여", IsVisible = false }
     };
 
-    public PayInfoViewModel(IPayService payService) : base(payService) { }
+    public PayInfoViewModel(IPayService payService, IConsultationOrderService consultationOrderService) : base(payService) 
+    {
+        _consultationOrderService = consultationOrderService;
+    }
 
     protected override Pay GetModel(Pay item)
     {
@@ -62,17 +67,14 @@ public partial class PayInfoViewModel : PayViewModel
 
     private async Task UpdateCSTOData()
     {
-        var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, new ConsultationOrder { CST_Idx = SelectedCST.CST_Idx });
-
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _consultationOrderService.GetConsultationOrders(new ConsultationOrder { CST_Idx = SelectedCST.CST_Idx });
+        if (ret.Items is null || !ret.IsSuccess)
         {
-            SmartUI.SetNotification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 
-        DisplayDataMappers.ConsultationOrderDisplayDataMapper.Map(ret);
-
-        ConsultationOrders = [.. _defaultGroupHeaders, .. ret];
+        ConsultationOrders = [.. _defaultGroupHeaders, .. ret.Items];
     }
 
     private void ClearData()

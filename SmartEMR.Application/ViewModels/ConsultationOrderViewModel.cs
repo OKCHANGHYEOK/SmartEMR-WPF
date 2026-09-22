@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Collections.ObjectModel;
@@ -10,6 +11,8 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrder>
 {
+    private IConsultationOrderService _consultationOrderService;
+
     [ObservableProperty]
     private ObservableCollection<ConsultationOrder> consultationOrderItems = new();
     private List<ConsultationOrder> deletedItems = new();
@@ -28,6 +31,11 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
             return CopaymentType.General;
         }
+    }
+
+    public ConsultationOrderViewModel(IConsultationOrderService consultationOrderService)
+    {
+        _consultationOrderService = consultationOrderService;
     }
 
     public override void Initialize()
@@ -190,16 +198,14 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
                 SortDir = "desc"
             };
 
-            var ret = await SmartMVVM.DataStore.GetItems<ConsultationOrder>(eAPI.ConsultationOrder_GetConsultationOrder, getItem);
-            if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+            var ret = await _consultationOrderService.GetConsultationOrders(getItem);
+            if (ret.Items is null || !ret.IsSuccess)
             {
-                SmartUI.SetNotification("처방내역을 불러오지 못했습니다.", NotificationType.Error);
+                SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
                 return;
             }
 
-            DisplayDataMappers.ConsultationOrderDisplayDataMapper.Map(ret);
-
-            foreach (var cItem in ret)
+            foreach (var cItem in ret.Items)
             {
                 ConsultationOrderItems.Add(cItem);
             }

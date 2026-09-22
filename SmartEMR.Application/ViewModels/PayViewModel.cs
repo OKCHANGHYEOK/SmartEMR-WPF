@@ -28,7 +28,7 @@ public partial class PayViewModel : BaseViewModel<Pay>
     public override async Task InitializeAsync()
     {
         await FetchDataAsync();
-    }
+     }
 
     protected override Pay GetModel(Pay item)
     {
