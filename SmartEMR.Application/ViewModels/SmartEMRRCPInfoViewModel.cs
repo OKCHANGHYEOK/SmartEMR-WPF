@@ -35,9 +35,9 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
     }
 
     [RelayCommand]
-    public async Task RequestSetRCP(SaveMode operation)
+    public async Task RequestSetRCP(SaveMode saveMode)
     {
-        await SmartUI.SendMessage("SetReception", operation, viewType:TargetViewType.PageView);
+        await SmartUI.SendMessage("SetReception", saveMode, viewType:TargetViewType.PageView);
     }
 
     public async Task SetReceptionData(Reception? item = null)

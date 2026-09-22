@@ -39,11 +39,25 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
                 }
 
                 break;
+
+            case "RefreshPAY":
+                await SmartEMRPayTabPAY.RefreshData();
+                break;
         }
 
         response.IsSuccess = true;
 
         return response;
+    }
+
+    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    {
+        if (types.Contains(RefreshPageType.PAY))
+        {
+            await SmartEMRPayTabPAY.RefreshData();
+
+            types.RemoveAll(x => x == RefreshPageType.PAY);
+        }
     }
 
     private async Task SetSelectedPAY(Pay item)

@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Common.Converter.etc;
+using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using System.Text.Json;
 
@@ -495,8 +496,8 @@ public class ModelProperty
         oldItem.vCST_SubjectName = newItem.CST_Subject == "ETC" ? newItem.CST_SubjectName : SmartMVVM.Common.GetCommonCodeName("CST", "Subject", newItem.CST_Subject ?? "");
         oldItem.CST_StartTime = newItem.CST_StartTime;
         oldItem.CST_EndTime = newItem.CST_EndTime;
-        oldItem.CST_Time = $"{newItem.CST_StartTime} ~ {newItem.CST_EndTime}"; 
-        oldItem.CST_Opinion = newItem.CST_Opinion;
+        oldItem.CST_Time = $"{newItem.CST_StartTime} ~ {newItem.CST_EndTime}";
+        oldItem.CST_Opinion = RtfConverter.ConvertRtfToPlainText(newItem.CST_Opinion ?? "");
         oldItem.CST_Memo = newItem.CST_Memo;
         oldItem.CST_YYMMDD = newItem.CST_YYMMDD;
     }
@@ -536,6 +537,26 @@ public class ModelProperty
 
     #region "Pay"
 
+    public Pay GetPayDataForSave(Pay item)
+    {
+        return new Pay
+        {
+            PAY_Idx = item.PAY_Idx,
+            CST_Idx = item.CST_Idx,
+            PAT_Idx = item.PAT_Idx,
+
+            PAY_Status = item.PAY_Status,
+            PAY_InsuredPrice = item.PAY_InsuredPrice,
+            PAY_NonInsuredPrice = item.PAY_NonInsuredPrice,
+            PAY_OwnPatientPrice = item.PAY_OwnPatientPrice,
+            PAY_TotalPrice = item.PAY_TotalPrice,
+            PAY_PaidPrice = item.PAY_PaidPrice,
+            PAY_RemainPrice = item.PAY_RemainPrice,
+            PAY_Memo = item.PAY_Memo,
+            PAY_IsValid = item.PAY_IsValid
+        };
+    }
+
     public void SetDefaultPayData(Pay item)
     {
         item.PAY_InsuredPrice = 0;
@@ -549,10 +570,23 @@ public class ModelProperty
 
     public void SetPayData(Pay oldItem, Pay newItem)
     {
+        oldItem.PAY_Idx = newItem.PAY_Idx;
+        oldItem.PAT_Idx = newItem.PAT_Idx;
+        oldItem.CST_Idx = newItem.CST_Idx;
+        oldItem.PAY_Status = newItem.PAY_Status;
+        oldItem.PAY_Memo = newItem.PAY_Memo;
+
+        SetPayPriceData(oldItem, newItem);
+    }
+
+    public void SetPayPriceData(Pay oldItem, Pay newItem)
+    {
         oldItem.PAY_InsuredPrice = newItem.PAY_InsuredPrice;
         oldItem.PAY_OwnPatientPrice = newItem.PAY_OwnPatientPrice;
         oldItem.PAY_NonInsuredPrice = newItem.PAY_NonInsuredPrice;
         oldItem.PAY_TotalPrice = newItem.PAY_TotalPrice;
+        oldItem.PAY_PaidPrice = newItem.PAY_PaidPrice;
+        oldItem.PAY_RemainPrice = newItem.PAY_RemainPrice;
     }
 
     public void ClearPAYData(Pay item)

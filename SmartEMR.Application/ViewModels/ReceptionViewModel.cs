@@ -62,22 +62,22 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
     }
 
     [RelayCommand]
-    public async Task SetReception(SaveMode operation)
+    public async Task SetReception(SaveMode saveMode)
     {
-       await SaveDataAsync(operation);
+       await SaveDataAsync(saveMode);
     }
 
-    public async Task SaveDataAsync(SaveMode operation)
+    public async Task SaveDataAsync(SaveMode saveMode)
     {
         bool isNew = RCPItem.RCP_Idx.GetValueOrDefault(0) == 0;
-        string actionName = operation switch
+        string actionName = saveMode switch
         {
             SaveMode.SAVE => isNew ? "등록" : "수정",
             SaveMode.DELETE => "취소",
             _ => ""
         };
 
-        if (operation == SaveMode.DELETE)
+        if (saveMode == SaveMode.DELETE)
         {
             if (!await DeleteDataAsync()) return;
         }
@@ -110,7 +110,7 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
             }
         }
 
-        await NotifyCompletedTaskAsync(operation);
+        await NotifyCompletedTaskAsync(saveMode);
 
         SmartUI.SetNotification($"접수{actionName}되었습니다.", NotificationType.Success);
     }
@@ -130,12 +130,12 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
         return true;
     }
 
-    protected override async Task NotifyCompletedTaskAsync(SaveMode operation)
+    protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
         await SmartUI.SendMessage("CloseView");
         await SmartUI.SendMessage("RefreshRCB", viewType: TargetViewType.PageView);
 
-        if (operation == SaveMode.SAVE)
+        if (saveMode == SaveMode.SAVE)
         {
             await SmartUI.SendMessage("UpdateRCPInfo", RCPItem, viewType: TargetViewType.PageView);
         }

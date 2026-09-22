@@ -7,7 +7,8 @@ public enum RefreshPageType
 {
     RES,
     DSK,
-    CST
+    CST,
+    PAY
 }
 
 public partial class ViewMessenger

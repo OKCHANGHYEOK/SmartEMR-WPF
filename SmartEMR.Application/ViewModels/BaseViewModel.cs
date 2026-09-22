@@ -25,7 +25,7 @@ public abstract partial class BaseViewModel : ObservableObject
         return Task.CompletedTask;
     }
 
-    protected virtual Task NotifyCompletedTaskAsync(SaveMode operation)
+    protected virtual Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
         return Task.CompletedTask;
     }

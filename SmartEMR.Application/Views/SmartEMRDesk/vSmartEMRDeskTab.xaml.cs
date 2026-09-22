@@ -71,9 +71,9 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                 {
                     var parameter = (SaveMode?)request.MessageParameter;
 
-                    if (parameter is SaveMode operation)
+                    if (parameter is SaveMode saveMode)
                     {
-                        await vm.SaveDataAsync(operation);
+                        await vm.SaveDataAsync(saveMode);
                     }
 
                     break;

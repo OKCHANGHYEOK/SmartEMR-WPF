@@ -334,17 +334,17 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     }
 
     [RelayCommand]
-    public async Task SetReservation(SaveMode operation)
+    public async Task SetReservation(SaveMode saveMode)
     {
         bool isNew = Model.RES_Idx.GetValueOrDefault(0) == 0;
-        string actionName = operation switch
+        string actionName = saveMode switch
         {
             SaveMode.SAVE => isNew ? "등록" : "수정",
             SaveMode.DELETE => "삭제",
             _ => ""
         };
 
-        if (operation == SaveMode.DELETE)
+        if (saveMode == SaveMode.DELETE)
         {
             if (!await DeleteReservationAsync()) return;
         }
@@ -380,7 +380,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             }
         }
 
-        await NotifyCompletedTaskAsync(operation);
+        await NotifyCompletedTaskAsync(saveMode);
 
         SmartUI.SetNotification($"예약{actionName}되었습니다.", NotificationType.Success);
     }
@@ -411,7 +411,7 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         SmartUI.SetNotification($"{msg} 되었습니다.", NotificationType.Success);
     }
 
-    protected override async Task NotifyCompletedTaskAsync(SaveMode operation = SaveMode.SAVE)
+    protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode = SaveMode.SAVE)
     {
         await SmartUI.SendMessage("CloseView");
         await SmartUI.SendMessage("RefreshRCB", viewType: TargetViewType.PageView);

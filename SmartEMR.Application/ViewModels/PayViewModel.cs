@@ -10,7 +10,8 @@ public partial class PayViewModel : BaseViewModel<Pay>
 {
     public string NowYYYYMMDD { get; set; } = DateTime.Now.ToString("yyyy.MM.dd");
 
-    private IPayService _payService;
+    protected IPayService _payService;
+
     private bool _isinitliazed = false;
 
     [ObservableProperty]

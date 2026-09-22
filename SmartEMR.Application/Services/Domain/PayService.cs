@@ -3,7 +3,6 @@ using SmartEMR.Application.Core;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using SmartEMR.Infrastructure;
-using static DevExpress.Office.Utils.HdcOriginModifier;
 
 namespace SmartEMR.Application.Services.Domain;
 
@@ -54,7 +53,9 @@ internal class PayService : IPayService
             return result;
         }
 
+        result.Items = ret;
         result.IsSuccess = true;
+        
         return result;
     }
 
@@ -97,17 +98,53 @@ internal class PayService : IPayService
     public async Task<ServiceResult<Pay>> SetPay(Pay item)
     {
         var result = new ServiceResult<Pay>();
+        
+        var setPAY = SmartMVVM.ModelProperty.GetPayDataForSave(item);
+        var ret = await _dataStore.GetItem<Pay>(eAPI.Pay_SetPay, setPAY);
+        
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = "수납 저장에 실패했습니다.";
+            return result;
+        }
 
+        result.Item = ret;
         result.IsSuccess = true;
+
+        return result;
+    }
+
+    public async Task<ServiceResult<Pay>> CancelPay(int PAY_Idx)
+    {
+        var result = new ServiceResult<Pay>();
+        var ret = await _dataStore.GetItem<Pay>(eAPI.Pay_CancelPay, new Pay { PAY_Idx = PAY_Idx }); 
+        
+        if (!_dataStore.retIsSuccess || !string.IsNullOrWhiteSpace(_dataStore.retMessage))
+        {
+            result.Message = "수납취소에 실패했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
         return result;
     }
 
     public async Task<ServiceResult<PayItem>> SetPayItem(PayItem item)
     {
         var result = new ServiceResult<PayItem>();
+        var ret = await _dataStore.GetItem<PayItem>(eAPI.PayItem_SetPayItem, item);
 
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = _dataStore.retMessage;
+            return result;
+        }
+
+        result.Item = ret;
         result.IsSuccess = true;
-        return result;
 
+        return result;
     }
 }

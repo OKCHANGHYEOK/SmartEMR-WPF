@@ -292,11 +292,11 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Model.CST_Status = CST_Status;
     }
 
-    protected override async Task NotifyCompletedTaskAsync(SaveMode operation)
+    protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
         await SmartUI.SendMessage("RefreshCST");
 
-        switch (operation)
+        switch (saveMode)
         {
             case SaveMode.SAVE:
                 await SmartUI.SendMessage("SetSelectedCST", Model.Clone());
@@ -308,7 +308,9 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         }
 
         SmartUI.AddRefreshRequest(RefreshPageType.DSK);
-        SmartUI.SetNotification($"진료{(operation == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
+        SmartUI.AddRefreshRequest(RefreshPageType.PAY);
+
+        SmartUI.SetNotification($"진료{(saveMode == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
     }
 
     [RelayCommand]

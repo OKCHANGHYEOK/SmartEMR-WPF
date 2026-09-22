@@ -67,4 +67,9 @@ public partial class vSmartEMRPayTabPAY : ModelViewLayout<PayViewModel>
             }
         }
     }
+
+    public async Task RefreshData()
+    {
+        await vm.FetchDataAsync();
+    }
 }

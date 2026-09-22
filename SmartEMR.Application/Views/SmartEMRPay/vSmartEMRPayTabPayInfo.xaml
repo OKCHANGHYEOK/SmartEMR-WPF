@@ -29,7 +29,7 @@
                         Padding="0"
                         ShowShadow="Never">
 
-            <Xpf:BindGrid LayoutDefinitions="2,6"
+            <Xpf:BindGrid LayoutDefinitions="2,5"
                           BindStyle="DataCell"
                           DataContext="{Binding SelectedCST}">
 
@@ -76,7 +76,8 @@
                               Col="0"
                               ColSpan="2"
                               Row="3"
-                              RowSpan="3"
+                              RowSpan="2"
+                              ContentAlignment="LeftTop"
                               IsEnabled="False"/>
             </Xpf:BindGrid>
         </dxlc:GroupBox>
@@ -273,47 +274,27 @@
                         </Xpf:BindItem>
                     </x:Array>
 
+                    <Xpf:BindItem   FieldName="PAY_RemainPrice"
+                                    Header="미 수 납 금"
+                                    BindType="TextBox"
+                                    HeaderFontWeight="SemiBold"
+                                    HeaderForeground="#DC2626"
+                                    Col="0"
+                                    Row="2"
+                                    IsReadOnly="True"/>
+
                     <x:Array Type="{x:Type Xpf:BindItem}">
-                        <Xpf:BindItem   FieldName="PAY_RemainPrice"
-                                        Header="미 수 납 금"
-                                        BindType="TextBox"
-                                        HeaderFontWeight="SemiBold"
-                                        HeaderForeground="#DC2626"
-                                        Col="0"
-                                        ColSpan="2"
-                                        Row="2"
-                                        IsReadOnly="True"/>
-
-                        <Xpf:BindItem   FieldName="PAY_DiscountPrice"
-                                        BindType="TextBox"
-                                        Width="127"
-                                        Placeholder="할인금액 입력"
-                                        IsNumericOnly="True"/>
-
                         <Xpf:BindItem   FieldName="PAY_CutUnit"
                                         BindType="ComboBox"
-                                        Width="100"
+                                        Col="1"
+                                        Row="2"
                                         ItemsSource="{x:Static selection:InputOptionItems.PayCutUnits}"
                                         DisplayMember="attrName"
-                                        ValueMember="attrValue"/>
-
-                        <Xpf:BindItem   FieldName="btnDiscount"
-                                        Width="100"
-                                        IsBinding="False"
-                                        IsBindClickEvent="True">
-
-                            <dxc:SimpleButton   Content="할인"
-                                                Background="#E8F1F8"
-                                                Foreground="#3F6B89"
-                                                FontWeight="SemiBold"
-                                                Glyph="/Images/smartemr_discount.png"
-                                                GlyphWidth="16"
-                                                GlyphHeight="16"
-                                                Padding="2"/>
-                        </Xpf:BindItem>
+                                        ValueMember="attrValue"
+                                        IsHeader="False"/>
 
                         <Xpf:BindItem   FieldName="btnCutting"
-                                        Width="100"
+                                        Width="60"
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
@@ -326,21 +307,43 @@
                                                 GlyphHeight="16"
                                                 Padding="2"/>
                         </Xpf:BindItem>
-                    </x:Array>
 
-                    <x:Array Type="{x:Type Xpf:BindItem}">
-                        <Xpf:BindItem   FieldName="PAY_PriceForPay"
-                                        Header="수 납 금 액"
+                        <Xpf:BindItem   FieldName="PAY_DiscountPrice"
                                         BindType="TextBox"
-                                        Col="0"
-                                        ColSpan="2"
-                                        Row="3"
-                                        Placeholder="금액입력"
+                                        Placeholder="할인금액"
                                         IsNumericOnly="True"/>
 
+                        <Xpf:BindItem   FieldName="btnDiscount"
+                                        Width="60"
+                                        IsBinding="False"
+                                        IsBindClickEvent="True">
+
+                            <dxc:SimpleButton   Content="할인"
+                                                Background="#E8F1F8"
+                                                Foreground="#3F6B89"
+                                                FontWeight="SemiBold"
+                                                Glyph="/Images/smartemr_discount.png"
+                                                GlyphWidth="16"
+                                                GlyphHeight="16"
+                                                Padding="2"/>
+                        </Xpf:BindItem>
+                    </x:Array>
+
+                    <Xpf:BindItem   FieldName="PAY_PriceForPay"
+                                    Header="수 납 금 액"
+                                    BindType="TextBox"
+                                    Col="0"
+                                    Row="3"
+                                    Placeholder="금액입력"
+                                    IsNumericOnly="True"/>
+
+                    <x:Array Type="{x:Type Xpf:BindItem}">
                         <Xpf:BindItem   FieldName="btnCash"
                                         Header=""
-                                        Width="100"
+                                        Col="1"
+                                        Row="3"
+                                        Width="95"
+                                        IsHeader="False"
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
@@ -357,7 +360,7 @@
 
                         <Xpf:BindItem   FieldName="btnCard"
                                         Header=""
-                                        Width="100"
+                                        Width="95"
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
@@ -374,7 +377,6 @@
 
                         <Xpf:BindItem   FieldName="btnNaverPay"
                                         Header=""
-                                        Width="100"
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
@@ -393,7 +395,8 @@
 
                 <Border Grid.Row="1" Height="1" Background="LightGray" Margin="0,1,0,1"/>
 
-                <Xpf:DataGrid Grid.Row="2">
+                <Xpf:DataGrid Grid.Row="2"
+                              ItemsSource="{Binding PayItems}">
                     <Xpf:ColumnItem FieldName="PAYI_YYMMDD"
                                     Header="처리일자"
                                     ColumnWidth="80"/>
@@ -437,6 +440,8 @@
                                 FontWeight="SemiBold"
                                 Background="#F3F3F3"
                                 Margin="1,0,1,0"
+                                Command="{Binding CancelPayCommand}"
+                                Cursor="Hand"
                                 dxc:ThemeManager.ThemeName="Office2019Colorful"/>
 
             <dxc:SimpleButton   Grid.Column="4"
@@ -445,6 +450,8 @@
                                 Background="#3F6B89"
                                 Foreground="#FFFFFF"
                                 Margin="1,0,1,0"
+                                Command="{Binding SetPayCommand}"
+                                Cursor="Hand"
                                 dxc:ThemeManager.ThemeName="Office2019Colorful"/>
         </Xpf:StyleGrid>
     </Xpf:StyleGrid>
