@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
@@ -8,10 +9,10 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class PayInfoViewModel : PayViewModel
 {
+    public Consultation SelectedCST { get; set; } = new();
+
     [ObservableProperty]
     private List<ConsultationOrder> consultationOrders = default!;
-
-    public Consultation SelectedCST { get; set; } = new();
 
     private List<ConsultationOrder> _defaultGroupHeaders = new List<ConsultationOrder>
     {
@@ -19,7 +20,7 @@ public partial class PayInfoViewModel : PayViewModel
         new ConsultationOrder { CSTO_InsuranceTypeName = "비급여", IsVisible = false }
     };
 
-    public PayInfoViewModel() { }
+    public PayInfoViewModel(IPayService payService) : base(payService) { }
 
     protected override Pay GetModel(Pay item)
     {

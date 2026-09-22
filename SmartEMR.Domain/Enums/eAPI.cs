@@ -33,14 +33,17 @@ public enum eAPI
     Pay_GetPay = 19,
     Pay_SetPay = 20,
 
-    Reception_CancelReception = 21,
-    Reception_GetReception = 22,
-    Reception_GetReceptionBoard = 23,
-    Reception_SetReception = 24,
-    Reception_SetReceptionByRES = 25,
+    PayItem_GetPayItem = 21,
+    PayItem_SetPayItem = 22,
 
-    Reservation_GetReservation = 26,
-    Reservation_MoveReservationDate = 27,
-    Reservation_SetReservation = 28,
-    Reservation_SetReservationByStatus = 29
+    Reception_CancelReception = 23,
+    Reception_GetReception = 24,
+    Reception_GetReceptionBoard = 25,
+    Reception_SetReception = 26,
+    Reception_SetReceptionByRES = 27,
+
+    Reservation_GetReservation = 28,
+    Reservation_MoveReservationDate = 29,
+    Reservation_SetReservation = 30,
+    Reservation_SetReservationByStatus = 31
 }

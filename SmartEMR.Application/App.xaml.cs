@@ -10,6 +10,9 @@ using DevExpress.Xpf.Core;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Views;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using SmartEMR.Infrastructure;
+using SmartEMR.Application.Services.Domain;
 
 namespace SmartEMR.Application
 {
@@ -18,6 +21,8 @@ namespace SmartEMR.Application
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        public IServiceProvider Services { get; private set; } = default!;
+
         private static readonly string AppName = "Global\\SmartEMR_Application_Unique_Mutex_Key_2026";
         private static Mutex? _mutex;
         private SplashScreenManager? _splashScreenManager;
@@ -39,7 +44,9 @@ namespace SmartEMR.Application
 
                 return;
             }
-            
+
+            ConfigureServices();
+
             base.OnStartup(e);
 
             DevExpress.Xpf.Core.ApplicationThemeHelper.ApplicationThemeName = Theme.Win10LightName;
@@ -47,6 +54,34 @@ namespace SmartEMR.Application
             SmartMVVM.DataStore.APIUrl = AppConfig.Settings.Api.BaseUrl;
             SmartMVVM.DataStore.RequestTimeoutSeconds = AppConfig.Settings.Api.RequestTimeoutSeconds;
 
+            if (!await ProcessLoginAsync()) return;
+
+            _splashScreenManager = SplashScreenManager.CreateThemed();
+            _splashScreenManager.Show();
+
+            await InitializeAppData();
+
+            var window = new SmartEMRWindow();
+            window.Loaded += (s, e) => _splashScreenManager.Close();
+
+            await window.InitializeAsync();
+
+            this.MainWindow = window;
+            this.MainWindow.Show();
+        }
+
+        private void ConfigureServices()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingleton<IDataStore>(_ => SmartMVVM.DataStore);
+            services.AddSingleton<IPayService, PayService>();
+
+            this.Services = services.BuildServiceProvider();
+        }
+
+        private async Task<bool> ProcessLoginAsync()
+        {
             var isLogin = false;
 
             try
@@ -62,21 +97,10 @@ namespace SmartEMR.Application
             if (!isLogin)
             {
                 Shutdown();
-                return;
+                return false;
             }
 
-            _splashScreenManager = SplashScreenManager.CreateThemed();
-            _splashScreenManager.Show();
-
-            await InitializeAppData();
-
-            var window = new SmartEMRWindow();
-            window.Loaded += (s, e) => _splashScreenManager.Close();
-
-            await window.InitializeAsync();
-
-            this.MainWindow = window;
-            this.MainWindow.Show();
+            return true;
         }
 
         private bool SetAuthenticateUser()

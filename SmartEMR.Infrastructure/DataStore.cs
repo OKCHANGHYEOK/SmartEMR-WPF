@@ -9,7 +9,7 @@ using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Infrastructure;
 
-public class DataStore
+public class DataStore : IDataStore
 {
     private class RefreshTokenRequest
     {
@@ -26,9 +26,8 @@ public class DataStore
 
     public int RequestTimeoutSeconds { get; set; } = 180;
 
-    // API 응답 상태를 저장하는 속성들
     public string? retMessage { get; set; }
-    public int? retStatusCode { get; set; } // eResponseCode에 맞게 int로 변경 권장
+    public int? retStatusCode { get; set; }
     public int? retCount { get; set; }
     public bool retIsSuccess { get; set; }
 

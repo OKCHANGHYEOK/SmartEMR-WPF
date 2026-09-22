@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
@@ -225,13 +226,15 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
     {
         if (!typeof(IViewModel).IsAssignableFrom(typeof(T))) return;
 
+        var services = ((App)App.Current).Services;
+
         if (item != null)
         {
-            this.DataContext = (T)Activator.CreateInstance(typeof(T), item)!;
+            this.DataContext = ActivatorUtilities.CreateInstance<T>(services, item);
         }
         else
         {
-            this.DataContext = Activator.CreateInstance<T>();
+            this.DataContext = ActivatorUtilities.CreateInstance<T>(services);
         }
     }
 
