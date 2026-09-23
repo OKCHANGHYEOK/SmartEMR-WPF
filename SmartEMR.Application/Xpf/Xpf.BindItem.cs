@@ -38,7 +38,7 @@ public class BindItem
     public int Row { get; set; }
     public int RowSpan { get; set; } = 1;
     public string? TextValue { get; set; }
-    public int MaxLength { get; set; } 
+    public int MaxLength { get; set; }
     public string Placeholder { get; set; } = "";
     public UIElement? Content { get; set; }
     public double Width { get; set; }

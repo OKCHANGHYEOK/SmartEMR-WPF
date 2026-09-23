@@ -11,14 +11,14 @@ public class Pay : BaseEntity
     private string? m_vCST_Status;
     private string? m_PAY_Status;
     private string? m_vPAY_Status;
-    private decimal? m_PAY_PriceForPay;
+    private int? m_PAY_PriceForPay;
     private decimal? m_PAY_TotalPrice;
     private decimal? m_PAY_InsuredPrice;
     private decimal? m_PAY_NonInsuredPrice;
     private decimal? m_PAY_OwnPatientPrice;
     private decimal? m_PAY_PaidPrice;
     private decimal? m_PAY_RemainPrice;
-    private double? m_PAY_DiscountPrice;
+    private int? m_PAY_DiscountPrice;
     private int? m_PAY_CutUnit;
     private string? m_PAY_Memo;
     private string? m_PAY_Date;
@@ -91,7 +91,7 @@ public class Pay : BaseEntity
         set => SetProperty(ref m_vPAY_Status, value);
     }
 
-    public decimal? PAY_PriceForPay
+    public int? PAY_PriceForPay
     {
         get => m_PAY_PriceForPay;
         set => SetProperty(ref m_PAY_PriceForPay, value);
@@ -133,7 +133,7 @@ public class Pay : BaseEntity
         set => SetProperty(ref m_PAY_RemainPrice, value);
     }
 
-    public double? PAY_DiscountPrice
+    public int? PAY_DiscountPrice
     {
         get => m_PAY_DiscountPrice;
         set => SetProperty(ref m_PAY_DiscountPrice, value);

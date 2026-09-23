@@ -83,6 +83,11 @@ public static class SmartBrush
     public static readonly Brush SMART_BRUSH_PAY_METHOD_CARD = CreateBrushFromHex("#32658F");
     public static readonly Brush SMART_BRUSH_PAY_METHOD_NAVERPAY = CreateBrushFromHex("#E9F7EE");
 
+    public static readonly Brush SMART_BRUSH_PAY_TYPE_PAY = CreateBrushFromHex("#287A3D");
+    public static readonly Brush SMART_BRUSH_PAY_TYPE_CUT = CreateBrushFromHex("#64748B");
+    public static readonly Brush SMART_BRUSH_PAY_TYPE_DIS = CreateBrushFromHex("#ED7D31");
+    public static readonly Brush SMART_BRUSH_PAY_TYPE_REF = CreateBrushFromHex("#DC2626");
+
 
 
     private static Brush CreateBrushFromHex(string hex)

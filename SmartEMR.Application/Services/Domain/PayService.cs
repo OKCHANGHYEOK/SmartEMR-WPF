@@ -32,33 +32,6 @@ internal class PayService : IPayService
         return result;
     }
 
-    public async Task<ServiceResult<PayItem>> GetPayItems(PayItem item)
-    {
-        var result = new ServiceResult<PayItem>();
-        var getItem = new PayItem
-        {
-            PAY_Idx = item.PAY_Idx,
-            PAT_Idx = item.PAT_Idx,
-
-            PAYI_Type = item.PAYI_Type,
-            PAYI_Method = item.PAYI_Method,
-            PAYI_YYMMDD = item.PAYI_YYMMDD
-        };
-        
-        var ret = await _dataStore.GetItems<PayItem>(eAPI.PayItem_GetPayItem, getItem);
-
-        if (ret is null || !_dataStore.retIsSuccess)
-        {
-            result.Message = "수납 내역 조회에 실패했습니다.";
-            return result;
-        }
-
-        result.Items = ret;
-        result.IsSuccess = true;
-        
-        return result;
-    }
-
     public async Task<ServiceResult<Pay>> GetPays(Pay item)
     {
         var result = new ServiceResult<Pay>();
@@ -131,10 +104,48 @@ internal class PayService : IPayService
         return result;
     }
 
-    public async Task<ServiceResult<PayItem>> SetPayItem(PayItem item)
+    public async Task<ServiceResult<PayItem>> GetPayItems(PayItem item)
     {
         var result = new ServiceResult<PayItem>();
+        var getItem = new PayItem
+        {
+            PAY_Idx = item.PAY_Idx,
+            PAT_Idx = item.PAT_Idx,
+
+            PAYI_Type = item.PAYI_Type,
+            PAYI_Method = item.PAYI_Method,
+            PAYI_YYMMDD = item.PAYI_YYMMDD,
+
+            SortField = item.SortField,
+            SortDir = item.SortDir
+        };
+
+        var ret = await _dataStore.GetItems<PayItem>(eAPI.PayItem_GetPayItem, getItem);
+
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = "수납 내역 조회에 실패했습니다.";
+            return result;
+        }
+
+        foreach (var payItem in ret)
+        {
+            payItem.vPAYI_Type = SmartMVVM.Common.GetCommonCodeName("PAY", "Type", payItem.PAYI_Type ?? "");
+            payItem.vPAYI_Method = SmartMVVM.Common.GetCommonCodeName("PAY", "Method", payItem.PAYI_Method ?? "");
+        }
+
+        result.Items = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
+
+    public async Task<ServiceResult<PayItem>> SetPayItem(PayItem item)
+    {
+        item.PAYI_Time = DateTime.Now.ToString("HH:mm");
+
         var ret = await _dataStore.GetItem<PayItem>(eAPI.PayItem_SetPayItem, item);
+        var result = new ServiceResult<PayItem>();
 
         if (ret is null || !_dataStore.retIsSuccess)
         {

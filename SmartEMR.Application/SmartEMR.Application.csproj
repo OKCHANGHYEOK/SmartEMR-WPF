@@ -36,6 +36,7 @@
     <None Remove="Images\smartemr_cancel_paper.png" />
     <None Remove="Images\smartemr_center_align.png" />
     <None Remove="Images\smartemr_check.png" />
+    <None Remove="Images\smartemr_check_all.png" />
     <None Remove="Images\smartemr_clear.png" />
     <None Remove="Images\smartemr_cross.png" />
     <None Remove="Images\smartemr_default_profile.png" />
@@ -120,6 +121,7 @@
     <Resource Include="Images\smartemr_align_right.png" />
     <Resource Include="Images\smartemr_apply.png" />
     <Resource Include="Images\smartemr_center_align.png" />
+    <Resource Include="Images\smartemr_check_all.png" />
     <Resource Include="Images\smartemr_discount.png" />
     <Resource Include="Images\smartemr_empty_paper_v2.png" />
     <Resource Include="Images\smartemr_empty_paper_white.png" />

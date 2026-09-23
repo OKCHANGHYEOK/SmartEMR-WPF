@@ -6,6 +6,7 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
+using System.Windows.Data;
 
 namespace SmartEMR.Application.Views.SmartEMRPay;
 
@@ -18,6 +19,19 @@ public partial class vSmartEMRPayTabPayInfo : ModelViewLayout<PayInfoViewModel>
 
     protected override void Initialize()
     {
+    }
+
+    protected override void SetBindGrid()
+    {
+        if (this.BindGrids[1].GetBindItem<StyleTextBox>("PAY_DiscountPrice") is StyleTextBox stbPAY_DiscountPrice)
+        {
+            stbPAY_DiscountPrice.SetBinding(StyleTextBox.MaxLengthProperty, new Binding("PAY_RemainPrice") { Source = vm.Model, Converter = new PriceToMaxLengthConverter() });
+        }
+
+        if (this.BindGrids[1].GetBindItem<StyleTextBox>("PAY_PriceForPay") is StyleTextBox stbPAY_PriceForPay)
+        {
+            stbPAY_PriceForPay.SetBinding(StyleTextBox.MaxLengthProperty, new Binding("PAY_RemainPrice") { Source = vm.Model, Converter = new PriceToMaxLengthConverter() });
+        }
     }
 
     protected override void SetDataGrid()
@@ -33,58 +47,32 @@ public partial class vSmartEMRPayTabPayInfo : ModelViewLayout<PayInfoViewModel>
         switch (fieldName)
         {
             case "btnRefund":
-                if (e.NewValue is int refundPrice)
-                {
-                    await vm.SetPayItem(PayType.Refund, price:refundPrice);
-                }
-
+                await vm.SetPayItem(PayType.Refund);
                 break;
 
             case "btnCutting":
-                if (e.NewValue is int cutUnit)
-                {
-                    await vm.SetPayItem(PayType.Cutting, price:cutUnit);
-                }
-
+                await vm.SetPayItem(PayType.Cutting);
                 break;
 
             case "btnDiscount":
-                if (e.NewValue is int discountPrice)
-                {
-                    await vm.SetPayItem(PayType.Discount, price:discountPrice);
-                }
+                await vm.SetPayItem(PayType.Discount);
+                break;
 
+            case "btnSetAllPrice":
+                vm.SetAllPrice();
                 break;
 
             case "btnCash":
-                {
-                    if (e.NewValue is int price)
-                    {
-                        await vm.SetPayItem(PayType.Payment, PayMethod.Cash, price);
-                    }
-
-                    break;
-                }
+                await vm.SetPayItem(PayType.Payment, PayMethod.Cash);
+                break;
 
             case "btnCard":
-                {
-                    if (e.NewValue is int price)
-                    {
-                        await vm.SetPayItem(PayType.Payment, PayMethod.Card, price);
-                    }
-
-                    break;
-                }
+                await vm.SetPayItem(PayType.Payment, PayMethod.Card);
+                break;
 
             case "btnNaverPay":
-                {
-                    if (e.NewValue is int price)
-                    {
-                        await vm.SetPayItem(PayType.Payment, PayMethod.NaverPay, price);
-                    }
-
-                    break;
-                }
+                await vm.SetPayItem(PayType.Payment, PayMethod.NaverPay);
+                break;
         }
     }
 
@@ -105,6 +93,21 @@ public class InsuranceTypeNameToContentConverter : BaseConverter
         if (value is not string typeName) return "";
 
         return $"{typeName}처방";
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class PriceToMaxLengthConverter : BaseConverter
+{
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not decimal price) return 0;
+
+        return price.ToString().Length;
     }
 
     public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

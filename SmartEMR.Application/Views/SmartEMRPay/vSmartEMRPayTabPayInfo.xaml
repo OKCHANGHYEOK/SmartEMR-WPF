@@ -305,7 +305,8 @@
                                                 Glyph="/Images/smartmer_cutting.png"
                                                 GlyphWidth="16"
                                                 GlyphHeight="16"
-                                                Padding="2"/>
+                                                Padding="2"
+                                                Cursor="Hand"/>
                         </Xpf:BindItem>
 
                         <Xpf:BindItem   FieldName="PAY_DiscountPrice"
@@ -325,7 +326,8 @@
                                                 Glyph="/Images/smartemr_discount.png"
                                                 GlyphWidth="16"
                                                 GlyphHeight="16"
-                                                Padding="2"/>
+                                                Padding="2"
+                                                Cursor="Hand"/>
                         </Xpf:BindItem>
                     </x:Array>
 
@@ -338,12 +340,29 @@
                                     IsNumericOnly="True"/>
 
                     <x:Array Type="{x:Type Xpf:BindItem}">
-                        <Xpf:BindItem   FieldName="btnCash"
+                        <Xpf:BindItem   FieldName="btnSetAllPrice"
                                         Header=""
                                         Col="1"
                                         Row="3"
-                                        Width="95"
                                         IsHeader="False"
+                                        IsBinding="False"
+                                        IsBindClickEvent="True">
+
+                            <dxc:SimpleButton   Content="전액입력"
+                                                Background="#E8EEF3" 
+                                                Foreground="#3F5F78"
+                                                BorderBrush="#B8C7D3"
+                                                FontWeight="SemiBold"
+                                                Glyph="/Images/smartemr_check_all.png"
+                                                GlyphWidth="20"
+                                                GlyphHeight="20"
+                                                Padding="2"
+                                                Cursor="Hand"/>
+                        </Xpf:BindItem>
+                        
+
+                        <Xpf:BindItem   FieldName="btnCash"
+                                        Header=""
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
@@ -355,12 +374,12 @@
                                                 Glyph="/Images/smartemr_pay_cash.png"
                                                 GlyphWidth="20"
                                                 GlyphHeight="20"
-                                                Padding="2"/>
+                                                Padding="2"
+                                                Cursor="Hand"/>
                         </Xpf:BindItem>
 
                         <Xpf:BindItem   FieldName="btnCard"
                                         Header=""
-                                        Width="95"
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
@@ -372,7 +391,8 @@
                                                 Glyph="/Images/smartemr_pay_card.png"
                                                 GlyphWidth="20"
                                                 GlyphHeight="20"
-                                                Padding="2"/>
+                                                Padding="2"
+                                                Cursor="Hand"/>
                         </Xpf:BindItem>
 
                         <Xpf:BindItem   FieldName="btnNaverPay"
@@ -388,7 +408,8 @@
                                                 Glyph="/Images/smartemr_pay_naver.png"
                                                 GlyphWidth="20"
                                                 GlyphHeight="20"
-                                                Padding="2"/>
+                                                Padding="2"
+                                                Cursor="Hand"/>
                         </Xpf:BindItem>
                     </x:Array>
                 </Xpf:BindGrid>
@@ -399,15 +420,20 @@
                               ItemsSource="{Binding PayItems}">
                     <Xpf:ColumnItem FieldName="PAYI_YYMMDD"
                                     Header="처리일자"
-                                    ColumnWidth="80"/>
+                                    ColumnWidth="80"
+                                    FontWeight="Bold"
+                                    HorizontalAlignment="Center"/>
 
                     <Xpf:ColumnItem FieldName="PAYI_Time"
                                     Header="시간"
-                                    ColumnWidth="50"/>
+                                    ColumnWidth="50"
+                                    Foreground="DimGray"
+                                    HorizontalAlignment="Center"/>
 
                     <Xpf:ColumnItem FieldName="PAYI_Type"
                                     Header="구분"
-                                    ColumnWidth="50"/>
+                                    ColumnWidth="50"
+                                    CellTemplateType="{x:Type template:PAYITypeTemplate}"/>
 
                     <Xpf:ColumnItem FieldName="PAYI_Method"
                                     Header="결제방식"
@@ -417,12 +443,15 @@
                     <Xpf:ColumnItem FieldName="PAYI_Price"
                                     Header="금액"
                                     ColumnWidth="80"
+                                    ColumnStyle="Sum"
                                     DisplayFormat="#,##0"
                                     Suffix="원"/>
 
                     <Xpf:ColumnItem FieldName="MUR_Name"
                                     Header="처리자"
-                                    ColumnWidth="80"/>
+                                    ColumnWidth="80"
+                                    Foreground="DarkSlateGray"
+                                    HorizontalAlignment="Center"/>
                 </Xpf:DataGrid>
             </Xpf:StyleGrid>
         </dxlc:GroupBox>

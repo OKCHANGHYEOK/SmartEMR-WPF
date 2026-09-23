@@ -55,7 +55,7 @@
     { "ORDC_Cd": "ETC", "vORDC_Cd": "기타" }
   ],
   "PAY_CutUnit": [
-    { "attrName": "절사기준", "attrValue": 0 },
+    { "attrName": "절사단위", "attrValue": 0 },
     { "attrName": "10원", "attrValue": 10 },
     { "attrName": "100원", "attrValue": 100 },
     { "attrName": "1000원", "attrValue": 1000 }

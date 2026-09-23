@@ -81,6 +81,11 @@ public partial class PayInfoViewModel : PayViewModel
         ConsultationOrders = new();
     }
 
+    public void SetAllPrice()
+    {
+        Model.PAY_PriceForPay = (int?)Model.PAY_RemainPrice.GetValueOrDefault(0);
+    }
+
     protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
         await SmartUI.SendMessage("RefreshPAY", viewType:TargetViewType.PageView);
@@ -121,7 +126,7 @@ public partial class PayInfoViewModel : PayViewModel
 
     private async Task UpdatePayItems()
     {
-        var ret = await _payService.GetPayItems(new PayItem { PAY_Idx = Model.PAY_Idx });
+        var ret = await _payService.GetPayItems(new PayItem { PAY_Idx = Model.PAY_Idx, SortField = "PAYI_Idx", SortDir = "desc" });
         if (ret.Items is null || !ret.IsSuccess)
         {
             SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
@@ -172,26 +177,37 @@ public partial class PayInfoViewModel : PayViewModel
         await NotifyCompletedTaskAsync(SaveMode.DELETE);
     }
 
-    public async Task SetPayItem(PayType type, PayMethod method = PayMethod.None, decimal price = 0)
+    public async Task SetPayItem(PayType type, PayMethod method = PayMethod.None)
     {
         ServiceResult<PayItem>? result = null;
+
+        var price = type switch
+        {
+            PayType.Payment => Model.PAY_PriceForPay,
+            PayType.Discount => Model.PAY_DiscountPrice,
+            PayType.Cutting => Model.PAY_CutUnit,
+            PayType.Refund => Model.PAY_PaidPrice,
+            _ => 0
+        };
+
+        if (price is not decimal finalPrice) return;
 
         switch (type)
         {
             case PayType.Payment:
-                result = await PaymentPriceAsync(method, price);
+                result = await PaymentPriceAsync(method, finalPrice);
                 break;
 
             case PayType.Refund:
-                result = await RefundPriceAsync(price);
+                result = await RefundPriceAsync(finalPrice);
                 break;
 
             case PayType.Cutting:
-                result = await CuttingPriceAsync(price);
+                result = await CuttingPriceAsync(finalPrice);
                 break;
 
             case PayType.Discount:
-                result = await DiscountPriceAsync(price);
+                result = await DiscountPriceAsync(finalPrice);
                 break;
         }
 
@@ -204,22 +220,45 @@ public partial class PayInfoViewModel : PayViewModel
             return;
         }
 
+        string payTypeName = type switch
+        {
+            PayType.Payment => "수납",
+            PayType.Cutting => "절사",
+            PayType.Discount => "할인",
+            PayType.Refund => "환불",
+            _ => ""
+        };
+
+        SmartUI.SetNotification($"{payTypeName}처리되었습니다.", NotificationType.Success);
+
         await UpdatePayInfo(retPAY.Item);
+        await SmartUI.SendMessage("RefreshPAY", viewType:TargetViewType.PageView);
     }
 
     private async Task<ServiceResult<PayItem>?> PaymentPriceAsync(PayMethod method, decimal price)
     {
-        if (price <= 0)
-        {
-            SmartUI.SetNotification("수납금액은 0원보다 커야합니다.", NotificationType.Warning);
-            return null;
-        }
-
-        if (SmartUI.MsgYesNo($"{price}원 수납하시겠습니까?") is MessageBoxResult.No)
+        if (!CanPayment(price)) 
             return null;
 
         try
         {
+            string methodName = method switch
+            {
+                PayMethod.Cash => "현금",
+                PayMethod.Card => "카드",
+                PayMethod.NaverPay => "네이버페이",
+                _ => throw new ArgumentOutOfRangeException(nameof(method))
+            };
+
+            if (SmartUI.MsgYesNo($"{price}원 {methodName}결제 처리하시겠습니까?") is MessageBoxResult.No)
+                return null;
+
+            // 네이버페이 API 요청 로직
+            if (method == PayMethod.NaverPay)
+            {
+                RequestNaverPayment(price);
+            }
+
             string PAY_Method = method switch
             {
                 PayMethod.Cash => "CAS",
@@ -250,6 +289,27 @@ public partial class PayInfoViewModel : PayViewModel
             Debug.WriteLine(e.StackTrace);
             return null;
         }
+    }
+
+    private bool CanPayment(decimal price)
+    {
+        if (price <= 0)
+        {
+            SmartUI.SetNotification("수납금액은 0원보다 커야합니다.", NotificationType.Warning);
+            return false;
+        }
+
+        if (price > Model.PAY_RemainPrice)
+        {
+            SmartUI.SetNotification("수납금액은 미수납금보다 클 수 없습니다.", NotificationType.Warning);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void RequestNaverPayment(decimal price)
+    {
     }
 
     private async Task<ServiceResult<PayItem>?> RefundPriceAsync(decimal price)
@@ -284,18 +344,18 @@ public partial class PayInfoViewModel : PayViewModel
     {
         if (price <= 0)
         {
-            SmartUI.SetNotification("절사기준 금액은 0보다 커야합니다.", NotificationType.Warning);
+            SmartUI.SetNotification("절사단위 금액은 0보다 커야합니다.", NotificationType.Warning);
             return null;
         }
 
-        if (SmartUI.MsgYesNo($"{price}단위로 절사하시겠습니까?") is MessageBoxResult.No)
+        if (SmartUI.MsgYesNo($"{price}원단위 절사하시겠습니까?") is MessageBoxResult.No)
             return null;
 
         var item = new PayItem
         {
             PAY_Idx = Model.PAY_Idx,
             PAYI_Type = "CUT",
-            PAYI_Price = price
+            PAYI_Price = Model.PAY_RemainPrice % price
         };
 
         var ret = await _payService.SetPayItem(item);
