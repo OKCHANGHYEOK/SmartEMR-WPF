@@ -179,8 +179,6 @@ public partial class PayInfoViewModel : PayViewModel
 
     public async Task SetPayItem(PayType type, PayMethod method = PayMethod.None)
     {
-        ServiceResult<PayItem>? result = null;
-
         var price = type switch
         {
             PayType.Payment => Model.PAY_PriceForPay,
@@ -191,6 +189,11 @@ public partial class PayInfoViewModel : PayViewModel
         };
 
         if (price is not decimal finalPrice) return;
+
+        if (!CanPayment(type, finalPrice))
+            return;
+
+        ServiceResult<PayItem>? result = null;
 
         switch (type)
         {
@@ -237,9 +240,6 @@ public partial class PayInfoViewModel : PayViewModel
 
     private async Task<ServiceResult<PayItem>?> PaymentPriceAsync(PayMethod method, decimal price)
     {
-        if (!CanPayment(price)) 
-            return null;
-
         try
         {
             string methodName = method switch
@@ -256,7 +256,11 @@ public partial class PayInfoViewModel : PayViewModel
             // 네이버페이 API 요청 로직
             if (method == PayMethod.NaverPay)
             {
-                RequestNaverPayment(price);
+                if (!await RequestNaverPayment(price))
+                {
+                    SmartUI.SetNotification("결제 실패했습니다.", NotificationType.Warning);
+                    return null;
+                }
             }
 
             string PAY_Method = method switch
@@ -291,35 +295,71 @@ public partial class PayInfoViewModel : PayViewModel
         }
     }
 
-    private bool CanPayment(decimal price)
+    private bool CanPayment(PayType type, decimal price)
     {
-        if (price <= 0)
+        if (Model.PAY_Status == "END")
         {
-            SmartUI.SetNotification("수납금액은 0원보다 커야합니다.", NotificationType.Warning);
+            SmartUI.SetNotification("완료된 수납이므로 해당 요청을 처리할 수 없습니다.\n수납취소후 다시 시도해주세요.", NotificationType.Warning);
             return false;
         }
 
-        if (price > Model.PAY_RemainPrice)
+        switch (type)
         {
-            SmartUI.SetNotification("수납금액은 미수납금보다 클 수 없습니다.", NotificationType.Warning);
-            return false;
+            case PayType.Payment:
+                {
+                    if (price <= 0)
+                    {
+                        SmartUI.SetNotification("수납금액은 0원보다 커야합니다.", NotificationType.Warning);
+                        return false;
+                    }
+
+                    if (price > Model.PAY_RemainPrice)
+                    {
+                        SmartUI.SetNotification("수납금액은 미수납금보다 클 수 없습니다.", NotificationType.Warning);
+                        return false;
+                    }
+
+                    break;
+                }
+
+            case PayType.Cutting:
+                if (price <= 0)
+                {
+                    SmartUI.SetNotification("절사단위는 0원보다 커야합니다.", NotificationType.Warning);
+                    return false;
+                }
+
+                break;
+
+            case PayType.Discount:
+                if (price <= 0)
+                {
+                    SmartUI.SetNotification("할인금액은 0원보다 커야합니다.", NotificationType.Warning);
+                    return false;
+                }
+
+                break;
+
+            case PayType.Refund:
+                if (price <= 0)
+                {
+                    SmartUI.SetNotification("환불금액은 0원보다 커야합니다.", NotificationType.Warning);
+                    return false;
+                }
+
+                break;
         }
 
         return true;
     }
 
-    private void RequestNaverPayment(decimal price)
+    private async Task<bool> RequestNaverPayment(decimal price)
     {
+        return true;
     }
 
     private async Task<ServiceResult<PayItem>?> RefundPriceAsync(decimal price)
     {
-        if (price <= 0)
-        {
-            SmartUI.SetNotification("환불금액은 0원보다 커야합니다.", NotificationType.Warning);
-            return null;
-        }
-
         if (SmartUI.MsgYesNo($"{price}원 환불하시겠습니까?") is MessageBoxResult.No)
             return null;
 
@@ -342,12 +382,6 @@ public partial class PayInfoViewModel : PayViewModel
 
     private async Task<ServiceResult<PayItem>?> CuttingPriceAsync(decimal price)
     {
-        if (price <= 0)
-        {
-            SmartUI.SetNotification("절사단위 금액은 0보다 커야합니다.", NotificationType.Warning);
-            return null;
-        }
-
         if (SmartUI.MsgYesNo($"{price}원단위 절사하시겠습니까?") is MessageBoxResult.No)
             return null;
 
@@ -370,12 +404,6 @@ public partial class PayInfoViewModel : PayViewModel
 
     private async Task<ServiceResult<PayItem>?> DiscountPriceAsync(decimal price)
     {
-        if (price <= 0)
-        {
-            SmartUI.SetNotification("할인금액은 0원보다 커야합니다.", NotificationType.Warning);
-            return null;
-        }
-
         if (SmartUI.MsgYesNo($"{price}원 할인하시겠습니까?") is MessageBoxResult.No)
             return null;
 
