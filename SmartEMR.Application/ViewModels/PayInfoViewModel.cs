@@ -5,6 +5,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using System.Diagnostics;
 using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
@@ -120,8 +121,6 @@ public partial class PayInfoViewModel : PayViewModel
 
     private async Task UpdatePayItems()
     {
-        PayItems.Clear();
-
         var ret = await _payService.GetPayItems(new PayItem { PAY_Idx = Model.PAY_Idx });
         if (ret.Items is null || !ret.IsSuccess)
         {
@@ -219,30 +218,38 @@ public partial class PayInfoViewModel : PayViewModel
         if (SmartUI.MsgYesNo($"{price}원 수납하시겠습니까?") is MessageBoxResult.No)
             return null;
 
-        string PAY_Method = method switch
+        try
         {
-            PayMethod.Cash => "CAS",
-            PayMethod.Card => "CRD",
-            PayMethod.NaverPay => "NAV",
-            _ => throw new ArgumentOutOfRangeException(nameof(method))
-        };
+            string PAY_Method = method switch
+            {
+                PayMethod.Cash => "CAS",
+                PayMethod.Card => "CRD",
+                PayMethod.NaverPay => "NAV",
+                _ => throw new ArgumentOutOfRangeException(nameof(method))
+            };
 
-        var item = new PayItem
-        {
-            PAY_Idx = Model.PAY_Idx,
-            PAYI_Type = "PAY",
-            PAYI_Method = PAY_Method,
-            PAYI_Price = price
-        };
+            var item = new PayItem
+            {
+                PAY_Idx = Model.PAY_Idx,
+                PAYI_Type = "PAY",
+                PAYI_Method = PAY_Method,
+                PAYI_Price = price
+            };
 
-        var ret = await _payService.SetPayItem(item);
-        if (ret.Item is null || !ret.IsSuccess)
+            var ret = await _payService.SetPayItem(item);
+            if (ret.Item is null || !ret.IsSuccess)
+            {
+                SmartUI.SetNotification("수납 처리하지 못했습니다.", NotificationType.Error);
+                return null;
+            }
+
+            return ret;
+        }
+        catch (ArgumentOutOfRangeException e)
         {
-            SmartUI.SetNotification("수납 처리하지 못했습니다.", NotificationType.Error);
+            Debug.WriteLine(e.StackTrace);
             return null;
         }
-
-        return ret;
     }
 
     private async Task<ServiceResult<PayItem>?> RefundPriceAsync(decimal price)
@@ -331,6 +338,6 @@ public partial class PayInfoViewModel : PayViewModel
 
     private void ClearPayItems()
     {
-        PayItems.Clear();
+        PayItems = [];
     }
 }
