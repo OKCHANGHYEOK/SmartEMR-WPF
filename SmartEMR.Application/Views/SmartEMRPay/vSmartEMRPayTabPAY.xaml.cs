@@ -56,6 +56,8 @@ public partial class vSmartEMRPayTabPAY : ModelViewLayout<PayViewModel>
         if (dataGrid.IsDoubleClicked)
         {
             await SmartUI.SendMessage("SetSelectedPAY", dataItem, viewType:TargetViewType.PageView);
+
+            SmartUI.SetNotification("수납 선택되었습니다.", NotificationType.Info);
         }
         else
         {

@@ -594,16 +594,19 @@ public class ModelProperty
         item.PAY_Idx = 0;
         item.PAT_Idx = 0;
         item.CST_Idx = 0;
-        item.CST_Status = "";
-        item.vCST_Status = "";
-        item.PAY_Status = "";
-        item.vPAY_Status = "";
+        item.CST_Status = "RDY";
+        item.vCST_Status = "대기";
+        item.PAY_Status = "RDY";
+        item.vPAY_Status = "대기";
         item.PAY_TotalPrice = 0;
         item.PAY_InsuredPrice = 0;
         item.PAY_NonInsuredPrice = 0;
         item.PAY_OwnPatientPrice = 0;
         item.PAY_PaidPrice = 0;
         item.PAY_RemainPrice = 0;
+        item.PAY_CutUnit = 0;
+        item.PAY_DiscountPrice = 0;
+        item.PAY_PriceForPay = 0;
         item.PAY_Memo = "";
         item.PAY_YYMMDD = "";
     }

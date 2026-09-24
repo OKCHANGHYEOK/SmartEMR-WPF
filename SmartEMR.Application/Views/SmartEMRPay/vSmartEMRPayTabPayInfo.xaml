@@ -270,6 +270,7 @@
                                                 Glyph="/Images/smartemr_pay_refund.png"
                                                 GlyphWidth="20"
                                                 GlyphHeight="20"
+                                                Cursor="Hand"
                                                 Padding="2"/>
                         </Xpf:BindItem>
                     </x:Array>
@@ -468,19 +469,38 @@
                                 Content="수납취소"
                                 FontWeight="SemiBold"
                                 Background="#F3F3F3"
+                                Glyph="/Images/smartemr_payment_cancel.png"
+                                GlyphWidth="18"
+                                GlyphHeight="18"
+                                Cursor="Hand"
                                 Margin="1,0,1,0"
                                 Command="{Binding CancelPayCommand}"
-                                Cursor="Hand"
-                                dxc:ThemeManager.ThemeName="Office2019Colorful"/>
+                                dxc:ThemeManager.ThemeName="Office2019Colorful">
+
+                <dxc:SimpleButton.Style>
+                    <Style TargetType="dxc:SimpleButton">
+                        <Setter Property="IsEnabled" Value="True"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Model.PAY_Status}" Value="RDY">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </dxc:SimpleButton.Style>
+            </dxc:SimpleButton>
 
             <dxc:SimpleButton   Grid.Column="4"
                                 Content="수납완료"
                                 FontWeight="SemiBold"
                                 Background="#3F6B89"
                                 Foreground="#FFFFFF"
+                                Glyph="/Images/smartemr_payment_complete.png"
+                                GlyphWidth="18"
+                                GlyphHeight="18"
                                 Margin="1,0,1,0"
-                                Command="{Binding SetPayCommand}"
                                 Cursor="Hand"
+                                Command="{Binding CompletePayCommand}"
                                 dxc:ThemeManager.ThemeName="Office2019Colorful"/>
         </Xpf:StyleGrid>
     </Xpf:StyleGrid>

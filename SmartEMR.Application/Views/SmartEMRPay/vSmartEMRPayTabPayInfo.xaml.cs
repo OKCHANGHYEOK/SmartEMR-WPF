@@ -1,7 +1,5 @@
-﻿using System.Windows;
-using System.Globalization;
+﻿using System.Globalization;
 using SmartEMR.Application.Common.Converter.Base;
-using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;

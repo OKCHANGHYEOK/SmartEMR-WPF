@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Windows;
+using System.Windows.Media;
+using System.Windows.Documents;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
@@ -6,7 +9,6 @@ using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Diagnostics;
-using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -54,11 +56,14 @@ public partial class PayInfoViewModel : PayViewModel
         return item;
     }
 
-    public async Task UpdatePayInfo(Pay item)
+    public async Task UpdatePayInfo(Pay item, bool isClear = true)
     {
         if (item.CST_Idx.GetValueOrDefault(0) == 0 || item.PAY_Idx.GetValueOrDefault(0) == 0) return;
 
-        ClearData();
+        if (isClear)
+        {
+            ClearData();
+        }
 
         SmartMVVM.ModelProperty.SetPayData(Model, item);
 
@@ -76,24 +81,22 @@ public partial class PayInfoViewModel : PayViewModel
         SmartMVVM.ModelProperty.ClearCSTData(SelectedCST);
         SmartMVVM.ModelProperty.ClearPAYData(Model);
 
-        ClearPayItems();
-
-        ConsultationOrders = new();
+        ConsultationOrders = [];
+        PayItems = [];
     }
 
     public void SetAllPrice()
     {
         Model.PAY_PriceForPay = (int?)Model.PAY_RemainPrice.GetValueOrDefault(0);
+
+        SmartUI.SetNotification("전액입력되었습니다.", NotificationType.Info);
     }
 
     protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
         await SmartUI.SendMessage("RefreshPAY", viewType:TargetViewType.PageView);
 
-        if (saveMode == SaveMode.DELETE)
-        {
-            ClearPayItems();
-        }
+        SmartUI.SetNotification($"수납{(saveMode == SaveMode.SAVE ? "완료" : "취소" )}되었습니다.", NotificationType.Success);
     }
 
     private async Task UpdateSelectedCST(int CST_Idx)
@@ -138,13 +141,25 @@ public partial class PayInfoViewModel : PayViewModel
 
 
     [RelayCommand]
-    private async Task SetPay()
+    private async Task CompletePay()
     {
         if (Model.PAY_Idx.GetValueOrDefault(0) == 0)
         {
             SmartUI.SetNotification("선택된 수납이 없습니다.", NotificationType.Warning);
             return;
         }
+
+        if (Model.PAY_RemainPrice > 0)
+        {
+            var inlines = new List<Inline>();
+            inlines.Add(new Run("미수납금이 남아있습니다.\n수납완료 처리하시겠습니까?") { FontSize = 16 });
+            inlines.Add(new LineBreak());
+            inlines.Add(new Run("(청구시 문제가 발생할 수 있습니다.)") { FontSize = 14, Foreground = Brushes.IndianRed });
+
+            if (SmartUI.MsgYesNo(inlines) is MessageBoxResult.No) return;
+        }
+
+        Model.PAY_Status = "END";
 
         var ret = await _payService.SetPay(Model);
         if (ret.Item is null || !ret.IsSuccess)
@@ -167,6 +182,13 @@ public partial class PayInfoViewModel : PayViewModel
             return;
         }
 
+        var inlines = new List<Inline>();
+        inlines.Add(new Run("수납취소하시겠습니까?") { FontSize = 16 });
+        inlines.Add(new LineBreak());
+        inlines.Add(new Run("(모든 수납 이력이 삭제되고 수납대기 상태로 돌아갑니다.)") { FontSize = 14, Foreground = Brushes.IndianRed });
+
+        if (SmartUI.MsgYesNo(inlines) is MessageBoxResult.No) return;
+
         var ret = await _payService.CancelPay(Model.PAY_Idx.GetValueOrDefault(0));
         if (!ret.IsSuccess)
         {
@@ -175,6 +197,7 @@ public partial class PayInfoViewModel : PayViewModel
         }
 
         await NotifyCompletedTaskAsync(SaveMode.DELETE);
+        await UpdatePayInfo(Model, isClear:false);
     }
 
     public async Task SetPayItem(PayType type, PayMethod method = PayMethod.None)
@@ -293,13 +316,34 @@ public partial class PayInfoViewModel : PayViewModel
             Debug.WriteLine(e.StackTrace);
             return null;
         }
+        finally
+        {
+            Model.PAY_RemainPrice = 0;
+        }
     }
 
     private bool CanPayment(PayType type, decimal price)
     {
+        if (type == PayType.Refund)
+        {
+            if (price <= 0) 
+            { 
+                SmartUI.SetNotification("환불할 금액이 없습니다.", NotificationType.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
         if (Model.PAY_Status == "END")
         {
-            SmartUI.SetNotification("완료된 수납이므로 해당 요청을 처리할 수 없습니다.\n수납취소후 다시 시도해주세요.", NotificationType.Warning);
+            SmartUI.SetNotification("이미 완료된 수납입니다.\n수납취소후 다시 시도해주세요.", NotificationType.Warning);
+            return false;
+        }
+
+        if (Model.PAY_RemainPrice == 0)
+        {
+            SmartUI.SetNotification("미수납금이 0원입니다.\n수납취소후 다시 시도해주세요.", NotificationType.Warning);
             return false;
         }
 
@@ -329,21 +373,18 @@ public partial class PayInfoViewModel : PayViewModel
                     return false;
                 }
 
+                if (Model.PAY_RemainPrice % price == 0)
+                {
+                    SmartUI.SetNotification($"미수납금이 절사 단위와 일치합니다.\n절사 처리할 수 없습니다.", NotificationType.Warning);
+                    return false;
+                }
+
                 break;
 
             case PayType.Discount:
                 if (price <= 0)
                 {
                     SmartUI.SetNotification("할인금액은 0원보다 커야합니다.", NotificationType.Warning);
-                    return false;
-                }
-
-                break;
-
-            case PayType.Refund:
-                if (price <= 0)
-                {
-                    SmartUI.SetNotification("환불금액은 0원보다 커야합니다.", NotificationType.Warning);
                     return false;
                 }
 
@@ -422,10 +463,5 @@ public partial class PayInfoViewModel : PayViewModel
         }
 
         return ret;
-    }
-
-    private void ClearPayItems()
-    {
-        PayItems = [];
     }
 }
