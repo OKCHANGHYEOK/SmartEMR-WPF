@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
+
+    <script>
+        var oPay = Naver.Pay.create({
+            "mode": "development",
+            "clientId": "HN3GGCMDdTgGUfl0kFCo",
+            "chainId": "TFovRUREaGF6dDZ"
+        });
+
+        window.chrome.webview.addEventListener("message", function (event) {
+
+            const data = event.data;
+
+            oPay.open({
+                "merchantPayKey": data.merchantPayKey,
+                "productName": data.productName,
+                "productCount": data.productCount,
+                "totalPayAmount": data.totalPayAmount,
+                "taxScopeAmount": data.taxScopeAmount,
+                "taxExScopeAmount": data.taxExScopeAmount,
+                "returnUrl": data.returnUrl
+            });
+
+        });
+    </script>
+
+</body>
+</html>
+</html>

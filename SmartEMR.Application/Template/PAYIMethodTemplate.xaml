@@ -10,8 +10,8 @@
                     d:DesignHeight="450" d:DesignWidth="800">
 
     <Xpf:Label Content="{Binding vPAYI_Method}"
-               Foreground="{Binding PAY_Method, Converter={converter:PAYIMethodToBrushConverter}}"
-               BorderBrush="{Binding PAY_Method, Converter={converter:PAYIMethodToBrushConverter}}"
+               Foreground="{Binding PAYI_Method, Converter={converter:PAYIMethodToBrushConverter}}"
+               BorderBrush="{Binding PAYI_Method, Converter={converter:PAYIMethodToBrushConverter}}"
                BorderThickness="1"
                Background="White"
                Margin="2"/>

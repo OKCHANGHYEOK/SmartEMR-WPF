@@ -46,7 +46,13 @@ public partial class PayInfoViewModel : PayViewModel
         new ConsultationOrder { CSTO_InsuranceTypeName = "비급여", IsVisible = false }
     };
 
-    public PayInfoViewModel(IPayService payService, IConsultationService consultationService, IConsultationOrderService consultationOrderService) : base(payService) 
+    public PayInfoViewModel(IPayService payService, IConsultationService consultationService, IConsultationOrderService consultationOrderService) : base(payService)
+    {
+        _consultationService = consultationService;
+        _consultationOrderService = consultationOrderService;
+    }
+
+    public PayInfoViewModel(IPayService payService, IConsultationService consultationService, IConsultationOrderService consultationOrderService, Pay item) : base(payService, item)
     {
         _consultationService = consultationService;
         _consultationOrderService = consultationOrderService;
@@ -207,6 +213,12 @@ public partial class PayInfoViewModel : PayViewModel
 
     public async Task SetPayItem(PayType type, PayMethod method = PayMethod.None)
     {
+        if (Model.PAY_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNotification("선택된 수납이 없습니다.", NotificationType.Warning);
+            return;
+        }
+
         var price = type switch
         {
             PayType.Payment => Model.PAY_PriceForPay,
@@ -284,7 +296,7 @@ public partial class PayInfoViewModel : PayViewModel
             // 네이버페이 API 요청 로직
             if (method == PayMethod.NaverPay)
             {
-                if (!await RequestNaverPayment(price))
+                if (!await RequestNaverPayment())
                 {
                     SmartUI.SetNotification("결제 실패했습니다.", NotificationType.Warning);
                     return null;
@@ -401,8 +413,10 @@ public partial class PayInfoViewModel : PayViewModel
         return true;
     }
 
-    private async Task<bool> RequestNaverPayment(decimal price)
+    private async Task<bool> RequestNaverPayment()
     {
+        await NaverPayManager.Open(Model);
+
         return true;
     }
 

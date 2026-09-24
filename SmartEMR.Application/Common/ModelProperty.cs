@@ -575,6 +575,7 @@ public class ModelProperty
         oldItem.CST_Idx = newItem.CST_Idx;
         oldItem.PAY_Status = newItem.PAY_Status;
         oldItem.PAY_Memo = newItem.PAY_Memo;
+        oldItem.PAT_Name = newItem.PAT_Name;
 
         SetPayPriceData(oldItem, newItem);
     }

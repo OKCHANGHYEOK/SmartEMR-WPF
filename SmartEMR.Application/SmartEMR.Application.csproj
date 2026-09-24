@@ -100,6 +100,7 @@
     <PackageReference Include="MaterialDesignThemes" Version="5.3.1" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.3.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
     <PackageReference Include="ReasonableRTF.Standard" Version="2026.8.0" />
     <PackageReference Include="SharpVectors" Version="1.8.5" />
   </ItemGroup>
@@ -220,6 +221,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="referenceData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\NaverPay\naverpay.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

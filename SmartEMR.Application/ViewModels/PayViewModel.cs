@@ -17,7 +17,12 @@ public partial class PayViewModel : BaseViewModel<Pay>
     [ObservableProperty]
     private List<Pay> pays = default!;
 
-    public PayViewModel(IPayService payService)
+    public PayViewModel(IPayService payService)  
+    {
+        _payService = payService;
+    }
+
+    public PayViewModel(IPayService payService, Pay item) : base(item)
     {
         _payService = payService;
     }
