@@ -32,7 +32,8 @@ public partial class PayInfoViewModel : PayViewModel
 {
     public Consultation SelectedCST { get; set; } = new();
 
-    private IConsultationOrderService _consultationOrderService;
+    private readonly IConsultationService _consultationService;
+    private readonly IConsultationOrderService _consultationOrderService;
 
     [ObservableProperty]
     private List<PayItem> payItems = new();
@@ -45,8 +46,9 @@ public partial class PayInfoViewModel : PayViewModel
         new ConsultationOrder { CSTO_InsuranceTypeName = "비급여", IsVisible = false }
     };
 
-    public PayInfoViewModel(IPayService payService, IConsultationOrderService consultationOrderService) : base(payService) 
+    public PayInfoViewModel(IPayService payService, IConsultationService consultationService, IConsultationOrderService consultationOrderService) : base(payService) 
     {
+        _consultationService = consultationService;
         _consultationOrderService = consultationOrderService;
     }
 
@@ -103,14 +105,14 @@ public partial class PayInfoViewModel : PayViewModel
     {
         if (CST_Idx == 0) return;
 
-        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { CST_Idx = CST_Idx });
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _consultationService.GetConsultation(new Consultation { CST_Idx = CST_Idx });
+        if (ret.Item is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNotification("진료 정보가 유효하지 않습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 
-        SmartMVVM.ModelProperty.SetConsultationData(SelectedCST, ret);
+        SmartMVVM.ModelProperty.SetConsultationData(SelectedCST, ret.Item);
 
         await UpdateCSTOData();
     }
@@ -139,7 +141,6 @@ public partial class PayInfoViewModel : PayViewModel
         PayItems = [.. ret.Items];
     }
 
-
     [RelayCommand]
     private async Task CompletePay()
     {
@@ -151,10 +152,12 @@ public partial class PayInfoViewModel : PayViewModel
 
         if (Model.PAY_RemainPrice > 0)
         {
-            var inlines = new List<Inline>();
-            inlines.Add(new Run("미수납금이 남아있습니다.\n수납완료 처리하시겠습니까?") { FontSize = 16 });
-            inlines.Add(new LineBreak());
-            inlines.Add(new Run("(청구시 문제가 발생할 수 있습니다.)") { FontSize = 14, Foreground = Brushes.IndianRed });
+            var inlines = new List<Inline>
+            {
+                new Run("미수납금이 남아있습니다.\n수납완료 처리하시겠습니까?") { FontSize = 16 },
+                new LineBreak(),
+                new Run("(청구시 문제가 발생할 수 있습니다.)") { FontSize = 14, Foreground = Brushes.IndianRed }
+            };
 
             if (SmartUI.MsgYesNo(inlines) is MessageBoxResult.No) return;
         }
@@ -182,22 +185,24 @@ public partial class PayInfoViewModel : PayViewModel
             return;
         }
 
-        var inlines = new List<Inline>();
-        inlines.Add(new Run("수납취소하시겠습니까?") { FontSize = 16 });
-        inlines.Add(new LineBreak());
-        inlines.Add(new Run("(모든 수납 이력이 삭제되고 수납대기 상태로 돌아갑니다.)") { FontSize = 14, Foreground = Brushes.IndianRed });
+        var inlines = new List<Inline>
+        {
+            new Run("수납취소하시겠습니까?") { FontSize = 16 },
+            new LineBreak(),
+            new Run("(모든 수납 이력이 삭제되고 수납대기 상태로 돌아갑니다.)") { FontSize = 14, Foreground = Brushes.IndianRed }
+        };
 
         if (SmartUI.MsgYesNo(inlines) is MessageBoxResult.No) return;
 
         var ret = await _payService.CancelPay(Model.PAY_Idx.GetValueOrDefault(0));
-        if (!ret.IsSuccess)
+        if (ret.Item is null || !ret.IsSuccess)
         {
             SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 
         await NotifyCompletedTaskAsync(SaveMode.DELETE);
-        await UpdatePayInfo(Model, isClear:false);
+        await UpdatePayInfo(ret.Item, isClear:false);
     }
 
     public async Task SetPayItem(PayType type, PayMethod method = PayMethod.None)
@@ -316,10 +321,6 @@ public partial class PayInfoViewModel : PayViewModel
             Debug.WriteLine(e.StackTrace);
             return null;
         }
-        finally
-        {
-            Model.PAY_RemainPrice = 0;
-        }
     }
 
     private bool CanPayment(PayType type, decimal price)
@@ -385,6 +386,12 @@ public partial class PayInfoViewModel : PayViewModel
                 if (price <= 0)
                 {
                     SmartUI.SetNotification("할인금액은 0원보다 커야합니다.", NotificationType.Warning);
+                    return false;
+                }
+
+                if (price > Model.PAY_RemainPrice)
+                {
+                    SmartUI.SetNotification("할인금액은 미수납금보다 클 수 없습니다.", NotificationType.Warning);
                     return false;
                 }
 

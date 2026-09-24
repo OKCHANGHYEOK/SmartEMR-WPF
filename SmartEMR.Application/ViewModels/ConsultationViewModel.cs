@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Windows;
@@ -20,6 +21,13 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     private IEnumerable<ConsultationOrder> _consultationOrders = default!;
     private IEnumerable<ConsultationOrder> _deletedCSTOItems = default!;
 
+    private readonly IConsultationService _consultationService;
+
+    public ConsultationViewModel(IConsultationService consultationService)
+    {
+        _consultationService = consultationService;
+    }
+    
     public override void Initialize()
     {
     }
@@ -155,16 +163,14 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             PageIndex = Model.PageIndex
         };
 
-        var ret = await SmartMVVM.DataStore.GetItems<Consultation>(eAPI.Consultation_GetConsultationByRCP, item);
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _consultationService.GetConsultationByRCP(item);
+        if (ret.Items is null || !ret.IsSuccess)
         {
             SmartUI.SetNotification("진료현황을 불러오지 못했습니다.", NotificationType.Error);
             return;
         }
 
-        DisplayDataMappers.ConsultationDisplayDataMapper.Map(ret);
-
-        Consultations = ret.ToList();
+        Consultations = [..ret.Items];
     }
 
     [RelayCommand]
@@ -179,15 +185,15 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         SetConsultationStatus(targetStatus);
 
         var item = SmartMVVM.ModelProperty.GetConsultationDataForSave(Model, _consultationOrders.Concat(_deletedCSTOItems));
-        var ret = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_SetConsultationByCST, item);
+        var ret = await _consultationService.SetConsultationByCST(item);
 
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        if (ret.Item is null || !ret.IsSuccess)
         {
             SmartUI.SetNotification("진료 저장에 실패했습니다.", NotificationType.Error);
             return;
         }
 
-        await SetSelectedCST(ret);
+        await SetSelectedCST(ret.Item);
         await NotifyCompletedTaskAsync(SaveMode.SAVE);
     }
 
@@ -204,11 +210,11 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             CST_IsValid = false
         };
 
-        await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_CancelConsultation, item);
+        var ret = await _consultationService.CancelConsultation(item);
 
-        if (!SmartMVVM.DataStore.retIsSuccess)
+        if (!ret.IsSuccess)
         {
-            SmartUI.SetNotification("진료취소하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 

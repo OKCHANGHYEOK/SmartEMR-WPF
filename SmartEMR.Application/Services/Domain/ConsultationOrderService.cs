@@ -5,14 +5,9 @@ using SmartEMR.Infrastructure;
 
 namespace SmartEMR.Application.Services.Domain;
 
-public class ConsultationOrderService : IConsultationOrderService
+public class ConsultationOrderService : BaseService, IConsultationOrderService
 {
-    private IDataStore _dataStore;
-
-    public ConsultationOrderService(IDataStore dataStore)
-    {
-        _dataStore = dataStore;
-    }
+    public ConsultationOrderService(IDataStore dataStore) : base(dataStore) {}
 
     public async Task<ServiceResult<ConsultationOrder>> GetConsultationOrders(ConsultationOrder item)
     {

@@ -6,13 +6,10 @@ using SmartEMR.Infrastructure;
 
 namespace SmartEMR.Application.Services.Domain;
 
-internal class PayService : IPayService
+internal class PayService : BaseService, IPayService
 {
-    private IDataStore _dataStore;
-
-    public PayService(IDataStore dataStore)
+    public PayService(IDataStore dataStore) : base(dataStore)
     {
-        _dataStore = dataStore;
     }
 
     public async Task<ServiceResult<Pay>> GetPay(Pay item)
