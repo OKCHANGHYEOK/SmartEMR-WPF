@@ -79,6 +79,7 @@ namespace SmartEMR.Application
             services.AddSingleton<IConsultationService, ConsultationService>();
             services.AddSingleton<IConsultationOrderService, ConsultationOrderService>();
             services.AddSingleton<IPayService, PayService>();
+            services.AddSingleton<INaverPayService, NaverPayService>();
 
             this.Services = services.BuildServiceProvider();
         }

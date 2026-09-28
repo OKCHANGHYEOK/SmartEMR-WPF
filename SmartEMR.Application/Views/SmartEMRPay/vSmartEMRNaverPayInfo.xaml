@@ -9,9 +9,9 @@
           xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
           xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
           xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
-          mc:Ignorable="d" 
-          MaxWidth="400"
-          MaxHeight="600"
+          mc:Ignorable="d"
+          MinWidth="400"
+          MinHeight="600"
           HorizontalAlignment="Center"
           VerticalAlignment="Center"
           WindowStartupLocation="CenterScreen">
@@ -19,5 +19,5 @@
     <wv2:WebView2 x:Name="NaverPayWebView"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
-                  Loaded="OnLoaded_NaverPayWebView"/>
+                  Loaded="OnLoaded_WebView"/>
 </Window>

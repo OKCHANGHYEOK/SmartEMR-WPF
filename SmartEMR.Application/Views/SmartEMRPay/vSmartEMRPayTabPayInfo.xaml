@@ -349,14 +349,14 @@
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
-                            <dxc:SimpleButton   Content="전액입력"
+                            <dxc:SimpleButton   Content="전액"
                                                 Background="#E8EEF3" 
                                                 Foreground="#3F5F78"
                                                 BorderBrush="#B8C7D3"
                                                 FontWeight="SemiBold"
                                                 Glyph="/Images/smartemr_check_all.png"
-                                                GlyphWidth="20"
-                                                GlyphHeight="20"
+                                                GlyphWidth="18"
+                                                GlyphHeight="18"
                                                 Padding="2"
                                                 Cursor="Hand"/>
                         </Xpf:BindItem>
@@ -367,14 +367,14 @@
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
-                            <dxc:SimpleButton   Content="현금결제"
+                            <dxc:SimpleButton   Content="현금"
                                                 Background="#EAF5EC"
                                                 Foreground="#287A3D"
                                                 BorderBrush="#A8D5B2"
                                                 FontWeight="SemiBold"
                                                 Glyph="/Images/smartemr_pay_cash.png"
-                                                GlyphWidth="20"
-                                                GlyphHeight="20"
+                                                GlyphWidth="18"
+                                                GlyphHeight="18"
                                                 Padding="2"
                                                 Cursor="Hand"/>
                         </Xpf:BindItem>
@@ -384,14 +384,14 @@
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
-                            <dxc:SimpleButton   Content="카드결제"
+                            <dxc:SimpleButton   Content="카드"
                                                 Background="#EAF1F8"
                                                 Foreground="#32658F"
                                                 BorderBrush="#A9C5DD"
                                                 FontWeight="SemiBold"
                                                 Glyph="/Images/smartemr_pay_card.png"
-                                                GlyphWidth="20"
-                                                GlyphHeight="20"
+                                                GlyphWidth="18"
+                                                GlyphHeight="18"
                                                 Padding="2"
                                                 Cursor="Hand"/>
                         </Xpf:BindItem>
@@ -401,14 +401,14 @@
                                         IsBinding="False"
                                         IsBindClickEvent="True">
 
-                            <dxc:SimpleButton   Content="네이버페이"
+                            <dxc:SimpleButton   Content="NPay"
                                                 Background="#E9F7EE"
                                                 Foreground="#20803C"
                                                 BorderBrush="#A5D6B5"
                                                 FontWeight="SemiBold"
                                                 Glyph="/Images/smartemr_pay_naver.png"
-                                                GlyphWidth="20"
-                                                GlyphHeight="20"
+                                                GlyphWidth="18"
+                                                GlyphHeight="18"
                                                 Padding="2"
                                                 Cursor="Hand"/>
                         </Xpf:BindItem>

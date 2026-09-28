@@ -46,5 +46,7 @@ public enum eAPI
     Reservation_GetReservation = 29,
     Reservation_MoveReservationDate = 30,
     Reservation_SetReservation = 31,
-    Reservation_SetReservationByStatus = 32
+    Reservation_SetReservationByStatus = 32,
+
+    NaverPay_ApplyPayment = 33,
 }

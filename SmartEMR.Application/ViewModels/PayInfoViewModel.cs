@@ -5,10 +5,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Core.NaverPay;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 using System.Diagnostics;
+using SmartEMR.Application.Schemas;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -34,6 +35,7 @@ public partial class PayInfoViewModel : PayViewModel
 
     private readonly IConsultationService _consultationService;
     private readonly IConsultationOrderService _consultationOrderService;
+    private readonly INaverPayService _naverPayService;
 
     [ObservableProperty]
     private List<PayItem> payItems = new();
@@ -46,16 +48,25 @@ public partial class PayInfoViewModel : PayViewModel
         new ConsultationOrder { CSTO_InsuranceTypeName = "비급여", IsVisible = false }
     };
 
-    public PayInfoViewModel(IPayService payService, IConsultationService consultationService, IConsultationOrderService consultationOrderService) : base(payService)
+    public PayInfoViewModel(IPayService payService, 
+                            IConsultationService consultationService, 
+                            IConsultationOrderService consultationOrderService,
+                            INaverPayService naverPayService) : base(payService)
     {
         _consultationService = consultationService;
         _consultationOrderService = consultationOrderService;
+        _naverPayService = naverPayService;
     }
 
-    public PayInfoViewModel(IPayService payService, IConsultationService consultationService, IConsultationOrderService consultationOrderService, Pay item) : base(payService, item)
+    public PayInfoViewModel(IPayService payService, 
+                            IConsultationService consultationService, 
+                            IConsultationOrderService consultationOrderService, 
+                            INaverPayService naverPayService,
+                            Pay item) : base(payService, item)
     {
         _consultationService = consultationService;
         _consultationOrderService = consultationOrderService;
+        _naverPayService = naverPayService;
     }
 
     protected override Pay GetModel(Pay item)
@@ -294,11 +305,14 @@ public partial class PayInfoViewModel : PayViewModel
                 return null;
 
             // 네이버페이 API 요청 로직
+            NaverPayResponse? naverPayRes = null;
+
             if (method == PayMethod.NaverPay)
             {
-                if (!await RequestNaverPayment())
+                naverPayRes = await RequestNaverPayment();
+                if (naverPayRes is null || !naverPayRes.IsSuccess)
                 {
-                    SmartUI.SetNotification("결제 실패했습니다.", NotificationType.Warning);
+                    SmartUI.SetNotification("네이퍼페이 결제 실패했습니다.", NotificationType.Warning);
                     return null;
                 }
             }
@@ -324,6 +338,18 @@ public partial class PayInfoViewModel : PayViewModel
             {
                 SmartUI.SetNotification("수납 처리하지 못했습니다.", NotificationType.Error);
                 return null;
+            }
+
+            // 이후 처리
+            object? response = method switch
+            {
+                PayMethod.NaverPay => naverPayRes,
+                _ => null
+            };
+
+            if (!await ProcessPaymentAfterAsync(method, ret.Item, response))
+            {
+                SmartUI.SetNotification($"{(method == PayMethod.NaverPay ? "네이버페이" : "")} 데이터 저장에 실패했습니다.", NotificationType.Error);
             }
 
             return ret;
@@ -413,11 +439,15 @@ public partial class PayInfoViewModel : PayViewModel
         return true;
     }
 
-    private async Task<bool> RequestNaverPayment()
+    private async Task<NaverPayResponse?> RequestNaverPayment()
     {
-        await NaverPayManager.Open(Model);
+        var result = await NaverPayManager.RequestPayment(Model);
+        if (result is null || !result.IsSuccess)
+        {
+            return null;
+        }
 
-        return true;
+        return result;
     }
 
     private async Task<ServiceResult<PayItem>?> RefundPriceAsync(decimal price)
@@ -484,5 +514,41 @@ public partial class PayInfoViewModel : PayViewModel
         }
 
         return ret;
+    }
+
+    private async Task<bool> ProcessPaymentAfterAsync(PayMethod method, PayItem payItem, object? response = null)
+    {
+        switch (method)
+        {
+            case PayMethod.None:
+                break;
+
+            case PayMethod.Cash:
+                break;
+
+            case PayMethod.Card:
+                break;
+
+            case PayMethod.NaverPay:
+                if (response is not NaverPayResponse naverPayRes)
+                    return false;
+
+                var item = new NaverPay
+                {
+                    PAYI_Idx = payItem.PAYI_Idx,
+                    paymentId = naverPayRes.Item.paymentId,
+                };
+
+                var ret = await _naverPayService.ApplyNaverPay(item);
+                if (ret.Item is null || !ret.IsSuccess)
+                {
+                    SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
+                    return false;
+                }
+
+                break;
+        }
+
+        return true;
     }
 }
