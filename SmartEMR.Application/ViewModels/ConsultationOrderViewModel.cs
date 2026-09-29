@@ -4,7 +4,6 @@ using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 using System.Collections.ObjectModel;
 
 namespace SmartEMR.Application.ViewModels;
@@ -17,8 +16,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     private ObservableCollection<ConsultationOrder> consultationOrderItems = new();
     private List<ConsultationOrder> deletedItems = new();
 
-    private Patient SelectedPAT = new();
-    private Consultation SelectedCST = new();
+    public Consultation SelectedCST { get; set; } = new();
+    private Patient SelectedPAT { get; set; } = new();
 
     private CopaymentType copaymentType
     {
@@ -147,6 +146,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public async void UpdatePriceData()
     {
+        if (SelectedCST.PAY_Idx > 0) return;
+
         var insuredTotal = ConsultationOrderItems.Where(x => x.CSTO_InsuranceType == "INS").Sum(x => x.CSTO_TotalPrice);
         var ownPatientTotal = SelectedCST.CST_InsuranceType switch
         {

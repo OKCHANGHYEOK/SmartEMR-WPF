@@ -66,7 +66,9 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         SmartMVVM.ModelProperty.SetConsultationData(Model, item);
 
         await SetInsuranceData(item);
+
         await SmartUI.SendMessage("UpdateCSTOInfo", item, viewType: TargetViewType.PageView);
+        await SmartUI.SendMessage("UpdatePayInfoByCST", item, viewType: TargetViewType.PageView);
 
         if (isUserSelection)
         {
@@ -152,7 +154,6 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 
             CST_InsuranceType = Model.CST_InsuranceType,
             CST_Status = Model.CST_Status,
-            CST_PayStatus = Model.CST_PayStatus,
             CST_Subject = Model.CST_Subject,
             CST_YYMMDD = SmartMVVM.Common.GetYYMMDDByDateString(Model.CST_YYMMDD),
 

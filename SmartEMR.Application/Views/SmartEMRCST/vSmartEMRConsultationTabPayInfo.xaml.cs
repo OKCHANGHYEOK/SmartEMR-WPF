@@ -28,4 +28,9 @@ public partial class vSmartEMRConsultationTabPayInfo : ModelViewLayout<PayInfoVi
     {
         vm.UpdatePriceData(item);
     }
+    
+    public void UpdatePriceDataByCST(Consultation item)
+    {
+        vm.UpdatePriceDataByCST(item);
+    }
 }

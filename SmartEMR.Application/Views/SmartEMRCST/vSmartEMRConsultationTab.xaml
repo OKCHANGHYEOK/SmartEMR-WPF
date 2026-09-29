@@ -15,7 +15,8 @@
                       xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                       mc:Ignorable="d"
                       d:DesignHeight="920"
-                      d:DesignWidth="800">
+                      d:DesignWidth="800"
+                      d:DataContext="{d:DesignInstance Type={x:Type vm:ConsultationViewModel}}">
 
     <dxd:DockLayoutManager dxc:ThemeManager.ThemeName="Office2010Blue">
         <dxd:LayoutGroup Orientation="Horizontal">
@@ -59,9 +60,29 @@
                                                     GlyphToContentOffset="2"
                                                     Padding="2"
                                                     Cursor="Hand"
-                                                    IsEnabled="{Binding Model.CST_Idx, Converter={converter:IntToBooleanConverter Invert=True}}"
                                                     dxc:ThemeManager.ThemeName="Office2016Colorful"
-                                                    Command="{Binding CancelConsultationCommand}"/>
+                                                    Command="{Binding CancelConsultationCommand}">
+
+                                <dxc:SimpleButton.Style>
+                                    <Style TargetType="{x:Type dxc:SimpleButton}">
+                                        <Setter Property="IsEnabled" Value="True"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Model.CST_Idx}" Value="0">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Model.CST_PayStatus}" Value="PAR">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Model.CST_PayStatus}" Value="END">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </dxc:SimpleButton.Style>
+                            </dxc:SimpleButton>
 
                             <dxc:SimpleButton   Grid.Column="1"
                                                 Content="진료대기"

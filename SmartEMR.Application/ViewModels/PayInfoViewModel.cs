@@ -95,6 +95,11 @@ public partial class PayInfoViewModel : PayViewModel
         SmartMVVM.ModelProperty.SetPayPriceData(Model, item);
     }
 
+    public void UpdatePriceDataByCST(Consultation item)
+    {
+        SmartMVVM.ModelProperty.SetPayPriceDataByCST(Model, item);
+    }
+
     public void ClearData()
     {
         SmartMVVM.ModelProperty.ClearCSTData(SelectedCST);
@@ -113,7 +118,10 @@ public partial class PayInfoViewModel : PayViewModel
 
     protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
-        await SmartUI.SendMessage("RefreshPAY", viewType:TargetViewType.PageView);
+        await SmartUI.SendMessage("RefreshPAY", viewType: TargetViewType.PageView);
+
+        SmartUI.AddRefreshRequest(RefreshPageType.DSK);
+        SmartUI.AddRefreshRequest(RefreshPageType.CST);
 
         SmartUI.SetNotification($"수납{(saveMode == SaveMode.SAVE ? "완료" : "취소" )}되었습니다.", NotificationType.Success);
     }

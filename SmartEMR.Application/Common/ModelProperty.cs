@@ -500,6 +500,11 @@ public class ModelProperty
         oldItem.CST_Opinion = RtfConverter.ConvertRtfToPlainText(newItem.CST_Opinion ?? "");
         oldItem.CST_Memo = newItem.CST_Memo;
         oldItem.CST_YYMMDD = newItem.CST_YYMMDD;
+        oldItem.CST_InsuredPrice = newItem.CST_InsuredPrice;
+        oldItem.CST_NonInsuredPrice = newItem.CST_NonInsuredPrice;
+        oldItem.CST_OwnPatientPrice = newItem.CST_OwnPatientPrice;
+        oldItem.CST_PaidPrice = newItem.CST_PaidPrice;
+        oldItem.CST_RemainPrice = newItem.CST_RemainPrice;
     }
 
 
@@ -588,6 +593,16 @@ public class ModelProperty
         oldItem.PAY_TotalPrice = newItem.PAY_TotalPrice;
         oldItem.PAY_PaidPrice = newItem.PAY_PaidPrice;
         oldItem.PAY_RemainPrice = newItem.PAY_RemainPrice;
+    }
+
+    public void SetPayPriceDataByCST(Pay pay, Consultation consultation)
+    {
+        pay.PAY_InsuredPrice = consultation.CST_InsuredPrice;
+        pay.PAY_OwnPatientPrice = consultation.CST_OwnPatientPrice;
+        pay.PAY_NonInsuredPrice = consultation.CST_NonInsuredPrice;
+        pay.PAY_TotalPrice = consultation.CST_TotalPrice;
+        pay.PAY_PaidPrice = consultation.CST_PaidPrice;
+        pay.PAY_RemainPrice = consultation.CST_RemainPrice;
     }
 
     public void ClearPAYData(Pay item)

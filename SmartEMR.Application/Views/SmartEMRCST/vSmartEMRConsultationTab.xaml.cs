@@ -128,6 +128,17 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     break;
                 }
 
+            case "UpdatePayInfoByCST":
+                {
+                    var paramItem = request.MessageParameter as Consultation;
+                    if (paramItem is not null)
+                    {
+                        SmartEMRConsultationTabPayInfo.UpdatePriceDataByCST(paramItem);
+                    }
+
+                    break;
+                }
+
             case "UpdateCSTByIRC":
                 {
                     if (request.MessageParameter is Insurance paramItem)
@@ -225,6 +236,8 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
             await SmartEMRConsultationTabCST.RefreshData();
 
             types.RemoveAll(x => x == RefreshPageType.CST);
+
+            SmartUI.SetNotification("진료 데이터 변경된 이력이 있어 갱신되었습니다.", NotificationType.Info);
         }
     }
 
@@ -322,7 +335,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
     private void UpdatePayInfo(Pay item)
     {
         SmartEMRConsultationTabPayInfo.UpdatePriceData(item);
-
+        
         vm.UpdatePriceData(item);
     }
 
