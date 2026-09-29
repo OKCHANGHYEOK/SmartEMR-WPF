@@ -21,7 +21,7 @@
                       d:DataContext="{d:DesignInstance Type=vm:PayInfoViewModel}">
 
     <Xpf:StyleGrid LayoutDefinitions="1,7"
-                   RowSizeDefinitions="*,Auto,*,Auto,*,Auto,Auto">
+                   RowSizeDefinitions="0.5*,Auto,*,Auto,*,Auto,Auto">
 
         <dxlc:GroupBox  Grid.Row="0"
                         Header="진료정보"
@@ -29,7 +29,7 @@
                         Padding="0"
                         ShowShadow="Never">
 
-            <Xpf:BindGrid LayoutDefinitions="2,5"
+            <Xpf:BindGrid LayoutDefinitions="3,4"
                           BindStyle="DataCell"
                           DataContext="{Binding SelectedCST}">
 
@@ -49,33 +49,33 @@
                 <Xpf:BindItem FieldName="vCST_Status"
                               Header="상태"
                               BindType="Label"
-                              Col="0"
-                              Row="1"></Xpf:BindItem>
+                              Col="2"
+                              Row="0"/>
 
                 <Xpf:BindItem FieldName="vCST_SubjectName"
                               Header="진 료 과 목"
                               BindType="Label"
-                              Col="1"
+                              Col="0"
                               Row="1"/>
 
                 <Xpf:BindItem FieldName="vCST_TreatResult"
                               Header="치 료 결 과"
                               BindType="Label"
-                              Col="0"
-                              Row="2"></Xpf:BindItem>
+                              Col="1"
+                              Row="1"></Xpf:BindItem>
 
                 <Xpf:BindItem FieldName="MUR_Name_DOC"
                               Header="담 당 의 사"
                               BindType="Label"
-                              Col="1"
-                              Row="2"/>
+                              Col="2"
+                              Row="1"/>
 
                 <Xpf:BindItem FieldName="CST_Opinion"
                               Header="진 료 소 견"
                               BindType="TextBox"
                               Col="0"
-                              ColSpan="2"
-                              Row="3"
+                              ColSpan="3"
+                              Row="2"
                               RowSpan="2"
                               ContentAlignment="LeftTop"
                               IsEnabled="False"/>

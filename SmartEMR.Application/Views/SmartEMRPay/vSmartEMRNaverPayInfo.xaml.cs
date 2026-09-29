@@ -88,7 +88,7 @@ namespace SmartEMR.Application.Views.SmartEMRPay
                 taxScopeAmount = payPrice,
                 taxExScopeAmount = 0,
 
-                returnUrl = "https://developers.pay.naver.com/user/sand-box/payment"
+                returnUrl = $"https://{returnHost}/user/sand-box/payment"
             };
 
             var json = JsonSerializer.Serialize(request);

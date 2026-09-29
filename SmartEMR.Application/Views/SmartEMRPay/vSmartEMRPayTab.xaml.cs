@@ -65,7 +65,7 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
         var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
         if (retPAT is null || !SmartMVVM.DataStore.retIsSuccess)
         {
-            SmartUI.SetNotification("한자정보가 유효하지 않습니다.", NotificationType.Error);
+            SmartUI.SetNotification("환자정보가 유효하지 않습니다.", NotificationType.Error);
             return;
         }
 
