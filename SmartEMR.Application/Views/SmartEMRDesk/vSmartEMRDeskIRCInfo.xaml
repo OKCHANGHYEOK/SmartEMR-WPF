@@ -5,6 +5,7 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                        xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                         xmlns:view="clr-namespace:SmartEMR.Application.Views"
@@ -16,7 +17,9 @@
                         xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d" 
-                        d:DesignHeight="450" d:DesignWidth="800">
+                        d:DesignHeight="450" 
+                        d:DesignWidth="800"
+                        d:DataContext="{d:DesignInstance Type={x:Type vm:SmartEMRIRCInfoViewModel}}">
     
     <Xpf:StyleGrid  x:Name="LayoutRoot"
                     LayoutDefinitions="1,2"
@@ -174,9 +177,8 @@
 
         <Xpf:MaskControl x:Name="ConsultationMaskControl"
                          Grid.RowSpan="2"
-                         Visibility="{Binding Reception.CST_Idx, Converter={converter:IntToVisibilityConverter}}"
+                         Visibility="{Binding Reception.CST_Status, Converter={local:CSTStatusToVisibilityConverter}}"
                          ShowButton="False">
-            
             <Xpf:TextBlock TextAlignment="Center">
                 <Run>진료가 존재하는 접수의 보험은 수정할 수 없습니다.</Run>
             </Xpf:TextBlock>

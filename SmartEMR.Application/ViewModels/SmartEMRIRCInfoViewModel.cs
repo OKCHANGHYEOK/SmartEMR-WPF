@@ -8,19 +8,6 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class SmartEMRIRCInfoViewModel : InsuranceInfoViewModel
 {
-    public async Task<bool> ExistsCST()
-    {
-        if (Reception.RCP_Idx.GetValueOrDefault(0) == 0) return false;
-
-        var retCST = await SmartMVVM.DataStore.GetItem<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { RCP_Idx = Reception.RCP_Idx });
-        if (retCST is not null)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     public void ClearData()
     {
         SmartMVVM.ModelProperty.ClearIRCData(Model);

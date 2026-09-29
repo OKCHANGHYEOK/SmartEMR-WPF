@@ -20,7 +20,7 @@ public partial class ViewMessenger
     // 내부 저장소는 공통 베이스 클래스 핸들러로 관리
     private readonly List<(ViewLayout View, Func<ViewMessageRequest, Task<ViewMessageResponse?>> Handler)> _subscribers = new();
 
-    private readonly List<RefreshPageType> _refreshPageTypes = new();
+    private readonly List<(RefreshPageType type, object? parameter)> _refreshRequests = new();
 
     public void Register(ViewLayout view, Func<ViewMessageRequest, Task<ViewMessageResponse?>> handler)
     {
@@ -85,14 +85,19 @@ public partial class ViewMessenger
 
 public partial class ViewMessenger
 {
-    public void AddRefreshRequest(RefreshPageType type)
+    public void AddRefresshRequest(RefreshPageType type)
     {
-        _refreshPageTypes.Add(type);
+        _refreshRequests.Add((type, null));
+    }
+
+    public void AddRefreshRequest(RefreshPageType type, object? parameter = null)
+    {
+        _refreshRequests.Add((type, parameter));
     }
 
     public void ExecuteRefresh(ViewLayout viewLayout)
     {
-        viewLayout.ReceiveRefreshRequest(_refreshPageTypes);
+        viewLayout.ReceiveRefreshRequest(_refreshRequests);
     }
 }
 

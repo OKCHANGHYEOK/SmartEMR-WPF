@@ -60,7 +60,7 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                         {
                             Reception RCPItem = SmartMVVM.ModelProperty.GetReceptionDataFromRCB(paramItem);
 
-                            UpdateRCPData(RCPItem);
+                            await UpdateRCPData(RCPItem);
                         }
                     }
 
@@ -125,14 +125,14 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
                     var paramItem = request.MessageParameter as Reception;
                     if (paramItem != null && paramItem.RCP_Idx == SmartEMRDeskRCPInfo.RCPItem.RCP_Idx)
                     {
-                        UpdateRCPData(paramItem);
+                        await UpdateRCPData(paramItem);
                     } 
 
                     break;
                 }
 
             case "RefreshRCB":
-                SmartEMRDeskRCB.RefreshData();
+                await SmartEMRDeskRCB.RefreshData();
                 break;
 
             case "ClearPAT":
@@ -156,20 +156,25 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         return response;
     }
 
-    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    public override async Task ReceiveRefreshRequest(List<(RefreshPageType type, object? parameter)> requests)
     {
-        if (types is not null && types.Contains(RefreshPageType.DSK))
+        if (requests is not null && requests.Any(x => x.type == RefreshPageType.DSK))
         {
-            if (SelectedRCP.RCP_Idx > 0)
+            await SmartEMRDeskRCB.RefreshData();
+
+            foreach (var req in requests.Where(x => x.type == RefreshPageType.DSK))
             {
-                var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, new Reception { RCP_Idx = SelectedRCP.RCP_Idx });
-                if (retRCP is not null)
+                if (req.parameter is Reception reception)
                 {
-                    UpdateRCPData(retRCP);
+                    await RefreshRCPData(reception.RCP_Idx.GetValueOrDefault(0));
+
+                    SmartUI.SetNotification("접수데이터 변경된 이력이 있어 갱신했습니다.", NotificationType.Info);
                 }
+
+                requests.Remove(req);
             }
 
-            types.RemoveAll(x => x == RefreshPageType.DSK);
+            SmartUI.SetNotification("접수현황 변경된 이력이 있어 갱신했습니다.", NotificationType.Info);
         }
     }
 
@@ -185,15 +190,24 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         vm.SetPatientData(ret);
 
         SmartEMRDeskPATView.SetPatientData(ret);
-        SmartEMRDeskRCPInfo.SetPatientData(ret);
-
+        
+        await SmartEMRDeskRCPInfo.SetPatientDataAsync(ret);
         await SmartEMRDeskPATHistory.SetPatientDataAsync(ret);
     }
 
-    private void UpdateRCPData(Reception item)
+    private async Task UpdateRCPData(Reception item)
     {
-        SmartEMRDeskRCPInfo.UpdateRCPData(item);
+        await SmartEMRDeskRCPInfo.UpdateRCPData(item);
+        
         SmartEMRDeskIRCInfo.UpdateRCPData(item);
+    }
+
+    private async Task RefreshRCPData(int RCP_Idx)
+    {
+        var ret = await vm.GetReception(RCP_Idx);
+        if (ret is null) return;
+
+        await UpdateRCPData(ret);
     }
 
     private async void ClearData(bool isClearPAT = true)

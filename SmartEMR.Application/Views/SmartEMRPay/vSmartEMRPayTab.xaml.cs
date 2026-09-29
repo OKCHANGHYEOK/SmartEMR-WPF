@@ -50,13 +50,15 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
         return response;
     }
 
-    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    public override async Task ReceiveRefreshRequest(List<(RefreshPageType type, object? parameter)> types)
     {
-        if (types.Contains(RefreshPageType.PAY))
+        if (types.Any(x => x.type == RefreshPageType.PAY))
         {
             await SmartEMRPayTabPAY.RefreshData();
 
-            types.RemoveAll(x => x == RefreshPageType.PAY);
+            types.RemoveAll(x => x.type == RefreshPageType.PAY);
+
+            SmartUI.SetNotification("수납 데이터 변경된 이력이 있어 갱신했습니다.", NotificationType.Info);
         }
     }
 

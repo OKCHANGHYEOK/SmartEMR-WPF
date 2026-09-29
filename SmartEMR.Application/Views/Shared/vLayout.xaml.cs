@@ -49,7 +49,7 @@ public partial class vLayout : ViewLayout
         return await vl.ReceiveMessage(request);
     }
 
-    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    public override async Task ReceiveRefreshRequest(List<(RefreshPageType type, object? parameter)> requests)
     {
     }
 

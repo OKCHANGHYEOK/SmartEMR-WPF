@@ -307,6 +307,7 @@ public class ModelProperty
             RCP_VisitType = paramItem.RCB_VisitType,
             RCP_InsuranceType = paramItem.RCP_InsuranceType,
             RCP_Status = string.IsNullOrWhiteSpace(paramItem.RCP_Status) ? "RDY" : paramItem.RCP_Status,
+            CST_Status = string.IsNullOrWhiteSpace(paramItem.RCP_Status) ? "NON" : paramItem.CST_Status,
             RCP_Route = paramItem.RCB_Route,
             RCP_Subject = paramItem.RCB_Subject,
             RCP_SubjectName = paramItem.RCB_SubjectName,
@@ -330,6 +331,7 @@ public class ModelProperty
         oldItem.PAT_Name = newItem.PAT_Name;
         oldItem.RCP_VisitType = newItem.RCP_VisitType;
         oldItem.RCP_Status = newItem.RCP_Status;
+        oldItem.CST_Status = newItem.CST_Status;
         oldItem.RCP_Route = newItem.RCP_Route;
         oldItem.RCP_Subject = newItem.RCP_Subject;
         oldItem.RCP_SubjectName = newItem.RCP_SubjectName;

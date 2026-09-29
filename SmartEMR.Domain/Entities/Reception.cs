@@ -50,8 +50,9 @@ public class Reception : BaseEntity
     private string? m_IRC_Specific;
     private string? m_IRC_EffectiveYYMMDD;
     private string? m_IRC_ExpiredYYMMDD;
-
     private Insurance? m_IRCItem;
+
+    private string? m_CST_Status;
 
     #region "NotifyPropertyChanged"
 
@@ -323,6 +324,13 @@ public class Reception : BaseEntity
     {
         get => m_IRCItem;
         set => SetProperty(ref m_IRCItem, value);
+    }
+
+
+    public string? CST_Status
+    {
+        get => m_CST_Status;
+        set => SetProperty(ref m_CST_Status, value);
     }
 
     #endregion

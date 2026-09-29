@@ -268,9 +268,23 @@ public static partial class SmartUI
         return Messenger.SendMessageToSearchView(action, parameter);
     }
 
+    /// <summary>
+    /// 페이지 이동시 내역을 갱신해야하는 경우 사용
+    /// </summary>
+    /// <param name="type"></param>
     public static void AddRefreshRequest(RefreshPageType type)
     {
         Messenger.AddRefreshRequest(type);
+    }
+
+    /// <summary>
+    /// 페이지 이동시 내역 갱신 및 해당 페이지에서 보고 있는(선택된) 데이터도 갱신해야하는 경우 사용
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="parameter"></param>
+    public static void AddRefreshRequest(RefreshPageType type, object? parameter = null)
+    {
+        Messenger.AddRefreshRequest(type, parameter);
     }
 }
 

@@ -103,7 +103,7 @@ public class ConsultationService : BaseService, IConsultationService
         var result = new ServiceResult<Consultation>();
         var ret = await _dataStore.GetItem<Consultation>(eAPI.Consultation_CancelConsultation, item);
 
-        if (ret is null || !_dataStore.retIsSuccess)
+        if (!_dataStore.retIsSuccess)
         {
             result.Message = "진료취소하는데 실패했습니다.";
             return result;

@@ -144,6 +144,20 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         Model.vCST_InsuranceType = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", item.IRC_Type ?? "");
     }
 
+    public async Task RefreshSelectedCST(int CST_Idx)
+    {
+        if (CST_Idx != Model.CST_Idx) return;
+
+        var ret = await _consultationService.GetConsultation(new Consultation { CST_Idx = CST_Idx });
+        if (ret.Item is null || !ret.IsSuccess)
+        {
+            SmartUI.SetNotification("진료 데이터 갱신에 실패했습니다.", NotificationType.Error);
+            return;
+        }
+
+        await SetSelectedCST(ret.Item);
+    }
+
     [RelayCommand]
     public async Task UpdateConsultationsByRCP()
     {
@@ -201,6 +215,12 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     [RelayCommand]
     public async Task CancelConsultation()
     {
+        if (Model.CST_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNotification("선택된 진료가 없습니다.", NotificationType.Warning);
+            return;
+        }
+
         if (SmartUI.MsgYesNo("진료/보험/처방 기록이 모두 삭제됩니다.\n 취소하시겠습니까?") is MessageBoxResult.No) return;
 
         var item = new Consultation
@@ -314,7 +334,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
                 break;
         }
 
-        SmartUI.AddRefreshRequest(RefreshPageType.DSK);
+        SmartUI.AddRefreshRequest(RefreshPageType.DSK, new Reception { RCP_Idx = Model.RCP_Idx });
         SmartUI.AddRefreshRequest(RefreshPageType.PAY);
 
         SmartUI.SetNotification($"진료{(saveMode == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);

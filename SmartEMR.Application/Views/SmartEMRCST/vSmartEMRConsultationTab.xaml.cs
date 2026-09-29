@@ -223,15 +223,26 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         return response;
     }
 
-    public override async Task ReceiveRefreshRequest(List<RefreshPageType> types)
+    public override async Task ReceiveRefreshRequest(List<(RefreshPageType type, object? parameter)> requests)
     {
-        if (types.Contains(RefreshPageType.CST))
+        if (requests.Any(x => x.type == RefreshPageType.CST))
         {
             await SmartEMRConsultationTabCST.RefreshData();
 
-            types.RemoveAll(x => x == RefreshPageType.CST);
+            foreach (var req in requests.Where(x => x.type == RefreshPageType.CST).Reverse())
+            {
+                if (req.parameter is Consultation consultation)
+                {
+                    if (consultation.CST_Idx == SelectedCST.CST_Idx)
+                    {
+                       await vm.RefreshSelectedCST(consultation.CST_Idx.GetValueOrDefault(0));
+                    }
+                }
 
-            SmartUI.SetNotification("진료 데이터 변경된 이력이 있어 갱신되었습니다.", NotificationType.Info);
+                requests.Remove(req);
+            }
+
+            SmartUI.SetNotification("진료현황 변경된 이력이 있어 갱신했습니다.", NotificationType.Info);
         }
     }
 

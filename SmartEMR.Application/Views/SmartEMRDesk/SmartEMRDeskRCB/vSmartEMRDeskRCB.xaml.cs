@@ -101,6 +101,8 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             if (dataGrid.IsDoubleClicked)
             {
                 await SmartUI.SendMessage("SetPatientByRCB", dataItem, viewType:TargetViewType.PageView);
+
+                SmartUI.SetNotification("접수 선택되었습니다.", NotificationType.Info);
                 return;
             }
 
@@ -203,7 +205,7 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
             }
         }
 
-        public async void RefreshData()
+        public async Task RefreshData()
         {
             await vm.FetchDataAsync();
         }

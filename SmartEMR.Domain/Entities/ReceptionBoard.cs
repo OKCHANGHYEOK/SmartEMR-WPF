@@ -46,6 +46,8 @@ public class ReceptionBoard : BaseEntity
     private string? m_IRC_Type;
     private string? m_vIRC_Type;
 
+    private string? m_CST_Status;
+
     #region "NotifyPropertChanged"
 
     public int? MEM_Idx
@@ -269,6 +271,12 @@ public class ReceptionBoard : BaseEntity
     {
         get => m_vIRC_Type;
         set => SetProperty(ref m_vIRC_Type, value);
+    }
+
+    public string? CST_Status
+    {
+        get => m_CST_Status;
+        set => SetProperty(ref m_CST_Status, value);
     }
 
     #endregion

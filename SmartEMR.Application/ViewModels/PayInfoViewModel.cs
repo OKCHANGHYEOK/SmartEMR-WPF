@@ -121,7 +121,7 @@ public partial class PayInfoViewModel : PayViewModel
         await SmartUI.SendMessage("RefreshPAY", viewType: TargetViewType.PageView);
 
         SmartUI.AddRefreshRequest(RefreshPageType.DSK);
-        SmartUI.AddRefreshRequest(RefreshPageType.CST);
+        SmartUI.AddRefreshRequest(RefreshPageType.CST, new Consultation { CST_Idx = SelectedCST.CST_Idx });
 
         SmartUI.SetNotification($"수납{(saveMode == SaveMode.SAVE ? "완료" : "취소" )}되었습니다.", NotificationType.Success);
     }
