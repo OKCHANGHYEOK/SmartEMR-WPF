@@ -5,6 +5,7 @@ public enum eResponseCode
     SUCCESS = 200,
     CREATE_SUCCESS = 201,
 
+    BADREQUEST = 400,
     UNAUTHORIZED = 4001,     
     TOKEN_EXPIRED = 4002,    
     INVALID_TOKEN = 4003,  

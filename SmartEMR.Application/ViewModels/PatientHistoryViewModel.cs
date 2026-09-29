@@ -1,40 +1,32 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.ViewModels;
 
-public enum ePatientHistoryType
-{
-    RES,
-    RCP,
-    CST,
-    CSTO,
-    PAY
-}
-
 public partial class PatientHistoryViewModel : PatientViewModel
 {
     [ObservableProperty]
-    private List<Reservation> reservationItems;
+    private List<Reservation> reservationItems = new();
     [ObservableProperty]
-    private List<Reception> receptionItems;
+    private List<Reception> receptionItems = new();
     [ObservableProperty]
-    private List<Consultation> consultationItems;
+    private List<Consultation> consultationItems = new();
     [ObservableProperty]
-    private List<ConsultationOrder> consultationOrderItems;
+    private List<ConsultationOrder> consultationOrderItems = new();
     [ObservableProperty]
-    private List<Pay> payItems;
+    private List<Pay> payItems = new();
 
-    public PatientHistoryViewModel()
+    public PatientHistoryViewModel(IPatientService patientService) : base(patientService)
     {
-        ReservationItems = new();
-        ReceptionItems = new();
-        ConsultationItems = new();
-        ConsultationOrderItems = new();
-        PayItems = new();
+    }
+
+    public PatientHistoryViewModel(IPatientService patientServie, Patient item) : base(patientServie, item)
+    {
+
     }
 
     public override async Task FetchDataAsync(object parameter)

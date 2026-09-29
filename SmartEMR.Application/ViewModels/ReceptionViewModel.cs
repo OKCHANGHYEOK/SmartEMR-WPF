@@ -1,20 +1,32 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
 public partial class ReceptionViewModel : BaseViewModel<Reception>
 {
-    public ReceptionViewModel() { }
-    public ReceptionViewModel(Reception item) : base(item) { }
-
     public Patient PATItem { get; set; } = new();
     public Reception RCPItem { get; set; } = new();
     public Insurance IRCItem { get; set; } = new();
+
+    protected readonly IPatientService _patientService;
+    protected readonly IReceptionService _receptionService;
+
+    public ReceptionViewModel(IPatientService patientService, IReceptionService receptionService)
+    {
+        _patientService = patientService;
+        _receptionService = receptionService;
+    }
+
+    public ReceptionViewModel(IPatientService patientService, IReceptionService receptionService, Reception item) : base(item) 
+    {
+        _patientService = patientService;
+        _receptionService = receptionService;
+    }
 
     public override void Initialize()
     {
@@ -24,25 +36,23 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
     {
         if (Model.RCP_Idx.GetValueOrDefault(0) > 0)
         {
-            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
-            if (retPAT == null || !SmartMVVM.DataStore.retIsSuccess)
+            var retPAT = await _patientService.GetPatient(new Patient { PAT_Idx = Model.PAT_Idx });
+            if (retPAT.Item is null || retPAT.IsSuccess)
             {
-                SmartUI.SetNotification("삭제됐거나 존재하지 않는 환자입니다.", NotificationType.Error);
+                SmartUI.SetNotification(retPAT.Message ?? "", NotificationType.Error);
                 return;
             }
 
-            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, new Reception { RCP_Idx = Model.RCP_Idx });
-            if (retRCP == null || !SmartMVVM.DataStore.retIsSuccess)
+            var retRCP = await _receptionService.GetReception(new Reception { RCP_Idx = Model.RCP_Idx });
+            if (retRCP.Item is null || !retRCP.IsSuccess)
             {
-                SmartUI.SetNotification("삭제됐거나 존재하지 않는 접수입니다.", NotificationType.Error);
+                SmartUI.SetNotification(retRCP.Message ?? "", NotificationType.Error);
                 return;
             }
 
-            var retIRC = SmartMVVM.ModelProperty.GetInsuranceDataFromRCP(retRCP);
-
-            SmartMVVM.ModelProperty.SetPatientData(PATItem, retPAT);
-            SmartMVVM.ModelProperty.SetReceptionData(RCPItem, retRCP);
-            SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, retIRC);
+            SmartMVVM.ModelProperty.SetPatientData(PATItem, retPAT.Item);
+            SmartMVVM.ModelProperty.SetReceptionData(RCPItem, retRCP.Item);
+            SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, SmartMVVM.ModelProperty.GetInsuranceDataFromRCP(retRCP.Item));
         }
     }
 
@@ -94,19 +104,21 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
             }
 
             var setRCP = SmartMVVM.ModelProperty.GetReceptionDataForSave(RCPItem, IRCItem);
-            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_SetReception, setRCP);
+            var retRCP = await _receptionService.SetReception(setRCP);
 
-            if (retRCP == null || SmartMVVM.DataStore.retIsSuccess == false)
+            if (retRCP.Item is null || !retRCP.IsSuccess)
             {
                 SmartUI.SetNotification($"접수{actionName}하지 못했습니다.", NotificationType.Error);
                 return;
             }
 
-            SmartMVVM.ModelProperty.SetReceptionData(RCPItem, retRCP);
+            var reception = retRCP.Item;
 
-            if (retRCP.IRCItem is not null)
+            SmartMVVM.ModelProperty.SetReceptionData(RCPItem, reception);
+
+            if (reception.IRCItem is not null)
             {
-                SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, retRCP.IRCItem);
+                SmartMVVM.ModelProperty.SetInsuranceData(IRCItem, reception.IRCItem);
             }
         }
 
@@ -119,11 +131,10 @@ public partial class ReceptionViewModel : BaseViewModel<Reception>
     {
         if (SmartUI.MsgYesNo("접수취소 하시겠습니까?") != MessageBoxResult.Yes) return false;
 
-        await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_CancelReception, new Reception { RCP_Idx = RCPItem.RCP_Idx, RES_Idx = RCPItem.RES_Idx, RCP_IsValid = false });
-
-        if (SmartMVVM.DataStore.retIsSuccess == false)
+        var ret = await _receptionService.CancelReception(new Reception { RCP_Idx = RCPItem.RCP_Idx, RES_Idx = RCPItem.RES_Idx, RCP_IsValid = false });
+        if (!ret.IsSuccess || !string.IsNullOrWhiteSpace(ret.Message))
         {
-            SmartUI.SetNotification("접수취소하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return false;
         }
 

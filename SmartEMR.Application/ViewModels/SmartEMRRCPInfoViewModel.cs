@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 
@@ -8,8 +9,9 @@ namespace SmartEMR.Application.ViewModels;
 
 public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
 {
-    public SmartEMRRCPInfoViewModel() { }
-    public SmartEMRRCPInfoViewModel(Reception item) : base(item) { }
+    public SmartEMRRCPInfoViewModel(IPatientService patientService, IReceptionService receptionService) : base(patientService, receptionService)
+    {
+    }
 
     public override void Initialize()
     {
@@ -50,10 +52,10 @@ public partial class SmartEMRRCPInfoViewModel : ReceptionViewModel
                 RCP_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd")
             };
 
-            var retRCP = await SmartMVVM.DataStore.GetItem<Reception>(eAPI.Reception_GetReception, getRCP);
-            if (retRCP is null) return;
+            var retRCP = await _receptionService.GetReception(getRCP);
+            if (retRCP.Item is null) return;
 
-            item = retRCP;
+            item = retRCP.Item;
         }
 
         if (item is null) return;

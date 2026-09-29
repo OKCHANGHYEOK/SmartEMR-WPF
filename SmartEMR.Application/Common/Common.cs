@@ -22,6 +22,15 @@ public enum eSmartEMRLocation
     CONFIG = 5
 }
 
+public enum ePatientHistoryType
+{
+    RES,
+    RCP,
+    CST,
+    CSTO,
+    PAY
+}
+
 public enum eBirthType
 {
     Year,

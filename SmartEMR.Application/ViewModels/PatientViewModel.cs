@@ -1,12 +1,22 @@
 ﻿using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
 public partial class PatientViewModel : BaseViewModel<Patient>
 {
-    public PatientViewModel() : base() { }
-    public PatientViewModel(Patient item) : base(item) { }
+    protected readonly IPatientService _patientService;
+
+    public PatientViewModel(IPatientService patientService) : base() 
+    {
+        _patientService = patientService;
+    }
+
+    public PatientViewModel(IPatientService patientService, Patient item) : base(item) 
+    {
+        _patientService = patientService;
+    }
 
     public override void Initialize() { }
 

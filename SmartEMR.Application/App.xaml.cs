@@ -76,6 +76,8 @@ namespace SmartEMR.Application
 
             services.AddSingleton<IDataStore>(_ => SmartMVVM.DataStore);
 
+            services.AddSingleton<IPatientService, PatientService>();
+            services.AddSingleton<IReceptionService, ReceptionService>();
             services.AddSingleton<IConsultationService, ConsultationService>();
             services.AddSingleton<IConsultationOrderService, ConsultationOrderService>();
             services.AddSingleton<IPayService, PayService>();

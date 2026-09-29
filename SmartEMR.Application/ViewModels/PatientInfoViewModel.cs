@@ -2,18 +2,18 @@
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.ViewModels;
 
 public partial class PatientInfoViewModel : PatientViewModel
 {
     [ObservableProperty]
-    public FromViewType fromViewType =FromViewType.VIEW;
+    public FromViewType fromViewType = FromViewType.VIEW;
 
-    public PatientInfoViewModel() {}
-    public PatientInfoViewModel(Patient item) : base(item) { }
+    public PatientInfoViewModel(IPatientService patientService) : base(patientService) { }
+    public PatientInfoViewModel(IPatientService patientService, Patient item) : base(patientService, item) { }
 
     public override void Initialize() { }
 
@@ -23,15 +23,15 @@ public partial class PatientInfoViewModel : PatientViewModel
         
         if (Model.PAT_Idx.GetValueOrDefault(0) > 0)
         {
-            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
-            if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
+            var retPAT = await _patientService.GetPatient(new Patient { PAT_Idx = Model.PAT_Idx });
+            if (retPAT.Item is null || !retPAT.IsSuccess)
             {
-                SmartUI.SetNotification("존재하지 않거나 삭제된 회원입니다.", NotificationType.Error);
+                SmartUI.SetNotification(retPAT.Message ?? "", NotificationType.Error);
                 SmartUI.CloseView(TargetViewType.CurrentView);                
                 return;
             }
 
-            SmartMVVM.ModelProperty.SetPatientData(Model, retPAT);
+            SmartMVVM.ModelProperty.SetPatientData(Model, retPAT.Item);
         }
     }
 
@@ -67,15 +67,15 @@ public partial class PatientInfoViewModel : PatientViewModel
             if (!ValidateInputData()) return;
 
             var item = SmartMVVM.ModelProperty.GetPatientDataForSave(Model);
-            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, item);
+            var retPAT = await _patientService.SetPatient(item);
 
-            if (retPAT == null || SmartMVVM.DataStore.retIsSuccess == false)
+            if (retPAT.Item is null || !retPAT.IsSuccess)
             {
                 SmartUI.SetNotification("환자정보 저장에 실패했습니다.", NotificationType.Error);
                 return;
             }
 
-            SmartMVVM.ModelProperty.SetPatientData(Model, retPAT);
+            SmartMVVM.ModelProperty.SetPatientData(Model, retPAT.Item);
         }
 
         await NotifyCompletedTaskAsync(saveMode);
@@ -87,11 +87,10 @@ public partial class PatientInfoViewModel : PatientViewModel
     {
         if (SmartUI.MsgYesNo("삭제하시면 복구가 불가능합니다." + "\n" + "삭제하시겠습니까?") != System.Windows.MessageBoxResult.Yes) return false;
 
-        await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_SetPatient, new Patient { PAT_Idx = Model.PAT_Idx, PAT_IsValid = false });
-
-        if (SmartMVVM.DataStore.retIsSuccess == false)
+        var ret = await _patientService.SetPatient(new Patient { PAT_Idx = Model.PAT_Idx, PAT_IsValid = false });
+        if (!ret.IsSuccess || !string.IsNullOrWhiteSpace(ret.Message))
         {
-            SmartUI.SetNotification("환자정보 삭제에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return false;
         }
 
