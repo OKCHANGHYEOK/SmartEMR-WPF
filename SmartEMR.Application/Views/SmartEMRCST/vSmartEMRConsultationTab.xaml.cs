@@ -150,13 +150,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                 }
 
             case "MoveIRCInfo":
-                if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
-                {
-                    SmartUI.SetNotification("선택된 접수가 없습니다.", NotificationType.Warning);
-                    return null;
-                }
-
-                await SmartUI.NavigateToPage(new vSmartEMRIRCInfo(SelectedCST.IRCItem?.Clone() ?? new Insurance()), ViewMode.POPUP, isPopup:true);
+                MoveIRCInfo();
                 break;
 
             case "AddCSTO":
@@ -346,6 +340,23 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         SmartEMRConulstationTabCSTOInfo.UpdateCSTByIRC(SelectedCST);
 
         SmartUI.SetNotification("보험 적용되었습니다.", NotificationType.Info);
+    }
+
+    private async void MoveIRCInfo()
+    {
+        if (SelectedCST.CST_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNotification("선택된 진료가 없습니다.", NotificationType.Warning);
+            return;
+        }
+
+        if (SelectedCST.CST_PayStatus != "RDY")
+        {
+            SmartUI.SetNotification("수납 진행된 진료의 보험은 변경할 수 없습니다.\n수납취소후 다시 시도하세요.", NotificationType.Warning);
+            return;
+        }
+
+        await SmartUI.NavigateToPage(new vSmartEMRIRCInfo(SelectedCST.IRCItem?.Clone() ?? new Insurance()), ViewMode.POPUP, isPopup: true);
     }
 
     private async void ClearData(bool isClearPAT = false, bool isClearCST = false)

@@ -77,6 +77,12 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public void AddCSTO(Order item, int MUR_Idx_DOC)
     {
+        if (SelectedCST.CST_PayStatus != "RDY")
+        {
+            SmartUI.SetNotification("수납 진행된 진료에는 처방할 수 없습니다.\n수납취소후 다시 시도하세요.", NotificationType.Warning);
+            return;
+        }
+
         if (ConsultationOrderItems.Count > 0 && ConsultationOrderItems.Any(x => x.ORD_Idx == item.ORD_Idx))
         {
             if (SmartUI.MsgYesNo("동일한 오더가 이미 입력되어있습니다. 계속하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
@@ -117,6 +123,12 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public async void DeleteCSTO(ConsultationOrder item)
     {
+        if (SelectedCST.CST_PayStatus != "RDY")
+        {
+            SmartUI.SetNotification("수납 진행된 진료의 오더는 삭제할 수 없습니다.\n수납취소후 다시 시도하세요.", NotificationType.Warning);
+            return;
+        }
+
         var delItem = ConsultationOrderItems.FirstOrDefault(x => x.ORD_Idx == item.ORD_Idx && x.CSTO_ViewIndex == item.CSTO_ViewIndex);
         if (delItem is not null)
         {
