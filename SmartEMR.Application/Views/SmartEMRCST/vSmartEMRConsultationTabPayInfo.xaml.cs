@@ -33,4 +33,9 @@ public partial class vSmartEMRConsultationTabPayInfo : ModelViewLayout<PayInfoVi
     {
         vm.UpdatePriceDataByCST(item);
     }
+
+    public void ClearData()
+    {
+        vm.ClearData();
+    }
 }

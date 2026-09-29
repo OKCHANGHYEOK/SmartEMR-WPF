@@ -386,6 +386,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
             SmartEMRCSTInfo.ClearCSTData();
             SmartEMRConulstationTabCSTOInfo.ClearData();
             SmartEMRConsultationTabOrder.ClearData();
+            SmartEMRConsultationTabPayInfo.ClearData();
         } 
     }
 

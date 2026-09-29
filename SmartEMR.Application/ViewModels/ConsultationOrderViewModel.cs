@@ -181,6 +181,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public async void ClearData()
     {
+        SelectedCST = new();
+
         ConsultationOrderItems.Clear();
         deletedItems.Clear();
 
