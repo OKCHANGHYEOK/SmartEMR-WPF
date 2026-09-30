@@ -144,8 +144,9 @@ namespace SmartEMR.Application.Views.SmartEMRDesk
         {
             vm.ClearData();
 
+            IsReceptionEditing = false;
+
             MaskControl.MaskText = "환자선택 후 접수 등록할 수 있습니다.";
-            MaskControl.Visibility = Visibility.Visible;
             MaskControl.ShowButton = false;
 
             btnSaveRCP.Content = "접수등록";

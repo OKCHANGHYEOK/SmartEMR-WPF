@@ -3,7 +3,6 @@ using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.ViewModels;
 

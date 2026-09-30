@@ -13,9 +13,6 @@ namespace SmartEMR.Application.Views;
 /// </summary>
 public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 {
-
-    private Reception SelectedRCP => vm.Model;
-
     public vSmartEMRDeskTab() { }
 
     protected override void Initialize()
