@@ -63,10 +63,6 @@ public class DataStore : IDataStore
                 return result.Item;
             }
         }
-        else
-        {
-            UpdateResponseStatusByFail();
-        }
 
         return default;
     }
@@ -86,10 +82,6 @@ public class DataStore : IDataStore
                 UpdateResponseStatus(result);
                 return result.Items.AsQueryable();
             }
-        }
-        else
-        {
-            UpdateResponseStatusByFail();
         }
 
         return Enumerable.Empty<T>().AsQueryable();
@@ -122,12 +114,15 @@ public class DataStore : IDataStore
             
             if (!response.IsSuccessStatusCode)
             {
-
                 try
                 {
                     var responseContent = await response.Content.ReadFromJsonAsync<DataResponse>(_options);
-                    
-                    if (responseContent != null && responseContent.ResponseCode == eResponseCode.TOKEN_EXPIRED)
+                    if (responseContent is null)
+                    {
+                        throw new Exception("API응답 해석 실패.");
+                    }
+
+                    if (responseContent.ResponseCode == eResponseCode.TOKEN_EXPIRED)
                     {
                         var refreshResult = await RefreshTokenAsync();
 
@@ -142,8 +137,15 @@ public class DataStore : IDataStore
                         
                         retMessage = "세션이 만료되었습니다. 다시 로그인 해주세요.";
                         retStatusCode = 401;
-                        retIsSuccess = false;
                     }
+
+                    if (responseContent.ResponseCode == eResponseCode.BADREQUEST)
+                    {
+                        retMessage = responseContent.Message;
+                        retStatusCode = 400;
+                    }
+
+                    retIsSuccess = false;
                 }
                 catch (Exception)
                 {
@@ -296,6 +298,7 @@ public class DataStore : IDataStore
         this.retStatusCode = (int)result.ResponseCode;
     }
 
+    [Obsolete]
     private void UpdateResponseStatusByFail()
     {
         this.retMessage = "";
