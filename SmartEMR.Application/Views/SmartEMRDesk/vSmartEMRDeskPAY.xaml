@@ -5,6 +5,7 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                      xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRDesk"
                       xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
@@ -13,13 +14,14 @@
                       xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
-                      d:DesignWidth="800">
+                      d:DesignWidth="800"
+                      d:DataContext="{d:DesignInstance Type={x:Type vm:PayViewModel}}">
 
     <Xpf:StyleGrid  LayoutDefinitions="1,3"
                     RowSizeDefinitions="Auto,Auto,*">
 
-        <Xpf:StyleGrid LayoutDefinitions="6,1"
-                       ColumnSizeDefinitions="5,Auto,10,*,Auto,5"
+        <Xpf:StyleGrid LayoutDefinitions="5,1"
+                       ColumnSizeDefinitions="5,Auto,10,*,5"
                        MinHeight="27"
                        Height="27"
                        Background="#F8F9FA">
@@ -32,7 +34,7 @@
                 <Run Text="{Binding NowYYYYMMDD}"/>
                 <Run>기준</Run>
             </Xpf:TextBlock>
-            
+
             <Xpf:BindGrid   Grid.Column="3"
                             LayoutDefinitions="2,1"
                             ColumnSizeDefinitions="Auto,*"
@@ -41,7 +43,7 @@
                 <Xpf:BindItem   FieldName="PAY_Status"
                                 BindType="ComboBox"
                                 Col="0"
-                                Width="100"
+                                Width="90"
                                 Height="23"
                                 ItemsSource="{x:Static selections:SearchFilterItems.PayStatuses}"
                                 DisplayMember="CCI_Name"
@@ -49,19 +51,20 @@
                                 Margin="2,0,0,0"/>
 
                 <Xpf:BindItem FieldName="Keyword"
-                              BindType="SearchEdit"
                               Col="1"
                               Height="23"
-                              Placeholder="환자명/차트번호로 검색하세요."
-                              Margin="2,0,0,0"/>
-            </Xpf:BindGrid>
+                              Margin="2,0,0,0">
 
-            <Xpf:SearchPanel Grid.Column="4"/>
+                    <Xpf:SearchPanel NullText="환자명/차트번호로 검색하세요."
+                                     SearchCommand="{Binding SearchCommand}"/>
+                </Xpf:BindItem>
+            </Xpf:BindGrid>
         </Xpf:StyleGrid>
 
         <Border Grid.Row="1" Height="1" Background="LightGray" Margin="0,2,0,2"/>
 
         <Xpf:DataGrid Grid.Row="2"
+                      ItemsSource="{Binding Pays}"
                       AutoWidth="False">
             <Xpf:ColumnItem FieldName="RCP_InsuranceType"
                             Header=""
@@ -114,6 +117,7 @@
                             Header="수납금"
                             ColumnWidth="80"
                             ColumnStyle="Sum"
+                            Foreground="Blue"
                             DisplayFormat="N0"
                             Suffix="원"></Xpf:ColumnItem>
 
@@ -121,12 +125,18 @@
                             Header="미수납"
                             ColumnWidth="80"
                             ColumnStyle="Sum"
+                            Foreground="IndianRed"
                             DisplayFormat="N0"
-                            Suffix="원"></Xpf:ColumnItem>
+                            Suffix="원"/>
 
             <Xpf:ColumnItem FieldName="PAY_Memo"
                             Header="메모"
                             Foreground="DimGray"/>
+
+            <Xpf:ColumnItem FieldName="btnMovePAY"
+                            Header=""
+                            ColumnWidth="25"
+                            CellTemplateType="{x:Type local:btnMovePAYTemplate}"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

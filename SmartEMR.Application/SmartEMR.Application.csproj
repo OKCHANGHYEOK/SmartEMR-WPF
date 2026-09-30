@@ -74,6 +74,7 @@
     <None Remove="Images\smartemr_reset_pay.png" />
     <None Remove="Images\smartemr_save.png" />
     <None Remove="Images\smartemr_search.png" />
+    <None Remove="Images\smartemr_shortcut.png" />
     <None Remove="Images\smartmer_cutting.png" />
     <None Remove="Images\Svg\smartemr-error.svg" />
     <None Remove="Images\Svg\smartemr_menu_calendar.svg" />
@@ -168,6 +169,7 @@
     <Resource Include="Images\smartemr_reset_pay.png" />
     <Resource Include="Images\smartemr_save.png" />
     <Resource Include="Images\smartemr_search.png" />
+    <Resource Include="Images\smartemr_shortcut.png" />
     <Resource Include="Images\smartemr_warning.png" />
     <Resource Include="Images\smartemr_info.png" />
     <Resource Include="Images\smartemr_menu_crm.png" />
@@ -212,6 +214,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderORD.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SmartEMRDesk\btnMovePAYTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

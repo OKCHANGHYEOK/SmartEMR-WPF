@@ -82,7 +82,7 @@ public static partial class SmartUI
 // 뷰 이동, 표시제어 등 관련 로직
 public static partial class SmartUI
 {
-    public static async Task NavigateToPage(ViewLayout targetView, object? parameter = null, bool isPopup = false)
+    public static async Task NavigateToPage(ViewLayout targetView, object? parameter = null, bool isPopup = false, bool isReuse = true)
     {
         // 락을 즉시 획득할 수 있는지 확인 및 이미 실행중이면 함수 종료
         if (!_navigationLock.Wait(0))
@@ -102,7 +102,14 @@ public static partial class SmartUI
 
             if (vl is not null)
             {
-                targetView = vl;
+                if (isReuse)
+                {
+                    targetView = vl;
+                }
+                else
+                {
+                    UIManager.RemoveViewLayout(vl);
+                }
             }
 
             if (targetView is ModelViewLayout mvLayout)

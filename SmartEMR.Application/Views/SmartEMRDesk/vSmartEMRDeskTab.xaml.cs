@@ -209,6 +209,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
     private async void ClearData(bool isClearPAT = true)
     {
+        vm.ClearData();
+
         if (isClearPAT) 
         {
             await SmartUI.SendMessageToSearchView("ClearPAT");

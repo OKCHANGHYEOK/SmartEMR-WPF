@@ -32,6 +32,9 @@ public class Pay : BaseEntity
     private int? m_PAT_Age;
     private string? m_vPAT_Info;
 
+    private string? m_IRC_Type;
+    private string? m_vIRC_Type;
+
     private string? m_sDay;
     private string? m_eDay;
 
@@ -203,6 +206,19 @@ public class Pay : BaseEntity
     {
         get => m_vPAT_Info;
         set => SetProperty(ref m_vPAT_Info, value);
+    }
+
+    public string? IRC_Type
+    {
+        get => m_IRC_Type;
+        set => SetProperty(ref m_IRC_Type, value);
+    }
+
+
+    public string? vIRC_Type
+    {
+        get => m_vIRC_Type;
+        set => SetProperty(ref m_vIRC_Type, value);
     }
 
     public string? sDay

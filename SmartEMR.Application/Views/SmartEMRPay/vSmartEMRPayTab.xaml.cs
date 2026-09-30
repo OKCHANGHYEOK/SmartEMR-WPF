@@ -14,8 +14,18 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
 {
     public vSmartEMRPayTab() { }
 
+    public vSmartEMRPayTab(Pay item) : base(item) { }
+
     protected override void Initialize()
     {
+    }
+
+    public override async void SetViewData(object? parameter = null)
+    {
+        if (parameter is Pay item)
+        {
+            await SetSelectedPAY(item);
+        }
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)

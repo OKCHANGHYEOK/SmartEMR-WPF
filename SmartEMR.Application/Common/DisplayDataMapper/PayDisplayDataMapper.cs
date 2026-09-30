@@ -17,6 +17,7 @@ public class PayDisplayDataMapper : IDisplayDataMapper<Pay>
             };
 
             item.vPAT_Info = (item.PAT_Sex == "M" ? "남" : "여") + "/" + item.PAT_Age;
+            item.vIRC_Type = SmartMVVM.Common.GetCommonCodeName("CST", "InsuranceType", item.IRC_Type ?? "")?[..1];
         }
     }
 }

@@ -17,18 +17,23 @@ public partial class vSmartEMRDeskPAY : ModelViewLayout<PayViewModel>
 
     protected override void SetBindGrid()
     {
-        var txtSearch = this.BindGrids[0].GetBindItem<SearchEdit>("Keyword");
-        if (txtSearch != null)
-        {
-            txtSearch.MinHeight = 23;
-        }
     }
 
     public override async void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
     }
 
-    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    public override async void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+        if (sender is not BindGrid) return;
+
+        var fieldName = e.BindItem.FieldName;
+
+        switch (fieldName)
+        {
+            case "PAY_Status":
+                await vm.FetchDataAsync();
+                break;
+        }
     }
 }
