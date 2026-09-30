@@ -36,26 +36,9 @@ public partial class vPatientViewSummary : ModelViewLayout<PatientViewModel>
         vm.ClearData();
     }
 
-    private void OnClick_ImageButton(object sender, System.Windows.RoutedEventArgs e)
-    {
-        var element = sender as ImageButton;
-        if (element == null) return;
-
-        switch (element.Name)
-        {
-            case "btnCopyAddress":
-                Clipboard.SetText(PATItem.PAT_Address1 ?? "");
-
-                SmartUI.SetNotification("주소가 복사되었습니다.", NotificationType.Info);
-
-                break;
-        }
-    }
-
     private async void OnClick_Button(object sender, RoutedEventArgs e)
     {
-        var element = sender as Button;
-        if (element == null) return;
+        if (sender is not System.Windows.Controls.Button element) return;
 
         switch (element.Name)
         {
@@ -65,6 +48,19 @@ public partial class vPatientViewSummary : ModelViewLayout<PatientViewModel>
 
             case "btnMovePAT":
                 await SmartUI.NavigateToPage(new vPatientInfo(new Patient { PAT_Idx = PATItem.PAT_Idx }) ,isPopup:true);
+                break;
+
+            case "btnCopyAddress":
+                if (!string.IsNullOrWhiteSpace(PATItem.PAT_Address1))
+                {
+                    Clipboard.SetText(PATItem.PAT_Address1);
+                    SmartUI.SetNotification("주소가 복사되었습니다.", NotificationType.Info);
+                }
+                else
+                {
+                    SmartUI.SetNotification("입력된 주소가 없습니다.", NotificationType.Warning);
+                }
+
                 break;
         }
     }

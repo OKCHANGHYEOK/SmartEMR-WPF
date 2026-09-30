@@ -13,6 +13,7 @@
                         xmlns:resources="clr-namespace:SmartEMR.Application.Resources"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d" 
                         d:DesignHeight="450" d:DesignWidth="800">
 
@@ -29,6 +30,7 @@
             <Xpf:StyleGrid LayoutDefinitions="13,11" 
                            RowSizeDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,*,*,*,*"
                            Padding="5">
+                
                 <Border x:Name="PatientImageBorder" 
                         Grid.Column="0"
                         Grid.Row="0"
@@ -38,32 +40,32 @@
                         BorderThickness="1"
                         Padding="2"
                         Margin="5">
-                    <Xpf:Image x:Name="PatientImage" 
-                               Source="{Binding Model.PAT_ImageSource, TargetNullValue='Images/smartemr_default_profile.png'}" 
-                               Stretch="UniformToFill"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
+
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding Model.PAT_ImageSource, Converter={converter:ImageSourceConverter}}"
+                                    Stretch="UniformToFill"
+                                    AlignmentX="Center"
+                                    AlignmentY="Center"/>
+                    </Border.Background>
                 </Border>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.RowSpan="2"  Grid.Column="4" Grid.ColumnSpan="8" Margin="10,0,10,4">
                     <Label FontSize="18" FontWeight="SemiBold" Foreground="#1F1F1F">No.</Label>
                     <Label Content="{Binding Model.PAT_ChartNo}"  FontSize="17" FontWeight="Bold" Foreground="DarkSlateGray"/>
                 </StackPanel>
-                <Xpf:Button     x:Name="btnClear"
-                                Grid.Row="0"
-                                Grid.Column="12"
-                                Content="X" 
-                                MinWidth="24"
-                                Width="24"
-                                Height="24"
-                                FontSize="13" 
-                                FontWeight="Bold" 
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                HorizontalContentAlignment="Center" 
-                                VerticalContentAlignment="Center"
-                                Background="#F1F3F5"
-                                Margin="6,3"
-                                Click="OnClick_Button"/>
+                <dxc:SimpleButton   x:Name="btnClear"
+                                    Grid.Row="0"
+                                    Grid.Column="12"
+                                    Width="24"
+                                    Height="24"
+                                    Glyph="/Images/smartemr_close.png"
+                                    GlyphWidth="18"
+                                    GlyphHeight="18"
+                                    HorizontalAlignment="Right"
+                                    Padding="2"
+                                    Cursor="Hand"
+                                    Margin="6,3"
+                                    Click="OnClick_Button"
+                                    dxc:ThemeManager.ThemeName="Office2019Colorful"/>
                 <patient:vPatientViewSummary_TextItem Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">성명</Label>
                     <Label Content="{Binding Model.PAT_Name}" Margin="5,0"/>
@@ -84,16 +86,20 @@
                     <Label FontWeight="SemiBold">주소</Label>
                     <Label Content="{Binding Model.vPAT_Address}" Margin="5,0"/>
                 </patient:vPatientViewSummary_TextItem>
-                <Xpf:ImageButton    x:Name="btnCopyAddress"
+                <dxc:SimpleButton   x:Name="btnCopyAddress"
                                     Grid.Row="3" 
                                     Grid.Column="12" 
                                     Width="24" 
                                     Height="24"
-                                    ImageWidth="18"
-                                    ImageHeight="18"
+                                    GlyphWidth="18"
+                                    GlyphHeight="18"
+                                    HorizontalAlignment="Right"
+                                    Margin="6,3"
+                                    Padding="2"
                                     Cursor="Hand"
                                     Glyph="/Images/copy.png"
-                                    Click="OnClick_ImageButton"/>
+                                    Click="OnClick_Button"
+                                    dxc:ThemeManager.ThemeName="Office2019Colorful"/>
                 <patient:vPatientViewSummary_TextItem Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="4">
                     <Label FontWeight="SemiBold">최초내원일</Label>
                     <Label Content="{Binding Model.PAT_FirstVisitDate}" Margin="5,0"/>

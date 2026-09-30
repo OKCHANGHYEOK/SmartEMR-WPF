@@ -53,6 +53,10 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
             case "RefreshPAY":
                 await SmartEMRPayTabPAY.RefreshData();
                 break;
+
+            case "ClearPAT":
+                ClearData();
+                break;
         }
 
         response.IsSuccess = true;
@@ -85,5 +89,13 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
         await PatientHistory.SetPatientDataAsync(retPAT);
 
         await SmartEMRPayTabPayInfo.UpdatePayInfo(item);
+    }
+
+    private void ClearData()
+    {
+        PatientViewSummary.ClearData();
+        PatientHistory.ClearData();
+
+        SmartEMRPayTabPayInfo.ClearData();
     }
 }

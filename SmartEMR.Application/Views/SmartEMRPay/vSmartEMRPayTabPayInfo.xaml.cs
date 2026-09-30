@@ -82,6 +82,11 @@ public partial class vSmartEMRPayTabPayInfo : ModelViewLayout<PayInfoViewModel>
     {
         await vm.UpdatePayInfo(item);
     }
+
+    public void ClearData()
+    {
+        vm.ClearData();
+    }
 }
 
 public class InsuranceTypeNameToContentConverter : BaseConverter

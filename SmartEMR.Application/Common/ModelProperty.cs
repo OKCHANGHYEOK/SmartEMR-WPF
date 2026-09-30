@@ -526,15 +526,22 @@ public class ModelProperty
             item.PAT_Idx = 0;
             item.IRC_Idx = 0;
             item.PAY_Idx = 0;
-            item.CST_InsuranceType = "";
+            item.MUR_Idx_DOC = 0;
+            item.MUR_Name_DOC = "";
             item.IRC_Type = "";
             item.vIRC_Type = "";
+            item.CST_InsuranceType = "";
             item.CST_Status = "";
+            item.vCST_Status = "";
+            item.CST_TreatResult = "";
+            item.vCST_TreatResult = "";
             item.CST_Subject = "";
             item.CST_SubjectName = "";
             item.vCST_SubjectName = "";
             item.CST_StartTime = "00:00";
             item.CST_EndTime = "23:59";
+            item.CST_Time = "";
+            item.CST_YYMMDD = "";
             item.CST_Opinion = "";
             item.CST_Memo = "";
         }

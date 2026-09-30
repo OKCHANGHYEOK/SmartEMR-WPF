@@ -24,7 +24,7 @@
                 <local:vSmartEMRPayTabPAY x:Name="SmartEMRPayTabPAY"/>
             </Xpf:LayoutPanel>
 
-            <dxd:LayoutGroup ItemWidth="Auto" Orientation="Vertical">
+            <dxd:LayoutGroup ItemWidth="*" Orientation="Vertical">
                 <Xpf:LayoutPanel ItemHeight="Auto" ShowCaption="False">
                     <patient:vPatientViewSummary x:Name="PatientViewSummary"/>
                 </Xpf:LayoutPanel>
