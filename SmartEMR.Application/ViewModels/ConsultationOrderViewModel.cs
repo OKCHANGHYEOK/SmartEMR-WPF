@@ -32,6 +32,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         }
     }
 
+    private bool _isPreventUpdatePriceData = false;
+
     public ConsultationOrderViewModel(IConsultationOrderService consultationOrderService)
     {
         _consultationOrderService = consultationOrderService;
@@ -60,12 +62,16 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     {
         if (item.RCP_Idx.GetValueOrDefault(0) == 0) return;
 
+        _isPreventUpdatePriceData = true;
+
         SmartMVVM.ModelProperty.SetConsultationData(SelectedCST, item);
 
         if (item.CST_Idx.GetValueOrDefault(0) > 0)
         {
            await SetCSTOData(item);
         }
+
+        _isPreventUpdatePriceData = false;
     }
 
     public void UpdateCSTByIRC(Consultation item)
@@ -75,17 +81,17 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         UpdatePriceData();
     }
 
-    public void AddCSTO(Order item, int MUR_Idx_DOC)
+    public bool AddCSTO(Order item, int MUR_Idx_DOC)
     {
-        if (SelectedCST.CST_PayStatus != "RDY")
+        if (!CanEnterOrder(item))
         {
-            SmartUI.SetNotification("수납 진행된 진료에는 처방할 수 없습니다.\n수납취소후 다시 시도하세요.", NotificationType.Warning);
-            return;
+            return false;
         }
 
         if (ConsultationOrderItems.Count > 0 && ConsultationOrderItems.Any(x => x.ORD_Idx == item.ORD_Idx))
         {
-            if (SmartUI.MsgYesNo("동일한 오더가 이미 입력되어있습니다. 계속하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
+            if (SmartUI.MsgYesNo("동일한 오더가 이미 입력되어있습니다. 계속하시겠습니까?") is System.Windows.MessageBoxResult.No) 
+                return false;
         }
 
         var addItem = new ConsultationOrder
@@ -119,6 +125,8 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
         ConsultationOrderItems.Add(addItem);
 
         UpdatePriceData();
+
+        return true;
     }
 
     public async void DeleteCSTO(ConsultationOrder item)
@@ -158,7 +166,7 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
 
     public async void UpdatePriceData()
     {
-        if (SelectedCST.PAY_Idx > 0) return;
+        if (_isPreventUpdatePriceData) return;
 
         var insuredTotal = ConsultationOrderItems.Where(x => x.CSTO_InsuranceType == "INS").Sum(x => x.CSTO_TotalPrice);
         var ownPatientTotal = SelectedCST.CST_InsuranceType switch
@@ -167,21 +175,27 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
             _ => SmartMVVM.Common.CalculateOwnPatientPrice(insuredTotal.GetValueOrDefault(0), copaymentType)
         };
         var nonInsuredTotal = ConsultationOrderItems.Where(x => x.CSTO_InsuranceType == "NON").Sum(x => x.CSTO_TotalPrice);
+        var totalPrice = insuredTotal + nonInsuredTotal;
 
         var sendItem = new Pay
         {
             PAY_InsuredPrice = insuredTotal,
             PAY_OwnPatientPrice = ownPatientTotal,
             PAY_NonInsuredPrice = nonInsuredTotal,
-            PAY_TotalPrice = insuredTotal + nonInsuredTotal
+            PAY_TotalPrice = totalPrice,
+            PAY_PaidPrice = SelectedCST.CST_PaidPrice,
+            PAY_RemainPrice = totalPrice - SelectedCST.CST_PaidPrice
         };
 
         await SmartUI.SendMessage("UpdatePayInfo", sendItem, viewType:TargetViewType.PageView);
     }
 
-    public async void ClearData()
+    public async void ClearData(bool isClearCST = false)
     {
-        SelectedCST = new();
+        if (isClearCST)
+        {
+            SmartMVVM.ModelProperty.ClearCSTData(SelectedCST);
+        }
 
         ConsultationOrderItems.Clear();
         deletedItems.Clear();
@@ -196,7 +210,43 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     {
         if (SmartUI.MsgYesNo("처방내역을 초기화하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
 
-        ClearData();
+        foreach (var item in ConsultationOrderItems.Reverse())
+        {
+            item.CSTO_IsValid = false;
+            deletedItems.Add(item);
+        }
+
+        ConsultationOrderItems.Clear();
+
+        UpdatePriceData();
+
+        await SmartUI.SendMessage("ClearSelectedOrder", viewType: TargetViewType.PageView);
+    }
+
+    private bool CanEnterOrder(Order item)
+    {
+        if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNotification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
+            return false;
+        }
+
+        if (SelectedCST.CST_PayStatus != "RDY")
+        {
+            SmartUI.SetNotification("수납 진행된 진료에는 처방할 수 없습니다.\n수납취소후 다시 시도하세요.", NotificationType.Warning);
+            return false;
+        }
+
+        if (OrderMaster.ORDER_ASSESSMENTS.Contains(item.ORD_SugaCode))
+        {
+            if (ConsultationOrderItems.FirstOrDefault(x => OrderMaster.ORDER_ASSESSMENTS.Contains(x.CSTO_SugaCode)) is not null)
+            {
+                SmartUI.SetNotification("진찰료는 중복 처방할 수 없습니다.", NotificationType.Warning);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private async Task SetCSTOData(Consultation item)

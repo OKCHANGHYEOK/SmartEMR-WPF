@@ -105,7 +105,7 @@ public class ConsultationService : BaseService, IConsultationService
 
         if (!_dataStore.retIsSuccess)
         {
-            result.Message = "진료취소하는데 실패했습니다.";
+            result.Message = $"진료취소하는데 실패했습니다.\n{_dataStore.retMessage}";
             return result;
         }
 

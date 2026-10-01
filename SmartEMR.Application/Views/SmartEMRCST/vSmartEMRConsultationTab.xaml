@@ -68,6 +68,10 @@
                                         <Setter Property="IsEnabled" Value="True"/>
 
                                         <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Model.CST_Idx}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+
                                             <DataTrigger Binding="{Binding Model.CST_Idx}" Value="0">
                                                 <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>

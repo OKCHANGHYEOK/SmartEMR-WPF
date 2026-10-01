@@ -300,31 +300,16 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
 
     private void AddCSTO(Order item)
     {
-        if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
-        {
-            SmartUI.SetNotification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
-            return;
-        }
-
         SmartEMRConulstationTabCSTOInfo.AddCSTO(item, SelectedCST.MUR_Idx_DOC.GetValueOrDefault(0));
     }
 
     private void AddCSTOFromOrderSection(Order paramItem)
     {
-        if (SelectedCST.RCP_Idx.GetValueOrDefault(0) == 0)
+        var isAdded = SmartEMRConulstationTabCSTOInfo.AddCSTO(paramItem, SelectedCST.MUR_Idx_DOC.GetValueOrDefault(0));
+        if (isAdded)
         {
-            SmartUI.SetNotification("접수(진료) 선택후 처방할 수 있습니다.", NotificationType.Warning);
-            return;
+            paramItem.IsSelected = true;
         }
-
-        if (!vm.CanEnterOrder(paramItem))
-        {
-            return;
-        }
-
-        paramItem.IsSelected = true;
-
-        SmartEMRConulstationTabCSTOInfo.AddCSTO(paramItem, SelectedCST.MUR_Idx_DOC.GetValueOrDefault(0));
     }
 
     private void DeleteCSTOFromOrderSection(Order paramItem)

@@ -191,13 +191,9 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
     [RelayCommand]
     public async Task SetConsultation(ConsultationStatus targetStatus)
     {
-        if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
-        {
-            SmartUI.SetNotification("선택된 진료(접수)가 없습니다.", NotificationType.Warning);
-            return;
-        }
-
         SetConsultationStatus(targetStatus);
+
+        if (!CanSaveData()) return;
 
         var item = SmartMVVM.ModelProperty.GetConsultationDataForSave(Model, _consultationOrders.Concat(_deletedCSTOItems));
         var ret = await _consultationService.SetConsultationByCST(item);
@@ -254,20 +250,6 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         await ClearData(true);
     }
 
-    public bool CanEnterOrder(Order item)
-    {
-        if (OrderMaster.ORDER_ASSESSMENTS.Contains(item.ORD_SugaCode))
-        {
-            if (_consultationOrders.FirstOrDefault(x => OrderMaster.ORDER_ASSESSMENTS.Contains(x.CSTO_SugaCode)) is not null)
-            {
-                SmartUI.SetNotification("진찰료는 중복 처방할 수 없습니다.", NotificationType.Warning);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     private async Task SetInsuranceData(Consultation item)
     {
         Insurance? IRCItem = null;
@@ -318,19 +300,36 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
 
         Model.CST_Status = CST_Status;
     }
+    
+    private bool CanSaveData()
+    {
+        if (Model.RCP_Idx.GetValueOrDefault(0) == 0)
+        {
+            SmartUI.SetNotification("선택된 진료(접수)가 없습니다.", NotificationType.Warning);
+            return false;
+        }
+
+        if (Model.CST_Status == "END" && !_consultationOrders.Any())
+        {
+            SmartUI.SetNotification("처방없이 진료를 완료할 수 없습니다.", NotificationType.Warning);
+            return false;
+        }
+
+        return true;
+    }
 
     protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
-        await SmartUI.SendMessage("RefreshCST");
+        await SmartUI.SendMessage("RefreshCST", viewType:TargetViewType.PageView);
 
         switch (saveMode)
         {
             case SaveMode.SAVE:
-                await SmartUI.SendMessage("SetSelectedCST", Model.Clone());
+                await SmartUI.SendMessage("SetSelectedCST", Model.Clone(), viewType: TargetViewType.PageView);
                 break;
 
             case SaveMode.DELETE:
-                await SmartUI.SendMessage("ClearSelectedCST");
+                await SmartUI.SendMessage("ClearSelectedCST", viewType: TargetViewType.PageView);
                 break;
         }
 

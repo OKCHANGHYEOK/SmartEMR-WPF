@@ -89,12 +89,12 @@ public partial class vSmartEMRConsultationTabCSTOInfo : ModelViewLayout<Consulta
 
     public void ClearData()
     {
-        vm.ClearData();
+        vm.ClearData(true);
     }
 
-    public void AddCSTO(Order item, int MUR_Idx_DOC)
+    public bool AddCSTO(Order item, int MUR_Idx_DOC)
     {
-        vm.AddCSTO(item, MUR_Idx_DOC);
+        return vm.AddCSTO(item, MUR_Idx_DOC);
     }
 
     public void DeleteCSTO(ConsultationOrder item)
