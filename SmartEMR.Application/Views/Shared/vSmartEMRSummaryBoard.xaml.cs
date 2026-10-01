@@ -20,4 +20,9 @@ public partial class vSmartEMRSummaryBoard : ModelViewLayout<SmartEMRSummaryBoar
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
     }
+
+    public async Task RefreshData()
+    {
+        await vm.FetchDataAsync();
+    }
 }

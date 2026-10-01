@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Application.Xpf;
@@ -129,7 +130,7 @@ public partial class CalendarViewModel : ReservationViewModel
             return;
         }
 
-        await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
+        await NotifyCompletedTaskAsync(SaveMode.SAVE);
 
         SmartUI.SetNotification($"{msg} 되었습니다.", NotificationType.Success);
     }
@@ -146,7 +147,7 @@ public partial class CalendarViewModel : ReservationViewModel
             return;
         }
 
-        await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
+        await NotifyCompletedTaskAsync(SaveMode.DELETE);
 
         SmartUI.SetNotification($"삭제되었습니다.", NotificationType.Success);
     }
@@ -170,6 +171,12 @@ public partial class CalendarViewModel : ReservationViewModel
         await UpdateCalendar();
 
         SmartUI.SetNotification("예약일시가 변경되었습니다.", NotificationType.Success);
+    }
+
+    protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
+    {
+        await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
+        await SmartUI.RefreshSummaryBoard();
     }
 
     private void SetDays()

@@ -420,6 +420,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         await SmartUI.SendMessage("CloseView");
         await SmartUI.SendMessage("RefreshRCB", viewType: TargetViewType.PageView);
         await SmartUI.SendMessage("UpdateCalendar", viewType: TargetViewType.PageView);
+
+        await SmartUI.RefreshSummaryBoard();
     }
 
     private bool ValidatePatientData()

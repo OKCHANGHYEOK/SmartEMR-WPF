@@ -254,22 +254,55 @@ public static partial class SmartUI
             vlayout.Focus();
         }
     }
+
+    public static async Task RefreshSummaryBoard()
+    {
+        var targetView = UIManager.Views.FirstOrDefault(x => x is vSmartEMRSummaryBoard);
+
+        if (targetView is not null && targetView is vSmartEMRSummaryBoard summaryBoard)
+        {
+            await summaryBoard.RefreshData();
+        }
+    }
 }
 
 public static partial class SmartUI
 {
     public static ViewMessenger Messenger = ViewMessenger.Instance;
 
+    /// <summary>
+    /// 뷰간 메시지 전송, 반환타입 X
+    /// </summary>
+    /// <param name="action"></param>
+    /// <param name="parameter"></param>
+    /// <param name="parameters"></param>
+    /// <param name="viewType"></param>
+    /// <returns></returns>
     public static Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, object[]? parameters = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
         return Messenger.SendMessage(action, parameter, parameters, viewType);
     }
     
+    /// <summary>
+    /// 뷰간 메시지 전송, 반환타입 O
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="action"></param>
+    /// <param name="parameter"></param>
+    /// <param name="parameters"></param>
+    /// <param name="viewType"></param>
+    /// <returns></returns>
     public static Task<ViewMessageResponse<T>?> SendMessage<T>(string action, object? parameter = null, object[]? parameters = null, TargetViewType viewType = TargetViewType.CurrentView) where T : class
     {
        return Messenger.SendMessage<T>(action, parameter, parameters, viewType);
     }
     
+    /// <summary>
+    /// vSearchView 로 보내야하는 메시지가 있을 때 사용
+    /// </summary>
+    /// <param name="action"></param>
+    /// <param name="parameter"></param>
+    /// <returns></returns>
     public static Task<ViewMessageResponse?> SendMessageToSearchView(string action, object? parameter = null)
     {
         return Messenger.SendMessageToSearchView(action, parameter);
