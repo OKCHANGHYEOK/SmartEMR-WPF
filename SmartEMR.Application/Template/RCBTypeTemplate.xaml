@@ -1,4 +1,4 @@
-﻿<Xpf:GridTemplate   x:Class="SmartEMR.Application.Views.SmartEMRDesk.SmartEMRDeskRCB.vSmartEMRDeskRCBTemplate_RCBType"
+﻿<Xpf:GridTemplate   x:Class="SmartEMR.Application.Template.RCBTypeTemplate"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,7 +13,7 @@
                 BorderBrush="{Binding RCB_Type, Converter={converter:ReceptionBoardTypeToBrushConverter}}"
                 BorderThickness="1"
                 Background="Transparent"
-                Height="23"
+                MaxHeight="23"
                 Margin="2"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center">

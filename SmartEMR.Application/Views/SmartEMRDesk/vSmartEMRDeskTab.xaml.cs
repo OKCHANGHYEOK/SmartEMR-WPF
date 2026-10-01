@@ -15,6 +15,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 {
     public vSmartEMRDeskTab() { }
 
+    public vSmartEMRDeskTab(Reception item) : base(item) { }
+
     protected override void Initialize()
     {
     }
@@ -32,9 +34,21 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
             case "SetSelectedPatient":
                 {
                     var paramItem = request.MessageParameter as Patient;
-                    if (paramItem == null) return null;
+                    if (paramItem is not null)
+                    {
+                        await SetPatientDataAsync(paramItem);
+                    }
 
-                    await SetPatientDataAsync(paramItem);
+                    break;
+                }
+
+            case "SetSelectedRCP":
+                {
+                    var paramItem = request.MessageParameter as Reception;
+                    if (paramItem is not null)
+                    {
+                        await SetSelectedRCP(paramItem);
+                    }
 
                     break;
                 }
@@ -177,12 +191,8 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
 
     public override async Task SetPatientDataAsync(Patient item)
     {
-        var ret = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
-        if (ret == null || SmartMVVM.DataStore.retIsSuccess == false)
-        {
-            SmartUI.SetNotification("환자정보 로딩중 오류가 발생했습니다. 다시 시도해주세요", NotificationType.Error);
-            return;
-        }
+        var ret = await vm.GetPatient(item.PAT_Idx.GetValueOrDefault(0));
+        if (ret is null) return;
 
         vm.SetPatientData(ret);
 
@@ -190,6 +200,18 @@ public partial class vSmartEMRDeskTab : ModelViewLayout<DeskViewModel>
         
         await SmartEMRDeskRCPInfo.SetPatientDataAsync(ret);
         await SmartEMRDeskPATHistory.SetPatientDataAsync(ret);
+    }
+
+    private async Task SetSelectedRCP(Reception item)
+    {
+        if (item.PAT_Idx.GetValueOrDefault(0) == 0 || item.RCP_Idx.GetValueOrDefault(0) == 0)
+            return;
+
+        var ret = await vm.GetReception(item.RCP_Idx.GetValueOrDefault(0));
+        if (ret is null) return;
+
+        await SetPatientDataAsync(new Patient { PAT_Idx = item.PAT_Idx });
+        await UpdateRCPData(ret);
     }
 
     private async Task UpdateRCPData(Reception item)

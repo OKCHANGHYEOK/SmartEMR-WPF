@@ -8,7 +8,8 @@
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
-                        xmlns:temp="clr-namespace:SmartEMR.Application.Template"
+                        xmlns:template="clr-namespace:SmartEMR.Application.Template"
+                        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
                         mc:Ignorable="d"
                         Margin="3">
 
@@ -28,41 +29,63 @@
                 <GradientStop Color="#FFEDF2F7" Offset="1"/>
             </LinearGradientBrush>
         </Border.Background>
-        
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding arrSUM}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
 
-                <!--<ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border x:Name="ItemBorder"
-                                Margin="0,0,0,2"
-                                Padding="10,8"
-                                Background="#F9FAF8"
-                                CornerRadius="2">
-                            <Xpf:StyleGrid LayoutDefinitions="4,1"
-                                   ColumnSizeDefinitions="60,80,60,*">
+        <Xpf:DataGrid ItemsSource="{Binding Boards}"
+                      ClipToBounds="True"
+                      ShowHeader="False"
+                      ShowOutLineBorder="False"
+                      Margin="0">
 
-                                <temp:CHT_CHTTypeTemplate Grid.Column="0"/>
-                                <Xpf:TextBlock Grid.Column="1" Text="{Binding PAT_Name}"/>
-                                <Xpf:TextBlock Grid.Column="2" Text="{Binding vPAT_Info}"/>
-                                <Xpf:TextBlock Grid.Column="3" Text="{Binding CHT_CHTTime}"/>
-                            </Xpf:StyleGrid>
-                        </Border>
+            <Xpf:DataGrid.RowStyle>
+                <Style TargetType="{x:Type dxg:GridRowContent}">
+                    <Setter Property="Height" Value="22"/>
+                </Style>
+            </Xpf:DataGrid.RowStyle>
 
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="ItemBorder" Property="Background" Value="#E3F2FD"/>
-                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="DimGray"/>
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>-->
-            </ItemsControl>
-        </ScrollViewer>
+            <Xpf:ColumnItem FieldName="vRCB_Type"
+                            Header="구분"
+                            ColumnWidth="30"
+                            CellTemplateType="{x:Type template:RCBTypeTemplate}"/>
+
+            <Xpf:ColumnItem FieldName="PAT_ChartNo"
+                            Header="차트번호"
+                            ColumnType="Label"
+                            ColumnWidth="40"
+                            ColumnStyle="Code"
+                            AllowSorting="True"/>
+
+            <Xpf:ColumnItem FieldName="PAT_Name"
+                            Header="환자명"
+                            ColumnType="TextLink"
+                            ColumnWidth="32"
+                            HorizontalAlignment="Center"/>
+
+            <Xpf:ColumnItem FieldName="vPAT_Info"
+                            Header=""
+                            ColumnWidth="25"
+                            HorizontalAlignment="Center"/>
+            
+            <Xpf:ColumnItem FieldName="vRCB_Subject"
+                            Header="과목"
+                            ColumnWidth="60"
+                            ColumnStyle="Code"
+                            FontWeight="SemiBold"/>
+
+            <Xpf:ColumnItem FieldName="RCB_Time"
+                            Header="시간"
+                            ColumnWidth="32"
+                            HorizontalAlignment="Center"
+                            AllowSorting="True"/>
+
+            <Xpf:ColumnItem FieldName="MUR_Name_DOC"
+                            Header="담 당 의"
+                            ColumnWidth="60"
+                            HorizontalAlignment="Center"/>
+
+            <Xpf:ColumnItem FieldName="btnMoveRCB"
+                            Header=""
+                            CellTemplateType="{x:Type template:btnMoveRCBTemplate}"
+                            ColumnWidth="25"/>
+        </Xpf:DataGrid>
     </Border>
 </base:ModelViewLayout>

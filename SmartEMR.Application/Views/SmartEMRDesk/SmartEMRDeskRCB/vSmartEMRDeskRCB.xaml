@@ -40,7 +40,7 @@
             <Xpf:ColumnItem FieldName="vRCB_Type"
                             Header="구분"
                             ColumnWidth="30"
-                            CellTemplateType="{x:Type rcb:vSmartEMRDeskRCBTemplate_RCBType}"/>
+                            CellTemplateType="{x:Type template:RCBTypeTemplate}"/>
 
             <Xpf:ColumnItem FieldName="vRCB_VisitType"
                             ColumnWidth="30"

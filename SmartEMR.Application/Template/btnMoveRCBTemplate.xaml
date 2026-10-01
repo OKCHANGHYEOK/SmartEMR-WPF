@@ -1,0 +1,36 @@
+﻿<Xpf:GridTemplate   x:Class="SmartEMR.Application.Template.btnMoveRCBTemplate"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRCST"
+                    xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                    xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    mc:Ignorable="d">
+
+    <dxc:SimpleButton Glyph="/Images/smartemr_shortcut.png"
+                      Width="18"
+                      Height="18"
+                      GlyphWidth="16"
+                      GlyphHeight="16"
+                      Padding="2"
+                      Cursor="Hand"
+                      dxc:ThemeManager.ThemeName="Office2019Colorful"
+                      Click="OnClick_SimpleButton">
+
+        <dxc:SimpleButton.Style>
+            <Style TargetType="{x:Type dxc:SimpleButton}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RCB_Type}" Value="RES">
+                        <Setter Property="ToolTip" Value="예약수정"/>
+                    </DataTrigger>
+
+                    <DataTrigger Binding="{Binding RCB_Type}" Value="RCP">
+                        <Setter Property="ToolTip" Value="접수보기"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </dxc:SimpleButton.Style>
+    </dxc:SimpleButton>
+</Xpf:GridTemplate>

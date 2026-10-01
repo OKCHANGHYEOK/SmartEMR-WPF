@@ -119,6 +119,40 @@ public partial class DataGrid : ContentControl
         set => SetValue(IsDoubleClickedProperty, value);
     }
 
+    public static readonly DependencyProperty ShowOutLineBorderProperty =
+        DependencyProperty.Register(nameof(ShowOutLineBorder), typeof(bool), typeof(DataGrid), new PropertyMetadata(true, OnShowOutLineBorderChanged));
+
+    private static void OnShowOutLineBorderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DataGrid dataGrid && e.NewValue is bool showOutLineBorder)
+        {
+            dataGrid.GridControl.ShowBorder = showOutLineBorder;
+        }
+    }
+
+    public bool ShowOutLineBorder
+    {
+        get => (bool)GetValue(ShowOutLineBorderProperty);
+        set => SetValue(ShowOutLineBorderProperty, value);
+    }
+
+    public static readonly DependencyProperty ShowHeaderProperty =
+        DependencyProperty.Register(nameof(ShowHeader), typeof(bool), typeof(DataGrid), new PropertyMetadata(true, OnShowHeaderChanged));
+
+    private static void OnShowHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DataGrid dataGrid && e.NewValue is bool showHeader)
+        {
+            dataGrid.TableView.ShowColumnHeaders = showHeader;
+        }
+    }
+
+    public bool ShowHeader
+    {
+        get => (bool)GetValue(ShowHeaderProperty);
+        set => SetValue(ShowHeaderProperty, value);
+    }
+
     #endregion
 
     public event EventHandler<DataItemChangedEventArgs>? DataGrid_DataItemChangedEvent;
@@ -157,7 +191,7 @@ public partial class DataGrid : ContentControl
         //GridControl.CurrentItemChanged += (s, e) => this.DataItem = GridControl.CurrentItem;
 
         TableView.NavigationStyle = GridViewNavigationStyle.Cell;
-        TableView.RowMinHeight = 24;
+        TableView.RowMinHeight = 18;
         TableView.HeaderPanelMinHeight = 18;
         TableView.AllowEditing = false;
         TableView.AllowHorizontalScrollingVirtualization = false;

@@ -194,6 +194,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Template\btnMoveRCBTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Template\btnMoveCSTTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
