@@ -13,6 +13,8 @@ namespace SmartEMR.Application.Views.SmartEMRPay;
 /// </summary>
 public partial class vSmartEMRPayTabPayInfo : ModelViewLayout<PayInfoViewModel>
 {
+    public Pay SelectedPAY => vm.Model;
+
     public vSmartEMRPayTabPayInfo() {}
 
     protected override void Initialize()
@@ -81,6 +83,11 @@ public partial class vSmartEMRPayTabPayInfo : ModelViewLayout<PayInfoViewModel>
     public async Task UpdatePayInfo(Pay item)
     {
         await vm.UpdatePayInfo(item);
+    }
+
+    public async Task RefreshSelectedPAY(Pay item)
+    {
+        await vm.RefreshSelectedPAY(item);
     }
 
     public void ClearData()

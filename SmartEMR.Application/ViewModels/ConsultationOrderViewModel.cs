@@ -208,6 +208,12 @@ public partial class ConsultationOrderViewModel : BaseViewModel<ConsultationOrde
     [RelayCommand]
     public async Task ResetCSTO()
     {
+        if (SelectedCST.CST_PayStatus != "RDY")
+        {
+            SmartUI.SetNotification("수납진행된 진료의 처방내역은 초기화할 수 없습니다.\n수납취소후 다시 시도하세요.", NotificationType.Warning);
+            return;
+        }
+
         if (SmartUI.MsgYesNo("처방내역을 초기화하시겠습니까?") is System.Windows.MessageBoxResult.No) return;
 
         foreach (var item in ConsultationOrderItems.Reverse())

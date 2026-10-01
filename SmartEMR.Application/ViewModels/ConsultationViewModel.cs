@@ -156,6 +156,8 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         }
 
         await SetSelectedCST(ret.Item);
+
+        SmartUI.SetNotification("진료 데이터 변경된 이력이 있어 갱신했습니다.", NotificationType.Info);
     }
 
     [RelayCommand]
@@ -334,7 +336,7 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
         }
 
         SmartUI.AddRefreshRequest(RefreshPageType.DSK, new Reception { RCP_Idx = Model.RCP_Idx });
-        SmartUI.AddRefreshRequest(RefreshPageType.PAY);
+        SmartUI.AddRefreshRequest(RefreshPageType.PAY, new Pay { PAY_Idx = Model.PAY_Idx });
 
         SmartUI.SetNotification($"진료{(saveMode == SaveMode.SAVE ? "저장" : "취소")} 되었습니다.", NotificationType.Success);
     }

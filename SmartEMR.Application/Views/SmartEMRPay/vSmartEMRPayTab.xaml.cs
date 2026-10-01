@@ -64,13 +64,19 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
         return response;
     }
 
-    public override async Task ReceiveRefreshRequest(List<(RefreshPageType type, object? parameter)> types)
+    public override async Task ReceiveRefreshRequest(List<(RefreshPageType type, object? parameter)> requests)
     {
-        if (types.Any(x => x.type == RefreshPageType.PAY))
+        if (requests.Any(x => x.type == RefreshPageType.PAY))
         {
             await SmartEMRPayTabPAY.RefreshData();
 
-            types.RemoveAll(x => x.type == RefreshPageType.PAY);
+            foreach (var req in requests.Where(x => x.type == RefreshPageType.PAY))
+            {
+                if (req.parameter is Pay item && item.PAY_Idx == SmartEMRPayTabPayInfo.SelectedPAY.PAY_Idx)
+                {
+                    await SmartEMRPayTabPayInfo.RefreshSelectedPAY(item);
+                }
+            }
 
             SmartUI.SetNotification("수납 데이터 변경된 이력이 있어 갱신했습니다.", NotificationType.Info);
         }
@@ -78,15 +84,12 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
 
     private async Task SetSelectedPAY(Pay item)
     {
-        var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = item.PAT_Idx });
-        if (retPAT is null || !SmartMVVM.DataStore.retIsSuccess)
+        var retPAT = await vm.GetPatient(item.PAT_Idx.GetValueOrDefault(0));
+        if (retPAT is not null)
         {
-            SmartUI.SetNotification("환자정보가 유효하지 않습니다.", NotificationType.Error);
-            return;
+            PatientViewSummary.SetPatientData(retPAT);
+            await PatientHistory.SetPatientDataAsync(retPAT);
         }
-
-        PatientViewSummary.SetPatientData(retPAT);
-        await PatientHistory.SetPatientDataAsync(retPAT);
 
         await SmartEMRPayTabPayInfo.UpdatePayInfo(item);
     }

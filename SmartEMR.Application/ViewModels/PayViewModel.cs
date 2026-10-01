@@ -10,20 +10,23 @@ public partial class PayViewModel : BaseViewModel<Pay>
 {
     public string NowYYYYMMDD { get; set; } = DateTime.Now.ToString("yyyy.MM.dd");
 
-    protected IPayService _payService;
+    protected readonly IPatientService _patientService;
+    protected readonly IPayService _payService;
 
     private bool _isinitliazed = false;
 
     [ObservableProperty]
     private List<Pay> pays = default!;
 
-    public PayViewModel(IPayService payService)  
+    public PayViewModel(IPatientService patientService, IPayService payService)  
     {
+        _patientService = patientService;
         _payService = payService;
     }
 
-    public PayViewModel(IPayService payService, Pay item) : base(item)
+    public PayViewModel(IPatientService patientService, IPayService payService, Pay item) : base(item)
     {
+        _patientService = patientService;
         _payService = payService;
     }
 
@@ -67,6 +70,18 @@ public partial class PayViewModel : BaseViewModel<Pay>
     public void SetToday()
     {
         Model.PAY_YYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+    }
+
+    public async Task<Patient?> GetPatient(int PAT_Idx)
+    {
+        var retPAT = await _patientService.GetPatient(new Patient { PAT_Idx = PAT_Idx });
+        if (retPAT.Item is null || !retPAT.IsSuccess)
+        {
+            SmartUI.SetNotification("환자 조회에 실패했습니다.", NotificationType.Error);
+            return null;
+        }
+
+        return retPAT.Item;
     }
 
     [RelayCommand]

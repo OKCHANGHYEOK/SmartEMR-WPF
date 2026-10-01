@@ -48,21 +48,23 @@ public partial class PayInfoViewModel : PayViewModel
         new ConsultationOrder { CSTO_InsuranceTypeName = "비급여", IsVisible = false }
     };
 
-    public PayInfoViewModel(IPayService payService, 
+    public PayInfoViewModel(IPatientService patientService,
+                            IPayService payService, 
                             IConsultationService consultationService, 
                             IConsultationOrderService consultationOrderService,
-                            INaverPayService naverPayService) : base(payService)
+                            INaverPayService naverPayService) : base(patientService, payService)
     {
         _consultationService = consultationService;
         _consultationOrderService = consultationOrderService;
         _naverPayService = naverPayService;
     }
 
-    public PayInfoViewModel(IPayService payService, 
+    public PayInfoViewModel(IPatientService patientService,
+                            IPayService payService, 
                             IConsultationService consultationService, 
                             IConsultationOrderService consultationOrderService, 
                             INaverPayService naverPayService,
-                            Pay item) : base(payService, item)
+                            Pay item) : base(patientService, payService, item)
     {
         _consultationService = consultationService;
         _consultationOrderService = consultationOrderService;
@@ -100,6 +102,18 @@ public partial class PayInfoViewModel : PayViewModel
         SmartMVVM.ModelProperty.SetPayPriceDataByCST(Model, item);
     }
 
+    public async Task RefreshSelectedPAY(Pay item)
+    {
+        var ret = await _payService.GetPay(item);
+        if (ret.Item is null || !ret.IsSuccess)
+        {
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
+            return;
+        }
+
+        await UpdatePayInfo(ret.Item);
+    }
+
     public void ClearData()
     {
         SmartMVVM.ModelProperty.ClearCSTData(SelectedCST);
@@ -118,12 +132,17 @@ public partial class PayInfoViewModel : PayViewModel
 
     protected override async Task NotifyCompletedTaskAsync(SaveMode saveMode)
     {
+        await SetRefreshData();
+
+        SmartUI.SetNotification($"수납{(saveMode == SaveMode.SAVE ? "완료" : "취소" )}되었습니다.", NotificationType.Success);
+    }
+
+    private async Task SetRefreshData()
+    {
         await SmartUI.SendMessage("RefreshPAY", viewType: TargetViewType.PageView);
 
         SmartUI.AddRefreshRequest(RefreshPageType.DSK);
         SmartUI.AddRefreshRequest(RefreshPageType.CST, new Consultation { CST_Idx = SelectedCST.CST_Idx });
-
-        SmartUI.SetNotification($"수납{(saveMode == SaveMode.SAVE ? "완료" : "취소" )}되었습니다.", NotificationType.Success);
     }
 
     private async Task UpdateSelectedCST(int CST_Idx)
@@ -294,7 +313,7 @@ public partial class PayInfoViewModel : PayViewModel
         SmartUI.SetNotification($"{payTypeName}처리되었습니다.", NotificationType.Success);
 
         await UpdatePayInfo(retPAY.Item);
-        await SmartUI.SendMessage("RefreshPAY", viewType:TargetViewType.PageView);
+        await SetRefreshData();
     }
 
     private async Task<ServiceResult<PayItem>?> PaymentPriceAsync(PayMethod method, decimal price)
