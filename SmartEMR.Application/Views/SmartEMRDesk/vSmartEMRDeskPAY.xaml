@@ -136,7 +136,7 @@
             <Xpf:ColumnItem FieldName="btnMovePAY"
                             Header=""
                             ColumnWidth="25"
-                            CellTemplateType="{x:Type local:btnMovePAYTemplate}"/>
+                            CellTemplateType="{x:Type template:btnMovePAYTemplate}"/>
         </Xpf:DataGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

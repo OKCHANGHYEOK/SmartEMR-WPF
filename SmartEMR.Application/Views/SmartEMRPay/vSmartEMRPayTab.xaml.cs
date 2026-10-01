@@ -3,7 +3,6 @@ using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 
 namespace SmartEMR.Application.Views.SmartEMRPay;
 
@@ -70,12 +69,20 @@ public partial class vSmartEMRPayTab : ModelViewLayout<PayViewModel>
         {
             await SmartEMRPayTabPAY.RefreshData();
 
+            bool isRefresh = false;
+
             foreach (var req in requests.Where(x => x.type == RefreshPageType.PAY))
             {
                 if (req.parameter is Pay item && item.PAY_Idx == SmartEMRPayTabPayInfo.SelectedPAY.PAY_Idx)
                 {
-                    await SmartEMRPayTabPayInfo.RefreshSelectedPAY(item);
+                    if (!isRefresh)
+                    {
+                        await SmartEMRPayTabPayInfo.RefreshSelectedPAY(item);
+                        isRefresh = true;
+                    }
                 }
+
+                requests.Remove(req);
             }
 
             SmartUI.SetNotification("수납 데이터 변경된 이력이 있어 갱신했습니다.", NotificationType.Info);

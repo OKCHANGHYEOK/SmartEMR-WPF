@@ -20,13 +20,39 @@ public partial class PatientHistoryViewModel : PatientViewModel
     [ObservableProperty]
     private List<Pay> payItems = new();
 
-    public PatientHistoryViewModel(IPatientService patientService) : base(patientService)
+    private readonly IReservationService _reservationService;
+    private readonly IReceptionService _receptionService;
+    private readonly IConsultationService _consultationService;
+    private readonly IConsultationOrderService _consultationOrderService;
+    private readonly IPayService _payService;
+
+    public PatientHistoryViewModel(IPatientService patientService,
+                                   IReceptionService receptionService,
+                                   IReservationService reservationService,
+                                   IConsultationService consultationService,
+                                   IConsultationOrderService consultationOrderService,
+                                   IPayService payService) : base(patientService)
     {
+        _reservationService = reservationService;
+        _receptionService = receptionService;
+        _consultationService = consultationService;
+        _consultationOrderService = consultationOrderService;
+        _payService = payService;
     }
 
-    public PatientHistoryViewModel(IPatientService patientServie, Patient item) : base(patientServie, item)
+    public PatientHistoryViewModel(IPatientService patientServie,
+                                   IReceptionService receptionService,
+                                   IReservationService reservationService,
+                                   IConsultationService consultationService,
+                                   IConsultationOrderService consultationOrderService,
+                                   IPayService payService, 
+                                   Patient item) : base(patientServie, item)
     {
-
+        _reservationService = reservationService;
+        _receptionService = receptionService;
+        _consultationService = consultationService;
+        _consultationOrderService = consultationOrderService;
+        _payService = payService;
     }
 
     public override async Task FetchDataAsync(object parameter)
@@ -86,55 +112,61 @@ public partial class PatientHistoryViewModel : PatientViewModel
 
     private async Task FetchRESHistoryAsync()
     {
-        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { PAT_Idx = Model.PAT_Idx });
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _reservationService.GetReservations(new Reservation { PAT_Idx = Model.PAT_Idx });
+        if (ret.Items is null || !ret.IsSuccess)
         {
-            SmartUI.SetNotification("예약이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 
-        DisplayDataMappers.ReservationDisplayDataMapper.Map(ret);
-
-        ReservationItems = ret.ToList();
+        ReservationItems = [.. ret.Items];
     }
 
     private async Task FetchRCPHistoryAsync()
     {
-        var ret = await SmartMVVM.DataStore.GetItems<Reception>(eAPI.Reception_GetReception, new Reception { PAT_Idx = Model.PAT_Idx });
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _receptionService.GetReceptions(new Reception { PAT_Idx = Model.PAT_Idx });
+        if (ret.Items is null || !ret.IsSuccess)
         {
-            SmartUI.SetNotification("접수이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 
-        DisplayDataMappers.ReceptionDisplayDataMapper.Map(ret);
-
-        ReceptionItems = ret.ToList();
+        ReceptionItems = [.. ret.Items];
     }
 
     private async Task FetchCSTHistoryAsync()
     {
-        var ret = await SmartMVVM.DataStore.GetItems<Consultation>(eAPI.Consultation_GetConsultation, new Consultation { PAT_Idx = Model.PAT_Idx });
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _consultationService.GetConsultations(new Consultation { PAT_Idx = Model.PAT_Idx });
+        if (ret.Items is null || !ret.IsSuccess)
         {
-            SmartUI.SetNotification("진료이력을 불러오는데 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 
-        DisplayDataMappers.ConsultationDisplayDataMapper.Map(ret);
-
-        ConsultationItems = ret.ToList();
+        ConsultationItems = [.. ret.Items];
     }
 
     private async Task FetchCSTOHistoryAsync()
     {
-        SmartUI.SetNotification("기능 구현중입니다.", NotificationType.Info);
-        return;
+        var ret = await _consultationOrderService.GetConsultationOrders(new ConsultationOrder { PAT_Idx = Model.PAT_Idx });
+        if (ret.Items is null || !ret.IsSuccess)
+        {
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
+            return;
+        }
+
+        ConsultationOrderItems = [.. ret.Items];
     }
 
     private async Task FetchPAYHistoryAsync()
     {
-        SmartUI.SetNotification("기능 구현중입니다.", NotificationType.Info);
-        return;
+        var ret = await _payService.GetPays(new Pay { PAT_Idx = Model.PAT_Idx });
+        if (ret.Items is null || !ret.IsSuccess)
+        {
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
+            return;
+        }
+
+        PayItems = [.. ret.Items];
     }
 }

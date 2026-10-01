@@ -206,7 +206,8 @@ public partial class ConsultationViewModel : BaseViewModel<Consultation>
             return;
         }
 
-        await SetSelectedCST(ret.Item);
+        SmartMVVM.ModelProperty.SetConsultationData(Model, ret.Item);
+        
         await NotifyCompletedTaskAsync(SaveMode.SAVE);
     }
 

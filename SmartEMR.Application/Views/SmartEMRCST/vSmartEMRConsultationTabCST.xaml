@@ -95,8 +95,13 @@
                             ColumnWidth="24"/>
 
             <Xpf:ColumnItem FieldName="CST_Status"
-                            Header="상태"
+                            Header="진료"
                             CellTemplateType="{x:Type template:CSTStatusTemplate}"
+                            ColumnWidth="45"/>
+
+            <Xpf:ColumnItem FieldName="CST_PayStatus"
+                            Header="수납"
+                            CellTemplateType="{x:Type template:ConsultationPAYStatusTemplate}"
                             ColumnWidth="45"/>
 
             <Xpf:ColumnItem FieldName="PAT_ChartNo"

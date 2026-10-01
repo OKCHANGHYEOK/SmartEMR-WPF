@@ -502,6 +502,7 @@ public class ModelProperty
         oldItem.CST_Opinion = RtfConverter.ConvertRtfToPlainText(newItem.CST_Opinion ?? "");
         oldItem.CST_Memo = newItem.CST_Memo;
         oldItem.CST_YYMMDD = newItem.CST_YYMMDD;
+        oldItem.CST_TotalPrice = newItem.CST_TotalPrice;
         oldItem.CST_InsuredPrice = newItem.CST_InsuredPrice;
         oldItem.CST_NonInsuredPrice = newItem.CST_NonInsuredPrice;
         oldItem.CST_OwnPatientPrice = newItem.CST_OwnPatientPrice;

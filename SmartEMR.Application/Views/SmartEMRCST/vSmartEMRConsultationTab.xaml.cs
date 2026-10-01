@@ -29,6 +29,14 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         await SmartEMRConsultationTabOrder.UpdateOrders();
     }
 
+    public override async void SetViewData(object? parameter = null)
+    {
+        if (parameter is Consultation item)
+        {
+            await SetSelectedCST(item);
+        }
+    }
+
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
     {
     }
@@ -63,7 +71,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
                     var paramItem = request.MessageParameter as Consultation;
                     if (paramItem is not null)
                     {
-                        SetSelectedCST(paramItem);
+                        await SetSelectedCST(paramItem);
                     }
 
                     break;
@@ -276,7 +284,7 @@ public partial class vSmartEMRConsultationTab : ModelViewLayout<ConsultationView
         await PatientHistory.SetPatientDataAsync(SelectedPAT);
     }
 
-    private async void SetSelectedCST(Consultation item)
+    private async Task SetSelectedCST(Consultation item)
     {
         ClearData(true, true);
 

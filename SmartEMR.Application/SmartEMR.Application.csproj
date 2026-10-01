@@ -194,6 +194,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Template\btnMoveCSTTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Template\CSTOInsuranceTypeTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -218,7 +221,7 @@
     <Compile Update="Views\SmartEMRCST\vSmartEMRConsultationTabOrderORD.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\SmartEMRDesk\btnMovePAYTemplate.xaml.cs">
+    <Compile Update="Template\btnMovePAYTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

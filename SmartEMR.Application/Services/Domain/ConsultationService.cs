@@ -58,6 +58,8 @@ public class ConsultationService : BaseService, IConsultationService
             return result;
         }
 
+        DisplayDataMappers.ConsultationDisplayDataMapper.Map(ret);
+
         result.Items = ret;
         result.IsSuccess = true;
 
