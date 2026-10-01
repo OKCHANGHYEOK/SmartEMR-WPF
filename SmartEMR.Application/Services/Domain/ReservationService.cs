@@ -63,4 +63,38 @@ public class ReservationService : BaseService, IReservationService
 
         return result;
     }
+
+    public async Task<ServiceResult<Reservation>> SetReservationByStatus(Reservation item)
+    {
+        var result = new ServiceResult<Reservation>();
+        var ret = await _dataStore.GetItem<Reservation>(eAPI.Reservation_SetReservationByStatus, item);
+
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = "예약상태를 업데이트하는데 실패했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
+
+    public async Task<ServiceResult<Reservation>> MoveReservationDate(Reservation item)
+    {
+        var result = new ServiceResult<Reservation>();
+        var ret = await _dataStore.GetItem<Reservation>(eAPI.Reservation_MoveReservationDate, item);
+
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = $"예약일시 변경에 실패했습니다.\n{_dataStore.retMessage}";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
 }

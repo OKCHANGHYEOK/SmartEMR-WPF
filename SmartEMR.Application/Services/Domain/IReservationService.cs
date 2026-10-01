@@ -7,4 +7,6 @@ public interface IReservationService
     Task<ServiceResult<Reservation>> GetReservation(Reservation item);
     Task<ServiceResult<Reservation>> GetReservations(Reservation item);
     Task<ServiceResult<Reservation>> SetReservation(Reservation item);
+    Task<ServiceResult<Reservation>> SetReservationByStatus(Reservation item);
+    Task<ServiceResult<Reservation>> MoveReservationDate(Reservation item);
 }

@@ -39,7 +39,10 @@ public partial class vSmartEMRRESCalendar : ModelViewLayout<CalendarViewModel>
 
     public async Task UpdateCalendar()
     {
-        await vm.UpdateCalendar();
+        SmartUI.BeginInvoke(async () =>
+        {
+            await vm.UpdateCalendar();
+        }, System.Windows.Threading.DispatcherPriority.Background);
     }
 
     private void TableView_OnCustomCellAppearance(object? sender, CustomCellAppearanceEventArgs e)

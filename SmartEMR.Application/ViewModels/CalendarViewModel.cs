@@ -1,26 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
-using SmartEMR.Domain.Enums;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace SmartEMR.Application.ViewModels;
 
 public partial class CalendarViewModel : ReservationViewModel
 {
     [ObservableProperty]
-    private DateTime startDay;
+    private DateTime startDay = DateTime.Today;
     [ObservableProperty]
-    private int displayDays;
+    private int displayDays = 7;
     [ObservableProperty]
-    private TimeSpan startTime;
+    private TimeSpan startTime = TimeSpan.FromHours(7);
     [ObservableProperty]
-    private TimeSpan endTime;
+    private TimeSpan endTime = TimeSpan.FromHours(24);
     [ObservableProperty]
-    private ObservableCollection<CalendarRowItem> calendarItems;
+    private ObservableCollection<CalendarRowItem> calendarItems = new();
 
     [ObservableProperty]
     private int pendingCount;
@@ -33,16 +32,16 @@ public partial class CalendarViewModel : ReservationViewModel
 
     private List<DateTime> days = new();
 
-    public CalendarViewModel()
+    public CalendarViewModel(IPatientService patientService, IReservationService reservationService) : base(patientService, reservationService)
     {
-        StartDay = DateTime.Today;
-        DisplayDays = 7;
+    }
 
-        StartTime = TimeSpan.FromHours(7);
-        EndTime = TimeSpan.FromHours(24);
+    public CalendarViewModel(IPatientService patientService, IReservationService reservationService, Reservation item) : base(patientService, reservationService, item)
+    {
+    }
 
-        CalendarItems = new();
-
+    public override void Initialize()
+    {
         SetDays();
     }
 
@@ -54,19 +53,21 @@ public partial class CalendarViewModel : ReservationViewModel
             eDay = StartDay.AddDays(DisplayDays).ToString("yyyy-MM-dd")
         };
 
-        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, getItem);
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _reservationService.GetReservations(getItem);
+        if (ret.Items is null || !ret.IsSuccess)
         {
             SmartUI.SetNotification("예약현황을 불러오지 못했습니다.", NotificationType.Error);
             return false;
         }
 
-        PendingCount = ret.Count(x => x.RES_Status == "PND");
-        ConfirmedCount = ret.Count(x => x.RES_Status == "CNF");
-        VisitCount = ret.Count(x => x.RES_Status == "VIS");
-        CanceledCount = ret.Count(x => x.RES_Status == "CNL");
+        var reservations = ret.Items;
 
-        var resMap = ret.ToDictionary(x => $"{x.RES_ReservationDate}_{x.RES_ReservationTime}");
+        PendingCount = reservations.Count(x => x.RES_Status == "PND");
+        ConfirmedCount = reservations.Count(x => x.RES_Status == "CNF");
+        VisitCount = reservations.Count(x => x.RES_Status == "VIS");
+        CanceledCount = reservations.Count(x => x.RES_Status == "CNL");
+
+        var resMap = reservations.ToDictionary(x => $"{x.RES_ReservationDate}_{x.RES_ReservationTime}");
 
         foreach (var row in CalendarItems)
         {
@@ -121,9 +122,8 @@ public partial class CalendarViewModel : ReservationViewModel
             RES_Status = targetStatus
         };
 
-        var ret = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservationByStatus, setRES);
-
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _reservationService.SetReservationByStatus(setRES);
+        if (ret.Item is null || !ret.IsSuccess)
         {
             SmartUI.SetNotification($"{msg}에 실패했습니다.", NotificationType.Error);
             return;
@@ -138,11 +138,11 @@ public partial class CalendarViewModel : ReservationViewModel
     {
         if (SmartUI.MsgYesNo("예약삭제하시겠습니까? 삭제이후에는 복구할 수 없습니다.") is MessageBoxResult.No) return;
 
-        await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservation, new Reservation { RES_Idx = item.RES_Idx, RES_IsValid = false });
+        var ret = await _reservationService.SetReservation(new Reservation { RES_Idx = item.RES_Idx, RES_IsValid = false });
 
-        if (!SmartMVVM.DataStore.retIsSuccess)
+        if (!ret.IsSuccess || !string.IsNullOrWhiteSpace(ret.Message))
         {
-            SmartUI.SetNotification("예약삭제하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification($"예약삭제하지 못했습니다.\n{ret.Message}", NotificationType.Error);
             return;
         }
 
@@ -160,10 +160,10 @@ public partial class CalendarViewModel : ReservationViewModel
             RES_ReservationTime = destination.RES_ReservationTime
         };
 
-        var ret = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_MoveReservationDate, item);
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _reservationService.MoveReservationDate(item);
+        if (ret.Item is null || !ret.IsSuccess)
         {
-            SmartUI.SetNotification("예약일시를 변경하지 못했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 

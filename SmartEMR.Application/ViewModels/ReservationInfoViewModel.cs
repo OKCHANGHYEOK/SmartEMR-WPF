@@ -8,6 +8,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
+using SmartEMR.Application.Services.Domain;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -32,21 +33,27 @@ public partial class ReservationInfoViewModel : ReservationViewModel
 
     private bool _initialized = false;
 
-    public ReservationInfoViewModel() { }
-    public ReservationInfoViewModel(Reservation item) : base(item) { }
+    public ReservationInfoViewModel(IPatientService patientService, IReservationService reservationService) : base(patientService, reservationService)
+    {
+    }
+
+    public ReservationInfoViewModel(IPatientService patientService, IReservationService reservationService, Reservation item) : base(patientService, reservationService, item)
+    {
+    }
+
 
     public override async Task InitializeAsync()
     {
         if (Model.PAT_Idx.GetValueOrDefault(0) > 0)
         {
-            var retPAT = await SmartMVVM.DataStore.GetItem<Patient>(eAPI.Patient_GetPatient, new Patient { PAT_Idx = Model.PAT_Idx });
-            if (retPAT is null || !SmartMVVM.DataStore.retIsSuccess)
+            var retPAT = await _patientService.GetPatient(new Patient { PAT_Idx = Model.PAT_Idx });
+            if (retPAT.Item is null || !retPAT.IsSuccess)
             {
-                SmartUI.SetNotification("환자 조회에 실패했습니다.", NotificationType.Error);
+                SmartUI.SetNotification(retPAT.Message ?? "", NotificationType.Error);
                 return;
             }
 
-            SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, retPAT);
+            SmartMVVM.ModelProperty.SetPatientData(SelectedPatient, retPAT.Item);
 
             IsNewPatient = false;
         }
@@ -57,15 +64,15 @@ public partial class ReservationInfoViewModel : ReservationViewModel
 
         if (Model.RES_Idx.GetValueOrDefault(0) > 0) 
         {
-            var retRES = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_Idx = Model.RES_Idx });
-            if (retRES is null || !SmartMVVM.DataStore.retIsSuccess)
+            var retRES = await _reservationService.GetReservation(new Reservation { RES_Idx = Model.RES_Idx });
+            if (retRES.Item is null || !retRES.IsSuccess)
             {
-                SmartUI.SetNotification("예약 조회에 실패했습니다.", NotificationType.Error);
+                SmartUI.SetNotification(retRES.Message ?? "", NotificationType.Error);
                 return;
             }
 
-            SmartMVVM.ModelProperty.SetReservationData(Model, retRES);
-            SmartMVVM.ModelProperty.SetReservationData(OriginalReservation, retRES);
+            SmartMVVM.ModelProperty.SetReservationData(Model, retRES.Item);
+            SmartMVVM.ModelProperty.SetReservationData(OriginalReservation, retRES.Item);
         }
 
         await UpdateReservations();
@@ -177,16 +184,16 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             RES_YYMMDD = SmartMVVM.Common.GetYYMMDDByDateString(RES_YYMMDD);
         }
 
-        var ret = await SmartMVVM.DataStore.GetItems<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_YYMMDD = RES_YYMMDD });
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        var ret = await _reservationService.GetReservations(new Reservation { RES_YYMMDD = RES_YYMMDD });
+        if (ret.Items is null || !ret.IsSuccess)
         {
-            SmartUI.SetNotification("예약현황 조회에 실패했습니다.", NotificationType.Error);
+            SmartUI.SetNotification(ret.Message ?? "", NotificationType.Error);
             return;
         }
 
         foreach (var slot in Reservations)
         {
-            var item = ret.FirstOrDefault(x => x.RES_ReservationTime == slot.RES_Time);
+            var item = ret.Items.FirstOrDefault(x => x.RES_ReservationTime == slot.RES_Time);
             bool isSelectable = true;
 
             if (item is not null || SmartMVVM.Common.IsPast(RES_YYMMDD, slot.RES_Time))
@@ -315,14 +322,14 @@ public partial class ReservationInfoViewModel : ReservationViewModel
             PageSize = Model.PageSize
         };
 
-        var retPAT = await SmartMVVM.DataStore.GetItems<Patient>(eAPI.Patient_GetPatient, getPAT);
-        if (retPAT is null || !retPAT.Any() || !SmartMVVM.DataStore.retIsSuccess) 
+        var retPAT = await _patientService.GetPatients(getPAT);
+        if (retPAT.Items is null || !retPAT.IsSuccess) 
         {
             SmartUI.SetNotification("검색된 환자가 없습니다.", NotificationType.Warning);
             return;
         }
 
-        Patients = retPAT.ToList();
+        Patients = [.. retPAT.Items];
 
         await SmartUI.SendMessage("SetPatientSearchResult");
     }
@@ -371,9 +378,8 @@ public partial class ReservationInfoViewModel : ReservationViewModel
                 item = SmartMVVM.ModelProperty.GetReservationDataForSave(Model, SelectedPatient);
             }
 
-            var retRES = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservation, item);
-        
-            if (retRES is null || !SmartMVVM.DataStore.retIsSuccess)
+            var retRES = await _reservationService.SetReservation(item);
+            if (retRES.Item is null || !retRES.IsSuccess)
             {
                 SmartUI.SetNotification("예약 저장에 실패했습니다.", NotificationType.Error);
                 return;
@@ -391,15 +397,13 @@ public partial class ReservationInfoViewModel : ReservationViewModel
         var msg = "예약" + (targetStatus == "CNF" ? "등록" : targetStatus == "CNL" ? "취소" : "");
         if (SmartUI.MsgYesNo($"{msg} 하시겠습니까?") is MessageBoxResult.No) return;
 
-        var setRES = new Reservation
+        var ret = await _reservationService.SetReservationByStatus(new Reservation
         {
             RES_Idx = Model.RES_Idx,
             RES_Status = targetStatus
-        };
+        });
 
-        var ret = await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_SetReservationByStatus, setRES);
-
-        if (ret is null || !SmartMVVM.DataStore.retIsSuccess)
+        if (ret.Item is null || !ret.IsSuccess)
         {
             SmartUI.SetNotification($"{msg}에 실패했습니다.", NotificationType.Error);
 
@@ -457,9 +461,9 @@ public partial class ReservationInfoViewModel : ReservationViewModel
     {
         if (SmartUI.MsgYesNo("예약 삭제하시겠습니까?") is not System.Windows.MessageBoxResult.Yes) return false;
 
-        await SmartMVVM.DataStore.GetItem<Reservation>(eAPI.Reservation_GetReservation, new Reservation { RES_Idx = Model.RES_Idx, RES_IsValid = false });
-
-        if (!SmartMVVM.DataStore.retIsSuccess) return false;
+        var ret = await _reservationService.SetReservation(new Reservation { RES_Idx = Model.RES_Idx, RES_IsValid = false });
+        if (!ret.IsSuccess || !string.IsNullOrWhiteSpace(ret.Message)) 
+            return false;
 
         return true;
     }
