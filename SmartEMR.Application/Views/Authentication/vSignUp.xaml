@@ -1,0 +1,141 @@
+﻿<base:ModelViewLayout x:TypeArguments="vm:MemberViewModel"
+                      x:Class="SmartEMR.Application.Views.Authentication.vSignUp"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                      xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                      xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                      xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                      xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      mc:Ignorable="d"
+                      d:DesignHeight="450"
+                      d:DesignWidth="800">
+
+    <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                    ColumnSizeDefinitions="0.3*,0.7*">
+
+        <Border Grid.Column="0"
+                CornerRadius="11,0,0,11">
+
+            <Border.Background>
+                <ImageBrush ImageSource="/Images/smartemr_hospital.png"
+                            Stretch="UniformToFill"
+                            AlignmentX="Left"
+                            AlignmentY="Center"/>
+            </Border.Background>
+
+            <StackPanel Orientation="Vertical"
+                        Margin="20,80,40,0">
+
+                <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                                ColumnSizeDefinitions="Auto,*"
+                                Margin="5,0,0,0">
+
+                    <Border Grid.Column="0"
+                            Width="28"
+                            Height="28">
+
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Images/smartemr_logo.png"
+                                        Stretch="UniformToFill"/>
+                        </Border.Background>
+                    </Border>
+
+                    <Xpf:TextBlock  Grid.Column="1"
+                                    Text="SmartEMR"
+                                    Foreground="#193458"
+                                    FontSize="24"
+                                    FontWeight="Bold"
+                                    HorizontalAlignment="Left"
+                                    Margin="8,0,0,0"/>
+                </Xpf:StyleGrid>
+
+                <Xpf:TextBlock  FontSize="14"
+                                Foreground="#193458"
+                                FontWeight="SemiBold"
+                                Margin="10,10,0,0"
+                                HorizontalAlignment="Left">
+                    <Run>
+                        더 나은 의료서비스를 위한
+                    </Run>
+                    <LineBreak/>
+                    <Run>
+                        스마트한 선택
+                    </Run>
+                </Xpf:TextBlock>
+
+                <Xpf:TextBlock FontSize="12"
+                               Foreground="#607A9A"
+                               LineHeight="20"
+                               HorizontalAlignment="Left"
+                               Margin="10,10,0,0">
+                    
+                    <Run>
+                        SmartEMR은 병원과 환자를 이어주는
+                    </Run>
+                    <LineBreak/>
+                    <Run>
+                        보다 편리하고 안전한 의료정보 시스템입니다.
+                    </Run>
+                </Xpf:TextBlock>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1"
+                Background="#FFFFFF"
+                CornerRadius="0,11,11,0">
+
+            <StackPanel Orientation="Vertical"
+                        Margin="20,40,10,20">
+
+                <Xpf:TextBlock  Text="회원가입"
+                                FontWeight="Bold"
+                                FontSize="20"
+                                Foreground="#193458"
+                                HorizontalAlignment="Left"/>
+
+
+                <Xpf:TextBlock  Text="SmartEMR과 함께 시작하세요."
+                                FontSize="14"
+                                FontWeight="DemiBold"
+                                Foreground="#294A70"
+                                HorizontalAlignment="Left"
+                                Margin="0,5,0,0"/>
+
+                <Xpf:TextBlock  Text="아래 정보를 입력하시면 회원가입이 완료됩니다."
+                                FontSize="12"
+                                FontWeight="Regular"
+                                Foreground="#294A70"
+                                HorizontalAlignment="Left"
+                                Margin="0,5,0,0">
+                </Xpf:TextBlock>
+
+                <Xpf:StyleGrid  LayoutDefinitions="2,12"
+                                Margin="0,15,0,0">
+
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal">
+
+                        <Border Width="18"
+                                Height="18"
+                                BorderBrush="Transparent">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/Images/smartemr_person.png"
+                                                Stretch="UniformToFill"/>
+                            </Border.Background>
+                        </Border>
+
+                        <Xpf:TextBlock  Text="기본 정보"
+                                        FontSize="14"
+                                        Foreground="#294A70"
+                                        FontWeight="SemiBold"
+                                        Margin="5,0,0,0"/>
+                    </StackPanel>
+                   
+                </Xpf:StyleGrid>
+            </StackPanel>
+        </Border>
+    </Xpf:StyleGrid>
+</base:ModelViewLayout>

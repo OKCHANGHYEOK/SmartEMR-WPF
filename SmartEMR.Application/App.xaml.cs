@@ -13,6 +13,7 @@ using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using SmartEMR.Infrastructure;
 using SmartEMR.Application.Services.Domain;
+using SmartEMR.Application.Windows;
 
 namespace SmartEMR.Application
 {

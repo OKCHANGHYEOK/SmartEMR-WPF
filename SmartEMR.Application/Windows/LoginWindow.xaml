@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:views="clr-namespace:SmartEMR.Application.Views"
+        xmlns:auth="clr-namespace:SmartEMR.Application.Views.Authentication"
         mc:Ignorable="d" 
         d:DesignHeight="450" d:DesignWidth="500"
         Title="SmartEMR - 로그인"
@@ -12,8 +13,8 @@
         Height="450"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    <views:vLogin>
-    </views:vLogin>
+    <auth:vLogin>
+    </auth:vLogin>
 </Window>
     
     
