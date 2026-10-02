@@ -10,8 +10,8 @@
                     mc:Ignorable="d">
 
     <dxc:SimpleButton Glyph="/Images/smartemr_shortcut.png"
-                      Width="18"
-                      Height="18"
+                      Width="20"
+                      Height="20"
                       GlyphWidth="16"
                       GlyphHeight="16"
                       Padding="2"

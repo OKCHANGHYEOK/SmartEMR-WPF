@@ -84,6 +84,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="GridColumnTextLinkTemplate">
-        <Xpf:TextLink  Text="{Binding Value}"/>
+        <Xpf:TextLink  Text="{Binding Value}"
+                       FontSize="{Binding Column.ColumnItem.FontSize}"/>
     </DataTemplate>
 </ResourceDictionary>

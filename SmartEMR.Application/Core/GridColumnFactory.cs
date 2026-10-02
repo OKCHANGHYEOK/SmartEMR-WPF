@@ -1,6 +1,5 @@
 ﻿using DevExpress.Utils;
 using DevExpress.Xpf.Editors;
-using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Editors.Settings;
 using DevExpress.Xpf.Grid;
 using SmartEMR.Application.Resources;
@@ -96,32 +95,6 @@ public class GridColumnFactory
 
         return template;
     }
-
-    private static BaseEditSettings CreateEditSettings(ColumnItem item)
-    {
-        if (item.ColumnType == ColumnType.TextEdit)
-        {
-            return new TextEditSettings
-            {
-                HorizontalContentAlignment = EditSettingsHorizontalAlignment.Center,
-                MaskType = MaskType.Numeric,
-                Mask = "n0",
-            };
-        }
-        else if (item.ColumnType == ColumnType.ComboBox)
-        {
-            return new ComboBoxEditSettings
-            {
-                ItemsSource = item.ItemsSource,
-                DisplayMember = item.DisplayMember,
-                ValueMember = item.ValueMember,
-                IsTextEditable = false
-            };
-        }
-
-        return default!;
-    }
-
 
     private static DataTemplate CreateTemplate(Type templateType)
     {

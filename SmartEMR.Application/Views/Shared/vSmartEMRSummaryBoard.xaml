@@ -10,6 +10,7 @@
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                         xmlns:template="clr-namespace:SmartEMR.Application.Template"
                         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+                        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d"
                         Margin="3">
 
@@ -32,16 +33,15 @@
 
         <Xpf:DataGrid ItemsSource="{Binding Boards}"
                       ClipToBounds="True"
-                      ShowHeader="False"
                       ShowOutLineBorder="False"
                       Margin="0">
-
+   
             <Xpf:DataGrid.RowStyle>
                 <Style TargetType="{x:Type dxg:GridRowContent}">
                     <Setter Property="Height" Value="22"/>
                 </Style>
             </Xpf:DataGrid.RowStyle>
-
+            
             <Xpf:ColumnItem FieldName="vRCB_Type"
                             Header="구분"
                             ColumnWidth="30"
@@ -52,34 +52,42 @@
                             ColumnType="Label"
                             ColumnWidth="40"
                             ColumnStyle="Code"
+                            FontSize="11"
                             AllowSorting="True"/>
 
             <Xpf:ColumnItem FieldName="PAT_Name"
                             Header="환자명"
                             ColumnType="TextLink"
                             ColumnWidth="32"
+                            FontSize="11"
                             HorizontalAlignment="Center"/>
 
             <Xpf:ColumnItem FieldName="vPAT_Info"
                             Header=""
                             ColumnWidth="25"
+                            FontSize="11"
                             HorizontalAlignment="Center"/>
             
             <Xpf:ColumnItem FieldName="vRCB_Subject"
                             Header="과목"
                             ColumnWidth="60"
                             ColumnStyle="Code"
+                            FontSize="11"
                             FontWeight="SemiBold"/>
 
             <Xpf:ColumnItem FieldName="RCB_Time"
                             Header="시간"
                             ColumnWidth="32"
                             HorizontalAlignment="Center"
+                            FontSize="11"
+                            Foreground="DimGray"
                             AllowSorting="True"/>
 
             <Xpf:ColumnItem FieldName="MUR_Name_DOC"
                             Header="담 당 의"
                             ColumnWidth="60"
+                            FontSize="11"
+                            Foreground="DarkSlateGray"
                             HorizontalAlignment="Center"/>
 
             <Xpf:ColumnItem FieldName="btnMoveRCB"

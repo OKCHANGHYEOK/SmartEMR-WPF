@@ -158,14 +158,16 @@
                         Grid.RowSpan="2"
                         Grid.ColumnSpan="4"
                         Height="36"
-                        Background="#E8F5E9"
-                        BorderBrush="#009688"
                         BorderThickness="2"
                         CornerRadius="5"
                         Margin="5,2">
 
-                    <Border.Resources>
+                    <Border.Style>
                         <Style TargetType="Border">
+                            <Style.Setters>
+                                <Setter Property="Background" Value="#E8F5E9"/>
+                                <Setter Property="BorderBrush" Value="#009688"/>
+                            </Style.Setters>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Model.PAT_IsAgreePersonalInfo}" Value="y">
                                     <Setter Property="BorderBrush" Value="{x:Static resources:SmartBrush.SMART_BRUSH_PERSONAL_INFO_AGREE}"/>
@@ -178,7 +180,7 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Border.Resources>
+                    </Border.Style>
 
                     <Xpf:TextBlock Text="{Binding Model.vPAT_IsAgreePersonalInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Padding="0,0,0,3" FontSize="13" Margin="0,4,0,0" FontWeight="Bold">
                         <Xpf:TextBlock.Style>
