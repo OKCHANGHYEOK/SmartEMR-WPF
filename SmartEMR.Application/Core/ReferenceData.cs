@@ -19,6 +19,7 @@ public class AttrItem<T>
 /// </summary>
 public class MasterReferenceData
 {
+    public List<Member> MEM_Department { get; set; } = new();
     public List<Patient> PAT_Sex { get; set; } = new();
     public List<AttrItem<string>> PAT_IsSolar { get; set; } = new();
     public List<AttrItem<string>> PAT_IsForegin { get; set; } = new();

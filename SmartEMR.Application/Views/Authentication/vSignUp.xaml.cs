@@ -22,4 +22,9 @@ public partial class vSignUp : ModelViewLayout<MemberViewModel>
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
     }
+
+    private void OnEditValueChanged_PasswordEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+    {
+
+    }
 }

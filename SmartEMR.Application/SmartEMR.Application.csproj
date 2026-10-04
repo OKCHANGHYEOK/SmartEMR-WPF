@@ -39,6 +39,7 @@
     <None Remove="Images\smartemr_check_all.png" />
     <None Remove="Images\smartemr_clear.png" />
     <None Remove="Images\smartemr_close.png" />
+    <None Remove="Images\smartemr_contact.png" />
     <None Remove="Images\smartemr_cross.png" />
     <None Remove="Images\smartemr_default_profile.png" />
     <None Remove="Images\smartemr_delete.png" />
@@ -62,6 +63,8 @@
     <None Remove="Images\smartemr_menu_exam.png" />
     <None Remove="Images\smartemr_menu_payment.png" />
     <None Remove="Images\smartemr_menu_settings.png" />
+    <None Remove="Images\smartemr_office.png" />
+    <None Remove="Images\smartemr_password_eye.png" />
     <None Remove="Images\smartemr_patient_default_image.png" />
     <None Remove="Images\smartemr_payment.png" />
     <None Remove="Images\smartemr_payment_cancel.png" />
@@ -79,6 +82,7 @@
     <None Remove="Images\smartemr_save.png" />
     <None Remove="Images\smartemr_search.png" />
     <None Remove="Images\smartemr_shortcut.png" />
+    <None Remove="Images\smartemr_work.png" />
     <None Remove="Images\smartmer_cutting.png" />
     <None Remove="Images\Svg\smartemr-error.svg" />
     <None Remove="Images\Svg\smartemr_menu_calendar.svg" />
@@ -131,6 +135,7 @@
     <Resource Include="Images\smartemr_center_align.png" />
     <Resource Include="Images\smartemr_check_all.png" />
     <Resource Include="Images\smartemr_close.png" />
+    <Resource Include="Images\smartemr_contact.png" />
     <Resource Include="Images\smartemr_discount.png" />
     <Resource Include="Images\smartemr_empty_paper_v2.png" />
     <Resource Include="Images\smartemr_empty_paper_white.png" />
@@ -161,6 +166,8 @@
     <Resource Include="Images\smartemr_edit_patient.png" />
     <Resource Include="Images\smartemr_find_glasses.png" />
     <Resource Include="Images\smartemr_logo.png" />
+    <Resource Include="Images\smartemr_office.png" />
+    <Resource Include="Images\smartemr_password_eye.png" />
     <Resource Include="Images\smartemr_patient_default_image.png" />
     <Resource Include="Images\smartemr_payment.png" />
     <Resource Include="Images\smartemr_payment_cancel.png" />
@@ -190,6 +197,7 @@
     <Resource Include="Images\smartemr_menu_exam.png" />
     <Resource Include="Images\smartemr_menu_settings.png" />
     <Resource Include="Images\smartemr_error.png" />
+    <Resource Include="Images\smartemr_work.png" />
     <Resource Include="Images\smartmer_cutting.png" />
     <Resource Include="Images\Svg\smartemr_menu_calendar.svg" />
     <Resource Include="Images\Svg\smartemr_menu_crm.svg" />

@@ -11,7 +11,8 @@ public class Master
     public IReadOnlyDictionary<string, ReadOnlyCollection<object>> masterItems =>
         _masterItems.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.AsReadOnly());
 
-    private readonly List<MemberUser> _arrMUR = new();
+    private List<Member> _members { get; set; } = new();
+    private List<MemberUser> _memberUsers { get; set; } = new();
 
     public Master()
     {
@@ -26,20 +27,37 @@ public class Master
 
     private async Task InitializeByDB()
     {
-        var MURItem = new MemberUser
+       await SetMembers();
+       await SetMemberUsers();
+    }
+
+    private async Task SetMembers()
+    {
+        var item = new Member
+        {
+
+        };
+
+        var retMEM = await SmartMVVM.DataStore.GetItems<Member>(eAPI.Member_GetMember, item);
+        if (retMEM != null && retMEM.Any())
+        {
+            _members = [.. retMEM];
+        }    
+    }
+
+    private async Task SetMemberUsers()
+    {
+        var item = new MemberUser
         {
             MEM_Idx = SmartMVVM.AppSession.Member?.MEM_Idx,
             MUR_Role = "USR"
         };
 
-        var retMUR = await SmartMVVM.DataStore.GetItems<MemberUser>(eAPI.MemberUser_GetMemberUser, MURItem);
-        if (retMUR == null || !retMUR.Any())
+        var retMUR = await SmartMVVM.DataStore.GetItems<MemberUser>(eAPI.MemberUser_GetMemberUser, item);
+        if (retMUR != null && retMUR.Any())
         {
-            SmartUI.SetNotification("직원 정보를 불러오지 못했습니다.", NotificationType.Error);
-            return;
+            _memberUsers = [.. retMUR];
         }
-
-        _arrMUR.AddRange(retMUR);
     }
 
     private void SetMasterData()
@@ -70,6 +88,25 @@ public class Master
         foreach (var item in reference.PAY_CutUnit) AddMasterItem("PAY_CutUnit", item);
     }
 
+    public List<Member> GetMembers(string MEM_BizType, string keyword = "", bool isDefault = false, string defaultText = "전체")
+    {
+        var members = new List<Member>();
+
+        if (isDefault)
+        {
+            members.Add(new Member { MEM_Idx = 0, MEM_Name = defaultText });
+        }
+
+        var targetItems = _members.Where(x => x.MEM_BizType == MEM_BizType);
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            targetItems = targetItems.Where(x => !string.IsNullOrWhiteSpace(x.MEM_Name) && x.MEM_Name.Contains(keyword));
+        }
+
+        return [.. targetItems];
+    }
+
     public List<MemberUser> GetMemberUsers(string MUR_JobCode = "", bool isDefault = false, string defaultText = "전체")
     {
         var arrMUR = new List<MemberUser>();
@@ -79,7 +116,7 @@ public class Master
             arrMUR.Add(new MemberUser { MUR_Idx = 0, MUR_Name = defaultText });
         }
 
-        var targetItems = _arrMUR.Where(x => x.MUR_JobCode == MUR_JobCode).AsQueryable();
+        var targetItems = _memberUsers.Where(x => x.MUR_JobCode == MUR_JobCode).AsQueryable();
         if (targetItems.Any())
         {
             arrMUR.AddRange(targetItems);

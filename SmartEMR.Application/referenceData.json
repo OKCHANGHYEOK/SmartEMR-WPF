@@ -1,4 +1,8 @@
 {
+  "MEM_Department": {
+    {"MEM_Department" : "DSK", "vMEM_Department" :  "접수/원무부"},
+    { "MEM_Department" : "MED", "vMEM_Department" : "진료부" }
+  },
   "PAT_Sex": [
     { "vPAT_Sex": "성별선택", "PAT_Sex": "N" },
     { "vPAT_Sex": "남", "PAT_Sex": "M" },

@@ -5,6 +5,9 @@ namespace SmartEMR.Application.Common.SelectionItems;
 
 public class InputOptionItems
 {
+    public static IEnumerable<Member> Members => SmartMVVM.Master.GetMembers("");
+    public static IEnumerable<CommonCode> BizTypes => SmartMVVM.Common.GetCommonCode("MEM", "BizType");
+
     public static IEnumerable<Patient> Sexes => SmartMVVM.Master.Query<Patient>("PAT_Sex");
     public static IEnumerable<object> CalendarTypes => SmartMVVM.Master.Query("PAT_IsSolar");
     public static IEnumerable<object> NationalityTypes => SmartMVVM.Master.Query("PAT_IsForegin");
