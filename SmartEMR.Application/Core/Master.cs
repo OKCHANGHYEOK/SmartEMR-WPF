@@ -70,7 +70,11 @@ public class Master
 
         var reference = ReferenceDataLoader.Load();
 
+        // MUR_Deparment
         foreach (var item in reference.MUR_Department) AddMasterItem("MUR_Deparment", item);
+
+        // MUR_EmailDomain
+        foreach (var item in reference.MUR_EmailDomain) AddMasterItem("MUR_EmailDomain", item);
 
         // PAT_Sex
         foreach (var item in reference.PAT_Sex) AddMasterItem("PAT_Sex", item);

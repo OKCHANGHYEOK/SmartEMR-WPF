@@ -1,15 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
 public partial class MemberViewModel : BaseViewModel<Member>
 {
-    public MemberUser MemberUser { get; set; } = new();
+    protected readonly IMemberService _memberService;
 
-    public string passwordCheckString { get; set; } = "";
+    public MemberViewModel(IMemberService memberService)
+    {
+        _memberService = memberService;
+    }
 
-    private bool isUseableId { get; set; } = false;
+    public MemberViewModel(IMemberService memberService, Member item) : base(item)
+    {
+        _memberService = memberService;
+    }
 
     public override void Initialize()
     {
@@ -18,11 +25,5 @@ public partial class MemberViewModel : BaseViewModel<Member>
     protected override Member GetModel(Member item)
     {
         return item;
-    }
-
-    [RelayCommand]
-    private async Task CheckDuplicate()
-    {
-
     }
 }

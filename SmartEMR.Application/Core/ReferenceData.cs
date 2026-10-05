@@ -21,6 +21,7 @@ public class AttrItem<T>
 public class MasterReferenceData
 {
     public List<MemberUser> MUR_Department { get; set; } = new();
+    public List<AttrItem<string>> MUR_EmailDomain { get; set; } = new();
     public List<Patient> PAT_Sex { get; set; } = new();
     public List<AttrItem<string>> PAT_IsSolar { get; set; } = new();
     public List<AttrItem<string>> PAT_IsForegin { get; set; } = new();

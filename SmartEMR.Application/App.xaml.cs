@@ -46,16 +46,16 @@ namespace SmartEMR.Application
                 return;
             }
 
-            ConfigureServices();
-
             base.OnStartup(e);
+
+            ConfigureServices();
 
             DevExpress.Xpf.Core.ApplicationThemeHelper.ApplicationThemeName = Theme.Win10LightName;
 
             SmartMVVM.DataStore.APIUrl = AppConfig.Settings.Api.BaseUrl;
             SmartMVVM.DataStore.RequestTimeoutSeconds = AppConfig.Settings.Api.RequestTimeoutSeconds;
 
-#if RELEASE
+#if DEBUG
 
             await InitializeAppData();
 
@@ -83,6 +83,8 @@ namespace SmartEMR.Application
 
             services.AddSingleton<IDataStore>(_ => SmartMVVM.DataStore);
 
+            services.AddSingleton<IMemberService, MemberService>();
+            services.AddSingleton<IMemberUserService, MemberUserService>();
             services.AddSingleton<IPatientService, PatientService>();
             services.AddSingleton<IReservationService, ReservationService>();
             services.AddSingleton<IReceptionService, ReceptionService>();
@@ -119,21 +121,25 @@ namespace SmartEMR.Application
 
         private bool SetAuthenticateUser()
         {
-#if DEBUG
-            var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
-
-            if (ret == null || !string.IsNullOrWhiteSpace(ret.Message))
-            {
-                return false;
-            }
-
-            return true;
-
-#else
             var loginWindow = new LoginWindow();
-            
+
             return loginWindow.ShowDialog() ?? false;
-#endif 
+
+            //#if DEBUG
+            //            var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
+
+            //            if (ret == null || !string.IsNullOrWhiteSpace(ret.Message))
+            //            {
+            //                return false;
+            //            }
+
+            //            return true;
+
+            //#else
+            //            var loginWindow = new LoginWindow();
+
+            //            return loginWindow.ShowDialog() ?? false;
+            //#endif 
         }
 
         private async Task InitializeAppData()

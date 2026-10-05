@@ -64,6 +64,16 @@ public enum CopaymentType
     Senior
 }
 
+public enum DuplicateResultCode
+{
+    EmptyInput,
+    ErrorOccured,
+    HasDuplicate,
+    NotDuplicate
+}
+
+public record CheckDuplicateResult(DuplicateResultCode resultCode, string? Message);
+
 public partial class Common
 {
     public BrushConverter BrushConverter { get; } = new BrushConverter();

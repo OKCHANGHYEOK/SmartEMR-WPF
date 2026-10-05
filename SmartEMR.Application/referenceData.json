@@ -9,6 +9,36 @@
       "vMUR_Department": "진료부"
     }
   ],
+  "MUR_EmailDomain": [
+    {
+      "attrName": "네이버",
+      "attrValue": "naver.com"
+    },
+    {
+      "attrName": "카카오",
+      "attrValue": "kakao.com"
+    },
+    {
+      "attrName": "다음",
+      "attrValue": "daum.net"
+    },
+    {
+      "attrName": "한메일",
+      "attrValue": "hanmail.net"
+    },
+    {
+      "attrName": "구글",
+      "attrValue": "gmail.com"
+    },
+    {
+      "attrName": "네이트",
+      "attrValue": "nate.com"
+    },
+    {
+      "attrName": "직접입력",
+      "attrValue" : ""
+    }
+  ],
   "PAT_Sex": [
     {
       "vPAT_Sex": "성별선택",
