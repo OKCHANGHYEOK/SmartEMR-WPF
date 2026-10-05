@@ -82,7 +82,7 @@
                                 Margin="2,0,2,0"/>
 
                     <Xpf:Button Grid.Column="1"
-                                Tag="btnSingUp"
+                                Tag="btnSignUp"
                                 Content="회원가입"
                                 Background="#F1F3F5"
                                 Foreground="#666666"

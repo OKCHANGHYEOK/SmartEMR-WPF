@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace SmartEMR.Application.Windows
 {
     /// <summary>
-    /// SingUpWindow.xaml에 대한 상호 작용 논리
+    /// SignUpWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class SingUpWindow : Window
+    public partial class SignUpWindow : Window
     {
-        public SingUpWindow()
+        public SignUpWindow()
         {
             InitializeComponent();
         }

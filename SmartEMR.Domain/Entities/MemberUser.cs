@@ -6,6 +6,8 @@ public partial class MemberUser : BaseEntity
     private int? m_MUR_Idx;
     private int? m_MEM_Idx;
 
+    private string? m_MUR_Department;
+    private string? m_vMUR_Department;
     private string? m_MUR_Role;
     private string? m_MUR_JobCode;
 
@@ -40,6 +42,18 @@ public partial class MemberUser : BaseEntity
     {
         get => m_MEM_Idx;
         set => SetProperty(ref m_MEM_Idx, value);
+    }
+
+    public string? MUR_Department
+    {
+        get => m_MUR_Department;
+        set => SetProperty(ref m_MUR_Department, value);
+    }
+
+    public string? vMUR_Department
+    {
+        get => m_vMUR_Department;
+        set => SetProperty(ref m_vMUR_Department, value);
     }
 
     public string? MUR_Role

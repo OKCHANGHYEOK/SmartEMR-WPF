@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using SmartEMR.Domain.Entities;
@@ -19,7 +20,7 @@ public class AttrItem<T>
 /// </summary>
 public class MasterReferenceData
 {
-    public List<Member> MEM_Department { get; set; } = new();
+    public List<MemberUser> MUR_Department { get; set; } = new();
     public List<Patient> PAT_Sex { get; set; } = new();
     public List<AttrItem<string>> PAT_IsSolar { get; set; } = new();
     public List<AttrItem<string>> PAT_IsForegin { get; set; } = new();
@@ -49,8 +50,10 @@ public static class ReferenceDataLoader
                 if (data != null) return data;
             }
         }
-        catch (Exception)
+        catch (Exception e)
         {
+              Debug.WriteLine(e);
+
             SmartUI.SetNotification("참조데이터 파일을 읽는 중 오류가 발생했습니다.", NotificationType.Error);
         }
 

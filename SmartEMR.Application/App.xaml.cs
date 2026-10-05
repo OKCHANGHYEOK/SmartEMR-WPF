@@ -55,6 +55,12 @@ namespace SmartEMR.Application
             SmartMVVM.DataStore.APIUrl = AppConfig.Settings.Api.BaseUrl;
             SmartMVVM.DataStore.RequestTimeoutSeconds = AppConfig.Settings.Api.RequestTimeoutSeconds;
 
+#if RELEASE
+
+            await InitializeAppData();
+
+#endif
+
             if (!await ProcessLoginAsync()) return;
 
             _splashScreenManager = SplashScreenManager.CreateThemed();

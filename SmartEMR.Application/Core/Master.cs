@@ -31,8 +31,10 @@ public class Master
        await SetMemberUsers();
     }
 
-    private async Task SetMembers()
+    public async Task SetMembers()
     {
+        if (SmartMVVM.AppSession.Member?.MEM_Idx.GetValueOrDefault(0) > 0) return;
+
         var item = new Member
         {
 
@@ -47,6 +49,8 @@ public class Master
 
     private async Task SetMemberUsers()
     {
+        if (SmartMVVM.AppSession.Member?.MEM_Idx.GetValueOrDefault(0) == 0) return;
+
         var item = new MemberUser
         {
             MEM_Idx = SmartMVVM.AppSession.Member?.MEM_Idx,
@@ -65,6 +69,8 @@ public class Master
         _masterItems.Clear();
 
         var reference = ReferenceDataLoader.Load();
+
+        foreach (var item in reference.MUR_Department) AddMasterItem("MUR_Deparment", item);
 
         // PAT_Sex
         foreach (var item in reference.PAT_Sex) AddMasterItem("PAT_Sex", item);

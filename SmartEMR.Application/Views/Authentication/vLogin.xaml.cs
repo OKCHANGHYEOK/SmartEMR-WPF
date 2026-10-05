@@ -52,15 +52,15 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
     {
     }
 
-    private void MoveToSingUp()
+    private void MoveToSignUp()
     {
         if (App.Current.MainWindow is LoginWindow loginWindow)
         {
             loginWindow.Close();
         }
 
-        var SingUpWindow = new SingUpWindow();
-        var result = SingUpWindow.ShowDialog();
+        var SignUpWindow = new SignUpWindow();
+        var result = SignUpWindow.ShowDialog();
     }
 
     private async void OnClick_Button(object sender, System.Windows.RoutedEventArgs e)
@@ -105,8 +105,8 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
 
                 break;
 
-            case "btnSingUp":
-                MoveToSingUp();
+            case "btnSignUp":
+                MoveToSignUp();
                 break;
         }
     }
