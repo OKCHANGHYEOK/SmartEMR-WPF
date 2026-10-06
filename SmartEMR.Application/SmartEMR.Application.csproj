@@ -84,6 +84,8 @@
     <None Remove="Images\smartemr_save.png" />
     <None Remove="Images\smartemr_search.png" />
     <None Remove="Images\smartemr_shortcut.png" />
+    <None Remove="Images\smartemr_signup_hospital_exist.png" />
+    <None Remove="Images\smartemr_signup_hospital_new.png" />
     <None Remove="Images\smartemr_work.png" />
     <None Remove="Images\smartmer_cutting.png" />
     <None Remove="Images\Svg\smartemr-error.svg" />
@@ -189,6 +191,8 @@
     <Resource Include="Images\smartemr_save.png" />
     <Resource Include="Images\smartemr_search.png" />
     <Resource Include="Images\smartemr_shortcut.png" />
+    <Resource Include="Images\smartemr_signup_hospital_exist.png" />
+    <Resource Include="Images\smartemr_signup_hospital_new.png" />
     <Resource Include="Images\smartemr_warning.png" />
     <Resource Include="Images\smartemr_info.png" />
     <Resource Include="Images\smartemr_menu_crm.png" />

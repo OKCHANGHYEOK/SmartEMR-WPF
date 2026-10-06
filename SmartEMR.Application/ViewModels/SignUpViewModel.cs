@@ -10,8 +10,18 @@ using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
 
+public enum SignUpType
+{
+    NONE,
+    EXIST,
+    NEW
+}
+
 public partial class SignUpViewModel : MemberViewModel
 {
+    [ObservableProperty]
+    private SignUpType signUpType = SignUpType.NONE;
+
     [ObservableProperty]
     private bool isCheckedDuplicateId = false;
     [ObservableProperty]
@@ -45,6 +55,11 @@ public partial class SignUpViewModel : MemberViewModel
     }
 
     public MemberUser MemberUser { get; set; } = new();
+
+    public void SetSignUpType(SignUpType type)
+    {
+        this.SignUpType = type;
+    }
 
     public bool CanInputPassword(string input)
     {
