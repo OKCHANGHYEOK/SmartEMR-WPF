@@ -22,6 +22,8 @@ public class Member : BaseEntity
     private string? m_MEM_YYMMDD;
     private bool? m_MEM_IsValid;
 
+    private MemberUser? m_MURItem;
+
     #region "NotifyPropertyChanged"
 
     public int? MEM_Idx
@@ -136,6 +138,12 @@ public class Member : BaseEntity
     {
         get => m_MEM_IsValid;
         set => SetProperty(ref m_MEM_IsValid, value);
+    }
+
+    public MemberUser? MURItem
+    {
+        get => m_MURItem;
+        set => SetProperty(ref m_MURItem, value);
     }
 
     #endregion

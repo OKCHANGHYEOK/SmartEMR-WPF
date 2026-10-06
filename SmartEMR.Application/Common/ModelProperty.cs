@@ -7,6 +7,27 @@ namespace SmartEMR.Application.Common;
 
 public class ModelProperty
 {
+
+    #region "Member"
+
+    public Member GetSignUpData(Member member, MemberUser memberUser)
+    {
+        var item = new Member
+        {
+            MEM_Idx = member.MEM_Idx,
+            MEM_Name = member.MEM_Name,
+            MEM_BizType = member.MEM_BizType,
+            MEM_BizNum = member.MEM_BizNum,
+            MEM_MediNo = member.MEM_MediNo,
+
+            MURItem = memberUser
+        };
+
+        return item;
+    }
+
+    #endregion
+
     #region "Patient"
 
     public void SetDefaultPatientData(Patient item)

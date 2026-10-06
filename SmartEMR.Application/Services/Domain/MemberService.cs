@@ -1,4 +1,5 @@
-﻿using SmartEMR.Domain.Entities;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using SmartEMR.Infrastructure;
 
@@ -27,6 +28,23 @@ public class MemberService : BaseService, IMemberService
         return result;
     }
 
+    public async Task<ServiceResult<Member>> GetMemberByDuplicateMediNo(string mediNo)
+    {
+        var result = new ServiceResult<Member>();
+        var ret = await _dataStore.GetItem<Member>(eAPI.Member_GetMemberByCheckDuplicateMediNo, new Member { MEM_MediNo = mediNo });
+
+        if (!_dataStore.retIsSuccess)
+        {
+            result.Message = "요양기관번호 중복체크중 오류가 발생했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
+
     public async Task<ServiceResult<Member>> GetMembers(Member item)
     {
         var result = new ServiceResult<Member>();
@@ -39,6 +57,25 @@ public class MemberService : BaseService, IMemberService
         }
 
         result.Items = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
+
+    public async Task<ServiceResult<Member>> SignUp(Member member, MemberUser memberUser)
+    {
+        var result = new ServiceResult<Member>();
+        
+        var item = SmartMVVM.ModelProperty.GetSignUpData(member, memberUser);
+        var ret = await _dataStore.GetItem<Member>(eAPI.Member_SignUp, item);
+
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = "회원가입에 실패했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
         result.IsSuccess = true;
 
         return result;

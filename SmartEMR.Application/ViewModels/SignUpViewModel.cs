@@ -1,31 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
+using SmartEMR.Application.Common.Validator;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
-
-public enum SignUpField
-{
-    None,
-
-    Name,
-    Id,
-    Password,
-    PasswordCheck,
-
-    Institution,
-    MediNo,
-    BizNum,
-    BizType,
-
-    Department,
-    Position,
-    LicenseNo
-}
 
 public partial class SignUpViewModel : MemberViewModel
 {
@@ -43,6 +26,11 @@ public partial class SignUpViewModel : MemberViewModel
     private bool isCheckedDuplicateMediNo = false;
     [ObservableProperty]
     private bool usableMediNo = false;
+
+    [ObservableProperty]
+    private SignUpField validationTarget = SignUpField.None;
+    [ObservableProperty]
+    private int validationRequestId;
 
     // 비밀번호에 입력 가능한 문자 체크용
     private static readonly Regex _passwordCharacterRegex = new(@"^[A-Za-z0-9!@#$%]+$");
@@ -105,26 +93,76 @@ public partial class SignUpViewModel : MemberViewModel
         }
     }
 
+    public async Task<CheckDuplicateResult> CheckDuplicateMediNo()
+    {
+        if (string.IsNullOrWhiteSpace(Model.MEM_MediNo))
+        {
+            return new CheckDuplicateResult(DuplicateResultCode.EmptyInput, "요양기관번호를 입력해주세요.");
+        }
+
+        if (Model.MEM_MediNo.Length < 8)
+        {
+            return new CheckDuplicateResult(DuplicateResultCode.UnValidInput, "요양기관번호가 올바르지 않습니다.");
+        }
+
+        var ret = await _memberService.GetMemberByDuplicateMediNo(Model.MEM_MediNo);
+        if (!ret.IsSuccess)
+        {
+            MessageBox.Show($"{ret.Message}\n잠시후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return new CheckDuplicateResult(DuplicateResultCode.ErrorOccured, "");
+        }
+
+        IsCheckedDuplicateMediNo = true;
+
+        if (ret.Item != null && ret.Item.MEM_Idx > 0)
+        {
+            UsableMediNo = false;
+            return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
+        }
+        else
+        {
+            UsableMediNo = true;
+            return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
+        }
+    }
+
     [RelayCommand]
     private async Task SignUp()
     {
         if (!CanSignUp()) return;
+
+        var ret = await _memberService.SignUp(Model, MemberUser);
+        if (ret.Item is null || !ret.IsSuccess)
+        {
+            MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        MessageBox.Show("회원가입되었습니다. 로그인 화면으로 돌아갑니다.");
+
+        // 로그인 화면 복귀 로직
+    }
+
+    private bool RequestValidation(SignUpField field)
+    {
+        if (field == SignUpField.LicenseNo && MemberUser.MUR_Department != Master.MUR_DEPARTMENT_MED)
+            return false;
+
+        ValidationTarget = field;
+        ValidationRequestId++;
+
+        return true;
     }
 
     private bool CanSignUp()
     {
-        var MURValidateResult = MemberUserRequiredFieldValidator.Validate(MemberUser);
-        if (!MURValidateResult.IsSuccess)
+        var validateResult = SignUpRequiredFieldValidator.ValidateSignUp(Model, MemberUser);
+        if (!validateResult.IsSuccess)
         {
-            MessageBox.Show(MURValidateResult.Message ?? "", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
-        }
-
-        var MEMValidateResult = MemberRequiredFieldValidator.Validate(Model);
-        if (!MEMValidateResult.IsSuccess)
-        {
-            MessageBox.Show(MURValidateResult.Message ?? "", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
+            if (RequestValidation(validateResult.SignUpMissingField))
+            {
+                return false;
+            }
         }
 
         if (!IsCheckedDuplicateId)

@@ -67,6 +67,7 @@ public enum CopaymentType
 public enum DuplicateResultCode
 {
     EmptyInput,
+    UnValidInput,
     ErrorOccured,
     HasDuplicate,
     NotDuplicate

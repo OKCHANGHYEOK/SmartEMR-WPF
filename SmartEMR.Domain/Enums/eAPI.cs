@@ -20,34 +20,36 @@ public enum eAPI
     Login_login = 11,
 
     Member_GetMember = 12,
-    Member_SetMember = 13,
+    Member_GetMemberByCheckDuplicateMediNo = 13,
+    Member_SetMember = 14,
+    Member_SignUp = 15,
 
-    MemberUser_GetMemberUserByCheckDuplicateId = 14,
-    MemberUser_GetMemberUser = 15,
-    MemberUser_SetMemberUser = 16,
+    MemberUser_GetMemberUserByCheckDuplicateId = 16,
+    MemberUser_GetMemberUser = 17,
+    MemberUser_SetMemberUser = 18,
 
-    Order_GetOrder = 17,
+    Order_GetOrder = 19,
 
-    Patient_GetPatient = 18,
-    Patient_SetPatient = 19,
+    Patient_GetPatient = 20,
+    Patient_SetPatient = 21,
 
-    Pay_GetPay = 20,
-    Pay_SetPay = 21,
-    Pay_CancelPay = 22,
+    Pay_GetPay = 22,
+    Pay_SetPay = 23,
+    Pay_CancelPay = 24,
 
-    PayItem_GetPayItem = 23,
-    PayItem_SetPayItem = 24,
+    PayItem_GetPayItem = 25,
+    PayItem_SetPayItem = 26,
 
-    Reception_CancelReception = 25,
-    Reception_GetReception = 26,
-    Reception_GetReceptionBoard = 27,
-    Reception_SetReception = 28,
-    Reception_SetReceptionByRES = 29,
+    Reception_CancelReception = 27,
+    Reception_GetReception = 28,
+    Reception_GetReceptionBoard = 29,
+    Reception_SetReception = 30,
+    Reception_SetReceptionByRES = 31,
 
-    Reservation_GetReservation = 30,
-    Reservation_MoveReservationDate = 31,
-    Reservation_SetReservation = 32,
-    Reservation_SetReservationByStatus = 33,
+    Reservation_GetReservation = 32,
+    Reservation_MoveReservationDate = 33,
+    Reservation_SetReservation = 34,
+    Reservation_SetReservationByStatus = 35,
 
-    NaverPay_ApplyPayment = 34
+    NaverPay_ApplyPayment = 36
 }
