@@ -55,7 +55,7 @@ namespace SmartEMR.Application
             SmartMVVM.DataStore.APIUrl = AppConfig.Settings.Api.BaseUrl;
             SmartMVVM.DataStore.RequestTimeoutSeconds = AppConfig.Settings.Api.RequestTimeoutSeconds;
 
-#if DEBUG
+#if RELEASE
 
             await InitializeAppData();
 
@@ -121,25 +121,21 @@ namespace SmartEMR.Application
 
         private bool SetAuthenticateUser()
         {
+#if DEBUG
+                        var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
+
+                        if (ret == null || !string.IsNullOrWhiteSpace(ret.Message))
+                        {
+                            return false;
+                        }
+
+                        return true;
+
+#else
             var loginWindow = new LoginWindow();
 
             return loginWindow.ShowDialog() ?? false;
-
-            //#if DEBUG
-            //            var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
-
-            //            if (ret == null || !string.IsNullOrWhiteSpace(ret.Message))
-            //            {
-            //                return false;
-            //            }
-
-            //            return true;
-
-            //#else
-            //            var loginWindow = new LoginWindow();
-
-            //            return loginWindow.ShowDialog() ?? false;
-            //#endif 
+#endif
         }
 
         private async Task InitializeAppData()

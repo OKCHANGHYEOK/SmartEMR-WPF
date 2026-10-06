@@ -6,6 +6,9 @@ namespace SmartEMR.Application.Core;
 
 public class Master
 {
+    public const string MUR_DEPARTMENT_ADM = "ADM";
+    public const string MUR_DEPARTMENT_MED = "MED";
+
     private readonly Dictionary<string, List<object>> _masterItems = new();
 
     public IReadOnlyDictionary<string, ReadOnlyCollection<object>> masterItems =>
@@ -70,8 +73,14 @@ public class Master
 
         var reference = ReferenceDataLoader.Load();
 
+        // MEM_BizType 
+        foreach (var item in reference.MEM_BizType) AddMasterItem("MEM_BizType", item); 
+
         // MUR_Deparment
-        foreach (var item in reference.MUR_Department) AddMasterItem("MUR_Deparment", item);
+        foreach (var item in reference.MUR_Department) AddMasterItem("MUR_Department", item);
+
+        // MUR_JobCode
+        foreach (var item in reference.MUR_JobCode) AddMasterItem("MUR_JobCode", item);
 
         // MUR_EmailDomain
         foreach (var item in reference.MUR_EmailDomain) AddMasterItem("MUR_EmailDomain", item);

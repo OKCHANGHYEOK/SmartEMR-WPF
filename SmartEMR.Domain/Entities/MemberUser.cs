@@ -10,9 +10,11 @@ public partial class MemberUser : BaseEntity
     private string? m_vMUR_Department;
     private string? m_MUR_Role;
     private string? m_MUR_JobCode;
+    private string? m_vMUR_JobCode;
 
     private string? m_MUR_Id;
     private string? m_MUR_PassWord;
+    private string? m_MUR_LicenseNo;
     private string? m_MUR_Name;
     private string? m_MUR_Gender;
     private string? m_MUR_Address1;
@@ -68,6 +70,12 @@ public partial class MemberUser : BaseEntity
         set => SetProperty(ref m_MUR_JobCode, value);
     }
 
+    public string? vMUR_JobCode
+    {
+        get => m_vMUR_JobCode;
+        set => SetProperty(ref m_vMUR_JobCode, value);
+    }
+
     public string? MUR_Id
     {
         get => m_MUR_Id;
@@ -78,6 +86,12 @@ public partial class MemberUser : BaseEntity
     {
         get => m_MUR_PassWord;
         set => SetProperty(ref m_MUR_PassWord, value);
+    }
+
+    public string? MUR_LicenseNo
+    {
+        get => m_MUR_LicenseNo;
+        set => SetProperty(ref m_MUR_LicenseNo, value);
     }
 
     public string? MUR_Name

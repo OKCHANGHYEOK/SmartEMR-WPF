@@ -3,23 +3,51 @@ using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace SmartEMR.Application.ViewModels;
+
+public enum SignUpField
+{
+    None,
+
+    Name,
+    Id,
+    Password,
+    PasswordCheck,
+
+    Institution,
+    MediNo,
+    BizNum,
+    BizType,
+
+    Department,
+    Position,
+    LicenseNo
+}
 
 public partial class SignUpViewModel : MemberViewModel
 {
     [ObservableProperty]
     private bool isCheckedDuplicateId = false;
     [ObservableProperty]
-    private bool isUseableId = false;       
+    private bool usableId = false;
+
+    [ObservableProperty]
+    private bool usablePassword = false;
     [ObservableProperty]
     private bool isCorrectPassword = false;
 
     [ObservableProperty]
-    private bool isCheckedDuplicateBizNum = false;
+    private bool isCheckedDuplicateMediNo = false;
     [ObservableProperty]
-    private bool isUseableBizNum = false;
+    private bool usableMediNo = false;
+
+    // 비밀번호에 입력 가능한 문자 체크용
+    private static readonly Regex _passwordCharacterRegex = new(@"^[A-Za-z0-9!@#$%]+$");
+    // 비밀번호 형식 체크용
+    private static readonly Regex _passwordRegex = new(@"^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%])[A-Za-z0-9!@#$%]{8,20}$");
 
     protected readonly IMemberUserService _memberUserService;
 
@@ -29,6 +57,20 @@ public partial class SignUpViewModel : MemberViewModel
     }
 
     public MemberUser MemberUser { get; set; } = new();
+
+    public bool CanInputPassword(string input)
+    {
+        return _passwordCharacterRegex.IsMatch(input);
+    }
+
+    public bool CanUsePassword(string password)
+    {
+        var isMatch = _passwordRegex.IsMatch(password);
+
+        UsablePassword = isMatch;
+
+        return isMatch;
+    }
 
     public void UpdateIsCorrectPassword(string newValue)
     {
@@ -53,12 +95,12 @@ public partial class SignUpViewModel : MemberViewModel
 
         if (ret.Item != null && ret.Item.MUR_Idx > 0)
         {
-            IsUseableId = false;
+            UsableId = false;
             return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
         }
         else
         {
-            IsUseableId = true;
+            UsableId = true;
             return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
         }
     }
@@ -91,19 +133,19 @@ public partial class SignUpViewModel : MemberViewModel
             return false;
         }
 
-        if (!IsUseableId)
+        if (!UsableId)
         {
             MessageBox.Show("사용할 수 없는 아이디입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
 
-        if (!IsCheckedDuplicateBizNum)
+        if (!IsCheckedDuplicateMediNo)
         {
             MessageBox.Show("요영기관번호 중복체크를 해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
 
-        if (!IsUseableBizNum)
+        if (!UsableMediNo)
         {
             MessageBox.Show("사용할 수 없는 요양기관번호입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;

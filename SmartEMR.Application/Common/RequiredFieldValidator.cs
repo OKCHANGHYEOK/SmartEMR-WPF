@@ -41,7 +41,10 @@ public class MemberUserRequiredFieldValidator : IBaseValidator<MemberUser>
     {
         [nameof(MemberUser.MUR_Name)] = "이름",
         [nameof(MemberUser.MUR_Id)] = "아이디",
-        [nameof(MemberUser.MUR_PassWord)] = "비밀번호"
+        [nameof(MemberUser.MUR_PassWord)] = "비밀번호",
+        [nameof(MemberUser.MUR_Department)] = "부서",
+        [nameof(MemberUser.MUR_JobCode)] = "직책",
+        [nameof(MemberUser.MUR_LicenseNo)] = "의료면허번호"
     };
 
     public static ValidateResult Validate(MemberUser item)

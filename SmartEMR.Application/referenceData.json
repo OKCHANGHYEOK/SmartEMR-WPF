@@ -1,12 +1,39 @@
 {
+  "MEM_BizType": [
+    {
+      "MEM_BizType": "HOS",
+      "vMEM_BizType": "일반병원"
+    },
+    {
+      "MEM_BizType": "CLN",
+      "vMEM_BizType" : "의원"
+    }
+  ],
   "MUR_Department": [
     {
-      "MUR_Department": "DSK",
+      "MUR_Department": "ADM",
       "vMUR_Department": "접수/원무부"
     },
     {
       "MUR_Department": "MED",
       "vMUR_Department": "진료부"
+    }
+  ],
+  "MUR_JobCode": [
+    {
+      "MUR_Department": "ADM",
+      "MUR_JobCode": "ADM",
+      "vMUR_JobCode": "접수/원무원"
+    },
+    {
+      "MUR_Department": "MED",
+      "MUR_JobCode": "DOC",
+      "vMUR_JobCode": "의사"
+    },
+    {
+      "MUR_Department": "MED",
+      "MUR_JobCode": "NRS",
+      "vMUR_JobCode": "간호사"
     }
   ],
   "MUR_EmailDomain": [
@@ -36,7 +63,7 @@
     },
     {
       "attrName": "직접입력",
-      "attrValue" : ""
+      "attrValue": ""
     }
   ],
   "PAT_Sex": [

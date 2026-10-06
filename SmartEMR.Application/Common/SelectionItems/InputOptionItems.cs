@@ -6,8 +6,11 @@ namespace SmartEMR.Application.Common.SelectionItems;
 public class InputOptionItems
 {
     public static IEnumerable<Member> Members => SmartMVVM.Master.GetMembers("");
+    public static IEnumerable<Member> BizTypes => SmartMVVM.Master.Query<Member>("MEM_BizType");
+
+    public static IEnumerable<MemberUser> Departments => SmartMVVM.Master.Query<MemberUser>("MUR_Department");
+    public static IEnumerable<MemberUser> JobCodes => SmartMVVM.Master.Query<MemberUser>("MUR_JobCode");
     public static IEnumerable<AttrItem<string>> EmailDomains => SmartMVVM.Master.Query<AttrItem<string>>("MUR_EmailDomain");
-    public static IEnumerable<CommonCode> BizTypes => SmartMVVM.Common.GetCommonCode("MEM", "BizType");
 
     public static IEnumerable<Patient> Sexes => SmartMVVM.Master.Query<Patient>("PAT_Sex");
     public static IEnumerable<object> CalendarTypes => SmartMVVM.Master.Query("PAT_IsSolar");

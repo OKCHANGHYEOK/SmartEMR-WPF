@@ -1,11 +1,13 @@
 ﻿using DevExpress.Xpf.Editors;
 using SmartEMR.Application.Common;
+using SmartEMR.Application.Common.Converter.Base;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -65,6 +67,22 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
         }
     }
 
+    private void OnPreviewTextInput_PasswordEdit(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        if (sender is not PasswordBoxEdit element) return;
+
+        switch (element.Name)
+        {
+            case "pwMUR_Password":
+                if (!vm.CanInputPassword(e.Text))
+                {
+                    e.Handled = true;
+                }
+
+                break;
+        }
+    }
+
     private void OnEditValueChanged_PasswordEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
     {
         if (sender is not PasswordBoxEdit element) return;
@@ -95,6 +113,7 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
             txtDomain.IsEnabled = false;
         }
     }
+
 }
 
 public class PasswordToVisibilityConverter : MarkupExtension, IMultiValueConverter
@@ -125,5 +144,63 @@ public class PasswordToVisibilityConverter : MarkupExtension, IMultiValueConvert
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;
+    }
+}
+
+public class BizTypeToItemsSourceConverter : BaseConverter
+{
+    private readonly List<Member> _defaultItems = [new Member { MEM_Idx = 0, MEM_Name = "기관종구분을 선택하세요." }];
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string bizType) return _defaultItems;
+
+        return SmartMVVM.Master.GetMembers(bizType);
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class DepartmentToIsEnableConverter : BaseConverter
+{
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string department) return false;
+
+        return department == Master.MUR_DEPARTMENT_MED;
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class DepartmentToJobCodeItemsSourceConverter : BaseConverter
+{
+    private readonly List<MemberUser> _defaultItems = [new MemberUser { MUR_JobCode = "NON", vMUR_JobCode = "부서를 선택하세요." }]; 
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string department) return _defaultItems;
+
+        if (department == Master.MUR_DEPARTMENT_ADM)
+        {
+            return SmartMVVM.Master.Query<MemberUser>("MUR_JobCode").Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_ADM);
+        }
+        else if (department == Master.MUR_DEPARTMENT_MED)
+        {
+            return SmartMVVM.Master.Query<MemberUser>("MUR_JobCode").Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_MED);
+        }
+
+        return _defaultItems;
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }
