@@ -8,4 +8,5 @@ public interface IMemberUserService
     Task<ServiceResult<MemberUser>> GetMemberUser(MemberUser item);
     Task<ServiceResult<MemberUser>> GetMemberUsers(MemberUser item);
     Task<ServiceResult<MemberUser>> SetMemberUser(MemberUser item);
+    Task<ServiceResult<MemberUser>> SignUp(MemberUser memberUser);
 }

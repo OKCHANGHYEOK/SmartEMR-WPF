@@ -61,6 +61,13 @@ public partial class SignUpViewModel : MemberViewModel
         this.SignUpType = type;
     }
 
+    public void SetDataBySelectedItem(Member selectedItem)
+    {
+        MemberUser.MEM_Idx = selectedItem.MEM_Idx;
+
+        SmartMVVM.ModelProperty.SetMemberData(Model, selectedItem);
+    }
+
     public bool CanInputPassword(string input)
     {
         return _passwordCharacterRegex.IsMatch(input);
@@ -141,21 +148,37 @@ public partial class SignUpViewModel : MemberViewModel
         }
     }
 
-    [RelayCommand]
-    private async Task SignUp()
+    public async Task SignUp()
     {
         if (!CanSignUp()) return;
-
-        var ret = await _memberService.SignUp(Model, MemberUser);
-        if (ret.Item is null || !ret.IsSuccess)
+        
+        if (this.SignUpType == SignUpType.NEW)
         {
-            MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
+
+        }
+        else if (this.SignUpType == SignUpType.EXIST)
+        {
+            if (!await SignUpByExistMember())
+            {
+                return;
+            }
         }
 
         MessageBox.Show("회원가입되었습니다. 로그인 화면으로 돌아갑니다.");
 
         // 로그인 화면 복귀 로직
+    }
+
+    private async Task<bool> SignUpByExistMember()
+    {
+        var ret = await _memberUserService.SignUp(MemberUser);
+        if (ret.Item is null || !ret.IsSuccess)
+        {
+            MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
+        return true;
     }
 
     private bool RequestValidation(SignUpField field)
@@ -171,7 +194,9 @@ public partial class SignUpViewModel : MemberViewModel
 
     private bool CanSignUp()
     {
-        var validateResult = SignUpRequiredFieldValidator.ValidateSignUp(Model, MemberUser);
+        if (this.SignUpType == SignUpType.NONE) return false;
+
+        var validateResult = SignUpRequiredFieldValidator.ValidateSignUp(Model, MemberUser, this.SignUpType);
         if (!validateResult.IsSuccess)
         {
             if (RequestValidation(validateResult.SignUpMissingField))
@@ -192,17 +217,20 @@ public partial class SignUpViewModel : MemberViewModel
             return false;
         }
 
-        if (!IsCheckedDuplicateMediNo)
+        if (this.SignUpType == SignUpType.NEW)
         {
-            MessageBox.Show("요영기관번호 중복체크를 해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
-        }
+            if (!IsCheckedDuplicateMediNo)
+            {
+                MessageBox.Show("요영기관번호 중복체크를 해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
 
-        if (!UsableMediNo)
-        {
-            MessageBox.Show("사용할 수 없는 요양기관번호입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
-        }
+            if (!UsableMediNo)
+            {
+                MessageBox.Show("사용할 수 없는 요양기관번호입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+        } 
 
         return true;
     }

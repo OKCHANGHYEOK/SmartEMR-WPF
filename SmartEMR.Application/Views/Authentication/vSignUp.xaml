@@ -88,7 +88,9 @@
             </StackPanel>
         </Border>
 
-        <Xpf:StyleGrid  Grid.Column="1">
+        <Xpf:StyleGrid  Grid.Column="1"
+                        Background="#FFFFFF">
+            
             <StackPanel x:Name="SelectSignUpTypePanel"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
@@ -208,12 +210,9 @@
                         </Style>
                     </dxc:SimpleButton.Style>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="70"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-    
+                    <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                                    ColumnSizeDefinitions="70,*">
+                        
                         <!-- 이미지 영역 -->
                         <Border Grid.Column="0"
                                 Width="56"
@@ -240,32 +239,74 @@
                                             Foreground="#607A9A"
                                             Margin="0,6,0,0"/>
                         </StackPanel>
-                    </Grid>
+                    </Xpf:StyleGrid>
                 </dxc:SimpleButton>
 
             </StackPanel>
 
-            <ContentControl x:Name="SignUpContent"
+            <Xpf:StyleGrid  x:Name="SignUpContentGrid"
+                            LayoutDefinitions="1,2"
+                            RowSizeDefinitions="*,Auto"
                             Visibility="Collapsed">
                 
-                <ContentControl.Style>
-                    <Style TargetType="ContentControl">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <local:vSignUpExisitingMember/>
-                            </Setter.Value>
-                        </Setter>
+                <local:vSignUpExisitingMember x:Name="SignUpExistingMember"
+                                              Grid.Row="0">
+                    <local:vSignUpExisitingMember.Style>
+                        <Style TargetType="{x:Type local:vSignUpExisitingMember}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
 
-                        <Style.Triggers>
-                            <!--<DataTrigger Binding="{Binding SignUpType}" Value="NEW">
-                                <Setter Property="Content">
-                                    <Setter.Value></Setter.Value>
-                                </Setter>
-                            </DataTrigger>-->
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding vm.SignUpType, RelativeSource={RelativeSource AncestorType={x:Type local:vSignUp}}}" Value="EXIST">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:vSignUpExisitingMember.Style>
+                </local:vSignUpExisitingMember>
+
+                <local:vSignUpNewMember x:Name="SignUpNewMember"
+                                        Grid.Row="0">
+                    <local:vSignUpNewMember.Style>
+                        <Style TargetType="{x:Type local:vSignUpNewMember}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding vm.SignUpType, RelativeSource={RelativeSource AncestorType={x:Type local:vSignUp}}}" Value="NEW">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:vSignUpNewMember.Style>
+                </local:vSignUpNewMember>
+                
+                <Xpf:StyleGrid  Grid.Row="1"
+                                LayoutDefinitions="3,1"
+                                ColumnSizeDefinitions="*,5,*"
+                                Width="250"
+                                Height="32"
+                                HorizontalAlignment="Center"
+                                Margin="0,20,0,5">
+
+                    <Xpf:Button x:Name="btnSignUp"
+                                Grid.Column="0"
+                                Content="회원가입"
+                                FontWeight="Bold"
+                                Foreground="FloralWhite"
+                                VerticalAlignment="Stretch"
+                                Background="MediumBlue"
+                                CornerRadius="5"
+                                Click="OnClick_Button"/>
+
+                    <Xpf:Button x:Name="btnCancel"
+                                Grid.Column="2"
+                                Content="취소"
+                                Background="#F1F3F5"
+                                FontWeight="Bold"
+                                Foreground="#666666"
+                                CornerRadius="5"
+                                Click="OnClick_Button"/>
+                </Xpf:StyleGrid>
+            </Xpf:StyleGrid>
         </Xpf:StyleGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

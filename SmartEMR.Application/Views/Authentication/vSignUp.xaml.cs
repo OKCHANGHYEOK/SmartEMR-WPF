@@ -1,8 +1,14 @@
-﻿using System.Windows;
-using DevExpress.Xpf.Core;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Common.Converter.Base;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace SmartEMR.Application.Views.Authentication;
 
@@ -11,6 +17,8 @@ namespace SmartEMR.Application.Views.Authentication;
 /// </summary>
 public partial class vSignUp : ModelViewLayout<SignUpViewModel>
 {
+    private bool _isShowSelectSignUpType = true;
+
     public vSignUp() { }
 
     protected override void Initialize()
@@ -40,7 +48,132 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
                 break;
         }
 
-        SelectSignUpTypePanel.Visibility = Visibility.Collapsed;
-        SignUpContent.Visibility = Visibility.Visible;
+        ToggleSignUpLayout();
+    }
+
+    private async void OnClick_Button(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button element) return;
+
+        switch (element.Name)
+        {
+            case nameof(btnSignUp):
+                await SignUp();
+                break;
+
+            case nameof(btnCancel):
+                ToggleSignUpLayout();
+                break;
+        }
+    }
+
+    private void ToggleSignUpLayout()
+    {
+        _isShowSelectSignUpType = !_isShowSelectSignUpType;
+
+        SelectSignUpTypePanel.Visibility = _isShowSelectSignUpType ? Visibility.Visible : Visibility.Collapsed;
+        SignUpContentGrid.Visibility = !_isShowSelectSignUpType ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private async Task SignUp()
+    {
+        if (vm.SignUpType == SignUpType.EXIST)
+        {
+            await SignUpExistingMember.SignUp();
+        }
+        else if (vm.SignUpType == SignUpType.NEW)
+        {
+            await SignUpNewMember.SignUp();
+        }
+    }
+}
+
+public class PasswordToVisibilityConverter : MarkupExtension, IMultiValueConverter
+{
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (values is null || values.Length != 2) return Visibility.Collapsed;
+        if (values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue) return Visibility.Collapsed;
+
+        var password = values[0]?.ToString();
+        var passwordCheck = values[1]?.ToString();
+
+        if (!string.IsNullOrWhiteSpace(password) && !string.IsNullOrWhiteSpace(passwordCheck))
+        {
+            return Visibility.Visible;
+        }
+        else
+        {
+            return Visibility.Collapsed;
+        }
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+public class DepartmentToIsEnableConverter : BaseConverter
+{
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string department) return false;
+
+        return department == Master.MUR_DEPARTMENT_MED;
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class BizTypeToItemsSourceConverter : BaseConverter
+{
+    private readonly List<Member> _defaultItems = [new Member { MEM_Idx = 0, MEM_Name = "기관종구분을 선택하세요." }];
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string bizType) return _defaultItems;
+
+        return SmartMVVM.Master.GetMembers(bizType);
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+
+public class DepartmentToJobCodeItemsSourceConverter : BaseConverter
+{
+    private readonly List<MemberUser> _defaultItems = [new MemberUser { MUR_JobCode = "NON", vMUR_JobCode = "부서를 선택하세요." }];
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string department) return _defaultItems;
+
+        if (department == Master.MUR_DEPARTMENT_ADM)
+        {
+            return SmartMVVM.Master.Query<MemberUser>("MUR_JobCode").Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_ADM);
+        }
+        else if (department == Master.MUR_DEPARTMENT_MED)
+        {
+            return SmartMVVM.Master.Query<MemberUser>("MUR_JobCode").Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_MED);
+        }
+
+        return _defaultItems;
+    }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }

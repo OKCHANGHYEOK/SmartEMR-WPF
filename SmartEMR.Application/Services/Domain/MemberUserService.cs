@@ -77,4 +77,21 @@ public class MemberUserService : BaseService, IMemberUserService
 
         return result;
     }
+
+    public async Task<ServiceResult<MemberUser>> SignUp(MemberUser item)
+    {
+        var result = new ServiceResult<MemberUser>();
+        var ret = await _dataStore.GetItem<MemberUser>(eAPI.MemberUser_SignUp, item);
+
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = "회원가입에 실패했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
 }

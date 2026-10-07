@@ -10,6 +10,18 @@ public class ModelProperty
 
     #region "Member"
 
+    public void SetMemberData(Member oldItem, Member newItem)
+    {
+        oldItem.MEM_Idx = newItem.MEM_Idx;
+        oldItem.MEM_Name = newItem.MEM_Name;
+        oldItem.MEM_BizType = newItem.MEM_BizType;
+        oldItem.MEM_OperationStatus = newItem.MEM_OperationStatus;
+        oldItem.MEM_BizNum = newItem.MEM_BizNum;
+        oldItem.MEM_MediNo = newItem.MEM_MediNo;
+        oldItem.MEM_StartDate = newItem.MEM_StartDate;
+        oldItem.MEM_EndDate = newItem.MEM_EndDate;
+    }
+
     public Member GetSignUpData(Member member, MemberUser memberUser)
     {
         var item = new Member

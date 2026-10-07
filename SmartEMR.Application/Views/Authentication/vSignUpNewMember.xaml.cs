@@ -17,16 +17,16 @@ using DevExpress.Xpf.Editors;
 namespace SmartEMR.Application.Views.Authentication;
 
 /// <summary>
-/// vSignUpExisitingMember.xaml에 대한 상호 작용 논리
+/// vSignUpNewMember.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
+public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
 {
     public static readonly DependencyProperty ValidationRequestIdProperty =
-        DependencyProperty.Register(nameof(ValidationRequestId), typeof(int), typeof(vSignUpExisitingMember), new PropertyMetadata(0, OnValidationIdChanged));
+        DependencyProperty.Register(nameof(ValidationRequestId), typeof(int), typeof(vSignUpNewMember), new PropertyMetadata(0, OnValidationIdChanged));
 
     private static void OnValidationIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is vSignUpExisitingMember view)
+        if (d is vSignUpNewMember view)
         {
             view.ShowValidate();
         }
@@ -40,7 +40,7 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 
     private readonly ValidationManager _validationManager = new();
 
-    public vSignUpExisitingMember() { }
+    public vSignUpNewMember() { }
 
     protected override void Initialize()
     {
@@ -50,15 +50,18 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
             [SignUpField.UserName] = txtMUR_Name,
             [SignUpField.Id] = txtMUR_Id,
             [SignUpField.Password] = pwMUR_Password,
-            [SignUpField.MemberName] = cmbMEM_Idx,
+            [SignUpField.MemberName] = txtMEM_Name,
+            [SignUpField.BizType] = cmbMEM_BizType,
+            [SignUpField.MediNo] = txtMEM_MediNo,
+            [SignUpField.BizNum] = txtMEM_BizNum,
             [SignUpField.Department] = cmbMUR_Department,
             [SignUpField.JobCode] = cmbMUR_JobCode,
             [SignUpField.LicenseNo] = txtMUR_LicenseNo
         });
 
-        this.SetBinding(vSignUpExisitingMember.ValidationRequestIdProperty, new Binding("ValidationRequestId") { Source = vm });
+        this.SetBinding(vSignUpNewMember.ValidationRequestIdProperty, new Binding("ValidationRequestId") { Source = vm });
 
-        vm.SetSignUpType(SignUpType.EXIST);
+        vm.SetSignUpType(SignUpType.NEW);
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -94,6 +97,16 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
         }
     }
 
+    private async Task CheckDuplicateMediNo()
+    {
+        var result = await vm.CheckDuplicateMediNo();
+        if (result.resultCode == DuplicateResultCode.EmptyInput || result.resultCode == DuplicateResultCode.UnValidInput)
+        {
+            lblRequiredMediNo.Content = result.Message;
+            lblRequiredMediNo.Visibility = Visibility.Visible;
+        }
+    }
+
     private void OnEditValueChanged_TextEdit(object sender, EditValueChangedEventArgs e)
     {
         if (sender is not Xpf.TextEdit element) return;
@@ -109,6 +122,14 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
                 }
 
                 break;
+
+            case "txtMEM_MediNo":
+                if (!string.IsNullOrWhiteSpace(newValue))
+                {
+                    lblRequiredMediNo.Visibility = Visibility.Collapsed;
+                }
+
+                break;
         }
     }
 
@@ -120,6 +141,10 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
         {
             case nameof(btnCheckDuplicateId):
                 await CheckDuplicateId();
+                break;
+
+            case nameof(btnCheckDuplicateMediNo):
+                await CheckDuplicateMediNo();
                 break;
         }
     }
@@ -183,24 +208,6 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
         {
             e.Handled = true;
             return;
-        }
-    }
-
-
-    private void OnEditValueChanged_ComboBoxEdit(object sender, EditValueChangedEventArgs e)
-    {
-        if (sender is not Xpf.ComboBoxEdit element) return;
-
-        switch (element.Name)
-        {
-            case "cmbMEM_Idx":
-                var selectedItem = element.SelectedItem as Member;
-                if (selectedItem != null)
-                {
-                    vm.SetDataBySelectedItem(selectedItem);
-                }
-
-                break;
         }
     }
 }
