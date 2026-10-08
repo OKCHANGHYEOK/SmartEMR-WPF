@@ -123,25 +123,27 @@ namespace SmartEMR.Application
 
         private bool SetAuthenticateUser()
         {
-            var StartUpWindow = new StartUpWindow();
+#if DEBUG
+            var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
 
-            return StartUpWindow.ShowDialog() ?? false;
+            if (ret == null || !string.IsNullOrWhiteSpace(ret.Message))
+            {
+                return false;
+            }
 
-            //#if DEBUG
-            //                        var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
+            return true;
 
-            //                        if (ret == null || !string.IsNullOrWhiteSpace(ret.Message))
-            //                        {
-            //                            return false;
-            //                        }
+#else
+                        var startUpWindow = new StartUpWindow();
+                        var bFlag = startUpWindow.ShowDialog();
 
-            //                        return true;
+                        if (!bFlag.GetValueOrDefault(false))
+                        {
+                            return SmartMVVM.AppSession.MemberUser != null;
+                        }
 
-            //#else
-            //            var StartUpWindow = new StartUpWindow();
-
-            //            return StartUpWindow.ShowDialog() ?? false;
-            //#endif
+                        return false;
+#endif
         }
 
         private async Task InitializeAppData()

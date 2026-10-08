@@ -297,7 +297,7 @@
                                     VerticalAlignment="Stretch"
                                     Background="MediumBlue"
                                     CornerRadius="5"
-                                    Click="OnClick_Button"/>
+                                    Command="{Binding SignUpRequestCommand}"/>
 
                         <Xpf:Button x:Name="btnCancel"
                                     Grid.Column="2"

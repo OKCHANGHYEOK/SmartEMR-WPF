@@ -21,13 +21,29 @@ public class TextEdit : DevExpress.Xpf.Editors.TextEdit
         var element = sender as TextEdit;
         if (element == null) return;
 
-        if (e.Key == Key.Enter || e.Key == Key.Tab)
+        switch (e.Key)
         {
-            bool bFlag = TextFocusBehavior.SetFocusToNext(element);
-            if (bFlag)
-            {
-                e.Handled = true;
-            }
+            case Key.Tab:
+                if (TextFocusBehavior.IsInsideFocusScope(element))
+                    return;
+
+                if (TextFocusBehavior.SetFocusToNext(element))
+                {
+                    e.Handled = true;
+                }
+
+                break;
+
+            case Key.Enter:
+                if (TextFocusBehavior.SetFocusToNext(element))
+                {
+                    e.Handled = true;
+                }
+
+                break;
+
+            default:
+                return;
         }
     }
 }

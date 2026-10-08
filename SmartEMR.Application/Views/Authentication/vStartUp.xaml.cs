@@ -11,6 +11,8 @@ namespace SmartEMR.Application.Views.Authentication;
 /// </summary>
 public partial class vStartUp : ModelViewLayout<StartUpViewModel>
 {
+    public event EventHandler? SuccessLogin;
+
     public vStartUp() {}
 
     protected override void Initialize()
@@ -37,6 +39,10 @@ public partial class vStartUp : ModelViewLayout<StartUpViewModel>
 
             case "ShowLogin":
                 ShowLogin();
+                break;
+
+            case "SuccessLogin":
+                SuccessLogin?.Invoke(this, EventArgs.Empty);
                 break;
         }
 

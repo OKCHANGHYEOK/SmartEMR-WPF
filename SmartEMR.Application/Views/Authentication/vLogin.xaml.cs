@@ -1,7 +1,6 @@
 ﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
-using SmartEMR.Application.Windows;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 
@@ -59,36 +58,10 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
         switch (element.Tag)
         {
             case "btnLogin":
-                if (string.IsNullOrWhiteSpace(MURItem?.MUR_Id))
+                if (await LoginAsync())
                 {
-                    var txtMUR_Id = this.BindGrids[0].GetBindItem<StyleTextBox>("MUR_Id");
-                    if (txtMUR_Id == null) return;
-
-                    txtMUR_Id.Focus();
-
-                    SmartUI.ShowRequiredMessage(txtMUR_Id, "아이디를 입력해주세요.");
-
-                    return;
-                }
-                else if (string.IsNullOrWhiteSpace(MURItem?.MUR_PassWord))
-                {
-                    var txtMUR_PassWord = this.BindGrids[0].GetBindItem<StyleTextBox>("MUR_PassWord");
-                    if (txtMUR_PassWord == null) return;
-
-                    txtMUR_PassWord.Focus();
-
-                    SmartUI.ShowRequiredMessage(txtMUR_PassWord, "비밀번호를 입력해주세요.");
-
-                    return;
-                }
-
-                var retLogin = await vm.AttemptLogin();
-
-                if (!retLogin.IsSuccess)
-                {
-                    SmartUI.MsgConfirm($"로그인 실패 {retLogin.Message}");
-                    return;
-                }
+                    await SmartUI.SendMessage("SuccessLogin", viewType:TargetViewType.ParentView);
+                } 
 
                 break;
 
@@ -96,6 +69,44 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
                 await SmartUI.SendMessage("ShowSignUp", viewType: TargetViewType.ParentView);
                 break;
         }
+    }
+
+    private async Task<bool> LoginAsync()
+    {
+        if (string.IsNullOrWhiteSpace(MURItem?.MUR_Id))
+        {
+            var txtMUR_Id = this.BindGrids[0].GetBindItem<StyleTextBox>("MUR_Id");
+            if (txtMUR_Id == null) 
+                return false;
+
+            txtMUR_Id.Focus();
+
+            SmartUI.ShowRequiredMessage(txtMUR_Id, "아이디를 입력해주세요.");
+
+            return false;
+        }
+        else if (string.IsNullOrWhiteSpace(MURItem?.MUR_PassWord))
+        {
+            var txtMUR_PassWord = this.BindGrids[0].GetBindItem<StyleTextBox>("MUR_PassWord");
+            if (txtMUR_PassWord == null) 
+                return false;
+
+            txtMUR_PassWord.Focus();
+
+            SmartUI.ShowRequiredMessage(txtMUR_PassWord, "비밀번호를 입력해주세요.");
+
+            return false;
+        }
+
+        var retLogin = await vm.AttemptLogin();
+
+        if (!retLogin.IsSuccess)
+        {
+            SmartUI.MsgConfirm($"로그인 실패 {retLogin.Message}");
+            return false;
+        }
+
+        return true;
     }
 }
 

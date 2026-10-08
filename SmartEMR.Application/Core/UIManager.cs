@@ -130,13 +130,13 @@ public partial class UIManager
                 return _activeViews.LastOrDefault(v => v.IsPopupView);
             }
 
-            var windows = _activeWindows.OfType<UIWindow>();
-            if (windows.Any())
+            var currentView = GetCurrentView();
+            if (currentView != null)
             {
-                return GetCurrentView();
+                return currentView;
             }
 
-            return windows.FirstOrDefault()?.Content as ViewLayout;
+            return CurrentWindow?.Content as ViewLayout;
         }
     }
 

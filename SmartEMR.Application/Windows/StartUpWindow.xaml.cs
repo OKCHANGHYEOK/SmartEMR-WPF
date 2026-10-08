@@ -13,6 +13,11 @@ public partial class StartUpWindow : Window
     public StartUpWindow() : base()
     {
         InitializeComponent();
+
+        StartUpView.SuccessLogin += (s, e) =>
+        {
+            this.Close();
+        };
     }
 
     private void OnMouseLeftButtonDown_Header(object sender, System.Windows.Input.MouseButtonEventArgs e)

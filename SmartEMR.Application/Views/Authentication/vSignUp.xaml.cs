@@ -33,6 +33,21 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
     {
     }
 
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse();
+
+        switch (request.MessageAction)
+        {
+            case "SignUp":
+                await SignUp();
+                break;
+        }
+
+        response.IsSuccess = true;
+        return response;
+    }
+
     private void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
     {
         if (sender is not SimpleButton element) return;
@@ -57,10 +72,6 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
 
         switch (element.Name)
         {
-            case nameof(btnSignUp):
-                await SignUp();
-                break;
-
             case nameof(btnCancel):
                 ToggleSignUpLayout();
                 break;

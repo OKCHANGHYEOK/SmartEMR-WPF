@@ -97,9 +97,7 @@ public class TextFocusBehavior
         if (element == null || element.AcceptsReturn == true)
             return false;
 
-        var currentElement = element as UIElement;
-        if (currentElement == null)
-            return false;
+        UIElement currentElement = element;
 
         // WPF 표준 탐색 요청 객체 생성 (Next = 다음 탭 인덱스)
         var request = new TraversalRequest(FocusNavigationDirection.Next);
@@ -128,12 +126,12 @@ public class TextFocusBehavior
             if (newFocused == null || newFocused == startingElement || newFocused == currentElement)
                 break;
 
-            // 💡 성공 조건: 새로 포커스를 잡은 놈이 TextBox류이거나 DevExpress 에디터 종류일 때
+            // 새로 포커스를 잡은 대상이 TextBox류이거나 DevExpress 에디터 종류일 때
             string typeName = newFocused.GetType().Name;
-            if (newFocused is TextBox || typeName.Contains("TextEdit") || typeName.Contains("TextBox"))
+            if (newFocused is TextBox || typeName.Contains(nameof(TextEdit)) || typeName.Contains(nameof(TextBox)))
             {
                 // 원하는 입력창에 안착했으므로 즉시 루프 탈출!
-                break;
+                return true;
             }
 
             // 만약 새로 간 곳이 버튼, 라벨, 체크박스 등등 입력창이 아니라면
@@ -141,6 +139,24 @@ public class TextFocusBehavior
             currentElement = newFocused;
         }
 
-        return true;
+        return false;
+    }
+
+    public static bool IsInsideFocusScope(UIElement element)
+    {
+        DependencyObject? current = element;
+
+        while (current is not null)
+        {
+            if (current is UIElement uiElement &&
+                FocusManager.GetIsFocusScope(uiElement))
+            {
+                return true;
+            }
+
+            current = VisualTreeHelper.GetParent(current);
+        }
+
+        return false;
     }
 }

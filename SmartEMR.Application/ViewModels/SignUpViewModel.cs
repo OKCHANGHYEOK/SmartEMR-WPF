@@ -164,6 +164,12 @@ public partial class SignUpViewModel : MemberViewModel
         }
     }
 
+    [RelayCommand]
+    private async Task SignUpRequest()
+    {
+        await SmartUI.SendMessage("SignUp");
+    }
+
     public async Task SignUp()
     {
         if (!CanSignUp()) return;
@@ -183,7 +189,7 @@ public partial class SignUpViewModel : MemberViewModel
             }
         }
 
-        MessageBox.Show("회원가입되었습니다.");
+        MessageBox.Show("회원가입되었습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
 
         await SmartUI.SendMessage("ShowLogin", viewType:TargetViewType.ParentView);
     }
