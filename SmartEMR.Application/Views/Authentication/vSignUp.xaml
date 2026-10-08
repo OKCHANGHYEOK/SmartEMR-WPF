@@ -22,7 +22,7 @@
                     ColumnSizeDefinitions="0.3*,0.7*">
 
         <Border Grid.Column="0"
-                CornerRadius="11,0,0,11">
+                CornerRadius="0,0,0,12">
 
             <Border.Background>
                 <ImageBrush ImageSource="/Images/smartemr_hospital.png"
@@ -88,238 +88,241 @@
             </StackPanel>
         </Border>
 
-        <Xpf:StyleGrid  Grid.Column="1"
-                        Background="#FFFFFF">
+        <Border Grid.Column="1"
+                Background="#FFFFFF"
+                CornerRadius="0,0,12,0">
 
-            <StackPanel x:Name="SelectSignUpTypePanel"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+            <Xpf:StyleGrid  Grid.Column="1">
+                <StackPanel x:Name="SelectSignUpTypePanel"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
 
-                <Xpf:TextBlock  Text="회원가입 유형 선택"    
-                                FontSize="21"
-                                FontWeight="Bold"
-                                Foreground="#193458"
-                                HorizontalAlignment="Center"
-                                Margin="0,0,0,6"/>
+                    <Xpf:TextBlock  Text="회원가입 유형 선택"    
+                                    FontSize="21"
+                                    FontWeight="Bold"
+                                    Foreground="#193458"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,0,6"/>
 
-                <Xpf:TextBlock  Text="가입하려는 의료기관 형태를 선택해주세요."
-                                FontSize="12"
-                                Foreground="#607A9A"
-                                HorizontalAlignment="Center"
-                                Margin="0,0,0,22"/>
+                    <Xpf:TextBlock  Text="가입하려는 의료기관 형태를 선택해주세요."
+                                    FontSize="12"
+                                    Foreground="#607A9A"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,0,22"/>
 
-                <!-- 기존 의료기관 가입 -->
-                <dxc:SimpleButton   x:Name="btnSignUpExist"
-                                    Width="370"
-                                    Height="125"
-                                    Margin="0,0,0,12"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    Background="#FFFFFF"
-                                    BorderBrush="#DDE5EF"
-                                    BorderThickness="1.5"
-                                    CornerRadius="8"
-                                    Padding="18"
-                                    Cursor="Hand"
-                                    Click="OnClick_SimpleButton">
+                    <!-- 기존 의료기관 가입 -->
+                    <dxc:SimpleButton   x:Name="btnSignUpExist"
+                                        Width="370"
+                                        Height="125"
+                                        Margin="0,0,0,12"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Background="#FFFFFF"
+                                        BorderBrush="#DDE5EF"
+                                        BorderThickness="1.5"
+                                        CornerRadius="8"
+                                        Padding="18"
+                                        Cursor="Hand"
+                                        Click="OnClick_SimpleButton">
 
-                    <dxc:SimpleButton.Style>
-                        <Style TargetType="{x:Type dxc:SimpleButton}">
-                            <Setter Property="Background" Value="#FFFFFF"/>
-                            <Setter Property="BorderBrush" Value="#DDE5EF"/>
-                            <Setter Property="BorderThickness" Value="1.5"/>
-                            <Setter Property="Foreground" Value="#193458"/>
+                        <dxc:SimpleButton.Style>
+                            <Style TargetType="{x:Type dxc:SimpleButton}">
+                                <Setter Property="Background" Value="#FFFFFF"/>
+                                <Setter Property="BorderBrush" Value="#DDE5EF"/>
+                                <Setter Property="BorderThickness" Value="1.5"/>
+                                <Setter Property="Foreground" Value="#193458"/>
 
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#F7FAFD"/>
-                                    <Setter Property="BorderBrush" Value="#8EA8C5"/>
-                                </Trigger>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F7FAFD"/>
+                                        <Setter Property="BorderBrush" Value="#8EA8C5"/>
+                                    </Trigger>
 
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" Value="#EEF4FA"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </dxc:SimpleButton.Style>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#EEF4FA"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </dxc:SimpleButton.Style>
 
-                    <Xpf:StyleGrid  LayoutDefinitions="2,1"
-                                    ColumnSizeDefinitions="70,*">
+                        <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                                        ColumnSizeDefinitions="70,*">
 
-                        <Border Grid.Column="0"
-                                Width="56"
-                                Height="56"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
+                            <Border Grid.Column="0"
+                                    Width="56"
+                                    Height="56"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
 
-                            <Border.Background>
-                                <ImageBrush ImageSource="/Images/smartemr_signup_hospital_exist.png" Stretch="UniformToFill"/>
-                            </Border.Background>
-                        </Border>
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/smartemr_signup_hospital_exist.png" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
 
-                        <StackPanel Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Margin="14,0,0,0">
+                            <StackPanel Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Margin="14,0,0,0">
 
-                            <Xpf:TextBlock  Text="기존 의료기관으로 가입"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Foreground="#193458"/>
+                                <Xpf:TextBlock  Text="기존 의료기관으로 가입"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Foreground="#193458"/>
 
-                            <Xpf:TextBlock  Text="등록된 의료기관을 선택하여 가입합니다."
-                                            FontSize="12"
-                                            Foreground="#607A9A"
-                                            Margin="0,6,0,0"/>
-                        </StackPanel>
+                                <Xpf:TextBlock  Text="등록된 의료기관을 선택하여 가입합니다."
+                                                FontSize="12"
+                                                Foreground="#607A9A"
+                                                Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Xpf:StyleGrid>
+                    </dxc:SimpleButton>
+
+
+                    <!-- 신규 의료기관 가입 -->
+                    <dxc:SimpleButton   x:Name="btnSignUpNew"
+                                        Width="370"
+                                        Height="125"
+                                        Margin="0,0,0,0"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Background="#FFFFFF"
+                                        BorderBrush="#DDE5EF"
+                                        BorderThickness="1.5"
+                                        CornerRadius="8"
+                                        Padding="18"
+                                        Cursor="Hand"
+                                        Click="OnClick_SimpleButton">
+
+                        <dxc:SimpleButton.Style>
+                            <Style TargetType="{x:Type dxc:SimpleButton}">
+                                <Setter Property="Background" Value="#FFFFFF"/>
+                                <Setter Property="BorderBrush" Value="#DDE5EF"/>
+                                <Setter Property="BorderThickness" Value="1.5"/>
+                                <Setter Property="Foreground" Value="#193458"/>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F7FAFD"/>
+                                        <Setter Property="BorderBrush" Value="#8EA8C5"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#EEF4FA"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </dxc:SimpleButton.Style>
+
+                        <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                                        ColumnSizeDefinitions="70,*">
+
+                            <!-- 이미지 영역 -->
+                            <Border Grid.Column="0"
+                                    Width="56"
+                                    Height="56"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/smartemr_signup_hospital_new.png" Stretch="Uniform"/>
+                                </Border.Background>
+                            </Border>
+
+                            <StackPanel Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Margin="14,0,0,0">
+
+                                <Xpf:TextBlock  Text="신규 의료기관으로 가입"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Foreground="#193458"/>
+
+                                <Xpf:TextBlock  Text="새로운 의료기관 정보를 등록하고 가입합니다."
+                                                FontSize="12"
+                                                Foreground="#607A9A"
+                                                Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Xpf:StyleGrid>
+                    </dxc:SimpleButton>
+
+                </StackPanel>
+
+                <Xpf:StyleGrid  x:Name="SignUpContentGrid"
+                                LayoutDefinitions="1,2"
+                                RowSizeDefinitions="*,Auto"
+                                Visibility="Collapsed">
+
+                    <local:vSignUpExisitingMember   x:Name="SignUpExistingMember"
+                                                    Grid.Row="0">
+                        <local:vSignUpExisitingMember.Style>
+                            <Style TargetType="{x:Type local:vSignUpExisitingMember}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding vm.SignUpType, RelativeSource={RelativeSource AncestorType={x:Type local:vSignUp}}}" Value="EXIST">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </local:vSignUpExisitingMember.Style>
+                    </local:vSignUpExisitingMember>
+
+                    <local:vSignUpNewMember x:Name="SignUpNewMember"
+                                            Grid.Row="0">
+                        <local:vSignUpNewMember.Style>
+                            <Style TargetType="{x:Type local:vSignUpNewMember}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding vm.SignUpType, RelativeSource={RelativeSource AncestorType={x:Type local:vSignUp}}}" Value="NEW">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </local:vSignUpNewMember.Style>
+                    </local:vSignUpNewMember>
+
+                    <Xpf:StyleGrid  Grid.Row="1"
+                                    LayoutDefinitions="3,1"
+                                    ColumnSizeDefinitions="*,5,*"
+                                    Width="250"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,0,25">
+
+                        <Xpf:Button x:Name="btnSignUp"
+                                    Grid.Column="0"
+                                    Content="회원가입"
+                                    FontWeight="Bold"
+                                    Foreground="FloralWhite"
+                                    VerticalAlignment="Stretch"
+                                    Background="MediumBlue"
+                                    CornerRadius="5"
+                                    Click="OnClick_Button"/>
+
+                        <Xpf:Button x:Name="btnCancel"
+                                    Grid.Column="2"
+                                    Content="취소"
+                                    Background="#F1F3F5"
+                                    FontWeight="Bold"
+                                    Foreground="#666666"
+                                    CornerRadius="5"
+                                    Click="OnClick_Button"/>
                     </Xpf:StyleGrid>
-                </dxc:SimpleButton>
-
-
-                <!-- 신규 의료기관 가입 -->
-                <dxc:SimpleButton   x:Name="btnSignUpNew"
-                                    Width="370"
-                                    Height="125"
-                                    Margin="0,0,0,0"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    Background="#FFFFFF"
-                                    BorderBrush="#DDE5EF"
-                                    BorderThickness="1.5"
-                                    CornerRadius="8"
-                                    Padding="18"
-                                    Cursor="Hand"
-                                    Click="OnClick_SimpleButton">
-
-                    <dxc:SimpleButton.Style>
-                        <Style TargetType="{x:Type dxc:SimpleButton}">
-                            <Setter Property="Background" Value="#FFFFFF"/>
-                            <Setter Property="BorderBrush" Value="#DDE5EF"/>
-                            <Setter Property="BorderThickness" Value="1.5"/>
-                            <Setter Property="Foreground" Value="#193458"/>
-
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#F7FAFD"/>
-                                    <Setter Property="BorderBrush" Value="#8EA8C5"/>
-                                </Trigger>
-
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" Value="#EEF4FA"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </dxc:SimpleButton.Style>
-
-                    <Xpf:StyleGrid  LayoutDefinitions="2,1"
-                                    ColumnSizeDefinitions="70,*">
-
-                        <!-- 이미지 영역 -->
-                        <Border Grid.Column="0"
-                                Width="56"
-                                Height="56"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-
-                            <Border.Background>
-                                <ImageBrush ImageSource="/Images/smartemr_signup_hospital_new.png" Stretch="Uniform"/>
-                            </Border.Background>
-                        </Border>
-
-                        <StackPanel Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Margin="14,0,0,0">
-
-                            <Xpf:TextBlock  Text="신규 의료기관으로 가입"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Foreground="#193458"/>
-
-                            <Xpf:TextBlock  Text="새로운 의료기관 정보를 등록하고 가입합니다."
-                                            FontSize="12"
-                                            Foreground="#607A9A"
-                                            Margin="0,6,0,0"/>
-                        </StackPanel>
-                    </Xpf:StyleGrid>
-                </dxc:SimpleButton>
-
-            </StackPanel>
-
-            <Xpf:StyleGrid  x:Name="SignUpContentGrid"
-                            LayoutDefinitions="1,2"
-                            RowSizeDefinitions="*,Auto"
-                            Visibility="Collapsed">
-
-                <local:vSignUpExisitingMember x:Name="SignUpExistingMember"
-                                              Grid.Row="0">
-                    <local:vSignUpExisitingMember.Style>
-                        <Style TargetType="{x:Type local:vSignUpExisitingMember}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding vm.SignUpType, RelativeSource={RelativeSource AncestorType={x:Type local:vSignUp}}}" Value="EXIST">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </local:vSignUpExisitingMember.Style>
-                </local:vSignUpExisitingMember>
-
-                <local:vSignUpNewMember x:Name="SignUpNewMember"
-                                        Grid.Row="0">
-                    <local:vSignUpNewMember.Style>
-                        <Style TargetType="{x:Type local:vSignUpNewMember}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding vm.SignUpType, RelativeSource={RelativeSource AncestorType={x:Type local:vSignUp}}}" Value="NEW">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </local:vSignUpNewMember.Style>
-                </local:vSignUpNewMember>
-
-                <Xpf:StyleGrid  Grid.Row="1"
-                                LayoutDefinitions="3,1"
-                                ColumnSizeDefinitions="*,5,*"
-                                Width="250"
-                                Height="32"
-                                HorizontalAlignment="Center"
-                                Margin="0,0,0,25">
-
-                    <Xpf:Button x:Name="btnSignUp"
-                                Grid.Column="0"
-                                Content="회원가입"
-                                FontWeight="Bold"
-                                Foreground="FloralWhite"
-                                VerticalAlignment="Stretch"
-                                Background="MediumBlue"
-                                CornerRadius="5"
-                                Click="OnClick_Button"/>
-
-                    <Xpf:Button x:Name="btnCancel"
-                                Grid.Column="2"
-                                Content="취소"
-                                Background="#F1F3F5"
-                                FontWeight="Bold"
-                                Foreground="#666666"
-                                CornerRadius="5"
-                                Click="OnClick_Button"/>
                 </Xpf:StyleGrid>
-            </Xpf:StyleGrid>
 
-            <Xpf:Button x:Name="btnBackToLogin"
-                        Grid.Row="1"
-                        Content="←  로그인 화면으로"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        Margin="5,0,0,5"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Foreground="#607A9A"
-                        FontSize="11"
-                        Cursor="Hand"
-                        Click="OnClick_Button"/>
-        </Xpf:StyleGrid>
+                <Xpf:Button x:Name="btnBackToLogin"
+                            Grid.Row="1"
+                            Content="←  로그인 화면으로"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Margin="5,0,0,5"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="#607A9A"
+                            FontSize="11"
+                            Cursor="Hand"
+                            Click="OnClick_Button"/>
+            </Xpf:StyleGrid>
+        </Border>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

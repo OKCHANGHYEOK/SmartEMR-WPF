@@ -14,7 +14,7 @@
                       d:DesignHeight="450"
                       d:DesignWidth="800">
 
-    <Xpf:StyleGrid>
+    <Xpf:StyleGrid Background="Transparent">
         <local:vLogin x:Name="LoginView"/>
         <local:vSignUp x:Name="SignUpView" Visibility="Collapsed"/>
     </Xpf:StyleGrid>

@@ -13,11 +13,10 @@
 
     <Xpf:StyleGrid  x:Name="LayoutRoot" 
                     LayoutDefinitions="1,2"
-                    RowSizeDefinitions="1.5*,1*">
+                    RowSizeDefinitions="1.5*,1*"
+                    Background="Transparent">
 
-        <Border Grid.Row="0"
-                CornerRadius="12,12,0,0">
-
+        <Border Grid.Row="0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#A7C1E2" Offset="0.0"/>
@@ -46,9 +45,9 @@
             </Grid>
         </Border>
 
-        <Xpf:StyleGrid  x:Name="InputGrid" 
-                        Grid.Row="1" 
-                        Background="White">
+        <Border Grid.Row="1" 
+                CornerRadius="0,0,12,12"
+                Background="White">
 
             <Xpf:StyleGrid  LayoutDefinitions="1,2"
                             RowSizeDefinitions="Auto,*"
@@ -137,6 +136,6 @@
                     </StackPanel>
                 </StackPanel>
             </Xpf:StyleGrid>
-        </Xpf:StyleGrid>
+        </Border>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>
