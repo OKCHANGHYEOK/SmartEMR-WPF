@@ -227,6 +227,7 @@ public abstract partial class ModelViewLayout<T> : ModelViewLayout where T : Bas
         if (!typeof(IViewModel).IsAssignableFrom(typeof(T))) return;
 
         var services = ((App)App.Current).Services;
+        if (services is null) return;
 
         if (item != null)
         {

@@ -71,11 +71,11 @@
                     </Run>
                 </Xpf:TextBlock>
 
-                <Xpf:TextBlock FontSize="12"
-                               Foreground="#607A9A"
-                               LineHeight="20"
-                               HorizontalAlignment="Left"
-                               Margin="10,10,0,0">
+                <Xpf:TextBlock  FontSize="12"
+                                Foreground="#607A9A"
+                                LineHeight="20"
+                                HorizontalAlignment="Left"
+                                Margin="10,10,0,0">
 
                     <Run>
                         SmartEMR은 병원과 환자를 이어주는
@@ -83,45 +83,45 @@
                     <LineBreak/>
                     <Run>
                         보다 편리하고 안전한 의료정보 시스템입니다.
-                    </Run>  
+                    </Run>
                 </Xpf:TextBlock>
             </StackPanel>
         </Border>
 
         <Xpf:StyleGrid  Grid.Column="1"
                         Background="#FFFFFF">
-            
+
             <StackPanel x:Name="SelectSignUpTypePanel"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 
-                <Xpf:TextBlock Text="회원가입 유형 선택"    
-                               FontSize="21"
-                               FontWeight="Bold"
-                               Foreground="#193458"
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,6"/>
+                <Xpf:TextBlock  Text="회원가입 유형 선택"    
+                                FontSize="21"
+                                FontWeight="Bold"
+                                Foreground="#193458"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,6"/>
 
-                <Xpf:TextBlock Text="가입하려는 의료기관 형태를 선택해주세요."
-                               FontSize="12"
-                               Foreground="#607A9A"
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,22"/>
+                <Xpf:TextBlock  Text="가입하려는 의료기관 형태를 선택해주세요."
+                                FontSize="12"
+                                Foreground="#607A9A"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,22"/>
 
                 <!-- 기존 의료기관 가입 -->
-                <dxc:SimpleButton x:Name="btnSignUpExist"
-                                  Width="370"
-                                  Height="125"
-                                  Margin="0,0,0,12"
-                                  HorizontalContentAlignment="Stretch"
-                                  VerticalContentAlignment="Stretch"
-                                  Background="#FFFFFF"
-                                  BorderBrush="#DDE5EF"
-                                  BorderThickness="1.5"
-                                  CornerRadius="8"
-                                  Padding="18"
-                                  Cursor="Hand"
-                                  Click="OnClick_SimpleButton">
+                <dxc:SimpleButton   x:Name="btnSignUpExist"
+                                    Width="370"
+                                    Height="125"
+                                    Margin="0,0,0,12"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Background="#FFFFFF"
+                                    BorderBrush="#DDE5EF"
+                                    BorderThickness="1.5"
+                                    CornerRadius="8"
+                                    Padding="18"
+                                    Cursor="Hand"
+                                    Click="OnClick_SimpleButton">
 
                     <dxc:SimpleButton.Style>
                         <Style TargetType="{x:Type dxc:SimpleButton}">
@@ -145,7 +145,7 @@
 
                     <Xpf:StyleGrid  LayoutDefinitions="2,1"
                                     ColumnSizeDefinitions="70,*">
-                        
+
                         <Border Grid.Column="0"
                                 Width="56"
                                 Height="56"
@@ -161,34 +161,34 @@
                                     VerticalAlignment="Center"
                                     Margin="14,0,0,0">
 
-                            <Xpf:TextBlock Text="기존 의료기관으로 가입"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           Foreground="#193458"/>
+                            <Xpf:TextBlock  Text="기존 의료기관으로 가입"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Foreground="#193458"/>
 
-                            <Xpf:TextBlock Text="등록된 의료기관을 선택하여 가입합니다."
-                                           FontSize="12"
-                                           Foreground="#607A9A"
-                                           Margin="0,6,0,0"/>
+                            <Xpf:TextBlock  Text="등록된 의료기관을 선택하여 가입합니다."
+                                            FontSize="12"
+                                            Foreground="#607A9A"
+                                            Margin="0,6,0,0"/>
                         </StackPanel>
                     </Xpf:StyleGrid>
                 </dxc:SimpleButton>
 
 
                 <!-- 신규 의료기관 가입 -->
-                <dxc:SimpleButton x:Name="btnSignUpNew"
-                                  Width="370"
-                                  Height="125"
-                                  Margin="0,0,0,0"
-                                  HorizontalContentAlignment="Stretch"
-                                  VerticalContentAlignment="Stretch"
-                                  Background="#FFFFFF"
-                                  BorderBrush="#DDE5EF"
-                                  BorderThickness="1.5"
-                                  CornerRadius="8"
-                                  Padding="18"
-                                  Cursor="Hand"
-                                  Click="OnClick_SimpleButton">
+                <dxc:SimpleButton   x:Name="btnSignUpNew"
+                                    Width="370"
+                                    Height="125"
+                                    Margin="0,0,0,0"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Background="#FFFFFF"
+                                    BorderBrush="#DDE5EF"
+                                    BorderThickness="1.5"
+                                    CornerRadius="8"
+                                    Padding="18"
+                                    Cursor="Hand"
+                                    Click="OnClick_SimpleButton">
 
                     <dxc:SimpleButton.Style>
                         <Style TargetType="{x:Type dxc:SimpleButton}">
@@ -212,7 +212,7 @@
 
                     <Xpf:StyleGrid  LayoutDefinitions="2,1"
                                     ColumnSizeDefinitions="70,*">
-                        
+
                         <!-- 이미지 영역 -->
                         <Border Grid.Column="0"
                                 Width="56"
@@ -248,9 +248,9 @@
                             LayoutDefinitions="1,2"
                             RowSizeDefinitions="*,Auto"
                             Visibility="Collapsed">
-                
+
                 <local:vSignUpExisitingMember x:Name="SignUpExistingMember"
-                                              Grid.Row="0">
+                                           Grid.Row="0">
                     <local:vSignUpExisitingMember.Style>
                         <Style TargetType="{x:Type local:vSignUpExisitingMember}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -265,7 +265,7 @@
                 </local:vSignUpExisitingMember>
 
                 <local:vSignUpNewMember x:Name="SignUpNewMember"
-                                        Grid.Row="0">
+                                     Grid.Row="0">
                     <local:vSignUpNewMember.Style>
                         <Style TargetType="{x:Type local:vSignUpNewMember}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -278,7 +278,7 @@
                         </Style>
                     </local:vSignUpNewMember.Style>
                 </local:vSignUpNewMember>
-                
+
                 <Xpf:StyleGrid  Grid.Row="1"
                                 LayoutDefinitions="3,1"
                                 ColumnSizeDefinitions="*,5,*"
@@ -288,25 +288,38 @@
                                 Margin="0,20,0,5">
 
                     <Xpf:Button x:Name="btnSignUp"
-                                Grid.Column="0"
-                                Content="회원가입"
-                                FontWeight="Bold"
-                                Foreground="FloralWhite"
-                                VerticalAlignment="Stretch"
-                                Background="MediumBlue"
-                                CornerRadius="5"
-                                Click="OnClick_Button"/>
+                             Grid.Column="0"
+                             Content="회원가입"
+                             FontWeight="Bold"
+                             Foreground="FloralWhite"
+                             VerticalAlignment="Stretch"
+                             Background="MediumBlue"
+                             CornerRadius="5"
+                             Click="OnClick_Button"/>
 
                     <Xpf:Button x:Name="btnCancel"
-                                Grid.Column="2"
-                                Content="취소"
-                                Background="#F1F3F5"
-                                FontWeight="Bold"
-                                Foreground="#666666"
-                                CornerRadius="5"
-                                Click="OnClick_Button"/>
+                             Grid.Column="2"
+                             Content="취소"
+                             Background="#F1F3F5"
+                             FontWeight="Bold"
+                             Foreground="#666666"
+                             CornerRadius="5"
+                             Click="OnClick_Button"/>
                 </Xpf:StyleGrid>
             </Xpf:StyleGrid>
+
+            <Xpf:Button x:Name="btnBackToLogin"
+                        Grid.Row="1"
+                        Content="←  로그인 화면으로"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Margin="5,0,0,5"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="#607A9A"
+                        FontSize="11"
+                        Cursor="Hand"
+                        Click="OnClick_Button"/>
         </Xpf:StyleGrid>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

@@ -52,17 +52,6 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
     {
     }
 
-    private void MoveToSignUp()
-    {
-        if (App.Current.MainWindow is LoginWindow loginWindow)
-        {
-            loginWindow.Close();
-        }
-
-        var SignUpWindow = new SignUpWindow();
-        var result = SignUpWindow.ShowDialog();
-    }
-
     private async void OnClick_Button(object sender, System.Windows.RoutedEventArgs e)
     {
         if (sender is not Button element) return;
@@ -101,12 +90,10 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
                     return;
                 }
 
-                SmartUI.UIManager.CloseWindow(TargetWindowType.CurrentWindow);
-
                 break;
 
             case "btnSignUp":
-                MoveToSignUp();
+                await SmartUI.SendMessage("ShowSignUp", viewType: TargetViewType.ParentView);
                 break;
         }
     }

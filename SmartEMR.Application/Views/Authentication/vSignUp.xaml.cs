@@ -64,6 +64,10 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
             case nameof(btnCancel):
                 ToggleSignUpLayout();
                 break;
+
+            case nameof(btnBackToLogin):
+                await BackToLogin();
+                break;
         }
     }
 
@@ -73,6 +77,13 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
 
         SelectSignUpTypePanel.Visibility = _isShowSelectSignUpType ? Visibility.Visible : Visibility.Collapsed;
         SignUpContentGrid.Visibility = !_isShowSelectSignUpType ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private async Task BackToLogin()
+    {
+        ToggleSignUpLayout();
+
+        await SmartUI.SendMessage("ShowLogin", viewType: TargetViewType.ParentView);
     }
 
     private async Task SignUp()

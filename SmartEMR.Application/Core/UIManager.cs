@@ -12,7 +12,8 @@ public enum TargetViewType
     CurrentView = 0,        // 현재 포커스중인 뷰
     PageView = 1,           // 현재 보고 있는 페이지에 해당하는 뷰
     PreFloatView = 2,       // 팝업인 경우 해당 팝업의 이전 팝업
-    RootView = 3            // vLayout
+    RootView = 3,           // vLayout
+    ParentView = 4          // 자신의 부모 뷰
 }
 
 
@@ -30,10 +31,15 @@ public partial class UIManager
 {
     private readonly List<UIWindow> _activeWindows = new();
 
-    public UIWindow? CurrentWindow
+    public Window? CurrentWindow
     {
         get
         {
+            if (!_activeWindows.Any())
+            {
+                return App.Current.MainWindow;
+            }
+
             var window = _activeWindows.LastOrDefault(w => w.IsActive || w.IsFocused);
 
             if (window == null) window = _activeWindows.LastOrDefault();
@@ -186,6 +192,7 @@ public partial class UIManager
             TargetViewType.CurrentView => CurrentView,
             TargetViewType.PageView => CurrentPageView,
             TargetViewType.RootView => RootView,
+            TargetViewType.ParentView => GetParentView(GetCurrentView()),
             _ => null
         };
     }
@@ -200,6 +207,13 @@ public partial class UIManager
                 PopupManager.Close(floatPanel);
             }
         }
+    }
+
+    private static ViewLayout? GetParentView(ViewLayout? currentView)
+    {
+        if (currentView is null) return null;
+
+        return SmartUI.FindParent<ViewLayout>(currentView);
     }
 
     private static ViewLayout? GetCurrentView()

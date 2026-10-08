@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartEMR.Infrastructure;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Application.Windows;
+using System.Diagnostics;
 
 namespace SmartEMR.Application
 {
@@ -55,7 +56,7 @@ namespace SmartEMR.Application
             SmartMVVM.DataStore.APIUrl = AppConfig.Settings.Api.BaseUrl;
             SmartMVVM.DataStore.RequestTimeoutSeconds = AppConfig.Settings.Api.RequestTimeoutSeconds;
 
-#if DEBUG
+#if RELEASE
 
             await InitializeAppData();
 
@@ -107,6 +108,7 @@ namespace SmartEMR.Application
             catch (Exception ex)
             {
                 MessageBox.Show("프로그램 초기화 중 예기치 않은 오류가 발생했습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                Debug.WriteLine(ex);
                 Logger.WriteLog(ex);
             }
 
@@ -121,9 +123,9 @@ namespace SmartEMR.Application
 
         private bool SetAuthenticateUser()
         {
-            var loginWindow = new LoginWindow();
+            var StartUpWindow = new StartUpWindow();
 
-            return loginWindow.ShowDialog() ?? false;
+            return StartUpWindow.ShowDialog() ?? false;
 
             //#if DEBUG
             //                        var ret = Task.Run(async () => await SmartMVVM.SetUserByMUR_Idx(MUR_Idx)).GetAwaiter().GetResult();
@@ -136,9 +138,9 @@ namespace SmartEMR.Application
             //                        return true;
 
             //#else
-            //            var loginWindow = new LoginWindow();
+            //            var StartUpWindow = new StartUpWindow();
 
-            //            return loginWindow.ShowDialog() ?? false;
+            //            return StartUpWindow.ShowDialog() ?? false;
             //#endif
         }
 

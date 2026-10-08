@@ -199,7 +199,7 @@ public static partial class SmartUI
     public static UIManager UIManager => UIManager.Instance;
     public static PopupManager PopupManager => UIManager.PopupManager;
 
-    public static UIWindow? CurrentWindow
+    public static Window? CurrentWindow
     {
         get
         {

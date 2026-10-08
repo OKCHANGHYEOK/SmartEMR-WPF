@@ -42,7 +42,7 @@ public partial class ViewMessenger
 
     public async Task<ViewMessageResponse?> SendMessage(string action, object? parameter = null, object[]? parameters = null, TargetViewType viewType = TargetViewType.CurrentView)
     {
-        var request = new ViewMessageRequest { MessageAction = action, MessageParameter = parameter, MessageParameters = parameters };
+        var request = new ViewMessageRequest { MessageAction = action, MessageParameter =  parameter, MessageParameters = parameters };
         ViewLayout? targetView = SmartUI.UIManager.GetTargetView(viewType);
 
         var sub = _subscribers.FirstOrDefault(s => s.View == targetView);

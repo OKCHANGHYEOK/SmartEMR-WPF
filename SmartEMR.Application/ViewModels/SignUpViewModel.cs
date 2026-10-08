@@ -221,7 +221,7 @@ public partial class SignUpViewModel : MemberViewModel
         {
             if (!IsCheckedDuplicateMediNo)
             {
-                MessageBox.Show("요영기관번호 중복체크를 해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("요양기관번호 중복체크를 해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 
