@@ -17,12 +17,9 @@
           ResizeMode="NoResize"
           WindowStartupLocation="CenterScreen">
 
-    <Border x:Name="HeaderBorder"
-            Margin="20"
-            CornerRadius="12"
+    <Border CornerRadius="12"
             BorderBrush="#D9E1EA"
-            BorderThickness="1"
-            MouseLeftButtonDown="OnMouseLeftButtonDown_Header">
+            BorderThickness="1">
 
         <Border.Effect>
             <DropShadowEffect   BlurRadius="25"
@@ -33,9 +30,11 @@
         <Xpf:StyleGrid  LayoutDefinitions="1,2"
                         RowSizeDefinitions="36,*">
 
-            <Border Grid.Row="0"
+            <Border x:Name="HeaderBorder"
+                    Grid.Row="0"
                     Background="#F8FAFC"
-                    CornerRadius="12,12,0,0">
+                    CornerRadius="12,12,0,0"
+                    MouseLeftButtonDown="OnMouseLeftButtonDown_Header">
 
                 <Xpf:StyleGrid LayoutDefinitions="3,1"
                                ColumnSizeDefinitions="Auto,*,Auto">
