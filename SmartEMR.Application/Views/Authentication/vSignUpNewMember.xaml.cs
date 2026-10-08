@@ -77,6 +77,11 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
         await vm.SignUp();
     }
 
+    public void ClearData()
+    {
+        vm.ClearData();
+    }
+
     private void ShowValidate()
     {
         var targetField = vm.ValidationTarget;

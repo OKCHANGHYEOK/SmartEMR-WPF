@@ -81,6 +81,9 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
 
     private async Task BackToLogin()
     {
+        SignUpExistingMember.ClearData();
+        SignUpNewMember.ClearData();
+
         ToggleSignUpLayout();
 
         await SmartUI.SendMessage("ShowLogin", viewType: TargetViewType.ParentView);

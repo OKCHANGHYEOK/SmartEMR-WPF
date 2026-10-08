@@ -169,6 +169,12 @@ public partial class SignUpViewModel : MemberViewModel
         // 로그인 화면 복귀 로직
     }
 
+    public void ClearData()
+    {
+        SmartMVVM.ModelProperty.ClearMEMData(Model);
+        SmartMVVM.ModelProperty.ClearMURData(MemberUser);
+    }
+
     private async Task<bool> SignUpByExistMember()
     {
         var ret = await _memberUserService.SignUp(MemberUser);

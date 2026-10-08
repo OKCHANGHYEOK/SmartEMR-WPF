@@ -38,6 +38,33 @@ public class ModelProperty
         return item;
     }
 
+    public void ClearMEMData(Member item)
+    {
+        item.MEM_Idx = 0;
+        item.MEM_BizType = "";
+        item.MEM_OperationStatus = 0;
+        item.MEM_Name = "";
+        item.MEM_BizNum = "";
+        item.MEM_MediNo = "";
+    }
+
+    #endregion
+
+    #region "MemberUser"
+
+    public void ClearMURData(MemberUser item)
+    {
+        item.MUR_Idx = 0;
+        item.MEM_Idx = 0;
+        item.MUR_Name = "";
+        item.MUR_Id = "";
+        item.MUR_PassWord = "";
+        item.MUR_Department = "";
+        item.MUR_JobCode = "";
+        item.MUR_Role = "";
+        item.MUR_LicenseNo = "";
+    }
+
     #endregion
 
     #region "Patient"

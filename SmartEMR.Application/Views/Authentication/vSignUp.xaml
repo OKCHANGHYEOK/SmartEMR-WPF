@@ -250,7 +250,7 @@
                             Visibility="Collapsed">
 
                 <local:vSignUpExisitingMember x:Name="SignUpExistingMember"
-                                           Grid.Row="0">
+                                              Grid.Row="0">
                     <local:vSignUpExisitingMember.Style>
                         <Style TargetType="{x:Type local:vSignUpExisitingMember}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -265,7 +265,7 @@
                 </local:vSignUpExisitingMember>
 
                 <local:vSignUpNewMember x:Name="SignUpNewMember"
-                                     Grid.Row="0">
+                                        Grid.Row="0">
                     <local:vSignUpNewMember.Style>
                         <Style TargetType="{x:Type local:vSignUpNewMember}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -285,26 +285,26 @@
                                 Width="250"
                                 Height="32"
                                 HorizontalAlignment="Center"
-                                Margin="0,20,0,5">
+                                Margin="0,0,0,25">
 
                     <Xpf:Button x:Name="btnSignUp"
-                             Grid.Column="0"
-                             Content="회원가입"
-                             FontWeight="Bold"
-                             Foreground="FloralWhite"
-                             VerticalAlignment="Stretch"
-                             Background="MediumBlue"
-                             CornerRadius="5"
-                             Click="OnClick_Button"/>
+                                Grid.Column="0"
+                                Content="회원가입"
+                                FontWeight="Bold"
+                                Foreground="FloralWhite"
+                                VerticalAlignment="Stretch"
+                                Background="MediumBlue"
+                                CornerRadius="5"
+                                Click="OnClick_Button"/>
 
                     <Xpf:Button x:Name="btnCancel"
-                             Grid.Column="2"
-                             Content="취소"
-                             Background="#F1F3F5"
-                             FontWeight="Bold"
-                             Foreground="#666666"
-                             CornerRadius="5"
-                             Click="OnClick_Button"/>
+                                Grid.Column="2"
+                                Content="취소"
+                                Background="#F1F3F5"
+                                FontWeight="Bold"
+                                Foreground="#666666"
+                                CornerRadius="5"
+                                Click="OnClick_Button"/>
                 </Xpf:StyleGrid>
             </Xpf:StyleGrid>
 
