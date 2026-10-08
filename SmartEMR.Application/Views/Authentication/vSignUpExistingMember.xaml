@@ -131,7 +131,8 @@
                                 BorderThickness="1.5"
                                 CornerRadius="4"
                                 Padding="5"
-                                EditValueChanged="OnEditValueChanged_TextEdit">
+                                EditValueChanged="OnEditValueChanged_TextEdit"
+                                PreviewTextInput="OnPreviewTextInput_TextEdit">
                 </Xpf:TextEdit>
 
                 <Xpf:Button x:Name="btnCheckDuplicateId"
@@ -198,7 +199,7 @@
             <dxe:PasswordBoxEdit    x:Name="pwMUR_Password"
                                     Grid.Column="1"
                                     Grid.Row="4"
-                                    EditValue="{Binding MemberUser.MUR_PassWord}"
+                                    EditValue="{Binding MemberUser.MUR_PassWord, UpdateSourceTrigger=PropertyChanged}"
                                     NullText="비밀번호를 입력하세요."
                                     HorizontalAlignment="Stretch"
                                     BorderBrush="#DDE5EF"
@@ -268,6 +269,7 @@
             <dxe:PasswordBoxEdit    x:Name="pwMUR_PasswordCheck"
                                     Grid.Column="1"
                                     Grid.Row="6"
+                                    EditValue="{Binding MemberUser.MUR_PassWordCheck, UpdateSourceTrigger=PropertyChanged}"
                                     NullText="비밀번호를 다시 입력하세요."
                                     HorizontalAlignment="Stretch"
                                     BorderBrush="#DDE5EF"
@@ -304,7 +306,7 @@
                         <Setter Property="Foreground" Value="IndianRed"/>
 
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsCorrectPassword}" Value="True">
+                            <DataTrigger Binding="{Binding IsPasswordMatch}" Value="True">
                                 <Setter Property="Content" Value="비밀번호가 일치합니다."/>
                                 <Setter Property="Foreground" Value="Blue"/>
                             </DataTrigger>

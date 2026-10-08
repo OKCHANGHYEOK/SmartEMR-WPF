@@ -30,7 +30,7 @@ public partial class SignUpViewModel : MemberViewModel
     [ObservableProperty]
     private bool usablePassword = false;
     [ObservableProperty]
-    private bool isCorrectPassword = false;
+    private bool isPasswordMatch = false;
 
     [ObservableProperty]
     private bool isCheckedDuplicateMediNo = false;
@@ -82,9 +82,25 @@ public partial class SignUpViewModel : MemberViewModel
         return isMatch;
     }
 
-    public void UpdateIsCorrectPassword(string newValue)
+    public void UpdateIsCheckedDuplicateId()
     {
-        IsCorrectPassword = string.Equals(MemberUser.MUR_PassWord, newValue, StringComparison.CurrentCulture);
+        if (IsCheckedDuplicateId)
+        {
+            IsCheckedDuplicateId = false;
+        }
+    }
+
+    public void UpdateIsCheckedDuplicateMediNo()
+    {
+        if (IsCheckedDuplicateMediNo)
+        {
+            IsCheckedDuplicateMediNo = false;
+        }
+    }
+
+    public void UpdateIsPasswordMatch()
+    {
+        IsPasswordMatch = string.Equals(MemberUser.MUR_PassWord, MemberUser.MUR_PassWordCheck, StringComparison.CurrentCulture);
     }
 
     public async Task<CheckDuplicateResult> CheckDuplicateId()
@@ -154,7 +170,10 @@ public partial class SignUpViewModel : MemberViewModel
         
         if (this.SignUpType == SignUpType.NEW)
         {
-
+            if (!await SignUpByNewMember())
+            {
+                return;
+            }
         }
         else if (this.SignUpType == SignUpType.EXIST)
         {
@@ -164,9 +183,9 @@ public partial class SignUpViewModel : MemberViewModel
             }
         }
 
-        MessageBox.Show("회원가입되었습니다. 로그인 화면으로 돌아갑니다.");
+        MessageBox.Show("회원가입되었습니다.");
 
-        // 로그인 화면 복귀 로직
+        await SmartUI.SendMessage("ShowLogin", viewType:TargetViewType.ParentView);
     }
 
     public void ClearData()
@@ -178,6 +197,18 @@ public partial class SignUpViewModel : MemberViewModel
     private async Task<bool> SignUpByExistMember()
     {
         var ret = await _memberUserService.SignUp(MemberUser);
+        if (ret.Item is null || !ret.IsSuccess)
+        {
+            MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
+        return true;
+    }
+
+    private async Task<bool> SignUpByNewMember() 
+    {
+        var ret = await _memberService.SignUp(Model, MemberUser);
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -220,6 +251,12 @@ public partial class SignUpViewModel : MemberViewModel
         if (!UsableId)
         {
             MessageBox.Show("사용할 수 없는 아이디입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
+        }
+
+        if (!IsPasswordMatch)
+        {
+            MessageBox.Show("비밀번호와 비밀번호 재입력값이 다릅니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
 

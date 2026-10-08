@@ -112,7 +112,8 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
                 {
                     lblRequiredId.Visibility = Visibility.Collapsed;
                 }
-
+                
+                vm.UpdateIsCheckedDuplicateId();
                 break;
         }
     }
@@ -165,32 +166,40 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
                    }
                 }
 
+                vm.UpdateIsPasswordMatch();
                 break;
 
             case "pwMUR_PasswordCheck":
-                if (!string.IsNullOrWhiteSpace(newValue))
-                {
-                    vm.UpdateIsCorrectPassword(newValue);
-                }
-
+                vm.UpdateIsPasswordMatch();
                 break;
         }
     }
+
 
     private void OnPreviewTextInput_TextEdit(object sender, System.Windows.Input.TextCompositionEventArgs e)
     {
         if (sender is not Xpf.TextEdit element) return;
 
-        var input = e.Text;
-        var regex = new Regex(@"^[0-9]$");
-
-        if (!regex.IsMatch(input))
+        switch (element.Name)
         {
-            e.Handled = true;
-            return;
+            case nameof(txtMEM_MediNo):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                    return;
+                }
+                break;
+
+            case nameof(txtMUR_LicenseNo):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                break;
         }
     }
-
 
     private void OnEditValueChanged_ComboBoxEdit(object sender, EditValueChangedEventArgs e)
     {
@@ -207,5 +216,10 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 
                 break;
         }
+    }
+
+    private bool CanInputTextByNum(string text)
+    {
+        return new Regex(@"^[0-9]$").IsMatch(text);
     }
 }

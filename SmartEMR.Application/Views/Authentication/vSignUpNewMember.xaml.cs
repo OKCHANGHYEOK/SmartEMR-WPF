@@ -126,6 +126,7 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
                     lblRequiredId.Visibility = Visibility.Collapsed;
                 }
 
+                vm.UpdateIsCheckedDuplicateId();
                 break;
 
             case "txtMEM_MediNo":
@@ -134,6 +135,7 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
                     lblRequiredMediNo.Visibility = Visibility.Collapsed;
                 }
 
+                vm.UpdateIsCheckedDuplicateMediNo();
                 break;
         }
     }
@@ -170,6 +172,31 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
         }
     }
 
+    private void OnPreviewTextInput_TextEdit(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        if (sender is not Xpf.TextEdit element) return;
+
+        switch (element.Name)
+        {
+            case nameof(txtMEM_MediNo):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                    return;
+                }
+                break;
+
+            case nameof(txtMUR_LicenseNo):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                break;
+        }
+    }
+
     private void OnEditValueChanged_PasswordEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
     {
         if (sender is not PasswordBoxEdit element) return;
@@ -190,29 +217,17 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
                    }
                 }
 
+                vm.UpdateIsPasswordMatch();
                 break;
 
             case "pwMUR_PasswordCheck":
-                if (!string.IsNullOrWhiteSpace(newValue))
-                {
-                    vm.UpdateIsCorrectPassword(newValue);
-                }
-
+                vm.UpdateIsPasswordMatch();
                 break;
         }
     }
 
-    private void OnPreviewTextInput_TextEdit(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    private bool CanInputTextByNum(string text)
     {
-        if (sender is not Xpf.TextEdit element) return;
-
-        var input = e.Text;
-        var regex = new Regex(@"^[0-9]$");
-
-        if (!regex.IsMatch(input))
-        {
-            e.Handled = true;
-            return;
-        }
+        return new Regex(@"^[0-9]$").IsMatch(text);
     }
 }

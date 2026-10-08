@@ -139,7 +139,10 @@ public class SignUpRequiredFieldValidator
         [nameof(MemberUser.MUR_Id)] = SignUpField.Id,
         [nameof(MemberUser.MUR_PassWord)] = SignUpField.Password,
 
+        [nameof(Member.MEM_BizType)] = SignUpField.BizType,
         [nameof(Member.MEM_Name)] = SignUpField.MemberName,
+        [nameof(Member.MEM_MediNo)] = SignUpField.MediNo,
+        [nameof(Member.MEM_BizNum)] = SignUpField.BizNum,
 
         [nameof(MemberUser.MUR_Department)] = SignUpField.Department,
         [nameof(MemberUser.MUR_JobCode)] = SignUpField.JobCode,
@@ -152,9 +155,7 @@ public class SignUpRequiredFieldValidator
         [nameof(MemberUser.MUR_Id)] = SignUpField.Id,
         [nameof(MemberUser.MUR_PassWord)] = SignUpField.Password,
 
-        [nameof(Member.MEM_BizType)] = SignUpField.BizType,
-        [nameof(Member.MEM_MediNo)] = SignUpField.MediNo,
-        [nameof(Member.MEM_BizNum)] = SignUpField.BizNum,
+        [nameof(Member.MEM_Name)] = SignUpField.MemberName,
 
         [nameof(MemberUser.MUR_Department)] = SignUpField.Department,
         [nameof(MemberUser.MUR_JobCode)] = SignUpField.JobCode,
