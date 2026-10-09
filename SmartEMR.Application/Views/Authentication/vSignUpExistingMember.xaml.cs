@@ -116,7 +116,7 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 
     private async void OnClick_Button(object sender, RoutedEventArgs e)
     {
-        if (sender is not Xpf.Button element) return;
+        if (sender is not System.Windows.Controls.Button element) return;
 
         switch (element.Name)
         {

@@ -2,55 +2,58 @@
 
 public enum eAPI
 {
-    CommonCode_GetCommonCode = 0,
+    Auth_RequestVerifyCode = 0,
+    Auth_SetIdentityVerification = 1,
 
-    Consultation_GetConsultation = 1,
-    Consultation_GetConsultationByRCP = 2,
-    Consultation_CancelConsultation = 3,
-    Consultation_SetConsultation = 4,
-    Consultation_SetConsultationByCST = 5,
+    CommonCode_GetCommonCode = 2,
 
-    ConsultationOrder_GetConsultationOrder = 6,
-    ConsultationOrder_SetConsultationOrder = 7,
+    Consultation_GetConsultation = 3,
+    Consultation_GetConsultationByRCP = 4,
+    Consultation_CancelConsultation = 5,
+    Consultation_SetConsultation = 6,
+    Consultation_SetConsultationByCST = 7,
 
-    Insurance_GetInsurance = 8,
-    Insurance_GetRecentInsurance = 9,
-    Insurance_SetInsurance = 10,
+    ConsultationOrder_GetConsultationOrder = 8,
+    ConsultationOrder_SetConsultationOrder = 9,
 
-    Login_login = 11,
+    Insurance_GetInsurance = 10,
+    Insurance_GetRecentInsurance = 11,
+    Insurance_SetInsurance = 12,
 
-    Member_GetMember = 12,
-    Member_GetMemberByCheckDuplicateMediNo = 13,
-    Member_SetMember = 14,
-    Member_SignUp = 15,
+    Login_login = 13,
 
-    MemberUser_GetMemberUserByCheckDuplicateId = 16,
-    MemberUser_GetMemberUser = 17,
-    MemberUser_SetMemberUser = 18,
-    MemberUser_SignUp = 19,
+    Member_GetMember = 14,
+    Member_GetMemberByCheckDuplicateMediNo = 15,
+    Member_SetMember = 16,
+    Member_SignUp = 17,
 
-    Order_GetOrder = 20,
+    MemberUser_GetMemberUserByCheckDuplicateId = 18,
+    MemberUser_GetMemberUser = 19,
+    MemberUser_SetMemberUser = 20,
+    MemberUser_SignUp = 21,
 
-    Patient_GetPatient = 21,
-    Patient_SetPatient = 22,
+    Order_GetOrder = 22,
 
-    Pay_GetPay = 23,
-    Pay_SetPay = 24,
-    Pay_CancelPay = 25,
+    Patient_GetPatient = 23,
+    Patient_SetPatient = 24,
 
-    PayItem_GetPayItem = 26,
-    PayItem_SetPayItem = 27,
+    Pay_GetPay = 25,
+    Pay_SetPay = 26,
+    Pay_CancelPay = 27,
 
-    Reception_CancelReception = 28,
-    Reception_GetReception = 29,
-    Reception_GetReceptionBoard = 30,
-    Reception_SetReception = 31,
-    Reception_SetReceptionByRES = 32,
+    PayItem_GetPayItem = 28,
+    PayItem_SetPayItem = 29,
 
-    Reservation_GetReservation = 33,
-    Reservation_MoveReservationDate = 34,
-    Reservation_SetReservation = 35,
-    Reservation_SetReservationByStatus = 36,
+    Reception_CancelReception = 30,
+    Reception_GetReception = 31,
+    Reception_GetReceptionBoard = 32,
+    Reception_SetReception = 33,
+    Reception_SetReceptionByRES = 34,
 
-    NaverPay_ApplyPayment = 37
+    Reservation_GetReservation = 35,
+    Reservation_MoveReservationDate = 36,
+    Reservation_SetReservation = 37,
+    Reservation_SetReservationByStatus = 38,
+
+    NaverPay_ApplyPayment = 39
 }

@@ -3,10 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Common.Validator;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Services.Authentication;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -19,42 +21,21 @@ public enum SignUpType
 
 public partial class SignUpViewModel : MemberViewModel
 {
+    public MemberUser MemberUser { get; set; } = new();
+
     [ObservableProperty]
     private SignUpType signUpType = SignUpType.NONE;
 
-    [ObservableProperty]
-    private bool isCheckedDuplicateId = false;
-    [ObservableProperty]
-    private bool usableId = false;
-
-    [ObservableProperty]
-    private bool usablePassword = false;
-    [ObservableProperty]
-    private bool isPasswordMatch = false;
-
-    [ObservableProperty]
-    private bool isCheckedDuplicateMediNo = false;
-    [ObservableProperty]
-    private bool usableMediNo = false;
-
-    [ObservableProperty]
-    private SignUpField validationTarget = SignUpField.None;
-    [ObservableProperty]
-    private int validationRequestId;
-
-    // 비밀번호에 입력 가능한 문자 체크용
-    private static readonly Regex _passwordCharacterRegex = new(@"^[A-Za-z0-9!@#$%]+$");
-    // 비밀번호 형식 체크용
-    private static readonly Regex _passwordRegex = new(@"^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%])[A-Za-z0-9!@#$%]{8,20}$");
-
+    protected readonly IAuthService _authService;
     protected readonly IMemberUserService _memberUserService;
 
-    public SignUpViewModel(IMemberService memberService, IMemberUserService memberUserService) : base(memberService)
+    public SignUpViewModel(IAuthService authService,
+                           IMemberService memberService, 
+                           IMemberUserService memberUserService) : base(memberService)
     {
+        _authService = authService;
         _memberUserService = memberUserService;
     }
-
-    public MemberUser MemberUser { get; set; } = new();
 
     public void SetSignUpType(SignUpType type)
     {
@@ -67,103 +48,7 @@ public partial class SignUpViewModel : MemberViewModel
 
         SmartMVVM.ModelProperty.SetMemberData(Model, selectedItem);
     }
-
-    public bool CanInputPassword(string input)
-    {
-        return _passwordCharacterRegex.IsMatch(input);
-    }
-
-    public bool CanUsePassword(string password)
-    {
-        var isMatch = _passwordRegex.IsMatch(password);
-
-        UsablePassword = isMatch;
-
-        return isMatch;
-    }
-
-    public void UpdateIsCheckedDuplicateId()
-    {
-        if (IsCheckedDuplicateId)
-        {
-            IsCheckedDuplicateId = false;
-        }
-    }
-
-    public void UpdateIsCheckedDuplicateMediNo()
-    {
-        if (IsCheckedDuplicateMediNo)
-        {
-            IsCheckedDuplicateMediNo = false;
-        }
-    }
-
-    public void UpdateIsPasswordMatch()
-    {
-        IsPasswordMatch = string.Equals(MemberUser.MUR_PassWord, MemberUser.MUR_PassWordCheck, StringComparison.CurrentCulture);
-    }
-
-    public async Task<CheckDuplicateResult> CheckDuplicateId()
-    {
-        if (string.IsNullOrWhiteSpace(MemberUser.MUR_Id))
-        {
-            return new CheckDuplicateResult(DuplicateResultCode.EmptyInput, "아이디를 입력하지 않았습니다.");
-        }
-
-        var ret = await _memberUserService.GetMemberUserByCheckDuplicateId(MemberUser.MUR_Id);
-        if (!ret.IsSuccess)
-        {
-            MessageBox.Show($"{ret.Message}\n잠시후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
-            return new CheckDuplicateResult(DuplicateResultCode.ErrorOccured, "");
-        } 
-
-        IsCheckedDuplicateId = true;
-
-        if (ret.Item != null && ret.Item.MUR_Idx > 0)
-        {
-            UsableId = false;
-            return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
-        }
-        else
-        {
-            UsableId = true;
-            return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
-        }
-    }
-
-    public async Task<CheckDuplicateResult> CheckDuplicateMediNo()
-    {
-        if (string.IsNullOrWhiteSpace(Model.MEM_MediNo))
-        {
-            return new CheckDuplicateResult(DuplicateResultCode.EmptyInput, "요양기관번호를 입력해주세요.");
-        }
-
-        if (Model.MEM_MediNo.Length < 8)
-        {
-            return new CheckDuplicateResult(DuplicateResultCode.UnValidInput, "요양기관번호가 올바르지 않습니다.");
-        }
-
-        var ret = await _memberService.GetMemberByDuplicateMediNo(Model.MEM_MediNo);
-        if (!ret.IsSuccess)
-        {
-            MessageBox.Show($"{ret.Message}\n잠시후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
-            return new CheckDuplicateResult(DuplicateResultCode.ErrorOccured, "");
-        }
-
-        IsCheckedDuplicateMediNo = true;
-
-        if (ret.Item != null && ret.Item.MEM_Idx > 0)
-        {
-            UsableMediNo = false;
-            return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
-        }
-        else
-        {
-            UsableMediNo = true;
-            return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
-        }
-    }
-
+   
     [RelayCommand]
     private async Task SignUpRequest()
     {
@@ -229,6 +114,226 @@ public partial class SignUpViewModel : MemberViewModel
 
         return ret.Item;
     }
+}
+
+#region "Veritication"
+
+public partial class SignUpViewModel
+{
+    private DispatcherTimer? _verifyTimer;
+
+    [ObservableProperty]
+    private bool isRequestVerifyCode = false;
+
+    [ObservableProperty]
+    private TimeSpan verifylimitTime = TimeSpan.FromMinutes(10);
+    [ObservableProperty]
+    private string verifyLimitTimeText = "10:00";
+
+    [ObservableProperty]
+    private string identityVerificationCode = "";
+    [ObservableProperty]
+    private bool isIdentityVerification = false;
+
+
+    private void StartVerifyTimer()
+    {
+        _verifyTimer?.Stop();
+
+        VerifylimitTime = TimeSpan.FromMinutes(10);
+
+        UpdateVerifyLimitTimeText();
+
+        _verifyTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(1)
+        };
+
+        _verifyTimer.Tick += VerifyTimer_Tick;
+        _verifyTimer.Start();
+    }
+
+    private void UpdateVerifyLimitTimeText()
+    {
+        VerifyLimitTimeText = $"{(int)VerifylimitTime.TotalMinutes:D2}:{VerifylimitTime.Seconds:D2}";
+    }
+
+    private void VerifyTimer_Tick(object? sender, EventArgs e)
+    {
+        if (_verifyTimer is null) return;
+
+        if (VerifylimitTime <= TimeSpan.Zero)
+        {
+            _verifyTimer.Stop();
+
+            VerifylimitTime = TimeSpan.Zero;
+
+            UpdateVerifyLimitTimeText();
+
+            // TODO 인증코드 만료 상태 처리
+            return;
+        }
+
+        VerifylimitTime -= TimeSpan.FromSeconds(1);
+
+        UpdateVerifyLimitTimeText();
+    }
+
+
+    [RelayCommand]
+    private async Task RequestVerify()
+    {
+        if (string.IsNullOrWhiteSpace(MemberUser.MUR_Email))
+        {
+            MessageBox.Show("이메일을 입력해주세요.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var ret = await _authService.RequestVerifyCode(MemberUser.MUR_Email);
+        if (!ret.IsSuccess || !string.IsNullOrWhiteSpace(ret.Message))
+        {
+            MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        IsRequestVerifyCode = true;
+
+        MessageBox.Show("인증코드 메일이 발송되었습니다.", "확인", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        StartVerifyTimer();
+    }
+}
+
+#endregion
+
+
+#region "Validation"
+
+public partial class SignUpViewModel
+{
+    [ObservableProperty]
+    private bool isCheckedDuplicateId = false;
+    [ObservableProperty]
+    private bool usableId = false;
+
+    [ObservableProperty]
+    private bool usablePassword = false;
+    [ObservableProperty]
+    private bool isPasswordMatch = false;
+
+    [ObservableProperty]
+    private bool isCheckedDuplicateMediNo = false;
+    [ObservableProperty]
+    private bool usableMediNo = false;
+
+    [ObservableProperty]
+    private SignUpField validationTarget = SignUpField.None;
+    [ObservableProperty]
+    private int validationRequestId;
+
+
+    // 비밀번호에 입력 가능한 문자 체크용
+    private static readonly Regex _passwordCharacterRegex = new(@"^[A-Za-z0-9!@#$%]+$");
+    // 비밀번호 형식 체크용
+    private static readonly Regex _passwordRegex = new(@"^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%])[A-Za-z0-9!@#$%]{8,20}$");
+
+
+    public bool CanInputPassword(string input)
+    {
+        return _passwordCharacterRegex.IsMatch(input);
+    }
+
+    public bool CanUsePassword(string password)
+    {
+        var isMatch = _passwordRegex.IsMatch(password);
+
+        UsablePassword = isMatch;
+
+        return isMatch;
+    }
+
+    public void UpdateIsCheckedDuplicateId()
+    {
+        if (IsCheckedDuplicateId)
+        {
+            IsCheckedDuplicateId = false;
+        }
+    }
+
+    public void UpdateIsCheckedDuplicateMediNo()
+    {
+        if (IsCheckedDuplicateMediNo)
+        {
+            IsCheckedDuplicateMediNo = false;
+        }
+    }
+
+    public void UpdateIsPasswordMatch()
+    {
+        IsPasswordMatch = string.Equals(MemberUser.MUR_PassWord, MemberUser.MUR_PassWordCheck, StringComparison.CurrentCulture);
+    }
+
+    public async Task<CheckDuplicateResult> CheckDuplicateId()
+    {
+        if (string.IsNullOrWhiteSpace(MemberUser.MUR_Id))
+        {
+            return new CheckDuplicateResult(DuplicateResultCode.EmptyInput, "아이디를 입력하지 않았습니다.");
+        }
+
+        var ret = await _memberUserService.GetMemberUserByCheckDuplicateId(MemberUser.MUR_Id);
+        if (!ret.IsSuccess)
+        {
+            MessageBox.Show($"{ret.Message}\n잠시후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return new CheckDuplicateResult(DuplicateResultCode.ErrorOccured, "");
+        }
+
+        IsCheckedDuplicateId = true;
+
+        if (ret.Item != null && ret.Item.MUR_Idx > 0)
+        {
+            UsableId = false;
+            return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
+        }
+        else
+        {
+            UsableId = true;
+            return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
+        }
+    }
+
+    public async Task<CheckDuplicateResult> CheckDuplicateMediNo()
+    {
+        if (string.IsNullOrWhiteSpace(Model.MEM_MediNo))
+        {
+            return new CheckDuplicateResult(DuplicateResultCode.EmptyInput, "요양기관번호를 입력해주세요.");
+        }
+
+        if (Model.MEM_MediNo.Length < 8)
+        {
+            return new CheckDuplicateResult(DuplicateResultCode.UnValidInput, "요양기관번호가 올바르지 않습니다.");
+        }
+
+        var ret = await _memberService.GetMemberByDuplicateMediNo(Model.MEM_MediNo);
+        if (!ret.IsSuccess)
+        {
+            MessageBox.Show($"{ret.Message}\n잠시후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return new CheckDuplicateResult(DuplicateResultCode.ErrorOccured, "");
+        }
+
+        IsCheckedDuplicateMediNo = true;
+
+        if (ret.Item != null && ret.Item.MEM_Idx > 0)
+        {
+            UsableMediNo = false;
+            return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
+        }
+        else
+        {
+            UsableMediNo = true;
+            return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
+        }
+    }
+
 
     private bool RequestValidation(SignUpField field)
     {
@@ -285,8 +390,10 @@ public partial class SignUpViewModel : MemberViewModel
                 MessageBox.Show("사용할 수 없는 요양기관번호입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
-        } 
+        }
 
         return true;
     }
 }
+
+#endregion
