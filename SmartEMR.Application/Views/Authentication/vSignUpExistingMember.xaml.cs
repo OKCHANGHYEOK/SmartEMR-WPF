@@ -1,13 +1,9 @@
-﻿using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Markup;
 using System.Text.RegularExpressions;
 using SmartEMR.Application.Common;
-using SmartEMR.Application.Common.Converter.Base;
 using SmartEMR.Application.Common.Validator;
-using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;

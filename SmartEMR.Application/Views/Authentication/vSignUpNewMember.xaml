@@ -50,7 +50,8 @@
         <Xpf:StyleGrid  LayoutDefinitions="2,17"
                         ColumnSizeDefinitions="0.3*,*"
                         RowSizeDefinitions="*,*,*,20,*,20,*,*,*,*,*,20,*,*,*,*"
-                        Margin="0,15,0,0">
+                        Margin="0,15,0,0"
+                        FocusManager.IsFocusScope="True">
 
             <StackPanel Grid.Column="0"
                         Grid.Row="0"
@@ -91,7 +92,7 @@
             <Xpf:TextEdit   x:Name="txtMUR_Name"
                             Grid.Column="1"
                             Grid.Row="1"
-                            Text="{Binding MemberUser.MUR_Name}"
+                            EditValue="{Binding MemberUser.MUR_Name, UpdateSourceTrigger=PropertyChanged}"
                             NullText="이름을 입력하세요."
                             HorizontalAlignment="Stretch"   
                             BorderBrush="#DDE5EF"
@@ -124,7 +125,7 @@
 
                 <Xpf:TextEdit   x:Name="txtMUR_Id"
                                 Grid.Column="0"
-                                EditValue="{Binding MemberUser.MUR_Id}"
+                                EditValue="{Binding MemberUser.MUR_Id, UpdateSourceTrigger=PropertyChanged}"
                                 NullText="사용하실 아이디를 입력하세요."
                                 HorizontalAlignment="Stretch"
                                 BorderBrush="#DDE5EF"
@@ -356,7 +357,7 @@
             <Xpf:ComboBoxEdit   x:Name="cmbMEM_BizType"
                                 Grid.Column="1"
                                 Grid.Row="8"
-                                EditValue="{Binding Model.MEM_BizType}"
+                                EditValue="{Binding Model.MEM_BizType, UpdateSourceTrigger=PropertyChanged}"
                                 NullText="기관종구분을 선택하세요."
                                 ItemsSource="{x:Static selection:InputOptionItems.BizTypes}"
                                 DisplayMember="vMEM_BizType"
@@ -386,7 +387,7 @@
             <Xpf:TextEdit   x:Name="txtMEM_Name"
                             Grid.Column="1"
                             Grid.Row="9"
-                            EditValue="{Binding Model.MEM_Name}"
+                            EditValue="{Binding Model.MEM_Name, UpdateSourceTrigger=PropertyChanged}"
                             NullText="기관명을 입력하세요."
                             BorderBrush="#DDE5EF"
                             CornerRadius="4"
@@ -540,19 +541,18 @@
 
 
             <Xpf:ComboBoxEdit   x:Name="cmbMUR_Department"
-                            Grid.Column="1"
-                            Grid.Row="14"
-                            EditValue="{Binding MemberUser.MUR_Department}"
-                            NullText="부서를 선택하세요."
-                            ItemsSource="{x:Static selection:InputOptionItems.Departments}"
-                            DisplayMember="vMUR_Department"
-                            ValueMember="MUR_Department"
-                            BorderBrush="#DDE5EF"
-                            CornerRadius="4"
-                            HorizontalAlignment="Stretch"
-                            Padding="5"
-                            Margin="0,10,0,0"/>
-
+                                Grid.Column="1"
+                                Grid.Row="14"
+                                EditValue="{Binding MemberUser.MUR_Department, UpdateSourceTrigger=PropertyChanged}"
+                                NullText="부서를 선택하세요."
+                                ItemsSource="{x:Static selection:InputOptionItems.Departments}"
+                                DisplayMember="vMUR_Department"
+                                ValueMember="MUR_Department"
+                                BorderBrush="#DDE5EF"
+                                CornerRadius="4"
+                                HorizontalAlignment="Stretch"
+                                Padding="5"
+                                Margin="0,10,0,0"/>
 
             <Xpf:TextBlock  Grid.Column="0"
                         Grid.Row="15"
@@ -571,39 +571,39 @@
             </Xpf:TextBlock>
 
             <Xpf:ComboBoxEdit   x:Name="cmbMUR_JobCode"
-                            Grid.Column="1"
-                            Grid.Row="15"
-                            EditValue="{Binding MemberUser.MUR_JobCode}"
-                            NullText="직책을 선택하세요."
-                            ItemsSource="{Binding MemberUser.MUR_Department, Converter={local:DepartmentToJobCodeItemsSourceConverter}}"
-                            DisplayMember="vMUR_JobCode"
-                            ValueMember="MUR_JobCode"
-                            BorderBrush="#DDE5EF"
-                            CornerRadius="4"
-                            HorizontalAlignment="Stretch"
-                            Padding="5"
-                            Margin="0,10,0,0"/>
+                                Grid.Column="1"
+                                Grid.Row="15"
+                                EditValue="{Binding MemberUser.MUR_JobCode, UpdateSourceTrigger=PropertyChanged}"
+                                NullText="직책을 선택하세요."
+                                ItemsSource="{Binding MemberUser.MUR_Department, Converter={local:DepartmentToJobCodeItemsSourceConverter}}"
+                                DisplayMember="vMUR_JobCode"
+                                ValueMember="MUR_JobCode"
+                                BorderBrush="#DDE5EF"
+                                CornerRadius="4"
+                                HorizontalAlignment="Stretch"
+                                Padding="5"
+                                Margin="0,10,0,0"/>
 
             <Xpf:TextBlock  Grid.Column="0"
-                        Grid.Row="16"
-                        HorizontalAlignment="Stretch"
-                        Margin="0,10,0,0">
+                            Grid.Row="16"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,10,0,0">
 
                 <Run Foreground="#294A70"
-                 FontSize="12"
-                 FontWeight="SemiBold">
+                     FontSize="12"
+                     FontWeight="SemiBold">
                     의료면허번호
                 </Run>
 
                 <Run Text="*" 
-                 Foreground="IndianRed"
-                 FontWeight="Bold"/>
+                     Foreground="IndianRed"
+                     FontWeight="Bold"/>
             </Xpf:TextBlock>
 
             <Xpf:TextEdit   x:Name="txtMUR_LicenseNo"
                             Grid.Column="1"
                             Grid.Row="16"
-                            EditValue="{Binding MemberUser.MUR_LicenseNo}"
+                            EditValue="{Binding MemberUser.MUR_LicenseNo, UpdateSourceTrigger=PropertyChanged}"
                             NullText="의료면허번호를 입력하세요. (의료인인 경우에만 입력)"
                             MaxLength="20"
                             BorderBrush="#DDE5EF"

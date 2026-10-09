@@ -75,7 +75,7 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
 
                 if (!retLogin.IsSuccess)
                 {
-                    SmartUI.MsgConfirm($"로그인 실패 {retLogin.Message}");
+                    SmartUI.MsgConfirm($"로그인 실패.\n {retLogin.Message}");
                     return;
                 }
 

@@ -59,6 +59,7 @@ public class ModelProperty
         item.MUR_Name = "";
         item.MUR_Id = "";
         item.MUR_PassWord = "";
+        item.MUR_PassWordCheck = "";
         item.MUR_Department = "";
         item.MUR_JobCode = "";
         item.MUR_Role = "";

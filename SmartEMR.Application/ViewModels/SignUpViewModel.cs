@@ -173,25 +173,31 @@ public partial class SignUpViewModel : MemberViewModel
     public async Task SignUp()
     {
         if (!CanSignUp()) return;
-        
+
+        MemberUser? loginUser = null;
+
         if (this.SignUpType == SignUpType.NEW)
         {
-            if (!await SignUpByNewMember())
-            {
+            var ret = await SignUpByNewMember();
+            if (ret is null || ret.MURItem is null)
                 return;
-            }
+
+            loginUser = ret.MURItem;
         }
         else if (this.SignUpType == SignUpType.EXIST)
         {
-            if (!await SignUpByExistMember())
-            {
+            var ret = await SignUpByExistMember();
+            if (ret is null)
                 return;
-            }
+
+            loginUser = ret;
         }
+
+        ClearData();
 
         MessageBox.Show("회원가입되었습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
 
-        await SmartUI.SendMessage("ShowLogin", viewType:TargetViewType.ParentView);
+        await SmartUI.SendMessage("ShowLogin", loginUser, viewType:TargetViewType.ParentView);
     }
 
     public void ClearData()
@@ -200,28 +206,28 @@ public partial class SignUpViewModel : MemberViewModel
         SmartMVVM.ModelProperty.ClearMURData(MemberUser);
     }
 
-    private async Task<bool> SignUpByExistMember()
+    private async Task<MemberUser?> SignUpByExistMember()
     {
         var ret = await _memberUserService.SignUp(MemberUser);
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
-            return false;
+            return null;
         }
 
-        return true;
+        return ret.Item;
     }
 
-    private async Task<bool> SignUpByNewMember() 
+    private async Task<Member?> SignUpByNewMember() 
     {
         var ret = await _memberService.SignUp(Model, MemberUser);
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
-            return false;
+            return null;
         }
 
-        return true;
+        return ret.Item;
     }
 
     private bool RequestValidation(SignUpField field)
