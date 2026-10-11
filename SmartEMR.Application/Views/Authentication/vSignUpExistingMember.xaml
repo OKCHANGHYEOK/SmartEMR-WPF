@@ -273,15 +273,28 @@
                             ColumnSizeDefinitions="*,5,Auto"
                             Margin="0,10,0,0">
                 
-            <Xpf:TextEdit   x:Name="txtVerifyCode"
-                            Grid.Column="0"
-                            EditValue="{Binding IdentityVerificationCode, UpdateSourceTrigger=PropertyChanged}"
-                            NullText="인증코드를 입력하세요."
-                            HorizontalAlignment="Stretch"   
-                            BorderBrush="#DDE5EF"
-                            BorderThickness="1.5"
-                            CornerRadius="4"
-                            Padding="5"/>
+                <Xpf:TextEdit   x:Name="txtVerifyCode"
+                                Grid.Column="0"
+                                EditValue="{Binding IdentityVerificationCode, UpdateSourceTrigger=PropertyChanged}"
+                                NullText="인증코드를 입력하세요."
+                                HorizontalAlignment="Stretch"   
+                                BorderBrush="#DDE5EF"
+                                BorderThickness="1.5"
+                                CornerRadius="4"
+                                Padding="5"/>
+
+                <Border Grid.Column="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Width="18"
+                        Height="18"
+                        Margin="0,0,4,0"
+                        Visibility="{Binding IsIdentityVerified, Converter={converter:BooleanToVisibilityConverter}}">
+
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Images/smartemr_check.png"/>
+                    </Border.Background>
+                </Border>
 
                 <dxc:SimpleButton x:Name="btnVerifyEmail"
                                   Grid.Column="2"
@@ -295,11 +308,10 @@
                                   BorderBrush="#294A70"
                                   CornerRadius="4"
                                   Cursor="Hand"
-                                  VerticalAlignment="Center">
+                                  VerticalAlignment="Center"
+                                  Command="{Binding RequestVerifyCheckCommand}">
                 </dxc:SimpleButton>
             </Xpf:StyleGrid>
-            
-
 
             <Xpf:TextBlock  Grid.Column="0"
                             Grid.Row="6"

@@ -133,7 +133,7 @@ public partial class SignUpViewModel
     [ObservableProperty]
     private string identityVerificationCode = "";
     [ObservableProperty]
-    private bool isIdentityVerification = false;
+    private bool isIdentityVerified = false;
 
 
     private void StartVerifyTimer()
@@ -200,7 +200,30 @@ public partial class SignUpViewModel
 
         MessageBox.Show("인증코드 메일이 발송되었습니다.", "확인", MessageBoxButton.OK, MessageBoxImage.Information);
 
+        IsIdentityVerified = false;
+
         StartVerifyTimer();
+    }
+
+    [RelayCommand]
+    private async Task RequestVerifyCheck()
+    {
+        if (string.IsNullOrWhiteSpace(IdentityVerificationCode))
+        {
+            MessageBox.Show("인증코드를 입력해주세요.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Email = MemberUser.MUR_Email, EV_CodeHash = IdentityVerificationCode });
+        if (ret.Item is null || !ret.IsSuccess)
+        {
+            MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        IsIdentityVerified = true;
+
+        MessageBox.Show("본인인증 완료되었습니다.", "확인", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 }
 
@@ -368,6 +391,12 @@ public partial class SignUpViewModel
         if (!UsableId)
         {
             MessageBox.Show("사용할 수 없는 아이디입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
+        }
+
+        if (!IsIdentityVerified)
+        {
+            MessageBox.Show("이메일 본인인증을 진행해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
 

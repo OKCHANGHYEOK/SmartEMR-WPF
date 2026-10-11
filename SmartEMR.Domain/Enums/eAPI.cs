@@ -3,7 +3,7 @@
 public enum eAPI
 {
     Auth_RequestVerifyCode = 0,
-    Auth_SetIdentityVerification = 1,
+    Auth_RequestVerifyCheck = 1,
 
     CommonCode_GetCommonCode = 2,
 
