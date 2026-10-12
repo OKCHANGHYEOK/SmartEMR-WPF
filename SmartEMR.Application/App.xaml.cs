@@ -16,6 +16,7 @@ using SmartEMR.Infrastructure;
 using SmartEMR.Application.Services.Domain;
 using SmartEMR.Application.Windows;
 using System.Diagnostics;
+using SmartEMR.Application.Services.Authentication;
 
 namespace SmartEMR.Application
 {
@@ -85,6 +86,7 @@ namespace SmartEMR.Application
 
             services.AddSingleton<IDataStore>(_ => SmartMVVM.DataStore);
 
+            services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<IMemberService, MemberService>();
             services.AddSingleton<IMemberUserService, MemberUserService>();
             services.AddSingleton<IPatientService, PatientService>();

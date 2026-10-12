@@ -27,6 +27,13 @@ public partial class LoginViewModel : BaseViewModel<MemberUser>
         return item;
     }
 
+    public void SetMemberUserById(MemberUser item)
+    {
+        if (item.MUR_Idx.GetValueOrDefault(0) == 0) return;
+
+        Model.MUR_Id = item.MUR_Id;
+    }
+
     [RelayCommand]
     public async Task<DataResponse<MemberUser>> AttemptLogin()
     {

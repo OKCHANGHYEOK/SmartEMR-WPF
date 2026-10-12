@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.Authentication;
 
@@ -38,6 +39,12 @@ public partial class vStartUp : ModelViewLayout<StartUpViewModel>
                 break;
 
             case "ShowLogin":
+                var paramItem = request.MessageParameter as MemberUser;
+                if (paramItem is not null)
+                {
+                    LoginView.SetMemberUserById(paramItem);
+                }
+                
                 ShowLogin();
                 break;
 

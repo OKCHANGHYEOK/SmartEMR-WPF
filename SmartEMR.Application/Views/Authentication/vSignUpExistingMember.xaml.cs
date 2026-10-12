@@ -1,13 +1,9 @@
-﻿using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Markup;
 using System.Text.RegularExpressions;
 using SmartEMR.Application.Common;
-using SmartEMR.Application.Common.Converter.Base;
 using SmartEMR.Application.Common.Validator;
-using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -120,7 +116,7 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 
     private async void OnClick_Button(object sender, RoutedEventArgs e)
     {
-        if (sender is not Xpf.Button element) return;
+        if (sender is not System.Windows.Controls.Button element) return;
 
         switch (element.Name)
         {

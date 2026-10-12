@@ -51,6 +51,11 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
     {
     }
 
+    public void SetMemberUserById(MemberUser item)
+    {
+        vm.SetMemberUserById(item);
+    }
+
     private async void OnClick_Button(object sender, System.Windows.RoutedEventArgs e)
     {
         if (sender is not Button element) return;
