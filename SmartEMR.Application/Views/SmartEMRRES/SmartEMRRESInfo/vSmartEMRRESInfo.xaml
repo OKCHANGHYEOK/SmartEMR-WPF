@@ -15,6 +15,7 @@
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         xmlns:template="clr-namespace:SmartEMR.Application.Template"
                         xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
+                        xmlns:enums="clr-namespace:SmartEMR.Application.Enums"
                         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
@@ -382,7 +383,7 @@
                                         Margin="0,0,2,0"
                                         Cursor="Hand"
                                         Command="{Binding SetReservationCommand}"
-                                        CommandParameter="{x:Static common:SaveMode.SAVE}"/>
+                                        CommandParameter="{x:Static enums:SaveMode.SAVE}"/>
                 </Xpf:StyleGrid>
             </Xpf:LayoutPanel>
         </dxd:LayoutGroup>

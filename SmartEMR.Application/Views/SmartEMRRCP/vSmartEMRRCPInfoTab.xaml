@@ -9,6 +9,7 @@
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:enums="clr-namespace:SmartEMR.Application.Enums"
                       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                       xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                       xmlns:local="clr-namespace:SmartEMR.Application.Views.SmartEMRRCP"
@@ -42,38 +43,38 @@
                             VerticalAlignment="Center">
 
                 <Xpf:Button x:Name="btnCancelRCP"
-                         Grid.Column="0"
-                         Content="접수취소"
-                         Glyph="/Images/smartemr_cancel.png"
-                         Width="90"
-                         MinHeight="24"
-                         Height="24"
-                         Margin="2,0,0,0"
-                         Command="{Binding SetReceptionCommand}"
-                         CommandParameter="{x:Static common:SaveMode.DELETE}"
-                         IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
+                            Grid.Column="0"
+                            Content="접수취소"
+                            Glyph="/Images/smartemr_cancel.png"
+                            Width="90"
+                            MinHeight="24"
+                            Height="24"
+                            Margin="2,0,0,0"
+                            Command="{Binding SetReceptionCommand}"
+                            CommandParameter="{x:Static enums:SaveMode.DELETE}"
+                            IsEnabled="{Binding Model.RCP_Idx, Converter={common:IntToBooleanConverter invert=True}}"/>
 
                 <Xpf:Button x:Name="btnClear"
-                         Grid.Column="1"
-                         Content="초기화"
-                         Glyph="/Images/smartemr_empty_paper.png"
-                         Width="90"
-                         MinHeight="24"
-                         Height="24"
-                         HorizontalAlignment="Right"
-                         Margin="2"
-                         Click="OnClick_Button"/>
+                            Grid.Column="1"
+                            Content="초기화"
+                            Glyph="/Images/smartemr_empty_paper.png"
+                            Width="90"
+                            MinHeight="24"
+                            Height="24"
+                            HorizontalAlignment="Right"
+                            Margin="2"
+                            Click="OnClick_Button"/>
 
                 <Xpf:Button x:Name="btnSaveRCP"
-                         Grid.Column="3"
-                         Content="{Binding Model.RCP_Idx, Converter={local:RCP_IdxToContentConverter}}"
-                         Glyph="/Images/smartemr_save.png"
-                         Width="90"
-                         MinHeight="24"
-                         Height="24"
-                         Margin="0,0,2,0"
-                         Command="{Binding SetReceptionCommand}"
-                         CommandParameter="{x:Static common:SaveMode.SAVE}">
+                            Grid.Column="3"
+                            Content="{Binding Model.RCP_Idx, Converter={local:RCP_IdxToContentConverter}}"
+                            Glyph="/Images/smartemr_save.png"
+                            Width="90"
+                            MinHeight="24"
+                            Height="24"
+                            Margin="0,0,2,0"
+                            Command="{Binding SetReceptionCommand}"
+                            CommandParameter="{x:Static enums:SaveMode.SAVE}">
                 </Xpf:Button>
             </Xpf:StyleGrid>
         </Border>

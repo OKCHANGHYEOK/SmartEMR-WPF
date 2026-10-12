@@ -12,67 +12,6 @@ using System.Windows.Media;
 
 namespace SmartEMR.Application.Common;
 
-public enum eSmartEMRLocation 
-{ 
-    RES = 0,
-    DSK = 1,
-    CST = 2,
-    PAY = 3,
-    CRM = 4,
-    CONFIG = 5
-}
-
-public enum ePatientHistoryType
-{
-    RES,
-    RCP,
-    CST,
-    CSTO,
-    PAY
-}
-
-public enum eBirthType
-{
-    Year,
-    Month,
-    Day
-}
-
-public enum SaveMode
-{
-    SAVE,
-    DELETE
-}
-
-public enum FromViewType
-{
-    VIEW,
-    POPUP
-}
-
-public enum ConsultationStatus
-{
-    RDY,
-    PND,
-    ING,
-    END
-}
-
-public enum CopaymentType
-{
-    General,
-    Senior
-}
-
-public enum DuplicateResultCode
-{
-    EmptyInput,
-    UnValidInput,
-    ErrorOccured,
-    HasDuplicate,
-    NotDuplicate
-}
-
 public record CheckDuplicateResult(DuplicateResultCode resultCode, string? Message);
 
 public partial class Common

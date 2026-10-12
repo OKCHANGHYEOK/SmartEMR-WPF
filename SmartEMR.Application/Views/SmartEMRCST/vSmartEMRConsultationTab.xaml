@@ -11,6 +11,7 @@
                       xmlns:patient="clr-namespace:SmartEMR.Application.Views.Patients"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:enums="clr-namespace:SmartEMR.Application.Enums"
                       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                       xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                       mc:Ignorable="d"
@@ -101,7 +102,7 @@
                                                 IsEnabled="{Binding Model.RCP_Idx, Converter={converter:IntToBooleanConverter Invert=True}}"
                                                 dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                 Command="{Binding SetConsultationCommand}"
-                                                CommandParameter="{x:Static common:ConsultationStatus.RDY}"/>
+                                                CommandParameter="{x:Static enums:ConsultationStatus.RDY}"/>
 
                             <dxc:SimpleButton   Grid.Column="2"
                                                 Tag="btnPending"
@@ -116,7 +117,7 @@
                                                 IsEnabled="{Binding Model.RCP_Idx, Converter={converter:IntToBooleanConverter Invert=True}}"
                                                 dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                 Command="{Binding SetConsultationCommand}"
-                                                CommandParameter="{x:Static common:ConsultationStatus.PND}"/>
+                                                CommandParameter="{x:Static enums:ConsultationStatus.PND}"/>
 
                             <dxc:SimpleButton   Grid.Column="3"
                                                 Tag="btnContinue"
@@ -131,7 +132,7 @@
                                                 IsEnabled="{Binding Model.RCP_Idx, Converter={converter:IntToBooleanConverter Invert=True}}"
                                                 dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                 Command="{Binding SetConsultationCommand}"
-                                                CommandParameter="{x:Static common:ConsultationStatus.ING}"/>
+                                                CommandParameter="{x:Static enums:ConsultationStatus.ING}"/>
 
                             <dxc:SimpleButton   Grid.Column="4"
                                                 Tag="btnFinish"
@@ -146,7 +147,7 @@
                                                 IsEnabled="{Binding Model.RCP_Idx, Converter={converter:IntToBooleanConverter Invert=True}}"
                                                 dxc:ThemeManager.ThemeName="Office2016Colorful"
                                                 Command="{Binding SetConsultationCommand}"
-                                                CommandParameter="{x:Static common:ConsultationStatus.END}"/>
+                                                CommandParameter="{x:Static enums:ConsultationStatus.END}"/>
 
                             <dxc:SimpleButton   Grid.Column="5"
                                                 Tag="btnClear"

@@ -13,6 +13,7 @@
                         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/docking"
                         xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         xmlns:common="clr-namespace:SmartEMR.Application.Common"
+                        xmlns:enums="clr-namespace:SmartEMR.Application.Enums"
                         xmlns:selections="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                         mc:Ignorable="d" 
                         ViewSize="610,400">
@@ -134,7 +135,7 @@
                                     MaxLength="8"
                                     IsNumericOnly="True"/>
 
-                    <Xpf:BindItem   FieldName="PAT_IsSolar"
+                    <Xpf:BindItem   FieldName="PAT_CalendarType"
                                     BindType="ComboBox"
                                     Width="52"
                                     Margin="2"
@@ -322,7 +323,7 @@
                             VerticalContentAlignment="Center"
                             Margin="2,0,0,0"
                             Command="{Binding SetPatientCommand}"
-                            CommandParameter="{x:Static common:SaveMode.DELETE}"
+                            CommandParameter="{x:Static enums:SaveMode.DELETE}"
                             IsEnabled="{Binding PATItem.PAT_Idx, RelativeSource={RelativeSource AncestorType={x:Type local:vPatientInfo}},Converter={common:IntToBooleanConverter invert=True}}">
 
                     <Xpf:Button.Background>
@@ -353,7 +354,7 @@
                             VerticalContentAlignment="Center"
                             Margin="0,0,2,0"
                             Command="{Binding SetPatientCommand}"
-                            CommandParameter="{x:Static common:SaveMode.SAVE}">
+                            CommandParameter="{x:Static enums:SaveMode.SAVE}">
 
                     <Xpf:Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
