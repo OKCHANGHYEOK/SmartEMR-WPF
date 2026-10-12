@@ -88,8 +88,8 @@ public class Master
         // PAT_Sex
         foreach (var item in reference.PAT_Sex) AddMasterItem("PAT_Sex", item);
 
-        // PAT_IsSolar
-        foreach (var item in reference.PAT_IsSolar) AddMasterItem("PAT_IsSolar", item);
+        // PAT_CalendarType
+        foreach (var item in reference.PAT_CalendarType) AddMasterItem("PAT_CalendarType", item);
 
         // PAT_IsForegin
         foreach (var item in reference.PAT_IsForegin) AddMasterItem("PAT_IsForegin", item);

@@ -75,7 +75,7 @@ public class BindItem
     public double? HeaderWidth { get; set; }
     public int HeaderFontSize { get; set; } = 11;
     public FontWeight HeaderFontWeight { get; set; } = FontWeights.Normal;
-    public Brush HeaderForeground { get; set; } = Brushes.Black;
+    public Brush? HeaderForeground { get; set; }
 
     // 플래그
     public bool IsNumericOnly { get; set; } = false;

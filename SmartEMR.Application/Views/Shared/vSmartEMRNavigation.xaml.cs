@@ -1,5 +1,6 @@
 ﻿using SmartEMR.Application.Common;
 using SmartEMR.Application.Core;
+using SmartEMR.Application.Views.Members;
 using SmartEMR.Application.Views.SmartEMRCST;
 using SmartEMR.Application.Views.SmartEMRPay;
 using SmartEMR.Application.Views.SmartEMRRES.SmartEMRRESCalendarTab;
@@ -44,10 +45,11 @@ namespace SmartEMR.Application.Views.Shared
                             await SmartUI.NavigateToPage(new vSmartEMRPayTab());
                             break;
 
-                        case eSmartEMRLocation.CRM:
+                        case eSmartEMRLocation.USR:
+                            await SmartUI.NavigateToPage(new vSmartEMRMemberInfoTab(), isPopup:true);
                             break;
 
-                        case eSmartEMRLocation.CONFIG:
+                        case eSmartEMRLocation.CNF:
                             break;
                     }
                 }

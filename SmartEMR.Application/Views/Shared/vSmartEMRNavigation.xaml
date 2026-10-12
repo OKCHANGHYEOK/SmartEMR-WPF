@@ -30,12 +30,12 @@
                         Glyph="/Images/smartemr_menu_payment.png"
                         Tag="PAY"/>
 
-        <bar:BarItem    Content="CRM"
-                        Glyph="/Images/smartemr_menu_crm.png"
-                        Tag="CRM"/>
+        <bar:BarItem    Content="정보관리"
+                        Glyph="/Images/smartemr_user_settings.png"
+                        Tag="USR"/>
 
         <bar:BarItem    Content="환경설정"
                         Glyph="/Images/smartemr_menu_settings.png"
-                        Tag="CONFIG"/>
+                        Tag="CNF"/>
     </bar:NavigationBar>
 </Xpf:CustomControl>

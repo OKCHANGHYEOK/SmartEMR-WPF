@@ -501,7 +501,7 @@
                                 Grid.Row="13"
                                 EditValue="{Binding MemberUser.MUR_Department}"
                                 NullText="부서를 선택하세요."
-                                ItemsSource="{x:Static selection:InputOptionItems.Departments}"
+                                ItemsSource="{Binding Departments}"
                                 DisplayMember="vMUR_Department"
                                 ValueMember="MUR_Department"
                                 BorderBrush="#DDE5EF"

@@ -11,6 +11,10 @@
   ],
   "MUR_Department": [
     {
+      "MUR_Department": "MIS",
+      "vMUR_Department" : "전산부"
+    },
+    {
       "MUR_Department": "ADM",
       "vMUR_Department": "접수/원무부"
     },
@@ -20,6 +24,11 @@
     }
   ],
   "MUR_JobCode": [
+    {
+      "MUR_Department": "MIS",
+      "MUR_JobCode": "MGR",
+      "vMUR_JobCode": "관리자"
+    },
     {
       "MUR_Department": "ADM",
       "MUR_JobCode": "ADM",
@@ -80,14 +89,18 @@
       "PAT_Sex": "F"
     }
   ],
-  "PAT_IsSolar": [
+  "PAT_CalendarType": [
     {
       "attrName": "양력",
-      "attrValue": "y"
+      "attrValue": "SOL"
     },
     {
       "attrName": "음력",
-      "attrValue": "n"
+      "attrValue": "LUN"
+    },
+    {
+      "attrName": "미확인",
+      "attrValue" :  "UNK"
     }
   ],
   "PAT_IsForegin": [

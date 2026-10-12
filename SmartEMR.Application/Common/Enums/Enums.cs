@@ -70,3 +70,13 @@ public enum MemberUserRole
     [Description("USR")]
     USR
 }
+
+public enum MemberUserDepartment
+{
+    [Description("MIS")]
+    MIS,
+    [Description("ADM")]
+    ADM,
+    [Description("MED")]
+    MED
+}

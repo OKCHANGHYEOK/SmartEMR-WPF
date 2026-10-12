@@ -11,6 +11,8 @@ public partial class MemberUser : BaseEntity
     private string? m_MUR_Role;
     private string? m_MUR_JobCode;
     private string? m_vMUR_JobCode;
+    private string? m_MUR_CalendarType;
+    private string? m_vMUR_CalendarType;
 
     private string? m_MUR_Id;
     private string? m_MUR_PassWord;
@@ -25,16 +27,19 @@ public partial class MemberUser : BaseEntity
     private string? m_MUR_BirthYear;
     private string? m_MUR_BirthMonth;
     private string? m_MUR_BirthDay;
+    private string? m_MUR_PhoneNum;
     private string? m_MUR_PhoneNum1;
     private string? m_MUR_PhoneNum2;
     private string? m_MUR_PhoneNum3;
     private string? m_MUR_Email;
+    private string? m_MUR_EmailDomain;
     private string? m_MUR_Date;
     private string? m_MUR_YYMMDD;
     private bool? m_MUR_IsValid;
     #endregion
 
     #region "NotifyPropertyChanged"
+
     public int? MUR_Idx
     {
         get => m_MUR_Idx;
@@ -75,6 +80,18 @@ public partial class MemberUser : BaseEntity
     {
         get => m_vMUR_JobCode;
         set => SetProperty(ref m_vMUR_JobCode, value);
+    }
+
+    public string? MUR_CalendarType
+    {
+        get => m_MUR_CalendarType;
+        set => SetProperty(ref m_MUR_CalendarType, value);
+    }
+
+    public string? vMUR_CalendarType
+    {
+        get => m_vMUR_CalendarType;
+        set => SetProperty(ref m_vMUR_CalendarType, value);
     }
 
     public string? MUR_Id
@@ -155,6 +172,12 @@ public partial class MemberUser : BaseEntity
         set => SetProperty(ref m_MUR_BirthDay, value);
     }
 
+    public string? MUR_PhoneNum
+    {
+        get => m_MUR_PhoneNum;
+        set => SetProperty(ref m_MUR_PhoneNum, value);
+    }
+
     public string? MUR_PhoneNum1
     {
         get => m_MUR_PhoneNum1;
@@ -179,6 +202,12 @@ public partial class MemberUser : BaseEntity
         set => SetProperty(ref m_MUR_Email, value);
     }
 
+    public string? MUR_EmailDomain
+    {
+        get => m_MUR_EmailDomain;
+        set => SetProperty(ref m_MUR_EmailDomain, value);
+    }
+
     public string? MUR_Date
     {
         get => m_MUR_Date;
@@ -196,5 +225,6 @@ public partial class MemberUser : BaseEntity
         get => m_MUR_IsValid;
         set => SetProperty(ref m_MUR_IsValid, value);
     }
+
     #endregion
 }

@@ -25,7 +25,7 @@ public class MasterReferenceData
     public List<MemberUser> MUR_JobCode { get; set; } = new();
     public List<AttrItem<string>> MUR_EmailDomain { get; set; } = new();
     public List<Patient> PAT_Sex { get; set; } = new();
-    public List<AttrItem<string>> PAT_IsSolar { get; set; } = new();
+    public List<AttrItem<string>> PAT_CalendarType { get; set; } = new();
     public List<AttrItem<string>> PAT_IsForegin { get; set; } = new();
     public List<AttrItem<string>> PAT_IsAgreePersonalInfo { get; set; } = new();
     public List<Insurance> IRC_CoName { get; set; } = new();

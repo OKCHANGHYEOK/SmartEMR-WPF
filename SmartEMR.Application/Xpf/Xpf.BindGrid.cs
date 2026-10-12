@@ -72,6 +72,15 @@ public partial class BindGrid : StyleGrid, IDisposable
         set => SetValue(HeaderBackgroundProperty, value);
     }
 
+    public static readonly DependencyProperty HeaderForegroundProperty =
+        DependencyProperty.Register(nameof(HeaderForeground), typeof(Brush), typeof(BindGrid), new PropertyMetadata(Brushes.Black));
+
+    public Brush HeaderForeground
+    {
+        get => (Brush)GetValue(HeaderForegroundProperty);
+        set => SetValue(HeaderForegroundProperty, value);
+    }
+
     #endregion
 
     public event EventHandler<BindClickEventArgs>? BindGrid_BindClickEvent;
@@ -210,7 +219,7 @@ public partial class BindGrid : StyleGrid, IDisposable
             Background = this.HeaderBackground,
             FontSize = headerInfo.HeaderFontSize,
             FontWeight = headerInfo.HeaderFontWeight,
-            Foreground = headerInfo.HeaderForeground,
+            Foreground = headerInfo.HeaderForeground ?? this.HeaderForeground,
             Content = headerInfo.Header,
             VerticalContentAlignment = VerticalAlignment.Center,
             Margin = new Thickness(2, 0, 0, 0),

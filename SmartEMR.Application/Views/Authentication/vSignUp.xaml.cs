@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using SmartEMR.Application.Common.Converter.Base;
+using SmartEMR.Application.Common.SelectionItems;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
@@ -179,6 +180,7 @@ public class BizTypeToItemsSourceConverter : BaseConverter
 
 public class DepartmentToJobCodeItemsSourceConverter : BaseConverter
 {
+    private readonly IEnumerable<MemberUser> JobCodes = InputOptionItems.JobCodes;
     private readonly List<MemberUser> _defaultItems = [new MemberUser { MUR_JobCode = "NON", vMUR_JobCode = "부서를 선택하세요." }];
 
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -187,11 +189,11 @@ public class DepartmentToJobCodeItemsSourceConverter : BaseConverter
 
         if (department == Master.MUR_DEPARTMENT_ADM)
         {
-            return SmartMVVM.Master.Query<MemberUser>("MUR_JobCode").Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_ADM);
+            return JobCodes.Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_ADM);
         }
         else if (department == Master.MUR_DEPARTMENT_MED)
         {
-            return SmartMVVM.Master.Query<MemberUser>("MUR_JobCode").Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_MED);
+            return JobCodes.Where(x => x.MUR_Department == Master.MUR_DEPARTMENT_MED);
         }
 
         return _defaultItems;

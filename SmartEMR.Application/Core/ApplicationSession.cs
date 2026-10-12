@@ -16,6 +16,14 @@ public class ApplicationSession : ITokenProvider
     // 추후 환경설정에서 변경할 수 있도록 할 예정
     public int ReservationTimeInterval { get; } = 30;
 
+    public bool IsAdmin
+    {
+        get
+        {
+            return _user?.MUR_Idx == _member?.MEM_AdminUser;
+        }
+    }
+
     public TokenResponse? GetToken()
     {
         if (_token == null)

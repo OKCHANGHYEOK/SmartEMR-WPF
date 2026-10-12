@@ -1,11 +1,12 @@
 ﻿global using static SmartEMR.Application.Common.Module;
-global using IDisposable = SmartEMR.Application.Interface.IDisposable;
 global using System;
 global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using System.Collections;
 global using System.Collections.Generic;
+global using SmartEMR.Application.Enums;
+global using IDisposable = SmartEMR.Application.Interface.IDisposable;
 using DevExpress.Xpf.Core;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Views;

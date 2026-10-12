@@ -37,7 +37,7 @@ public partial class Patient : BaseEntity
     private string? m_PAT_Email;
     private string? m_PAT_FirstVisitDate;
     private string? m_PAT_LastVisitDate;
-    private string? m_PAT_IsSolar;
+    private string? m_PAT_CalendarType;
     private string? m_PAT_IsAgreePersonalInfo;
     private string? m_vPAT_IsAgreePersonalInfo;
     private string? m_PAT_IsForegin;
@@ -256,10 +256,10 @@ public partial class Patient : BaseEntity
         set => SetProperty(ref m_PAT_LastVisitDate, value);
     }
 
-    public string? PAT_IsSolar
+    public string? PAT_CalendarType
     {
-        get => m_PAT_IsSolar;
-        set => SetProperty(ref m_PAT_IsSolar, value);
+        get => m_PAT_CalendarType;
+        set => SetProperty(ref m_PAT_CalendarType, value);
     }
 
     public string? PAT_IsAgreePersonalInfo

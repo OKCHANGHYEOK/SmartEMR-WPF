@@ -48,11 +48,44 @@ public class ModelProperty
         item.MEM_MediNo = "";
     }
 
-    #endregion
+	#endregion
 
-    #region "MemberUser"
+	#region "MemberUser"
 
-    public void ClearMURData(MemberUser item)
+	public void SetMemberUserData(MemberUser oldItem, MemberUser newItem)
+	{
+        oldItem.MUR_Idx = newItem.MUR_Idx;
+        oldItem.MUR_Name = newItem.MUR_Name;
+		oldItem.MUR_Role = newItem.MUR_Role;
+		oldItem.MUR_Department = newItem.MUR_Department;
+        oldItem.MUR_JobCode = newItem.MUR_JobCode;
+        oldItem.MUR_CalendarType = newItem.MUR_CalendarType ?? "SOL";
+        oldItem.MUR_Id = newItem.MUR_Id;
+        oldItem.MUR_Email = newItem.MUR_Email;
+        oldItem.MUR_Gender = newItem.MUR_Gender ?? "";
+        oldItem.MUR_PhoneNum = newItem.MUR_PhoneNum;
+        oldItem.MUR_LicenseNo = newItem.MUR_LicenseNo;
+
+        if (string.IsNullOrWhiteSpace(newItem.MUR_Email))
+        {
+            newItem.MUR_EmailDomain = "naver.com";
+        }
+        else
+        {
+            var domain = newItem.MUR_Email.Split("@")[1];
+
+            if (!string.IsNullOrWhiteSpace(domain))
+            {
+                newItem.MUR_EmailDomain = domain;
+            }
+            else
+            {
+				newItem.MUR_EmailDomain = "naver.com";
+			}
+		}
+	}
+
+	public void ClearMURData(MemberUser item)
     {
         item.MUR_Idx = 0;
         item.MEM_Idx = 0;
@@ -73,7 +106,7 @@ public class ModelProperty
     {
         item.PAT_Sex = "N";
         item.PAT_SourceType = "WRK";
-        item.PAT_IsSolar = "y";
+        item.PAT_CalendarType = "y";
         item.PAT_IsForegin = "n";
         item.PAT_IsAgreePersonalInfo = "n";
         item.PAT_IsSMS = "n";
@@ -110,7 +143,7 @@ public class ModelProperty
         item.PAT_Hpp2 = paramItem.PAT_PhoneNum?.Substring(3,4);
         item.PAT_Hpp3 = paramItem.PAT_PhoneNum?.Substring(7,4);
         item.PAT_Email = paramItem.PAT_Email;
-        item.PAT_IsSolar = paramItem.PAT_IsSolar;
+        item.PAT_CalendarType = paramItem.PAT_CalendarType;
         item.PAT_IsSMS = paramItem.PAT_IsSMS;
         item.PAT_IsAgreePersonalInfo = paramItem.PAT_IsAgreePersonalInfo;
         item.PAT_ImageSource = paramItem.PAT_ImageSource;
@@ -177,7 +210,7 @@ public class ModelProperty
         oldItem.PAT_Bigo = newItem.PAT_Bigo;
         oldItem.PAT_IsAgreePersonalInfo = newItem.PAT_IsAgreePersonalInfo;
         oldItem.vPAT_IsAgreePersonalInfo = newItem.PAT_IsAgreePersonalInfo == "y" ? "개인정보제공동의" : "개인정보제공미동의";
-        oldItem.PAT_IsSolar = newItem.PAT_IsSolar;
+        oldItem.PAT_CalendarType = newItem.PAT_CalendarType;
         oldItem.PAT_IsSMS = newItem.PAT_IsSMS;
         oldItem.NOW_CHT_Idx_RCV = newItem.NOW_CHT_Idx_RCV;
         oldItem.NOW_CHT_Idx_RES = newItem.NOW_CHT_Idx_RES;
@@ -219,7 +252,7 @@ public class ModelProperty
         item.PAT_LastVisitDate = "";
         item.PAT_ImageSource = null;
         item.PAT_IsSMS = "";
-        item.PAT_IsSolar = "";
+        item.PAT_CalendarType = "";
         item.PAT_Bigo = "";
         item.NOW_CHT_Idx_RCV = 0;
         item.NOW_CHT_Idx_RES = 0;

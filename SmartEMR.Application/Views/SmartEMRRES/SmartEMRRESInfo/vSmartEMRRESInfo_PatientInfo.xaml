@@ -122,7 +122,7 @@
                             MaxLength="8"
                             IsNumericOnly="True"/>
 
-            <Xpf:BindItem   FieldName="PAT_IsSolar"
+            <Xpf:BindItem   FieldName="PAT_CalendarType"
                             BindType="ComboBox"
                             Width="52"
                             Margin="2"

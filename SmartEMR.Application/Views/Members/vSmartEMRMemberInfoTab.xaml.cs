@@ -1,0 +1,38 @@
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
+using SmartEMR.Application.ViewModels;
+using SmartEMR.Application.Xpf;
+
+namespace SmartEMR.Application.Views.Members;
+
+/// <summary>
+/// vSmartEMRMemberInfoTab.xaml에 대한 상호 작용 논리
+/// </summary>
+public partial class vSmartEMRMemberInfoTab : ModelViewLayout<MemberInfoViewModel>
+{
+    protected override void Initialize()
+    {
+    }
+
+    public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
+    {
+    }
+
+    public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
+    {
+    }
+
+    private void OnSelectionChanged_TaControl(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)
+    {
+        if (sender is not DXTabControl element) return;
+
+        if (e.NewSelectedItem is DXTabItem item && item.Tag.ToString() == "MUR")
+        {
+            SmartUI.BeginInvoke(() =>
+            {
+                MemberUserInfo.UpdateLayoutByDepartment();
+            }, System.Windows.Threading.DispatcherPriority.Background);
+        }
+    }
+}
