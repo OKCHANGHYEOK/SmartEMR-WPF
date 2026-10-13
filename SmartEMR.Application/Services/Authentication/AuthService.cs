@@ -11,14 +11,14 @@ public class AuthService : BaseService, IAuthService
     {
     }
 
-    public async Task<ServiceResult> RequestVerifyCode(string MUR_Email)
+    public async Task<ServiceResult<EmailVerification>> RequestVerifyCode(string MUR_Email)
     {
-        var result = new ServiceResult();
-        var ret = await _dataStore.GetItem<object>(eAPI.Auth_RequestVerifyCode, new { MUR_Email = MUR_Email });
+        var result = new ServiceResult<EmailVerification>();
+        var ret = await _dataStore.GetItem<EmailVerification>(eAPI.Auth_RequestVerifyCode, new { MUR_Email });
 
-        if (!_dataStore.retIsSuccess)
+        if (ret is null || !_dataStore.retIsSuccess)
         {
-            result.Message = "인증코드 요청 중 오류가 발생했습니다.\n 잠시 후 다시 시도하세요.";
+            result.Message = _dataStore.retMessage ?? "인증코드 요청 중 오류가 발생했습니다.\n 잠시 후 다시 시도하세요.";
             return result;
         }
 
@@ -33,7 +33,7 @@ public class AuthService : BaseService, IAuthService
 
         if (ret is null || !_dataStore.retIsSuccess)
         {
-            result.Message = "인증확인 요청 중 오류가 발생했습니다.\n 잠시 후 다시 시도하세요.";
+            result.Message = _dataStore.retMessage ?? "인증확인 요청 중 오류가 발생했습니다.\n 잠시 후 다시 시도하세요.";
             return result;
         }
 

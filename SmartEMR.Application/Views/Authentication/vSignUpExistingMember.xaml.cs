@@ -46,6 +46,7 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
             [SignUpField.UserName] = txtMUR_Name,
             [SignUpField.Id] = txtMUR_Id,
             [SignUpField.Password] = pwMUR_Password,
+            [SignUpField.Email] = txtMUR_Email,
             [SignUpField.MemberName] = cmbMEM_Idx,
             [SignUpField.Department] = cmbMUR_Department,
             [SignUpField.JobCode] = cmbMUR_JobCode,
@@ -178,11 +179,22 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 
         switch (element.Name)
         {
+            case nameof(txtMUR_Email):
+                vm.UpdateIsIdentityVerified();
+                break;
+
+            case nameof(txtVerifyCode):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                }
+
+                break;
+
             case nameof(txtMEM_MediNo):
                 if (!CanInputTextByNum(e.Text))
                 {
                     e.Handled = true;
-                    return;
                 }
                 break;
 
@@ -190,7 +202,6 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
                 if (!CanInputTextByNum(e.Text))
                 {
                     e.Handled = true;
-                    return;
                 }
 
                 break;

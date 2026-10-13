@@ -50,7 +50,7 @@
 
         <Xpf:StyleGrid  LayoutDefinitions="2,19"
                         ColumnSizeDefinitions="0.3*,*"
-                        RowSizeDefinitions="*,*,*,20,*,*,*,20,*,*,*,*,*,*,*,*,*,*,*"
+                        RowSizeDefinitions="*,*,*,20,*,*,*,20,*,20,*,*,*,*,*,*,*,*,*"
                         Margin="0,15,0,0"
                         FocusManager.IsFocusScope="True">
 
@@ -146,6 +146,7 @@
                                     BorderBrush="SlateBlue"
                                     CornerRadius="5"
                                     Padding="8,0"
+                                    Cursor="Hand"
                                     Click="OnClick_Button"/>
             </Xpf:StyleGrid>
 
@@ -201,7 +202,7 @@
                             LayoutDefinitions="3,1"
                             ColumnSizeDefinitions="*,5,Auto"
                             Margin="0,10,0,0">
-                
+
                 <Xpf:TextEdit   x:Name="txtMUR_Email"
                                 Grid.Column="0"
                                 EditValue="{Binding MemberUser.MUR_Email, UpdateSourceTrigger=PropertyChanged}"
@@ -210,7 +211,21 @@
                                 BorderBrush="#DDE5EF"
                                 BorderThickness="1.5"
                                 CornerRadius="4"
-                                Padding="5"/>
+                                Padding="5"
+                                PreviewTextInput="OnPreviewTextInput_TextEdit">
+
+                    <Xpf:TextEdit.Style>
+                        <Style TargetType="{x:Type Xpf:TextEdit}">
+                            <Setter Property="IsEnabled" Value="True"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:TextEdit.Style>
+                </Xpf:TextEdit>
 
                 <Xpf:TextBlock  x:Name="txtVerifyTimer"
                                 Grid.Column="0"
@@ -231,7 +246,7 @@
                         </Style>
                     </Xpf:TextBlock.Style>
 
-                    <Run Text="만료시간 : "/>
+                    <Run Text="남은시간 :"/>
                     <Run Text="{Binding VerifyLimitTimeText}"/>
                 </Xpf:TextBlock>
                 
@@ -248,6 +263,18 @@
                                   Cursor="Hand"
                                   CornerRadius="4"
                                   Command="{Binding RequestVerifyCommand}">
+
+                    <dxc:SimpleButton.Style>
+                        <Style TargetType="{x:Type dxc:SimpleButton}">
+                            <Setter Property="IsEnabled" Value="True"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dxc:SimpleButton.Style>
                 </dxc:SimpleButton>
             </Xpf:StyleGrid>
 
@@ -272,7 +299,7 @@
                             LayoutDefinitions="3,1"
                             ColumnSizeDefinitions="*,5,Auto"
                             Margin="0,10,0,0">
-                
+
                 <Xpf:TextEdit   x:Name="txtVerifyCode"
                                 Grid.Column="0"
                                 EditValue="{Binding IdentityVerificationCode, UpdateSourceTrigger=PropertyChanged}"
@@ -281,7 +308,21 @@
                                 BorderBrush="#DDE5EF"
                                 BorderThickness="1.5"
                                 CornerRadius="4"
-                                Padding="5"/>
+                                Padding="5"
+                                PreviewTextInput="OnPreviewTextInput_TextEdit">
+
+                    <Xpf:TextEdit.Style>
+                        <Style TargetType="{x:Type Xpf:TextEdit}">
+                            <Setter Property="IsEnabled" Value="True"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:TextEdit.Style>
+                </Xpf:TextEdit>
 
                 <Border Grid.Column="0"
                         HorizontalAlignment="Right"
@@ -310,6 +351,22 @@
                                   Cursor="Hand"
                                   VerticalAlignment="Center"
                                   Command="{Binding RequestVerifyCheckCommand}">
+
+                    <dxc:SimpleButton.Style>
+                        <Style TargetType="{x:Type dxc:SimpleButton}">
+                            <Setter Property="IsEnabled" Value="True"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsRequestVerifyCode}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dxc:SimpleButton.Style>
                 </dxc:SimpleButton>
             </Xpf:StyleGrid>
 
@@ -634,7 +691,7 @@
                                 Grid.Row="16"
                                 EditValue="{Binding MemberUser.MUR_Department, UpdateSourceTrigger=PropertyChanged}"
                                 NullText="부서를 선택하세요."
-                                ItemsSource="{Binding Departments}"
+                                ItemsSource="{x:Static selection:InputOptionItems.Departments}"
                                 DisplayMember="vMUR_Department"
                                 ValueMember="MUR_Department"
                                 BorderBrush="#DDE5EF"

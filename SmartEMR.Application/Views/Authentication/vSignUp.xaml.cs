@@ -78,7 +78,11 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
                 break;
 
             case nameof(btnBackToLogin):
-                await BackToLogin();
+                if (SmartUI.MsgYesNo("로그인 화면으로 돌아가시겠습니까?\n입력중인 데이터는 유지되지 않습니다.") is MessageBoxResult.Yes)
+                {
+                    await BackToLogin();
+                }
+
                 break;
         }
     }

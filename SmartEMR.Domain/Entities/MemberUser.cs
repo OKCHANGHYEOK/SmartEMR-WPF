@@ -36,6 +36,9 @@ public partial class MemberUser : BaseEntity
     private string? m_MUR_Date;
     private string? m_MUR_YYMMDD;
     private bool? m_MUR_IsValid;
+
+    private int? m_EV_Idx_Verified;
+
     #endregion
 
     #region "NotifyPropertyChanged"
@@ -224,6 +227,12 @@ public partial class MemberUser : BaseEntity
     {
         get => m_MUR_IsValid;
         set => SetProperty(ref m_MUR_IsValid, value);
+    }
+
+    public int? EV_Idx_Verified
+    {
+        get => m_EV_Idx_Verified;
+        set => SetProperty(ref m_EV_Idx_Verified, value);
     }
 
     #endregion

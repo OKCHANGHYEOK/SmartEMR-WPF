@@ -5,6 +5,7 @@ public class EmailVerification : BaseEntity
     private int? m_EV_Idx;
     private string? m_EV_Purpose;
     private string? m_EV_Email;
+    private string? m_EV_CodeOrigin;
     private string? m_EV_CodeHash;
     private string? m_EV_CreatedAt;
     private string? m_EV_ExpiredAt;
@@ -29,6 +30,12 @@ public class EmailVerification : BaseEntity
     {
         get => m_EV_Email;
         set => SetProperty(ref m_EV_Email, value);
+    }
+
+    public string? EV_CodeOrigin
+    {
+        get => m_EV_CodeOrigin;
+        set => SetProperty(ref m_EV_CodeOrigin, value);
     }
 
     public string? EV_CodeHash

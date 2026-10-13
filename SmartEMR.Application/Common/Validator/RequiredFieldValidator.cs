@@ -55,7 +55,8 @@ public class MemberUserRequiredFieldValidator : IBaseValidator<MemberUser>
     {
         [nameof(MemberUser.MUR_Name)] = "이름",
         [nameof(MemberUser.MUR_Id)] = "아이디",
-        [nameof(MemberUser.MUR_PassWord)] = "비밀번호"
+        [nameof(MemberUser.MUR_PassWord)] = "비밀번호",
+        [nameof(MemberUser.MUR_Email)] = "이메일",
     };
 
     private static readonly Dictionary<string, string> _workMemberUserRequiredFields = new()
@@ -113,6 +114,7 @@ public enum SignUpField
     None,
 
     UserName,
+    Email,
     Id,
     Password,
 

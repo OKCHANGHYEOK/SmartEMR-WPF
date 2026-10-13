@@ -59,7 +59,6 @@ public class DataStore : IDataStore
             if (result != null)
             {
                 UpdateResponseStatus(result);
-                // 상태 값 업데이트
                 return result.Item;
             }
         }
@@ -290,7 +289,7 @@ public class DataStore : IDataStore
         return retToken;
     }
 
-    private void UpdateResponseStatus<T>(DataResponse<T> result) where T : class
+    private void UpdateResponseStatus(DataResponse result)
     {
         this.retMessage = result.Message;
         this.retIsSuccess = result.IsSuccess;

@@ -78,17 +78,31 @@ public partial class SignUpViewModel : MemberViewModel
             loginUser = ret;
         }
 
-        ClearData();
-
         MessageBox.Show("회원가입되었습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
 
         await SmartUI.SendMessage("ShowLogin", loginUser, viewType:TargetViewType.ParentView);
+
+        ClearData();
     }
 
     public void ClearData()
     {
+        IsCheckedDuplicateId = false;
+        UsableId = false;
+        
+        IsCheckedDuplicateMediNo = false;
+        UsableMediNo = false;
+
+        IsRequestVerifyCode = false;
+        IsIdentityVerified = false;
+        IsPasswordMatch = false;
+
+        IdentityVerificationCode = "";
+
         SmartMVVM.ModelProperty.ClearMEMData(Model);
         SmartMVVM.ModelProperty.ClearMURData(MemberUser);
+
+        StopVerifyTimer();
     }
 
     private async Task<MemberUser?> SignUpByExistMember()
@@ -135,6 +149,13 @@ public partial class SignUpViewModel
     [ObservableProperty]
     private bool isIdentityVerified = false;
 
+    public void UpdateIsIdentityVerified()
+    {
+        if (IsIdentityVerified)
+        {
+            IsIdentityVerified = false;
+        }
+    }
 
     private void StartVerifyTimer()
     {
@@ -153,6 +174,15 @@ public partial class SignUpViewModel
         _verifyTimer.Start();
     }
 
+    private void StopVerifyTimer()
+    {
+        _verifyTimer?.Stop();
+
+        VerifylimitTime = TimeSpan.Zero;
+
+        UpdateVerifyLimitTimeText();
+    }
+
     private void UpdateVerifyLimitTimeText()
     {
         VerifyLimitTimeText = $"{(int)VerifylimitTime.TotalMinutes:D2}:{VerifylimitTime.Seconds:D2}";
@@ -164,13 +194,7 @@ public partial class SignUpViewModel
 
         if (VerifylimitTime <= TimeSpan.Zero)
         {
-            _verifyTimer.Stop();
-
-            VerifylimitTime = TimeSpan.Zero;
-
-            UpdateVerifyLimitTimeText();
-
-            // TODO 인증코드 만료 상태 처리
+            StopVerifyTimer();
             return;
         }
 
@@ -186,6 +210,7 @@ public partial class SignUpViewModel
         if (string.IsNullOrWhiteSpace(MemberUser.MUR_Email))
         {
             MessageBox.Show("이메일을 입력해주세요.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
+            RequestValidation(SignUpField.Email);            
             return;
         }
 
@@ -214,12 +239,16 @@ public partial class SignUpViewModel
             return;
         }
 
-        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Email = MemberUser.MUR_Email, EV_CodeHash = IdentityVerificationCode });
+        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Email = MemberUser.MUR_Email, EV_CodeOrigin = IdentityVerificationCode });
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
+
+        MemberUser.EV_Idx_Verified = ret.Item.EV_Idx;
+
+        StopVerifyTimer();
 
         IsIdentityVerified = true;
 

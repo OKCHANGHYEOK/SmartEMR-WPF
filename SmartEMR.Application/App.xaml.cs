@@ -110,7 +110,7 @@ namespace SmartEMR.Application
             }
             catch (Exception ex)
             {
-                MessageBox.Show("프로그램 초기화 중 예기치 않은 오류가 발생했습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("예기치 않은 오류가 발생했습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
                 Debug.WriteLine(ex);
                 Logger.WriteLog(ex);
             }

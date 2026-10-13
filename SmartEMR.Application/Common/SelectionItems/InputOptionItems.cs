@@ -23,6 +23,7 @@ public class InputOptionItems
             return SmartMVVM.Master.Query<MemberUser>("MUR_Department").Where(func);
         }
     }
+
     public static IEnumerable<MemberUser> JobCodes
     {
         get
