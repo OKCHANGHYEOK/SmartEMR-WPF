@@ -236,6 +236,7 @@ public partial class SignUpViewModel
         if (string.IsNullOrWhiteSpace(IdentityVerificationCode))
         {
             MessageBox.Show("인증코드를 입력해주세요.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
+            RequestValidation(SignUpField.VerifyCode);
             return;
         }
 

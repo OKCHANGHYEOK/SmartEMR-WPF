@@ -114,8 +114,9 @@ public enum SignUpField
     None,
 
     UserName,
-    Email,
     Id,
+    Email,
+    VerifyCode,
     Password,
 
     MemberName,
@@ -125,7 +126,7 @@ public enum SignUpField
 
     Department,
     JobCode,
-    LicenseNo
+    LicenseNo,
 }
 
 public class SignUpValidateResult : ValidateResult
