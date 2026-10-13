@@ -1,4 +1,5 @@
-﻿using SmartEMR.Domain.Entities;
+﻿using SmartEMR.Application.Core;
+using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using SmartEMR.Infrastructure;
 
@@ -64,7 +65,9 @@ public class MemberUserService : BaseService, IMemberUserService
     public async Task<ServiceResult<MemberUser>> SetMemberUser(MemberUser item)
     {
         var result = new ServiceResult<MemberUser>();
-        var ret = await _dataStore.GetItem<MemberUser>(eAPI.MemberUser_SetMemberUser, item);
+
+        var setMUR = SmartMVVM.ModelProperty.GetMemberUserDataForSave(item);
+        var ret = await _dataStore.GetItem<MemberUser>(eAPI.MemberUser_SetMemberUser, setMUR);
 
         if (ret is null || !_dataStore.retIsSuccess)
         {

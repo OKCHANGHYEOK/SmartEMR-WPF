@@ -48,11 +48,27 @@ public class ModelProperty
         item.MEM_MediNo = "";
     }
 
-	#endregion
+    #endregion
 
-	#region "MemberUser"
+    #region "MemberUser"
 
-	public void SetMemberUserData(MemberUser oldItem, MemberUser newItem)
+    public MemberUser GetMemberUserDataForSave(MemberUser item)
+    {
+        return new MemberUser
+        {
+            MUR_Idx = item.MUR_Idx,
+            MUR_Name = item.MUR_Name,
+            MUR_Gender = item.MUR_Gender,
+            MUR_PhoneNum = item.MUR_PhoneNum,
+            MUR_BirthDate = item.MUR_BirthDate,
+            MUR_Department = item.MUR_Department,
+            MUR_JobCode = item.MUR_JobCode,
+            MUR_LicenseNo = item.MUR_LicenseNo,
+            MUR_IsValid = true
+        };
+    }
+
+    public void SetMemberUserData(MemberUser oldItem, MemberUser newItem)
 	{
         oldItem.MUR_Idx = newItem.MUR_Idx;
         oldItem.MUR_Name = newItem.MUR_Name;
@@ -63,27 +79,28 @@ public class ModelProperty
         oldItem.MUR_Id = newItem.MUR_Id;
         oldItem.MUR_Email = newItem.MUR_Email;
         oldItem.MUR_Gender = newItem.MUR_Gender ?? "";
-        oldItem.MUR_PhoneNum = newItem.MUR_PhoneNum;
+        oldItem.MUR_BirthDate = $"{newItem.MUR_BirthYear}{newItem.MUR_BirthMonth}{newItem.MUR_BirthDay}";
+        oldItem.MUR_PhoneNum = $"{newItem.MUR_PhoneNum1}{newItem.MUR_PhoneNum2}{newItem.MUR_PhoneNum3}";
         oldItem.MUR_LicenseNo = newItem.MUR_LicenseNo;
 
-        if (string.IsNullOrWhiteSpace(newItem.MUR_Email))
+        var emailDomain = "naver.com";
+        if (!string.IsNullOrWhiteSpace(newItem.MUR_Email))
         {
-            newItem.MUR_EmailDomain = "naver.com";
-        }
-        else
-        {
-            var domain = newItem.MUR_Email.Split("@")[1];
+            var parts = newItem.MUR_Email.Split('@');
+            var domain = parts.Length > 1 ? parts[1] : string.Empty;
 
             if (!string.IsNullOrWhiteSpace(domain))
             {
-                newItem.MUR_EmailDomain = domain;
+                emailDomain = domain;
             }
             else
             {
-				newItem.MUR_EmailDomain = "naver.com";
-			}
-		}
-	}
+                emailDomain = "naver.com";
+            }
+        }
+
+        oldItem.MUR_EmailDomain = emailDomain;
+    }
 
 	public void ClearMURData(MemberUser item)
     {

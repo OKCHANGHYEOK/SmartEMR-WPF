@@ -2,6 +2,7 @@
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.MemberUsers;
 
@@ -10,6 +11,8 @@ namespace SmartEMR.Application.Views.MemberUsers;
 /// </summary>
 public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
 {
+    private bool _isUpdatedLayoutByMUR = false;
+
     protected override void Initialize()
     {
     }
@@ -24,11 +27,16 @@ public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+        if (sender is not BindGrid) return;
+
+
     }
 
-    public void UpdateLayoutByDepartment()
+    public void UpdateLayoutByMUR()
     {
-        if (SmartMVVM.AppSession.MemberUser?.MUR_Department != MemberUserDepartment.MED.ToDescription())
+        if (_isUpdatedLayoutByMUR) return;
+
+        if (!SmartMVVM.AppSession.IsMED)
         {
             var txtMUR_LicenseNo = this.BindGrids[1].GetBindItem<StyleTextBox>("MUR_LicenseNo");
             if (txtMUR_LicenseNo != null)
@@ -54,6 +62,8 @@ public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
                 cmbMUR_JobCode.IsEnabled = false;
             }
         }
+
+        _isUpdatedLayoutByMUR = true;
     }
 
     private void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)

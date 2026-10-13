@@ -3,6 +3,7 @@ using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.Views.Members;
 
@@ -23,6 +24,20 @@ public partial class vSmartEMRMemberInfoTab : ModelViewLayout<MemberInfoViewMode
     {
     }
 
+    public override async Task<ViewMessageResponse?> ReceiveMessage(ViewMessageRequest request)
+    {
+        var response = new ViewMessageResponse<MemberUser>();
+
+        switch (request.MessageAction)
+        {
+            case "CloseView":
+                SmartUI.CloseView();
+                break;
+        }
+
+        return response;
+    }
+
     private void OnSelectionChanged_TaControl(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)
     {
         if (sender is not DXTabControl element) return;
@@ -31,7 +46,7 @@ public partial class vSmartEMRMemberInfoTab : ModelViewLayout<MemberInfoViewMode
         {
             SmartUI.BeginInvoke(() =>
             {
-                MemberUserInfo.UpdateLayoutByDepartment();
+                MemberUserInfo.UpdateLayoutByMUR();
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
     }

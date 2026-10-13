@@ -24,6 +24,7 @@ public partial class MemberUser : BaseEntity
     private string? m_MUR_Address2;
     private string? m_MUR_Address3;
     private int? m_MUR_Age;
+    private string? m_MUR_BirthDate;
     private string? m_MUR_BirthYear;
     private string? m_MUR_BirthMonth;
     private string? m_MUR_BirthDay;
@@ -155,6 +156,12 @@ public partial class MemberUser : BaseEntity
     {
         get => m_MUR_Age;
         set => SetProperty(ref m_MUR_Age, value);
+    }
+
+    public string? MUR_BirthDate
+    {
+        get => m_MUR_BirthDate;
+        set => SetProperty(ref m_MUR_BirthDate, value);
     }
 
     public string? MUR_BirthYear

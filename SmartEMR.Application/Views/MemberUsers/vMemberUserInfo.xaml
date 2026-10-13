@@ -36,18 +36,12 @@
                             HeaderWidth="80"
                             ItemSpace="2">
 
-                <Xpf:BindItem   FieldName="MUR_Name"
-                                Header="회 원 명"
-                                BindType="TextBox"
-                                Col="0"
-                                Row="0"/>
-
                 <x:Array Type="{x:Type Xpf:BindItem}">
-                    <Xpf:BindItem   FieldName="MUR_Id"
-                                    Header="아 이 디"
+                    <Xpf:BindItem   FieldName="MUR_Name"
+                                    Header="회 원 명"
                                     BindType="TextBox"
                                     Col="0"
-                                    Row="1"/>
+                                    Row="0"/>
 
                     <Xpf:BindItem   FieldName="MUR_Gender"
                                     BindType="ComboBox"
@@ -58,6 +52,13 @@
                                     Margin="2"/>
                 </x:Array>
 
+                <Xpf:BindItem   FieldName="MUR_Id"
+                                Header="아 이 디"
+                                BindType="TextBox"
+                                Col="0"
+                                Row="1"
+                                IsReadOnly="True"
+                                IsEnabled="False"/>
 
                 <Xpf:BindItem   FieldName="MUR_PassWord"
                                 Header="비 밀 번 호"
@@ -89,7 +90,8 @@
                                                 BorderBrush="#D5DDE7"
                                                 Cursor="Hand"
                                                 SnapsToDevicePixels="True"
-                                                Click="OnClick_SimpleButton">
+                                                Click="OnClick_SimpleButton"
+                                                Margin="4,0,0,0">
 
                                 <dxc:SimpleButton.Style>
                                     <Style TargetType="{x:Type Button}">
@@ -124,15 +126,10 @@
                                     Header="이 메 일"
                                     BindType="TextBox"
                                     Col="0"
-                                    Row="3"/>
-
-                    <Xpf:BindItem   FieldName="MUR_EmailDomain"
-                                    BindType="ComboBox"
-                                    Width="80"
-                                    ItemsSource="{x:Static selection:InputOptionItems.EmailDomains}"
-                                    DisplayMember="attrName"
-                                    ValueMember="attrValue"/>
-
+                                    Row="3"
+                                    IsReadOnly="True"
+                                    IsEnabled="False"/>
+                    
                     <Xpf:BindItem   FieldName="btnUpdateEmail"
                                     Width="100"
                                     IsBinding="False"
@@ -176,11 +173,14 @@
                 </x:Array>
 
                 <x:Array Type="{x:Type Xpf:BindItem}">
-                    <Xpf:BindItem   FieldName="MUR_BirthYear"
+                    <Xpf:BindItem   FieldName="MUR_BirthDate"
                                     Header="생 년 월 일"
                                     BindType="TextBox"
                                     Col="0"
-                                    Row="4"/>
+                                    Row="4"
+                                    Placeholder="생년월일을 입력하세요.('-' 제외한 8자리 숫자만 입력)"
+                                    MaxLength="8"
+                                    IsNumericOnly="True"/>
 
                     <Xpf:BindItem   FieldName="MUR_CalendarType"
                                     BindType="ComboBox"
@@ -195,6 +195,8 @@
                                 BindType="TextBox"
                                 Col="0"
                                 Row="5"
+                                Placeholder="전화번호를 입력하세요.('-' 제외한 11자리 숫자만 입력)"
+                                MaxLength="11"
                                 IsNumericOnly="True"/>
             </Xpf:BindGrid>
         </dxlc:GroupBox>
@@ -235,7 +237,8 @@
                               Header="의료면허번호"
                               BindType="TextBox"
                               Col="0"
-                              Row="2"/>
+                              Row="2"
+                              Placeholder="의료면허번호를 입력하세요.(의료인인 경우만 입력)"/>
             </Xpf:BindGrid>
         </dxlc:GroupBox>
 
@@ -250,6 +253,7 @@
                               GlyphWidth="18"
                               GlyphHeight="18"
                               Padding="5,2"
+                              Cursor="Hand"
                               Command="{Binding ClearDataCommand}"/>
 
             <dxc:SimpleButton Grid.Column="2"
@@ -258,6 +262,7 @@
                               GlyphWidth="18"
                               GlyphHeight="18"
                               Padding="5,2"
+                              Cursor="Hand"
                               Command="{Binding SetMemberUserCommand}"/>
         </Xpf:StyleGrid>
     </Xpf:StyleGrid>

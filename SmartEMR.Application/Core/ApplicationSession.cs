@@ -24,6 +24,14 @@ public class ApplicationSession : ITokenProvider
         }
     }
 
+    public bool IsMED
+    {
+        get
+        {
+            return _user?.MUR_Department == MemberUserDepartment.MED.ToDescription();
+        }
+    }
+
     public TokenResponse? GetToken()
     {
         if (_token == null)
