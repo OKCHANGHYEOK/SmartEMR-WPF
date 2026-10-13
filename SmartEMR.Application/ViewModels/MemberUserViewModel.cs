@@ -12,6 +12,11 @@ public class MemberUserViewModel : BaseViewModel<MemberUser>
         _memberUserService = memberUserService;
     }
 
+    public MemberUserViewModel(IMemberUserService memberUserService, MemberUser item) : base(item)
+    {
+        _memberUserService = memberUserService;
+    }
+
     public override void Initialize()
     {
     }

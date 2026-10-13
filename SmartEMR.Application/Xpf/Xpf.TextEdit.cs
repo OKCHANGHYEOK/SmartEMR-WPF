@@ -1,7 +1,5 @@
 ﻿using SmartEMR.Application.Common;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace SmartEMR.Application.Xpf;
 
@@ -9,10 +7,6 @@ public class TextEdit : DevExpress.Xpf.Editors.TextEdit
 {
     public TextEdit ()
     {
-        this.MinHeight = 26;
-        this.BorderBrush = Brushes.Transparent;
-        this.BorderThickness = new Thickness(1);
-
         this.PreviewKeyDown += OnPreviewKeyDown_TextEdit;
     }
 

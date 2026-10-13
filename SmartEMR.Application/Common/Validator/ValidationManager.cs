@@ -57,7 +57,7 @@ public class ValidationManager
         }
     }
 
-    private void Shake(Control element)
+    public static void Shake(Control element)
     {
         if (element.RenderTransform is not TranslateTransform transform)
         {

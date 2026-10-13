@@ -97,4 +97,21 @@ public class MemberUserService : BaseService, IMemberUserService
 
         return result;
     }
+
+    public async Task<ServiceResult<MemberUser>> ChangePassword(MemberUser item)
+    {
+        var result = new ServiceResult<MemberUser>();
+        var ret = await _dataStore.GetItem<MemberUser>(eAPI.MemberUser_ChangePassword, item);
+
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = _dataStore.retMessage ?? "비밀번호 변경에 실패했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
 }

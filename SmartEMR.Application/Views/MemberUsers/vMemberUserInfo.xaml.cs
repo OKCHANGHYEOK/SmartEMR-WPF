@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Core;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -11,6 +12,8 @@ namespace SmartEMR.Application.Views.MemberUsers;
 /// </summary>
 public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
 {
+    private MemberUser MemberUser => vm.Model;
+
     private bool _isUpdatedLayoutByMUR = false;
 
     protected override void Initialize()
@@ -38,36 +41,31 @@ public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
 
         if (!SmartMVVM.AppSession.IsMED)
         {
-            var txtMUR_LicenseNo = this.BindGrids[1].GetBindItem<StyleTextBox>("MUR_LicenseNo");
-            if (txtMUR_LicenseNo != null)
-            {
-                txtMUR_LicenseNo.IsReadOnly = true;
-                txtMUR_LicenseNo.IsEnabled = false;
-            }
+            txtMUR_LicenseNo.IsReadOnly = true;
+            txtMUR_LicenseNo.IsEnabled = false;
         }
 
         if (!SmartMVVM.AppSession.IsAdmin)
         {
-            var cmbMUR_Department = this.BindGrids[1].GetBindItem<ComboBoxEdit>("MUR_Department");
-            if (cmbMUR_Department != null)
-            {
-                cmbMUR_Department.IsReadOnly = true;
-                cmbMUR_Department.IsEnabled = false;
-            }
+            cmbMUR_Department.IsReadOnly = true;
+            cmbMUR_Department.IsEnabled = false;
 
-            var cmbMUR_JobCode = this.BindGrids[1].GetBindItem<ComboBoxEdit>("MUR_JobCode");
-            if (cmbMUR_JobCode != null)
-            {
-                cmbMUR_JobCode.IsReadOnly = true;
-                cmbMUR_JobCode.IsEnabled = false;
-            }
+            cmbMUR_JobCode.IsReadOnly = true;
+            cmbMUR_JobCode.IsEnabled = false;
         }
 
         _isUpdatedLayoutByMUR = true;
     }
 
-    private void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
+    private async void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
     {
+        if (sender is not SimpleButton element) return;
 
+        switch (element.Name)
+        {
+            case nameof(btnChangedPassword):
+                await SmartUI.NavigateToPage(new vMemberUserInfo_ChangePassword(new MemberUser { MUR_Idx = MemberUser.MUR_Idx }), isPopup:true);
+                break;
+        }
     }
 }

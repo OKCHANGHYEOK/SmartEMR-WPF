@@ -79,7 +79,7 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
                     return;
                 }
 
-                SmartUI.UIManager.CloseWindow(TargetWindowType.CurrentWindow);
+                SmartUI.CloseWindow(TargetWindowType.CurrentWindow);
 
                 break;
         }

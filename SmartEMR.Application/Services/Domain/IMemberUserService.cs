@@ -9,4 +9,5 @@ public interface IMemberUserService
     Task<ServiceResult<MemberUser>> GetMemberUsers(MemberUser item);
     Task<ServiceResult<MemberUser>> SetMemberUser(MemberUser item);
     Task<ServiceResult<MemberUser>> SignUp(MemberUser memberUser);
+    Task<ServiceResult<MemberUser>> ChangePassword(MemberUser memberUser);
 }

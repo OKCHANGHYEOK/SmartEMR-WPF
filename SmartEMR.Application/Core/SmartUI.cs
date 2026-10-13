@@ -175,6 +175,11 @@ public static partial class SmartUI
         }
     }
 
+    public static void CloseWindow(TargetWindowType windowType = TargetWindowType.CurrentWindow)
+    {
+        UIManager.CloseWindow(windowType);
+    }
+
     public static void CloseView(TargetViewType viewType = TargetViewType.CurrentView)
     {
         var targetView = UIManager.GetTargetView(viewType);

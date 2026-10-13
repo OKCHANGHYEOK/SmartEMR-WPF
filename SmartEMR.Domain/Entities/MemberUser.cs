@@ -17,6 +17,7 @@ public partial class MemberUser : BaseEntity
     private string? m_MUR_Id;
     private string? m_MUR_PassWord;
     private string? m_MUR_PassWordCheck;
+    private string? m_MUR_PasswordCurrent;
     private string? m_MUR_LicenseNo;
     private string? m_MUR_Name;
     private string? m_MUR_Gender;
@@ -114,6 +115,12 @@ public partial class MemberUser : BaseEntity
     {
         get => m_MUR_PassWordCheck;
         set => SetProperty(ref m_MUR_PassWordCheck, value);
+    }
+
+    public string? MUR_PasswordCurrent
+    {
+        get => m_MUR_PasswordCurrent;
+        set => SetProperty(ref m_MUR_PasswordCurrent, value);
     }
 
     public string? MUR_LicenseNo

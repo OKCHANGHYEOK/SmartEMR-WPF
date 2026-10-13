@@ -103,7 +103,7 @@ public class SmartMVVM
                 var result = SmartUI.MsgConfirm(message);
                 if (result is MessageBoxResult.OK)
                 {
-                    SmartUI.UIManager.CloseWindow(TargetWindowType.AllWindows);
+                    SmartUI.CloseWindow(TargetWindowType.AllWindows);
                 }
 
                 break;

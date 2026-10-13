@@ -33,6 +33,12 @@
                 <Setter Property="Foreground" Value="#333333"/>
             </Style>
 
+            <Style TargetType="{x:Type Xpf:TextEdit}">
+                <Setter Property="MinHeight" Value="26"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+
             <Style TargetType="{x:Type Xpf:ComboBoxEdit}">
                 <Setter Property="MinHeight" Value="20"/>
                 <Setter Property="MinWidth" Value="40"/>

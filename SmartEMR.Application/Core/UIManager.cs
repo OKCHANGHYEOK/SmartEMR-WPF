@@ -96,7 +96,6 @@ public partial class UIManager
 
                 foreach (var window in _activeWindows.ToList())
                 {
-                    window.DialogResult = true;
                     window.Close();
                 }
 
