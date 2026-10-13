@@ -10,7 +10,7 @@
           mc:Ignorable="d" 
           Title="SmartEMR"
           Width="1100"
-          Height="850"    
+          Height="700"    
           WindowStyle="None"
           AllowsTransparency="True"
           Background="Transparent"
