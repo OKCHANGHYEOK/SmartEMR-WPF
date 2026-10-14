@@ -49,13 +49,28 @@ public partial class SignUpViewModel : MemberViewModel
         SmartMVVM.ModelProperty.SetMemberData(Model, selectedItem);
     }
 
-    [RelayCommand]
-    private async Task SignUpRequest()
+    public void ClearData()
     {
-        await SmartUI.SendMessage("SignUp", viewType:TargetViewType.ParentView);
+        IsCheckedDuplicateId = false;
+        UsableId = false;
+
+        IsCheckedDuplicateMediNo = false;
+        UsableMediNo = false;
+
+        IsRequestVerifyCode = false;
+        IsIdentityVerified = false;
+        IsPasswordMatch = false;
+
+        IdentityVerificationCode = "";
+
+        SmartMVVM.ModelProperty.ClearMEMData(Model);
+        SmartMVVM.ModelProperty.ClearMURData(MemberUser);
+
+        StopVerifyTimer();
     }
 
-    public async Task SignUp()
+    [RelayCommand]
+    private async Task SignUp()
     {
         if (!CanSignUp()) return;
 
@@ -83,26 +98,6 @@ public partial class SignUpViewModel : MemberViewModel
         await SmartUI.SendMessage("ShowLogin", loginUser, viewType:TargetViewType.RootView);
 
         ClearData();
-    }
-
-    public void ClearData()
-    {
-        IsCheckedDuplicateId = false;
-        UsableId = false;
-        
-        IsCheckedDuplicateMediNo = false;
-        UsableMediNo = false;
-
-        IsRequestVerifyCode = false;
-        IsIdentityVerified = false;
-        IsPasswordMatch = false;
-
-        IdentityVerificationCode = "";
-
-        SmartMVVM.ModelProperty.ClearMEMData(Model);
-        SmartMVVM.ModelProperty.ClearMURData(MemberUser);
-
-        StopVerifyTimer();
     }
 
     private async Task<MemberUser?> SignUpByExistMember()

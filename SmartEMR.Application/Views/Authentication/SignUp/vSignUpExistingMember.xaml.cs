@@ -8,6 +8,7 @@ using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 using SmartEMR.Domain.Entities;
 using DevExpress.Xpf.Editors;
+using SmartEMR.Application.Core;
 
 namespace SmartEMR.Application.Views.Authentication;
 
@@ -66,11 +67,6 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
     {
     }
 
-    public async Task SignUp()
-    {
-        await vm.SignUp();
-    }
-
     public void ClearData()
     {
         vm.ClearData();
@@ -121,6 +117,24 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 
         switch (element.Name)
         {
+            case nameof(btnBackToSelectSignUpType):
+                if (SmartUI.MsgYesNo("입력중인 데이터는 유지되지 않습니다.\n 계속하시겠습니까?") is MessageBoxResult.Yes)
+                {
+                    SignUpScrollViewer.ScrollToTop();
+                    await SmartUI.SendMessage("BackToSelectSignUpType", viewType: TargetViewType.ParentView);
+                }
+
+                break;
+
+            case nameof(btnBackToLogin):
+                if (SmartUI.MsgYesNo("입력중인 데이터는 유지되지 않습니다.\n 계속하시겠습니까?") is MessageBoxResult.Yes)
+                {
+                    SignUpScrollViewer.ScrollToTop();
+                    await SmartUI.SendMessage("BackToLogin", viewType: TargetViewType.ParentView);
+                }
+
+                break;
+
             case nameof(btnCheckDuplicateId):
                 await CheckDuplicateId();
                 break;

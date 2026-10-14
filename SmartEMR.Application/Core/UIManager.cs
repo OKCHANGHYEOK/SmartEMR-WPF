@@ -117,10 +117,21 @@ public partial class UIManager
     {
         get
         {
-            var rootView = CurrentWindow?.Content as ViewLayout;
-            if (rootView is null)
+            if (CurrentWindow is null) 
+                return null;
+
+            if (CurrentWindow.Content is not FrameworkElement element) 
+                return null;
+
+            ViewLayout? rootView;
+
+            if (element is ViewLayout viewLayout)
             {
-                rootView = rootView.FindChild<ViewLayout>();
+                rootView = viewLayout;
+            }
+            else
+            {
+                rootView = element.FindChild<ViewLayout>();
             }
 
             return rootView;

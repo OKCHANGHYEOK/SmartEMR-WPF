@@ -40,10 +40,6 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
 
         switch (request.MessageAction)
         {
-            case "SignUp":
-                await SignUp();
-                break;
-
             case "BackToSelectSignUpType":
                 BackToSelectSignUpType();
                 break;
@@ -57,24 +53,33 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
         return response;
     }
 
-    private void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
+    private async void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
     {
         if (sender is not SimpleButton element) return;
 
         switch (element.Name)
         {
-            case "btnSignUpExist":
-                vm.SetSignUpType(SignUpType.EXIST);
+            case nameof(btnBackToLogin):
+                await BackToLogin();
                 break;
 
-            case "btnSignUpNew":
-                vm.SetSignUpType(SignUpType.NEW);
+            case nameof(btnSignUpExist):
+                ShowSignUpView(SignUpType.EXIST);
+                break;
+
+            case nameof(btnSignUpNew):
+                ShowSignUpView(SignUpType.NEW);
                 break;
         }
+    }
+
+    private void ShowSignUpView(SignUpType targetType)
+    {
+        vm.SetSignUpType(targetType);
 
         ToggleSignUpLayout();
     }
-
+    
     private void ToggleSignUpLayout()
     {
         _isShowSelectSignUpType = !_isShowSelectSignUpType;
@@ -93,24 +98,15 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
 
     private async Task BackToLogin()
     {
+        if (!_isShowSelectSignUpType)
+        {
+            ToggleSignUpLayout();
+        }
+
         SignUpExistingMember.ClearData();
         SignUpNewMember.ClearData();
 
-        ToggleSignUpLayout();
-
-        await SmartUI.SendMessage("ShowLogin", viewType: TargetViewType.ParentView);
-    }
-
-    private async Task SignUp()
-    {
-        if (vm.SignUpType == SignUpType.EXIST)
-        {
-            await SignUpExistingMember.SignUp();
-        }
-        else if (vm.SignUpType == SignUpType.NEW)
-        {
-            await SignUpNewMember.SignUp();
-        }
+        await SmartUI.SendMessage("ShowLogin", viewType: TargetViewType.RootView);
     }
 }
 

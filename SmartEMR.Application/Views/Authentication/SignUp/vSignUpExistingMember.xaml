@@ -1,6 +1,4 @@
-﻿<base:ModelViewLayout x:TypeArguments="vm:SignUpViewModel"
-                      x:Class="SmartEMR.Application.Views.Authentication.vSignUpExisitingMember"
-                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<base:ModelViewLayout xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,754 +8,809 @@
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                       xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
-                      xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
+                      x:TypeArguments="vm:SignUpViewModel"
+                      x:Class="SmartEMR.Application.Views.Authentication.vSignUpExisitingMember"
                       mc:Ignorable="d"
-                      d:DesignHeight="850"
-                      d:DesignWidth="1100"
+                      d:DesignHeight="700"
+                      d:DesignWidth="800"
                       d:DataContext="{d:DesignInstance Type={x:Type vm:SignUpViewModel}}">
 
-    <StackPanel Orientation="Vertical"
-                Margin="20,10,10,5"
-                Background="#FFFFFF">
+    <Xpf:StyleGrid LayoutDefinitions="1,2"
+                   RowSizeDefinitions="Auto,*"
+                   Margin="20,10,10,5"
+                   Background="#FFFFFF">
 
-        <Xpf:StyleGrid  LayoutDefinitions="3,1"
-                        ColumnSizeDefinitions="Auto,Auto,*"
-                        Margin="0,5,0,0">
+        <Xpf:TextBlock Grid.Column="0"
+                       Grid.Row="0"
+                       Text="기존기관 회원가입"
+                       FontWeight="Bold"
+                       FontSize="20"
+                       Foreground="#193458"
+                       HorizontalAlignment="Center"
+                       Margin="0,8,0,0"/>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Text="기존기관 회원가입"
-                            FontWeight="Bold"
-                            FontSize="20"   
-                            Foreground="#193458"/>
+        <Xpf:StyleGrid Grid.Row="1"
+                       x:Name="ContentGrid"
+                       LayoutDefinitions="1,3"
+                       RowSizeDefinitions="*,Auto,Auto"
+                       Margin="0,5,0,0">
 
-            <Xpf:TextBlock  Grid.Column="1"
-                            Text="SmartEMR과 함께 시작하세요."
-                            FontSize="14"
-                            FontWeight="DemiBold"
-                            Foreground="#294A70"
-                            Margin="10,0,0,0"/>
+            <ScrollViewer   x:Name="SignUpScrollViewer"
+                            Grid.Row="0"
+                            VerticalScrollBarVisibility="Auto"
+                            HorizontalScrollBarVisibility="Disabled"
+                            CanContentScroll="False"
+                            Padding="4,0">
 
-            <Xpf:TextBlock  Grid.Column="2"
-                            Text="아래 정보를 입력하시면 회원가입이 완료됩니다."
-                            FontSize="11"
-                            FontWeight="Regular"
-                            Foreground="#294A70"
-                            HorizontalAlignment="Left"
-                            Margin="8,0,0,0"/>
-        </Xpf:StyleGrid>
+                <StackPanel>
+                    <Xpf:StyleGrid x:Name="DefaultInfoGrid"
+                                   LayoutDefinitions="2,10"
+                                   ColumnSizeDefinitions="0.3*,*"
+                                   RowSizeDefinitions="50,50,50,20,50,50,50,20,50,20"
+                                   FocusManager.IsFocusScope="True">
 
-        <Xpf:StyleGrid  LayoutDefinitions="2,19"
-                        ColumnSizeDefinitions="0.3*,*"
-                        RowSizeDefinitions="*,*,*,20,*,*,*,20,*,20,*,*,*,*,*,*,*,*,*"
-                        Margin="0,15,0,0"
-                        FocusManager.IsFocusScope="True">
+                        <StackPanel Grid.Column="0"
+                                    Grid.Row="0"
+                                    Orientation="Horizontal">
 
-            <StackPanel Grid.Column="0"
-                        Grid.Row="0"
-                        Orientation="Horizontal">
+                            <Border Width="18"
+                                    Height="18"
+                                    BorderBrush="Transparent">
 
-                <Border Width="18"
-                        Height="18"
-                        BorderBrush="Transparent">
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Images/smartemr_person.png"
-                                    Stretch="UniformToFill"/>
-                    </Border.Background>
-                </Border>
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/smartemr_person.png"
+                                                Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
 
-                <Xpf:TextBlock  Text="기본 정보"
-                                FontSize="14"
-                                Foreground="#294A70"
-                                FontWeight="SemiBold"
-                                Margin="5,0,0,0"/>
-            </StackPanel>
+                            <Xpf:TextBlock Text="기본 정보"
+                                           FontSize="14"
+                                           Foreground="#294A70"
+                                           FontWeight="SemiBold"
+                                           Margin="5,0,0,0"
+                                           HorizontalAlignment="Stretch"/>
+                        </StackPanel>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="1"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="0,10,0,0">
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    이름
-                </Run>
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">
+                                이름
+                            </Run>
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-            <Xpf:TextEdit   x:Name="txtMUR_Name"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            EditValue="{Binding MemberUser.MUR_Name, UpdateSourceTrigger=PropertyChanged}"
-                            NullText="이름을 입력하세요."
-                            HorizontalAlignment="Stretch"   
-                            BorderBrush="#DDE5EF"
-                            BorderThickness="1.5"
-                            CornerRadius="4"
-                            Padding="5"
-                            Margin="0,10,0,0"/>
+                        <Xpf:TextEdit x:Name="txtMUR_Name"
+                                      Grid.Column="1"
+                                      Grid.Row="1"
+                                      EditValue="{Binding MemberUser.MUR_Name, UpdateSourceTrigger=PropertyChanged}"
+                                      NullText="이름을 입력하세요."
+                                      HorizontalAlignment="Stretch"
+                                      BorderBrush="#DDE5EF"
+                                      BorderThickness="1.5"
+                                      CornerRadius="4"
+                                      Padding="5"
+                                      Margin="0,10,0,0"/>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="2"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="2"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="0,10,0,0">
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    아이디
-                </Run>
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">
+                                아이디
+                            </Run>
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-            <Xpf:StyleGrid  Grid.Column="1"
-                            Grid.Row="2"
-                            LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,5,Auto"
-                            Margin="0,10,0,0">
+                        <Xpf:StyleGrid Grid.Column="1"
+                                       Grid.Row="2"
+                                       LayoutDefinitions="3,1"
+                                       ColumnSizeDefinitions="*,5,Auto"
+                                       Margin="0,10,0,0">
 
-                <Xpf:TextEdit   x:Name="txtMUR_Id"
-                                Grid.Column="0"
-                                Text="{Binding MemberUser.MUR_Id}"
-                                NullText="사용하실 아이디를 입력하세요."
-                                HorizontalAlignment="Stretch"
-                                BorderBrush="#DDE5EF"
-                                BorderThickness="1.5"
-                                CornerRadius="4"
-                                Padding="5"
-                                EditValueChanged="OnEditValueChanged_TextEdit"
-                                PreviewTextInput="OnPreviewTextInput_TextEdit">
-                </Xpf:TextEdit>
+                            <Xpf:TextEdit x:Name="txtMUR_Id"
+                                          Grid.Column="0"
+                                          EditValue="{Binding MemberUser.MUR_Id, UpdateSourceTrigger=PropertyChanged}"
+                                          NullText="사용하실 아이디를 입력하세요."
+                                          HorizontalAlignment="Stretch"
+                                          BorderBrush="#DDE5EF"
+                                          BorderThickness="1.5"
+                                          CornerRadius="4"
+                                          EditValueChanged="OnEditValueChanged_TextEdit"
+                                          PreviewTextInput="OnPreviewTextInput_TextEdit"
+                                          Padding="5">
+                            </Xpf:TextEdit>
 
-                <dxc:SimpleButton   x:Name="btnCheckDuplicateId"
-                                    Grid.Column="2"
-                                    Content="중복확인"
-                                    Foreground="SlateBlue"
-                                    FontWeight="SemiBold"
-                                    Background="Transparent"
-                                    BorderBrush="SlateBlue"
-                                    CornerRadius="5"
-                                    Padding="8,0"
-                                    Cursor="Hand"
-                                    Click="OnClick_Button"/>
-            </Xpf:StyleGrid>
+                            <Xpf:Button x:Name="btnCheckDuplicateId"
+                                        Grid.Column="2"
+                                        Content="중복확인"
+                                        Foreground="SlateBlue"
+                                        FontWeight="SemiBold"
+                                        Background="Transparent"
+                                        BorderBrush="SlateBlue"
+                                        CornerRadius="5"
+                                        HorizontalAlignment="Center"
+                                        Padding="4,0,4,0"
+                                        Click="OnClick_Button"/>
+                        </Xpf:StyleGrid>
 
-            <Xpf:Label  x:Name="lblRequiredId"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Grid.Row="3"
-                        Content="아이디를 입력해주세요."
-                        Foreground="IndianRed"
-                        HorizontalAlignment="Left"
-                        Visibility="Collapsed"/>
+                        <Xpf:Label x:Name="lblRequiredId"
+                                   Grid.Column="1"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="3"
+                                   Content="아이디를 입력해주세요."
+                                   Foreground="IndianRed"
+                                   HorizontalAlignment="Left"
+                                   Visibility="Collapsed"/>
 
-            <Xpf:Label Grid.Column="1"  
-                       Grid.ColumnSpan="2"
-                       Grid.Row="3"
-                       FontSize="12"
-                       HorizontalAlignment="Right"
-                       Visibility="{Binding IsCheckedDuplicateId, Converter={converter:BooleanToVisibilityConverter}}">
+                        <Xpf:Label Grid.Column="1"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="3"
+                                   FontSize="12"
+                                   HorizontalAlignment="Right"
+                                   Visibility="{Binding IsCheckedDuplicateId, Converter={converter:BooleanToVisibilityConverter}}">
 
-                <Xpf:Label.Style>
-                    <Style TargetType="{x:Type Xpf:Label}">
-                        <Setter Property="Content" Value="사용할 수 없는 아이디입니다."/>
-                        <Setter Property="Foreground" Value="IndianRed"/>
+                            <Xpf:Label.Style>
+                                <Style TargetType="{x:Type Xpf:Label}">
+                                    <Setter Property="Content"
+                                            Value="사용할 수 없는 아이디입니다."/>
+                                    <Setter Property="Foreground"
+                                            Value="IndianRed"/>
 
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding UsableId}" Value="True">
-                                <Setter Property="Content" Value="사용 가능한 아이디입니다."/>
-                                <Setter Property="Foreground" Value="Blue"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Xpf:Label.Style>
-            </Xpf:Label>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UsableId}"
+                                                     Value="True">
+                                            <Setter Property="Content"
+                                                    Value="사용 가능한 아이디입니다."/>
+                                            <Setter Property="Foreground"
+                                                    Value="Blue"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Xpf:Label.Style>
+                        </Xpf:Label>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="4"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="4"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="0,10,0,0">
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    이메일
-                </Run>
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">
+                                이메일
+                            </Run>
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-            <Xpf:StyleGrid  Grid.Column="1"
-                            Grid.Row="4"
-                            LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,5,Auto"
-                            Margin="0,10,0,0">
+                        <Xpf:StyleGrid Grid.Column="1"
+                                       Grid.Row="4"
+                                       LayoutDefinitions="3,1"
+                                       ColumnSizeDefinitions="*,5,Auto"
+                                       Margin="0,10,0,0">
 
-                <Xpf:TextEdit   x:Name="txtMUR_Email"
-                                Grid.Column="0"
-                                EditValue="{Binding MemberUser.MUR_Email, UpdateSourceTrigger=PropertyChanged}"
-                                NullText="이메일을 입력하세요."
-                                HorizontalAlignment="Stretch"   
-                                BorderBrush="#DDE5EF"
-                                BorderThickness="1.5"
-                                CornerRadius="4"
-                                Padding="5"
-                                PreviewTextInput="OnPreviewTextInput_TextEdit">
+                            <Xpf:TextEdit x:Name="txtMUR_Email"
+                                          Grid.Column="0"
+                                          EditValue="{Binding MemberUser.MUR_Email, UpdateSourceTrigger=PropertyChanged}"
+                                          NullText="이메일을 입력하세요."
+                                          HorizontalAlignment="Stretch"
+                                          BorderBrush="#DDE5EF"
+                                          BorderThickness="1.5"
+                                          CornerRadius="4"
+                                          Padding="5"
+                                          PreviewTextInput="OnPreviewTextInput_TextEdit">
 
-                    <Xpf:TextEdit.Style>
-                        <Style TargetType="{x:Type Xpf:TextEdit}">
-                            <Setter Property="IsEnabled" Value="True"/>
+                                <Xpf:TextEdit.Style>
+                                    <Style TargetType="{x:Type Xpf:TextEdit}">
+                                        <Setter Property="IsEnabled"
+                                                Value="True"/>
 
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Xpf:TextEdit.Style>
-                </Xpf:TextEdit>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
+                                                         Value="True">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Xpf:TextEdit.Style>
+                            </Xpf:TextEdit>
 
-                <Xpf:TextBlock  x:Name="txtVerifyTimer"
-                                Grid.Column="0"
-                                FontSize="11"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Margin="2,0,4,0">
+                            <Xpf:TextBlock x:Name="txtVerifyTimer"
+                                           Grid.Column="0"
+                                           FontSize="11"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Margin="2,0,4,0">
 
-                    <Xpf:TextBlock.Style>
-                        <Style TargetType="{x:Type Xpf:TextBlock}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
+                                <Xpf:TextBlock.Style>
+                                    <Style TargetType="{x:Type Xpf:TextBlock}">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed"/>
 
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsRequestVerifyCode}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Xpf:TextBlock.Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsRequestVerifyCode}"
+                                                         Value="True">
+                                                <Setter Property="Visibility"
+                                                        Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Xpf:TextBlock.Style>
 
-                    <Run Text="남은시간 :"/>
-                    <Run Text="{Binding VerifyLimitTimeText}"/>
-                </Xpf:TextBlock>
-                
-                <dxc:SimpleButton x:Name="btnRequestVerify"
-                                  Grid.Column="2"
-                                  Content="인증요청"
-                                  Height="32"
-                                  Padding="8,0"
-                                  FontSize="12"
-                                  FontWeight="SemiBold"
-                                  Foreground="#FFFFFF"
-                                  Background="#294A70"
-                                  BorderBrush="#294A70"
-                                  Cursor="Hand"
-                                  CornerRadius="4"
-                                  Command="{Binding RequestVerifyCommand}">
+                                <Run Text="남은시간 :"/>
+                                <Run Text="{Binding VerifyLimitTimeText}"/>
+                            </Xpf:TextBlock>
 
-                    <dxc:SimpleButton.Style>
-                        <Style TargetType="{x:Type dxc:SimpleButton}">
-                            <Setter Property="IsEnabled" Value="True"/>
+                            <dxc:SimpleButton x:Name="btnRequestVerify"
+                                              Grid.Column="2"
+                                              Content="인증요청"
+                                              Padding="8,0"
+                                              FontSize="12"
+                                              FontWeight="SemiBold"
+                                              Foreground="#FFFFFF"
+                                              Background="#294A70"
+                                              BorderBrush="#294A70"
+                                              Cursor="Hand"
+                                              CornerRadius="4"
+                                              Command="{Binding RequestVerifyCommand}">
 
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </dxc:SimpleButton.Style>
-                </dxc:SimpleButton>
-            </Xpf:StyleGrid>
+                                <dxc:SimpleButton.Style>
+                                    <Style TargetType="{x:Type dxc:SimpleButton}">
+                                        <Setter Property="IsEnabled"
+                                                Value="True"/>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="5"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
+                                                         Value="True">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </dxc:SimpleButton.Style>
+                            </dxc:SimpleButton>
+                        </Xpf:StyleGrid>
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    인증코드
-                </Run>
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="5"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="0,10,0,0">
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">
+                                인증코드
+                            </Run>
 
-            <Xpf:StyleGrid  Grid.Column="1"
-                            Grid.Row="5"
-                            LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,5,Auto"
-                            Margin="0,10,0,0">
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-                <Xpf:TextEdit   x:Name="txtVerifyCode"
-                                Grid.Column="0"
-                                EditValue="{Binding IdentityVerificationCode, UpdateSourceTrigger=PropertyChanged}"
-                                NullText="인증코드를 입력하세요."
-                                HorizontalAlignment="Stretch"   
-                                BorderBrush="#DDE5EF"
-                                BorderThickness="1.5"
-                                CornerRadius="4"
-                                Padding="5"
-                                PreviewTextInput="OnPreviewTextInput_TextEdit">
+                        <Xpf:StyleGrid Grid.Column="1"
+                                       Grid.Row="5"
+                                       LayoutDefinitions="3,1"
+                                       ColumnSizeDefinitions="*,5,Auto"
+                                       Margin="0,10,0,0">
 
-                    <Xpf:TextEdit.Style>
-                        <Style TargetType="{x:Type Xpf:TextEdit}">
-                            <Setter Property="IsEnabled" Value="True"/>
+                            <Xpf:TextEdit x:Name="txtVerifyCode"
+                                          Grid.Column="0"
+                                          EditValue="{Binding IdentityVerificationCode, UpdateSourceTrigger=PropertyChanged}"
+                                          NullText="인증코드를 입력하세요."
+                                          HorizontalAlignment="Stretch"
+                                          BorderBrush="#DDE5EF"
+                                          BorderThickness="1.5"
+                                          CornerRadius="4"
+                                          Padding="5"
+                                          PreviewTextInput="OnPreviewTextInput_TextEdit">
 
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Xpf:TextEdit.Style>
-                </Xpf:TextEdit>
+                                <Xpf:TextEdit.Style>
+                                    <Style TargetType="{x:Type Xpf:TextEdit}">
+                                        <Setter Property="IsEnabled"
+                                                Value="True"/>
 
-                <Border Grid.Column="0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Width="18"
-                        Height="18"
-                        Margin="0,0,4,0"
-                        Visibility="{Binding IsIdentityVerified, Converter={converter:BooleanToVisibilityConverter}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
+                                                         Value="True">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Xpf:TextEdit.Style>
+                            </Xpf:TextEdit>
 
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Images/smartemr_check.png"/>
-                    </Border.Background>
-                </Border>
+                            <Border Grid.Column="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Width="18"
+                                    Height="18"
+                                    Margin="0,0,4,0"
+                                    Visibility="{Binding IsIdentityVerified, Converter={converter:BooleanToVisibilityConverter}}">
 
-                <dxc:SimpleButton x:Name="btnVerifyEmail"
-                                  Grid.Column="2"
-                                  Content="인증확인"
-                                  Height="32"
-                                  Padding="8,0"
-                                  FontSize="12"
-                                  FontWeight="SemiBold"
-                                  Foreground="#FFFFFF"
-                                  Background="#294A70"
-                                  BorderBrush="#294A70"
-                                  CornerRadius="4"
-                                  Cursor="Hand"
-                                  VerticalAlignment="Center"
-                                  Command="{Binding RequestVerifyCheckCommand}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/smartemr_check.png"/>
+                                </Border.Background>
+                            </Border>
 
-                    <dxc:SimpleButton.Style>
-                        <Style TargetType="{x:Type dxc:SimpleButton}">
-                            <Setter Property="IsEnabled" Value="True"/>
+                            <dxc:SimpleButton x:Name="btnVerifyEmail"
+                                              Grid.Column="2"
+                                              Content="인증확인"
+                                              Padding="8,0"
+                                              FontSize="12"
+                                              FontWeight="SemiBold"
+                                              Foreground="#FFFFFF"
+                                              Background="#294A70"
+                                              BorderBrush="#294A70"
+                                              CornerRadius="4"
+                                              Cursor="Hand"
+                                              Command="{Binding RequestVerifyCheckCommand}">
 
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsRequestVerifyCode}" Value="False">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
+                                <dxc:SimpleButton.Style>
+                                    <Style TargetType="{x:Type dxc:SimpleButton}">
+                                        <Setter Property="IsEnabled"
+                                                Value="True"/>
 
-                                <DataTrigger Binding="{Binding IsIdentityVerified}" Value="True">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </dxc:SimpleButton.Style>
-                </dxc:SimpleButton>
-            </Xpf:StyleGrid>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsRequestVerifyCode}"
+                                                         Value="False">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="6"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
+                                                         Value="True">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </dxc:SimpleButton.Style>
+                            </dxc:SimpleButton>
+                        </Xpf:StyleGrid>
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    비밀번호
-                </Run>
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="6"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="0,10,0,0">
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">
+                                비밀번호
+                            </Run>
 
-            <dxe:PasswordBoxEdit    x:Name="pwMUR_Password"
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
+
+                        <dxe:PasswordBoxEdit x:Name="pwMUR_Password"
+                                             Grid.Column="1"
+                                             Grid.Row="6"
+                                             EditValue="{Binding MemberUser.MUR_PassWord, UpdateSourceTrigger=PropertyChanged}"
+                                             NullText="비밀번호를 입력하세요."
+                                             HorizontalAlignment="Stretch"
+                                             BorderBrush="#DDE5EF"
+                                             BorderThickness="1.5"
+                                             CornerRadius="4"
+                                             PasswordChar="*"
+                                             Padding="5"
+                                             Margin="0,10,0,0"
+                                             ShowPasswordButtonVisibility="Always"
+                                             PreviewTextInput="OnPreviewTextInput_PasswordEdit"
+                                             EditValueChanged="OnEditValueChanged_PasswordEdit">
+
+                            <dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
+                                <DataTemplate>
+                                    <local:ShowPasswordButtonTemplate/>
+                                </DataTemplate>
+                            </dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
+                        </dxe:PasswordBoxEdit>
+
+                        <StackPanel x:Name="UsablePasswordPanel"
                                     Grid.Column="1"
                                     Grid.Row="6"
-                                    EditValue="{Binding MemberUser.MUR_PassWord, UpdateSourceTrigger=PropertyChanged}"
-                                    NullText="비밀번호를 입력하세요."
-                                    HorizontalAlignment="Stretch"
-                                    BorderBrush="#DDE5EF"
-                                    BorderThickness="1.5"
-                                    CornerRadius="4"
-                                    PasswordChar="*"
-                                    Padding="5"
-                                    Margin="0,10,0,0"
-                                    ShowPasswordButtonVisibility="Always"
-                                    PreviewTextInput="OnPreviewTextInput_PasswordEdit"
-                                    EditValueChanged="OnEditValueChanged_PasswordEdit">
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Margin="2,10,35,0"
+                                    Visibility="Collapsed">
 
-                <dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
-                    <DataTemplate>
-                        <local:ShowPasswordButtonTemplate/>
-                    </DataTemplate>
-                </dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
-            </dxe:PasswordBoxEdit>
+                            <Border Width="18"
+                                    Height="18">
 
-            <StackPanel  x:Name="UsablePasswordPanel"
-                         Grid.Column="1"
-                         Grid.Row="6"
-                         Orientation="Horizontal"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Center"
-                         Margin="2,10,35,0"
-                         Visibility="Collapsed">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/smartemr_cross_circle.png"/>
+                                </Border.Background>
+                            </Border>
 
-                <Border Width="18"
-                        Height="18">
+                            <Xpf:Label Content="사용할 수 없는 비밀번호입니다."
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Margin="2,0,0,0"/>
+                        </StackPanel>
 
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Images/smartemr_cross_circle.png"/>
-                    </Border.Background>
-                </Border>
+                        <Xpf:Label Grid.Column="1"
+                                   Grid.Row="7"
+                                   HorizontalAlignment="Left"
+                                   Content=" * 8~20자리 영문 소/대문자 및 숫자, 특수문자(!,@,#,$,%) 만 사용가능. 각 문자는 하나 이상 필수"
+                                   FontSize="11"
+                                   Foreground="DimGray"
+                                   Margin="0,2,0,0"/>
 
-                <Xpf:Label Content="사용할 수 없는 비밀번호입니다."
-                           FontSize="11"
-                           FontWeight="SemiBold"
-                           Margin="2,0,0,0"/>
-            </StackPanel>
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="8"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="0,10,0,0">
 
-            <Xpf:Label  Grid.Column="1"
-                        Grid.Row="7"
-                        HorizontalAlignment="Left"
-                        Content=" * 8~20자리 영문 소/대문자 및 숫자, 특수문자(!,@,#,$,%) 만 사용가능. 각 문자는 하나 이상 필수"
-                        FontSize="11"
-                        Foreground="DimGray"
-                        Margin="0,2,0,0"/>
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">
+                                비밀번호 확인
+                            </Run>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="8"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-                <Run    Foreground="#294A70"
-                        FontSize="12"
-                        FontWeight="SemiBold">
-                    비밀번호 확인
-                </Run>
+                        <dxe:PasswordBoxEdit x:Name="pwMUR_PasswordCheck"
+                                             Grid.Column="1"
+                                             Grid.Row="8"
+                                             EditValue="{Binding MemberUser.MUR_PassWordCheck, UpdateSourceTrigger=PropertyChanged}"
+                                             NullText="비밀번호를 다시 입력하세요."
+                                             HorizontalAlignment="Stretch"
+                                             BorderBrush="#DDE5EF"
+                                             BorderThickness="1.5"
+                                             CornerRadius="4"
+                                             PasswordChar="*"
+                                             Padding="5"
+                                             Margin="0,10,0,0"
+                                             ShowPasswordButtonVisibility="Always"
+                                             EditValueChanged="OnEditValueChanged_PasswordEdit">
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                            <dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
+                                <DataTemplate>
+                                    <local:ShowPasswordButtonTemplate/>
+                                </DataTemplate>
+                            </dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
+                        </dxe:PasswordBoxEdit>
 
-            <dxe:PasswordBoxEdit    x:Name="pwMUR_PasswordCheck"
-                                    Grid.Column="1"
-                                    Grid.Row="8"
-                                    EditValue="{Binding MemberUser.MUR_PassWordCheck, UpdateSourceTrigger=PropertyChanged}"
-                                    NullText="비밀번호를 다시 입력하세요."
-                                    HorizontalAlignment="Stretch"
-                                    BorderBrush="#DDE5EF"
-                                    BorderThickness="1.5"
-                                    CornerRadius="4"
-                                    PasswordChar="*"
-                                    Padding="5"
-                                    Margin="0,10,0,0"
-                                    ShowPasswordButtonVisibility="Always"
-                                    EditValueChanged="OnEditValueChanged_PasswordEdit">
+                        <Xpf:Label Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="10"
+                                   HorizontalAlignment="Right">
 
-                <dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
-                    <DataTemplate>
-                        <local:ShowPasswordButtonTemplate/>
-                    </DataTemplate>
-                </dxe:PasswordBoxEdit.ShowPasswordButtonTemplate>
-            </dxe:PasswordBoxEdit>
+                            <Xpf:Label.Visibility>
+                                <MultiBinding Converter="{local:PasswordToVisibilityConverter}">
+                                    <Binding ElementName="pwMUR_Password"
+                                             Path="EditValue"/>
+                                    <Binding ElementName="pwMUR_PasswordCheck"
+                                             Path="EditValue"/>
+                                </MultiBinding>
+                            </Xpf:Label.Visibility>
 
-            <Xpf:Label Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Grid.Row="9"
-                       HorizontalAlignment="Right">
+                            <Xpf:Label.Style>
+                                <Style TargetType="{x:Type Xpf:Label}">
+                                    <Setter Property="Content"
+                                            Value="비밀번호가 일치하지 않습니다."/>
+                                    <Setter Property="Foreground"
+                                            Value="IndianRed"/>
 
-                <Xpf:Label.Visibility>
-                    <MultiBinding Converter="{local:PasswordToVisibilityConverter}">
-                        <Binding ElementName="pwMUR_Password" Path="EditValue"/>
-                        <Binding ElementName="pwMUR_PasswordCheck" Path="EditValue"/>
-                    </MultiBinding>
-                </Xpf:Label.Visibility>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsPasswordMatch}"
+                                                     Value="True">
+                                            <Setter Property="Content"
+                                                    Value="비밀번호가 일치합니다."/>
+                                            <Setter Property="Foreground"
+                                                    Value="Blue"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Xpf:Label.Style>
+                        </Xpf:Label>
+                    </Xpf:StyleGrid>
 
-                <Xpf:Label.Style>
-                    <Style TargetType="{x:Type Xpf:Label}">
-                        <Setter Property="Content" Value="비밀번호가 일치하지 않습니다."/>
-                        <Setter Property="Foreground" Value="IndianRed"/>
+                    <Xpf:StyleGrid x:Name="OrganizationAndWorkInfoGrid"
+                                   LayoutDefinitions="2,10"
+                                   ColumnSizeDefinitions="0.3*,*"
+                                   RowSizeDefinitions="50,50,50,50,50,50,50,50,50"
+                                   FocusManager.IsFocusScope="True">
 
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPasswordMatch}" Value="True">
-                                <Setter Property="Content" Value="비밀번호가 일치합니다."/>
-                                <Setter Property="Foreground" Value="Blue"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Xpf:Label.Style>
-            </Xpf:Label>
+                        <StackPanel Grid.Column="0"
+                                    Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,15,0,0">
 
-            <StackPanel Grid.Column="0"
-                        Grid.Row="10"
-                        Orientation="Horizontal"
-                        Margin="0,15,0,0">
+                            <Border Width="18"
+                                    Height="18"
+                                    BorderBrush="Transparent">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/smartemr_office.png"
+                                                Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
 
-                <Border Width="18"
-                        Height="18"
-                        BorderBrush="Transparent">
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Images/smartemr_office.png"
-                                Stretch="UniformToFill"/>
-                    </Border.Background>
-                </Border>
+                            <Xpf:TextBlock Text="기관 정보"
+                                           FontSize="14"
+                                           Foreground="#294A70"
+                                           FontWeight="SemiBold"
+                                           Margin="5,0,0,0"
+                                           HorizontalAlignment="Stretch"/>
+                        </StackPanel>
 
-                <Xpf:TextBlock  Text="기관 정보"
-                                FontSize="14"
-                                Foreground="#294A70"
-                                FontWeight="SemiBold"
-                                Margin="5,0,0,0"/>
-            </StackPanel>
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Stretch">
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">기관종구분</Run>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="11"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                        <Xpf:ComboBoxEdit x:Name="cmbMEM_BizType"
+                                          Grid.Column="1"
+                                          Grid.Row="1"
+                                          EditValue="{Binding Model.MEM_BizType, UpdateSourceTrigger=PropertyChanged}"
+                                          NullText="기관종구분을 선택하세요."
+                                          ItemsSource="{x:Static selection:InputOptionItems.BizTypes}"
+                                          DisplayMember="vMEM_BizType"
+                                          ValueMember="MEM_BizType"
+                                          BorderBrush="#DDE5EF"
+                                          CornerRadius="4"
+                                          HorizontalAlignment="Stretch"
+                                          Padding="5"
+                                          Margin="0,10,0,0"/>
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    기관종구분
-                </Run>
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="2"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Stretch">
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">의료기관명</Run>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                        <Xpf:ComboBoxEdit x:Name="cmbMEM_Idx"
+                                          Grid.Column="1"
+                                          Grid.Row="2"
+                                          EditValue="{Binding Model.MEM_Idx, UpdateSourceTrigger=PropertyChanged}"
+                                          NullText="병원을 선택하세요."
+                                          ItemsSource="{Binding Model.MEM_BizType, Converter={local:BizTypeToItemsSourceConverter}}"
+                                          DisplayMember="MEM_Name"
+                                          ValueMember="MEM_Idx"
+                                          BorderBrush="#DDE5EF"
+                                          CornerRadius="4"
+                                          HorizontalAlignment="Stretch"
+                                          Padding="5"
+                                          Margin="0,10,0,0"
+                                          EditValueChanged="OnEditValueChanged_ComboBoxEdit"/>
 
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="3"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Stretch">
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">요양기관번호</Run>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-            <Xpf:ComboBoxEdit   x:Name="cmbMEM_BizType"
-                                Grid.Column="1"
-                                Grid.Row="11"
-                                EditValue="{Binding Model.MEM_BizType, UpdateSourceTrigger=PropertyChanged}"
-                                NullText="기관종구분을 선택하세요."
-                                ItemsSource="{x:Static selection:InputOptionItems.BizTypes}"
-                                DisplayMember="vMEM_BizType"
-                                ValueMember="MEM_BizType"
-                                BorderBrush="#DDE5EF"
-                                CornerRadius="4"
-                                HorizontalAlignment="Stretch"
-                                Padding="5"
-                                Margin="0,10,0,0"/>
+                        <Xpf:TextEdit x:Name="txtMEM_MediNo"
+                                      Grid.Column="1"
+                                      Grid.Row="3"
+                                      EditValue="{Binding Model.MEM_MediNo, UpdateSourceTrigger=PropertyChanged}"
+                                      NullText="기관 선택 시 자동입력됩니다."
+                                      BorderBrush="#DDE5EF"
+                                      CornerRadius="4"
+                                      HorizontalAlignment="Stretch"
+                                      Padding="5"
+                                      Margin="0,10,0,0"
+                                      IsReadOnly="True"
+                                      IsEnabled="False"/>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="12"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="4"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Stretch">
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">사업자등록번호</Run>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    의료기관명
-                </Run>
+                        <Xpf:TextEdit x:Name="txtMEM_BizNum"
+                                      Grid.Column="1"
+                                      Grid.Row="4"
+                                      EditValue="{Binding Model.MEM_BizNum, UpdateSourceTrigger=PropertyChanged}"
+                                      NullText="기관 선택 시 자동입력됩니다."
+                                      BorderBrush="#DDE5EF"
+                                      CornerRadius="4"
+                                      HorizontalAlignment="Stretch"
+                                      Padding="5"
+                                      Margin="0,10,0,0"
+                                      IsReadOnly="True"
+                                      IsEnabled="False"/>
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                        <StackPanel Grid.Column="0"
+                                    Grid.Row="5"
+                                    Orientation="Horizontal"
+                                    Margin="0,15,0,0">
 
+                            <Border Width="18"
+                                    Height="18"
+                                    BorderBrush="Transparent">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Images/smartemr_work.png"
+                                                Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
 
-            <Xpf:ComboBoxEdit   x:Name="cmbMEM_Idx"
-                                Grid.Column="1"
-                                Grid.Row="12"
-                                EditValue="{Binding Model.MEM_Idx, UpdateSourceTrigger=PropertyChanged}"
-                                NullText="병원을 선택하세요."
-                                ItemsSource="{Binding Model.MEM_BizType, Converter={local:BizTypeToItemsSourceConverter}}"
-                                DisplayMember="MEM_Name"
-                                ValueMember="MEM_Idx"
-                                BorderBrush="#DDE5EF"
-                                CornerRadius="4"
-                                HorizontalAlignment="Stretch"
-                                Padding="5"
-                                Margin="0,10,0,0"
-                                EditValueChanged="OnEditValueChanged_ComboBoxEdit"/>
+                            <Xpf:TextBlock Text="근무 정보"
+                                           FontSize="14"
+                                           Foreground="#294A70"
+                                           FontWeight="SemiBold"
+                                           Margin="5,0,0,0"
+                                           HorizontalAlignment="Stretch"/>
+                        </StackPanel>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="13"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="6"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Stretch">
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">부서</Run>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    요양기관번호
-                </Run>
+                        <Xpf:ComboBoxEdit x:Name="cmbMUR_Department"
+                                          Grid.Column="1"
+                                          Grid.Row="6"
+                                          EditValue="{Binding MemberUser.MUR_Department, UpdateSourceTrigger=PropertyChanged}"
+                                          NullText="부서를 선택하세요."
+                                          ItemsSource="{x:Static selection:InputOptionItems.Departments}"
+                                          DisplayMember="vMUR_Department"
+                                          ValueMember="MUR_Department"
+                                          BorderBrush="#DDE5EF"
+                                          CornerRadius="4"
+                                          HorizontalAlignment="Stretch"
+                                          Padding="5"
+                                          Margin="0,10,0,0"/>
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="7"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Stretch">
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">직책</Run>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-            <Xpf:TextEdit   x:Name="txtMEM_MediNo"
-                            Grid.Column="1"
-                            Grid.Row="13"
-                            EditValue="{Binding Model.MEM_MediNo, UpdateSourceTrigger=PropertyChanged}"
-                            NullText="요양기관번호를 입력하세요.(기관선택시 자동입력)"
-                            BorderBrush="#DDE5EF"
-                            CornerRadius="4"
-                            HorizontalAlignment="Stretch"
-                            Padding="5"
-                            IsReadOnly="True"
-                            IsEnabled="False"
-                            Margin="0,10,0,0"/>
+                        <Xpf:ComboBoxEdit x:Name="cmbMUR_JobCode"
+                                          Grid.Column="1"
+                                          Grid.Row="7"
+                                          EditValue="{Binding MemberUser.MUR_JobCode, UpdateSourceTrigger=PropertyChanged}"
+                                          NullText="직책을 선택하세요."
+                                          ItemsSource="{Binding MemberUser.MUR_Department, Converter={local:DepartmentToJobCodeItemsSourceConverter}}"
+                                          DisplayMember="vMUR_JobCode"
+                                          ValueMember="MUR_JobCode"
+                                          BorderBrush="#DDE5EF"
+                                          CornerRadius="4"
+                                          HorizontalAlignment="Stretch"
+                                          Padding="5"
+                                          Margin="0,10,0,0"/>
 
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="14"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
+                        <Xpf:TextBlock Grid.Column="0"
+                                       Grid.Row="8"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Stretch">
+                            <Run Foreground="#294A70"
+                                 FontSize="12"
+                                 FontWeight="SemiBold">의료면허번호</Run>
+                            <Run Text="*"
+                                 Foreground="IndianRed"
+                                 FontWeight="Bold"/>
+                        </Xpf:TextBlock>
 
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    사업자등록번호
-                </Run>
+                        <Xpf:TextEdit x:Name="txtMUR_LicenseNo"
+                                      Grid.Column="1"
+                                      Grid.Row="8"
+                                      EditValue="{Binding MemberUser.MUR_LicenseNo, UpdateSourceTrigger=PropertyChanged}"
+                                      NullText="의료면허번호를 입력하세요. (의료인인 경우에만 입력)"
+                                      MaxLength="20"
+                                      BorderBrush="#DDE5EF"
+                                      CornerRadius="4"
+                                      HorizontalAlignment="Stretch"
+                                      Padding="5"
+                                      Margin="0,10,0,0"
+                                      IsEnabled="{Binding MemberUser.MUR_Department, Converter={local:DepartmentToIsEnableConverter}}"
+                                      PreviewTextInput="OnPreviewTextInput_TextEdit"/>
+                    </Xpf:StyleGrid>
+                </StackPanel>
+            </ScrollViewer>
 
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
+            <Xpf:Button x:Name="btnSignUp"
+                        Grid.Row="1"
+                        Content="회원가입"
+                        FontWeight="Bold"
+                        Foreground="FloralWhite"
+                        HorizontalAlignment="Center"
+                        Background="MediumBlue"
+                        CornerRadius="5"
+                        Padding="25,0"
+                        Command="{Binding SignUpCommand}"
+                        Width="220"
+                        Height="40"
+                        Margin="0,8,0,8">
+            </Xpf:Button>
 
-            <Xpf:TextEdit   x:Name="txtMEM_BizNum"
-                            Grid.Column="1"
-                            Grid.Row="14"
-                            EditValue="{Binding Model.MEM_BizNum, UpdateSourceTrigger=PropertyChanged}"
-                            NullText="사업자등록번호를 입력하세요. (기관선택시 자동입력.)"
-                            BorderBrush="#DDE5EF"
-                            CornerRadius="4"
-                            HorizontalAlignment="Stretch"
-                            Padding="5"
-                            Margin="0,10,0,0"
-                            IsReadOnly="True"
-                            IsEnabled="False"/>
+            <Xpf:StyleGrid Grid.Row="2"
+                           Height="45"
+                           LayoutDefinitions="3,1"
+                           ColumnSizeDefinitions="Auto,*,Auto"
+                           Margin="5,0,0,5">
 
-            <StackPanel Grid.Column="0"
-                        Grid.Row="15"
-                        Orientation="Horizontal"
-                        Margin="0,15,0,0">
+                <StackPanel>
+                    <Xpf:Button x:Name="btnBackToSelectSignUpType"
+                                Content="←  가입유형 선택 화면으로"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="#607A9A"
+                                FontSize="11"
+                                Cursor="Hand"
+                                Click="OnClick_Button"/>
 
-                <Border Width="18"
-                        Height="18"
-                        BorderBrush="Transparent">
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Images/smartemr_work.png"
-                                Stretch="UniformToFill"/>
-                    </Border.Background>
-                </Border>
-
-                <Xpf:TextBlock  Text="근무 정보"
-                                FontSize="14"
-                                Foreground="#294A70"
-                                FontWeight="SemiBold"
-                                Margin="5,0,0,0"/>
-            </StackPanel>
-
-
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="16"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
-
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    부서
-                </Run>
-
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
-
-
-            <Xpf:ComboBoxEdit   x:Name="cmbMUR_Department"
-                                Grid.Column="1"
-                                Grid.Row="16"
-                                EditValue="{Binding MemberUser.MUR_Department, UpdateSourceTrigger=PropertyChanged}"
-                                NullText="부서를 선택하세요."
-                                ItemsSource="{x:Static selection:InputOptionItems.Departments}"
-                                DisplayMember="vMUR_Department"
-                                ValueMember="MUR_Department"
-                                BorderBrush="#DDE5EF"
-                                CornerRadius="4"
-                                HorizontalAlignment="Stretch"
-                                Padding="5"
-                                Margin="0,10,0,0"/>
-
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="17"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
-
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    직책
-                </Run>
-
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
-
-            <Xpf:ComboBoxEdit   x:Name="cmbMUR_JobCode"
-                                Grid.Column="1"
-                                Grid.Row="17"
-                                EditValue="{Binding MemberUser.MUR_JobCode, UpdateSourceTrigger=PropertyChanged}"
-                                NullText="직책을 선택하세요."
-                                ItemsSource="{Binding MemberUser.MUR_Department, Converter={local:DepartmentToJobCodeItemsSourceConverter}}"
-                                DisplayMember="vMUR_JobCode"
-                                ValueMember="MUR_JobCode"
-                                BorderBrush="#DDE5EF"
-                                CornerRadius="4"
-                                HorizontalAlignment="Stretch"
-                                Padding="5"
-                                Margin="0,10,0,0"/>
-
-            <Xpf:TextBlock  Grid.Column="0"
-                            Grid.Row="18"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,10,0,0">
-
-                <Run Foreground="#294A70"
-                     FontSize="12"
-                     FontWeight="SemiBold">
-                    의료면허번호
-                </Run>
-
-                <Run Text="*" 
-                     Foreground="IndianRed"
-                     FontWeight="Bold"/>
-            </Xpf:TextBlock>
-
-            <Xpf:TextEdit   x:Name="txtMUR_LicenseNo"
-                            Grid.Column="1"
-                            Grid.Row="18"
-                            EditValue="{Binding MemberUser.MUR_LicenseNo, UpdateSourceTrigger=PropertyChanged}"
-                            NullText="의료면허번호를 입력하세요. (의료인인 경우에만 입력)"
-                            BorderBrush="#DDE5EF"
-                            CornerRadius="4"
-                            HorizontalAlignment="Stretch"
-                            Padding="5"
-                            Margin="0,10,0,0"
-                            IsEnabled="{Binding MemberUser.MUR_Department, Converter={local:DepartmentToIsEnableConverter}}"
-                            PreviewTextInput="OnPreviewTextInput_TextEdit"/>
+                    <Xpf:Button x:Name="btnBackToLogin"
+                                Content="←  로그인 화면으로"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="#607A9A"
+                                FontSize="11"
+                                Cursor="Hand"
+                                Click="OnClick_Button"/>
+                </StackPanel>
+            </Xpf:StyleGrid>
         </Xpf:StyleGrid>
-    </StackPanel>
+    </Xpf:StyleGrid>
 </base:ModelViewLayout>

@@ -38,11 +38,12 @@
                         RowSizeDefinitions="*,Auto,Auto"
                         Margin="0,5,0,0">
 
-            <ScrollViewer Grid.Row="0"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled"
-                          CanContentScroll="False"
-                          Padding="4,0">
+            <ScrollViewer   x:Name="SignUpScrollViewer"
+                            Grid.Row="0"
+                            VerticalScrollBarVisibility="Auto"
+                            HorizontalScrollBarVisibility="Disabled"
+                            CanContentScroll="False"
+                            Padding="4,0">
                                 
                 <StackPanel>
                     <Xpf:StyleGrid  x:Name="DefaultInfoGrid"
@@ -251,7 +252,6 @@
                             <dxc:SimpleButton   x:Name="btnRequestVerify"
                                                 Grid.Column="2"
                                                 Content="인증요청"
-                                                Height="32"
                                                 Padding="8,0"
                                                 FontSize="12"
                                                 FontWeight="SemiBold"
@@ -338,7 +338,6 @@
                             <dxc:SimpleButton   x:Name="btnVerifyEmail"
                                                 Grid.Column="2"
                                                 Content="인증확인"
-                                                Height="32"
                                                 Padding="8,0"
                                                 FontSize="12"
                                                 FontWeight="SemiBold"
@@ -347,7 +346,6 @@
                                                 BorderBrush="#294A70"
                                                 CornerRadius="4"
                                                 Cursor="Hand"
-                                                VerticalAlignment="Center"
                                                 Command="{Binding RequestVerifyCheckCommand}">
 
                                 <dxc:SimpleButton.Style>
@@ -833,7 +831,7 @@
 
                 <StackPanel>
                     <Xpf:Button x:Name="btnBackToSelectSignUpType"
-                                Content="←  회원가입 유형 선택 화면으로"
+                                Content="←  가입유형 선택 화면으로"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
                                 Background="Transparent"

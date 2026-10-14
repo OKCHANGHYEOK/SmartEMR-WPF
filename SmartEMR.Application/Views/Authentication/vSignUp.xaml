@@ -244,6 +244,42 @@
                         </Xpf:StyleGrid>
                     </dxc:SimpleButton>
 
+                    <dxc:SimpleButton x:Name="btnBackToLogin"
+                                      Content="로그인 화면으로"
+                                      Width="180"
+                                      Height="38"
+                                      Margin="0,22,0,0"
+                                      HorizontalAlignment="Center"
+                                      Background="#294A70"
+                                      BorderBrush="#294A70"
+                                      BorderThickness="1"
+                                      Foreground="#FFFFFF"
+                                      FontSize="12"
+                                      FontWeight="SemiBold"
+                                      CornerRadius="5"
+                                      Cursor="Hand"
+                                      Click="OnClick_SimpleButton">
+
+                        <dxc:SimpleButton.Style>
+                            <Style TargetType="{x:Type dxc:SimpleButton}">
+                                <Setter Property="Background" Value="#294A70"/>
+                                <Setter Property="BorderBrush" Value="#294A70"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#193458"/>
+                                        <Setter Property="BorderBrush" Value="#193458"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#102640"/>
+                                        <Setter Property="BorderBrush" Value="#102640"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </dxc:SimpleButton.Style>
+                    </dxc:SimpleButton>
                 </StackPanel>
 
                 <Xpf:StyleGrid  x:Name="SignUpContentGrid"
