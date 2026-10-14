@@ -43,6 +43,14 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
             case "SignUp":
                 await SignUp();
                 break;
+
+            case "BackToSelectSignUpType":
+                BackToSelectSignUpType();
+                break;
+
+            case "BackToLogin":
+                await BackToLogin();
+                break;
         }
 
         response.IsSuccess = true;
@@ -67,32 +75,20 @@ public partial class vSignUp : ModelViewLayout<SignUpViewModel>
         ToggleSignUpLayout();
     }
 
-    private async void OnClick_Button(object sender, RoutedEventArgs e)
-    {
-        if (sender is not Button element) return;
-
-        switch (element.Name)
-        {
-            case nameof(btnCancel):
-                ToggleSignUpLayout();
-                break;
-
-            case nameof(btnBackToLogin):
-                if (SmartUI.MsgYesNo("로그인 화면으로 돌아가시겠습니까?\n입력중인 데이터는 유지되지 않습니다.") is MessageBoxResult.Yes)
-                {
-                    await BackToLogin();
-                }
-
-                break;
-        }
-    }
-
     private void ToggleSignUpLayout()
     {
         _isShowSelectSignUpType = !_isShowSelectSignUpType;
 
         SelectSignUpTypePanel.Visibility = _isShowSelectSignUpType ? Visibility.Visible : Visibility.Collapsed;
         SignUpContentGrid.Visibility = !_isShowSelectSignUpType ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void BackToSelectSignUpType()
+    {
+        SignUpExistingMember.ClearData();
+        SignUpNewMember.ClearData();
+
+        ToggleSignUpLayout();
     }
 
     private async Task BackToLogin()

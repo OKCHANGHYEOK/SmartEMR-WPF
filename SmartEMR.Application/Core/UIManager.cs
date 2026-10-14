@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using MahApps.Metro.Controls;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.Views.Shared;
 using SmartEMR.Application.Xpf;
 using System.Windows;
@@ -116,7 +117,13 @@ public partial class UIManager
     {
         get
         {
-            return CurrentWindow?.Content as ViewLayout;
+            var rootView = CurrentWindow?.Content as ViewLayout;
+            if (rootView is null)
+            {
+                rootView = rootView.FindChild<ViewLayout>();
+            }
+
+            return rootView;
         }
     }
 

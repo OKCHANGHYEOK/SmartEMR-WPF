@@ -48,11 +48,11 @@ public partial class SignUpViewModel : MemberViewModel
 
         SmartMVVM.ModelProperty.SetMemberData(Model, selectedItem);
     }
-   
+
     [RelayCommand]
     private async Task SignUpRequest()
     {
-        await SmartUI.SendMessage("SignUp");
+        await SmartUI.SendMessage("SignUp", viewType:TargetViewType.ParentView);
     }
 
     public async Task SignUp()
@@ -80,7 +80,7 @@ public partial class SignUpViewModel : MemberViewModel
 
         MessageBox.Show("회원가입되었습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
 
-        await SmartUI.SendMessage("ShowLogin", loginUser, viewType:TargetViewType.ParentView);
+        await SmartUI.SendMessage("ShowLogin", loginUser, viewType:TargetViewType.RootView);
 
         ClearData();
     }

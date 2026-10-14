@@ -2,26 +2,26 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Text.RegularExpressions;
-using SmartEMR.Application.Common;
 using SmartEMR.Application.Common.Validator;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
+using SmartEMR.Domain.Entities;
 using DevExpress.Xpf.Editors;
 
 namespace SmartEMR.Application.Views.Authentication;
 
 /// <summary>
-/// vSignUpNewMember.xaml에 대한 상호 작용 논리
+/// vSignUpExisitingMember.xaml에 대한 상호 작용 논리
 /// </summary>
-public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
+public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 {
     public static readonly DependencyProperty ValidationRequestIdProperty =
-        DependencyProperty.Register(nameof(ValidationRequestId), typeof(int), typeof(vSignUpNewMember), new PropertyMetadata(0, OnValidationIdChanged));
+        DependencyProperty.Register(nameof(ValidationRequestId), typeof(int), typeof(vSignUpExisitingMember), new PropertyMetadata(0, OnValidationIdChanged));
 
     private static void OnValidationIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is vSignUpNewMember view)
+        if (d is vSignUpExisitingMember view)
         {
             view.ShowValidate();
         }
@@ -35,7 +35,7 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
 
     private readonly ValidationManager _validationManager = new();
 
-    public vSignUpNewMember() { }
+    public vSignUpExisitingMember() { }
 
     protected override void Initialize()
     {
@@ -44,19 +44,18 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
             [SignUpField.None] = txtMUR_Name,
             [SignUpField.UserName] = txtMUR_Name,
             [SignUpField.Id] = txtMUR_Id,
+            [SignUpField.Email] = txtMUR_Email,
+            [SignUpField.VerifyCode] = txtVerifyCode,
             [SignUpField.Password] = pwMUR_Password,
-            [SignUpField.MemberName] = txtMEM_Name,
-            [SignUpField.BizType] = cmbMEM_BizType,
-            [SignUpField.MediNo] = txtMEM_MediNo,
-            [SignUpField.BizNum] = txtMEM_BizNum,
+            [SignUpField.MemberName] = cmbMEM_Idx,
             [SignUpField.Department] = cmbMUR_Department,
             [SignUpField.JobCode] = cmbMUR_JobCode,
             [SignUpField.LicenseNo] = txtMUR_LicenseNo
         });
 
-        this.SetBinding(vSignUpNewMember.ValidationRequestIdProperty, new Binding("ValidationRequestId") { Source = vm });
+        this.SetBinding(vSignUpExisitingMember.ValidationRequestIdProperty, new Binding("ValidationRequestId") { Source = vm });
 
-        vm.SetSignUpType(SignUpType.NEW);
+        vm.SetSignUpType(SignUpType.EXIST);
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -97,16 +96,6 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
         }
     }
 
-    private async Task CheckDuplicateMediNo()
-    {
-        var result = await vm.CheckDuplicateMediNo();
-        if (result.resultCode == DuplicateResultCode.EmptyInput || result.resultCode == DuplicateResultCode.UnValidInput)
-        {
-            lblRequiredMediNo.Content = result.Message;
-            lblRequiredMediNo.Visibility = Visibility.Visible;
-        }
-    }
-
     private void OnEditValueChanged_TextEdit(object sender, EditValueChangedEventArgs e)
     {
         if (sender is not Xpf.TextEdit element) return;
@@ -120,33 +109,20 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
                 {
                     lblRequiredId.Visibility = Visibility.Collapsed;
                 }
-
+                
                 vm.UpdateIsCheckedDuplicateId();
-                break;
-
-            case "txtMEM_MediNo":
-                if (!string.IsNullOrWhiteSpace(newValue))
-                {
-                    lblRequiredMediNo.Visibility = Visibility.Collapsed;
-                }
-
-                vm.UpdateIsCheckedDuplicateMediNo();
                 break;
         }
     }
 
     private async void OnClick_Button(object sender, RoutedEventArgs e)
     {
-        if (sender is not Xpf.Button element) return;
+        if (sender is not System.Windows.Controls.Button element) return;
 
         switch (element.Name)
         {
             case nameof(btnCheckDuplicateId):
                 await CheckDuplicateId();
-                break;
-
-            case nameof(btnCheckDuplicateMediNo):
-                await CheckDuplicateMediNo();
                 break;
         }
     }
@@ -161,31 +137,6 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
                 if (!vm.CanInputPassword(e.Text))
                 {
                     e.Handled = true;
-                }
-
-                break;
-        }
-    }
-
-    private void OnPreviewTextInput_TextEdit(object sender, System.Windows.Input.TextCompositionEventArgs e)
-    {
-        if (sender is not Xpf.TextEdit element) return;
-
-        switch (element.Name)
-        {
-            case nameof(txtMEM_MediNo):
-                if (!CanInputTextByNum(e.Text))
-                {
-                    e.Handled = true;
-                    return;
-                }
-                break;
-
-            case nameof(txtMUR_LicenseNo):
-                if (!CanInputTextByNum(e.Text))
-                {
-                    e.Handled = true;
-                    return;
                 }
 
                 break;
@@ -217,6 +168,59 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
 
             case "pwMUR_PasswordCheck":
                 vm.UpdateIsPasswordMatch();
+                break;
+        }
+    }
+
+
+    private void OnPreviewTextInput_TextEdit(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        if (sender is not Xpf.TextEdit element) return;
+
+        switch (element.Name)
+        {
+            case nameof(txtMUR_Email):
+                vm.UpdateIsIdentityVerified();
+                break;
+
+            case nameof(txtVerifyCode):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                }
+
+                break;
+
+            case nameof(txtMEM_MediNo):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                }
+                break;
+
+            case nameof(txtMUR_LicenseNo):
+                if (!CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                }
+
+                break;
+        }
+    }
+
+    private void OnEditValueChanged_ComboBoxEdit(object sender, EditValueChangedEventArgs e)
+    {
+        if (sender is not Xpf.ComboBoxEdit element) return;
+
+        switch (element.Name)
+        {
+            case "cmbMEM_Idx":
+                var selectedItem = element.SelectedItem as Member;
+                if (selectedItem != null)
+                {
+                    vm.SetDataBySelectedItem(selectedItem);
+                }
+
                 break;
         }
     }

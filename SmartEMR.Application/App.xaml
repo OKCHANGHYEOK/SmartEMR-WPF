@@ -47,6 +47,10 @@
                 <Setter Property="ShowNullTextForEmptyValue" Value="False"/>
                 <Setter Property="IsTextEditable" Value="False"/>
             </Style>
+
+            <!--<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/CommonResource.xaml"/>
+            </ResourceDictionary.MergedDictionaries>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
