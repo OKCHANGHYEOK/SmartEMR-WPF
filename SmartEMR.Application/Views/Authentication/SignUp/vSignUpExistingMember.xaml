@@ -225,10 +225,8 @@
                                                 Value="True"/>
 
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
-                                                         Value="True">
-                                                <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                            <DataTrigger Binding="{Binding VerifyManager.IsIdentityVerified}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -248,17 +246,15 @@
                                                 Value="Collapsed"/>
 
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsRequestVerifyCode}"
-                                                         Value="True">
-                                                <Setter Property="Visibility"
-                                                        Value="Visible"/>
+                                            <DataTrigger Binding="{Binding VerifyManager.IsRequestVerifyCode}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Xpf:TextBlock.Style>
 
                                 <Run Text="남은시간 :"/>
-                                <Run Text="{Binding VerifyLimitTimeText}"/>
+                                <Run Text="{Binding VerifyManager.VerifyLimitTimeText}"/>
                             </Xpf:TextBlock>
 
                             <dxc:SimpleButton x:Name="btnRequestVerify"
@@ -280,10 +276,8 @@
                                                 Value="True"/>
 
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
-                                                         Value="True">
-                                                <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                            <DataTrigger Binding="{Binding VerifyManager.IsIdentityVerified}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -315,7 +309,7 @@
 
                             <Xpf:TextEdit x:Name="txtVerifyCode"
                                           Grid.Column="0"
-                                          EditValue="{Binding IdentityVerificationCode, UpdateSourceTrigger=PropertyChanged}"
+                                          EditValue="{Binding VerifyManager.IdentityVerificationCode, UpdateSourceTrigger=PropertyChanged}"
                                           NullText="인증코드를 입력하세요."
                                           HorizontalAlignment="Stretch"
                                           BorderBrush="#DDE5EF"
@@ -326,14 +320,11 @@
 
                                 <Xpf:TextEdit.Style>
                                     <Style TargetType="{x:Type Xpf:TextEdit}">
-                                        <Setter Property="IsEnabled"
-                                                Value="True"/>
+                                        <Setter Property="IsEnabled" Value="True"/>
 
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
-                                                         Value="True">
-                                                <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                            <DataTrigger Binding="{Binding VerifyManager.IsIdentityVerified}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -346,7 +337,7 @@
                                     Width="18"
                                     Height="18"
                                     Margin="0,0,4,0"
-                                    Visibility="{Binding IsIdentityVerified, Converter={converter:BooleanToVisibilityConverter}}">
+                                    Visibility="{Binding VerifyManager.IsIdentityVerified, Converter={converter:BooleanToVisibilityConverter}}">
 
                                 <Border.Background>
                                     <ImageBrush ImageSource="/Images/smartemr_check.png"/>
@@ -372,16 +363,12 @@
                                                 Value="True"/>
 
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsRequestVerifyCode}"
-                                                         Value="False">
-                                                <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                            <DataTrigger Binding="{Binding VerifyManager.IsRequestVerifyCode}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding IsIdentityVerified}"
-                                                         Value="True">
-                                                <Setter Property="IsEnabled"
-                                                        Value="False"/>
+                                            <DataTrigger Binding="{Binding VerifyManager.IsIdentityVerified}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

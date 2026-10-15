@@ -1,9 +1,20 @@
-﻿using SmartEMR.Domain.Entities;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SmartEMR.Domain.Entities;
 
 namespace SmartEMR.Application.ViewModels;
 
-public class StartUpViewModel : BaseViewModel<Member>
+public enum StartUpViewType
 {
+    Login,
+    SignUp,
+    FindMemberUser
+}
+
+public partial class StartUpViewModel : BaseViewModel<Member>
+{
+    [ObservableProperty]
+    private StartUpViewType currentViewType;
+
     public override void Initialize()
     {
 
@@ -12,5 +23,10 @@ public class StartUpViewModel : BaseViewModel<Member>
     protected override Member GetModel(Member item)
     {
         return item;
+    }
+
+    public void SetCurrentViewType(StartUpViewType targetViewType)
+    {
+        CurrentViewType = targetViewType;
     }
 }

@@ -106,6 +106,7 @@
                                         BorderBrush="#BDBDBD"
                                         BorderThickness="1"
                                         CornerRadius="0,0,3,3"
+                                        Padding="5"
                                         Margin="0">
                         </Xpf:BindItem>
                     </Xpf:BindGrid>
@@ -136,11 +137,25 @@
                                     Margin="2,0,2,0"/>
                     </Xpf:StyleGrid>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-                        <TextBlock Text="아이디 찾기" FontSize="11" Foreground="#888888" Cursor="Hand"/>
-                        <Rectangle Width="1" Height="10" Fill="#DDDDDD" Margin="10,0"/>
-                        <TextBlock Text="비밀번호 찾기" FontSize="11" Foreground="#888888" Cursor="Hand"/>
-                    </StackPanel>
+                    <Xpf:TextBlock  x:Name="txtFindMemberUser"
+                                    Text="계정을 잊어버리셨나요? 찾으시려면 클릭하세요."
+                                    Foreground="#888888"
+                                    Margin="0,15,0,0"
+                                    MouseLeftButtonDown="OnMouseLeftButtonDown_TextBlock"
+                                    Cursor="Hand">
+
+                        <Xpf:TextBlock.Style>
+                            <Style TargetType="{x:Type Xpf:TextBlock}">
+                                <Setter Property="Opacity" Value="1"/>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Xpf:TextBlock.Style>
+                    </Xpf:TextBlock>
                 </StackPanel>
             </Xpf:StyleGrid>
         </Border>

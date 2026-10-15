@@ -21,72 +21,7 @@
     <Xpf:StyleGrid  LayoutDefinitions="2,1"
                     ColumnSizeDefinitions="0.3*,0.7*">
 
-        <Border Grid.Column="0"
-                CornerRadius="0,0,0,12">
-
-            <Border.Background>
-                <ImageBrush ImageSource="/Images/smartemr_hospital.png"
-                            Stretch="UniformToFill"
-                            AlignmentX="Left"
-                            AlignmentY="Center"/>
-            </Border.Background>
-
-            <StackPanel Orientation="Vertical"
-                        Margin="20,80,40,0">
-
-                <Xpf:StyleGrid  LayoutDefinitions="2,1"
-                                ColumnSizeDefinitions="Auto,*"
-                                Margin="5,0,0,0">
-
-                    <Border Grid.Column="0"
-                            Width="28"
-                            Height="28">
-
-                        <Border.Background>
-                            <ImageBrush ImageSource="/Images/smartemr_logo.png"
-                                        Stretch="UniformToFill"/>
-                        </Border.Background>
-                    </Border>
-
-                    <Xpf:TextBlock  Grid.Column="1"
-                                    Text="SmartEMR"
-                                    Foreground="#193458"
-                                    FontSize="24"
-                                    FontWeight="Bold"
-                                    HorizontalAlignment="Left"
-                                    Margin="8,0,0,0"/>
-                </Xpf:StyleGrid>
-
-                <Xpf:TextBlock  FontSize="14"
-                                Foreground="#193458"
-                                FontWeight="SemiBold"
-                                Margin="10,10,0,0"
-                                HorizontalAlignment="Left">
-                    <Run>
-                        더 나은 의료서비스를 위한
-                    </Run>
-                    <LineBreak/>
-                    <Run>
-                        스마트한 선택
-                    </Run>
-                </Xpf:TextBlock>
-
-                <Xpf:TextBlock  FontSize="12"
-                                Foreground="#607A9A"
-                                LineHeight="20"
-                                HorizontalAlignment="Left"
-                                Margin="10,10,0,0">
-
-                    <Run>
-                        SmartEMR은 병원과 환자를 이어주는
-                    </Run>
-                    <LineBreak/>
-                    <Run>
-                        편리하고 안전한 의료정보 시스템입니다.
-                    </Run>
-                </Xpf:TextBlock>
-            </StackPanel>
-        </Border>
+        <local:SmartEMRBrandPanel Grid.Column="0"/>
 
         <Border Grid.Column="1"
                 Background="#FFFFFF"

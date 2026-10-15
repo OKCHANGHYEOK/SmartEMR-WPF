@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using SmartEMR.Application.Core;
+﻿using SmartEMR.Application.Core;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
@@ -35,7 +34,7 @@ public partial class vStartUp : ModelViewLayout<StartUpViewModel>
         switch (request.MessageAction)
         {
             case "ShowSignUp":
-                ShowSignUp();
+                vm.SetCurrentViewType(StartUpViewType.SignUp);
                 break;
 
             case "ShowLogin":
@@ -45,7 +44,12 @@ public partial class vStartUp : ModelViewLayout<StartUpViewModel>
                     LoginView.SetMemberUserById(paramItem);
                 }
                 
-                ShowLogin();
+                vm.SetCurrentViewType(StartUpViewType.Login);
+                
+                break;
+
+            case "ShowFindMemberUser":
+                vm.SetCurrentViewType(StartUpViewType.FindMemberUser);
                 break;
 
             case "SuccessLogin":
@@ -55,17 +59,5 @@ public partial class vStartUp : ModelViewLayout<StartUpViewModel>
 
         response.IsSuccess = true;
         return response;
-    }
-
-    private void ShowSignUp()
-    {
-        LoginView.Visibility = Visibility.Collapsed;
-        SignUpView.Visibility = Visibility.Visible;
-    }
-
-    private void ShowLogin()
-    {
-        LoginView.Visibility = Visibility.Visible;
-        SignUpView.Visibility = Visibility.Collapsed;
     }
 }

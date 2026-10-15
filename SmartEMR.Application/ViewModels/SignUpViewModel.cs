@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using SmartEMR.Application.Common;
 using SmartEMR.Application.Common.Validator;
+using SmartEMR.Application.Common.Verify;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Services.Authentication;
 using SmartEMR.Application.Services.Domain;
@@ -57,16 +58,12 @@ public partial class SignUpViewModel : MemberViewModel
         IsCheckedDuplicateMediNo = false;
         UsableMediNo = false;
 
-        IsRequestVerifyCode = false;
-        IsIdentityVerified = false;
         IsPasswordMatch = false;
-
-        IdentityVerificationCode = "";
 
         SmartMVVM.ModelProperty.ClearMEMData(Model);
         SmartMVVM.ModelProperty.ClearMURData(MemberUser);
 
-        StopVerifyTimer();
+        VerifyManager.Clear();
     }
 
     [RelayCommand]
@@ -129,75 +126,12 @@ public partial class SignUpViewModel : MemberViewModel
 
 public partial class SignUpViewModel
 {
-    private DispatcherTimer? _verifyTimer;
-
-    [ObservableProperty]
-    private bool isRequestVerifyCode = false;
-
-    [ObservableProperty]
-    private TimeSpan verifylimitTime = TimeSpan.FromMinutes(10);
-    [ObservableProperty]
-    private string verifyLimitTimeText = "10:00";
-
-    [ObservableProperty]
-    private string identityVerificationCode = "";
-    [ObservableProperty]
-    private bool isIdentityVerified = false;
+    public VerifyManager VerifyManager { get; } = new();
 
     public void UpdateIsIdentityVerified()
     {
-        if (IsIdentityVerified)
-        {
-            IsIdentityVerified = false;
-        }
+        VerifyManager.UpdateIsIdentityVerified();
     }
-
-    private void StartVerifyTimer()
-    {
-        _verifyTimer?.Stop();
-
-        VerifylimitTime = TimeSpan.FromMinutes(10);
-
-        UpdateVerifyLimitTimeText();
-
-        _verifyTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(1)
-        };
-
-        _verifyTimer.Tick += VerifyTimer_Tick;
-        _verifyTimer.Start();
-    }
-
-    private void StopVerifyTimer()
-    {
-        _verifyTimer?.Stop();
-
-        VerifylimitTime = TimeSpan.Zero;
-
-        UpdateVerifyLimitTimeText();
-    }
-
-    private void UpdateVerifyLimitTimeText()
-    {
-        VerifyLimitTimeText = $"{(int)VerifylimitTime.TotalMinutes:D2}:{VerifylimitTime.Seconds:D2}";
-    }
-
-    private void VerifyTimer_Tick(object? sender, EventArgs e)
-    {
-        if (_verifyTimer is null) return;
-
-        if (VerifylimitTime <= TimeSpan.Zero)
-        {
-            StopVerifyTimer();
-            return;
-        }
-
-        VerifylimitTime -= TimeSpan.FromSeconds(1);
-
-        UpdateVerifyLimitTimeText();
-    }
-
 
     [RelayCommand]
     private async Task RequestVerify()
@@ -216,26 +150,26 @@ public partial class SignUpViewModel
             return;
         }
 
-        IsRequestVerifyCode = true;
+        VerifyManager.IsRequestVerifyCode = true;
 
         MessageBox.Show("인증코드 메일이 발송되었습니다.", "확인", MessageBoxButton.OK, MessageBoxImage.Information);
 
-        IsIdentityVerified = false;
+        VerifyManager.IsIdentityVerified = false;
 
-        StartVerifyTimer();
+        VerifyManager.StartVerifyTimer();
     }
 
     [RelayCommand]
     private async Task RequestVerifyCheck()
     {
-        if (string.IsNullOrWhiteSpace(IdentityVerificationCode))
+        if (string.IsNullOrWhiteSpace(VerifyManager.IdentityVerificationCode))
         {
             MessageBox.Show("인증코드를 입력해주세요.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
             RequestValidation(SignUpField.VerifyCode);
             return;
         }
 
-        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Email = MemberUser.MUR_Email, EV_CodeOrigin = IdentityVerificationCode });
+        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Email = MemberUser.MUR_Email, EV_CodeOrigin = VerifyManager.IdentityVerificationCode });
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -244,9 +178,8 @@ public partial class SignUpViewModel
 
         MemberUser.EV_Idx_Verified = ret.Item.EV_Idx;
 
-        StopVerifyTimer();
-
-        IsIdentityVerified = true;
+        VerifyManager.IsIdentityVerified = true;
+        VerifyManager.StopVerifyTimer();
 
         MessageBox.Show("본인인증 완료되었습니다.", "확인", MessageBoxButton.OK, MessageBoxImage.Information);
     }
@@ -491,7 +424,7 @@ public partial class SignUpViewModel
             return false;
         }
 
-        if (!IsIdentityVerified)
+        if (!VerifyManager.IsIdentityVerified)
         {
             MessageBox.Show("이메일 본인인증을 진행해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;

@@ -10,12 +10,50 @@
                       xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                       xmlns:common="clr-namespace:SmartEMR.Application.Common"
                       xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
+                      xmlns:find="clr-namespace:SmartEMR.Application.Views.Authentication.Find"
                       mc:Ignorable="d"
                       d:DesignHeight="450"
                       d:DesignWidth="800">
 
     <Xpf:StyleGrid Background="Transparent">
-        <local:vLogin x:Name="LoginView"/>
-        <local:vSignUp x:Name="SignUpView" Visibility="Collapsed"/>
+        <local:vLogin x:Name="LoginView">
+            <local:vLogin.Style>
+                <Style TargetType="{x:Type base:ModelViewLayout}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding vm.CurrentViewType, RelativeSource={RelativeSource AncestorType={x:Type local:vStartUp}}}" Value="{x:Static vm:StartUpViewType.Login}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </local:vLogin.Style>
+        </local:vLogin>
+        <local:vSignUp x:Name="SignUpView">
+            <local:vSignUp.Style>
+                <Style TargetType="{x:Type base:ModelViewLayout}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding vm.CurrentViewType, RelativeSource={RelativeSource AncestorType={x:Type local:vStartUp}}}" Value="{x:Static vm:StartUpViewType.SignUp}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </local:vSignUp.Style>
+        </local:vSignUp>
+        <find:vFindMemberUser x:Name="FindMemberUserView">
+            <find:vFindMemberUser.Style>
+                <Style TargetType="{x:Type base:ModelViewLayout}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding vm.CurrentViewType, RelativeSource={RelativeSource AncestorType={x:Type local:vStartUp}}}" Value="{x:Static vm:StartUpViewType.FindMemberUser}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </find:vFindMemberUser.Style>
+        </find:vFindMemberUser>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

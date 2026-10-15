@@ -76,6 +76,19 @@ public partial class vLogin : ModelViewLayout<LoginViewModel>
         }
     }
 
+
+    private async void OnMouseLeftButtonDown_TextBlock(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (sender is not TextBlock element) return;
+
+        switch (element.Name)
+        {
+            case nameof(txtFindMemberUser):
+                await SmartUI.SendMessage("ShowFindMemberUser", viewType:TargetViewType.RootView);
+                break;
+        }
+    }
+
     private async Task<bool> LoginAsync()
     {
         if (string.IsNullOrWhiteSpace(MURItem?.MUR_Id))

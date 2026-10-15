@@ -1,0 +1,208 @@
+﻿<base:ModelViewLayout   x:TypeArguments="vm:FindMemberUserViewModel"
+                        x:Class="SmartEMR.Application.Views.Authentication.Find.vFindMemberUserId"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
+                        xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
+                        xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                        mc:Ignorable="d"
+                        d:DesignHeight="600"
+                        d:DesignWidth="800"
+                        d:DataContext="{d:DesignInstance Type={x:Type vm:FindMemberUserViewModel}}">
+
+    <Xpf:StyleGrid  LayoutDefinitions="1,4"
+                    ColumnSizeDefinitions="*"
+                    RowSizeDefinitions="Auto,24,*,Auto"
+                    Margin="30,24,30,18">
+
+        <!-- 화면 제목 -->
+        <Xpf:StyleGrid  Grid.Row="0"
+                        LayoutDefinitions="1,5"
+                        ColumnSizeDefinitions="*"
+                        RowSizeDefinitions="32,8,Auto,20,1">
+
+            <Xpf:StyleGrid  Grid.Row="0"
+                            LayoutDefinitions="3,1"
+                            ColumnSizeDefinitions="Auto,12,*"
+                            RowSizeDefinitions="32">
+
+                <dxc:SimpleButton   Grid.Column="0"
+                                    Content="←"
+                                    Width="32"
+                                    Height="32"
+                                    FontSize="20"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="{StaticResource PrimaryTextBrush}"
+                                    Click="OnClick_SimpleButton"/>
+
+                <TextBlock  Grid.Column="2"
+                            Text="아이디 찾기"
+                            FontSize="22"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource PrimaryTextBrush}"
+                            VerticalAlignment="Center"/>
+            </Xpf:StyleGrid>
+
+            <TextBlock  Grid.Row="2"
+                        Text="등록된 이메일을 통해 본인 인증 후, 아이디를 확인할 수 있습니다."
+                        FontSize="12"
+                        Foreground="{StaticResource SecondaryTextBrush}"
+                        VerticalAlignment="Center"/>
+
+            <Border Grid.Row="4"
+                    BorderBrush="{StaticResource SeparatorBrush}"
+                    BorderThickness="0,1,0,0"/>
+        </Xpf:StyleGrid>
+
+        <!-- 본문: 두 섹션을 위아래로 배치 -->
+        <Xpf:StyleGrid  Grid.Row="2"
+                        LayoutDefinitions="1,3"
+                        ColumnSizeDefinitions="*"
+                        RowSizeDefinitions="Auto,32,Auto"
+                        VerticalAlignment="Top">
+
+            <!-- 본인 확인 정보 -->
+            <Xpf:StyleGrid  Grid.Row="0"
+                            LayoutDefinitions="1,7"
+                            ColumnSizeDefinitions="*"
+                            RowSizeDefinitions="24,12,1,20,38,14,38">
+
+                <TextBlock  Grid.Row="0"
+                            Text="본인 확인 정보"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource PrimaryTextBrush}"
+                            VerticalAlignment="Center"/>
+
+                <TextBlock  Grid.Row="0"
+                            Text="회원가입 시 등록한 정보를 입력해 주세요."
+                            FontSize="11"
+                            Foreground="{StaticResource SecondaryTextBrush}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"/>
+
+                <Border Grid.Row="2"
+                        BorderBrush="{StaticResource SeparatorBrush}"
+                        BorderThickness="0,1,0,0"/>
+
+                <!-- 이름 -->
+                <TextBlock  Grid.Row="4"
+                            Text="이름"
+                            Style="{StaticResource FieldLabelStyle}"/>
+
+                <Xpf:TextEdit   Grid.Row="4"
+                                Style="{StaticResource FormEditorStyle}"
+                                EditValue="{Binding Model.MUR_Name, UpdateSourceTrigger=PropertyChanged}"
+                                NullText="이름을 입력해 주세요."
+                                Margin="90,0,0,0"/>
+
+                <!-- 이메일 -->
+                <TextBlock  Grid.Row="6"
+                            Text="이메일"
+                            Style="{StaticResource FieldLabelStyle}"/>
+
+                <Xpf:StyleGrid  Grid.Row="6"
+                                LayoutDefinitions="2,1"
+                                ColumnSizeDefinitions="*,110"
+                                RowSizeDefinitions="38">
+
+                    <Xpf:TextEdit   Grid.Column="0"
+                                    Style="{StaticResource FormEditorStyle}"
+                                    EditValue="{Binding Model.MUR_Email, UpdateSourceTrigger=PropertyChanged}"
+                                    NullText="등록된 이메일 주소를 입력해 주세요."
+                                    Margin="90,0,8,0"/>
+
+                    <dxc:SimpleButton   Grid.Column="1"
+                                        Content="인증번호 발송"
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        Command="{Binding RequestVerifyCodeCommand}"/>
+                </Xpf:StyleGrid>
+            </Xpf:StyleGrid>
+
+            <!-- 이메일 인증 -->
+            <Xpf:StyleGrid  Grid.Row="2"
+                            LayoutDefinitions="1,5"
+                            ColumnSizeDefinitions="*"
+                            RowSizeDefinitions="24,12,1,20,38">
+
+                <TextBlock  Grid.Row="0"
+                            Text="이메일 인증"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource PrimaryTextBrush}"
+                            VerticalAlignment="Center"/>
+
+                <TextBlock  Grid.Row="0"
+                            Text="입력하신 이메일로 인증번호를 발송합니다."
+                            FontSize="11"
+                            Foreground="{StaticResource SecondaryTextBrush}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"/>
+
+                <Border Grid.Row="2"
+                        BorderBrush="{StaticResource SeparatorBrush}"
+                        BorderThickness="0,1,0,0"/>
+
+                <TextBlock  Grid.Row="4"
+                            Text="인증번호"
+                            Style="{StaticResource FieldLabelStyle}"/>
+
+                <Xpf:StyleGrid  Grid.Row="4"
+                                LayoutDefinitions="2,1"
+                                ColumnSizeDefinitions="*,110"
+                                RowSizeDefinitions="38">
+
+                    <Xpf:TextEdit   Grid.Column="0"
+                                    Style="{StaticResource FormEditorStyle}"
+                                    EditValue="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}"
+                                    NullText="인증번호를 입력해 주세요."
+                                    Margin="90,0,8,0"/>
+
+                    <dxc:SimpleButton   Grid.Column="1"
+                                        Content="인증 확인"
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        Command="{Binding VerifyCodeCheckCommand}"/>
+                </Xpf:StyleGrid>
+            </Xpf:StyleGrid>
+        </Xpf:StyleGrid>
+
+        <!-- 하단 버튼 -->
+        <Border Grid.Row="3"
+                BorderBrush="{StaticResource SeparatorBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="0,12,0,0"
+                Margin="0,20,0,0"
+                VerticalAlignment="Bottom">
+
+            <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                            ColumnSizeDefinitions="*,Auto"
+                            RowSizeDefinitions="36">
+
+                <Xpf:Button x:Name="btnBackToSelectFindType"
+                            Grid.Column="0"
+                            Content="←  계정 찾기 화면으로"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="#607A9A"
+                            FontSize="11"
+                            Cursor="Hand"
+                            Click="OnClick_Button"/>
+
+                <dxc:SimpleButton   Grid.Column="1"
+                                    Content="아이디 확인"
+                                    Glyph="/Images/smartemr_search.png"
+                                    GlyphWidth="16"
+                                    GlyphHeight="16"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Command="{Binding FindIdCommand}"/>
+            </Xpf:StyleGrid>
+        </Border>
+    </Xpf:StyleGrid>
+</base:ModelViewLayout>
