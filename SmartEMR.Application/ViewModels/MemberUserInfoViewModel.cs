@@ -53,7 +53,7 @@ public partial class MemberUserInfoViewModel : MemberUserViewModel
     [RelayCommand]
     private void ClearData()
     {
-        if (SmartUI.MsgYesNo("기존 정보로 초기화하시겠습니까?") is System.Windows.MessageBoxResult.Yes)
+        if (SmartUI.MsgYesNo("회원 정보를 초기화하시겠습니까?\n기존 정보로 초기화됩니다.") is System.Windows.MessageBoxResult.Yes)
         {
             SmartMVVM.ModelProperty.SetMemberUserData(Model, SmartMVVM.AppSession.MemberUser ?? new MemberUser());
         }

@@ -8,15 +8,357 @@
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        xmlns:core="clr-namespace:SmartEMR.Application.Core"
                         xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d" 
-                        d:DesignHeight="450" d:DesignWidth="800">
+                        d:DesignHeight="600" 
+                        d:DesignWidth="800"
+                        d:DataContext="{d:DesignInstance Type={x:Type vm:MemberInfoViewModel}}">
 
     <Xpf:StyleGrid  LayoutDefinitions="1,7"
                     RowSizeDefinitions="Auto,12,Auto,24,Auto,*,Auto"
                     Margin="10,8,10,6">
-        
+
+        <!-- 기본정보 -->
+        <Xpf:StyleGrid Grid.Row="0"
+                       LayoutDefinitions="1,3"
+                       RowSizeDefinitions="Auto,12,Auto">
+
+            <TextBlock Text="기본정보"
+                       HorizontalAlignment="Left"
+                       Style="{StaticResource SectionTitleStyle}"/>
+
+            <TextBlock Text="기관 기본 정보를 관리합니다."
+                       FontSize="11"
+                       Foreground="{StaticResource SecondaryTextBrush}"
+                       HorizontalAlignment="Right"
+                       Margin="0,4,0,0"/>
+
+            <Border Grid.Row="2"
+                    BorderBrush="{StaticResource SeparatorBrush}"
+                    BorderThickness="0,1,0,0"/>
+        </Xpf:StyleGrid>
+
+        <!-- 기본정보 입력 -->
+        <Xpf:StyleGrid Grid.Row="2"
+                       LayoutDefinitions="3,9"
+                       ColumnSizeDefinitions="95,*,90"
+                       RowSizeDefinitions="38,8,38,8,38,8,38,8,38">
+
+            <!-- 회원명 + 성별 -->
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="의료기관명"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:TextEdit   x:Name="txtMEM_Name"
+                            Grid.Row="0" 
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            EditValue="{Binding Model.MEM_Name, UpdateSourceTrigger=PropertyChanged}">
+
+                <Xpf:TextEdit.Style>
+                    <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                <Setter Property="IsReadOnly" Value="False"/>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Xpf:TextEdit.Style>
+            </Xpf:TextEdit>
+
+            <TextBlock Grid.Row="2" 
+                       Grid.Column="0"
+                       Text="대표자명"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:TextEdit   x:Name="txtMEM_AdminUserName"
+                            Grid.Row="2" 
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource FormEditorStyle}"
+                            EditValue="{Binding Model.MEM_AdminUserName}"
+                            IsReadOnly="True"
+                            Background="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+            <!-- 비밀번호 -->
+            <TextBlock Grid.Row="4" 
+                       Grid.Column="0"
+                       Text="기관종구분"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:TextEdit   x:Name="txtMEM_BizType"
+                            Grid.Row="4" 
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            EditValue="{Binding Model.vMEM_BizType}"
+                            Style="{StaticResource FormEditorStyle}"
+                            Background="{StaticResource ReadOnlyBackgroundBrush}"
+                            HorizontalAlignment="Stretch"
+                            IsReadOnly="True"/>
+
+            <!-- 이메일 -->
+            <TextBlock Grid.Row="6" 
+                       Grid.Column="0"
+                       Text="요양기관번호"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:StyleGrid  Grid.Row="6" 
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            LayoutDefinitions="3,1"
+                            ColumnSizeDefinitions="*,8,Auto">
+
+                <Xpf:TextEdit   x:Name="txtMEM_MediNo"
+                                Grid.Column="0"
+                                NullText="8자리 숫자 입력"
+                                EditValue="{Binding Model.MEM_MediNo, UpdateSourceTrigger=PropertyChanged}"
+                                MaxLength="8"
+                                PreviewTextInput="OnPreviewTextInput_TextEdit"
+                                EditValueChanged="OnEditValueChanged_TextEdit">
+
+                    <Xpf:TextEdit.Style>
+                        <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                            <Setter Property="Background" Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                    <Setter Property="IsReadOnly" Value="False"/>
+                                    <Setter Property="Background" Value="{StaticResource EditorBackgroundBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:TextEdit.Style>
+                </Xpf:TextEdit>
+
+                <dxc:SimpleButton   x:Name="btnCheckDuplicateMediNo"
+                                    Grid.Column="2"
+                                    Content="중복확인"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding CheckDuplicateMediNoCommand}"/>
+            </Xpf:StyleGrid>
+
+            <!-- 생년월일 + 달력 유형 -->
+            <TextBlock Grid.Row="8" 
+                       Grid.Column="0"
+                       Text="사업자등록번호"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:StyleGrid  Grid.Row="8" 
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            LayoutDefinitions="3,1"
+                            ColumnSizeDefinitions="*,8,Auto">
+
+                <Xpf:TextEdit Grid.Column="0"
+                              EditValue="{Binding Model.MEM_BizNum, UpdateSourceTrigger=PropertyChanged}"
+                              NullText="10자리 숫자 입력(XXX-XX-XXX)"
+                              MaskType="Simple"
+                              Mask="000-00-000"
+                              EditValueChanged="OnEditValueChanged_TextEdit">
+
+                    <Xpf:TextEdit.Style>
+                        <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                            <Setter Property="Background" Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                    <Setter Property="IsReadOnly" Value="False"/>
+                                    <Setter Property="Background" Value="{StaticResource EditorBackgroundBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style> 
+                    </Xpf:TextEdit.Style>
+                </Xpf:TextEdit>
+
+                <dxc:SimpleButton   x:Name="btnCheckDuplicateBizNum"
+                                    Grid.Column="2"
+                                    Content="중복확인"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding CheckDuplicateBizNumCommand}"/>
+            </Xpf:StyleGrid>
+        </Xpf:StyleGrid>
+
+        <!-- 부가정보 제목 -->
+        <Xpf:StyleGrid Grid.Row="4"
+                       LayoutDefinitions="1,3"
+                       RowSizeDefinitions="Auto,12,1">
+
+            <TextBlock Grid.Row="0"
+                       Text="부가정보"
+                       Style="{StaticResource SectionTitleStyle}"/>
+
+            <TextBlock Grid.Row="0"
+                       Text="연락처 및 주소 정보를 관리합니다."
+                       FontSize="11"
+                       Foreground="{StaticResource SecondaryTextBrush}"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"/>
+
+            <Border Grid.Row="2"
+                    BorderBrush="{StaticResource SeparatorBrush}"
+                    BorderThickness="0,1,0,0"/>
+        </Xpf:StyleGrid>
+
+        <!-- 부가정보 입력 -->
+        <Xpf:StyleGrid  Grid.Row="5"
+                        LayoutDefinitions="2,5"
+                        ColumnSizeDefinitions="95,*"
+                        RowSizeDefinitions="38,10,38,10,38"
+                        Margin="0,12,0,0"
+                        VerticalAlignment="Top">
+
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="연락처"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:TextEdit   x:Name="txtMEM_Tel"
+                            Grid.Row="0" 
+                            Grid.Column="1"
+                            EditValue="{Binding Model.MEM_Tel, UpdateSourceTrigger=PropertyChanged}"
+                            NullText="숫자만 입력"
+                            PreviewTextInput="OnPreviewTextInput_TextEdit">
+
+                <Xpf:TextEdit.Style>
+                    <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="Background" Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                <Setter Property="IsReadOnly" Value="False"/>
+                                <Setter Property="Background" Value="{StaticResource EditorBackgroundBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Xpf:TextEdit.Style>
+            </Xpf:TextEdit>
+
+            <TextBlock Grid.Row="2" Grid.Column="0"
+                       Text="도로명주소"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:TextEdit   x:Name="txtMEM_Address1"
+                            Grid.Row="2" 
+                            Grid.Column="1"
+                            EditValue="{Binding Model.MEM_Address1, UpdateSourceTrigger=PropertyChanged}"
+                            NullText="( 예 : 서울특별시 강남구 테헤란로 0번길 0)">
+                
+                <Xpf:TextEdit.Style>
+                    <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="Background" Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                <Setter Property="IsReadOnly" Value="False"/>
+                                <Setter Property="Background" Value="{StaticResource EditorBackgroundBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Xpf:TextEdit.Style>
+            </Xpf:TextEdit>
+
+            <TextBlock Grid.Row="4" 
+                       Grid.Column="0"
+                       Text="상세주소"
+                       Style="{StaticResource FieldLabelStyle}"/>
+
+            <Xpf:StyleGrid  Grid.Row="4" 
+                            Grid.Column="1"
+                            LayoutDefinitions="3,1"
+                            ColumnSizeDefinitions="*,5,Auto">
+
+                <Xpf:TextEdit   x:Name="txtMEM_Address2"
+                                Grid.Column="0"
+                                EditValue="{Binding Model.MEM_Address2, UpdateSourceTrigger=PropertyChanged}"
+                                NullText="상세주소를 입력하세요.">
+
+                    <Xpf:TextEdit.Style>
+                        <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                            <Setter Property="Background" Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                    <Setter Property="IsReadOnly" Value="False"/>
+                                    <Setter Property="Background" Value="{StaticResource EditorBackgroundBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:TextEdit.Style>
+                </Xpf:TextEdit>
+
+                <Xpf:TextEdit   x:Name="txtMEM_Address3"
+                                Grid.Column="2"
+                                Width="80"
+                                EditValue="{Binding Model.MEM_Address3}"
+                                NullText="우편번호"
+                                PreviewTextInput="OnPreviewTextInput_TextEdit">
+
+                    <Xpf:TextEdit.Style>
+                        <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                            <Setter Property="Background" Value="{StaticResource ReadOnlyBackgroundBrush}"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                    <Setter Property="IsReadOnly" Value="False"/>
+                                    <Setter Property="Background" Value="{StaticResource EditorBackgroundBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Xpf:TextEdit.Style>
+                </Xpf:TextEdit>
+            </Xpf:StyleGrid>
+        </Xpf:StyleGrid>
+
+        <!-- 하단 버튼 -->
+        <Border Grid.Row="6"
+                BorderBrush="{StaticResource SeparatorBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="0,10,0,0">
+
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Xpf:StyleGrid  LayoutDefinitions="2,1"
+                            ColumnSizeDefinitions="*,Auto">
+
+                <dxc:SimpleButton Grid.Column="0"
+                                  HorizontalAlignment="Left"
+                                  Content="초기화"
+                                  Glyph="/Images/smartemr_empty_paper_v2.png"
+                                  GlyphWidth="16"
+                                  GlyphHeight="16"
+                                  Style="{StaticResource SecondaryButtonStyle}"
+                                  Command="{Binding ClearDataCommand}"/>
+
+                <dxc:SimpleButton Grid.Column="1"
+                                  Content="정보 수정"
+                                  Glyph="/Images/smartemr_edit_paper_v2.png"
+                                  GlyphWidth="18"
+                                  GlyphHeight="18"
+                                  Style="{StaticResource PrimaryButtonStyle}"
+                                  Command="{Binding SetMemberCommand}"/>
+            </Xpf:StyleGrid>
+        </Border>
     </Xpf:StyleGrid>
 </base:ModelViewLayout>

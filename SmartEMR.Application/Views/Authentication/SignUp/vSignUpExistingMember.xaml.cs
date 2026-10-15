@@ -197,23 +197,11 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
                 vm.UpdateIsIdentityVerified();
                 break;
 
-            case nameof(txtVerifyCode):
-                if (!CanInputTextByNum(e.Text))
-                {
-                    e.Handled = true;
-                }
+            case nameof(txtVerifyCode) or
+                 nameof(txtMEM_MediNo) or
+                 nameof(txtMUR_LicenseNo):
 
-                break;
-
-            case nameof(txtMEM_MediNo):
-                if (!CanInputTextByNum(e.Text))
-                {
-                    e.Handled = true;
-                }
-                break;
-
-            case nameof(txtMUR_LicenseNo):
-                if (!CanInputTextByNum(e.Text))
+                if (!SmartMVVM.Common.CanInputTextByNum(e.Text))
                 {
                     e.Handled = true;
                 }
@@ -237,10 +225,5 @@ public partial class vSignUpExisitingMember : ModelViewLayout<SignUpViewModel>
 
                 break;
         }
-    }
-
-    private bool CanInputTextByNum(string text)
-    {
-        return new Regex(@"^[0-9]$").IsMatch(text);
     }
 }

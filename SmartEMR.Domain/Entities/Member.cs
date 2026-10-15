@@ -1,10 +1,11 @@
 ﻿namespace SmartEMR.Domain.Entities;
 
-public class Member : BaseEntity
+public class Member : BaseEntity, ICloneable<Member>
 {
     private int? m_MEM_Idx;
     private int? m_MEM_AdminUser;
     private string? m_MEM_Name;
+    private string? m_MEM_AdminUserName;
     private string? m_MEM_MediNo;
     private string? m_MEM_BizNum;
     private string? m_MEM_BizType;
@@ -12,6 +13,7 @@ public class Member : BaseEntity
     private string? m_MEM_Address1;
     private string? m_MEM_Address2;
     private string? m_MEM_Address3;
+    private string? m_MEM_Tel;
     private string? m_MEM_Tel1; 
     private string? m_MEM_Tel2;
     private string? m_MEM_Tel3;
@@ -42,6 +44,12 @@ public class Member : BaseEntity
     {
         get => m_MEM_Name;
         set => SetProperty(ref m_MEM_Name, value);
+    }
+
+    public string? MEM_AdminUserName
+    {
+        get => m_MEM_AdminUserName;
+        set => SetProperty(ref m_MEM_AdminUserName, value);
     }
 
     public string? MEM_MediNo
@@ -84,6 +92,12 @@ public class Member : BaseEntity
     {
         get => m_MEM_Address3;
         set => SetProperty(ref m_MEM_Address3, value);
+    }
+
+    public string? MEM_Tel
+    {
+        get => m_MEM_Tel;
+        set => SetProperty(ref m_MEM_Tel, value);
     }
 
     public string? MEM_Tel1
@@ -147,4 +161,9 @@ public class Member : BaseEntity
     }
 
     #endregion
+
+    public Member Clone()
+    {
+        return (Member)this.MemberwiseClone();
+    }
 }

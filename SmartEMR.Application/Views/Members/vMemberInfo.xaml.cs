@@ -1,4 +1,6 @@
-﻿using SmartEMR.Application.ViewBase;
+﻿using DevExpress.Xpf.Core;
+using SmartEMR.Application.Core;
+using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;
 using SmartEMR.Application.Xpf;
 
@@ -19,5 +21,38 @@ public partial class vMemberInfo : ModelViewLayout<MemberInfoViewModel>
 
     public override void OnBindGrid_BindItemChanged(object? sender, BindItemChangedEventArgs e)
     {
+    }
+
+    private void OnPreviewTextInput_TextEdit(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        if (sender is not TextEdit element) return;
+
+        switch (element.Name)
+        {
+            case nameof(txtMEM_MediNo) or 
+                 nameof(txtMEM_Tel) or 
+                 nameof(txtMEM_Address3):
+
+                if (!SmartMVVM.Common.CanInputTextByNum(e.Text))
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                break;
+        }
+    }
+
+    private void OnEditValueChanged_TextEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+    {
+        if (sender is not TextEdit element) return;
+
+        switch (element.Name)
+        {
+            case nameof(txtMEM_MediNo) or
+                 nameof(txtMEM_BizType):
+                vm.UpdateUsableFields();
+                break;
+        }
     }
 }

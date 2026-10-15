@@ -8,6 +8,7 @@
                         xmlns:base="clr-namespace:SmartEMR.Application.ViewBase"
                         xmlns:vm="clr-namespace:SmartEMR.Application.ViewModels"
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
+                        xmlns:member="clr-namespace:SmartEMR.Application.Views.Members"
                         xmlns:memberuser="clr-namespace:SmartEMR.Application.Views.MemberUsers"
                         xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                         xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
@@ -21,10 +22,12 @@
     <dxc:DXTabControl   Padding="0"
                         dxc:ThemeManager.ThemeName="Office2019Colorful"
                         SelectionChanged="OnSelectionChanged_TaControl">
-        <dxc:DXTabItem Header="회원사정보"
+        
+        <dxc:DXTabItem Header="기관정보"
                        FontWeight="SemiBold"
                        Tag="MEM">
             
+            <member:vMemberInfo x:Name="MemberInfo"/>
         </dxc:DXTabItem>
         <dxc:DXTabItem  Header="회원정보"
                         FontWeight="SemiBold"

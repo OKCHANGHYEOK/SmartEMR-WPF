@@ -5,6 +5,7 @@ using SmartEMR.Application.Views.SmartEMRRES;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -453,6 +454,14 @@ public partial class Common
         }
 
         return insuredPrice * ownPatientRate;
+    }
+}
+
+public partial class Common
+{
+    public bool CanInputTextByNum(string text)
+    {
+        return new Regex(@"^[0-9]$").IsMatch(text);
     }
 }
 

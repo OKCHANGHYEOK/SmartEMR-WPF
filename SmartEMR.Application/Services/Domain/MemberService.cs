@@ -28,10 +28,27 @@ public class MemberService : BaseService, IMemberService
         return result;
     }
 
-    public async Task<ServiceResult<Member>> GetMemberByDuplicateMediNo(string mediNo)
+    public async Task<ServiceResult<Member>> GetMemberByDuplicateMediNo(string MEM_MediNo)
     {
         var result = new ServiceResult<Member>();
-        var ret = await _dataStore.GetItem<Member>(eAPI.Member_GetMemberByCheckDuplicateMediNo, new Member { MEM_MediNo = mediNo });
+        var ret = await _dataStore.GetItem<Member>(eAPI.Member_GetMemberByCheckDuplicateMediNo, new Member { MEM_MediNo = MEM_MediNo });
+
+        if (!_dataStore.retIsSuccess)
+        {
+            result.Message = "요양기관번호 중복체크중 오류가 발생했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
+
+    public async Task<ServiceResult<Member>> GetMemberByDuplicateBizNum(string MEM_BizNum)
+    {
+        var result = new ServiceResult<Member>();
+        var ret = await _dataStore.GetItem<Member>(eAPI.Member_GetMemberByCheckDuplicateBizNum, new Member { MEM_BizNum = MEM_BizNum });
 
         if (!_dataStore.retIsSuccess)
         {

@@ -14,12 +14,20 @@ public class ModelProperty
     {
         oldItem.MEM_Idx = newItem.MEM_Idx;
         oldItem.MEM_Name = newItem.MEM_Name;
+        oldItem.MEM_AdminUserName = SmartMVVM.AppSession.MemberUser?.MUR_Name;
         oldItem.MEM_BizType = newItem.MEM_BizType;
+        oldItem.vMEM_BizType = SmartMVVM.Master.Query<Member>("MEM_BizType").FirstOrDefault(x => x.MEM_BizType == newItem.MEM_BizType)?.vMEM_BizType;
         oldItem.MEM_OperationStatus = newItem.MEM_OperationStatus;
         oldItem.MEM_BizNum = newItem.MEM_BizNum;
         oldItem.MEM_MediNo = newItem.MEM_MediNo;
         oldItem.MEM_StartDate = newItem.MEM_StartDate;
         oldItem.MEM_EndDate = newItem.MEM_EndDate;
+        oldItem.MEM_Tel1 = newItem.MEM_Tel1;
+        oldItem.MEM_Tel2 = newItem.MEM_Tel2;
+        oldItem.MEM_Tel3 = newItem.MEM_Tel3;
+        oldItem.MEM_Address1 = newItem.MEM_Address1;
+        oldItem.MEM_Address2 = newItem.MEM_Address2;
+        oldItem.MEM_Address3 = newItem.MEM_Address3;
     }
 
     public Member GetSignUpData(Member member, MemberUser memberUser)
@@ -42,10 +50,18 @@ public class ModelProperty
     {
         item.MEM_Idx = 0;
         item.MEM_BizType = "";
+        item.vMEM_BizType = "";
         item.MEM_OperationStatus = 0;
         item.MEM_Name = "";
+        item.MEM_AdminUserName = "";
         item.MEM_BizNum = "";
         item.MEM_MediNo = "";
+        item.MEM_Tel1 = "";
+        item.MEM_Tel2 = "";
+        item.MEM_Tel3 = "";
+        item.MEM_Address1 = "";
+        item.MEM_Address2 = "";
+        item.MEM_Address3 = "";
     }
 
     #endregion

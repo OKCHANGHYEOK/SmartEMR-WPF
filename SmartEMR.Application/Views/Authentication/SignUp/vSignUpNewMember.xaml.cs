@@ -187,16 +187,10 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
 
         switch (element.Name)
         {
-            case nameof(txtMEM_MediNo):
-                if (!CanInputTextByNum(e.Text))
-                {
-                    e.Handled = true;
-                    return;
-                }
-                break;
+            case nameof(txtMEM_MediNo) or
+                 nameof(txtMUR_LicenseNo):
 
-            case nameof(txtMUR_LicenseNo):
-                if (!CanInputTextByNum(e.Text))
+                if (!SmartMVVM.Common.CanInputTextByNum(e.Text))
                 {
                     e.Handled = true;
                     return;
@@ -233,10 +227,5 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
                 vm.UpdateIsPasswordMatch();
                 break;
         }
-    }
-
-    private bool CanInputTextByNum(string text)
-    {
-        return new Regex(@"^[0-9]$").IsMatch(text);
     }
 }

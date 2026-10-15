@@ -42,7 +42,7 @@
         <!-- 기본정보 입력 -->
         <Xpf:StyleGrid Grid.Row="2"
                        LayoutDefinitions="3,11"
-                       ColumnSizeDefinitions="90,*,90"
+                       ColumnSizeDefinitions="95,*,90"
                        RowSizeDefinitions="38,8,38,8,38,8,38,8,38,8,38">
 
             <!-- 회원명 + 성별 -->
@@ -191,7 +191,7 @@
         <!-- 근무정보 입력 -->
         <Xpf:StyleGrid  Grid.Row="5"
                         LayoutDefinitions="2,5"
-                        ColumnSizeDefinitions="90,*"
+                        ColumnSizeDefinitions="95,*"
                         RowSizeDefinitions="38,10,38,10,38"
                         Margin="0,12,0,0"
                         VerticalAlignment="Top">
