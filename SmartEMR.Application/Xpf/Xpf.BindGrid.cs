@@ -319,7 +319,7 @@ public partial class BindGrid : StyleGrid, IDisposable
 
                 break;
 
-            case BindType.TextBox or BindType.PasswordBox:
+            case BindType.TextBox:
                 visualChild = new StyleTextBox
                 {
                     FontSize = bindItem.FontSize,
@@ -334,6 +334,23 @@ public partial class BindGrid : StyleGrid, IDisposable
                     MaxLength = bindItem.MaxLength,
                     IsNumericOnly = bindItem.IsNumericOnly,
                     IsReadOnly = bindItem.IsReadOnly
+                };
+
+                break;
+
+            case BindType.PasswordBox:
+                visualChild = new PasswordBoxEdit
+                {
+                    FontSize = bindItem.FontSize,
+                    Foreground = bindItem.Foreground,
+                    FontWeight = bindItem.FontWeight,
+                    BorderBrush = (this.BindStyle == BindStyle.DataCell ? Brushes.LightGray : Brushes.Transparent),
+                    BorderThickness = bindItem.BorderThickness,
+                    CornerRadius = bindItem.CornerRadius,
+                    NullText = bindItem.Placeholder,
+                    MaxLength = bindItem.MaxLength,
+                    IsReadOnly = bindItem.IsReadOnly,
+                    ShowPasswordButtonVisibility = ShowPasswordButtonVisibility.Auto
                 };
 
                 break;

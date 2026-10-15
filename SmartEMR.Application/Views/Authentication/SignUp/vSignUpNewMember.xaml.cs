@@ -103,6 +103,16 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
         }
     }
 
+    private async Task CheckDuplicateBizNum()
+    {
+        var result = await vm.CheckDuplicateBizNum();
+        if (result.resultCode == DuplicateResultCode.EmptyInput || result.resultCode == DuplicateResultCode.UnValidInput)
+        {
+            lblRequiredBizNum.Content = result.Message;
+            lblRequiredBizNum.Visibility = Visibility.Visible;
+        }
+    }
+
     private void OnEditValueChanged_TextEdit(object sender, EditValueChangedEventArgs e)
     {
         if (sender is not Xpf.TextEdit element) return;
@@ -111,22 +121,34 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
 
         switch (element.Name)
         {
-            case "txtMUR_Id":
+            case nameof(txtMUR_Id):
                 if (!string.IsNullOrWhiteSpace(newValue))
                 {
                     lblRequiredId.Visibility = Visibility.Collapsed;
                 }
 
                 vm.UpdateIsCheckedDuplicateId();
+                
                 break;
 
-            case "txtMEM_MediNo":
+            case nameof(txtMEM_MediNo):
                 if (!string.IsNullOrWhiteSpace(newValue))
                 {
                     lblRequiredMediNo.Visibility = Visibility.Collapsed;
                 }
 
                 vm.UpdateIsCheckedDuplicateMediNo();
+                
+                break;
+
+            case nameof(txtMEM_BizNum):
+                if (!string.IsNullOrWhiteSpace(newValue))
+                {
+                    lblRequiredBizNum.Visibility = Visibility.Collapsed;
+                }
+
+                vm.UpdateIsCheckedDuplicateBizNum();
+
                 break;
         }
     }
@@ -143,6 +165,10 @@ public partial class vSignUpNewMember : ModelViewLayout<SignUpViewModel>
 
             case nameof(btnCheckDuplicateMediNo):
                 await CheckDuplicateMediNo();
+                break;
+
+            case nameof(btnCheckDuplicateBizNum):
+                await CheckDuplicateBizNum();
                 break;
 
             case nameof(btnBackToSelectSignUpType):

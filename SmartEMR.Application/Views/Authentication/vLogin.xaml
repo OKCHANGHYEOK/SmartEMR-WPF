@@ -84,11 +84,13 @@
                                   ItemSpace="0"
                                   Margin="0,0,0,10"
                                   FocusManager.IsFocusScope="True">
+                        
                         <Xpf:BindItem   FieldName="MUR_Id" 
                                         BindType="TextBox" 
                                         Placeholder="ID" 
                                         Col="0" 
                                         Row="0"
+                                        Height="32"
                                         BorderBrush="#BDBDBD"
                                         BorderThickness="1,1,1,0"
                                         CornerRadius="3,3,0,0"
@@ -100,6 +102,7 @@
                                         Placeholder="Password"
                                         Col="0"
                                         Row="1"
+                                        Height="32"
                                         BorderBrush="#BDBDBD"
                                         BorderThickness="1"
                                         CornerRadius="0,0,3,3"

@@ -14,7 +14,7 @@
                       xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                       mc:Ignorable="d"
-                      d:DesignHeight="700"
+                      d:DesignHeight="1000"
                       d:DesignWidth="800"
                       d:DataContext="{d:DesignInstance Type={x:Type vm:SignUpViewModel}}">
 
@@ -503,9 +503,9 @@
                     </Xpf:StyleGrid>
 
                     <Xpf:StyleGrid  x:Name="OrganizationAndWorkInfoGrid"
-                                    LayoutDefinitions="2,10"
+                                    LayoutDefinitions="2,11"
                                     ColumnSizeDefinitions="0.3*,*"
-                                    RowSizeDefinitions="50,50,50,50,20,50,50,50,50,50"
+                                    RowSizeDefinitions="50,50,50,50,20,50,20,50,50,50,50"
                                     FocusManager.IsFocusScope="True">
                         <StackPanel Grid.Column="0"
                                     Grid.Row="0"
@@ -674,14 +674,18 @@
                                 사업자등록번호
                             </Run>
 
-                            <Run Text="*" 
-                        Foreground="IndianRed"
-                        FontWeight="Bold"/>
+                            <Run    Text="*" 
+                                    Foreground="IndianRed"
+                                    FontWeight="Bold"/>
                         </Xpf:TextBlock>
 
-                        <Xpf:TextEdit   x:Name="txtMEM_BizNum"
-                                        Grid.Column="1"
+                        <Xpf:StyleGrid  Grid.Column="1"
                                         Grid.Row="5"
+                                        LayoutDefinitions="3,1"
+                                        ColumnSizeDefinitions="*,5,Auto"
+                                        Margin="0,10,0,0">
+                            
+                        <Xpf:TextEdit   x:Name="txtMEM_BizNum"
                                         EditValue="{Binding Model.MEM_BizNum, UpdateSourceTrigger=PropertyChanged}"
                                         NullText="사업자등록번호를 입력하세요. (ex : 123-45-67890)"
                                         MaskType="Simple"
@@ -690,10 +694,56 @@
                                         CornerRadius="4"
                                         HorizontalAlignment="Stretch"
                                         Padding="5"
-                                        Margin="0,10,0,0"/>
+                                        EditValueChanged="OnEditValueChanged_TextEdit"/>
 
+                            <Xpf:Button x:Name="btnCheckDuplicateBizNum"
+                                        Grid.Column="2"
+                                        Content="중복확인"
+                                        Foreground="SlateBlue"
+                                        FontWeight="SemiBold"
+                                        Background="Transparent"
+                                        BorderBrush="SlateBlue"
+                                        CornerRadius="5"
+                                        HorizontalAlignment="Center"
+                                        Padding="4,0,4,0"
+                                        Click="OnClick_Button"/>
+                        </Xpf:StyleGrid>
+                        
+
+                        <Xpf:StyleGrid  Grid.Column="1"
+                                        Grid.Row="6"
+                                        LayoutDefinitions="3,1"
+                                        ColumnSizeDefinitions="Auto,*,Auto">
+
+                            <Xpf:Label  x:Name="lblRequiredBizNum"
+                                        Grid.Column="0"
+                                        Foreground="IndianRed"
+                                        Visibility="Collapsed">
+                            </Xpf:Label>
+
+                            <Xpf:Label  x:Name="lblCheckDuplicateBizNum"
+                                        Grid.Column="2"
+                                        Visibility="{Binding IsCheckedDuplicateBizNum, Converter={converter:BooleanToVisibilityConverter}}"
+                                        Margin="2,0,2,0">
+                                
+                                <Xpf:Label.Style>
+                                    <Style TargetType="{x:Type Xpf:Label}">
+                                        <Setter Property="Content" Value="사용중인 사업자등록번호입니다."/>
+                                        <Setter Property="Foreground" Value="IndianRed"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UsableBizNum}" Value="True">
+                                                <Setter Property="Content" Value="사용가능한 사업자등록번호입니다."/>
+                                                <Setter Property="Foreground" Value="Blue"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Xpf:Label.Style>
+                            </Xpf:Label>
+                        </Xpf:StyleGrid>                        
+                        
                         <StackPanel Grid.Column="0"
-                                    Grid.Row="6"
+                                    Grid.Row="7"
                                     Orientation="Horizontal"
                                     Margin="0,15,0,0">
 
@@ -712,10 +762,10 @@
                                             FontWeight="SemiBold"
                                             Margin="5,0,0,0"/>
                         </StackPanel>
-
-
+                        
+                        
                         <Xpf:TextBlock  Grid.Column="0"
-                                        Grid.Row="7"
+                                        Grid.Row="8"
                                         HorizontalAlignment="Stretch"
                                         Margin="0,10,0,0">
 
@@ -733,7 +783,7 @@
 
                         <Xpf:ComboBoxEdit   x:Name="cmbMUR_Department"
                                             Grid.Column="1"
-                                            Grid.Row="7"
+                                            Grid.Row="8"
                                             EditValue="{Binding MemberUser.MUR_Department, UpdateSourceTrigger=PropertyChanged}"
                                             NullText="부서를 선택하세요."
                                             ItemsSource="{x:Static selection:InputOptionItems.Departments}"
@@ -746,7 +796,7 @@
                                             Margin="0,10,0,0"/>
 
                         <Xpf:TextBlock  Grid.Column="0"
-                                        Grid.Row="8"
+                                        Grid.Row="9"
                                         HorizontalAlignment="Stretch"
                                         Margin="0,10,0,0">
 
@@ -763,7 +813,7 @@
 
                         <Xpf:ComboBoxEdit   x:Name="cmbMUR_JobCode"
                                             Grid.Column="1"
-                                            Grid.Row="8"
+                                            Grid.Row="9"
                                             EditValue="{Binding MemberUser.MUR_JobCode, UpdateSourceTrigger=PropertyChanged}"
                                             NullText="직책을 선택하세요."
                                             ItemsSource="{Binding MemberUser.MUR_Department, Converter={local:DepartmentToJobCodeItemsSourceConverter}}"
@@ -776,7 +826,7 @@
                                             Margin="0,10,0,0"/>
 
                         <Xpf:TextBlock  Grid.Column="0"
-                                        Grid.Row="9"
+                                        Grid.Row="10"
                                         HorizontalAlignment="Stretch"
                                         Margin="0,10,0,0">
 
@@ -793,7 +843,7 @@
 
                         <Xpf:TextEdit   x:Name="txtMUR_LicenseNo"
                                         Grid.Column="1"
-                                        Grid.Row="9"
+                                        Grid.Row="10"
                                         EditValue="{Binding MemberUser.MUR_LicenseNo, UpdateSourceTrigger=PropertyChanged}"
                                         NullText="의료면허번호를 입력하세요. (의료인인 경우에만 입력)"
                                         MaxLength="20"

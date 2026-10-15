@@ -263,6 +263,8 @@ public partial class SignUpViewModel
     private bool isCheckedDuplicateId = false;
     [ObservableProperty]
     private bool usableId = false;
+    [ObservableProperty]
+    private string verifiedId = "";
 
     [ObservableProperty]
     private bool usablePassword = false;
@@ -273,6 +275,16 @@ public partial class SignUpViewModel
     private bool isCheckedDuplicateMediNo = false;
     [ObservableProperty]
     private bool usableMediNo = false;
+    [ObservableProperty]
+    private string verifiedMediNo = "";
+
+    [ObservableProperty]
+    private bool isCheckedDuplicateBizNum = false;
+    [ObservableProperty]
+    private bool usableBizNum = false;
+    [ObservableProperty]
+    private string verifiedBizNum = "";
+
 
     [ObservableProperty]
     private SignUpField validationTarget = SignUpField.None;
@@ -316,6 +328,14 @@ public partial class SignUpViewModel
         }
     }
 
+    public void UpdateIsCheckedDuplicateBizNum()
+    {
+        if (IsCheckedDuplicateBizNum)
+        {
+            IsCheckedDuplicateBizNum = false;
+        }
+    }
+
     public void UpdateIsPasswordMatch()
     {
         IsPasswordMatch = string.Equals(MemberUser.MUR_PassWord, MemberUser.MUR_PassWordCheck, StringComparison.CurrentCulture);
@@ -351,17 +371,21 @@ public partial class SignUpViewModel
 
     public async Task<CheckDuplicateResult> CheckDuplicateMediNo()
     {
-        if (string.IsNullOrWhiteSpace(Model.MEM_MediNo))
+        var mediNo = Model.MEM_MediNo;
+
+        if (string.IsNullOrWhiteSpace(mediNo))
         {
+            RequestValidation(SignUpField.MediNo);
             return new CheckDuplicateResult(DuplicateResultCode.EmptyInput, "요양기관번호를 입력해주세요.");
         }
 
-        if (Model.MEM_MediNo.Length < 8)
+        if (mediNo.Length != 8)
         {
+            RequestValidation(SignUpField.MediNo);
             return new CheckDuplicateResult(DuplicateResultCode.UnValidInput, "요양기관번호가 올바르지 않습니다.");
         }
 
-        var ret = await _memberService.GetMemberByDuplicateMediNo(Model.MEM_MediNo);
+        var ret = await _memberService.GetMemberByDuplicateMediNo(mediNo);
         if (!ret.IsSuccess)
         {
             MessageBox.Show($"{ret.Message}\n잠시후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -373,11 +397,59 @@ public partial class SignUpViewModel
         if (ret.Item != null && ret.Item.MEM_Idx > 0)
         {
             UsableMediNo = false;
+
+            VerifiedMediNo = "";
+
             return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
         }
         else
         {
             UsableMediNo = true;
+
+            VerifiedMediNo = mediNo;
+
+            return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
+        }
+    }
+
+    public async Task<CheckDuplicateResult> CheckDuplicateBizNum()
+    {
+        var bizNum = Model.MEM_BizNum;
+        if (string.IsNullOrWhiteSpace(bizNum))
+        {
+            RequestValidation(SignUpField.BizNum);
+            return new CheckDuplicateResult(DuplicateResultCode.EmptyInput, "사업자등록번호를 입력해주세요.");
+        }
+
+        if (bizNum.Replace("-", "").Length != 10)
+        {
+            RequestValidation(SignUpField.BizNum);
+            return new CheckDuplicateResult(DuplicateResultCode.UnValidInput, "사업자등록번호가 올바르지 않습니다.");
+        }
+
+        var ret = await _memberService.GetMemberByDuplicateBizNum(bizNum);
+        if (!ret.IsSuccess)
+        {
+            MessageBox.Show($"{ret.Message}\n잠시후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return new CheckDuplicateResult(DuplicateResultCode.ErrorOccured, "");
+        }
+
+        IsCheckedDuplicateBizNum = true;
+
+        if (ret.Item != null && ret.Item.MEM_Idx > 0)
+        {
+            UsableBizNum = false;
+
+            VerifiedBizNum = "";
+
+            return new CheckDuplicateResult(DuplicateResultCode.HasDuplicate, "");
+        }
+        else
+        {
+            UsableBizNum = true;
+
+            VerifiedBizNum = bizNum;
+
             return new CheckDuplicateResult(DuplicateResultCode.NotDuplicate, "");
         }
     }
@@ -433,7 +505,7 @@ public partial class SignUpViewModel
 
         if (this.SignUpType == SignUpType.NEW)
         {
-            if (!IsCheckedDuplicateMediNo)
+            if (!string.Equals(VerifiedMediNo, Model.MEM_MediNo))
             {
                 MessageBox.Show("요양기관번호 중복체크를 해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
@@ -442,6 +514,18 @@ public partial class SignUpViewModel
             if (!UsableMediNo)
             {
                 MessageBox.Show("사용할 수 없는 요양기관번호입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (!string.Equals(VerifiedBizNum, Model.MEM_BizNum))
+            {
+                MessageBox.Show("사업자등록번호 중복체크를 해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (!UsableBizNum)
+            {
+                MessageBox.Show("사용할 수 없는 사업자등록번호입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
         }

@@ -62,7 +62,7 @@ public class PasswordBox : ContentControl
             BorderThickness = this.BorderThickness,
             Padding = this.Padding,
             Background = System.Windows.Media.Brushes.Transparent,
-            BorderBrush = System.Windows.Media.Brushes.Transparent
+            BorderBrush = System.Windows.Media.Brushes.Transparent,
         };
 
         _passwordBox.PasswordChanged += PasswordBox_OnPasswordChanged;
