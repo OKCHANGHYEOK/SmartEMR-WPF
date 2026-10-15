@@ -17,7 +17,9 @@
 
     <Xpf:StyleGrid  LayoutDefinitions="1,7"
                     RowSizeDefinitions="Auto,12,Auto,24,Auto,*,Auto"
-                    Margin="10,8,10,6">
+                    Margin="10,8,10,6"
+                    Opacity="0"
+                    Loaded="OnLoaded_StyleGrid">
 
         <!-- 기본정보 -->
         <Xpf:StyleGrid Grid.Row="0"
@@ -42,21 +44,24 @@
         <!-- 기본정보 입력 -->
         <Xpf:StyleGrid Grid.Row="2"
                        LayoutDefinitions="3,11"
-                       ColumnSizeDefinitions="95,*,90"
+                       ColumnSizeDefinitions="95,*,100"
                        RowSizeDefinitions="38,8,38,8,38,8,38,8,38,8,38">
 
             <!-- 회원명 + 성별 -->
-            <TextBlock Grid.Row="0" Grid.Column="0"
+            <TextBlock Grid.Row="0" 
+                       Grid.Column="0"
                        Text="회원명"
                        Style="{StaticResource FieldLabelStyle}"/>
 
-            <Xpf:TextEdit Grid.Row="0" Grid.Column="1"
+            <Xpf:TextEdit Grid.Row="0" 
+                          Grid.Column="1"
                           Grid.ColumnSpan="1"
                           Style="{StaticResource FormEditorStyle}"
-                          EditValue="{Binding Model.MUR_Name, UpdateSourceTrigger=PropertyChanged}"/>
+                          EditValue="{Binding Model.MUR_Name, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="0,0,8,0"/>
 
-            <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2"
-                              Margin="6,0,0,0"
+            <dxe:ComboBoxEdit Grid.Row="0" 
+                              Grid.Column="2"
                               Style="{StaticResource FormComboStyle}"
                               ItemsSource="{x:Static selection:InputOptionItems.Sexes}"
                               DisplayMember="vPAT_Sex"
@@ -84,7 +89,7 @@
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,8,112">
+                            ColumnSizeDefinitions="*,8,100">
                 
                 <dxe:PasswordBoxEdit x:Name="pwMUR_Password"
                                      Grid.Column="0"
@@ -107,30 +112,22 @@
             </Xpf:StyleGrid>
 
             <!-- 이메일 -->
-            <TextBlock Grid.Row="6" Grid.Column="0"
+            <TextBlock Grid.Row="6" 
+                       Grid.Column="0"
                        Text="이메일"
                        Style="{StaticResource FieldLabelStyle}"/>
 
-            <Xpf:StyleGrid  Grid.Row="6" 
+            <Xpf:TextEdit   Grid.Row="6" 
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
-                            LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,8,112">
-
-                <Xpf:TextEdit Grid.Column="0"
-                              Style="{StaticResource FormEditorStyle}"
-                              EditValue="{Binding Model.MUR_Email}"
-                              IsReadOnly="True"
-                              Background="{StaticResource ReadOnlyBackgroundBrush}"/>
-
-                <dxc:SimpleButton Grid.Column="2"
-                                  Content="이메일 변경"
-                                  Style="{StaticResource SecondaryButtonStyle}"
-                                  Click="OnClick_SimpleButton"/>
-            </Xpf:StyleGrid>
+                            Style="{StaticResource FormEditorStyle}"
+                            EditValue="{Binding Model.MUR_Email}"
+                            IsReadOnly="True"
+                            Background="{StaticResource ReadOnlyBackgroundBrush}"/>
 
             <!-- 생년월일 + 달력 유형 -->
-            <TextBlock Grid.Row="8" Grid.Column="0"
+            <TextBlock Grid.Row="8" 
+                       Grid.Column="0"
                        Text="생년월일"
                        Style="{StaticResource FieldLabelStyle}"/>
 
@@ -138,7 +135,7 @@
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,8,70">
+                            ColumnSizeDefinitions="*,8,100">
 
                 <Xpf:TextEdit Grid.Column="0"
                               Style="{StaticResource FormEditorStyle}"

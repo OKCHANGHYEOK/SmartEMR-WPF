@@ -10,6 +10,7 @@
                         xmlns:Xpf="clr-namespace:SmartEMR.Application.Xpf"
                         xmlns:core="clr-namespace:SmartEMR.Application.Core"
                         xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
+                        xmlns:converter="clr-namespace:SmartEMR.Application.Common.Converter"
                         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
                         mc:Ignorable="d" 
@@ -112,16 +113,15 @@
             <Xpf:StyleGrid  Grid.Row="6" 
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
-                            LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,8,Auto">
+                            LayoutDefinitions="2,1"
+                            ColumnSizeDefinitions="*,Auto">
 
                 <Xpf:TextEdit   x:Name="txtMEM_MediNo"
                                 Grid.Column="0"
                                 NullText="8자리 숫자 입력"
                                 EditValue="{Binding Model.MEM_MediNo, UpdateSourceTrigger=PropertyChanged}"
                                 MaxLength="8"
-                                PreviewTextInput="OnPreviewTextInput_TextEdit"
-                                EditValueChanged="OnEditValueChanged_TextEdit">
+                                PreviewTextInput="OnPreviewTextInput_TextEdit">
 
                     <Xpf:TextEdit.Style>
                         <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
@@ -142,7 +142,9 @@
                                     Grid.Column="2"
                                     Content="중복확인"
                                     Style="{StaticResource SecondaryButtonStyle}"
-                                    Command="{Binding CheckDuplicateMediNoCommand}"/>
+                                    Command="{Binding CheckDuplicateMediNoCommand}"
+                                    Visibility="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}, Converter={converter:BooleanToVisibilityConverter}}"
+                                    Margin="8,0,0,0"/>
             </Xpf:StyleGrid>
 
             <!-- 생년월일 + 달력 유형 -->
@@ -154,15 +156,14 @@
             <Xpf:StyleGrid  Grid.Row="8" 
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
-                            LayoutDefinitions="3,1"
-                            ColumnSizeDefinitions="*,8,Auto">
+                            LayoutDefinitions="2,1"
+                            ColumnSizeDefinitions="*,Auto">
 
                 <Xpf:TextEdit Grid.Column="0"
                               EditValue="{Binding Model.MEM_BizNum, UpdateSourceTrigger=PropertyChanged}"
                               NullText="10자리 숫자 입력(XXX-XX-XXX)"
                               MaskType="Simple"
-                              Mask="000-00-000"
-                              EditValueChanged="OnEditValueChanged_TextEdit">
+                              Mask="000-00-000">
 
                     <Xpf:TextEdit.Style>
                         <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
@@ -183,7 +184,9 @@
                                     Grid.Column="2"
                                     Content="중복확인"
                                     Style="{StaticResource SecondaryButtonStyle}"
-                                    Command="{Binding CheckDuplicateBizNumCommand}"/>
+                                    Command="{Binding CheckDuplicateBizNumCommand}"
+                                    Visibility="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}, Converter={converter:BooleanToVisibilityConverter}}"
+                                    Margin="8,0,0,0"/>
             </Xpf:StyleGrid>
         </Xpf:StyleGrid>
 
@@ -327,18 +330,6 @@
                 BorderThickness="0,1,0,0"
                 Padding="0,10,0,0">
 
-            <Border.Style>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-
             <Xpf:StyleGrid  LayoutDefinitions="2,1"
                             ColumnSizeDefinitions="*,Auto">
 
@@ -348,16 +339,58 @@
                                   Glyph="/Images/smartemr_empty_paper_v2.png"
                                   GlyphWidth="16"
                                   GlyphHeight="16"
-                                  Style="{StaticResource SecondaryButtonStyle}"
-                                  Command="{Binding ClearDataCommand}"/>
+                                  Command="{Binding ClearDataCommand}">
+
+                    <dxc:SimpleButton.Style>
+                        <Style TargetType="{x:Type dxc:SimpleButton}" BasedOn="{StaticResource SecondaryButtonStyle}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dxc:SimpleButton.Style>
+                </dxc:SimpleButton>
 
                 <dxc:SimpleButton Grid.Column="1"
                                   Content="정보 수정"
                                   Glyph="/Images/smartemr_edit_paper_v2.png"
                                   GlyphWidth="18"
                                   GlyphHeight="18"
-                                  Style="{StaticResource PrimaryButtonStyle}"
-                                  Command="{Binding SetMemberCommand}"/>
+                                  Command="{Binding SetMemberCommand}">
+
+                    <dxc:SimpleButton.Style>
+                        <Style TargetType="{x:Type dxc:SimpleButton}" BasedOn="{StaticResource PrimaryButtonStyle}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dxc:SimpleButton.Style>
+                </dxc:SimpleButton>
+
+                <dxc:SimpleButton   x:Name="btnClose"
+                                    Grid.Column="1"
+                                    Content="닫기"
+                                    Click="OnClick_Button">
+
+                    <dxc:SimpleButton.Style>
+                        <Style TargetType="{x:Type dxc:SimpleButton}" BasedOn="{StaticResource SecondaryButtonStyle}">
+                            <Setter Property="Visibility" Value="Visible"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dxc:SimpleButton.Style>
+                </dxc:SimpleButton>
             </Xpf:StyleGrid>
         </Border>
     </Xpf:StyleGrid>

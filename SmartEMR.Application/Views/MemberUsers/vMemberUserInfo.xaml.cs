@@ -57,6 +57,13 @@ public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
         _isUpdatedLayoutByMUR = true;
     }
 
+    private void OnLoaded_StyleGrid(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (sender is not StyleGrid element) return;
+
+        element.Opacity = 1;
+    }
+
     private async void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
     {
         if (sender is not SimpleButton element) return;

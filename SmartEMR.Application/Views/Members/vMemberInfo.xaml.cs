@@ -43,15 +43,14 @@ public partial class vMemberInfo : ModelViewLayout<MemberInfoViewModel>
         }
     }
 
-    private void OnEditValueChanged_TextEdit(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+    private void OnClick_Button(object sender, System.Windows.RoutedEventArgs e)
     {
-        if (sender is not TextEdit element) return;
+        if (sender is not SimpleButton element) return;
 
         switch (element.Name)
         {
-            case nameof(txtMEM_MediNo) or
-                 nameof(txtMEM_BizType):
-                vm.UpdateUsableFields();
+            case nameof(btnClose):
+                SmartUI.CloseView();
                 break;
         }
     }

@@ -9,9 +9,9 @@ namespace SmartEMR.Application.ViewModels;
 public partial class MemberInfoViewModel : MemberViewModel
 {
     [ObservableProperty]
-    private bool usableMediNo = true;
+    private string verifiedMediNo = "";
     [ObservableProperty]
-    private bool usableBizNum = true;
+    private string verifiedBizNum = "";
 
     private bool isEditedMediNum
     {
@@ -39,16 +39,11 @@ public partial class MemberInfoViewModel : MemberViewModel
         return item;
     }
 
-    public void UpdateUsableFields()
-    {
-        UsableBizNum = !isEditedBizNum ? true: false;
-        UsableMediNo = !isEditedMediNum ? true : false;
-    }
-
     [RelayCommand]
     private async Task CheckDuplicateMediNo()
     {
-        if (string.IsNullOrWhiteSpace(Model.MEM_MediNo))
+        var mediNo = Model.MEM_MediNo;
+        if (string.IsNullOrWhiteSpace(mediNo))
         {
             SmartUI.SetNotification("요양기관번호를 입력해주세요.", NotificationType.Warning);
             return;
@@ -60,15 +55,23 @@ public partial class MemberInfoViewModel : MemberViewModel
             return;
         }
 
-        var ret = await _memberService.GetMemberByDuplicateMediNo(Model.MEM_MediNo);
+        var ret = await _memberService.GetMemberByDuplicateMediNo(mediNo);
+        if (!ret.IsSuccess)
+        {
+            SmartUI.SetNotification("요양기관번호 중복체크중 오류가 발생했습니다.\n잠시 후 다시 시도하세요.", NotificationType.Error);
+            return;
+        }
+
         if (ret.Item is null)
         {
-            UsableMediNo = true;
+            VerifiedMediNo = mediNo;
 
             SmartUI.SetNotification("사용 가능한 요양기관번호입니다.", NotificationType.Success);
         }
         else
         {
+            VerifiedMediNo = "";
+
             SmartUI.SetNotification("사용중인 요양기관번호입니다.", NotificationType.Warning);
         }
     }
@@ -76,7 +79,8 @@ public partial class MemberInfoViewModel : MemberViewModel
     [RelayCommand]
     private async Task CheckDuplicateBizNum()
     {
-        if (string.IsNullOrWhiteSpace(Model.MEM_BizNum))
+        var bizNum = Model.MEM_BizNum;
+        if (string.IsNullOrWhiteSpace(bizNum))
         {
             SmartUI.SetNotification("사업자등록번호를 입력해주세요.", NotificationType.Warning);
             return;
@@ -88,15 +92,23 @@ public partial class MemberInfoViewModel : MemberViewModel
             return;
         }
 
-        var ret = await _memberService.GetMemberByDuplicateBizNum(Model.MEM_BizNum);
+        var ret = await _memberService.GetMemberByDuplicateBizNum(bizNum);
+        if (!ret.IsSuccess)
+        {
+            SmartUI.SetNotification("사업자등록번호 중복체크중 오류가 발생했습니다.\n잠시 후 다시 시도하세요.", NotificationType.Error);
+            return;
+        }
+
         if (ret.Item is null)
         {
-            UsableBizNum = true;
+            VerifiedBizNum = bizNum;
 
             SmartUI.SetNotification("사용 가능한 사업자등록번호입니다.", NotificationType.Success);
         }
         else
         {
+            VerifiedBizNum = "";
+
             SmartUI.SetNotification("사용중인 사업자등록번호입니다.", NotificationType.Warning);
         }
     }
@@ -127,6 +139,9 @@ public partial class MemberInfoViewModel : MemberViewModel
     {
         if (SmartUI.MsgYesNo("기관 정보를 초기화하시겠습니까?\n 기존 정보로 초기화됩니다.") is System.Windows.MessageBoxResult.Yes)
         {
+            VerifiedMediNo = "";
+            VerifiedBizNum = "";
+
             SmartMVVM.ModelProperty.SetMemberData(Model, SmartMVVM.AppSession.Member ?? new Member());
         }
     }
@@ -151,13 +166,13 @@ public partial class MemberInfoViewModel : MemberViewModel
             return false;
         }
 
-        if (isEditedMediNum && !UsableMediNo)
+        if (isEditedMediNum && !string.Equals(VerifiedMediNo, Model.MEM_MediNo))
         {
             SmartUI.SetNotification("요양기관번호 중복체크를 완료해주세요.", NotificationType.Warning);
             return false;
         }
 
-        if (isEditedBizNum && !UsableBizNum)
+        if (isEditedBizNum && !string.Equals(VerifiedBizNum, Model.MEM_BizNum))
         {
             SmartUI.SetNotification("사업자등록번호 중복체크를 완료해주세요.", NotificationType.Warning);
             return false;
