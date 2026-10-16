@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DevExpress.Xpf.LayoutControl;
-using SmartEMR.Application.Common.Validator;
+using SmartEMR.Application.Common;
 using SmartEMR.Application.Common.Verify;
 using SmartEMR.Application.Core;
 using SmartEMR.Application.Services.Authentication;
@@ -53,28 +52,48 @@ public partial class FindMemberUserViewModel : MemberUserViewModel
         FindType = targetType;
     }
 
-    [RelayCommand]
-    private async Task RequestVerifyCode()
+    private string? GetVerifyPurpose()
     {
+        return FindType switch
+        {
+            FindType.Id => "FINDID",
+            FindType.Password => "FINDPW",
+            _ => null
+        };
+    }
+
+    private async Task<bool> CanRequest()
+    {
+        if (this.FindType == FindType.Password)
+        {
+            if (string.IsNullOrWhiteSpace(Model.MUR_Id))
+            {
+                await SmartUI.SendMessage("RequestRequiredField", nameof(MemberUser.MUR_Id));
+                return false;
+            }
+        }
+
         if (string.IsNullOrWhiteSpace(Model.MUR_Name))
         {
             await SmartUI.SendMessage("RequestRequiredField", nameof(MemberUser.MUR_Name));
-            return;
+            return false;
         }
 
         if (string.IsNullOrWhiteSpace(Model.MUR_Email))
         {
             await SmartUI.SendMessage("RequestRequiredField", nameof(MemberUser.MUR_Email));
-            return;
+            return false;
         }
 
-        if (this.FindType == FindType.Password)
-        {
-            await SmartUI.SendMessage("RequestRequiredField", nameof(MemberUser.MUR_Id));
-            return;
-        }
+        return true;
+    }
 
-        var ret = await _authService.RequestVerifyCode(new EmailVerification { MUR_Name = Model.MUR_Name, EV_Email = Model.MUR_Email, EV_Purpose = "FINDID"});
+    [RelayCommand]
+    private async Task RequestVerifyCode()
+    {
+        if (!await CanRequest()) return;
+
+        var ret = await _authService.RequestVerifyCode(new EmailVerification { MUR_Name = Model.MUR_Name, EV_Email = Model.MUR_Email, EV_Purpose = GetVerifyPurpose()});
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "이메일 인증요청중 오류가 발생했습니다.\n잠시 후 다시 시도하세요.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -95,7 +114,7 @@ public partial class FindMemberUserViewModel : MemberUserViewModel
             return;
         }
 
-        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Purpose = "FINDID", EV_Email = Model.MUR_Email, EV_CodeOrigin = VerifyManager.IdentityVerificationCode });
+        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Purpose = GetVerifyPurpose(), EV_Email = Model.MUR_Email, EV_CodeOrigin = VerifyManager.IdentityVerificationCode });
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -137,5 +156,63 @@ public partial class FindMemberUserViewModel : MemberUserViewModel
             """;
 
         MessageBox.Show("아이디 찾기가 완료되었습니다.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+}
+
+// 비밀번호 관련
+public partial class FindMemberUserViewModel
+{
+    [ObservableProperty]
+    private bool isPasswordResetStep = false;
+
+    public PasswordInputState PasswordInputState { get; } = new();
+
+    public void UpdateUsablePassword(string newValue)
+    {
+        PasswordInputState.UpdateUsablePassword(newValue);
+    }
+
+    public void UpdateIsPasswordMatch()
+    {
+        PasswordInputState.UpdateIsPasswordMatch(Model);
+    }
+
+    [RelayCommand]
+    private void MoveToResetPassword()
+    {
+        IsPasswordResetStep = true;
+    }
+
+    [RelayCommand]
+    private void BackToVerificationStep()
+    {
+        IsPasswordResetStep = false;
+    }
+
+    [RelayCommand]
+    private async Task ResetPassword()
+    {
+        if (!PasswordInputState.UsablePassword)
+        {
+            MessageBox.Show("사용할 수 없는 비밀번호입니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!PasswordInputState.IsPasswordMatch)
+        {
+            MessageBox.Show("비밀번호가 일치하지 않습니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var ret = await _memberUserService.ResetPassword(Model);
+        if (ret.Item is null || !ret.IsSuccess)
+        {
+            MessageBox.Show(ret.Message ?? "비밀번호 재설정에 실패했습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        MessageBox.Show("비밀번호 재설정에 성공했습니다.\n 확인을 누르시면 로그인 화면으로 이동합니다.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        await SmartUI.SendMessage("ShowLogin", new MemberUser { MUR_Idx = ret.Item.MUR_Idx, MUR_Id = ret.Item.MUR_Id }, viewType:TargetViewType.RootView);
     }
 }

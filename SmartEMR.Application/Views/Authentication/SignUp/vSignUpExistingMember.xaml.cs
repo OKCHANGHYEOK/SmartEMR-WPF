@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Text.RegularExpressions;
 using SmartEMR.Application.Common.Validator;
 using SmartEMR.Application.ViewBase;
 using SmartEMR.Application.ViewModels;

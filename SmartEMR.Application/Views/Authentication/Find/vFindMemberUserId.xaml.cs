@@ -17,6 +17,7 @@ public partial class vFindMemberUserId : ModelViewLayout<FindMemberUserViewModel
 {
     protected override void Initialize()
     {
+        vm.SetFindType(FindType.Id);
     }
 
     public override void OnBindGrid_BindClick(object? sender, BindClickEventArgs e)
@@ -110,10 +111,5 @@ public partial class vFindMemberUserId : ModelViewLayout<FindMemberUserViewModel
                 await SmartUI.SendMessage("ShowSelectFindType", viewType:TargetViewType.ParentView);
                 break;
         }
-    }
-
-    private void OnClick_SimpleButton(object sender, System.Windows.RoutedEventArgs e)
-    {
-
     }
 }

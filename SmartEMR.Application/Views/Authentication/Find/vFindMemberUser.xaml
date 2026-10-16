@@ -135,7 +135,8 @@
                                         CornerRadius="8"
                                         Padding="18"
                                         Cursor="Hand"
-                                        Click="OnClick_SimpleButton">
+                                        Command="{Binding SetFindTypeCommand}"
+                                        CommandParameter="{x:Static vm:FindType.Password}">
 
                         <dxc:SimpleButton.Style>
                             <Style TargetType="{x:Type dxc:SimpleButton}">
@@ -256,6 +257,20 @@
                             </Style>
                         </local:vFindMemberUserId.Style>
                     </local:vFindMemberUserId>
+
+                    <local:vFindMemberUserPassword>
+                        <local:vFindMemberUserPassword.Style>
+                            <Style TargetType="{x:Type base:ModelViewLayout}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding vm.FindType, RelativeSource={RelativeSource AncestorType={x:Type local:vFindMemberUser}}}" Value="{x:Static vm:FindType.Password}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </local:vFindMemberUserPassword.Style>
+                    </local:vFindMemberUserPassword>
                 </Xpf:StyleGrid>
             </Xpf:StyleGrid>
         </Border>
