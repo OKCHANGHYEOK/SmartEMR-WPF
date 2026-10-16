@@ -9,7 +9,6 @@ using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace SmartEMR.Application.ViewModels;
 
@@ -143,7 +142,7 @@ public partial class SignUpViewModel
             return;
         }
 
-        var ret = await _authService.RequestVerifyCode(MemberUser.MUR_Email);
+        var ret = await _authService.RequestVerifyCode(new EmailVerification { EV_Email = MemberUser.MUR_Email, EV_Purpose = "SIGNUP" });
         if (!ret.IsSuccess || !string.IsNullOrWhiteSpace(ret.Message))
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -169,17 +168,16 @@ public partial class SignUpViewModel
             return;
         }
 
-        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Email = MemberUser.MUR_Email, EV_CodeOrigin = VerifyManager.IdentityVerificationCode });
+        var ret = await _authService.RequestVerifyCheck(new EmailVerification { EV_Purpose = "SIGNUP", EV_Email = MemberUser.MUR_Email, EV_CodeOrigin = VerifyManager.IdentityVerificationCode });
         if (ret.Item is null || !ret.IsSuccess)
         {
             MessageBox.Show(ret.Message ?? "", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
-        MemberUser.EV_Idx_Verified = ret.Item.EV_Idx;
+        VerifyManager.SuccessVerify();
 
-        VerifyManager.IsIdentityVerified = true;
-        VerifyManager.StopVerifyTimer();
+        MemberUser.EV_Idx_Verified = ret.Item.EV_Idx;
 
         MessageBox.Show("본인인증 완료되었습니다.", "확인", MessageBoxButton.OK, MessageBoxImage.Information);
     }

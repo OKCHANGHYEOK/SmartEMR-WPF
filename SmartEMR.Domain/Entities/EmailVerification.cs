@@ -13,6 +13,9 @@ public class EmailVerification : BaseEntity
     private bool? m_EV_IsVerified;
     private bool? m_EV_IsValid;
 
+    private string? m_MUR_Name;
+    private string? m_MUR_Id;
+
     #region "NotifyPropertyChanged"
     public int? EV_Idx
     {
@@ -72,6 +75,18 @@ public class EmailVerification : BaseEntity
     {
         get => m_EV_IsValid;
         set => SetProperty(ref m_EV_IsValid, value);
+    }
+
+    public string? MUR_Name
+    {
+        get => m_MUR_Name;
+        set => SetProperty(ref m_MUR_Name, value);
+    }
+
+    public string? MUR_Id
+    {
+        get => m_MUR_Id;
+        set => SetProperty(ref m_MUR_Id, value);
     }
 
     #endregion

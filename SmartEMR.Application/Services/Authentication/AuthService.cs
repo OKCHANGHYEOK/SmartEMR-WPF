@@ -1,4 +1,5 @@
-﻿using SmartEMR.Application.Services.Domain;
+﻿using DevExpress.Mvvm.Native;
+using SmartEMR.Application.Services.Domain;
 using SmartEMR.Domain.Entities;
 using SmartEMR.Domain.Enums;
 using SmartEMR.Infrastructure;
@@ -11,10 +12,10 @@ public class AuthService : BaseService, IAuthService
     {
     }
 
-    public async Task<ServiceResult<EmailVerification>> RequestVerifyCode(string MUR_Email)
+    public async Task<ServiceResult<EmailVerification>> RequestVerifyCode(EmailVerification item)
     {
         var result = new ServiceResult<EmailVerification>();
-        var ret = await _dataStore.GetItem<EmailVerification>(eAPI.Auth_RequestVerifyCode, new { MUR_Email });
+        var ret = await _dataStore.GetItem<EmailVerification>(eAPI.Auth_RequestVerifyCode, item);
 
         if (ret is null || !_dataStore.retIsSuccess)
         {
@@ -22,7 +23,9 @@ public class AuthService : BaseService, IAuthService
             return result;
         }
 
+        result.Item = ret;
         result.IsSuccess = true;
+
         return result;
     }
 

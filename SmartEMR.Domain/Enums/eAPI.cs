@@ -33,29 +33,30 @@ public enum eAPI
     MemberUser_SetMemberUser = 21,
     MemberUser_SignUp = 22,
     MemberUser_ChangePassword = 23,
+    MemberUser_FindId = 24,
 
-    Order_GetOrder = 24,
+    Order_GetOrder = 25,
 
-    Patient_GetPatient = 25,
-    Patient_SetPatient = 26,
+    Patient_GetPatient = 26,
+    Patient_SetPatient = 27,
 
-    Pay_GetPay = 27,
-    Pay_SetPay = 28,
-    Pay_CancelPay = 29,
+    Pay_GetPay = 28,
+    Pay_SetPay = 29,
+    Pay_CancelPay = 30,
 
-    PayItem_GetPayItem = 30,
-    PayItem_SetPayItem = 31,
+    PayItem_GetPayItem = 31,
+    PayItem_SetPayItem = 32,
 
-    Reception_CancelReception = 32,
-    Reception_GetReception = 33,
-    Reception_GetReceptionBoard = 34,
-    Reception_SetReception = 35,
-    Reception_SetReceptionByRES = 36,
+    Reception_CancelReception = 33,
+    Reception_GetReception = 34,
+    Reception_GetReceptionBoard = 35,
+    Reception_SetReception = 36,
+    Reception_SetReceptionByRES = 37,
 
-    Reservation_GetReservation = 37,
-    Reservation_MoveReservationDate = 38,
-    Reservation_SetReservation = 39,
-    Reservation_SetReservationByStatus = 40,
+    Reservation_GetReservation = 38,
+    Reservation_MoveReservationDate = 39,
+    Reservation_SetReservation = 40,
+    Reservation_SetReservationByStatus = 41,
 
-    NaverPay_ApplyPayment = 41,
+    NaverPay_ApplyPayment = 42,
 }

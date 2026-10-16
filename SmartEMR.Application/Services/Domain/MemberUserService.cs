@@ -114,4 +114,21 @@ public class MemberUserService : BaseService, IMemberUserService
 
         return result;
     }
+
+    public async Task<ServiceResult<MemberUser>> FindId(MemberUser item)
+    {
+        var result = new ServiceResult<MemberUser>();
+        var ret = await _dataStore.GetItem<MemberUser>(eAPI.MemberUser_FindId, item);
+
+        if (ret is null || !_dataStore.retIsSuccess)
+        {
+            result.Message = _dataStore.retMessage ?? "아이디 찾기에 실패했습니다.";
+            return result;
+        }
+
+        result.Item = ret;
+        result.IsSuccess = true;
+
+        return result;
+    }
 }

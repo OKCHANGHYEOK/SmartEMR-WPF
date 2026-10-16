@@ -20,6 +20,26 @@ public partial class VerifyManager : ObservableObject
     [ObservableProperty]
     private bool isIdentityVerified = false;
 
+    private string _verifiedCode = "";
+
+    public bool IsVerifySuccess
+    {
+        get
+        {
+            if (!IsIdentityVerified)
+            {
+                return false;
+            }
+
+            if (!string.Equals(_verifiedCode, IdentityVerificationCode))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
     public void UpdateIsIdentityVerified()
     {
         if (IsIdentityVerified)
@@ -28,8 +48,22 @@ public partial class VerifyManager : ObservableObject
         }
     }
 
+    public void SuccessVerify()
+    {
+        IsIdentityVerified = true;
+
+        _verifiedCode = IdentityVerificationCode;
+
+        StopVerifyTimer();
+    }
+
     public void StartVerifyTimer()
     {
+        if (!IsRequestVerifyCode)
+        {
+            IsRequestVerifyCode = true;
+        }
+
         _verifyTimer?.Stop();
 
         VerifylimitTime = TimeSpan.FromMinutes(10);

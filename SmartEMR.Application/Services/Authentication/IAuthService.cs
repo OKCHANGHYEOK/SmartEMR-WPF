@@ -5,6 +5,6 @@ namespace SmartEMR.Application.Services.Authentication;
 
 public interface IAuthService
 {
-    Task<ServiceResult<EmailVerification>> RequestVerifyCode(string MUR_Email);
+    Task<ServiceResult<EmailVerification>> RequestVerifyCode(EmailVerification item);
     Task<ServiceResult<EmailVerification>> RequestVerifyCheck(EmailVerification item);
 }
