@@ -94,7 +94,7 @@ public class ModelProperty
         oldItem.MUR_CalendarType = newItem.MUR_CalendarType ?? "SOL";
         oldItem.MUR_Id = newItem.MUR_Id;
         oldItem.MUR_Email = newItem.MUR_Email;
-        oldItem.MUR_Gender = newItem.MUR_Gender ?? "";
+        oldItem.MUR_Gender = string.IsNullOrWhiteSpace(newItem.MUR_Gender) ? "N" : newItem.MUR_Gender;
         oldItem.MUR_BirthDate = $"{newItem.MUR_BirthYear}{newItem.MUR_BirthMonth}{newItem.MUR_BirthDay}";
         oldItem.MUR_PhoneNum = $"{newItem.MUR_PhoneNum1}{newItem.MUR_PhoneNum2}{newItem.MUR_PhoneNum3}";
         oldItem.MUR_LicenseNo = newItem.MUR_LicenseNo;

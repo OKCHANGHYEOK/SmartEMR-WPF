@@ -37,17 +37,4 @@ public partial class vSmartEMRMemberInfoTab : ModelViewLayout<MemberInfoViewMode
 
         return response;
     }
-
-    private void OnSelectionChanged_TaControl(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)
-    {
-        if (sender is not DXTabControl element) return;
-
-        if (e.NewSelectedItem is DXTabItem item && item.Tag.ToString() == "MUR")
-        {
-            SmartUI.BeginInvoke(() =>
-            {
-                MemberUserInfo.UpdateLayoutByMUR();
-            }, System.Windows.Threading.DispatcherPriority.Background);
-        }
-    }
 }

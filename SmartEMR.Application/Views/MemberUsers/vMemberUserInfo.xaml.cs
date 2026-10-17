@@ -14,8 +14,6 @@ public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
 {
     private MemberUser MemberUser => vm.Model;
 
-    private bool _isUpdatedLayoutByMUR = false;
-
     protected override void Initialize()
     {
     }
@@ -33,28 +31,6 @@ public partial class vMemberUserInfo : ModelViewLayout<MemberUserInfoViewModel>
         if (sender is not BindGrid) return;
 
 
-    }
-
-    public void UpdateLayoutByMUR()
-    {
-        if (_isUpdatedLayoutByMUR) return;
-
-        if (!SmartMVVM.AppSession.IsMED)
-        {
-            txtMUR_LicenseNo.IsReadOnly = true;
-            txtMUR_LicenseNo.IsEnabled = false;
-        }
-
-        if (!SmartMVVM.AppSession.IsAdmin)
-        {
-            cmbMUR_Department.IsReadOnly = true;
-            cmbMUR_Department.IsEnabled = false;
-
-            cmbMUR_JobCode.IsReadOnly = true;
-            cmbMUR_JobCode.IsEnabled = false;
-        }
-
-        _isUpdatedLayoutByMUR = true;
     }
 
     private void OnLoaded_StyleGrid(object sender, System.Windows.RoutedEventArgs e)

@@ -10,6 +10,7 @@
                         xmlns:selection="clr-namespace:SmartEMR.Application.Common.SelectionItems"
                         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                        xmlns:core="clr-namespace:SmartEMR.Application.Core"
                         mc:Ignorable="d"
                         d:DesignHeight="600"
                         d:DesignWidth="800"
@@ -200,11 +201,25 @@
             <dxe:ComboBoxEdit Grid.Row="0" 
                               Grid.Column="1"
                               x:Name="cmbMUR_Department"
-                              Style="{StaticResource FormComboStyle}"
                               ItemsSource="{x:Static selection:InputOptionItems.Departments}"
                               DisplayMember="vMUR_Department"
                               ValueMember="MUR_Department"
-                              EditValue="{Binding Model.MUR_Department}"/>
+                              EditValue="{Binding Model.MUR_Department}">
+
+                <dxe:ComboBoxEdit.Style>
+                    <Style TargetType="{x:Type dxe:ComboBoxEdit}" BasedOn="{StaticResource FormComboStyle}">
+                        <Setter Property="IsReadOnly" Value="False"/>
+                        <Setter Property="IsEnabled" Value="True"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="False">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </dxe:ComboBoxEdit.Style>    
+            </dxe:ComboBoxEdit>
 
             <TextBlock Grid.Row="2" Grid.Column="0"
                        Text="직책"
@@ -213,11 +228,25 @@
             <dxe:ComboBoxEdit Grid.Row="2" 
                               Grid.Column="1"
                               x:Name="cmbMUR_JobCode"
-                              Style="{StaticResource FormComboStyle}"
                               ItemsSource="{x:Static selection:InputOptionItems.JobCodes}"
                               DisplayMember="vMUR_JobCode"
                               ValueMember="MUR_JobCode"
-                              EditValue="{Binding Model.MUR_JobCode}"/>
+                              EditValue="{Binding Model.MUR_JobCode}">
+
+                <dxe:ComboBoxEdit.Style>
+                    <Style TargetType="{x:Type dxe:ComboBoxEdit}" BasedOn="{StaticResource FormComboStyle}">
+                        <Setter Property="IsReadOnly" Value="False"/>
+                        <Setter Property="IsEnabled" Value="True"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAdmin, Source={x:Static core:SmartMVVM.AppSession}}" Value="False">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </dxe:ComboBoxEdit.Style>
+            </dxe:ComboBoxEdit>
 
             <TextBlock Grid.Row="4" Grid.Column="0"
                        Text="의료면허번호"
@@ -226,10 +255,23 @@
             <Xpf:TextEdit Grid.Row="4" 
                           Grid.Column="1"
                           x:Name="txtMUR_LicenseNo"
-                          Style="{StaticResource FormEditorStyle}"
                           EditValue="{Binding Model.MUR_LicenseNo}"
-                          NullText="의료인인 경우 입력해 주세요."/>
+                          NullText="의료인인 경우 입력해 주세요.">
 
+                <Xpf:TextEdit.Style>
+                    <Style TargetType="{x:Type Xpf:TextEdit}" BasedOn="{StaticResource FormEditorStyle}">
+                        <Setter Property="IsReadOnly" Value="False"/>
+                        <Setter Property="IsEnabled" Value="True"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMED, Source={x:Static core:SmartMVVM.AppSession}}" Value="False">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Xpf:TextEdit.Style>
+            </Xpf:TextEdit>
         </Xpf:StyleGrid>
 
         <!-- 하단 버튼 -->

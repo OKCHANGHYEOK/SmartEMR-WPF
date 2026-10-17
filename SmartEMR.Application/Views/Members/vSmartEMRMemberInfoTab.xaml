@@ -20,8 +20,7 @@
                         d:DesignHeight="450" d:DesignWidth="800">
 
     <dxc:DXTabControl   Padding="0"
-                        dxc:ThemeManager.ThemeName="Office2019Colorful"
-                        SelectionChanged="OnSelectionChanged_TaControl">
+                        dxc:ThemeManager.ThemeName="Office2019Colorful">
         
         <dxc:DXTabItem Header="기관정보"
                        FontWeight="SemiBold"
